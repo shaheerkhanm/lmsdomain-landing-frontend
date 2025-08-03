@@ -1,7 +1,7 @@
 "use client"
 
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Sheet, SheetContent } from '../ui/sheet';
 import MobileMenu from './MobileMenu';
 // import { Icons } from '../common/Icons'
@@ -11,12 +11,27 @@ import MobileMenu from './MobileMenu';
 function Header() {
 
     const [showMenu, setShowMenu] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 40) {
+                setIsScrolled(true)
+            }
+            else {
+                setIsScrolled(false)
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
 
-        <div className="fixed w-full top-[20px] flex justify-center z-99 main-padding">
-            <nav className="bg-white w-full rounded-[10px] border-gray-200 shadow-custom-shadow">
-                <div className="2-full flex flex-wrap items-center justify-between mx-8 py-6">
+        <div className={`fixed w-full top-[25px] flex justify-center z-99 main-padding transition-all duration-500 ease-in-out ${isScrolled ? "!-top-[110px]" : "top-[25px]"}`}>
+            < nav className="bg-white w-full rounded-[15px] border-gray-200 shadow-xl" >
+                <div className="flex flex-wrap items-center justify-between mx-4 py-4">
                     <div className="flex gap-3">
                         <button
                             onClick={() => setShowMenu(true)}
@@ -27,34 +42,34 @@ function Header() {
                             </svg>
                         </button>
                         <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
-                            <img src="/assets/img/logo/logo.svg" className="h-[40px]" alt="Bookarlo Logo" />
+                            <img src="/assets/img/logo/logo.svg" className="h-[40px] py-[3px] ps-3" alt="Bookarlo Logo" />
                         </a>
                     </div>
                     <div className="hidden w-full lg:block md:w-auto ps-20" id="navbar-default">
                         <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white font-manrope">
                             <li>
-                                <a href="#" className="block py-2 px-0 text-[16px] hover:text-MainColor transition">Features</a>
+                                <a href="#" className="block py-2 px-0 2xl:text-[18px] text-[16px] hover:text-MainColor transition">Features</a>
                             </li>
                             <li>
-                                <a href="#" className="block py-2 px-0 text-[16px] hover:text-MainColor transition">Pricing</a>
+                                <a href="#" className="block py-2 px-0 2xl:text-[18px] text-[16px] hover:text-MainColor transition">Pricing</a>
                             </li>
                             <li>
-                                <a href="#" className="block py-2 px-0 text-[16px] hover:text-MainColor transition">About</a>
+                                <a href="#" className="block py-2 px-0 2xl:text-[18px] text-[16px] hover:text-MainColor transition">About</a>
                             </li>
                         </ul>
                     </div>
                     <div className="button-section flex gap-[10px] font-manrope">
-                        <Link href={''} className='px-4 py-2 rounded-md bg-white border border-ScndColor text-ScndColor hover:bg-MainColor hover:border-transparent hover:text-white common-transition'>login</Link>
-                        <Link href={''} className='px-4 py-2 rounded-md bg-ScndColor text-white hover:bg-MainColor common-transition'>Start A Free Trial</Link>
+                        <Link href={''} className='px-6 py-2 2xl:text-[18px] text-[16px] font-medium rounded-lg bg-white border border-ScndColor text-ScndColor hover:bg-MainColor hover:border-transparent hover:text-white common-transition'>Login</Link>
+                        <Link href={''} className='px-6 py-2 2xl:text-[18px] text-[16px] font-medium rounded-lg bg-ScndColor text-white hover:bg-MainColor common-transition'>Start A Free Trial</Link>
                     </div>
                 </div>
-            </nav>
+            </nav >
             <Sheet open={showMenu} onOpenChange={() => setShowMenu(false)}>
                 <SheetContent className='w-[85%]'>
                     <MobileMenu />
                 </SheetContent>
             </Sheet>
-        </div>
+        </div >
 
     )
 }

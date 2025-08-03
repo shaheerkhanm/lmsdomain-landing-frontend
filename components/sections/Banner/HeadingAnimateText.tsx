@@ -6,15 +6,22 @@ import SplitType from 'split-type';
 
 function HeadingAnimateText() {
     const containerRef = useRef<HTMLDivElement>(null);
+    const tempMeasureRef = useRef<HTMLDivElement>(null);
     const words = ['Build', 'Inspire', 'Grow'];
     const colors = ['#FFD700', '#9400D3', '#00CED1']; // yellow, violet, dark cyan
 
     useEffect(() => {
-        if (!containerRef.current) return;
+        if (!containerRef.current || !tempMeasureRef.current) return;
 
         let splitInstances: SplitType[] = [];
         let currentIndex = 0;
         let animationTimeline: gsap.core.Timeline | null = null;
+
+        const measureWordWidth = (word: string) => {
+            const tempEl = tempMeasureRef.current!;
+            tempEl.innerText = word;
+            return tempEl.offsetWidth;
+        };
 
         const initAnimation = () => {
             animationTimeline?.kill();
@@ -22,18 +29,20 @@ function HeadingAnimateText() {
             splitInstances = [];
 
             const spans = containerRef.current!.querySelectorAll('span');
-            
-            // Hide all spans initially
-            gsap.set(spans, { 
-                opacity: 0,
-                display: 'none' // Hide completely to prevent layout shift
+
+            // Animate container width to match next word
+            const nextWidth = measureWordWidth(words[currentIndex]);
+            gsap.to(containerRef.current, {
+                width: nextWidth,
+                duration: 0.4,
+                ease: 'power2.out'
             });
 
+            // Hide all spans initially
+            gsap.set(spans, { opacity: 0, display: 'none' });
+
             // Show only current span
-            gsap.set(spans[currentIndex], { 
-                opacity: 1,
-                display: 'inline-block'
-            });
+            gsap.set(spans[currentIndex], { opacity: 1, display: 'inline-block' });
 
             const splitText = new SplitType(spans[currentIndex] as HTMLElement, {
                 types: 'chars',
@@ -44,6 +53,9 @@ function HeadingAnimateText() {
 
             gsap.set(splitText.chars as HTMLElement[], {
                 opacity: 0,
+                // filter: "blur(10px)",
+                scale: 0,
+                rotate: 50,
                 y: 20,
                 color: colors[currentIndex]
             });
@@ -56,6 +68,9 @@ function HeadingAnimateText() {
 
             animationTimeline.to(splitText.chars as HTMLElement[], {
                 opacity: 1,
+                // filter: "blur(0px)",
+                scale: 1,
+                rotate: 0,
                 y: 0,
                 duration: 0.6,
                 stagger: 0.05,
@@ -65,7 +80,7 @@ function HeadingAnimateText() {
 
         const animateOut = () => {
             const currentSplit = splitInstances[splitInstances.length - 1];
-            
+
             animationTimeline = gsap.timeline({
                 onComplete: () => {
                     currentIndex = (currentIndex + 1) % words.length;
@@ -80,12 +95,14 @@ function HeadingAnimateText() {
                 stagger: 0.02,
                 ease: 'back.in',
                 onComplete: () => {
-                    // Hide the element completely after animation
                     const spans = containerRef.current!.querySelectorAll('span');
                     gsap.set(spans[currentIndex], { display: 'none' });
                 }
             });
         };
+
+        // Set initial width
+        gsap.set(containerRef.current, { width: measureWordWidth(words[0]) });
 
         initAnimation();
 
@@ -96,28 +113,40 @@ function HeadingAnimateText() {
     }, []);
 
     return (
-        <div 
-            ref={containerRef} 
-            className="text-center w-75 overflow-hidden"
-            style={{
-                // height: '5vw' // Fixed height to prevent layout shift
-            }}
-        >
-            {words.map((word, index) => (
-                <span
-                    key={index}
-                    className="align-top"
-                    style={{
-                        // fontSize: 'clamp(2rem, 5vw, 4rem)',
-                        fontWeight: 'bold',
-                        lineHeight: '1.2',
-                        whiteSpace: 'nowrap'
-                    }}
-                >
-                    {word}
-                </span>
-            ))}
-        </div>
+        <>
+            {/* Hidden element for measuring text width */}
+            <div
+                ref={tempMeasureRef}
+                style={{
+                    position: 'absolute',
+                    visibility: 'hidden',
+                    whiteSpace: 'nowrap',
+                    fontWeight: 'bold',
+                    lineHeight: '1.2',
+                }}
+            />
+
+            {/* Animated container */}
+            <div
+                ref={containerRef}
+                className="text-end w-fit overflow-hidden pe-5"
+                style={{ display: 'inline-block' }}
+            >
+                {words.map((word, index) => (
+                    <span
+                        key={index}
+                        className="align-top"
+                        style={{
+                            fontWeight: 'bold',
+                            lineHeight: '1.2',
+                            whiteSpace: 'nowrap'
+                        }}
+                    >
+                        {word}
+                    </span>
+                ))}
+            </div>
+        </>
     );
 }
 

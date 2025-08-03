@@ -3,10 +3,13 @@ import HeadingAnimateText from './HeadingAnimateText'
 
 function MainHeading() {
     return (
-        <div className='flex flex-col items-center mt-[20px]'>
-            <h1 className='text-[52px] font-bold text-black w-[60%] leading-tight text-center font-manrope flex flex-col items-center'>
-                <HeadingAnimateText />
-                <span className='ps-4'>Your Branded Learning Hub Starts Here.</span>
+        <div className='flex flex-col items-center mt-[10px]'>
+            <h1 className='text-[52px] font-bold text-black w-[100%] leading-tight text-center font-manrope flex flex-col items-center'>
+                <span className='leading-tight flex'>
+                    <HeadingAnimateText />
+                    <span className='ms-4'>Your Branded</span>
+                </span>
+                <span>Learning Hub Starts Here.</span>
             </h1>
         </div>
     )
