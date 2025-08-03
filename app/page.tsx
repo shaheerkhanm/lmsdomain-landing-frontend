@@ -1,4 +1,5 @@
 import BannerSection from "@/components/sections/Banner/BannerSection";
+import FeaturesSection from "@/components/sections/FeaturesSection/FeaturesSection";
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -13,7 +14,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function Home() {
   return (
     <div className="relative">
+
+      {/* BANNER SECTION */}
       <BannerSection />
+
+      {/* FEATURES SECTION */}
+      <FeaturesSection />
     </div>
   );
 }
