@@ -9,10 +9,10 @@ import { motion } from "motion/react"
 
 function FeaturesSection() {
     return (
-        <div className='main-padding my-[85]'>
+        <div className='main-padding'>
             <div className="grid grid-cols-12 gap-[60px]">
-                <div className="col-span-6">
-                    <div className="img-div p-[20px] rounded-[20px] bg-[#8475C91A]">
+                <div className="col-span-6 relative">
+                    <div className="img-div p-[20px] sticky top-[30px] rounded-[20px] bg-[#8475C91A]">
                         <motion.img
                             viewport={{ once: false, amount: 0.5 }}
                             initial={{ x: 40, opacity: 0, scale: 0.9 }}
@@ -30,6 +30,7 @@ function FeaturesSection() {
                             whileInView={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.1, duration: 0.3, type: "spring", stiffness: 300, damping: 20 }}
                             viewport={{ once: false, amount: 0.7 }}
+                            h2ClassName={'text-start'} divClassName={''}
                         />
                         <FeaturesItems />
                     </div>
