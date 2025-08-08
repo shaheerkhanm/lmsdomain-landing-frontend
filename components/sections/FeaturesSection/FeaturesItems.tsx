@@ -47,7 +47,7 @@ function FeaturesItems() {
                     initial={{ y: 40, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ delay: index * 0.1, duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-                    viewport={{ once: false, amount: 0.7 }}
+                    viewport={{ once: true, amount: 0.7 }}
                 >
                     <FeaturesCards item={item} />
                 </motion.div>
