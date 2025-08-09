@@ -14,7 +14,7 @@ function FeaturesSection() {
                 <div className="col-span-6 relative">
                     <div className="img-div p-[20px] sticky top-[30px] rounded-[20px] bg-[#8475C91A]">
                         <motion.img
-                            viewport={{ once: false, amount: 0.5 }}
+                            viewport={{ once: true, amount: 0.5 }}
                             initial={{ x: 40, opacity: 0, scale: 0.9 }}
                             whileInView={{ x: 0, opacity: 1, scale: 1 }}
                             transition={{ delay: 0, duration: .3, type: "spring", stiffness: 300, damping: 20 }}
@@ -29,7 +29,7 @@ function FeaturesSection() {
                             initial={{ y: -40, opacity: 0 }}
                             whileInView={{ y: 0, opacity: 1 }}
                             transition={{ delay: 0.1, duration: 0.3, type: "spring", stiffness: 300, damping: 20 }}
-                            viewport={{ once: false, amount: 0.7 }}
+                            viewport={{ once: true, amount: 0.7 }}
                             h2ClassName={'text-start'} divClassName={''}
                         />
                         <FeaturesItems />
