@@ -16,7 +16,7 @@ function MainTitle({ title, h2ClassName, divClassName, ...motionProps }: TitleDa
             whileInView={{ y: 0, opacity: 1, }}
             transition={{ delay: 0, duration: .3, type: "tween", stiffness: 300, damping: 20 }}
             className={`${divClassName}`}
-        // viewport={{ once: false, amount: 0.5 }}
+            viewport={{ once: true, }}
         >
             <h2 className={`font-manrope 2xl:text-[36px] text-[34px] leading-tight font-bold text-TextBlack ${h2ClassName}`}>{title}</h2>
         </motion.div>
