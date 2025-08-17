@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import SmoothScroll from "@/components/SmoothScroll"
 
 const inter = Inter({
   subsets: ['latin'],
@@ -31,7 +32,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${manrope.variable} antialiased`}>
         <Header />
-        {children}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
         <Footer />
       </body>
     </html>
