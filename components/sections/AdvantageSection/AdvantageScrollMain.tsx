@@ -88,7 +88,7 @@ function AdvantageScrollMain() {
 
                     // timeline
                     const animation = gsap.timeline({
-                        defaults: { duration: 1, ease: "power3.inOut" },
+                        defaults: { duration: 1, ease: "power2.inOut" },
                     });
 
                     // right block images
@@ -147,10 +147,10 @@ function AdvantageScrollMain() {
                                     <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                                 </div>
 
-                                <h3 className="text-black font-bold 2xl:!text-[40px] xl:!text-[32px] lg:!text-[28px] md:!text-[26px] !text-[20px]">
+                                <h3 className="text-black font-bold lg:text-[26px] md:text-[20px] text-[18px] leading-tight">
                                     {item.title}
                                 </h3>
-                                <p className="main-para 2xl:!text-[28px] xl:!text-[20px] lg:!text-[18px] lg:w-[80%]">
+                                <p className="main-para 2xl:text-[18px] text-[16px] lg:w-[80%]">
                                     {item.description}
                                 </p>
                                 <Link href={""} className="py-2 px-5 bg-[#FCA311] text-white hover:bg-MainColor common-transition w-fit rounded-full text-[16px]" > Learn More </Link>
