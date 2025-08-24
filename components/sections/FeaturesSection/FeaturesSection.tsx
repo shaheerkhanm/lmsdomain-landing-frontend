@@ -26,10 +26,6 @@ function FeaturesSection() {
                     <div className="flex flex-col gap-[40px] w-[60%]">
                         <MainTitle
                             title="Everything You Need to Teach Smarter"
-                            initial={{ y: -40, opacity: 0 }}
-                            whileInView={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.1, duration: 0.3, type: "spring", stiffness: 300, damping: 20 }}
-                            viewport={{ once: true, amount: 0.7 }}
                             h2ClassName={'text-start'} divClassName={''}
                         />
                         <FeaturesItems />

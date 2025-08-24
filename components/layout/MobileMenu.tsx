@@ -1,6 +1,6 @@
 import React from 'react'
 
-function MobileMenu() {
+function MobileMenu({ navLinks }: any) {
   return (
     <div>MobileMenu</div>
   )

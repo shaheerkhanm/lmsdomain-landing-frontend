@@ -199,6 +199,16 @@ input[type="number"]::-webkit-inner-spin-button {
   padding-right: 240px;
 }
 
+/* Add gap between slides */
+.testimonial-slider .slick-slide > div {
+  margin: 0 12px; /* horizontal gap */
+}
+
+/* Remove overflow margin so slider aligns with container */
+.testimonial-slider .slick-list {
+  margin: 0 -12px;
+}
+
 
 @media (max-width: 1536px) {
   .main-padding {
