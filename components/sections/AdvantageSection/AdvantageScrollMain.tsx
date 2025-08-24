@@ -111,7 +111,7 @@ function AdvantageScrollMain() {
                         pin: ".rightblock",
                         animation: animation,
                         scrub: true,
-                        markers: true,
+                        // markers: true,
 
 
                     });
