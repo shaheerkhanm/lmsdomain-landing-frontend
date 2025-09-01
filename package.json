@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@number-flow/react": "^0.5.10",
     "@radix-ui/react-dialog": "^1.1.14",
     "@types/gsap": "^1.20.2",
     "class-variance-authority": "^0.7.1",

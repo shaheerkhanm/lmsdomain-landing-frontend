@@ -63,7 +63,7 @@ function CustomerSliderSection() {
     };
 
     return (
-        <div className="mt-[40px]">
+        <div className="lg:mt-[40px] mt-[30px]">
             <Swiper {...settings}>
                 {data.map((item, index) => (
                     <SwiperSlide key={index}>
@@ -75,7 +75,7 @@ function CustomerSliderSection() {
                                     delay: index < 3 ? index * 0.1 : 0,
                                     duration: 0.3, type: "tween", stiffness: 300, damping: 20
                                 }}
-                                viewport={{ amount: 0.3 }}
+                                viewport={{ once: true, amount: 0.3 }}
                             >
                                 <CustomerCard item={item} />
                             </motion.div>

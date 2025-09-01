@@ -14,11 +14,11 @@ function FeaturesCards({ item }: Props) {
     return (
         <div className='flex gap-[30px]'>
             <div className="icoc-div">
-                <img src={item.img} alt="" className='size-[45px] object-contain' />
+                <img src={item.img} alt="" className='lg:min-w-[45px] min-w-[40px] object-contain' />
             </div>
-            <div className="details flex flex-col gap-2">
-                <h3 className='font-manrope font-bold text-TextBlack text-[24px] leading-tight'>{item.title}</h3>
-                <p className='font-inter text-[18px] leading-tight'>{item.content}</p>
+            <div className="details flex flex-col lg:gap-2 gap-1">
+                <h3 className='font-manrope font-bold text-TextBlack lg:text-[24px] md:text-[22px] text-[20px] leading-tight'>{item.title}</h3>
+                <p className='font-inter lg:text-[18px] text-[16px] leading-tight'>{item.content}</p>
             </div>
         </div>
     )

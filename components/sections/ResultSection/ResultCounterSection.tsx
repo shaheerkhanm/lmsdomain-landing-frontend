@@ -1,49 +1,74 @@
-'use client'
+'use client';
 
-import React from 'react'
-import { motion, MotionProps } from "motion/react"
+import React, { useState } from 'react';
+import { motion } from 'motion/react';
+import NumberFlow from '@number-flow/react';
 
 function ResultCounterSection() {
+    const counters = [
+        { value: '3x', color: '#6C4BFF', text: 'Faster launch time compared to other platforms' },
+        { value: '92%', color: '#21C48C', text: 'Average course completion' },
+        { value: '1.2M+', color: '#FCA311', text: 'Learners trained globally' },
+        { value: '99.9%', color: '#FF5C50', text: 'Platform uptime with enterprise-grade security' },
+    ];
+
+    const splitCount = (value: string) => {
+        const match = value.match(/([^\d]*)(\d+(?:\.\d+)?)([^\d]*)/);
+        if (match) {
+            return { prefix: match[1] || '', number: parseFloat(match[2]), suffix: match[3] || '' };
+        }
+        return { prefix: '', number: 0, suffix: '' };
+    };
+
+    const [animated, setAnimated] = useState<boolean[]>(new Array(counters.length).fill(false));
+
+    const handleInView = (index: number) => {
+        setAnimated((prev) => {
+            const newState = [...prev];
+            newState[index] = true;
+            return newState;
+        });
+    };
+
     return (
-        <div className="counter-section border border-black rounded-[20px] p-[40px] grid grid-cols-12 mt-[30px]">
-            <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.1, duration: 0.3, type: "tween", stiffness: 700, damping: 10 }}
-                viewport={{ once: false, amount: 0.7 }}
-                className="col-span-3 flex flex-col gap-2">
-                <h3 className='text-[#6C4BFF] 2xl:text-[42px] text-[36px] font-bold'>3x</h3>
-                <p className='lg:w-[90%] w-full 2xl:text-[18px] text-[16px] leading-tight'>Faster launch time compared to other platforms</p>
-            </motion.div>
-            <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.3, type: "tween", stiffness: 700, damping: 10 }}
-                viewport={{ once: false, amount: 0.7 }}
-                className="col-span-3 flex flex-col gap-2">
-                <h3 className='text-[#21C48C] 2xl:text-[42px] text-[36px] font-bold'>92%</h3>
-                <p className='lg:w-[90%] w-full 2xl:text-[18px] text-[16px] leading-tight'>Average course completion</p>
-            </motion.div>
-            <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.3, type: "tween", stiffness: 700, damping: 10 }}
-                viewport={{ once: false, amount: 0.7 }}
-                className="col-span-3 flex flex-col gap-2">
-                <h3 className='text-[#FCA311] 2xl:text-[42px] text-[36px] font-bold'>1.2M+</h3>
-                <p className='lg:w-[90%] w-full 2xl:text-[18px] text-[16px] leading-tight'>Learners trained globally</p>
-            </motion.div>
-            <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.3, type: "tween", stiffness: 700, damping: 10 }}
-                viewport={{ once: false, amount: 0.7 }}
-                className="col-span-3 flex flex-col gap-2">
-                <h3 className='text-[#FF5C50] 2xl:text-[42px] text-[36px] font-bold'>99.9%</h3>
-                <p className='lg:w-[90%] w-full 2xl:text-[18px] text-[16px] leading-tight'>Platform uptime with enterprise-grade security</p>
-            </motion.div>
+        <div className="counter-section border border-black rounded-[20px] lg:p-[40px] p-[30px] grid grid-cols-12 lg:gap-0 gap-5 lg:mt-[30px] mt-[20px]">
+            {counters.map((item, index) => {
+                const { prefix, number, suffix } = splitCount(item.value);
+                return (
+                    <motion.div
+                        key={index}
+                        initial={{ scale: 0, opacity: 0 }}
+                        whileInView={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.1 * (index + 1), duration: 0.3, type: 'tween' }}
+                        viewport={{ once: true, amount: 0.7 }}
+                        onViewportEnter={() => handleInView(index)}
+                        className="lg:col-span-3 col-span-6 flex flex-col gap-2"
+                    >
+                        <h3
+                            className="2xl:text-[42px] text-[36px] font-bold"
+                            style={{ color: item.color }}
+                        >
+                            {prefix}
+                            <NumberFlow
+                                value={animated[index] ? number : 0}
+                                transformTiming={{ duration: 2000, easing: "ease-in-out" }}
+
+                                format={{
+                                    notation: 'standard',
+                                    maximumFractionDigits: item.value.includes('.') ? 2 : 0,
+                                }}
+                                className="inline-block"
+                            />
+                            {suffix}
+                        </h3>
+                        <p className="md:w-[90%] md:text-[18px] text-[16px] leading-tight">
+                            {item.text}
+                        </p>
+                    </motion.div>
+                );
+            })}
         </div>
-    )
+    );
 }
 
-export default ResultCounterSection
+export default ResultCounterSection;

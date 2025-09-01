@@ -56,7 +56,7 @@ function BannerSection() {
                     initial={{ y: 40, opacity: 0, scale: 0.9 }}
                     whileInView={{ y: 0, opacity: 1, scale: 1 }}
                     transition={{ delay: .15, duration: .3, type: "spring", stiffness: 200, damping: 20 }}
-                    className='text-[#101725B2] w-[60%] text-center 2xl:text-[18px] text-[16px] font-medium'>Empower your students with a beautifully branded learning experience. Create, manage, and monetize your courses—all in one place.</motion.p>
+                    className='text-[#101725B2] lg:w-[60%] w-[85%] text-center md:text-[18px] text-[16px] font-medium'>Empower your students with a beautifully branded learning experience. Create, manage, and monetize your courses—all in one place.</motion.p>
                 <motion.div
                     initial={{ y: 40, opacity: 0, scale: 0.9 }}
                     whileInView={{ y: 0, opacity: 1, scale: 1 }}
@@ -65,7 +65,7 @@ function BannerSection() {
                     <EmailSection />
                 </motion.div>
             </div>
-            <div className="banner-grid-section w-full px-[15%] mt-[60px]">
+            <div className="banner-grid-section w-full lg:px-[15%] px-0 lg:mt-[60px] mt-[40px]">
                 <BannerGridSection />
             </div>
         </div>

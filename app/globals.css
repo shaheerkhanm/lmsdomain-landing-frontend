@@ -212,6 +212,13 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @media (max-width: 1536px) {
   .main-padding {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+}
+
+@media (max-width: 991px) {
+  .main-padding {
     padding-left: 60px;
     padding-right: 60px;
   }
