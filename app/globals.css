@@ -157,6 +157,10 @@ body {
 } */
 
 
+body,
+html {
+  overflow-x: hidden;
+}
 
 .custom-scrollbar {
   padding-bottom: 5px;
@@ -200,8 +204,9 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 /* Add gap between slides */
-.testimonial-slider .slick-slide > div {
-  margin: 0 12px; /* horizontal gap */
+.testimonial-slider .slick-slide>div {
+  margin: 0 12px;
+  /* horizontal gap */
 }
 
 /* Remove overflow margin so slider aligns with container */
@@ -223,6 +228,7 @@ input[type="number"]::-webkit-inner-spin-button {
     padding-right: 60px;
   }
 }
+
 @media (max-width: 768px) {
   .main-padding {
     padding-left: 20px;
