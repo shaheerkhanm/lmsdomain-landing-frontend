@@ -56,7 +56,7 @@ function BannerSection() {
                     initial={{ y: 40, opacity: 0, scale: 0.9 }}
                     whileInView={{ y: 0, opacity: 1, scale: 1 }}
                     transition={{ delay: .15, duration: .3, type: "spring", stiffness: 200, damping: 20 }}
-                    className='text-[#101725B2] lg:w-[60%] w-[85%] text-center md:text-[18px] text-[16px] font-medium'>Empower your students with a beautifully branded learning experience. Create, manage, and monetize your courses—all in one place.</motion.p>
+                    className='text-[#101725B2] lg:w-[60%] md:w-[85%] w-full text-center md:text-[18px] xsm:text-[16px] text-[14px] font-medium'>Empower your students with a beautifully branded learning experience. Create, manage, and monetize your courses—all in one place.</motion.p>
                 <motion.div
                     initial={{ y: 40, opacity: 0, scale: 0.9 }}
                     whileInView={{ y: 0, opacity: 1, scale: 1 }}
