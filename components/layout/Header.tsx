@@ -36,25 +36,25 @@ function Header() {
             text: "Login",
             href: "/login",
             className:
-                "px-6 py-2 2xl:text-[18px] text-[16px] font-medium rounded-lg bg-white border border-ScndColor text-ScndColor hover:bg-MainColor hover:border-transparent hover:text-white common-transition",
+                "px-6 md:py-2 py-2 2xl:text-[18px] md:text-[16px] text-[16px] leading-tight font-medium md:rounded-lg rounded-sm bg-white border border-ScndColor text-ScndColor hover:bg-MainColor hover:border-transparent hover:text-white common-transition flex w-fit",
         },
         {
             text: "Start A Free Trial",
             href: "/signup",
             className:
-                "px-6 py-2 2xl:text-[18px] text-[16px] font-medium rounded-lg bg-ScndColor text-white hover:bg-MainColor common-transition",
+                "px-6 md:py-2 py-2 2xl:text-[18px] md:text-[16px] text-[16px] leading-tight font-medium md:rounded-lg rounded-sm bg-ScndColor text-white hover:bg-MainColor common-transition flex w-fit",
         },
     ];
 
     return (
         <div
-            className={`fixed md:w-full w-full top-[25px] flex justify-center z-99 main-padding transition-all duration-500 ease-in-out ${isScrolled ? "!-top-[110px]" : "top-[25px]"
+            className={`fixed md:w-full w-full top-[25px] flex justify-center z-80 main-padding transition-all duration-500 ease-in-out ${isScrolled ? "!-top-[110px]" : "top-[25px]"
                 }`}
         >
             <nav className="bg-white w-full md:rounded-[15px] rounded-[10px] border-gray-200 shadow-xl">
                 <div className="flex flex-wrap items-center justify-between mx-4 md:py-4 py-3">
                     {/* Menu Button & Logo */}
-                    <div className="flex md:justify-start justify-between gap-3 md:w-fit w-full">
+                    <div className="flex md:flex-row flex-row-reverse md:justify-start justify-between gap-3 md:w-fit w-full">
                         <button
                             onClick={() => setShowMenu(true)}
                             type="button"
@@ -146,8 +146,8 @@ function Header() {
 
             {/* Mobile Menu */}
             <Sheet open={showMenu} onOpenChange={() => setShowMenu(false)}>
-                <SheetContent className="w-[85%]">
-                    <MobileMenu navLinks={navLinks} />
+                <SheetContent className="w-[85%] z-99">
+                    <MobileMenu navLinks={navLinks} buttons={buttons} />
                 </SheetContent>
             </Sheet>
         </div>
