@@ -111,7 +111,7 @@ function AdvantageScrollMain() {
                         pin: ".rightblock",
                         animation: animation,
                         scrub: true,
-                        markers: true,
+                        // markers: true,
 
 
                     });
@@ -134,26 +134,26 @@ function AdvantageScrollMain() {
     return (
         <div className="advantage-section font-manrope">
             <div className="bottom-animation-section">
-                <div className="relative advantage-animation grid lg:grid-cols-2 grid-cols-1 lg:gap-[80px] gap-0">
+                <div className="relative advantage-animation grid lg:grid-cols-2 grid-cols-1 lg:gap-[80px] gap-0 lg:mt-0 mt-5">
                     {/* Left Content */}
-                    <div className="left 2xl:w-[85%] w-full flex flex-col lg:gap-[10px] gap-[15px]">
+                    <div className="left 2xl:w-[85%] w-full lg:flex flex-col lg:gap-[10px] grid grid-cols-2 gap-[15px]">
                         {advantages.map((item, index) => (
                             <div
                                 key={index}
-                                className="content-item lg:bg-transparent bg-[#fafafa] lg:p-0 md:p-[20px] p-[14px] flex flex-col md:gap-[20px] gap-[10px] justify-center lg:min-h-[100vh] h-fit"
+                                className="content-item lg:bg-transparent bg-[#fafafa] rounded-[10px] lg:p-0 md:p-[20px] p-[14px] flex flex-col md:gap-[10px] gap-[8px] justify-center lg:min-h-[100vh] h-fit"
                             >
                                 {/* Mobile image (desktop hides this) */}
-                                <div className="scroll-img-div w-full h-[25vh] overflow-hidden rounded-[5px] z-[2] lg:hidden block">
+                                <div className="scroll-img-div w-full lg:h-[25vh] h-[21vh] overflow-hidden rounded-[5px] z-[2] lg:hidden block">
                                     <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                                 </div>
 
                                 <h3 className="text-black font-bold lg:text-[26px] md:text-[20px] text-[18px] leading-tight">
                                     {item.title}
                                 </h3>
-                                <p className="main-para 2xl:text-[18px] text-[16px] lg:w-[80%]">
+                                <p className="main-para 2xl:text-[18px] text-[16px] lg:w-[80%] w-full">
                                     {item.description}
                                 </p>
-                                <Link href={""} className="py-2 px-5 bg-[#FCA311] text-white hover:bg-MainColor common-transition w-fit rounded-full text-[16px]" > Learn More </Link>
+                                <Link href={""} className="lg:py-2 py-1.5 px-5 bg-[#FCA311] text-white hover:bg-MainColor common-transition w-fit rounded-full text-[16px]" > Learn More </Link>
                             </div>
                         ))}
                     </div>

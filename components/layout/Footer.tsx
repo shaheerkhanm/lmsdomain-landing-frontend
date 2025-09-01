@@ -23,10 +23,10 @@ const navData = [
 
 function Footer() {
   return (
-    <div className="main-padding py-[3%] font-manrope bg-[#F3F2FA] flex flex-col gap-[50px]">
+    <div className="main-padding lg:pb-[3%] lg:pt-[3%] md:pt-[6%] md:pb-[2%] font-manrope bg-[#F3F2FA] flex flex-col gap-[50px]">
       <div className="grid grid-cols-12 gap-4">
         {/* Logo & Description */}
-        <div className="col-span-4">
+        <div className="lg:col-span-4 col-span-5">
           <div className="flex flex-col gap-6">
             <div className="logo-div">
               <motion.img
@@ -54,10 +54,10 @@ function Footer() {
         </div>
 
         {/* Empty space */}
-        <div className="col-span-3"></div>
+        <div className="lg:col-span-3 col-span-1"></div>
 
         {/* Navigation Links */}
-        <div className="col-span-5 grid grid-cols-12 gap-4 ">
+        <div className="lg:col-span-5 col-span-6 grid grid-cols-12 lg:gap-4 gap-2 ">
           {navData.map((section, idx) => (
             <motion.div
               initial={{ x: -80, opacity: 0 }}
@@ -69,10 +69,10 @@ function Footer() {
               viewport={{ once: false, amount: 0.3 }}
               key={idx} className="col-span-4">
               <div className="flex flex-col gap-3">
-                <h4 className="font-bold 2xl:text-[18px] text-[16px]">{section.title}</h4>
+                <h4 className="font-bold lg:text-[20px] md:text-[18px] text-[16px]">{section.title}</h4>
                 <ul className="flex flex-col gap-3">
                   {section.links.map((link, i) => (
-                    <li key={i} className="hover:underline hover:text-MainColor transition-all duration-200 cursor-pointer 2xl:text-[18px] text-[16px]">
+                    <li key={i} className="hover:underline hover:text-MainColor transition-all duration-200 cursor-pointer lg:text-[18px] text-[16px]">
                       {link}
                     </li>
                   ))}

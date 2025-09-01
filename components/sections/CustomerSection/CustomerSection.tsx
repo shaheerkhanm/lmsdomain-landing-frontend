@@ -7,7 +7,7 @@ function CustomerSection() {
     return (
         <div className='main-padding'>
             <MainTitle
-                title={'Built for Trainers, Institutes & Businesses'} h2ClassName={'text-center'} divClassName={''} />
+                title={'Built for Trainers, Institutes & Businesses'} h2ClassName={'text-center w-[80%]'} divClassName={'d-flex w-full justify-center'} />
             <CustomerSliderSection />
         </div>
     )

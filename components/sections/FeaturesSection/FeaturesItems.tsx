@@ -40,17 +40,19 @@ function FeaturesItems() {
 
 
     return (
-        <div className="flex flex-col gap-[50px]">
+        <div className="grid grid-cols-2 lg:gap-[50px] gap-[20px]">
             {data?.map((item, index) => (
-                <motion.div
-                    key={index}
-                    initial={{ y: 40, opacity: 0 }}
-                    whileInView={{ y: 0, opacity: 1 }}
-                    transition={{ delay: index * 0.1, duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-                    viewport={{ once: true, amount: 0.7 }}
-                >
-                    <FeaturesCards item={item} />
-                </motion.div>
+                <div key={index} className='lg:col-span-2 col-span-1 lg:bg-transparent bg-[#8475c90d] lg:p-0 p-4 rounded-[10px]' >
+                    <motion.div
+
+                        initial={{ y: 40, opacity: 0 }}
+                        whileInView={{ y: 0, opacity: 1 }}
+                        transition={{ delay: index * 0.1, duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
+                        viewport={{ once: true, amount: 0.7 }}
+                    >
+                        <FeaturesCards item={item} />
+                    </motion.div>
+                </div>
             ))}
         </div>
     )
