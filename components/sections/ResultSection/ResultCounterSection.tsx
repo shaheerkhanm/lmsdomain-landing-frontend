@@ -31,7 +31,7 @@ function ResultCounterSection() {
     };
 
     return (
-        <div className="counter-section border border-black rounded-[20px] lg:p-[40px] p-[30px] grid grid-cols-12 lg:gap-0 gap-5 lg:mt-[30px] mt-[20px]">
+        <div className="counter-section border border-black rounded-[20px] lg:p-[40px] md:p-[30px] p-[20px] grid grid-cols-12 lg:gap-0 md:gap-5 gap-2 lg:mt-[30px] mt-[20px]">
             {counters.map((item, index) => {
                 const { prefix, number, suffix } = splitCount(item.value);
                 return (
@@ -42,10 +42,10 @@ function ResultCounterSection() {
                         transition={{ delay: 0.1 * (index + 1), duration: 0.3, type: 'tween' }}
                         viewport={{ once: true, amount: 0.7 }}
                         onViewportEnter={() => handleInView(index)}
-                        className="lg:col-span-3 col-span-6 flex flex-col gap-2"
+                        className="lg:col-span-3 col-span-6 flex flex-col md:gap-2 gap-1"
                     >
                         <h3
-                            className="2xl:text-[42px] text-[36px] font-bold"
+                            className="2xl:text-[42px] md:text-[36px] text-[30px] font-bold"
                             style={{ color: item.color }}
                         >
                             {prefix}
@@ -61,7 +61,7 @@ function ResultCounterSection() {
                             />
                             {suffix}
                         </h3>
-                        <p className="md:w-[90%] md:text-[18px] text-[16px] leading-tight">
+                        <p className="md:w-[90%] md:text-[18px] text-[14px] leading-tight">
                             {item.text}
                         </p>
                     </motion.div>

@@ -40,9 +40,9 @@ function FeaturesItems() {
 
 
     return (
-        <div className="grid grid-cols-2 lg:gap-[50px] gap-[20px]">
+        <div className="grid grid-cols-2 lg:gap-[50px] md:gap-[20px] gap-[10px]">
             {data?.map((item, index) => (
-                <div key={index} className='lg:col-span-2 col-span-1 lg:bg-transparent bg-[#8475c90d] lg:p-0 p-4 rounded-[10px]' >
+                <div key={index} className='lg:col-span-2 md:col-span-1 col-span-2 lg:bg-transparent bg-[#8475c90d] lg:p-0 p-4 rounded-[10px]' >
                     <motion.div
 
                         initial={{ y: 40, opacity: 0 }}

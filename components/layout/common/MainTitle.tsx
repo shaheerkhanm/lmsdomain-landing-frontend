@@ -18,7 +18,7 @@ function MainTitle({ title, h2ClassName, divClassName, ...motionProps }: TitleDa
             className={`origin-center ${divClassName}`}
             viewport={{ once: true, }}
         >
-            <h2 className={`font-manrope 2xl:text-[36px] md:text-[32px] text-[28px] leading-tight font-bold text-TextBlack ${h2ClassName}`}>{title}</h2>
+            <h2 className={`font-manrope 2xl:text-[36px] md:text-[32px] text-[24px] leading-tight font-bold text-TextBlack ${h2ClassName}`}>{title}</h2>
         </motion.div>
     )
 }
