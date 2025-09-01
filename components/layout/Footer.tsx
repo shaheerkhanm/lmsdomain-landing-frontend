@@ -23,10 +23,10 @@ const navData = [
 
 function Footer() {
   return (
-    <div className="main-padding lg:pb-[3%] lg:pt-[3%] md:pt-[6%] md:pb-[2%] font-manrope bg-[#F3F2FA] flex flex-col gap-[50px]">
+    <div className="main-padding lg:pb-[3%] lg:pt-[3%] md:pt-[6%] md:pb-[2%] pt-[12%] pb-[10%] font-manrope bg-[#F3F2FA] flex flex-col md:gap-[50px] gap-[30px]">
       <div className="grid grid-cols-12 gap-4">
         {/* Logo & Description */}
-        <div className="lg:col-span-4 col-span-5">
+        <div className="lg:col-span-4 md:col-span-5 col-span-12">
           <div className="flex flex-col gap-6">
             <div className="logo-div">
               <motion.img
@@ -36,7 +36,7 @@ function Footer() {
                 viewport={{ once: false, amount: 0.7 }}
                 src="/assets/img/logo/logo.svg"
                 alt="Logo"
-                className="h-[60px] object-contain"
+                className="md:h-[60px] h-[40px] object-contain"
               />
             </div>
             <motion.p
@@ -54,10 +54,10 @@ function Footer() {
         </div>
 
         {/* Empty space */}
-        <div className="lg:col-span-3 col-span-1"></div>
+        <div className="lg:col-span-3 md:col-span-1 md:block hidden"></div>
 
         {/* Navigation Links */}
-        <div className="lg:col-span-5 col-span-6 grid grid-cols-12 lg:gap-4 gap-2 ">
+        <div className="lg:col-span-5 md:col-span-6 col-span-12 grid grid-cols-12 lg:gap-4 gap-2 md:mt-0 mt-5">
           {navData.map((section, idx) => (
             <motion.div
               initial={{ x: -80, opacity: 0 }}
@@ -70,7 +70,7 @@ function Footer() {
               key={idx} className="col-span-4">
               <div className="flex flex-col gap-3">
                 <h4 className="font-bold lg:text-[20px] md:text-[18px] text-[16px]">{section.title}</h4>
-                <ul className="flex flex-col gap-3">
+                <ul className="flex flex-col md:gap-3 gap-1">
                   {section.links.map((link, i) => (
                     <li key={i} className="hover:underline hover:text-MainColor transition-all duration-200 cursor-pointer lg:text-[18px] text-[16px]">
                       {link}

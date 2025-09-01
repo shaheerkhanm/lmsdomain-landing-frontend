@@ -13,7 +13,7 @@ function BannerGridSection() {
                 initial={{ y: -40, opacity: 0, scale: 0.9 }}
                 whileInView={{ y: 0, opacity: 1, scale: 1 }}
                 transition={{ delay: 0, duration: 1, type: "spring", stiffness: 300, damping: 20 }}
-                className="bg-[#8475C91A] rounded-[20px] w-fit col-span-2 row-span-3 lg:p-[20px] p-[10px]">
+                className="bg-[#8475C91A] rounded-[20px] w-fit col-span-2 row-span-3 lg:p-[20px] p-[10px] md:bolck hidden">
                 <div className="flex bg-white lg:rounded-[20px] rounded-[15px] w-full h-full p-4">
                     <img src="/assets/img/banner/grid-1-img.jpg" alt="" className='object-contain object-bottom h-fit' />
                 </div>
@@ -22,7 +22,7 @@ function BannerGridSection() {
                 initial={{ y: -40, opacity: 0, scale: 0.9 }}
                 whileInView={{ y: 0, opacity: 1, scale: 1 }}
                 transition={{ delay: .15, duration: 1, type: "spring", stiffness: 300, damping: 20 }}
-                className="bg-[#8475C91A] rounded-[20px] w-full col-span-2 row-span-3 col-start-3">
+                className="bg-[#8475C91A] rounded-[20px] w-full md:col-span-2 col-span-6 row-span-3 md:col-start-3 col-start-1">
                 <div className="flex items-end justify-center w-full h-full relative">
                     <img src="/assets/img/banner/banner-main-img.png" alt="" className='mt-[-30px] lg:h-[340px] h-[260px] object-bottom object-contain' />
                     <div className='flex gap-1 items-start  p-[5px] bg-[#ffffff50] backdrop-blur-lg rounded-[5px] absolute right-[60px] bottom-8'>
@@ -39,17 +39,17 @@ function BannerGridSection() {
                 initial={{ y: -40, opacity: 0, scale: 0.9 }}
                 whileInView={{ y: 0, opacity: 1, scale: 1 }}
                 transition={{ delay: .3, duration: 1, type: "spring", stiffness: 300, damping: 20 }}
-                className="bg-[#8475C91A] lg:rounded-[20px] rounded-[15px] w-full col-span-4 row-span-2 col-start-1 row-start-4">
-                <div className="flex items-center gap-[20px] h-full px-[20px] py-0">
-                    <span className='lg:text-[50px] md:text-[40px] font-bold font-manrope text-[#21C48C]'>10+</span>
-                    <span className='font-manrope text-black leading-tight 2xl:text-[20px]  text-[16px] w-[70%]'>Integrated tools to manage content, learners, payments, and growth.</span>
+                className="bg-[#8475C91A] lg:rounded-[20px] rounded-[15px] w-full md:col-span-4 col-span-6 row-span-2 col-start-1 row-start-4">
+                <div className="flex items-center md:gap-[20px] gap-[10px] h-full md:px-[20px] px-[15px] py-0">
+                    <span className='lg:text-[50px] md:text-[40px] text-[40px] font-bold font-manrope text-[#21C48C]'>10+</span>
+                    <span className='font-manrope text-black leading-tight 2xl:text-[20px] md:text-[16px] text-[16px] w-[70%]'>Integrated tools to manage content, learners, payments, and growth.</span>
                 </div>
             </motion.div>
             <motion.div
                 initial={{ y: -40, opacity: 0, scale: 0.9 }}
                 whileInView={{ y: 0, opacity: 1, scale: 1 }}
                 transition={{ delay: .45, duration: 1, type: "spring", stiffness: 300, damping: 20 }}
-                className="bg-[#8475C91A] rounded-[20px] w-full col-span-2 row-span-5 col-start-5 row-start-1 lg:p-[20px] p-[10px]">
+                className="bg-[#8475C91A] rounded-[20px] w-full col-span-2 row-span-5 col-start-5 row-start-1 lg:p-[20px] p-[10px]  md:bolck hidden">
                 <div className="flex bg-white lg:rounded-[20px] rounded-[15px] w-full h-full p-4 flex-col justify-between gap-2">
                     <img src="/assets/img/banner/grid-2-img.jpg" alt="" className='object-contain  object-top h-fit' />
                     <Link href={''} className='flex items-center gap-2 justify-center bg-ScndColor lg:px-4 px-2 lg:py-4 py-3 rounded-l-full rounded-r-full'>

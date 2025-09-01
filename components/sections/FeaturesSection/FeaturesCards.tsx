@@ -12,7 +12,7 @@ interface Props {
 
 function FeaturesCards({ item }: Props) {
     return (
-        <div className='flex gap-[30px]'>
+        <div className='flex md:gap-[30px] gap-[20px]'>
             <div className="icoc-div">
                 <img src={item.img} alt="" className='lg:min-w-[45px] min-w-[40px] object-contain' />
             </div>

@@ -42,7 +42,7 @@ function TestimonialSlider() {
             <Swiper {...settings}>
                 {[1, 2, 3, 4, 5, 6].map((item, index) => (
                     <SwiperSlide key={index}>
-                        <div className="flex flex-col gap-2 border border-black rounded-[20px] p-[30px]">
+                        <div className="flex flex-col gap-2 border border-black rounded-[20px] md:p-[30px] p-[20px]">
                             <Icons.quote_icon className="fill-ScndColor" />
                             <p className="2xl:text-[18px] text-[16px]">
                                 I created, sold, and delivered my first online course in under
@@ -56,7 +56,7 @@ function TestimonialSlider() {
                 ))}
             </Swiper>
 
-            <div className="flex justify-start mt-[20px] rtl:flex-row-reverse gap-2 z-3 w-full">
+            <div className="flex justify-start md:mt-[20px] mt-[10px] rtl:flex-row-reverse gap-2 z-3 w-full">
                 <button
                     onClick={goToPrev}
                     className="custm-slider-prev bg-transparent hover:bg-white rounded-[20px] size-[40px] flex items-center justify-center cursor-pointer border-none border-transparent hover:border-MainColor duration-200 transition-all"

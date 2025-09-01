@@ -29,7 +29,7 @@ export default function SocialMediaIcons() {
                         }}
                     >
                         <Link href={item.href} target="_blank" rel="noopener noreferrer">
-                            <Icon className="size-[25px] fill-ScndColor hover:fill-MainColor duration-200 transition-all" />
+                            <Icon className="md:size-[25px] size-[20px] fill-ScndColor hover:fill-MainColor duration-200 transition-all" />
                         </Link>
                     </motion.div>
                 );

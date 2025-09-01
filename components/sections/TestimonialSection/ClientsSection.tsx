@@ -19,13 +19,13 @@ function ClientsSection() {
         modules: [Autoplay],
         autoplay: { delay: 2000, disableOnInteraction: false },
         speed: 500,
-        loop: true,
         spaceBetween: 100,
+        loop: true,
         breakpoints: {
             1440: { slidesPerView: 5 },
-            1024: { slidesPerView: 4 },
-            768: { slidesPerView: 3 },
-            0: { slidesPerView: 2 },
+            1024: { slidesPerView: 4, },
+            768: { slidesPerView: 3, },
+            0: { slidesPerView: 3, spaceBetween: 30, },
         },
         className: "w-full testimonial-slider",
     };

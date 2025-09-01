@@ -63,7 +63,7 @@ function CustomerSliderSection() {
     };
 
     return (
-        <div className="lg:mt-[40px] mt-[30px]">
+        <div className="lg:mt-[40px] md:mt-[30px] mt-[20px]">
             <Swiper {...settings}>
                 {data.map((item, index) => (
                     <SwiperSlide key={index}>

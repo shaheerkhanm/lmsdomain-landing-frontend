@@ -51,14 +51,14 @@ function Header() {
             className={`fixed w-full top-[25px] flex justify-center z-99 main-padding transition-all duration-500 ease-in-out ${isScrolled ? "!-top-[110px]" : "top-[25px]"
                 }`}
         >
-            <nav className="bg-white w-full rounded-[15px] border-gray-200 shadow-xl">
-                <div className="flex flex-wrap items-center justify-between mx-4 py-4">
+            <nav className="bg-white w-full md:rounded-[15px] rounded-[10px] border-gray-200 shadow-xl">
+                <div className="flex flex-wrap items-center justify-between mx-4 md:py-4 py-3">
                     {/* Menu Button & Logo */}
-                    <div className="flex gap-3">
+                    <div className="flex md:justify-start justify-between gap-3 md:w-fit w-full">
                         <button
                             onClick={() => setShowMenu(true)}
                             type="button"
-                            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100"
+                            className="inline-flex items-center md:p-2 md:size-10 size-7 justify-center text-sm text-gray-500 rounded-lg lg:hidden"
                         >
                             <svg
                                 className="w-5 h-5"
@@ -89,7 +89,7 @@ function Header() {
                         >
                             <img
                                 src="/assets/img/logo/logo.svg"
-                                className="h-[40px] py-[3px] ps-3"
+                                className="lg:h-[40px] h-[30px] py-[3px] ps-3"
                                 alt="Bookarlo Logo"
                             />
                         </motion.a>
@@ -122,7 +122,7 @@ function Header() {
                     </div>
 
                     {/* Buttons */}
-                    <div className="button-section flex gap-[10px] font-manrope">
+                    <div className="button-section md:flex hidden gap-[10px] font-manrope">
                         {buttons.map((btn, index) => (
                             <motion.div
                                 key={btn.text}

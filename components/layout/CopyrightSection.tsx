@@ -11,20 +11,20 @@ function CopyrightSection() {
     const links = [
         {
             href: 'mailto:info@lmsdomain.com',
-            icon: <Icons.email_Icon className="size-[15px] fill-ScndColor group-hover:fill-MainColor duration-200 transition-all" />,
+            icon: <Icons.email_Icon className="md:size-[15px] size-[13px] fill-ScndColor group-hover:fill-MainColor duration-200 transition-all" />,
             text: 'info@lmsdomain.com',
         },
         {
             href: 'tel:+1234567890',
-            icon: <Icons.phone_Icon className="size-[15px] fill-ScndColor group-hover:fill-MainColor duration-200 transition-all" />,
+            icon: <Icons.phone_Icon className="md:size-[15px] size-[13px] fill-ScndColor group-hover:fill-MainColor duration-200 transition-all" />,
             text: '+1 234 567 890',
         }
     ];
 
     return (
-        <div className="copyright-section flex items-center justify-between">
+        <div className="copyright-section flex md:flex-row flex-col items-center justify-between">
             <p>{currentYear} LMS. All rights reserved.</p>
-            <div className="flex gap-6">
+            <div className="flex md:gap-6 gap-3">
                 {links.map((item, index) => (
                     <motion.div
                         initial={{ x: -80, opacity: 0 }}
@@ -33,12 +33,12 @@ function CopyrightSection() {
                             delay: index * -0.1,
                             duration: 0.5, type: "tween", stiffness: 100, damping: 20
                         }}
-                        viewport={{ once: false, amount: 0.9 }}
+                        viewport={{ once: false, amount: 0 }}
                         key={index}
                     >
                         <Link href={item.href} className="flex items-center group gap-2">
                             {item.icon}
-                            <span className="text-ScndColor group-hover:text-MainColor duration-200 transition-all">
+                            <span className="text-ScndColor group-hover:text-MainColor md:text-[16px] text-[15px] duration-200 transition-all">
                                 {item.text}
                             </span>
                         </Link>

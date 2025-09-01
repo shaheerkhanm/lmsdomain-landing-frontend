@@ -61,7 +61,7 @@ function BannerSection() {
                     initial={{ y: 40, opacity: 0, scale: 0.9 }}
                     whileInView={{ y: 0, opacity: 1, scale: 1 }}
                     transition={{ delay: .3, duration: .3, type: "spring", stiffness: 200, damping: 20 }}
-                    className="form-section mt-2">
+                    className="form-section mt-2 w-full flex justify-center">
                     <EmailSection />
                 </motion.div>
             </div>
