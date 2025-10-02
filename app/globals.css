@@ -179,13 +179,13 @@ html {
 
 /* Handle */
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #bdbdbd;
+  background: #21C48C;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #656565;
+  background: #6C4BFF;
 }
 
 .common-transition {
