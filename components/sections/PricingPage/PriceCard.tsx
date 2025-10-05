@@ -7,13 +7,20 @@ type PriceCardProps = {
     title: string;
     description: string;
     monthlyPrice: number;
-    yearlyPrice: number;
+    discount: number;
+    // yearlyPrice: number;
     features: string[];
   };
   isYearly: boolean;
 };
 
 function PriceCard({ plan, isYearly }: PriceCardProps) {
+
+  const yearlyPriceCalc = plan.monthlyPrice * 12;
+  const discountCalc = yearlyPriceCalc * plan.discount / 100;
+  const yearlyPrice = yearlyPriceCalc - discountCalc;
+  // const yearlyPrice = plan.monthlyPrice * 12;
+
   return (
     <div className="p-[30px] bg-white rounded-[20px] w-full shadow-[0_0_20px_#00000010]">
       <div className="flex flex-col gap-4">
@@ -32,13 +39,24 @@ function PriceCard({ plan, isYearly }: PriceCardProps) {
 
         {/* Pricing */}
         <div className="flex flex-col">
-          <div className="price flex items-center gap-4">
+          <div className="price flex items-end gap-2">
             <span className="text-[#21C48C] text-[36px] font-bold">
-              ₹{isYearly ? plan.yearlyPrice.toLocaleString() : plan.monthlyPrice.toLocaleString()}
+              ₹{isYearly ? yearlyPrice.toLocaleString() : plan.monthlyPrice.toLocaleString()}
             </span>
-            <span className="font-bold">+ Taxes</span>
+            {isYearly ? (
+              <span className="text-red-400 text-[16px] font-bold mb-2 line-through">
+                ₹{yearlyPriceCalc.toLocaleString()}
+              </span>
+            ) : ('')}
+            <span className="font-bold mb-2">+ Taxes</span>
           </div>
-          <span className="text-[#00000080] font-semibold">
+
+          <span className="text-[#00000080] text-[14px] font-semibold flex gap-3">
+            {isYearly ? (
+              <span className="text-grey -400 text-[14px] text-black font-bold mb-2 ">
+                -{plan.discount}% Discount
+              </span>
+            ) : ('')}
             {isYearly ? "(Billed Annually)" : "(Per Month)"}
           </span>
         </div>
@@ -49,11 +67,11 @@ function PriceCard({ plan, isYearly }: PriceCardProps) {
         </button>
 
         {/* Features */}
-        <div className="flex flex-col gap-2 mt-4 h-[80vh] overflow-y-auto custom-scrollbar" data-lenis-prevent>
+        <div className="flex flex-col gap-2 mt-4 max-h-[40vh] overflow-y-auto custom-scrollbar" data-lenis-prevent>
           {plan.features.map((feature: any, idx: any) => (
             <div key={idx} className="flex items-center gap-2">
-              <Icons.tickIcon />
-              <span className="font-normal">{feature}</span>
+              <Icons.tickIcon className="min-w-[15px] min-h-[15px] max-w-[15px] max-h-[15px]" />
+              <span className="font-normal xl:text-[16px] text-[14px]">{feature}</span>
             </div>
           ))}
         </div>
