@@ -23,7 +23,7 @@ export const Icons = {
         <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <g filter="url(#filter0_d_373_3309)">
                 <path d="M31.0733 2.71588L4.18679 11.6865L18.4333 14.8511L22.1027 29.6024L31.0733 2.71588Z" fill="#6C4BFF" />
-                <path d="M6.05007 11.5896L18.5411 14.3648L18.8422 14.4311L18.9168 14.7308L22.1734 27.8192L30.2857 3.50412L6.05007 11.5896Z" stroke="white" stroke-width="0.996253" />
+                <path d="M6.05007 11.5896L18.5411 14.3648L18.8422 14.4311L18.9168 14.7308L22.1734 27.8192L30.2857 3.50412L6.05007 11.5896Z" stroke="white" strokeWidth="0.996253" />
             </g>
             <defs>
                 <filter id="filter0_d_373_3309" x="0.202488" y="0.723315" width="34.8567" height="34.8567" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
@@ -122,7 +122,7 @@ export const Icons = {
     tickIcon: (props: IconProps) => (
         <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <circle cx="9.89551" cy="9.44629" r="8.99316" fill="#21C48C" />
-            <path d="M6.0625 10.1471L8.04275 12.2861L13.7234 6.60547" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M6.0625 10.1471L8.04275 12.2861L13.7234 6.60547" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
     ),
 

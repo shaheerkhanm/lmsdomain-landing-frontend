@@ -10,23 +10,28 @@ function Header() {
     const [showMenu, setShowMenu] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
+    const [lastScrollY, setLastScrollY] = useState(0);
+
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 40) {
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > lastScrollY && currentScrollY > 40) {
                 setIsScrolled(true);
             } else {
                 setIsScrolled(false);
             }
+            setLastScrollY(currentScrollY);
         };
 
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [lastScrollY]);
 
     // ✅ Nav links with href
     const navLinks = [
         { label: "Features", href: "#features" },
-        { label: "Pricing", href: "#pricing" },
+        { label: "Pricing", href: "pricing" },
         { label: "About", href: "#about" },
     ];
 
@@ -87,11 +92,11 @@ function Header() {
                             href="#"
                             className="flex items-center space-x-3 rtl:space-x-reverse origin-left"
                         >
-                            <img
+                            {/* <img
                                 src="/assets/img/logo/logo.svg"
                                 className="lg:h-[40px] h-[30px] py-[3px] ps-3"
                                 alt="Bookarlo Logo"
-                            />
+                            /> */}
                         </motion.a>
                     </div>
 
