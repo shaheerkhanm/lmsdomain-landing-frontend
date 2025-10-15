@@ -219,6 +219,16 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 
+/* FEATURES PAGE DEATILS */
+.features-details-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style-type: disc;
+  font-weight: 500;
+}
+
+
 @media (max-width: 1536px) {
   .main-padding {
     padding-left: 80px;

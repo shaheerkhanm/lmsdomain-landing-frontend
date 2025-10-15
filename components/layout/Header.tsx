@@ -92,11 +92,11 @@ function Header() {
                             href="#"
                             className="flex items-center space-x-3 rtl:space-x-reverse origin-left"
                         >
-                            {/* <img
+                            <img
                                 src="/assets/img/logo/logo.svg"
                                 className="lg:h-[40px] h-[30px] py-[3px] ps-3"
                                 alt="Bookarlo Logo"
-                            /> */}
+                            />
                         </motion.a>
                     </div>
 
