@@ -6,7 +6,7 @@ export const pricingPlans = [
     description:
       "Lorem ipsum dolor sit amet consectetur. Volutpat scelerisque duis nulla facilisis aliquet arcu aliquet.",
     monthlyPrice: 7499,
-    yearlyPrice: 7499 * 12 - 5000, // discount applied (example)
+    discount: 10,
     features: [
       "Custom Domain",
       "Common Android App",
@@ -20,7 +20,7 @@ export const pricingPlans = [
       "International Selling",
       "Promo Discount Codes",
       "Notifications",
-      "(Email/SMS/Push/WhatsApp)",
+      "(Email / SMS / Push / WhatsApp)",
       "Blogs",
       "Basic Reports",
       "Core APIs",
@@ -38,7 +38,7 @@ export const pricingPlans = [
     description:
       "Best for growing businesses who want advanced features with premium support.",
     monthlyPrice: 14999,
-    yearlyPrice: 14999 * 12 - 10000,
+    discount: 10,
     features: [
       "Custom Domain",
       "Common Android App",
@@ -52,7 +52,7 @@ export const pricingPlans = [
       "International Selling",
       "Promo Discount Codes",
       "Notifications",
-      "(Email/SMS/Push/WhatsApp)",
+      "(Email / SMS / Push / WhatsApp)",
       "Blogs",
       "Basic Reports",
       "Core APIs",
@@ -73,7 +73,7 @@ export const pricingPlans = [
     description:
       "For enterprises needing full customization, advanced support, and scalability.",
     monthlyPrice: 29999,
-    yearlyPrice: 29999 * 12 - 25000,
+    discount: 10,
     features: [
       "Custom Domain",
       "Common Android App",
@@ -87,7 +87,7 @@ export const pricingPlans = [
       "International Selling",
       "Promo Discount Codes",
       "Notifications",
-      "(Email/SMS/Push/WhatsApp)",
+      "(Email / SMS / Push / WhatsApp)",
       "Blogs",
       "Basic Reports",
       "Core APIs",

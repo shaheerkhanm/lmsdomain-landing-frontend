@@ -214,6 +214,20 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0 -12px;
 }
 
+.faq-section h3 {
+  min-width: 100% !important;
+}
+
+
+/* FEATURES PAGE DEATILS */
+.features-details-section ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  list-style-type: disc;
+  font-weight: 500;
+}
+
 
 @media (max-width: 1536px) {
   .main-padding {
@@ -224,8 +238,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @media (max-width: 991px) {
   .main-padding {
-    padding-left: 60px;
-    padding-right: 60px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
 }
 
