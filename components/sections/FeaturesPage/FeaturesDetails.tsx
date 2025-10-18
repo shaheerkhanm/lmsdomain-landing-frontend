@@ -65,7 +65,7 @@ const iconBgColorClasses = [
 
 function FeaturesDetails() {
     return (
-        <div className='main-padding flex flex-col gap-[50px]'>
+        <div className='main-padding flex flex-col md:gap-[50px] gap-[20px]'>
             {featuresData.map((feature, index) => {
                 const isReversed = index % 2 !== 0;
 
@@ -73,23 +73,27 @@ function FeaturesDetails() {
 
                 const imageColOrder = isReversed ? 'lg:order-1 order-2' : 'lg:order-2 order-1';
                 const contentColOrder = isReversed ? 'order-2' : 'order-1';
-                const imageJustify = isReversed ? 'justify-start' : 'justify-end';
+                const imageJustify = isReversed ? 'lg:justify-start justify-center' : 'lg:justify-end justify-center';
                 return (
-                    <div key={feature.id} className="grid lg:grid-cols-2 grid-cols-1 gap-[40px]" >
+                    <div key={feature.id} className="grid lg:grid-cols-2 grid-cols-1 md:gap-[40px] gap-[30px]" >
                         <div className={`col-span-1 flex items-center ${contentColOrder}`}>
-                            <div className="flex flex-col gap-10">
+                            <div className="flex flex-col md:gap-10 gap-5">
                                 <div className="top-item-title">
-                                    <div className="flex gap-[20px]">
-                                        <div className={`icon-div min-w-[70px] min-h-[70px] max-w-[70px] max-h-[70px] rounded-full ${iconBgColor} flex items-center justify-center p-3`}>
+                                    <div className="flex md:flex-row flex-col gap-[20px]">
+                                        <div className={`icon-div 
+                                            lg:min-w-[70px] lg:min-h-[70px] lg:max-w-[70px] lg:max-h-[70px] 
+                                            md:min-w-[50px] md:min-h-[50px] md:max-w-[50px] md:max-h-[50px]
+                                            min-w-[50px] min-h-[50px] max-w-[50px] max-h-[50px]
+                                             rounded-full ${iconBgColor} flex items-center justify-center p-3`}>
                                             <img src={feature.iconSrc} alt="Feature Icon" className='w-full h-full object-contain' />
                                         </div>
                                         <div className="title-details flex flex-col gap-1">
                                             <h2 className='2xl:text-[24px] lg:text-[20px] text-[18px] font-bold'>Intelligent Course Management</h2>
-                                            <p className='font-medium text-[18px]'>Design, organize, and deliver stunning courses with ease. From drip content to course bundles, LMSDomain offers a seamless experience for instructors and learners alike.</p>
+                                            <p className='font-medium 2xl:text-[18px] xl:text-[16px] lg:text-[14px] text-[16px]'>Design, organize, and deliver stunning courses with ease. From drip content to course bundles, LMSDomain offers a seamless experience for instructors and learners alike.</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="features-details-section 2xl:text-[18px] text-[16px]">
+                                <div className="features-details-section 2xl:text-[18px] lg:text-[18px]">
                                     <ul>
                                         <li>Create free, paid, or subscription-based courses.</li>
                                         <li>Upload unlimited multimedia lessons — video, audio, PDFs, SCORM files.</li>
@@ -103,7 +107,7 @@ function FeaturesDetails() {
                             <div className={`img-div flex items-center ${imageJustify} w-full`}>
                                 <img
                                     src={feature.imageSrc}
-                                    alt={`Image for ${feature.title}`} className='h-[512px] object-contain' />
+                                    alt={`Image for ${feature.title}`} className='lg:h-[512px] md:h-[412px] h-[312px] object-contain' />
                             </div>
                         </div>
                     </div>

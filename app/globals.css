@@ -226,6 +226,12 @@ input[type="number"]::-webkit-inner-spin-button {
   gap: 20px;
   list-style-type: disc;
   font-weight: 500;
+  padding-left: 20px;
+}
+
+
+.price-slider .swiper-slide{
+  height: unset !important;
 }
 
 
@@ -247,5 +253,9 @@ input[type="number"]::-webkit-inner-spin-button {
   .main-padding {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .features-details-section ul {
+    gap: 10px;
   }
 }

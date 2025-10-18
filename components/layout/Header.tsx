@@ -30,7 +30,7 @@ function Header() {
 
     // ✅ Nav links with href
     const navLinks = [
-        { label: "Features", href: "#features" },
+        { label: "Features", href: "features" },
         { label: "Pricing", href: "pricing" },
         { label: "About", href: "#about" },
     ];

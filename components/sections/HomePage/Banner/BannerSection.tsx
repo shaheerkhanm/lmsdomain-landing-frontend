@@ -9,7 +9,7 @@ import { motion } from "motion/react"
 
 function BannerSection() {
     return (
-        <div className='main-padding w-full h-[100%] bg-[#8475C91A] flex flex-col items-center pt-[130px] py-[30px]'>
+        <div className='main-padding w-full h-[100%] bg-[#fff] flex flex-col items-center pt-[130px] py-[30px]'>
             <div className="top-section flex items-center gap-[10px] font-inter font-medium text-[12px]">
                 <div className="img-div flex -space-x-3">
                     <motion.div

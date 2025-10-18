@@ -31,19 +31,19 @@ function PriceSliderDevice({ isYearly }: any) {
 
     const settings = {
         modules: [Autoplay],
-        autoplay: { delay: 3000, disableOnInteraction: false },
+        // autoplay: { delay: 3000, disableOnInteraction: false },
         speed: 500,
         loop: true,
-        slidesPerView: 1,
+        slidesPerView: 2,
         spaceBetween: 20,
-        breakpoints: {
-            600: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-        },
+        // breakpoints: {
+        //     600: { slidesPerView: 1.5,centeredSlides: true, },
+        //     1024: { slidesPerView: 3 },
+        // },
         className: "w-full",
         onBeforeInit: (swiper: any) => {
             swiperRef.current = swiper;
-        },
+        }, 
     };
 
     const goToNext = () => {
@@ -55,11 +55,11 @@ function PriceSliderDevice({ isYearly }: any) {
     };
 
     return (
-        <div className="lg:hidden md:block hidden mt-8 relative">
+        <div className="lg:hidden md:block hidden mt-8 relative price-slider">
             <Swiper {...settings}>
                 {pricingPlans.map((plan) => (
                     <SwiperSlide key={plan.id}>
-                        <div className="lg:col-span-4 md:col-span-12 col-span-12">
+                        <div className="lg:col-span-4 md:col-span-12 col-span-12 px-2 py-3 h-full">
                             <PriceCard plan={plan} isYearly={isYearly} />
                         </div>
                     </SwiperSlide>
