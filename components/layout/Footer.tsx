@@ -4,6 +4,7 @@ import React from "react";
 import SocialMediaIcons from "./SocialMediaIcons";
 import { motion } from "motion/react"
 import CopyrightSection from "./CopyrightSection";
+import Link from "next/link";
 
 
 const navData = [
@@ -28,7 +29,7 @@ function Footer() {
         {/* Logo & Description */}
         <div className="lg:col-span-4 md:col-span-5 col-span-12">
           <div className="flex flex-col gap-6">
-            <div className="logo-div">
+            <Link href={'/'} className="logo-div w-fit">
               <motion.img
                 initial={{ x: 80, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
@@ -38,7 +39,7 @@ function Footer() {
                 alt="Logo"
                 className="md:h-[60px] h-[40px] object-contain"
               />
-            </div>
+            </Link>
             <motion.p
               initial={{ x: 80, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
