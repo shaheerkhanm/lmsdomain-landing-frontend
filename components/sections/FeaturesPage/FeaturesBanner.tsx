@@ -4,7 +4,7 @@ import FeaturesBannerGrid from './FeaturesBannerGrid'
 
 function FeaturesBanner() {
     return (
-        <div className='xl:h-screen lg:h-[100%] main-padding bg-[#8475C91A] flex flex-col items-center justify-end gap-[40px] xl:pt-0 md:pt-[160px] pt-[120px] md:pb-[80px] pb-[50px]'>
+        <div className='xl:h-full lg:h-[100%] main-padding bg-[#8475C91A] flex flex-col items-center justify-end gap-[40px] xl:pt-[150px] md:pt-[160px] pt-[120px] 2xl:pb-[80px] xl:pb-[40px] md:pb-[80px] pb-[50px]'>
             <div className="banner-text flex flex-col gap-[20px] justify-center items-center ">
                 <h1 className='xl:text-[52px] lg:text-[46px] md:text-[42px] xsm:text-[26px] text-[24px] text-black md:font-bold font-bold text-center leading-tight md:w-[70%]'>Power-Packed Features to Elevate Learning</h1>
                 <p className="lg:w-[80%] w-[100%] 2xl:text-[18px] lg:text-[16px] text-[16px] md:leading-normal leading-tight text-center text-black">
