@@ -42,7 +42,7 @@ export function IntegrationBeamEffects() {
             className="main-padding relative !m-0 flex h-full w-full items-center justify-center overflow-hidden p-10"
             ref={containerRef}
         >
-            <div className="xl:px-20 px-0 flex size-full max-w-full flex-col items-stretch justify-between gap-15">
+            <div className="2xl:px-20 xl:px-40 px-0 flex size-full max-w-full flex-col items-stretch justify-between gap-15">
                 <div className="flex flex-row items-center justify-between">
                     <Circle ref={div1Ref}>
                         <img src="assets/img/integration/integration-1.png" alt="" className="size-[40px]" />
@@ -56,7 +56,7 @@ export function IntegrationBeamEffects() {
                         <img src="assets/img/integration/integration-3.png" alt="" className="size-[40px]" />
                     </Circle>
                     <div ref={div4Ref} className="size-[200px] flex items-center border-t border-MainColor justify-center bg-gradient-to-b from-[#222748] to-[#1B1F3B] rounded-full z-1 text-white p-4">
-                        <div className={`bg-[#ffffff09] size-[150px] flex items-center justify-center rounded-full relative`}>
+                        <div className={`bg-[#ffffff09] size-[150px] flex items-center justify-center rounded-full relative border-b border-b-[#FFFFFF30]`}>
                             <h2 className="font-bold text-center leading-[20px] text-[18px]">LMS DOMAIN</h2>
                         </div>
                     </div>
@@ -74,6 +74,8 @@ export function IntegrationBeamEffects() {
                 </div>
             </div>
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div1Ref}
                 toRef={div4Ref}
@@ -81,11 +83,15 @@ export function IntegrationBeamEffects() {
                 endYOffset={0}
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div2Ref}
                 toRef={div4Ref}
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div3Ref}
                 toRef={div4Ref}
@@ -93,6 +99,8 @@ export function IntegrationBeamEffects() {
                 endYOffset={0}
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div5Ref}
                 toRef={div4Ref}
@@ -101,12 +109,16 @@ export function IntegrationBeamEffects() {
                 reverse
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div6Ref}
                 toRef={div4Ref}
                 reverse
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div7Ref}
                 toRef={div4Ref}
@@ -145,6 +157,8 @@ export function IntegrationBeamEffects() {
                 </div>
             </div>
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div8Ref}
                 toRef={div4Ref}
@@ -152,11 +166,15 @@ export function IntegrationBeamEffects() {
                 endYOffset={0}
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div9Ref}
                 toRef={div4Ref}
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div10Ref}
                 toRef={div4Ref}
@@ -164,6 +182,8 @@ export function IntegrationBeamEffects() {
                 endYOffset={0}
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div12Ref}
                 toRef={div4Ref}
@@ -172,12 +192,16 @@ export function IntegrationBeamEffects() {
                 reverse
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div13Ref}
                 toRef={div4Ref}
                 reverse
             />
             <AnimatedBeam
+                gradientStartColor="#6C4BFF50"
+                gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
                 fromRef={div14Ref}
                 toRef={div4Ref}
