@@ -6,7 +6,7 @@ function OurStorySection() {
             <div className="grid grid-cols-2 gap-[40px]">
                 <div className="col-span-1">
                     <div className="img-div p-[40px] bg-[#FCA72330] rounded-[40px]">
-                        <img src="assets/img/mission-img.jpg" alt="" className='h-[350px] w-full rounded-[30px]' />
+                        <img src="assets/img/our-story-img.jpg" alt="" className='h-[350px] w-full rounded-[30px] object-cover' />
                     </div>
                 </div>
                 <div className="col-span-1 flex flex-col justify-center gap-[10px]">

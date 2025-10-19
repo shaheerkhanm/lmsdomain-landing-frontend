@@ -21,7 +21,7 @@ function OurMissionSection() {
 
                 <div className="col-span-1">
                     <div className="img-div p-[40px] bg-[#D9D5F8] rounded-[40px]">
-                        <img src="assets/img/mission-img.jpg" alt="" className='h-[316px] w-full rounded-[20px]' />
+                        <img src="assets/img/mission-img.jpg" alt="" className='h-[316px] w-full rounded-[20px] object-cover' />
                     </div>
                 </div>
             </div>
