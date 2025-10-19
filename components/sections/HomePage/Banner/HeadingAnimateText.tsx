@@ -8,7 +8,7 @@ function HeadingAnimateText() {
     const containerRef = useRef<HTMLDivElement>(null);
     const tempMeasureRef = useRef<HTMLDivElement>(null);
     const words = ['Build', 'Inspire', 'Grow'];
-    const colors = ['#FFD700', '#9400D3', '#00CED1']; // yellow, violet, dark cyan
+    const colors = ['#6C4BFF', '#FCA311', '#21C48C']; // yellow, violet, dark cyan
 
     useEffect(() => {
         if (!containerRef.current || !tempMeasureRef.current) return;
