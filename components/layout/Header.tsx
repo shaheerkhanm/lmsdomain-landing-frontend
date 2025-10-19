@@ -30,7 +30,7 @@ function Header() {
 
     // ✅ Nav links with href
     const navLinks = [
-        { label: "Features", href: "#features" },
+        { label: "Features", href: "features" },
         { label: "Pricing", href: "pricing" },
         { label: "About", href: "#about" },
     ];
@@ -56,7 +56,7 @@ function Header() {
             className={`fixed md:w-full w-full top-[25px] flex justify-center z-80 main-padding transition-all duration-500 ease-in-out ${isScrolled ? "!-top-[110px]" : "top-[25px]"
                 }`}
         >
-            <nav className="bg-white w-full md:rounded-[15px] rounded-[10px] border-gray-200 shadow-xl">
+            <nav className="bg-white w-full md:rounded-[15px] rounded-[10px] border-gray-200 shadow-[0_0_20px_#00000020]">
                 <div className="flex flex-wrap items-center justify-between mx-4 md:py-4 py-3">
                     {/* Menu Button & Logo */}
                     <div className="flex md:flex-row flex-row-reverse md:justify-start justify-between gap-3 md:w-fit w-full">
@@ -89,7 +89,7 @@ function Header() {
                                 type: "tween",
                             }}
                             viewport={{ once: true }}
-                            href="#"
+                            href="/"
                             className="flex items-center space-x-3 rtl:space-x-reverse origin-left"
                         >
                             <img

@@ -22,7 +22,7 @@ function PriceCard({ plan, isYearly }: PriceCardProps) {
   // const yearlyPrice = plan.monthlyPrice * 12;
 
   return (
-    <div className="md:p-[30px] p-[20px] bg-white rounded-[20px] w-full shadow-[0_0_20px_#00000010]">
+    <div className="md:p-[30px] p-[20px] bg-white rounded-[20px] h-full w-full shadow-[0_0_20px_#00000020]">
       <div className="flex flex-col gap-4">
         {/* Title */}
         <div className="flex items-center gap-3">
@@ -40,18 +40,18 @@ function PriceCard({ plan, isYearly }: PriceCardProps) {
         {/* Pricing */}
         <div className="flex flex-col">
           <div className="price flex items-end gap-2">
-            <span className="text-[#21C48C] xl:text-[36px] lg:text-[28px] md:text-[24px] text-[30px] font-bold">
+            <span className="text-[#21C48C] xl:text-[36px] lg:text-[28px] md:text-[24px] text-[26px] font-bold">
               ₹{isYearly ? yearlyPrice.toLocaleString() : plan.monthlyPrice.toLocaleString()}
             </span>
 
             {/* YEARLY DISCOUNT */}
             <div className="flex items-center gap-2">
               {isYearly ? (
-                <span className="text-red-400 text-[14px] font-bold lg:mb-2 md:mb-1 mb-2 line-through">
+                <span className="text-red-400 text-[14px] font-bold lg:mb-2 md:mb-1 mb-1 line-through">
                   ₹{yearlyPriceCalc.toLocaleString()}
                 </span>
               ) : ('')}
-              <span className="font-bold lg:mb-2 md:mb-1 mb-2 text-[14px]">+ Taxes</span>
+              <span className="font-bold lg:mb-2 md:mb-1 mb-1 text-[14px]">+ Taxes</span>
             </div>
           </div>
 
@@ -71,11 +71,11 @@ function PriceCard({ plan, isYearly }: PriceCardProps) {
         </button>
 
         {/* Features */}
-        <div className="flex flex-col gap-2 mt-4 max-h-[40vh] overflow-y-auto custom-scrollbar" data-lenis-prevent>
+        <div className="flex flex-col gap-2 mt-4 h-full overflow-y-auto custom-scrollbar" data-lenis-prevent>
           {plan.features.map((feature: any, idx: any) => (
             <div key={idx} className="flex items-center gap-2">
               <Icons.tickIcon className="min-w-[15px] min-h-[15px] max-w-[15px] max-h-[15px]" />
-              <span className="font-normal xl:text-[16px] text-[14px]">{feature}</span>
+              <span className="font-normal xl:text-[16px] text-[16px]">{feature}</span>
             </div>
           ))}
         </div>

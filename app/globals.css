@@ -19,7 +19,7 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1025px;
   --breakpoint-xl: 1371px;
-  --breakpoint-2xl: 1600px;
+  --breakpoint-2xl: 1536px;
   --breakpoint-3xl: 2100px;
 
   /* Custom Fonts */
@@ -226,6 +226,22 @@ input[type="number"]::-webkit-inner-spin-button {
   gap: 20px;
   list-style-type: disc;
   font-weight: 500;
+  padding-left: 20px;
+}
+
+/* MULTIPLE CONTENT LIST DETAILS */
+.multiple-content-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  list-style-type: disc;
+  font-weight: 500;
+  padding-left: 20px;
+}
+
+
+.price-slider .swiper-slide{
+  height: unset !important;
 }
 
 
@@ -247,5 +263,9 @@ input[type="number"]::-webkit-inner-spin-button {
   .main-padding {
     padding-left: 20px;
     padding-right: 20px;
+  }
+
+  .features-details-section ul {
+    gap: 10px;
   }
 }
