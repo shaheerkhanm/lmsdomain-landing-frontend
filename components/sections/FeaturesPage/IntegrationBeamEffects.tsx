@@ -77,7 +77,7 @@ export function IntegrationBeamEffects() {
                 containerRef={containerRef}
                 fromRef={div1Ref}
                 toRef={div4Ref}
-                curvature={-220}
+                curvature={-190}
                 endYOffset={0}
             />
             <AnimatedBeam
@@ -89,14 +89,14 @@ export function IntegrationBeamEffects() {
                 containerRef={containerRef}
                 fromRef={div3Ref}
                 toRef={div4Ref}
-                curvature={220}
+                curvature={190}
                 endYOffset={0}
             />
             <AnimatedBeam
                 containerRef={containerRef}
                 fromRef={div5Ref}
                 toRef={div4Ref}
-                curvature={-220}
+                curvature={-190}
                 endYOffset={0}
                 reverse
             />
@@ -110,7 +110,7 @@ export function IntegrationBeamEffects() {
                 containerRef={containerRef}
                 fromRef={div7Ref}
                 toRef={div4Ref}
-                curvature={220}
+                curvature={190}
                 endYOffset={0}
                 reverse
             />
