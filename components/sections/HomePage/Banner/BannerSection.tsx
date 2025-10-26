@@ -1,12 +1,35 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MainHeading from './MainHeading'
 import EmailSection from './EmailSection'
 import BannerGridSection from './BannerGridSection'
 import { motion } from "motion/react"
+import { fetchData } from '@/utils/api'
+import { apiRoutes } from '@/utils/api/apiRoutes'
 
-function BannerSection() {
+function BannerSection({ data, graphData }: any) {
+
+    // const [data, setData] = useState<any>(null)
+    // // ✅ Fetch data client-side after mount
+    // useEffect(() => {
+    //     const getData = async () => {
+    //         try {
+    //             const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getAllCms
+    //             const response = await fetchData({
+    //                 url: location,
+    //                 body: { slug: "home-hero" },
+    //             })
+    //             setData(response)
+    //         } catch (error) {
+    //             console.error("Error fetching banner data:", error)
+    //             setData({})
+    //         }
+    //     }
+
+    //     getData()
+    // }, [])
+
     // Track mouse position (relative to center)
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
 
@@ -21,6 +44,7 @@ function BannerSection() {
         setMousePos({ x, y })
     }
 
+
     return (
         <div
             className='main-padding relative w-full h-[100%] bg-[#fff] flex flex-col items-center pt-[130px] py-[30px] overflow-hidden'
@@ -34,21 +58,21 @@ function BannerSection() {
                         whileInView={{ x: 0, opacity: 1, scale: 1 }}
                         transition={{ delay: 0, duration: .3 }}
                     >
-                        <img src="/assets/img/banner/top-img-1.png" alt="" className='size-[30px]' />
+                        <img src="/assets/img/banner/top-img-1.png" alt="user image" title='user image' className='size-[30px]' />
                     </motion.div>
                     <motion.div
                         initial={{ x: 40, opacity: 0, scale: 0.9 }}
                         whileInView={{ x: 0, opacity: 1, scale: 1 }}
                         transition={{ delay: .1, duration: .3 }}
                     >
-                        <img src="/assets/img/banner/top-img-2.png" alt="" className='size-[30px]' />
+                        <img src="/assets/img/banner/top-img-2.png" alt="user image" title='user image' className='size-[30px]' />
                     </motion.div>
                     <motion.div
                         initial={{ x: 40, opacity: 0, scale: 0.9 }}
                         whileInView={{ x: 0, opacity: 1, scale: 1 }}
                         transition={{ delay: .2, duration: .3 }}
                     >
-                        <img src="/assets/img/banner/top-img-3.png" alt="" className='size-[30px]' />
+                        <img src="/assets/img/banner/top-img-3.png" alt="user image" title='user image' className='size-[30px]' />
                     </motion.div>
                 </div>
                 <motion.div
@@ -68,36 +92,36 @@ function BannerSection() {
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ duration: .3 }}
                 >
-                    <MainHeading />
+                    <MainHeading data={data} />
                 </motion.div>
-                <motion.p
+                <motion.div
                     initial={{ y: 40, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ delay: .15, duration: .3 }}
                     className='text-[#101725B2] lg:w-[60%] md:w-[85%] w-full text-center md:text-[18px] xsm:text-[16px] text-[14px] font-medium'
-                >
-                    Empower your students with a beautifully branded learning experience. Create, manage, and monetize your courses—all in one place.
-                </motion.p>
+                    dangerouslySetInnerHTML={{ __html: data?.description || "" }}>
+                </motion.div>
                 <motion.div
                     initial={{ y: 40, opacity: 0 }}
                     whileInView={{ y: 0, opacity: 1 }}
                     transition={{ delay: .3, duration: .3 }}
                     className="form-section mt-2 w-full flex justify-center"
                 >
-                    <EmailSection />
+                    <EmailSection data={data} />
                 </motion.div>
             </div>
 
             {/* Banner Grid */}
-            <div className="banner-grid-section w-full lg:px-[15%] px-0 lg:mt-[60px] mt-[40px]">
-                <BannerGridSection />
+            <div className="banner-grid-section w-full xl:px-[15%] px-0 lg:mt-[60px] mt-[40px]">
+                <BannerGridSection graphData={graphData} data={data} />
             </div>
 
             {/* Parallax Mouse Arrows */}
             <div className="parallax-image lg:block hidden">
                 <motion.img
                     src="assets/img/svg/mouuse-arow-1.svg"
-                    alt=""
+                    alt="mouse pointer image"
+                    title='mouse pointer image'
                     className='absolute left-[20%] top-1/2 translate-y-[calc(-50%+-50px)]'
                     animate={{
                         x: mousePos.x * 40,  // adjust intensity
@@ -108,7 +132,8 @@ function BannerSection() {
 
                 <motion.img
                     src="assets/img/svg/mouuse-arow-2.svg"
-                    alt=""
+                    alt="mouse pointer image"
+                    title='mouse pointer image'
                     className='absolute right-[20%] top-1/2 translate-y-[calc(-50%+-100px)]'
                     animate={{
                         x: -mousePos.x * 40, // opposite direction

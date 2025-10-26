@@ -1,47 +1,40 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import FeaturesCards from './FeaturesCards'
 import { motion } from "motion/react"
+import { fetchData } from '@/utils/api'
+import { apiRoutes } from '@/utils/api/apiRoutes'
 
-
-
-interface FeaturedData {
-    img: string,
-    title: string,
-    content: string,
-}
 
 function FeaturesItems() {
 
 
-    const data: FeaturedData[] = [
-        {
-            img: "/assets/img/features/feature-icon-1.svg",
-            title: "Visual Builder",
-            content: "Create lessons, quizzes, and videos effortlessly",
-        },
-        {
-            img: "/assets/img/features/feature-icon-2.svg",
-            title: "Smart Automation",
-            content: "Enrollments, reminders, and certificates on auto",
-        },
-        {
-            img: "/assets/img/features/feature-icon-3.svg",
-            title: "Global Payments",
-            content: "Accept payments from anywhere, in your own currency",
-        },
-        {
-            img: "/assets/img/features/feature-icon-4.svg",
-            title: "Mobile Ready",
-            content: "Native apps for learners, branded in your name",
-        },
-    ];
+    const [data, setData] = useState<any>([])
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getSmartTeach
+                const response = await fetchData({
+                    url: location,
+                    body: { slug: "" },
+                })
+
+                setData(response)
+            } catch (error) {
+                console.error("Error fetching data:", error)
+                setData([])
+            }
+        }
+
+        getData()
+    }, [])
 
 
     return (
         <div className="grid grid-cols-2 lg:gap-[50px] md:gap-[20px] gap-[10px]">
-            {data?.map((item, index) => (
+            {data?.map((item: any, index: any) => (
                 <div key={index} className='lg:col-span-2 md:col-span-1 col-span-2 lg:bg-transparent bg-[#8475c90d] lg:p-0 p-4 rounded-[10px]' >
                     <motion.div
 

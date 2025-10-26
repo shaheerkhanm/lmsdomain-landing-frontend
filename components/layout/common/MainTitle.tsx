@@ -14,7 +14,7 @@ function MainTitle({ title, h2ClassName, divClassName, ...motionProps }: TitleDa
         <motion.div
             initial={{ scale: 0, opacity: 0, }}
             whileInView={{ scale: 1, opacity: 1, }}
-            transition={{ delay: 0, duration: .3, type: "spring", stiffness: 300, damping: 100 }}
+            transition={{ delay: 0, duration: .1, type: "spring", stiffness: 300, damping: 30 }}
             className={`origin-center ${divClassName}`}
             viewport={{ once: true, }}
         >
