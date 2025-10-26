@@ -95,7 +95,8 @@ function Header() {
                             <img
                                 src="/assets/img/logo/logo.svg"
                                 className="lg:h-[40px] h-[30px] py-[3px] ps-3"
-                                alt="Bookarlo Logo"
+                                alt="LMS Domain Logo"
+                                title="logo image"
                             />
                         </motion.a>
                     </div>

@@ -13,40 +13,9 @@ import "swiper/css/pagination";
 import CustomerCard from "./CustomerCard";
 import Link from "next/link";
 
-interface CustomerData {
-    title: string;
-    content: string;
-    img: string;
-    bgColor: string;
-}
 
-function CustomerSliderSection() {
-    const data: CustomerData[] = [
-        {
-            title: "Individual Coaches",
-            content: "Sell courses and grow your personal brand",
-            img: "/assets/img/customer/customer-1.png",
-            bgColor: "bg-[#CBBFFF]",
-        },
-        {
-            title: "Training Institutes",
-            content: "Manage staff, batches, and student performance",
-            img: "/assets/img/customer/customer-2.png",
-            bgColor: "bg-[#FFD6A4]",
-        },
-        {
-            title: "Corporate Teams",
-            content: "Onboard, upskill, and train teams effectively",
-            img: "/assets/img/customer/customer-3.png",
-            bgColor: "bg-[#FFE39B]",
-        },
-        {
-            title: "Corporate Teams",
-            content: "Onboard, upskill, and train teams effectively",
-            img: "/assets/img/customer/customer-3.png",
-            bgColor: "bg-[#FFE39B]",
-        },
-    ];
+function CustomerSliderSection({ data }: any) {
+
 
     const settings = {
         modules: [Autoplay],
@@ -65,7 +34,7 @@ function CustomerSliderSection() {
     return (
         <div className="lg:mt-[40px] md:mt-[30px] mt-[20px]">
             <Swiper {...settings}>
-                {data.map((item, index) => (
+                {data.map((item: any, index: any) => (
                     <SwiperSlide key={index}>
                         <Link href={''} className="px-0">
                             <motion.div

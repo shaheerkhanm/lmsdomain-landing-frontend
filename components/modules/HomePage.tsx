@@ -5,23 +5,51 @@ import CustomerSection from "@/components/sections/HomePage/CustomerSection/Cust
 import FeaturesSection from "@/components/sections/HomePage/FeaturesSection/FeaturesSection";
 import ResultSection from "@/components/sections/HomePage/ResultSection/ResultSection";
 import TestimonialSection from "@/components/sections/HomePage/TestimonialSection/TestimonialSection";
+import { fetchData } from "@/utils/api";
+import { apiRoutes } from "@/utils/api/apiRoutes";
 
 
-export default function HomePage() {
+export async function HomePage() {
+
+  const getData = async (slug: string) => {
+    try {
+      const location = process.env.BACKEND_URL + apiRoutes?.getAllCms
+      const response = await fetchData({
+        url: location,
+        body: { slug },
+
+      })
+
+
+
+      return response
+    } catch (error) {
+      return {}
+    }
+  }
+
+
+  // Fetch all section data
+  const homeHeroData = await getData("home-hero");
+  const homeGraphdata = await getData("home-graph-section");
+  const teachSmarterData = await getData("home-teach-smarter");
+  const customerData = await getData("customers");
+  const featuresData = await getData("features");
+
   return (
     <div className="font-manrope relative [&>*:not(:first-child)]:lg:mt-[80px]  [&>*:last-child]:lg:mb-[80px] [&>*:not(:first-child)]:md:mt-[50px] [&>*:last-child]:md:mb-[50px] [&>*:not(:first-child)]:mt-[30px]  [&>*:last-child]:mb-[30px]">
 
       {/* BANNER SECTION */}
-      <BannerSection />
+      <BannerSection graphData={homeGraphdata} data={homeHeroData} />
 
       {/* FEATURES SECTION */}
-      <FeaturesSection />
+      <FeaturesSection data={teachSmarterData} />
 
       {/* CUSOMTER SECTION */}
-      <CustomerSection />
+      <CustomerSection data={customerData} />
 
       {/* SCROLL SECTION */}
-      <AdvantageSection />
+      <AdvantageSection data={featuresData} />
 
       {/* RESULT SECTION */}
       <ResultSection />

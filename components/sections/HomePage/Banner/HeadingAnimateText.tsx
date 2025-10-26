@@ -4,10 +4,10 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import SplitType from 'split-type';
 
-function HeadingAnimateText() {
+function HeadingAnimateText({ data }: any) {
     const containerRef = useRef<HTMLDivElement>(null);
     const tempMeasureRef = useRef<HTMLDivElement>(null);
-    const words = ['Build', 'Inspire', 'Grow'];
+    const words = data?.tags;
     const colors = ['#6C4BFF', '#FCA311', '#21C48C']; // yellow, violet, dark cyan
 
     useEffect(() => {
@@ -132,7 +132,7 @@ function HeadingAnimateText() {
                 className="text-end w-fit overflow-hidden pe-5"
                 style={{ display: 'inline-block' }}
             >
-                {words.map((word, index) => (
+                {words.map((word: any, index: any) => (
                     <span
                         key={index}
                         className="align-top"

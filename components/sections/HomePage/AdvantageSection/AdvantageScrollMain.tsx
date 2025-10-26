@@ -4,10 +4,11 @@ import React, { useEffect, useRef } from "react";
 import { gsap, snap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
+import { Icons } from "@/components/layout/common/Icons";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function AdvantageScrollMain() {
+function AdvantageScrollMain({ data }: any) {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
     // Dummy Advantage Data (from your first chat)
@@ -137,23 +138,31 @@ function AdvantageScrollMain() {
                 <div className="relative advantage-animation grid lg:grid-cols-2 grid-cols-1 lg:gap-[80px] gap-0 lg:mt-0 mt-5">
                     {/* Left Content */}
                     <div className="left 2xl:w-[85%] w-full lg:flex flex-col lg:gap-[10px] grid md:grid-cols-2 grid-cols-1 gap-[15px]">
-                        {advantages.map((item, index) => (
+                        {data?.map((item: any, index: any) => (
                             <div
                                 key={index}
                                 className="content-item lg:bg-transparent bg-[#fafafa] rounded-[10px] lg:p-0 md:p-[20px] p-[14px] flex flex-col md:gap-[10px] gap-[8px] justify-center lg:min-h-[100vh] h-fit"
                             >
                                 {/* Mobile image (desktop hides this) */}
                                 <div className="scroll-img-div w-full lg:h-[25vh] md:h-[21vh] h-[240px] overflow-hidden rounded-[5px] z-[2] lg:hidden block">
-                                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                                    <img src={item.image} alt={item.altImage} className="w-full h-full object-cover" />
                                 </div>
 
                                 <h3 className="text-black font-bold lg:text-[26px] md:text-[20px] text-[20px] leading-tight">
                                     {item.title}
                                 </h3>
                                 <p className="main-para 2xl:text-[18px] text-[16px] lg:w-[80%] w-full">
-                                    {item.description}
+                                    {item.subTitle}
                                 </p>
-                                <Link href={""} className="lg:py-2 md:py-1.5 py-1 md:px-5 px-3 bg-[#FCA311] text-white hover:bg-MainColor common-transition w-fit md:rounded-full rounded-[5px] text-[16px] font-semibold" > Learn More </Link>
+                                <div className="tags-items my-2">
+                                    {item?.tags.map((tagitem: any, tagindex: any) => (
+                                        <div key={tagindex} className="flex items-center gap-2">
+                                            <Icons.tickIconTags />
+                                            <span className="font-semibold">{tagitem}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <Link href={item?.buttonAction} className="lg:py-2 md:py-1.5 py-1 md:px-5 px-3 bg-[#FCA311] text-white hover:bg-MainColor common-transition w-fit md:rounded-full rounded-[5px] text-[16px] font-semibold" > Learn More </Link>
                             </div>
                         ))}
                     </div>
@@ -161,7 +170,7 @@ function AdvantageScrollMain() {
                     {/* Right Image Block */}
                     <div className="rightblock h-screen lg:flex hidden flex-col justify-center">
                         <div className="relative w-full 2xl:h-[28vw] xl:h-[30vw] h-[25vw] overflow-hidden rounded-[20px]">
-                            {advantages.map((item, index) => {
+                            {data?.map((item: any, index: any) => {
                                 const gradient = bgColors[index % bgColors.length].bgColor; // cycle through colors
                                 return (
                                     <div
@@ -179,7 +188,7 @@ function AdvantageScrollMain() {
                                         />
                                         <img
                                             src={item.image}
-                                            alt={item.title}
+                                            alt={item.altImage}
                                             className="scroll-img relative z-2 max-w-[80%] 2xl:h-[400px] h-[380px] object-cover rounded-tl-[20px] rounded-tr-[20px]"
                                         />
                                     </div>
