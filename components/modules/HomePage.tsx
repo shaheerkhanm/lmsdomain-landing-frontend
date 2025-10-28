@@ -35,6 +35,9 @@ export async function HomePage() {
   const teachSmarterData = await getData("home-teach-smarter");
   const customerData = await getData("customers");
   const featuresData = await getData("features");
+  const resultsData = await getData("results");
+  const testimonialsData = await getData("testimonials");
+  const ctaData = await getData("cta");
 
   return (
     <div className="font-manrope relative [&>*:not(:first-child)]:lg:mt-[80px]  [&>*:last-child]:lg:mb-[80px] [&>*:not(:first-child)]:md:mt-[50px] [&>*:last-child]:md:mb-[50px] [&>*:not(:first-child)]:mt-[30px]  [&>*:last-child]:mb-[30px]">
@@ -52,13 +55,13 @@ export async function HomePage() {
       <AdvantageSection data={featuresData} />
 
       {/* RESULT SECTION */}
-      <ResultSection />
+      <ResultSection data={resultsData} />
 
       {/* TESTIMONIAL SECTION */}
-      <TestimonialSection />
+      <TestimonialSection data={testimonialsData} />
 
       {/* CTA SECTION */}
-      <CtaSection />
+      <CtaSection data={ctaData} />
 
     </div>
   );

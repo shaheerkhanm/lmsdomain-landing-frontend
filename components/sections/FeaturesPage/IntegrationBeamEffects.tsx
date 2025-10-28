@@ -39,7 +39,7 @@ export function IntegrationBeamEffects() {
     const div14Ref = useRef<HTMLDivElement>(null)
     return (
         <div
-            className="main-padding relative !m-0 flex h-full w-full items-center justify-center overflow-hidden p-10"
+            className="main-padding relative !m-0 hidden md:flex h-full w-full items-center justify-center overflow-hidden p-10"
             ref={containerRef}
         >
             <div className="2xl:px-20 xl:px-40 px-0 flex size-full max-w-full flex-col items-stretch justify-between gap-15">

@@ -1,16 +1,47 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import NumberFlow from '@number-flow/react';
+import { fetchData } from '@/utils/api';
+import { apiRoutes } from '@/utils/api/apiRoutes';
 
 function ResultCounterSection() {
-    const counters = [
-        { value: '3x', color: '#6C4BFF', text: 'Faster launch time compared to other platforms' },
-        { value: '92%', color: '#21C48C', text: 'Average course completion' },
-        { value: '1.2M+', color: '#FCA311', text: 'Learners trained globally' },
-        { value: '99.9%', color: '#FF5C50', text: 'Platform uptime with enterprise-grade security' },
+
+    // ✅ Fetch data client-side after mount
+    const [data, setData] = useState<any>([])
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getResults
+                const response = await fetchData({
+                    url: location,
+                    body: { slug: "" },
+                })
+                setData(response)
+            } catch (error) {
+                console.error("Error fetching banner data:", error)
+                setData({})
+            }
+        }
+
+        getData()
+    }, [])
+
+    const bgColors = [
+        { color: "#6C4BFF" },
+        { color: "#21C48C" },
+        { color: "#FCA311" },
+        { color: "#FF5C50" }
     ];
+
+    // const data? = [
+    //     { value: '3x', color: '#6C4BFF', text: 'Faster launch time compared to other platforms' },
+    //     { value: '92%', color: '#21C48C', text: 'Average course completion' },
+    //     { value: '1.2M+', color: '#FCA311', text: 'Learners trained globally' },
+    //     { value: '99.9%', color: '#FF5C50', text: 'Platform uptime with enterprise-grade security' },
+    // ];
 
     const splitCount = (value: string) => {
         const match = value.match(/([^\d]*)(\d+(?:\.\d+)?)([^\d]*)/);
@@ -20,7 +51,7 @@ function ResultCounterSection() {
         return { prefix: '', number: 0, suffix: '' };
     };
 
-    const [animated, setAnimated] = useState<boolean[]>(new Array(counters.length).fill(false));
+    const [animated, setAnimated] = useState<boolean[]>(new Array(data?.length).fill(false));
 
     const handleInView = (index: number) => {
         setAnimated((prev) => {
@@ -32,8 +63,9 @@ function ResultCounterSection() {
 
     return (
         <div className="counter-section border border-black rounded-[20px] lg:p-[40px] md:p-[30px] p-[20px] grid grid-cols-12 lg:gap-0 md:gap-5 gap-2 lg:mt-[30px] mt-[20px]">
-            {counters.map((item, index) => {
-                const { prefix, number, suffix } = splitCount(item.value);
+            {data?.map((item: any, index: any) => {
+                const { prefix, number, suffix } = splitCount(item?.title);
+                const color = bgColors[index % bgColors.length].color; // cycle through colors
                 return (
                     <motion.div
                         key={index}
@@ -46,7 +78,7 @@ function ResultCounterSection() {
                     >
                         <h3
                             className="2xl:text-[42px] md:text-[36px] text-[30px] font-bold"
-                            style={{ color: item.color }}
+                            style={{ color:color }}
                         >
                             {prefix}
                             <NumberFlow
@@ -55,14 +87,14 @@ function ResultCounterSection() {
 
                                 format={{
                                     notation: 'standard',
-                                    maximumFractionDigits: item.value.includes('.') ? 2 : 0,
+                                    maximumFractionDigits: item.title.includes('.') ? 2 : 0,
                                 }}
                                 className="inline-block"
                             />
                             {suffix}
                         </h3>
                         <p className="md:w-[90%] md:text-[18px] text-[14px] leading-tight">
-                            {item.text}
+                            {item.subTitle}
                         </p>
                     </motion.div>
                 );
