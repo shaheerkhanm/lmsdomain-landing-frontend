@@ -7,24 +7,24 @@ import { apiRoutes } from '@/utils/api/apiRoutes'
 async function FeaturesMultipleContent({ data }: any) {
 
     const getData = async (slug: string) => {
-            try {
-                const location = process.env.BACKEND_URL + apiRoutes?.getFeaturesContent
-                const response = await fetchData({
-                    url: location,
-                    body: { slug },
-    
-                })
-    
-    
-    
-                return response
-            } catch (error) {
-                return {}
-            }
+        try {
+            const location = process.env.BACKEND_URL + apiRoutes?.getFeaturesContent
+            const response = await fetchData({
+                url: location,
+                body: { slug },
+
+            })
+
+
+
+            return response
+        } catch (error) {
+            return {}
         }
-    
-        // Fetch all section data
-        const featuresContentData = await getData("");
+    }
+
+    // Fetch all section data
+    const featuresContentData = await getData("");
 
     return (
         <div className='main-padding bg-[#F3F2FA] py-[80px]'>

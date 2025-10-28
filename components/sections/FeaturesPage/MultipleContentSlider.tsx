@@ -27,6 +27,13 @@ function MultipleContentSlider({ sliderData }: any) {
         className: "w-full",
     };
 
+    const bgColors = [
+        { color: "#6C4BFF" },
+        { color: "#21C48C" },
+        { color: "#FCA311" },
+        { color: "#FF5C50" }
+    ];
+
 
     // const sliderData = [
     //     {
@@ -81,7 +88,14 @@ function MultipleContentSlider({ sliderData }: any) {
                                 viewport={{ once: true, amount: 0.3 }}
                             >
                                 <div className="multiple-content-card flex flex-col items-start gap-4 bg-white p-[30px] rounded-[20px]">
-                                    <img src={item?.image || "assets/img/svg/play-1.svg"} alt="" className='h-[60px]' />
+                                    <div className="img-div size-[60px] bg-black rounded-full flex items-center justify-center"
+                                        style={{
+                                            backgroundColor: bgColors[index % bgColors.length].color,
+                                        }}
+                                    >
+                                        <img src={"assets/img/svg/simple-play-icon.svg"} alt="" className='' />
+
+                                    </div>
                                     <h3 className='font-black xl:text-[24px] lg:text-[22px] md:text-[20px] text-[18px]'>{item?.title}</h3>
                                     <div className="details 2xl:text-[18px] text-[16px]">
                                         <div dangerouslySetInnerHTML={{ __html: item?.content || "" }} />
@@ -99,28 +113,30 @@ function MultipleContentSlider({ sliderData }: any) {
             </div>
             <div className="md:hidden flex flex-col gap-4">
                 {sliderData?.map((item: any, index: any) => (
-                    <motion.div
-                        initial={{ scale: 0, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{
-                            delay: index < 3 ? index * 0.1 : 0,
-                            duration: 0.3, type: "tween", stiffness: 300, damping: 20
-                        }}
-                        viewport={{ once: true, amount: 0.3 }}
-                    >
-                        <div className="multiple-content-card flex flex-col items-start gap-4 bg-white p-[30px] rounded-[20px]">
-                            <img src={item?.image || "assets/img/svg/play-1.svg"} alt="" className='h-[60px]' />
-                            <h3 className='font-black xl:text-[24px] lg:text-[22px] md:text-[20px] text-[18px]'>{item?.title}</h3>
-                            <div className="details 2xl:text-[18px] text-[16px]">
-                                <div dangerouslySetInnerHTML={{ __html: item?.content || "" }} />
-                                {/* <ul>
+                    <div className="div" key={index}>
+                        <motion.div
+                            initial={{ scale: 0, opacity: 0 }}
+                            whileInView={{ scale: 1, opacity: 1 }}
+                            transition={{
+                                delay: index < 3 ? index * 0.1 : 0,
+                                duration: 0.3, type: "tween", stiffness: 300, damping: 20
+                            }}
+                            viewport={{ once: true, amount: 0.3 }}
+                        >
+                            <div className="multiple-content-card flex flex-col items-start gap-4 bg-white p-[30px] rounded-[20px]">
+                                <img src={item?.image || "assets/img/svg/play-1.svg"} alt="" className='h-[60px]' />
+                                <h3 className='font-black xl:text-[24px] lg:text-[22px] md:text-[20px] text-[18px]'>{item?.title}</h3>
+                                <div className="details 2xl:text-[18px] text-[16px]">
+                                    <div dangerouslySetInnerHTML={{ __html: item?.content || "" }} />
+                                    {/* <ul>
                                             {item.details.map((detail, i) => (
                                                 <li key={i}>{detail}</li>
                                             ))}
                                         </ul> */}
+                                </div>
                             </div>
-                        </div>
-                    </motion.div>
+                        </motion.div>
+                    </div>
                 ))}
             </div>
 
