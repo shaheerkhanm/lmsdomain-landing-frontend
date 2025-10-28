@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
@@ -8,13 +8,33 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { motion } from "motion/react"
+import { fetchData } from "@/utils/api";
+import { apiRoutes } from "@/utils/api/apiRoutes";
 
 
-interface LogoData {
-    img: string;
-}
 
 function ClientsSection() {
+
+    const [data, setData] = useState<any[]>([]);
+    // ✅ Fetch data client-side after mount
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const location =
+                    process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getClients;
+                const response = await fetchData({
+                    url: location,
+                    body: { slug: "" },
+                });
+                setData(response || []);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                setData([]);
+            }
+        };
+        getData();
+    }, []);
+
     const settings = {
         modules: [Autoplay],
         autoplay: { delay: 2000, disableOnInteraction: false },
@@ -30,20 +50,22 @@ function ClientsSection() {
         className: "w-full testimonial-slider",
     };
 
-    const data: LogoData[] = [
-        { img: "/assets/img/clients/Logo.svg" },
-        { img: "/assets/img/clients/Logo-1.svg" },
-        { img: "/assets/img/clients/Logo-2.svg" },
-        { img: "/assets/img/clients/Logo-3.svg" },
-        { img: "/assets/img/clients/Logo-4.svg" },
-        { img: "/assets/img/clients/Logo-4.svg" },
-        { img: "/assets/img/clients/Logo-4.svg" },
-    ];
+    
+
+    // const data: LogoData[] = [
+    //     { img: "/assets/img/clients/Logo.svg" },
+    //     { img: "/assets/img/clients/Logo-1.svg" },
+    //     { img: "/assets/img/clients/Logo-2.svg" },
+    //     { img: "/assets/img/clients/Logo-3.svg" },
+    //     { img: "/assets/img/clients/Logo-4.svg" },
+    //     { img: "/assets/img/clients/Logo-4.svg" },
+    //     { img: "/assets/img/clients/Logo-4.svg" },
+    // ];
 
     return (
         <div className="relative">
             <Swiper {...settings}>
-                {data.map((item, index) => (
+                {data?.map((item: any, index: any) => (
                     <SwiperSlide key={index}>
                         <motion.div
                             initial={{ scale: 0, opacity: 0 }}
@@ -54,8 +76,9 @@ function ClientsSection() {
                             }}
                             viewport={{ once: true, amount: 0.7 }} className="img-div">
                             <img
-                                src={item.img}
-                                alt=""
+                                src={item?.logo}
+                                alt={item?.altImage}
+                                title={item?.title}
                                 className="h-[48px] object-contain"
                             />
                         </motion.div>

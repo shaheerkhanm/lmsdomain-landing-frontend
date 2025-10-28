@@ -4,7 +4,6 @@ import React, { useRef } from 'react'
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import Link from "next/link";
-import { pricingPlans } from "@/lib/data/pricingData";
 
 
 import "swiper/css";
@@ -12,26 +11,14 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import PriceCard from './PriceCard';
 
-type PriceCardProps = {
-    plan: {
-        id: number;
-        title: string;
-        description: string;
-        monthlyPrice: number;
-        discount: number;
-        // yearlyPrice: number;
-        features: string[];
-    };
-    isYearly: boolean;
-};
 
-function PriceSliderDevice({ isYearly }: any) {
+function PriceSliderDevice({ pricingPlans, isYearly }: any) {
     const swiperRef = useRef<any>(null);
 
 
     const settings = {
         modules: [Autoplay],
-        // autoplay: { delay: 3000, disableOnInteraction: false },
+        autoplay: { delay: 3000, disableOnInteraction: false },
         speed: 500,
         loop: true,
         slidesPerView: 2,
@@ -43,7 +30,7 @@ function PriceSliderDevice({ isYearly }: any) {
         className: "w-full",
         onBeforeInit: (swiper: any) => {
             swiperRef.current = swiper;
-        }, 
+        },
     };
 
     const goToNext = () => {
@@ -57,9 +44,9 @@ function PriceSliderDevice({ isYearly }: any) {
     return (
         <div className="lg:hidden md:block hidden mt-8 relative price-slider">
             <Swiper {...settings}>
-                {pricingPlans.map((plan) => (
+                {pricingPlans?.map((plan: any) => (
                     <SwiperSlide key={plan.id}>
-                        <div className="lg:col-span-4 md:col-span-12 col-span-12 px-2 py-3 h-full">
+                        <div className="lg:col-span-4 md:col-span-12 col-span-12 px-0 py-3 h-full">
                             <PriceCard plan={plan} isYearly={isYearly} />
                         </div>
                     </SwiperSlide>
