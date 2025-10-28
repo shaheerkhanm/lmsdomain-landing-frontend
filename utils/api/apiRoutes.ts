@@ -8,4 +8,6 @@ export const apiRoutes = {
     getClients: "/api/home/clients",
     getPricing: "/api/pricing",
     getFaq: "/api/pricing/FAQ",
+    getFeaturesData: "/api/features",
+    getFeaturesContent: "/api/features/content",
 }
