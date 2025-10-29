@@ -91,11 +91,11 @@ async function FeaturesDetails() {
             {featuresData?.map((feature: any, index: any) => {
                 const isReversed = index % 2 !== 0;
 
-                const iconBgColor = iconBgColorClasses[index];
+                const iconBgColor = iconBgColorClasses[index % iconBgColorClasses.length];
 
                 const imageColOrder = isReversed ? 'lg:order-1 order-2' : 'lg:order-2 order-1';
                 const contentColOrder = isReversed ? 'order-2' : 'order-1';
-                const imageJustify = isReversed ? 'lg:justify-start justify-center' : 'lg:justify-end justify-center';
+                const imageJustify = isReversed ? 'lg:justify-center justify-center' : 'lg:justify-center justify-center';
                 return (
                     <div key={index} className="grid lg:grid-cols-2 grid-cols-1 md:gap-[40px] gap-[30px]" >
                         <div className={`col-span-1 flex items-center ${contentColOrder}`}>
