@@ -23,7 +23,8 @@ export const fetchSeo = async ({ slug }: FetchSeoProps) => {
             method: "POST",
             headers: myHeaders,
             body: raw,
-            redirect: "follow"
+            redirect: "follow",
+            cache: "no-cache",
         };
 
         const url = process.env.BACKEND_URL + '/api/seo';
@@ -76,7 +77,8 @@ export const fetchData = async ({ url, body }: FetchProps) => {
             method: "POST",
             headers: myHeaders,
             body: raw,
-            redirect: "follow"
+            redirect: "follow",
+            cache: "no-cache",
         };
 
         // console.log(url);
