@@ -1,6 +1,8 @@
+'use client'
+
 import { fetchData } from '@/utils/api';
 import { apiRoutes } from '@/utils/api/apiRoutes';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 const iconBgColorClasses = [
@@ -10,31 +12,52 @@ const iconBgColorClasses = [
     'bg-[#475569]'
 ];
 
-async function FeaturesDetails() {
+function FeaturesDetails() {
 
-    const getData = async (slug: string) => {
-        try {
-            const location = process.env.BACKEND_URL + apiRoutes?.getFeaturesData
-            const response = await fetchData({
-                url: location,
-                body: { slug },
-
-            })
+    const [data, setData] = useState<any>([])
 
 
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getFeaturesData
+                const response = await fetchData({
+                    url: location,
+                    body: { slug: "" },
+                })
 
-            return response
-        } catch (error) {
-            return {}
+                setData(response)
+            } catch (error) {
+                console.error("Error fetching data:", error)
+                setData([])
+            }
         }
-    }
 
-    // Fetch all section data
-    const featuresData = await getData("");
+        getData()
+    }, [])
+
+    // const getData = async (slug: string) => {
+    //     try {
+    //         const location = process.env.BACKEND_URL + apiRoutes?.getFeaturesData
+    //         const response = await fetchData({
+    //             url: location,
+    //             body: { slug },
+
+    //         })
+
+
+
+    //         return response
+    //     } catch (error) {
+    //         return {}
+    //     }
+    // }
+
+    // const featuresData = await getData("");
 
     return (
         <div className='main-padding flex flex-col md:gap-[50px] gap-[20px]'>
-            {featuresData?.map((feature: any, index: any) => {
+            {data?.map((feature: any, index: any) => {
                 const isReversed = index % 2 !== 0;
 
                 const iconBgColor = iconBgColorClasses[index % iconBgColorClasses.length];
