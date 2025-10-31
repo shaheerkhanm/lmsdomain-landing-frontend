@@ -103,7 +103,7 @@ function CodeValueSlider() {
                 </div>
             )}
             <Swiper {...settings}>
-                {sliderData.map((item, index) => (
+                {sliderData?.map((item, index) => (
                     <SwiperSlide key={index}>
                         <Link href={item?.link} className="px-0">
                             <motion.div

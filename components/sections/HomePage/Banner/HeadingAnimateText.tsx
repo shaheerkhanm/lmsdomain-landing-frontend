@@ -132,7 +132,7 @@ function HeadingAnimateText({ data }: any) {
                 className="text-end w-fit overflow-hidden pe-5"
                 style={{ display: 'inline-block' }}
             >
-                {words.map((word: any, index: any) => (
+                {words?.map((word: any, index: any) => (
                     <span
                         key={index}
                         className="align-top"

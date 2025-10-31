@@ -104,7 +104,7 @@ function Header() {
                     {/* Desktop Nav Links */}
                     <div className="hidden w-full lg:block md:w-auto ps-20">
                         <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white font-manrope">
-                            {navLinks.map((link, index) => (
+                            {navLinks?.map((link, index) => (
                                 <motion.li
                                     key={link.label}
                                     initial={{ opacity: 0, x: 40 }}
@@ -129,7 +129,7 @@ function Header() {
 
                     {/* Buttons */}
                     <div className="button-section md:flex hidden gap-[10px] font-manrope">
-                        {buttons.map((btn, index) => (
+                        {buttons?.map((btn, index) => (
                             <motion.div
                                 key={btn.text}
                                 initial={{ opacity: 0, x: -40 }}

@@ -25,7 +25,7 @@ function CopyrightSection() {
         <div className="copyright-section flex md:flex-row flex-col items-center justify-between">
             <p>{currentYear} LMS. All rights reserved.</p>
             <div className="flex md:gap-6 gap-3">
-                {links.map((item, index) => (
+                {links?.map((item, index) => (
                     <motion.div
                         initial={{ x: -80, opacity: 0 }}
                         whileInView={{ x: 0, opacity: 1 }}

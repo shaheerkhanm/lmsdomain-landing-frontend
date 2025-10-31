@@ -13,7 +13,7 @@ const socialLinks = [
 export default function SocialMediaIcons() {
     return (
         <div className="flex gap-[20px]">
-            {socialLinks.map((item, index) => {
+            {socialLinks?.map((item, index) => {
                 const Icon = item.icon;
                 return (
                     <motion.div

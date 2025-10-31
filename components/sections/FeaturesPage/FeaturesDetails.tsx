@@ -87,7 +87,7 @@ async function FeaturesDetails() {
                                 <div className="features-details-section 2xl:text-[18px] lg:text-[18px] md:text-[18px] text-[16px]">
                                     <span dangerouslySetInnerHTML={{ __html: feature?.content || "" }} />
                                     {/* <ul>
-                                        {feature?.tags.map((item: any, index: any) => (
+                                        {feature?.tags?.map((item: any, index: any) => (
                                             <li key={index}></li>
                                         ))}
                                     </ul> */}

@@ -72,7 +72,7 @@ function PriceCard({ plan, isYearly }: any) {
 
         {/* Features */}
         <div className="flex flex-col gap-3 mt-4 h-full overflow-y-auto custom-scrollbar" data-lenis-prevent>
-          {plan?.tags.map((feature: any, idx: any) => (
+          {plan?.tags?.map((feature: any, idx: any) => (
             <div key={idx} className="flex items-start gap-2">
               <Icons.tickIcon className="min-w-[15px] min-h-[15px] max-w-[15px] max-h-[15px] mt-1" />
               <span className="font-normal xl:text-[16px] text-[16px] leading-tight">{feature}</span>

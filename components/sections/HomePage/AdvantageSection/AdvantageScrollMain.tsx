@@ -155,7 +155,7 @@ function AdvantageScrollMain({ data }: any) {
                                     {item.subTitle}
                                 </p>
                                 <div className="tags-items my-2">
-                                    {item?.tags.map((tagitem: any, tagindex: any) => (
+                                    {item?.tags?.map((tagitem: any, tagindex: any) => (
                                         <div key={tagindex} className="flex items-center gap-2">
                                             <Icons.tickIconTags />
                                             <span className="font-semibold">{tagitem}</span>

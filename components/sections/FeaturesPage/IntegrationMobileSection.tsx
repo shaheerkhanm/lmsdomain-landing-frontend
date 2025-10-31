@@ -48,7 +48,7 @@ function IntegrationMobileSection() {
         <div
             className='main-padding py-[50px] md:hidden' >
             <div className="grid grid-cols-4 gap-y-[30px] gap-x-[10px]">
-                {integrationIcons.map((item, index) => (
+                {integrationIcons?.map((item, index) => (
                     <div key={index}>
                         <motion.div
                             initial={{ scale: 0, opacity: 0 }}

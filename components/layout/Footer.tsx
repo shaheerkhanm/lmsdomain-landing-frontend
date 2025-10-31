@@ -59,7 +59,7 @@ function Footer() {
 
         {/* Navigation Links */}
         <div className="lg:col-span-5 md:col-span-6 col-span-12 grid grid-cols-12 lg:gap-4 gap-2 md:mt-0 mt-5">
-          {navData.map((section, idx) => (
+          {navData?.map((section, idx) => (
             <motion.div
               initial={{ x: -80, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
@@ -72,7 +72,7 @@ function Footer() {
               <div className="flex flex-col gap-3">
                 <h4 className="font-bold lg:text-[20px] md:text-[18px] text-[16px]">{section.title}</h4>
                 <ul className="flex flex-col md:gap-3 gap-1">
-                  {section.links.map((link, i) => (
+                  {section?.links?.map((link, i) => (
                     <li key={i} className="hover:underline hover:text-MainColor transition-all duration-200 cursor-pointer lg:text-[18px] text-[16px]">
                       {link}
                     </li>
