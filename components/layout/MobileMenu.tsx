@@ -25,7 +25,7 @@ function MobileMenu({ navLinks, buttons }: any) {
         />
       </motion.a>
       <ul>
-        {navLinks.map((link: any, index: any) => (
+        {navLinks?.map((link: any, index: any) => (
           <motion.li
             key={link.label}
             initial={{ opacity: 0, x: 40 }}
@@ -47,7 +47,7 @@ function MobileMenu({ navLinks, buttons }: any) {
         ))}
       </ul>
       <div className="flex flex-col gap-4">
-        {buttons.map((btn: any, index: any) => (
+        {buttons?.map((btn: any, index: any) => (
           <motion.div
             key={btn.text}
             initial={{ opacity: 0, x: -40 }}

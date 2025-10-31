@@ -34,7 +34,7 @@ function CustomerSliderSection({ data }: any) {
     return (
         <div className="lg:mt-[40px] md:mt-[30px] mt-[20px]">
             <Swiper {...settings}>
-                {data.map((item: any, index: any) => (
+                {data?.map((item: any, index: any) => (
                     <SwiperSlide key={index}>
                         <Link href={''} className="px-0">
                             <motion.div

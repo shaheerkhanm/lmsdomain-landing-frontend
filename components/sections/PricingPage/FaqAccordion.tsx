@@ -15,7 +15,7 @@
 //                 className='main-padding faq-section'>
 //                 <MainTitle title={data?.title || 'Frequently Asked Questions'} h2ClassName={'text-center 2xl:mb-10 mb-5'} divClassName={''} />
 //                 <Accordion type="single" collapsible defaultValue={faqData?.[0]}>
-//                     {faqData.map((faqItem: any, index: any) => (
+//                     {faqData?.map((faqItem: any, index: any) => (
 //                         <AccordionItem
 //                             key={index}
 //                             value={index}

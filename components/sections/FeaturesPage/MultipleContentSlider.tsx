@@ -100,7 +100,7 @@ function MultipleContentSlider({ sliderData }: any) {
                                     <div className="details 2xl:text-[18px] text-[16px]">
                                         <div dangerouslySetInnerHTML={{ __html: item?.content || "" }} />
                                         {/* <ul>
-                                            {item.details.map((detail, i) => (
+                                            {item?.details?.map((detail, i) => (
                                                 <li key={i}>{detail}</li>
                                             ))}
                                         </ul> */}
@@ -129,7 +129,7 @@ function MultipleContentSlider({ sliderData }: any) {
                                 <div className="details 2xl:text-[18px] text-[16px]">
                                     <div dangerouslySetInnerHTML={{ __html: item?.content || "" }} />
                                     {/* <ul>
-                                            {item.details.map((detail, i) => (
+                                            {item?.details?.map((detail, i) => (
                                                 <li key={i}>{detail}</li>
                                             ))}
                                         </ul> */}
