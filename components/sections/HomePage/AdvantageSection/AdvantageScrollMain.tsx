@@ -11,33 +11,6 @@ gsap.registerPlugin(ScrollTrigger);
 function AdvantageScrollMain({ data }: any) {
     const containerRef = useRef<HTMLDivElement | null>(null);
 
-    // Dummy Advantage Data (from your first chat)
-    const advantages = [
-        {
-            title: "Live Classes",
-            description:
-                "Enhance your learning experience with live Zoom calls integrated into Academy LMS Laravel for real-time discussions, interactive sessions, and collaborative learning.",
-            image: "/assets/img/advantage/advantage-img-1.jpg",
-        },
-        {
-            title: "Assignments & Quizzes",
-            description:
-                "Boost your learning by participating in assignments and quizzes to test your knowledge and improve retention.",
-            image: "/assets/img/advantage/advantage-img-2.jpg",
-        },
-        {
-            title: "Course Certificates",
-            description:
-                "Receive recognized certificates after course completion to showcase your skills and achievements.",
-            image: "/assets/img/advantage/advantage-img-3.jpg",
-        },
-        {
-            title: "Interactive Dashboard",
-            description:
-                "Track your progress with a user-friendly dashboard that provides insights into your learning journey.",
-            image: "/assets/img/advantage/advantage-img-1.jpg",
-        },
-    ];
 
     const bgColors = [
         {
@@ -162,7 +135,7 @@ function AdvantageScrollMain({ data }: any) {
                                         </div>
                                     ))}
                                 </div>
-                                <Link href={item?.buttonAction} className="lg:py-2 md:py-1.5 py-1 md:px-5 px-3 bg-[#FCA311] text-white hover:bg-MainColor common-transition w-fit md:rounded-full rounded-[5px] text-[16px] font-semibold" > Learn More </Link>
+                                <Link href={item?.buttonAction || 'features'} className="lg:py-2 md:py-1.5 py-1 md:px-5 px-3 bg-[#FCA311] text-white hover:bg-MainColor common-transition w-fit md:rounded-full rounded-[5px] text-[16px] font-semibold" > Learn More </Link>
                             </div>
                         ))}
                     </div>

@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/SmoothScroll"
 import Canonical from "@/components/layout/Canonical";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -31,12 +32,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${manrope.variable} antialiased`}>
+      <body className={`${inter.variable} ${manrope.variable} antialiased !mr-0`}>
         <Canonical />
         <Header />
         <SmoothScroll>
           {children}
         </SmoothScroll>
+        <Toaster position="bottom-right" />
         <Footer />
       </body>
     </html>

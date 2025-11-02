@@ -1,6 +1,7 @@
 import { Icons } from '@/components/layout/common/Icons'
 import React from 'react'
 import FeaturesBannerGrid from './FeaturesBannerGrid'
+import RequestDemoForm from '@/components/layout/common/RequestDemoForm'
 
 function FeaturesBanner({ data }: any) {
     return (
@@ -10,10 +11,11 @@ function FeaturesBanner({ data }: any) {
                 <p className="lg:w-[80%] w-[100%] 2xl:text-[18px] lg:text-[16px] text-[16px] md:leading-normal leading-tight text-center text-black">
                     {data?.subTitle}
                 </p>
-                <button type='submit' className={`lg:px-5 md:px-4 px-3 lg:py-3 md:py-3 py-2 flex items-center gap-3 md:rounded-lg rounded-sm bg-MainColor hover:bg-[#21C48C] text-white font-semibold 2xl:text-[18px] text-[16px] common-transition cursor-pointer`}>
+                <RequestDemoForm data={data} />
+                {/* <button type='submit' className={`lg:px-5 md:px-4 px-3 lg:py-3 md:py-3 py-2 flex items-center gap-3 md:rounded-lg rounded-sm bg-MainColor hover:bg-[#21C48C] text-white font-semibold 2xl:text-[18px] text-[16px] common-transition cursor-pointer`}>
                     <span className=''> {data?.buttonText}</span>
                     <Icons.button_arrrow className='size-[25px]' />
-                </button>
+                </button> */}
             </div>
             <FeaturesBannerGrid data={data} />
         </div>
