@@ -10,8 +10,9 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import Link from 'next/link';
+import MainTitle from '@/components/layout/common/MainTitle';
 
-function CodeValueSlider() {
+function CodeValueSlider({ data }: any) {
 
     const swiperRef = useRef<any>(null);
 
@@ -78,6 +79,10 @@ function CodeValueSlider() {
 
     return (
         <div className='main-padding relative xl:py-[120px] lg:py-[80px] py-[40px] mt-[40px] bg-[#8475C910]'>
+            <div className="flex flex-col gap-2 items-center">
+                <MainTitle title={data?.title || 'Multiple Content Types'} h2ClassName={'text-center'} divClassName={''} />
+                <p className='text-center lg:w-[40%] md:w-[60%] w-[100%]'>{data?.subTitle}</p>
+            </div>
             {showNav && (
                 <div className="flex justify-between gap-2 z-3 w-full">
                     <button
