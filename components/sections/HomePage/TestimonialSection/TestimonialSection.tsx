@@ -8,7 +8,7 @@ import { motion } from "motion/react"
 
 function TestimonialSection({ data }: any) {
     return (
-        <div className='main-padding lg:py-[3%] py-[5%] bg-[#F3F2FA]'>
+        <div className='main-padding lg:py-[3%] py-[7%] bg-[#F3F2FA]'>
             <div className="grid grid-cols-12">
                 <div className="lg:col-span-4 md:col-span-10 col-span-12 flex flex-col gap-2">
                     <MainTitle title={data?.title || 'We don’t just have customers. We have believers.'} h2ClassName={''} divClassName={'!origin-left'} />
