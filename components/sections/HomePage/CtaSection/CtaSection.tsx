@@ -14,7 +14,7 @@ function CtaSection({ data }: any) {
         transition={{ delay: 0, duration: 0.5, type: "spring", stiffness: 100, damping: 20 }}
         viewport={{ once: true, amount: 0.7 }}
         className="cta-main flex flex-col items-center md:gap-[20px] gap-[10px] bg-[#1B1F3B] rounded-[20px] lg:py-[80px] py-[40px]">
-        <h3 className='2xl:text-[52px] xl:text-[45px] lg:text-[38px] md:text-[30px] xsm:text-[24px] text-[20px] text-white font-bold leading-tight text-center'>{data?.title}</h3>
+        <h3 className='2xl:text-[52px] xl:text-[45px] lg:text-[38px] md:text-[30px] xsm:text-[24px] text-[20px] text-white font-bold leading-tight text-center px-[40px]'>{data?.title}</h3>
         <p className='text-white xl:text-[18px] md:text-[16px] text-[14px] leading-tight text-center md:w-[100%] w-[80%]'>{data?.subTitle}</p>
         <EmailSection data={data} inputClass={'bg-white'} btnClass={''} />
       </motion.div>
