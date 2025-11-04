@@ -5,19 +5,19 @@ import { Icons } from './common/Icons'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
-function CopyrightSection() {
+function CopyrightSection({ data }: any) {
     const currentYear = new Date().getFullYear();
 
     const links = [
         {
-            href: 'mailto:info@lmsdomain.com',
+            href: `mailto:${data?.email}`,
             icon: <Icons.email_Icon className="md:size-[15px] size-[13px] fill-ScndColor group-hover:fill-MainColor duration-200 transition-all" />,
-            text: 'info@lmsdomain.com',
+            text: data?.email,
         },
         {
-            href: 'tel:+1234567890',
+            href: `tel:${data?.phone}`,
             icon: <Icons.phone_Icon className="md:size-[15px] size-[13px] fill-ScndColor group-hover:fill-MainColor duration-200 transition-all" />,
-            text: '+1 234 567 890',
+            text: data?.phone,
         }
     ];
 

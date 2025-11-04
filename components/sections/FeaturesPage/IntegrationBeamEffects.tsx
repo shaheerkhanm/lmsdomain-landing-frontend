@@ -37,6 +37,9 @@ export function IntegrationBeamEffects() {
     const div12Ref = useRef<HTMLDivElement>(null)
     const div13Ref = useRef<HTMLDivElement>(null)
     const div14Ref = useRef<HTMLDivElement>(null)
+
+    // duration
+    // const SLOW = 5 + 10
     return (
         <div
             className="main-padding relative !m-0 hidden md:flex h-full w-full items-center justify-center overflow-hidden p-10"
@@ -74,6 +77,7 @@ export function IntegrationBeamEffects() {
                 </div>
             </div>
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -83,6 +87,7 @@ export function IntegrationBeamEffects() {
                 endYOffset={0}
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -90,6 +95,7 @@ export function IntegrationBeamEffects() {
                 toRef={div4Ref}
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -99,6 +105,7 @@ export function IntegrationBeamEffects() {
                 endYOffset={0}
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -109,6 +116,7 @@ export function IntegrationBeamEffects() {
                 reverse
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -117,6 +125,7 @@ export function IntegrationBeamEffects() {
                 reverse
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -157,6 +166,7 @@ export function IntegrationBeamEffects() {
                 </div>
             </div>
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -166,6 +176,7 @@ export function IntegrationBeamEffects() {
                 endYOffset={0}
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -173,6 +184,7 @@ export function IntegrationBeamEffects() {
                 toRef={div4Ref}
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -182,6 +194,7 @@ export function IntegrationBeamEffects() {
                 endYOffset={0}
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -192,6 +205,7 @@ export function IntegrationBeamEffects() {
                 reverse
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}
@@ -200,6 +214,7 @@ export function IntegrationBeamEffects() {
                 reverse
             />
             <AnimatedBeam
+                // duration={SLOW}
                 gradientStartColor="#6C4BFF50"
                 gradientStopColor="#6C4BFF"
                 containerRef={containerRef}

@@ -34,11 +34,11 @@ function OurMissionSection({ data }: any) {
 
     return (
         <div className='main-padding'>
-            <div className="grid grid-cols-2 gap-[100px]">
+            <div className="grid lg:grid-cols-2 grid-cols-1 lg:gap-[100px] gap-[50px]">
                 <div className="col-span-1 flex flex-col justify-center gap-[10px]">
-                    <h2 className='xl:text-[24px] lg:text-[20px] text-[18px] font-bold'>{data?.title}</h2>
+                    <h2 className='xl:text-[24px] lg:text-[20px] text-[20px] font-bold'>{data?.title}</h2>
                     <div className='font-medium leading-relaxed 2xl:text-[18px] text-[16px]' dangerouslySetInnerHTML={{ __html: data?.content || "" }} />
-                    <div className="flex gap-10 mt-5">
+                    <div className="flex gap-10 md:mt-5 mt-2">
                         {data?.counts?.map((item: any, index: any) => {
                             const { prefix, number, suffix } = splitCount(item?.count);
                             const color = bgColors[index % bgColors.length].color; // cycle through colors
@@ -51,7 +51,7 @@ function OurMissionSection({ data }: any) {
                                     viewport={{ once: true, amount: 0.7 }}
                                     onViewportEnter={() => handleInView(index)}
                                     className="flex flex-col">
-                                    <h3 className='font-extrabold xl:text-[36px] lg:text-[30px] md:text-[28px] text-[26px] text-[#6C4BFF]'
+                                    <h3 className='font-extrabold xl:text-[36px] lg:text-[30px] md:text-[32px] text-[32px] text-[#6C4BFF]'
                                         style={{ color: color }}
                                     >
                                         {prefix}
@@ -68,21 +68,17 @@ function OurMissionSection({ data }: any) {
                                         />
                                         {suffix}
                                     </h3>
-                                    <span className='2xl:text-[18px] text-[16px]'>{item?.title}</span>
+                                    <span className='2xl:text-[18px] text-[18px]'>{item?.title}</span>
                                 </motion.div>
                             )
                         })}
 
-                        {/* <div className="flex flex-col">
-                            <h3 className='font-extrabold xl:text-[36px] lg:text-[30px] md:text-[28px] text-[26px] text-[#21C48C]'>1.2M+</h3>
-                            <span className='2xl:text-[18px] text-[16px]'>Learners</span>
-                        </div> */}
                     </div>
                 </div>
 
                 <div className="col-span-1">
-                    <div className="img-div p-[40px] bg-[#D9D5F8] rounded-[40px]">
-                        <img src="assets/img/mission-img.jpg" alt="" className='h-[316px] w-full rounded-[20px] object-cover' />
+                    <div className="img-div lg:p-[40px] md:p-[30px] p-[15px] bg-[#D9D5F8] md:rounded-[40px] rounded-[30px]">
+                        <img src={data?.image || "assets/img/mission-img.jpg"} alt={data?.altImage} title={data?.altImage} className='lg:h-[316px] md:h-[300px] h-[200px]  w-full rounded-[20px] object-cover' />
                     </div>
                 </div>
             </div>

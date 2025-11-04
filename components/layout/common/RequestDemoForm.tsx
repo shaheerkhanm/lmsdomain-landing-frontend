@@ -24,7 +24,7 @@ function RequestDemoForm({ data }: any) {
                         <Icons.button_arrrow className='size-[25px]' />
                     </div>
                 </DialogTrigger>
-                <DialogContent className='min-w-[750px] border-none py-[50px] px-[50px] rounded-[20px]'>
+                <DialogContent className='md:min-w-[750px] border-none md:py-[50px] md:px-[50px] p-[25px] rounded-[20px]'>
                     <EnquiryForm onClose={() => setOpen(false)} />
                 </DialogContent>
             </Dialog>
