@@ -1,91 +1,36 @@
-'use client'
+import React from 'react'
+import FooterSection from './common/FooterSection'
+import { apiRoutes } from '@/utils/api/apiRoutes'
+import { fetchData } from '@/utils/api'
 
-import React from "react";
-import SocialMediaIcons from "./SocialMediaIcons";
-import { motion } from "motion/react"
-import CopyrightSection from "./CopyrightSection";
-import Link from "next/link";
+async function Footer() {
+
+  const getData = async (slug: string) => {
+    try {
+      const location = process.env.BACKEND_URL + apiRoutes?.getAllCms
+      const response = await fetchData({
+        url: location,
+        body: { slug },
+
+      })
 
 
-const navData = [
-  {
-    title: "Company",
-    links: ["Home", "About Us"],
-  },
-  {
-    title: "Product",
-    links: ["Pricing", "Solutions", "FAQs", "Demo"],
-  },
-  {
-    title: "Connect",
-    links: ["Login", "Contact us"],
-  },
-];
 
-function Footer() {
+      return response
+    } catch (error) {
+      return {}
+    }
+  }
+
+  // Fetch all section data
+  const addressData = await getData("address");
+  const contentData = await getData("footer");
+
   return (
-    <div className="main-padding lg:pb-[3%] lg:pt-[3%] md:pt-[6%] md:pb-[2%] pt-[12%] pb-[10%] font-manrope bg-[#F3F2FA] flex flex-col md:gap-[50px] gap-[30px]">
-      <div className="grid grid-cols-12 gap-4">
-        {/* Logo & Description */}
-        <div className="lg:col-span-4 md:col-span-5 col-span-12">
-          <div className="flex flex-col gap-6">
-            <Link href={'/'} className="logo-div w-fit">
-              <motion.img
-                initial={{ x: 80, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: 0, duration: 0.5, type: "spring", stiffness: 100, damping: 20 }}
-                viewport={{ once: false, amount: 0.7 }}
-                src="/assets/img/logo/logo.svg"
-                alt="Logo"
-                className="md:h-[60px] h-[40px] object-contain"
-              />
-            </Link>
-            <motion.p
-              initial={{ x: 80, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0, duration: 0.5, type: "spring", stiffness: 100, damping: 20 }}
-              viewport={{ once: false, amount: 0.3 }}
-              className="leading-normal 2xl:text-[18px] text-[16px]">
-              Lorem ipsum dolor sit amet consectetur. Pulvinar semper
-              pellentesque purus dignissim. Turpis commodo diam faucibus
-              posuere laoreet nunc.
-            </motion.p>
-            <SocialMediaIcons />
-          </div>
-        </div>
-
-        {/* Empty space */}
-        <div className="lg:col-span-3 md:col-span-1 md:block hidden"></div>
-
-        {/* Navigation Links */}
-        <div className="lg:col-span-5 md:col-span-6 col-span-12 grid grid-cols-12 lg:gap-4 gap-2 md:mt-0 mt-5">
-          {navData?.map((section, idx) => (
-            <motion.div
-              initial={{ x: -80, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              transition={{
-                delay: idx * -0.2,
-                duration: 0.5, type: "tween", stiffness: 100, damping: 20
-              }}
-              viewport={{ once: false, amount: 0.3 }}
-              key={idx} className="col-span-4">
-              <div className="flex flex-col gap-3">
-                <h4 className="font-bold lg:text-[20px] md:text-[18px] text-[16px]">{section.title}</h4>
-                <ul className="flex flex-col md:gap-3 gap-1">
-                  {section?.links?.map((link, i) => (
-                    <li key={i} className="hover:underline hover:text-MainColor transition-all duration-200 cursor-pointer lg:text-[18px] text-[16px]">
-                      {link}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-      <CopyrightSection />
+    <div>
+      <FooterSection contentData={contentData} addressData={addressData} />
     </div>
-  );
+  )
 }
 
-export default Footer;
+export default Footer

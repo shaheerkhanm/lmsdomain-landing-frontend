@@ -2,15 +2,16 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { Icons } from "./common/Icons";
 
-const socialLinks = [
-    { href: "https://twitter.com", icon: Icons.x_Icon },
-    { href: "https://instagram.com", icon: Icons.insta_Icon },
-    { href: "https://facebook.com", icon: Icons.fb_Icon },
-    { href: "https://youtube.com", icon: Icons.youtube_Icon },
-    { href: "https://linkedin.com", icon: Icons.linkedin_Icon },
-];
 
-export default function SocialMediaIcons() {
+
+export default function SocialMediaIcons({ data }: any) {
+    const socialLinks = [
+        { href: data?.twitter, icon: Icons.x_Icon },
+        { href: data?.instagram, icon: Icons.insta_Icon },
+        { href: data?.fb, icon: Icons.fb_Icon },
+        { href: data?.youtubelink, icon: Icons.youtube_Icon },
+        { href: data?.linkedin, icon: Icons.linkedin_Icon },
+    ];
     return (
         <div className="flex gap-[20px]">
             {socialLinks?.map((item, index) => {

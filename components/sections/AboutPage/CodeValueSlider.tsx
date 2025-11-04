@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 import Link from 'next/link';
 import MainTitle from '@/components/layout/common/MainTitle';
 
-function CodeValueSlider({ data }: any) {
+function CodeValueSlider({ sliderData }: any) {
 
     const swiperRef = useRef<any>(null);
 
@@ -38,9 +38,9 @@ function CodeValueSlider({ data }: any) {
         speed: 500,
         loop: true,
         slidesPerView: 1,
-        spaceBetween: 20,
+        spaceBetween: 40,
         breakpoints: {
-            600: { slidesPerView: 2 },
+            600: { slidesPerView: 2, spaceBetween: 20, },
             1024: { slidesPerView: 3 },
         },
         className: "w-full",
@@ -53,41 +53,25 @@ function CodeValueSlider({ data }: any) {
     const goToPrev = () => swiperRef.current?.slidePrev();
 
 
-    const sliderData = [
-        {
-            icon: "assets/img/svg/play-1.svg",
-            title: "Innovation",
-            details: "We constantly push boundaries to create cutting-edge solutions that anticipate the future of education.",
-            link: "/lessons"
-        },
-        {
-            icon: "assets/img/svg/play-2.svg", // Example for a second icon
-            title: "Accessibility",
-            details: "Quality education should be available to everyone, regardless of location, background, or circumstances.",
-            link: "/quizzes"
-        },
-        {
-            icon: "assets/img/svg/play-3.svg", // Example for a third icon
-            title: "Excellence",
-            details: "We're committed to delivering exceptional quality in every aspect of our platform and service.",
-            link: "/assignments"
-        }
-    ];
 
     const showNav = sliderData.length > slidesPerView;
 
+    const bgColors = [
+        { color: "#6C4BFF" },
+        { color: "#21C48C" },
+        { color: "#FCA311" },
+        { color: "#FF5C50" }
+    ];
+
 
     return (
-        <div className='main-padding relative xl:py-[120px] lg:py-[80px] py-[40px] mt-[40px] bg-[#8475C910]'>
-            <div className="flex flex-col gap-2 items-center">
-                <MainTitle title={data?.title || 'Multiple Content Types'} h2ClassName={'text-center'} divClassName={''} />
-                <p className='text-center lg:w-[40%] md:w-[60%] w-[100%]'>{data?.subTitle}</p>
-            </div>
+        <div className='relative'>
+
             {showNav && (
                 <div className="flex justify-between gap-2 z-3 w-full">
                     <button
                         onClick={goToPrev}
-                        className="custm-slider-prev bg-white hover:bg-white rounded-[20px] md:size-[40px] size-[30px] flex items-center justify-center cursor-pointer border-none border-transparent hover:border-MainColor duration-200 transition-all absolute md:left-[20px] left-[5px] top-1/2 -translate-y-1/2 z-99"
+                        className="custm-slider-prev bg-white hover:bg-white rounded-[20px] md:size-[40px] size-[30px] flex items-center justify-center cursor-pointer border-none border-transparent hover:border-MainColor duration-200 transition-all absolute lg:left-[20px] md:left-[-24px] left-[-10px] top-1/2 -translate-y-1/2 z-[40]"
                     >
                         <img
                             src="/assets/img/svg/slider-prev.svg"
@@ -97,7 +81,7 @@ function CodeValueSlider({ data }: any) {
                     </button>
                     <button
                         onClick={goToNext}
-                        className="custm-slider-next bg-white hover:bg-white rounded-[20px] md:size-[40px] size-[30px] flex items-center justify-center cursor-pointer border-none border-transparent hover:border-MainColor duration-200 transition-all absolute md:right-[20px] right-[5px] top-1/2 -translate-y-1/2 z-99"
+                        className="custm-slider-next bg-white hover:bg-white rounded-[20px] md:size-[40px] size-[30px] flex items-center justify-center cursor-pointer border-none border-transparent hover:border-MainColor duration-200 transition-all absolute lg:right-[20px] md:right-[-24px] right-[-10px] top-1/2 -translate-y-1/2 z-[40]"
                     >
                         <img
                             src="/assets/img/svg/slider-next.svg"
@@ -108,9 +92,9 @@ function CodeValueSlider({ data }: any) {
                 </div>
             )}
             <Swiper {...settings}>
-                {sliderData?.map((item, index) => (
+                {sliderData?.map((item: any, index: any) => (
                     <SwiperSlide key={index}>
-                        <Link href={item?.link} className="px-0">
+                        <Link href={item?.link || ''} className="px-0">
                             <motion.div
                                 initial={{ scale: 0, opacity: 0 }}
                                 whileInView={{ scale: 1, opacity: 1 }}
@@ -120,12 +104,17 @@ function CodeValueSlider({ data }: any) {
                                 }}
                                 viewport={{ once: true, amount: 0.3 }}
                             >
-                                <div className="multiple-content-card flex flex-col items-start gap-4 bg-white p-[30px] rounded-[20px]">
-                                    <img src={item?.icon || "assets/img/svg/play-1.svg"} alt="" className='h-[60px]' />
-                                    <h3 className='font-black xl:text-[24px] lg:text-[22px] md:text-[20px] text-[18px]'>{item?.title}</h3>
-                                    <div className="details 2xl:text-[18px] text-[16px]">
-                                        {item.details}
+                                <div className="multiple-content-card flex flex-col items-start lg:gap-4 gap-2 bg-white p-[30px] rounded-[20px]">
+                                    <div className="img-div md:size-[60px] size-[50px] bg-black rounded-full flex items-center justify-center"
+                                        style={{
+                                            backgroundColor: bgColors[index % bgColors.length].color,
+                                        }}
+                                    >
+                                        <img src={"assets/img/svg/simple-play-icon.svg"} alt="" className='' />
+
                                     </div>
+                                    <h3 className='font-black xl:text-[24px] lg:text-[22px] md:text-[20px] text-[20px]'>{item?.title}</h3>
+                                    <div className="details 2xl:text-[18px] text-[16px]" dangerouslySetInnerHTML={{ __html: item?.content || "" }} />
                                 </div>
                             </motion.div>
                         </Link>

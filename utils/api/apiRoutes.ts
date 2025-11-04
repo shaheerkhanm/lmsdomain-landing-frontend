@@ -11,4 +11,5 @@ export const apiRoutes = {
     getFeaturesData: "/api/features",
     getFeaturesContent: "/api/features/content",
     getEnquiry: "/api/enquiry",
+    getAboutValues: "/api/about/values",
 }

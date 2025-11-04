@@ -63,13 +63,13 @@ function EnquiryForm({ onClose }: { onClose: () => void }) {
         <div className='font-manrope'>
             <div className="top-section">
                 <DialogTitle >
-                    <span className='text-[30px] font-bold'>Request A Demo</span>
+                    <span className='md:text-[30px] text-[24px] font-bold'>Request A Demo</span>
                 </DialogTitle>
                 {/* <h2 className='' >Request A Demo</h2> */}
-                <p className='leading-tight mt-1 w-[80%]'>Submit the below details and our team will connect with you to schedule a live demo walkthrough.</p>
+                <p className='leading-tight mt-1 md:w-[80%] w-[100%]'>Submit the below details and our team will connect with you to schedule a live demo walkthrough.</p>
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
-                <div className="grid grid-cols-2 gap-x-[20px] gap-y-[10px]">
+                <div className="grid md:grid-cols-2 grid-cols-1 gap-x-[20px] gap-y-[10px]">
                     <div className="input-div flex flex-col">
                         <label className='text-black text-[14px] font-semibold mb-1'>Full Name</label>
                         <input

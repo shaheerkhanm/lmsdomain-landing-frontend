@@ -122,7 +122,7 @@ function BannerSection({ data, graphData }: any) {
                     src="assets/img/svg/mouuse-arow-1.svg"
                     alt="mouse pointer image"
                     title='mouse pointer image'
-                    className='absolute left-[20%] top-1/2 translate-y-[calc(-50%+-50px)]'
+                    className='absolute 2xl:left-[20%] xl:left-[10%] lg:left-[5%] top-1/2 translate-y-[calc(-50%+-50px)]'
                     animate={{
                         x: mousePos.x * 40,  // adjust intensity
                         y: mousePos.y * 25,
@@ -134,7 +134,7 @@ function BannerSection({ data, graphData }: any) {
                     src="assets/img/svg/mouuse-arow-2.svg"
                     alt="mouse pointer image"
                     title='mouse pointer image'
-                    className='absolute right-[20%] top-1/2 translate-y-[calc(-50%+-100px)]'
+                    className='absolute 2xl:right-[20%] xl:right-[10%] lg:right-[5%] top-1/2 translate-y-[calc(-50%+-100px)]'
                     animate={{
                         x: -mousePos.x * 40, // opposite direction
                         y: -mousePos.y * 25,

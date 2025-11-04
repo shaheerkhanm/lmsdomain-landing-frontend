@@ -66,7 +66,7 @@ function EmailSection({ inputClass, btnClass, data }: any) {
 
                         </div>
                         <button type='submit' className={`lg:px-6 md:px-4 px-3 lg:py-4 md:py-3 py-2 flex items-center gap-3 md:rounded-lg rounded-sm bg-MainColor hover:bg-[#21C48C] text-white font-semibold 2xl:text-[18px] text-[16px] common-transition cursor-pointer ${btnClass}`}>
-                            <span className='md:block hidden'> {data?.buttonText}</span>
+                            <span className='md:block hidden text-nowrap'> {data?.buttonText}</span>
                             <Icons.button_arrrow className='size-[25px]' />
                         </button>
                     </div>

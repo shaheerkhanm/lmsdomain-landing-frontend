@@ -15,7 +15,7 @@ function Header() {
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
-            
+
             if (currentScrollY > lastScrollY && currentScrollY > 40) {
                 setIsScrolled(true);
             } else {
@@ -39,13 +39,13 @@ function Header() {
     const buttons = [
         {
             text: "Login",
-            href: "/login",
+            href: "#",
             className:
                 "px-6 md:py-2 py-2 2xl:text-[18px] md:text-[16px] text-[16px] leading-tight font-medium md:rounded-lg rounded-sm bg-white border border-ScndColor text-ScndColor hover:bg-MainColor hover:border-transparent hover:text-white common-transition flex w-fit",
         },
         {
             text: "Start A Free Trial",
-            href: "/signup",
+            href: "#",
             className:
                 "px-6 md:py-2 py-2 2xl:text-[18px] md:text-[16px] text-[16px] leading-tight font-medium md:rounded-lg rounded-sm bg-ScndColor text-white hover:bg-MainColor common-transition flex w-fit",
         },

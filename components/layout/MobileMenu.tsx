@@ -1,14 +1,15 @@
 import React from 'react'
 import { motion } from "framer-motion";
 import Link from 'next/link';
+import { SheetTitle } from '../ui/sheet';
 
 
 function MobileMenu({ navLinks, buttons }: any) {
   return (
     <div className='p-10 flex flex-col gap-5'>
       <motion.a
-        initial={{ scale: 0, opacity: 0 }}
-        whileInView={{ scale: 1, opacity: 1 }}
+        initial={{ x: 40, opacity: 0 }}
+        whileInView={{ x: 0, opacity: 1 }}
         transition={{
           delay: 0.2,
           duration: 0.3,
@@ -23,12 +24,13 @@ function MobileMenu({ navLinks, buttons }: any) {
           className="lg:h-[40px] h-[30px] "
           alt="Bookarlo Logo"
         />
+        <SheetTitle className='hidden'></SheetTitle>
       </motion.a>
       <ul>
         {navLinks?.map((link: any, index: any) => (
           <motion.li
             key={link.label}
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{
               delay: 0.3 + index * 0.15,
@@ -50,10 +52,10 @@ function MobileMenu({ navLinks, buttons }: any) {
         {buttons?.map((btn: any, index: any) => (
           <motion.div
             key={btn.text}
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{
-              delay: 0.4 + index * -0.2,
+              delay: 0.6 + index * 0.1,
               duration: 0.3,
               ease: "easeOut",
             }}
