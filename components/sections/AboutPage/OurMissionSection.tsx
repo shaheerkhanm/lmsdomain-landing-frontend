@@ -25,6 +25,13 @@ function OurMissionSection({ data }: any) {
         });
     };
 
+    const bgColors = [
+        { color: "#6C4BFF" },
+        { color: "#21C48C" },
+        { color: "#FCA311" },
+        { color: "#FF5C50" }
+    ];
+
     return (
         <div className='main-padding'>
             <div className="grid grid-cols-2 gap-[100px]">
@@ -34,17 +41,19 @@ function OurMissionSection({ data }: any) {
                     <div className="flex gap-10 mt-5">
                         {data?.counts?.map((item: any, index: any) => {
                             const { prefix, number, suffix } = splitCount(item?.count);
-                            // const color = bgColors[index % bgColors.length].color; // cycle through colors
+                            const color = bgColors[index % bgColors.length].color; // cycle through colors
                             return (
                                 <motion.div
                                     key={index}
-                                    initial={{ scale: 1, opacity: 0 }}
+                                    initial={{ scale: 1, opacity: 1 }}
                                     whileInView={{ scale: 1, opacity: 1 }}
                                     transition={{ delay: 0.1 * (index + 1), duration: 0.3, type: 'tween' }}
                                     viewport={{ once: true, amount: 0.7 }}
                                     onViewportEnter={() => handleInView(index)}
                                     className="flex flex-col">
-                                    <h3 className='font-extrabold xl:text-[36px] lg:text-[30px] md:text-[28px] text-[26px] text-[#6C4BFF]'>
+                                    <h3 className='font-extrabold xl:text-[36px] lg:text-[30px] md:text-[28px] text-[26px] text-[#6C4BFF]'
+                                        style={{ color: color }}
+                                    >
                                         {prefix}
 
                                         <NumberFlow
