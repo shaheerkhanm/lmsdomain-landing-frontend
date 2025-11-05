@@ -46,7 +46,7 @@ function EnquiryForm({ onClose }: { onClose: () => void }) {
                 // setSelectedOption("");
             }
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             toast.error(
                 <div className="leading-tight">
                     Something went wrong<br />while sending enquiry

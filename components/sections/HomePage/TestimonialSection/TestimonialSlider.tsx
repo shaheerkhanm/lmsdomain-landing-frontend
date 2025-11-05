@@ -96,7 +96,7 @@ function TestimonialSlider() {
     const paddedData = getPaddedData(data);
 
     return (
-        <div className="relative">
+        <div className="relative pb-2">
             <Swiper {...settings}>
                 {data?.map((item: any, index: number) => (
                     <SwiperSlide key={index}>

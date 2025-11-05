@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Icons } from "./common/Icons";
@@ -5,6 +7,9 @@ import { Icons } from "./common/Icons";
 
 
 export default function SocialMediaIcons({ data }: any) {
+
+     if (!data) return null;
+
     const socialLinks = [
         { href: data?.twitter, icon: Icons.x_Icon },
         { href: data?.instagram, icon: Icons.insta_Icon },
@@ -12,10 +17,17 @@ export default function SocialMediaIcons({ data }: any) {
         { href: data?.youtubelink, icon: Icons.youtube_Icon },
         { href: data?.linkedin, icon: Icons.linkedin_Icon },
     ];
+
+
     return (
         <div className="flex gap-[20px]">
-            {socialLinks?.map((item, index) => {
+            {socialLinks?.map((item: any, index: any) => {
+                if (!item.href) {
+                    return null;
+                }
                 const Icon = item.icon;
+
+
                 return (
                     <motion.div
                         key={index}
@@ -29,7 +41,7 @@ export default function SocialMediaIcons({ data }: any) {
                             damping: 20
                         }}
                     >
-                        <Link href={item.href} target="_blank" rel="noopener noreferrer">
+                        <Link href={item?.href} target="_blank">
                             <Icon className="md:size-[25px] size-[20px] fill-ScndColor hover:fill-MainColor duration-200 transition-all" />
                         </Link>
                     </motion.div>
