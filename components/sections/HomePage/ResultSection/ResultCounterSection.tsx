@@ -36,12 +36,6 @@ function ResultCounterSection() {
         { color: "#FF5C50" }
     ];
 
-    // const data? = [
-    //     { value: '3x', color: '#6C4BFF', text: 'Faster launch time compared to other platforms' },
-    //     { value: '92%', color: '#21C48C', text: 'Average course completion' },
-    //     { value: '1.2M+', color: '#FCA311', text: 'Learners trained globally' },
-    //     { value: '99.9%', color: '#FF5C50', text: 'Platform uptime with enterprise-grade security' },
-    // ];
 
     const splitCount = (value: string) => {
         const match = value.match(/([^\d]*)(\d+(?:\.\d+)?)([^\d]*)/);

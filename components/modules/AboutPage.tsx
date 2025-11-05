@@ -19,8 +19,6 @@ async function AboutPage() {
 
             })
 
-
-
             return response
         } catch (error) {
             return {}
@@ -29,7 +27,6 @@ async function AboutPage() {
 
     // Fetch all section data
     const aboutHeroData = await getData("about-hero");
-    const aboutMissionData = await getData("about-mission");
     const aboutvalueData = await getData("about-values");
     const aboutStoryData = await getData("about-story");
     const aboutCTAData = await getData("about-mission-card");
@@ -37,7 +34,7 @@ async function AboutPage() {
     return (
         <div className='font-manrope [&>*:not(:first-child)]:lg:mt-[80px]  [&>*:last-child]:lg:mb-[80px] [&>*:not(:first-child)]:md:mt-[50px] [&>*:last-child]:md:mb-[50px] [&>*:not(:first-child)]:mt-[30px]  [&>*:last-child]:mb-[30px]'>
             <AboutBanner data={aboutHeroData} />
-            <OurMissionSection data={aboutMissionData} />
+            <OurMissionSection />
             <CoreValueSection data={aboutvalueData} />
             <OurStorySection data={aboutStoryData} />
             <AboutCTA data={aboutCTAData} />
