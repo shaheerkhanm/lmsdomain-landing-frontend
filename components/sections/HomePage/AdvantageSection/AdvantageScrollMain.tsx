@@ -42,7 +42,7 @@ function AdvantageScrollMain({ data }: any) {
     useEffect(() => {
         const viewportWidth = window.innerWidth;
 
-        if (viewportWidth >= 1024) {
+        if (viewportWidth >= 1025) {
             const timeoutId = setTimeout(() => {
                 let ctx = gsap.context(() => {
                     // initial states
@@ -108,16 +108,16 @@ function AdvantageScrollMain({ data }: any) {
     return (
         <div className="advantage-section font-manrope">
             <div className="bottom-animation-section">
-                <div className="relative advantage-animation grid lg:grid-cols-2 grid-cols-1 lg:gap-[80px] gap-0 lg:mt-0 mt-5">
+                <div className="relative advantage-animation grid lg:grid-cols-2 grid-cols-1 lg:gap-[80px] gap-0 lg:mt-0 mt-5 lg:place-items-stretch place-items-center">
                     {/* Left Content */}
-                    <div className="left 2xl:w-[85%] w-full lg:flex flex-col lg:gap-[10px] grid md:grid-cols-2 grid-cols-1 gap-[15px]">
+                    <div className="left 2xl:w-[85%] lg:w-full md:w-[90%] lg:flex flex-col lg:gap-[10px] grid md:grid-cols-1 grid-cols-1 gap-[15px]">
                         {data?.map((item: any, index: any) => (
                             <div
                                 key={index}
                                 className="content-item lg:bg-transparent bg-[#fafafa] rounded-[10px] lg:p-0 md:p-[20px] p-[14px] flex flex-col md:gap-[10px] gap-[8px] justify-center lg:min-h-[100vh] h-fit"
                             >
                                 {/* Mobile image (desktop hides this) */}
-                                <div className="scroll-img-div w-full lg:h-[25vh] md:h-[21vh] h-[240px] overflow-hidden rounded-[5px] z-[2] lg:hidden block">
+                                <div className="scroll-img-div w-full lg:h-[25vh] md:h-[35vh] h-[250px] overflow-hidden rounded-[5px] z-[2] lg:hidden block">
                                     <img src={item.image} alt={item.altImage} className="w-full h-full object-cover" />
                                 </div>
 
