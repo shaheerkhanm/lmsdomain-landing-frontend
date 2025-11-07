@@ -53,7 +53,7 @@ function Header() {
 
     return (
         <div
-            className={`fixed md:w-full w-full top-[25px] flex justify-center z-[49] main-padding transition-all duration-500 ease-in-out ${isScrolled ? "!-top-[110px]" : "top-[25px]"
+            className={`fixed md:w-full w-full top-[25px] flex justify-center z-[49] 2xl:px-[240px] xl:px-[80px] md:px-[40px] px-[20px] transition-all duration-500 ease-in-out ${isScrolled ? "!-top-[110px]" : "top-[25px]"
                 }`}
         >
             <nav className="bg-white w-full md:rounded-[15px] rounded-[10px] border-gray-200 shadow-[0_0_20px_#00000020]">

@@ -5,7 +5,7 @@ function CustomerCard({ item }: any) {
     return (
         <div className="flex flex-col font-manrope">
             <div className={`px-[0px] !pb-0 rounded-[20px] overflow-hidden relative  `}>
-                <div className="img-div w-full flex justify-center relative z-1 lg:h-[280px] md:h-[240px] h-[240px]">
+                <div className="img-div w-full flex justify-center relative z-1 lg:h-[280px] md:h-[180px] h-[240px]">
                     <img src={item?.image} alt={item?.altImage} className='object-cover w-full h-full' />
                 </div>
             </div>
