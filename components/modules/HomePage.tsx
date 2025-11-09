@@ -7,6 +7,7 @@ import ResultSection from "@/components/sections/HomePage/ResultSection/ResultSe
 import TestimonialSection from "@/components/sections/HomePage/TestimonialSection/TestimonialSection";
 import { fetchData } from "@/utils/api";
 import { apiRoutes } from "@/utils/api/apiRoutes";
+import AiSection from "../sections/HomePage/AiSection/AiSection";
 
 
 export async function HomePage() {
@@ -53,6 +54,9 @@ export async function HomePage() {
 
       {/* SCROLL SECTION */}
       <AdvantageSection data={featuresData} />
+
+      {/* AI SECITON */}
+      <AiSection />
 
       {/* RESULT SECTION */}
       <ResultSection data={resultsData} />
