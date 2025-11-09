@@ -56,7 +56,7 @@ async function FeaturesDetails() {
     const featuresData = await getData("");
 
     return (
-        <div className='main-padding flex flex-col md:gap-[50px] gap-[20px]'>
+        <div className='main-padding flex flex-col md:gap-[50px] gap-[50px]'>
             {featuresData?.map((feature: any, index: any) => {
                 const isReversed = index % 2 !== 0;
 
@@ -66,11 +66,11 @@ async function FeaturesDetails() {
                 const contentColOrder = isReversed ? 'order-2' : 'order-1';
                 const imageJustify = isReversed ? 'lg:justify-center justify-center' : 'lg:justify-center justify-center';
                 return (
-                    <div key={index} className="grid lg:grid-cols-2 grid-cols-1 md:gap-[40px] gap-[30px]" >
+                    <div key={index} className="grid lg:grid-cols-2 grid-cols-1 md:gap-[40px] gap-[20px] lg:px-0 md:px-[50px] px-0" >
                         <div className={`col-span-1 flex items-center ${contentColOrder}`}>
                             <div className="flex flex-col md:gap-10 gap-5">
                                 <div className="top-item-title">
-                                    <div className="flex md:flex-row flex-col gap-[20px]">
+                                    <div className="flex md:flex-row flex-row md:gap-[20px] gap-[10px]">
                                         <div className={`icon-div 
                                             lg:min-w-[70px] lg:min-h-[70px] lg:max-w-[70px] lg:max-h-[70px] 
                                             md:min-w-[50px] md:min-h-[50px] md:max-w-[50px] md:max-h-[50px]
@@ -79,8 +79,8 @@ async function FeaturesDetails() {
                                             <img src={feature.iconSrc || "assets/img/features/features-icon-common.svg"} alt={"Feature Icon"} className='w-full h-full object-contain' />
                                         </div>
                                         <div className="title-details flex flex-col gap-1">
-                                            <h2 className='2xl:text-[24px] lg:text-[20px] md:text-[22px] text-[18px] font-bold'>{feature?.title}</h2>
-                                            <p className='font-medium xl:text-[16px] lg:text-[14px] md:text-[16px] text-[16px]'>{feature?.subTitle}</p>
+                                            <h2 className='2xl:text-[24px] lg:text-[20px] md:text-[22px] text-[18px] font-bold leading-tight'>{feature?.title}</h2>
+                                            <p className='font-medium xl:text-[16px] lg:text-[14px] md:text-[16px] text-[14px] leading-tight'>{feature?.subTitle}</p>
                                         </div>
                                     </div>
                                 </div>
