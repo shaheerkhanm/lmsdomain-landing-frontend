@@ -162,12 +162,13 @@ html {
   overflow-x: hidden;
 }
 
-body[data-scroll-locked]{
+body[data-scroll-locked] {
   margin-right: 0 !important;
 }
 
 .sonner-toast {
-  width: 180px !important;   /* any width you want */
+  width: 180px !important;
+  /* any width you want */
 }
 
 .custom-scrollbar {
@@ -248,8 +249,37 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 
-.price-slider .swiper-slide{
+.price-slider .swiper-slide {
   height: unset !important;
+}
+
+.privacy-policy {
+  display: flex;
+  flex-direction: column;
+}
+
+.privacy-policy .content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.privacy-policy h1 {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.privacy-policy h2 {
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.privacy-policy p {
+  font-size: 16px;
+}
+.privacy-policy p.italic{
+  font-size: 14px;
+  color: #21C48C;
 }
 
 
