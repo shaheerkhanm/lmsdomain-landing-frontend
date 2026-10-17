@@ -4,7 +4,7 @@ import React from "react";
 
 export function FeaturesSection({ data }: { data?: any }) {
   return (
-    <section id="features" className="py-20 sm:py-32 bg-white font-inter">
+    <section id="features" className="py-20 sm:py-32 bg-[#F8F9FA] font-inter">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header (Mota 00:05 Exact Style) */}
         <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-24">

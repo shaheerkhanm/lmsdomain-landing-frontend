@@ -29,26 +29,26 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
   const isConverged = scrollRatio > 0.85;
 
   const card1Transform = {
-    transform: `translate3d(${-24 * (1 - scrollRatio)}px, ${-18 * (1 - scrollRatio)}px, 0) rotate(${
-      -2.5 * (1 - scrollRatio)
+    transform: `translate3d(${-32 * (1 - scrollRatio)}px, ${-22 * (1 - scrollRatio)}px, 0) rotate(${
+      -3 * (1 - scrollRatio)
     }deg)`,
   };
 
   const card2Transform = {
-    transform: `translate3d(${24 * (1 - scrollRatio)}px, ${-16 * (1 - scrollRatio)}px, 0) rotate(${
-      2 * (1 - scrollRatio)
+    transform: `translate3d(${32 * (1 - scrollRatio)}px, ${-20 * (1 - scrollRatio)}px, 0) rotate(${
+      2.5 * (1 - scrollRatio)
     }deg)`,
   };
 
   const card3Transform = {
-    transform: `translate3d(${-16 * (1 - scrollRatio)}px, ${22 * (1 - scrollRatio)}px, 0) rotate(${
-      1.5 * (1 - scrollRatio)
+    transform: `translate3d(${-24 * (1 - scrollRatio)}px, ${26 * (1 - scrollRatio)}px, 0) rotate(${
+      2 * (1 - scrollRatio)
     }deg)`,
   };
 
   const card4Transform = {
-    transform: `translate3d(${20 * (1 - scrollRatio)}px, ${24 * (1 - scrollRatio)}px, 0) rotate(${
-      -2 * (1 - scrollRatio)
+    transform: `translate3d(${26 * (1 - scrollRatio)}px, ${28 * (1 - scrollRatio)}px, 0) rotate(${
+      -2.5 * (1 - scrollRatio)
     }deg)`,
   };
 

@@ -6,7 +6,7 @@ import { apiRoutes } from "@/utils/api/apiRoutes";
 import { BACKEND_URL } from "@/utils/constants/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
-import { DialogTitle } from "@radix-ui/react-dialog";
+import { DialogTitle, DialogDescription } from "@radix-ui/react-dialog";
 
 type EnquiryInputs = {
   name: string;
@@ -69,9 +69,9 @@ export function EnquiryForm({ onClose }: { onClose: () => void }) {
         <DialogTitle className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
           Request an Academy Demo
         </DialogTitle>
-        <p className="text-sm text-slate-500 mt-1">
+        <DialogDescription className="text-sm text-slate-500 mt-1">
           Tell us about your organization and our specialists will schedule a personalized walkthrough.
-        </p>
+        </DialogDescription>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">

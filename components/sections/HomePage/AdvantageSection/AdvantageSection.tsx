@@ -3,7 +3,7 @@ import AdvantageScrollMain from "./AdvantageScrollMain";
 
 export function AdvantageSection({ data }: { data?: any }) {
   return (
-    <section id="benefits" className="py-24 sm:py-36 bg-white font-inter relative overflow-hidden">
+    <section id="benefits" className="py-24 sm:py-36 bg-[#F8F9FA] font-inter relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header (Mota 00:24 Exact Style) */}
         <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-20">

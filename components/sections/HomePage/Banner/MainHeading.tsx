@@ -29,10 +29,11 @@ export function MainHeading({ data }: { data?: any }) {
           to{" "}
           <span
             key={current.word}
-            className={`inline-flex items-center px-4 sm:px-6 py-0.5 sm:py-1 rounded-full text-3xl sm:text-5xl lg:text-[62px] font-medium transition-all duration-300 ease-out animate-in fade-in zoom-in-95 ${current.bg} ${current.text} align-middle shadow-2xs`}
+            className={`inline-flex items-center px-4 sm:px-6 py-0.5 sm:py-1 rounded-full text-3xl sm:text-5xl lg:text-[60px] font-medium transition-all duration-300 ease-out animate-in fade-in zoom-in-95 ${current.bg} ${current.text} align-middle shadow-2xs mx-1 sm:mx-2`}
           >
             {current.word}
-          </span>
+          </span>{" "}
+          <span className="text-slate-900">at global scale</span>
         </span>
       </h1>
     </div>
