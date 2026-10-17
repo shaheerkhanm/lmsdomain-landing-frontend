@@ -1,179 +1,172 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { gsap, snap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
-import { Icons } from "@/components/layout/common/Icons";
+import React, { useState } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+interface BenefitCard {
+  id: string;
+  title: string;
+  description: string;
+  accentColor: string;
+  svgGraphic: React.ReactNode;
+}
 
-function AdvantageScrollMain({ data }: any) {
-    const featureItems = Array.isArray(data) ? data : [];
-    const containerRef = useRef<HTMLDivElement | null>(null);
+const BENEFIT_CARDS: BenefitCard[] = [
+  {
+    id: "collaborate",
+    title: "Collaborate",
+    description:
+      "Seamless collaboration by allowing participants to communicate and interact in real-time.",
+    accentColor: "#2DD4BF",
+    svgGraphic: (
+      <svg viewBox="0 0 120 120" className="size-28 sm:size-36 drop-shadow-md">
+        {/* 3D Isometric Pastel Cloud/Star Shape (Mota 00:26 Exact Motif) */}
+        <path
+          d="M60 20 L85 45 L75 80 L35 85 L20 50 Z"
+          fill="#5EEAD4"
+          stroke="#2DD4BF"
+          strokeWidth="2"
+        />
+        <path
+          d="M85 45 L105 60 L95 95 L75 80 Z"
+          fill="#14B8A6"
+        />
+        <path
+          d="M35 85 L75 80 L65 105 L25 100 Z"
+          fill="#0F766E"
+        />
+      </svg>
+    ),
+  },
+  {
+    id: "security",
+    title: "Security",
+    description:
+      "Hardware-level Widevine L1 DRM video protection and isolated single-tenant database schemas.",
+    accentColor: "#A78BFA",
+    svgGraphic: (
+      <svg viewBox="0 0 120 120" className="size-28 sm:size-36 drop-shadow-md">
+        {/* 3D Isometric Pastel Cube / Lock (Mota Style) */}
+        <path
+          d="M60 15 L100 38 L60 61 L20 38 Z"
+          fill="#C4B5FD"
+          stroke="#A78BFA"
+          strokeWidth="2"
+        />
+        <path
+          d="M20 38 L60 61 L60 105 L20 82 Z"
+          fill="#8B5CF6"
+        />
+        <path
+          d="M60 61 L100 38 L100 82 L60 105 Z"
+          fill="#6D28D9"
+        />
+      </svg>
+    ),
+  },
+  {
+    id: "automation",
+    title: "Automation",
+    description:
+      "Autonomous batch attendance tracking, auto-graded quizzes, and automated certificate issuance.",
+    accentColor: "#FBBF24",
+    svgGraphic: (
+      <svg viewBox="0 0 120 120" className="size-28 sm:size-36 drop-shadow-md">
+        {/* 3D Isometric Pastel Gear / Disc */}
+        <circle cx="60" cy="60" r="38" fill="#FDE68A" stroke="#F59E0B" strokeWidth="2" />
+        <circle cx="60" cy="60" r="16" fill="#D97706" />
+        <rect x="54" y="12" width="12" height="16" rx="3" fill="#FBBF24" />
+        <rect x="54" y="92" width="12" height="16" rx="3" fill="#FBBF24" />
+        <rect x="12" y="54" width="16" height="12" rx="3" fill="#FBBF24" />
+        <rect x="92" y="54" width="16" height="12" rx="3" fill="#FBBF24" />
+      </svg>
+    ),
+  },
+];
 
+export function AdvantageScrollMain({ data }: { data?: any }) {
+  const [deckIndex, setDeckIndex] = useState(0);
 
-    const bgColors = [
-        {
-            bgColor: {
-                from: "#d1b3fd",
-                to: "#f4edff"
-            }
-        },
-        {
-            bgColor: {
-                from: "#21C48C",
-                to: "#21C48C"
-            }
-        },
-        {
-            bgColor: {
-                from: "#FCA311",
-                to: "#FCA311"
-            }
-        },
-        {
-            bgColor: {
-                from: "#21C48C",
-                to: "#21C48C"
-            }
-        },
-    ]
+  const nextCard = () => {
+    setDeckIndex((prev) => (prev + 1) % BENEFIT_CARDS.length);
+  };
 
-    useEffect(() => {
-        const viewportWidth = window.innerWidth;
+  return (
+    <div className="relative max-w-4xl mx-auto w-full flex flex-col items-center">
+      {/* Interactive Deck Trigger / Instruction */}
+      <div className="mb-6 flex items-center gap-3">
+        <button
+          type="button"
+          onClick={nextCard}
+          className="px-4 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium cursor-pointer transition-colors flex items-center gap-2"
+        >
+          <span>Click to cycle cards</span>
+          <span className="font-mono text-[11px] text-slate-400">
+            ({deckIndex + 1}/{BENEFIT_CARDS.length})
+          </span>
+          <span>→</span>
+        </button>
+      </div>
 
-        if (viewportWidth >= 1025) {
-            const timeoutId = setTimeout(() => {
-                let ctx = gsap.context(() => {
-                    // initial states
-                    gsap.set(".scroll-img-div:not(:first-child)", {
-                        clipPath: "inset(100% 0% 0% 0%)", // closed from center
-                    });
+      {/* Angled Stacked Card Container (Mota 00:24 - 00:27 Exact Visual Composition) */}
+      <div className="relative w-full max-w-lg h-[340px] sm:h-[380px] flex items-center justify-center cursor-pointer select-none" onClick={nextCard}>
+        {BENEFIT_CARDS.map((card, idx) => {
+          // Relative position in deck: 0 = front, 1 = middle, 2 = back
+          const relativePos = (idx - deckIndex + BENEFIT_CARDS.length) % BENEFIT_CARDS.length;
 
-                    gsap.set(".scroll-img:not(:first-child)", {
-                        scale: 1,
-                        transformOrigin: "bottom"
-                    });
+          // Angular rotation and translation matching Mota reference (-16deg tilt)
+          let transformStyle = "";
+          let zIndex = 30 - relativePos * 10;
+          let opacity = 1;
 
-                    gsap.set(".content-item:not(:first-child)", {
-                        opacity: 0,
-                        // y: 50
-                    });
+          if (relativePos === 0) {
+            transformStyle = "rotate(-16deg) translate3d(0, 0, 0) scale(1)";
+          } else if (relativePos === 1) {
+            transformStyle = "rotate(-12deg) translate3d(24px, -18px, 0) scale(0.96)";
+            opacity = 0.85;
+          } else {
+            transformStyle = "rotate(-8deg) translate3d(48px, -36px, 0) scale(0.92)";
+            opacity = 0.65;
+          }
 
-                    // timeline
-                    const animation = gsap.timeline({
-                        defaults: { duration: 1, ease: "power2.inOut" },
-                    });
+          return (
+            <div
+              key={card.id}
+              style={{
+                transform: transformStyle,
+                zIndex,
+                opacity,
+              }}
+              className="absolute w-[300px] sm:w-[380px] h-[220px] sm:h-[260px] rounded-[28px] sm:rounded-[32px] bg-white border border-slate-200/90 shadow-[0_20px_45px_-10px_rgba(0,0,0,0.1)] p-5 sm:p-7 flex items-center justify-between transition-all duration-500 ease-out overflow-hidden"
+            >
+              {/* Internal Grid Paper Pattern (Mota 00:26 Exact Background) */}
+              <div
+                className="absolute inset-0 pointer-events-none opacity-30"
+                style={{
+                  backgroundImage: "radial-gradient(#94A3B8 1px, transparent 1px)",
+                  backgroundSize: "16px 16px",
+                }}
+              />
 
-                    // right block images
-                    animation.to(".scroll-img-div:not(:first-child)", {
-                        clipPath: "inset(0% 0% 0% 0%)",
-                        stagger: 1,
-                    }, 0)
+              {/* Left Text */}
+              <div className="relative z-10 max-w-[150px] sm:max-w-[190px] space-y-2">
+                <h4 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+                  {card.title}
+                </h4>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {card.description}
+                </p>
+              </div>
 
-                    // left block content opacity + position
-                    animation.to(".content-item:not(:first-child)", {
-                        opacity: 1,
-                        // y: 0,
-                        stagger: 1,
-                    }, 0); // sync with images
-
-                    (ScrollTrigger as any).create({
-                        trigger: ".advantage-animation",
-                        start: "top top",
-                        end: "bottom bottom",
-                        pin: ".rightblock",
-                        animation: animation,
-                        scrub: true,
-                        // markers: true,
-
-
-                    });
-                });
-
-                (ScrollTrigger as any).refresh();
-
-                return () => {
-                    ctx.revert();
-                };
-            }, 1000);
-
-            return () => clearTimeout(timeoutId);
-        }
-    }, []);
-
-
-
-
-    return (
-        <div className="advantage-section font-manrope">
-            <div className="bottom-animation-section">
-                <div className="relative advantage-animation grid lg:grid-cols-2 grid-cols-1 lg:gap-[80px] gap-0 lg:mt-0 mt-5 lg:place-items-stretch place-items-center">
-                    {/* Left Content */}
-                    <div className="left 2xl:w-[85%] lg:w-full md:w-[90%] lg:flex flex-col lg:gap-[10px] grid md:grid-cols-1 grid-cols-1 gap-[15px]">
-                        {featureItems.map((item: any, index: any) => (
-                            <div
-                                key={index}
-                                className="content-item lg:bg-transparent bg-[#fafafa] rounded-[10px] lg:p-0 md:p-[20px] p-[14px] flex flex-col md:gap-[10px] gap-[8px] justify-center lg:min-h-[100vh] h-fit"
-                            >
-                                {/* Mobile image (desktop hides this) */}
-                                <div className="scroll-img-div w-full lg:h-[25vh] md:h-[35vh] h-[250px] overflow-hidden rounded-[5px] z-[2] lg:hidden block">
-                                    <img src={item.image} alt={item.altImage} className="w-full h-full object-cover" />
-                                </div>
-
-                                <h3 className="text-black font-bold lg:text-[26px] md:text-[20px] text-[20px] leading-tight">
-                                    {item.title}
-                                </h3>
-                                <p className="main-para 2xl:text-[18px] text-[16px] lg:w-[80%] w-full">
-                                    {item.subTitle}
-                                </p>
-                                <div className="tags-items my-2">
-                                    {(Array.isArray(item?.tags) ? item.tags : []).map((tagitem: any, tagindex: any) => (
-                                        <div key={tagindex} className="flex items-center gap-2">
-                                            <Icons.tickIconTags />
-                                            <span className="font-semibold">{tagitem}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                                <Link href={item?.buttonAction || 'features'} className="lg:py-2 md:py-1.5 py-1 md:px-5 px-3 bg-[#FCA311] text-white hover:bg-MainColor common-transition w-fit md:rounded-full rounded-[5px] text-[16px] font-semibold" > Learn More </Link>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Right Image Block */}
-                    <div className="rightblock h-screen lg:flex hidden flex-col justify-center">
-                        <div className="relative w-full 2xl:h-[28vw] xl:h-[30vw] h-[25vw] overflow-hidden rounded-[20px]">
-                            {featureItems.map((item: any, index: any) => {
-                                const gradient = bgColors[index % bgColors.length].bgColor; // cycle through colors
-                                return (
-                                    <div
-                                        key={index}
-                                        className="scroll-img-div w-full h-full absolute top-0 left-0 right-0 bottom-0 overflow-hidden rounded-[20px] z-[2] flex items-end justify-center bg-white"
-                                    // style={{
-                                    //     background: `linear-gradient(to top, ,${gradient.from}, ${gradient.to})`,
-                                    // }}
-                                    >
-                                        <span
-                                            className="absolute inset-0 z-[1] rounded-[20px]"
-                                            style={{
-                                                background: `linear-gradient(to top, ${gradient.from}, ${gradient.to}30)`,
-                                            }}
-                                        />
-                                        <img
-                                            src={item.image}
-                                            alt={item.altImage}
-                                            className="scroll-img relative z-2 max-w-[80%] 2xl:h-[400px] h-[380px] object-cover rounded-tl-[20px] rounded-tr-[20px]"
-                                        />
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </div>
+              {/* Right 3D Isometric Pastel Object */}
+              <div className="relative z-10 shrink-0">
+                {card.svgGraphic}
+              </div>
             </div>
-        </div>
-    );
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 export default AdvantageScrollMain;

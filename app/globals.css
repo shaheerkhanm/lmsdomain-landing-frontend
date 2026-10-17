@@ -4,14 +4,28 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Custom Colors */
+  /* Custom Brand Tokens - Direction A: Precision Studio + Direction B: Royal Purple & AI */
   --color-MainColor: #6C4BFF;
-  --color-ScndColor: #1B1F3B;
-  --color-GreyMain: #364657;
-  --color-TextBlack: #101725;
+  --color-ScndColor: #0F172A;
+  --color-GreyMain: #475569;
+  --color-TextBlack: #0F172A;
 
-  /* Custom Shadow */
-  --shadow-custom-shadow: 0 0 20px #00000020;
+  --color-brand-purple: #6C4BFF;
+  --color-brand-purple-hover: #5A3DE6;
+  --color-brand-purple-light: #F5F3FF;
+  --color-brand-dark: #0F172A;
+  --color-brand-surface: #F8FAFC;
+  --color-brand-slate: #475569;
+  --color-brand-border: #E2E8F0;
+  --color-brand-emerald: #10B981;
+  --color-brand-amber: #F59E0B;
+
+  /* Custom Elevation & Shadows */
+  --shadow-custom-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+  --shadow-studio-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-studio-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
+  --shadow-studio-lg: 0 12px 32px -4px rgba(15, 23, 42, 0.12);
+  --shadow-glow-purple: 0 0 32px -4px rgba(108, 75, 255, 0.22);
 
   /* Custom Brealpoints */
   --breakpoint-xsm: 380px;
@@ -305,5 +319,67 @@ input[type="number"]::-webkit-inner-spin-button {
 
   .features-details-section ul {
     gap: 10px;
+  }
+}
+
+/* Reference Section Floating Animations */
+@keyframes sphereFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.015);
+  }
+}
+
+@keyframes panelFloat1 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes panelFloat2 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
+
+@keyframes panelFloat3 {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-sphere-float {
+  animation: sphereFloat 6s ease-in-out infinite;
+}
+
+.animate-float-1 {
+  animation: panelFloat1 5s ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: panelFloat2 5.5s ease-in-out infinite 0.5s;
+}
+
+.animate-float-3 {
+  animation: panelFloat3 6.2s ease-in-out infinite 1s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-sphere-float,
+  .animate-float-1,
+  .animate-float-2,
+  .animate-float-3 {
+    animation: none !important;
   }
 }

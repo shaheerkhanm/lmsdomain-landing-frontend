@@ -1,60 +1,20 @@
 "use client";
 
-import React, { useRef } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
-import { motion } from "motion/react"
-
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-
+import React from "react";
 import CustomerCard from "./CustomerCard";
-import Link from "next/link";
 
+export function CustomerSliderSection({ data }: { data: any[] }) {
+  const customerItems: any[] = Array.isArray(data) && data.length > 0 ? data : [];
 
-function CustomerSliderSection({ data }: any) {
-    const customerItems = Array.isArray(data) ? data : [];
+  if (customerItems.length === 0) return null;
 
-
-    const settings = {
-        modules: [Autoplay],
-        autoplay: { delay: 3000, disableOnInteraction: false },
-        speed: 500,
-        loop: true,
-        slidesPerView: 1,
-        spaceBetween: 20,
-        breakpoints: {
-            600: { slidesPerView: 2 },
-            1024: { slidesPerView: 3 },
-        },
-        className: "w-full",
-    };
-
-    return (
-        <div className="lg:mt-[40px] md:mt-[30px] mt-[20px]">
-            <Swiper {...settings}>
-                {customerItems.map((item: any, index: any) => (
-                    <SwiperSlide key={index}>
-                        <Link href={''} className="px-0">
-                            <motion.div
-                                initial={{ scale: 0, opacity: 0 }}
-                                whileInView={{ scale: 1, opacity: 1 }}
-                                transition={{
-                                    delay: index < 3 ? index * 0.1 : 0,
-                                    duration: 0.3, type: "tween", stiffness: 300, damping: 20
-                                }}
-                                viewport={{ once: true, amount: 0.3 }}
-                            >
-                                <CustomerCard item={item} />
-                            </motion.div>
-                        </Link>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-        </div >
-    );
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {customerItems.map((item: any, index: number) => (
+        <CustomerCard key={index} item={item} />
+      ))}
+    </div>
+  );
 }
 
 export default CustomerSliderSection;

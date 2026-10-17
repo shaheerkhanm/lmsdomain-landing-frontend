@@ -1,100 +1,62 @@
-'use client';
+import React from "react";
 
-import React, { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
-import NumberFlow from '@number-flow/react';
-import { fetchData } from '@/utils/api';
-import { apiRoutes } from '@/utils/api/apiRoutes';
+const PLATFORM_SPECIFICATIONS = [
+  {
+    title: "Widevine L1 & FairPlay",
+    tagline: "Studio-Grade Hardware DRM",
+    description: "Prevents screen-capture tools and unauthorized stream rips with hardware-level video decryption.",
+    badge: "Anti-Piracy Standard",
+  },
+  {
+    title: "Zero-Leakage Isolation",
+    tagline: "Multi-Tenant Architecture",
+    description: "Each academy operates in an isolated tenant schema with encrypted student data and individual SSL certificates.",
+    badge: "Enterprise Security",
+  },
+  {
+    title: "Distributed Edge Delivery",
+    tagline: "Global CDN Video Streaming",
+    description: "Optimized adaptive bitrate streaming with edge-cached assets for smooth playback on mobile and desktop.",
+    badge: "Low-Latency Edge",
+  },
+  {
+    title: "100% White-Label Freedom",
+    tagline: "Custom Domain Onboarding",
+    description: "Operate entirely under your own domain name with customized email SMTP, receipts, and brand colors.",
+    badge: "Full Brand Control",
+  },
+];
 
-function ResultCounterSection() {
+export function ResultCounterSection() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 font-inter">
+      {PLATFORM_SPECIFICATIONS.map((spec, index) => (
+        <div
+          key={index}
+          className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-xs flex flex-col justify-between space-y-4 hover:border-slate-300 transition-colors"
+        >
+          <div className="flex items-center justify-between">
+            <span className="size-2 rounded-full bg-MainColor" />
+            <span className="text-[11px] font-mono text-slate-500 bg-slate-50 px-2 py-0.5 rounded border border-slate-200/80">
+              {spec.badge}
+            </span>
+          </div>
 
-    // ✅ Fetch data client-side after mount
-    const [data, setData] = useState<any>([])
-
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getResults
-                const response = await fetchData({
-                    url: location,
-                    body: { slug: "" },
-                })
-                setData(response)
-            } catch (error) {
-                console.error("Error fetching banner data:", error)
-                setData({})
-            }
-        }
-
-        getData()
-    }, [])
-
-    const bgColors = [
-        { color: "#6C4BFF" },
-        { color: "#21C48C" },
-        { color: "#FCA311" },
-        { color: "#FF5C50" }
-    ];
-
-
-    const splitCount = (value: string) => {
-        const match = value.match(/([^\d]*)(\d+(?:\.\d+)?)([^\d]*)/);
-        if (match) {
-            return { prefix: match[1] || '', number: parseFloat(match[2]), suffix: match[3] || '' };
-        }
-        return { prefix: '', number: 0, suffix: '' };
-    };
-
-    const [animated, setAnimated] = useState<boolean[]>(new Array(data?.length).fill(false));
-
-    const handleInView = (index: number) => {
-        setAnimated((prev) => {
-            const newState = [...prev];
-            newState[index] = true;
-            return newState;
-        });
-    };
-
-    return (
-        <div className="counter-section border border-black rounded-[20px] lg:p-[40px] md:p-[30px] p-[20px] grid grid-cols-12 lg:gap-0 md:gap-5 gap-2 lg:mt-[30px] mt-[20px]">
-            {data?.map((item: any, index: any) => {
-                const { prefix, number, suffix } = splitCount(item?.title);
-                const color = bgColors[index % bgColors.length].color; // cycle through colors
-                return (
-                    <motion.div
-                        key={index}
-                        initial={{ scale: 0, opacity: 0 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.1 * (index + 1), duration: 0.3, type: 'tween' }}
-                        viewport={{ once: true, amount: 0.7 }}
-                        onViewportEnter={() => handleInView(index)}
-                        className="lg:col-span-3 col-span-6 flex flex-col md:gap-2 gap-1"
-                    >
-                        <h3
-                            className="2xl:text-[42px] md:text-[36px] text-[30px] font-bold"
-                            style={{ color:color }}
-                        >
-                            {prefix}
-                            <NumberFlow
-                                value={animated[index] ? number : 0}
-                                transformTiming={{ duration: 2000, easing: "ease-in-out" }}
-
-                                format={{
-                                    notation: 'standard',
-                                    maximumFractionDigits: item.title.includes('.') ? 2 : 0,
-                                }}
-                                className="inline-block"
-                            />
-                            {suffix}
-                        </h3>
-                        <p className="md:w-[90%] md:text-[18px] text-[14px] leading-tight">
-                            {item.subTitle}
-                        </p>
-                    </motion.div>
-                );
-            })}
+          <div className="space-y-1.5">
+            <h3 className="text-xl sm:text-2xl font-extrabold text-slate-950 font-manrope tracking-tight leading-snug">
+              {spec.title}
+            </h3>
+            <p className="text-xs font-bold text-MainColor uppercase tracking-wider">
+              {spec.tagline}
+            </p>
+            <p className="text-xs text-slate-600 leading-relaxed pt-1">
+              {spec.description}
+            </p>
+          </div>
         </div>
-    );
+      ))}
+    </div>
+  );
 }
 
 export default ResultCounterSection;

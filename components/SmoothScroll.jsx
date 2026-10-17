@@ -7,10 +7,10 @@ function SmoothScroll({ children }) {
         <ReactLenis
             root
             options={{
-                lerp: 0.001, // Lower value for smoother interpolation
-                duration: 1, // Increase duration for a more relaxed scroll animation
-                smoothWheel: true, // Enable smoother wheel scrolling
-                smoothTouch: true, // Enable smooth scrolling on touch devices
+                lerp: 0.08,
+                duration: 1.1,
+                smoothWheel: true,
+                smoothTouch: false,
                 infinite: false,
                 preventDefault: false,
             }}

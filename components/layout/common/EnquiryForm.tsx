@@ -1,152 +1,218 @@
-'use client'
+"use client";
 
-import React from 'react'
-import { fetchData } from '@/utils/api';
-import { apiRoutes } from '@/utils/api/apiRoutes';
-import { BACKEND_URL } from '@/utils/constants/constant';
+import React, { useState } from "react";
+import { fetchData } from "@/utils/api";
+import { apiRoutes } from "@/utils/api/apiRoutes";
+import { BACKEND_URL } from "@/utils/constants/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from 'sonner';
-import { DialogTitle } from '@radix-ui/react-dialog';
+import { toast } from "sonner";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 type EnquiryInputs = {
-    firstName: string,
-    email: string,
-    phoneNumber: string,
-    organizationName: string,
-    subject: string,
+  name: string;
+  email: string;
+  phoneNumber: string;
+  organizationName: string;
+  subject: string;
 };
 
-function EnquiryForm({ onClose }: { onClose: () => void }) {
+export function EnquiryForm({ onClose }: { onClose: () => void }) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<EnquiryInputs>();
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<EnquiryInputs>();
+  const onSubmit: SubmitHandler<EnquiryInputs> = async (formData) => {
+    try {
+      setIsSubmitting(true);
+      const url = (process.env.NEXT_PUBLIC_BACKEND_URL || BACKEND_URL) + apiRoutes.getEnquiry;
+      const cleanedPhone = formData.phoneNumber.replace(/\D/g, "");
 
-    const onSubmit: SubmitHandler<EnquiryInputs> = data => submitData(data);
+      const body = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phoneNumber: cleanedPhone,
+        organizationName: formData.organizationName.trim(),
+        subject: formData.subject.trim(),
+        type: 1,
+      };
 
-    const submitData = async (data: any) => {
-        try {
-            const url = BACKEND_URL + apiRoutes.getEnquiry;
-            const body = {
-                ...data,
-                type: 1,
-            };
-            const response: any = await fetchData({ url, body });
+      const response = await fetchData({ url, body });
 
-            if (response) {
-                toast.success(
-                    <div className="leading-tight">
-                        Enquiry submitted <br /> successfully
-                    </div>,
-                    {
-                        richColors: true
+      if (response && response.success !== false) {
+        toast.success("Enquiry submitted successfully! Our specialists will contact you shortly.", {
+          richColors: true,
+          duration: 5000,
+        });
+        reset();
+        onClose();
+      } else {
+        toast.error(response?.message || "Unable to submit enquiry. Please try again.", {
+          richColors: true,
+        });
+      }
+    } catch (error) {
+      toast.error("Something went wrong while sending enquiry. Please try again.", {
+        richColors: true,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-                    }
-                )
-                reset();
-                onClose();
-                // setSelectedOption("");
-            }
-        } catch (error) {
-            // console.log(error);
-            toast.error(
-                <div className="leading-tight">
-                    Something went wrong<br />while sending enquiry
-                </div>,
-                {
-                    richColors: true
+  return (
+    <div className="font-inter">
+      <div className="pb-4 border-b border-slate-100">
+        <DialogTitle className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+          Request an Academy Demo
+        </DialogTitle>
+        <p className="text-sm text-slate-500 mt-1">
+          Tell us about your organization and our specialists will schedule a personalized walkthrough.
+        </p>
+      </div>
 
-                }
-            );
-        }
-    };
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Full Name */}
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+              Full Name *
+            </label>
+            <input
+              type="text"
+              className={`w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition ${
+                errors.name
+                  ? "border-red-500 focus:ring-2 focus:ring-red-100"
+                  : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+              }`}
+              placeholder="e.g. Sarah Jenkins"
+              {...register("name", { required: "Full name is required" })}
+            />
+            {errors.name?.message && (
+              <span className="text-xs text-red-600 block">{errors.name.message}</span>
+            )}
+          </div>
 
-    return (
-        <div className='font-manrope'>
-            <div className="top-section">
-                <DialogTitle >
-                    <span className='md:text-[30px] text-[24px] font-bold'>Request A Demo</span>
-                </DialogTitle>
-                {/* <h2 className='' >Request A Demo</h2> */}
-                <p className='leading-tight mt-1 md:w-[80%] w-[100%]'>Submit the below details and our team will connect with you to schedule a live demo walkthrough.</p>
-            </div>
-            <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
-                <div className="grid md:grid-cols-2 grid-cols-1 gap-x-[20px] gap-y-[10px]">
-                    <div className="input-div flex flex-col">
-                        <label className='text-black text-[14px] font-semibold mb-1'>Full Name</label>
-                        <input
-                            type="text"
-                            className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                            placeholder="Enter your full name"
-                            {...register("firstName", { required: "Name Not Entered" })}
-                        />
-                        {errors?.firstName?.message && (
-                            <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                                {errors?.firstName?.message}
-                            </span>
-                        )}
-                    </div>
-                    <div className="input-div flex flex-col">
-                        <label className='text-black text-[14px] font-semibold mb-1'>Email</label>
-                        <input
-                            type="email"
-                            className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                            placeholder="Enter your email"
-                            {...register("email", { required: "Email Not Entered" })}
-                        />
-                        {errors?.email?.message && (
-                            <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                                {errors?.email?.message}
-                            </span>
-                        )}
-                    </div>
-                    <div className="input-div flex flex-col">
-                        <label className='text-black text-[14px] font-semibold mb-1'>Phone</label>
-                        <input
-                            type="tel"
-                            className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                            placeholder="Enter your phone number"
-                            {...register("phoneNumber", { required: "Phone Number Not Entered" })}
-                        />
-                        {errors?.phoneNumber?.message && (
-                            <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                                {errors?.phoneNumber?.message}
-                            </span>
-                        )}
-                    </div>
-                    <div className="input-div flex flex-col">
-                        <label className='text-black text-[14px] font-semibold mb-1'>Organisation</label>
-                        <input
-                            type="text"
-                            className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                            placeholder="Enter your organisation"
-                            {...register("organizationName", { required: "Organization Not Entered" })}
-                        />
-                        {errors?.organizationName?.message && (
-                            <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                                {errors?.organizationName?.message}
-                            </span>
-                        )}
-                    </div>
-                </div>
-
-                <div className="input-div flex flex-col mt-[10px]">
-                    <label className='text-black text-[14px] font-semibold mb-1'>Subject</label>
-                    <textarea
-                        rows={5}
-                        className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                        placeholder="Enter subject or message details"
-                        {...register("subject", { required: "Subject Not Entered" })}
-                    ></textarea>
-                    {errors?.subject?.message && (
-                        <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                            {errors?.subject?.message}
-                        </span>
-                    )}
-                </div>
-
-                <button type="submit" className='cursor-pointer w-full py-[15px] font-semibold rounded-[10px] text-white mt-[10px] bg-MainColor'>Submit</button>
-            </form>
+          {/* Email */}
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+              Work Email *
+            </label>
+            <input
+              type="email"
+              className={`w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition ${
+                errors.email
+                  ? "border-red-500 focus:ring-2 focus:ring-red-100"
+                  : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+              }`}
+              placeholder="sarah@institution.com"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
+            />
+            {errors.email?.message && (
+              <span className="text-xs text-red-600 block">{errors.email.message}</span>
+            )}
+          </div>
         </div>
-    )
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Phone Number */}
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+              Phone Number *
+            </label>
+            <input
+              type="tel"
+              className={`w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition ${
+                errors.phoneNumber
+                  ? "border-red-500 focus:ring-2 focus:ring-red-100"
+                  : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+              }`}
+              placeholder="e.g. 14155552671"
+              {...register("phoneNumber", {
+                required: "Phone number is required",
+                validate: (val) => {
+                  const digits = val.replace(/\D/g, "");
+                  return (digits.length >= 7 && digits.length <= 15) || "Enter 7-15 digits";
+                },
+              })}
+            />
+            {errors.phoneNumber?.message && (
+              <span className="text-xs text-red-600 block">{errors.phoneNumber.message}</span>
+            )}
+          </div>
+
+          {/* Organization Name */}
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+              Organization / Institute *
+            </label>
+            <input
+              type="text"
+              className={`w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition ${
+                errors.organizationName
+                  ? "border-red-500 focus:ring-2 focus:ring-red-100"
+                  : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+              }`}
+              placeholder="e.g. Apex Coding Academy"
+              {...register("organizationName", { required: "Organization name is required" })}
+            />
+            {errors.organizationName?.message && (
+              <span className="text-xs text-red-600 block">
+                {errors.organizationName.message}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Subject / Requirements */}
+        <div className="space-y-1">
+          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+            Project Scope or Questions *
+          </label>
+          <textarea
+            rows={3}
+            className={`w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition resize-none ${
+              errors.subject
+                ? "border-red-500 focus:ring-2 focus:ring-red-100"
+                : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+            }`}
+            placeholder="Tell us about your student volume, timeline, or DRM requirements..."
+            {...register("subject", { required: "Project scope or message is required" })}
+          />
+          {errors.subject?.message && (
+            <span className="text-xs text-red-600 block">{errors.subject.message}</span>
+          )}
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center justify-end gap-3 pt-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="px-6 py-2.5 text-sm font-semibold text-white bg-MainColor hover:bg-[#5A3DE6] rounded-lg shadow-sm hover:shadow-[0_0_20px_-3px_rgba(108,75,255,0.35)] transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer"
+          >
+            {isSubmitting ? "Submitting..." : "Schedule My Demo"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
 
-export default EnquiryForm
+export default EnquiryForm;

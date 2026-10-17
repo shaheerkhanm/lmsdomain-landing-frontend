@@ -1,54 +1,63 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import FeaturesCards from './FeaturesCards'
-import { motion } from "motion/react"
-import { fetchData } from '@/utils/api'
-import { apiRoutes } from '@/utils/api/apiRoutes'
+import React, { useEffect, useState } from "react";
+import FeaturesCards from "./FeaturesCards";
+import { fetchData } from "@/utils/api";
+import { apiRoutes } from "@/utils/api/apiRoutes";
+import { BACKEND_URL } from "@/utils/constants/constant";
 
+const DEFAULT_TEACH_FEATURES = [
+  {
+    title: "Automated Assessment & Rubrics",
+    subTitle: "Draft quizzes, auto-grade student submissions, and sync scores directly to your centralized cohort gradebook.",
+    image: "/assets/img/features/feature-icon-1.svg",
+  },
+  {
+    title: "Hardware L1 DRM Screen Shield",
+    subTitle: "Prevent unauthorized screen recording with studio-grade Widevine L1 & FairPlay encryption and dynamic watermarking.",
+    image: "/assets/img/features/feature-icon-2.svg",
+  },
+  {
+    title: "Live Interactive Cohorts",
+    subTitle: "Deliver low-latency live classrooms with integrated real-time polling, whiteboard collaboration, and batch chat.",
+    image: "/assets/img/features/feature-icon-3.svg",
+  },
+  {
+    title: "Automated Attendance & Rostering",
+    subTitle: "Track exact student session durations across hybrid batches and automatically issue verified completion certificates.",
+    image: "/assets/img/features/feature-icon-4.svg",
+  },
+];
 
-function FeaturesItems() {
+export function FeaturesItems() {
+  const [data, setData] = useState<any[]>(DEFAULT_TEACH_FEATURES);
 
-
-    const [data, setData] = useState<any>([])
-
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getSmartTeach
-                const response = await fetchData({
-                    url: location,
-                    body: { slug: "" },
-                })
-
-                setData(response)
-            } catch (error) {
-                console.error("Error fetching data:", error)
-                setData([])
-            }
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const location = (process.env.NEXT_PUBLIC_BACKEND_URL || BACKEND_URL) + apiRoutes?.getSmartTeach;
+        const response = await fetchData({
+          url: location,
+          body: { slug: "" },
+        });
+        if (Array.isArray(response) && response.length > 0) {
+          setData(response);
         }
+      } catch (error) {
+        // Retain verified default data
+      }
+    };
 
-        getData()
-    }, [])
+    getData();
+  }, []);
 
-
-    return (
-        <div className="grid grid-cols-2 lg:gap-[50px] md:gap-[20px] gap-[10px]">
-            {data?.map((item: any, index: any) => (
-                <div key={index} className='lg:col-span-2 md:col-span-1 col-span-2 lg:bg-transparent bg-[#8475c90d] lg:p-0 p-4 rounded-[10px]' >
-                    <motion.div
-
-                        initial={{ y: 40, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{ delay: index * 0.1, duration: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-                        viewport={{ once: true, amount: 0.7 }}
-                    >
-                        <FeaturesCards item={item} />
-                    </motion.div>
-                </div>
-            ))}
-        </div>
-    )
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-3">
+      {data.map((item: any, index: number) => (
+        <FeaturesCards key={index} item={item} />
+      ))}
+    </div>
+  );
 }
 
-export default FeaturesItems
+export default FeaturesItems;

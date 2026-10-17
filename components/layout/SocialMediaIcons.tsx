@@ -1,52 +1,40 @@
-'use client'
+'use client';
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { Icons } from "./common/Icons";
+import React from 'react';
+import Link from 'next/link';
+import { Icons } from './common/Icons';
 
+export default function SocialMediaIcons({ data }: { data: any }) {
+  if (!data) return null;
 
+  const socialLinks = [
+    { href: data?.twitter, icon: Icons.x_Icon, label: 'X (formerly Twitter)' },
+    { href: data?.instagram, icon: Icons.insta_Icon, label: 'Instagram' },
+    { href: data?.fb, icon: Icons.fb_Icon, label: 'Facebook' },
+    { href: data?.youtubelink, icon: Icons.youtube_Icon, label: 'YouTube' },
+    { href: data?.linkedin, icon: Icons.linkedin_Icon, label: 'LinkedIn' },
+  ];
 
-export default function SocialMediaIcons({ data }: any) {
+  const validLinks = socialLinks.filter((item) => Boolean(item.href));
+  if (validLinks.length === 0) return null;
 
-     if (!data) return null;
-
-    const socialLinks = [
-        { href: data?.twitter, icon: Icons.x_Icon },
-        { href: data?.instagram, icon: Icons.insta_Icon },
-        { href: data?.fb, icon: Icons.fb_Icon },
-        { href: data?.youtubelink, icon: Icons.youtube_Icon },
-        { href: data?.linkedin, icon: Icons.linkedin_Icon },
-    ];
-
-
-    return (
-        <div className="flex gap-[20px]">
-            {socialLinks?.map((item: any, index: any) => {
-                if (!item.href) {
-                    return null;
-                }
-                const Icon = item.icon;
-
-
-                return (
-                    <motion.div
-                        key={index}
-                        initial={{ x: 80, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{
-                            delay: index * 0.1, // 0.1s stagger delay
-                            duration: 0.3,
-                            type: "spring",
-                            stiffness: 100,
-                            damping: 20
-                        }}
-                    >
-                        <Link href={item?.href} target="_blank">
-                            <Icon className="md:size-[25px] size-[20px] fill-ScndColor hover:fill-MainColor duration-200 transition-all" />
-                        </Link>
-                    </motion.div>
-                );
-            })}
-        </div>
-    );
+  return (
+    <div className="flex items-center gap-3">
+      {validLinks.map((item, index) => {
+        const IconComponent = item.icon;
+        return (
+          <Link
+            key={index}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={item.label}
+            className="size-9 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-slate-500 hover:text-MainColor hover:border-MainColor/40 transition-colors shadow-xs"
+          >
+            <IconComponent className="size-4 fill-current" />
+          </Link>
+        );
+      })}
+    </div>
+  );
 }
