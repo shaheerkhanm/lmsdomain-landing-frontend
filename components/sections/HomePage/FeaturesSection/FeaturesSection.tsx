@@ -10,31 +10,31 @@ export function FeaturesSection({ data }: { data?: any }) {
         <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-24">
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#6C4BFF] mb-3">
             <span>✦</span>
-            <span className="uppercase tracking-widest text-[11px]">FEATURES</span>
+            <span className="uppercase tracking-widest text-[11px]">CORE CAPABILITIES</span>
           </div>
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-semibold text-slate-900 tracking-tight leading-tight">
-            All must-have remote features in 1 place
+            Everything you need to deliver and protect learning
           </h2>
         </div>
 
         {/* 3 Stacking Feature Cards (Mota 00:06 - 00:11 Exact Stacking Cards Deck) */}
         <div className="relative space-y-12 sm:space-y-16 pb-12">
-          {/* Card 01: Remote Control / Hardware DRM Video Protection */}
+          {/* Card 01: Hardware DRM Video Protection */}
           <div className="sticky top-24 sm:top-28 rounded-[32px] sm:rounded-[40px] bg-white border border-slate-200/80 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] p-6 sm:p-12 lg:p-14 min-h-[460px] sm:min-h-[520px] flex flex-col justify-between overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-full">
               {/* Left Column: Title & Subtitle */}
               <div className="lg:col-span-5 space-y-4">
                 <h3 className="text-2xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-snug">
-                  Remote control
+                  Hardware L1 Video DRM
                 </h3>
                 <p className="text-sm sm:text-base text-slate-500 leading-relaxed max-w-sm">
-                  To share access with your device or take a control of someone&apos;s device remotely with hardware L1 DRM protection.
+                  Widevine L1 and FairPlay decrypt streams inside the device hardware TEE. Any screen capture software receives black pixels, backed by dynamic forensic watermarking.
                 </p>
               </div>
 
-              {/* Right Column: Interconnected Photos with Central Logo Connector (Mota 00:06 Style) */}
+              {/* Right Column: Encrypted Player & Forensic Watermark Diagram */}
               <div className="lg:col-span-7 relative flex items-center justify-center min-h-[280px] sm:min-h-[340px]">
-                {/* Horizontal / Diagonal Connecting Line with Central Brand Icon */}
+                {/* Horizontal Connecting Line with Central Brand Icon */}
                 <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
                   <div className="w-full h-px bg-slate-200" />
                   <div className="absolute size-11 rounded-2xl bg-[#18191B] text-white flex items-center justify-center shadow-md">
@@ -45,27 +45,38 @@ export function FeaturesSection({ data }: { data?: any }) {
                   </div>
                 </div>
 
-                {/* Top-Right Overlapping Photo Card */}
-                <div className="relative -mr-8 sm:-mr-12 mb-16 sm:mb-20 w-52 sm:w-64 aspect-4/3 rounded-2xl overflow-hidden border border-slate-200 shadow-md">
-                  <img
-                    src="/assets/img/advantage/advantage-img-2.jpg"
-                    alt="Instructor working remotely"
-                    className="size-full object-cover"
-                  />
-                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/60 backdrop-blur-xs text-[10px] text-white font-mono">
-                    Widevine L1 Stream
+                {/* Top-Right Overlapping Video Player Card */}
+                <div className="relative -mr-8 sm:-mr-12 mb-16 sm:mb-20 w-56 sm:w-72 rounded-2xl overflow-hidden bg-slate-950 p-4 border border-slate-800 shadow-md text-white">
+                  <div className="flex items-center justify-between text-[11px] text-slate-400 pb-3 border-b border-slate-800">
+                    <span className="font-semibold text-white">Lecture 04: Cloud DRM</span>
+                    <span className="text-emerald-400 font-mono">1080p HLS</span>
+                  </div>
+                  <div className="py-5 text-center">
+                    <div className="size-10 rounded-full bg-white/10 mx-auto flex items-center justify-center text-white text-sm">
+                      ▶
+                    </div>
+                  </div>
+                  <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden">
+                    <div className="w-2/3 h-full bg-[#6C4BFF]" />
+                  </div>
+                  <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+                    <span>14:28 / 45:00</span>
+                    <span className="text-emerald-400">Widevine L1 Active</span>
                   </div>
                 </div>
 
-                {/* Bottom-Left Overlapping Photo Card */}
-                <div className="relative -ml-8 sm:-ml-12 mt-16 sm:mt-20 w-52 sm:w-64 aspect-4/3 rounded-2xl overflow-hidden border border-slate-200 shadow-lg">
-                  <img
-                    src="/assets/img/advantage/advantage-img-1.jpg"
-                    alt="Student collaborating online"
-                    className="size-full object-cover"
-                  />
-                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-emerald-600/80 backdrop-blur-xs text-[10px] text-white font-mono">
-                    Forensic Watermark Active
+                {/* Bottom-Left Overlapping Watermark Card */}
+                <div className="relative -ml-8 sm:-ml-12 mt-16 sm:mt-20 w-52 sm:w-64 rounded-2xl overflow-hidden bg-white p-4 border border-slate-200 shadow-lg text-slate-900">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                    FORENSIC WATERMARK
+                  </span>
+                  <div className="mt-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100 font-mono text-[11px] text-slate-700">
+                    <div>User: #LMS-9481</div>
+                    <div className="text-[10px] text-slate-400">IP: 192.168.1.104</div>
+                  </div>
+                  <div className="mt-3 flex items-center gap-1.5 text-[10px] text-emerald-600 font-semibold">
+                    <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Hardware Memory Guard Active</span>
                   </div>
                 </div>
               </div>
@@ -77,28 +88,26 @@ export function FeaturesSection({ data }: { data?: any }) {
             </div>
           </div>
 
-          {/* Card 02: File Manager / Curriculum Hub with Concentric Radar Circles */}
+          {/* Card 02: Curriculum & SCORM Hub with Concentric Radar Circles */}
           <div className="sticky top-24 sm:top-28 rounded-[32px] sm:rounded-[40px] bg-white border border-slate-200/80 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] p-6 sm:p-12 lg:p-14 min-h-[460px] sm:min-h-[520px] flex flex-col justify-between overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-full">
               {/* Left Column: Title & Subtitle */}
               <div className="lg:col-span-5 space-y-4">
                 <h3 className="text-2xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-snug">
-                  File Manager
+                  Curriculum & SCORM Hub
                 </h3>
                 <p className="text-sm sm:text-base text-slate-500 leading-relaxed max-w-sm">
-                  To send/receive and manage all your files in easily and quickly with multi-tenant storage isolation.
+                  Organize, version, and deliver interactive SCORM 2004 modules, multi-bitrate 4K video, PDFs, and assessments in one isolated tenant cloud.
                 </p>
               </div>
 
-              {/* Right Column: Concentric Radar Orbit Graphic (Mota 00:08 Style) */}
+              {/* Right Column: Concentric Radar Orbit Graphic */}
               <div className="lg:col-span-7 relative flex items-center justify-center min-h-[280px] sm:min-h-[340px]">
-                {/* User Card Left */}
-                <div className="hidden sm:block absolute left-2 top-1/2 -translate-y-1/2 w-28 sm:w-36 aspect-3/4 rounded-2xl overflow-hidden border border-slate-200 shadow-sm z-10">
-                  <img
-                    src="/assets/img/advantage/advantage-img-3.jpg"
-                    alt="Team member"
-                    className="size-full object-cover"
-                  />
+                {/* Module Card Left */}
+                <div className="hidden sm:block absolute left-2 top-1/2 -translate-y-1/2 w-32 sm:w-40 rounded-2xl bg-white p-3.5 border border-slate-200 shadow-sm z-10 text-xs">
+                  <span className="text-[10px] font-bold text-[#6C4BFF] uppercase tracking-wider block">MODULE 02</span>
+                  <p className="font-semibold text-slate-800 text-[11px] mt-1">Distributed Architectures</p>
+                  <div className="mt-2 text-[10px] text-slate-400">14 Lessons • 3 SCORM</div>
                 </div>
 
                 {/* Center Radar Rings Container */}
@@ -117,27 +126,27 @@ export function FeaturesSection({ data }: { data?: any }) {
                   </div>
 
                   {/* Orbiting Pastel File Category Pills */}
-                  <div className="absolute top-2 left-12 size-8 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center text-xs font-bold shadow-2xs">
-                    📄
+                  <div className="absolute top-2 left-12 px-2.5 py-1 rounded-xl bg-pink-100 text-pink-700 text-[10px] font-bold shadow-2xs">
+                    SCORM 2004
                   </div>
-                  <div className="absolute top-6 right-8 size-8 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center text-xs font-bold shadow-2xs">
-                    📁
+                  <div className="absolute top-6 right-8 px-2.5 py-1 rounded-xl bg-amber-100 text-amber-700 text-[10px] font-bold shadow-2xs">
+                    4K HLS
                   </div>
-                  <div className="absolute bottom-6 left-12 size-8 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-xs font-bold shadow-2xs">
-                    ▶
+                  <div className="absolute bottom-6 left-12 px-2.5 py-1 rounded-xl bg-cyan-100 text-cyan-700 text-[10px] font-bold shadow-2xs">
+                    PDF Notes
                   </div>
-                  <div className="absolute bottom-3 right-12 size-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xs font-bold shadow-2xs">
-                    🎵
+                  <div className="absolute bottom-3 right-12 px-2.5 py-1 rounded-xl bg-purple-100 text-purple-700 text-[10px] font-bold shadow-2xs">
+                    Audio Lab
                   </div>
                 </div>
 
-                {/* User Card Right */}
-                <div className="hidden sm:block absolute right-2 top-1/2 -translate-y-1/2 w-28 sm:w-36 aspect-3/4 rounded-2xl overflow-hidden border border-slate-200 shadow-sm z-10">
-                  <img
-                    src="/assets/img/advantage/advantage-img-1.jpg"
-                    alt="Student studying"
-                    className="size-full object-cover"
-                  />
+                {/* Learner Progress Card Right */}
+                <div className="hidden sm:block absolute right-2 top-1/2 -translate-y-1/2 w-32 sm:w-40 rounded-2xl bg-white p-3.5 border border-slate-200 shadow-sm z-10 text-xs">
+                  <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">PROGRESS</span>
+                  <div className="font-bold text-slate-800 text-sm mt-1">84 %</div>
+                  <div className="mt-1 h-1 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-emerald-500 w-[84%]" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -148,50 +157,55 @@ export function FeaturesSection({ data }: { data?: any }) {
             </div>
           </div>
 
-          {/* Card 03: Video Meetings / Interactive Live Classrooms */}
+          {/* Card 03: Live Interactive Classrooms */}
           <div className="sticky top-24 sm:top-28 rounded-[32px] sm:rounded-[40px] bg-white border border-slate-200/80 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] p-6 sm:p-12 lg:p-14 min-h-[460px] sm:min-h-[520px] flex flex-col justify-between overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center h-full">
               {/* Left Column: Title & Subtitle */}
               <div className="lg:col-span-5 space-y-4">
                 <h3 className="text-2xl sm:text-4xl font-semibold text-slate-900 tracking-tight leading-snug">
-                  Video Meetings
+                  Live Classrooms & Cohorts
                 </h3>
                 <p className="text-sm sm:text-base text-slate-500 leading-relaxed max-w-sm">
-                  To stay in touch with everyone all over the world in couple of clicks with ultra low-latency WebRTC.
+                  Host low-latency interactive WebRTC lectures, breakout rooms, and live Q&A with automated student attendance syncing directly inside your portal.
                 </p>
               </div>
 
-              {/* Right Column: Live Conference Video Tiles with Participant Tags (Mota 00:10 Style) */}
+              {/* Right Column: Conference Video Tiles with Participant Tags */}
               <div className="lg:col-span-7 relative flex items-center justify-center min-h-[280px] sm:min-h-[340px]">
-                {/* Primary Top Video Tile (Mia Lewis) */}
-                <div className="relative -mr-6 sm:-mr-10 mb-12 sm:mb-16 w-56 sm:w-72 aspect-4/3 rounded-3xl overflow-hidden border border-slate-200 shadow-md">
-                  <img
-                    src="/assets/img/advantage/advantage-img-2.jpg"
-                    alt="Mia Lewis Video"
-                    className="size-full object-cover"
-                  />
-                  {/* Floating Participant Tag */}
-                  <div className="absolute top-3 right-3 bg-slate-950/90 backdrop-blur-xs text-white px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-sm">
-                    <span className="size-4 rounded-full bg-[#818CF8] text-[9px] font-bold flex items-center justify-center text-white">
-                      M
+                {/* Primary Top Video Tile (Faculty Lead) */}
+                <div className="relative -mr-6 sm:-mr-10 mb-12 sm:mb-16 w-56 sm:w-72 rounded-3xl overflow-hidden bg-slate-950 p-4 border border-slate-800 shadow-md text-white">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="px-2 py-0.5 rounded bg-rose-600 text-[10px] font-bold uppercase tracking-wider">
+                      LIVE
                     </span>
-                    <span>Mia Lewis</span>
+                    <span className="text-[11px] text-slate-400 font-mono">1080p60 WebRTC</span>
+                  </div>
+                  <div className="py-6 text-center">
+                    <span className="text-2xl">👨‍🏫</span>
+                    <h5 className="font-bold text-xs mt-1">Dr. Sarah Jenkins</h5>
+                    <p className="text-[10px] text-slate-400">Faculty Lead • Distributed Systems</p>
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] text-slate-400 pt-2 border-t border-slate-800">
+                    <span className="text-emerald-400">● Mic Active</span>
+                    <span>Attendance Sync Active</span>
                   </div>
                 </div>
 
-                {/* Secondary Bottom Video Tile (Alex Peterson) */}
-                <div className="relative -ml-6 sm:-ml-10 mt-12 sm:mt-16 w-56 sm:w-72 aspect-4/3 rounded-3xl overflow-hidden border border-slate-200 shadow-lg">
-                  <img
-                    src="/assets/img/advantage/advantage-img-3.jpg"
-                    alt="Alex Peterson Video"
-                    className="size-full object-cover"
-                  />
-                  {/* Floating Participant Tag */}
-                  <div className="absolute bottom-3 left-3 bg-slate-950/90 backdrop-blur-xs text-white px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-sm">
-                    <span className="size-4 rounded-full bg-pink-500 text-[9px] font-bold flex items-center justify-center text-white">
-                      A
-                    </span>
-                    <span>Alex Peterson</span>
+                {/* Secondary Bottom Video Tile (Cohort Breakout) */}
+                <div className="relative -ml-6 sm:-ml-10 mt-12 sm:mt-16 w-56 sm:w-72 rounded-3xl overflow-hidden bg-white p-4 border border-slate-200 shadow-lg text-slate-900">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-bold text-slate-900 text-xs">Cohort 14 Breakout</span>
+                    <span className="text-[11px] font-mono text-emerald-600 font-bold">142 Joined</span>
+                  </div>
+                  <div className="py-4 space-y-2">
+                    <div className="flex items-center justify-between text-[11px] p-2 rounded-lg bg-slate-50">
+                      <span>Quiz: Event Loop Concurrency</span>
+                      <span className="font-bold text-MainColor">94% Submitted</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] text-slate-500 pt-2 border-t border-slate-100">
+                    <span>Breakout Pods: 8 Active</span>
+                    <span className="text-emerald-600 font-semibold">Zero Lag</span>
                   </div>
                 </div>
               </div>

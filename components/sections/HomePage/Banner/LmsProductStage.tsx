@@ -154,32 +154,33 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
 
             {/* The 4 Converging Cards Grid (Mota 00:00 -> 00:04 Assembly) */}
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 pt-4 sm:pt-6 flex-1 items-stretch">
-              {/* Card 1: Remote Control / Hardware DRM Protection (Top-Left) */}
+              {/* Card 1: Protected Video Player / Hardware DRM Protection (Top-Left) */}
               <div
                 style={card1Transform}
                 className="rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between transition-transform duration-150 ease-out hover:shadow-md"
               >
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Remote control</h3>
-                  <p className="text-xs text-slate-500 mt-0.5">To share access with your device securely.</p>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Protected Video Player</h3>
+                  <p className="text-xs text-slate-500 mt-0.5">White-label video playback with hardware L1 DRM.</p>
 
                   <div className="mt-4 space-y-2.5">
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">YOUR ID</span>
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">HARDWARE DRM SHIELD</span>
                       <div className="mt-1 flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 text-xs font-mono text-slate-800">
-                        <span>883 992 234</span>
-                        <svg className="size-3.5 text-slate-400 cursor-pointer hover:text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        <span>Widevine L1 + FairPlay</span>
+                        <svg className="size-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                         </svg>
                       </div>
                     </div>
 
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">PASSWORD</span>
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">DYNAMIC WATERMARK</span>
                       <div className="mt-1 flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 text-xs font-mono text-slate-800">
-                        <span>aakd2239djq</span>
+                        <span>#LMS-9481 | 192.168.1.104</span>
                         <svg className="size-3.5 text-slate-400 cursor-pointer hover:text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
                       </div>
                     </div>
@@ -189,30 +190,28 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
                 <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
                   <span className="inline-flex items-center gap-1.5">
                     <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                    Widevine L1 DRM Active
+                    Decrypted inside Hardware TEE
                   </span>
                   <span className="text-emerald-600 font-bold">0% Piracy Leakage</span>
                 </div>
               </div>
 
-              {/* Card 2: Take the Control / Custom Domain (Top-Right) */}
+              {/* Card 2: Custom Domain & Single-Tenant Schema (Top-Right) */}
               <div
                 style={card2Transform}
                 className="rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between transition-transform duration-150 ease-out hover:shadow-md"
               >
                 <div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Take the control</h3>
-                  <p className="text-xs text-slate-500 mt-0.5">Of someone&apos;s device remotely.</p>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Custom Domain & SSO</h3>
+                  <p className="text-xs text-slate-500 mt-0.5">Isolated single-tenant academy schema.</p>
 
                   <div className="mt-4 space-y-3">
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">PARTNER ID</span>
-                      <input
-                        type="text"
-                        readOnly
-                        value="Enter code"
-                        className="mt-1 w-full px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 text-xs text-slate-400 focus:outline-none"
-                      />
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">ACADEMY HOSTNAME</span>
+                      <div className="mt-1 flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 text-xs font-mono text-slate-800">
+                        <span>academy.yourbrand.com</span>
+                        <span className="text-[10px] text-emerald-600 font-bold">LIVE</span>
+                      </div>
                     </div>
 
                     <div className="flex items-center gap-5 text-xs text-slate-700">
@@ -220,11 +219,11 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
                         <span className="size-3.5 rounded-full border-2 border-slate-900 flex items-center justify-center">
                           <span className="size-1.5 rounded-full bg-slate-900" />
                         </span>
-                        <span className="font-medium">Connect</span>
+                        <span className="font-medium">SSL Active</span>
                       </label>
-                      <label className="inline-flex items-center gap-1.5 text-slate-400 cursor-pointer">
+                      <label className="inline-flex items-center gap-1.5 text-slate-500 cursor-pointer">
                         <span className="size-3.5 rounded-full border border-slate-300" />
-                        <span>Browse Files</span>
+                        <span>Okta / SAML SSO</span>
                       </label>
                     </div>
 
@@ -233,13 +232,13 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
                       onClick={onOpenModal}
                       className="px-4 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-colors cursor-pointer"
                     >
-                      Submit
+                      Configure DNS
                     </button>
                   </div>
                 </div>
 
                 <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                  <span>Custom Domain SSL</span>
+                  <span>Custom Wildcard SSL</span>
                   <span className="text-MainColor font-semibold">100% White-Label</span>
                 </div>
               </div>
@@ -251,19 +250,19 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <h3 className="text-sm sm:text-base font-bold text-slate-900">Storage capacity</h3>
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900">Curriculum Storage</h3>
                     <button
                       type="button"
                       onClick={onOpenModal}
                       className="px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold transition-colors cursor-pointer"
                     >
-                      Send Files
+                      Upload SCORM
                     </button>
                   </div>
 
                   <div className="mt-3 flex items-baseline justify-between">
                     <div className="text-sm sm:text-base font-bold text-slate-900">
-                      87 <span className="text-slate-400 font-normal text-xs">/ 512 Gb</span>
+                      124 <span className="text-slate-400 font-normal text-xs">/ 512 Gb</span>
                     </div>
                     <span className="text-xs font-mono font-semibold text-slate-600">24 %</span>
                   </div>
@@ -281,31 +280,31 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
                     <div className="p-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="size-2 rounded-full bg-[#818CF8]" />
-                        <span className="font-medium text-slate-700 text-[11px]">Documents</span>
+                        <span className="font-medium text-slate-700 text-[11px]">SCORM/HTML5</span>
                       </div>
-                      <span className="font-bold text-slate-900 text-[11px]">38 Gb</span>
+                      <span className="font-bold text-slate-900 text-[11px]">48 Gb</span>
                     </div>
 
                     <div className="p-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="size-2 rounded-full bg-[#5EEAD4]" />
-                        <span className="font-medium text-slate-700 text-[11px]">Videos</span>
+                        <span className="font-medium text-slate-700 text-[11px]">DRM Videos</span>
                       </div>
-                      <span className="font-bold text-slate-900 text-[11px]">32 Gb</span>
+                      <span className="font-bold text-slate-900 text-[11px]">42 Gb</span>
                     </div>
 
                     <div className="p-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="size-2 rounded-full bg-[#FCD34D]" />
-                        <span className="font-medium text-slate-700 text-[11px]">Images</span>
+                        <span className="font-medium text-slate-700 text-[11px]">PDF Rubrics</span>
                       </div>
-                      <span className="font-bold text-slate-900 text-[11px]">17 Gb</span>
+                      <span className="font-bold text-slate-900 text-[11px]">21 Gb</span>
                     </div>
 
                     <div className="p-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
                       <div className="flex items-center gap-1.5">
                         <span className="size-2 rounded-full bg-[#60A5FA]" />
-                        <span className="font-medium text-slate-700 text-[11px]">Music</span>
+                        <span className="font-medium text-slate-700 text-[11px]">Lecture Audio</span>
                       </div>
                       <span className="font-bold text-slate-900 text-[11px]">13 Gb</span>
                     </div>
@@ -317,16 +316,16 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
                 </div>
               </div>
 
-              {/* Card 4: Mota in Full Throttle / Domie AI (Bottom-Right) */}
+              {/* Card 4: Domie AI Curriculum Copilot (Bottom-Right) */}
               <div
                 style={card4Transform}
                 className="rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between transition-transform duration-150 ease-out hover:shadow-md"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-2">
-                    <h3 className="text-sm sm:text-base font-bold text-slate-900">Mota in full throttle!</h3>
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900">Domie AI Copilot</h3>
                     <p className="text-xs text-slate-500 leading-relaxed max-w-[190px]">
-                      Receive our special -25% offer and use all our features without restrictions.
+                      Auto-generate multi-week syllabi, rubric quizzes, and lecture briefs in seconds.
                     </p>
                     <div className="pt-2">
                       <button
@@ -334,7 +333,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
                         onClick={onOpenModal}
                         className="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-colors cursor-pointer"
                       >
-                        Upgrade now
+                        Generate Syllabus
                       </button>
                     </div>
                   </div>

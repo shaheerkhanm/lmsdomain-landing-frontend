@@ -17,17 +17,17 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
 
         {/* 2. Mota 2-Line Subtitle */}
         <p className="mt-6 max-w-xl text-center text-sm sm:text-base text-slate-600 leading-relaxed">
-          Stay in touch, collaborate and share in couple of clicks. Boost your academy workflow by 10x with hardware DRM and Domie AI. It&apos;s LMS Domain.
+          Deploy white-label academies with hardware L1 DRM video protection, single-tenant custom domains, and Domie AI curriculum orchestration. Built for high-stakes learning.
         </p>
 
-        {/* 3. Black Pill CTA Button (Mota "Join the waitlist" Style) */}
+        {/* 3. Black Pill CTA Button (Mota Pill Style) */}
         <div className="mt-7 flex items-center justify-center">
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
-            className="px-6 sm:px-7 py-3 rounded-full bg-slate-950 hover:bg-black text-white text-xs sm:text-sm font-medium shadow-sm hover:shadow-md transition-all active:scale-95 cursor-pointer"
+            className="px-6 sm:px-8 py-3 rounded-full bg-slate-950 hover:bg-black text-white text-xs sm:text-sm font-medium shadow-sm hover:shadow-md transition-all active:scale-95 cursor-pointer"
           >
-            Join the waitlist
+            Request a Demo
           </button>
         </div>
 

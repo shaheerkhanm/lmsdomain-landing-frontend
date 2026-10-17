@@ -26,7 +26,7 @@ export function Header() {
 
   const navLinks = [
     { label: "Features", href: "#features" },
-    { label: "Extension", href: "#extension" },
+    { label: "AI Studio", href: "#extension" },
     { label: "Benefits", href: "#benefits" },
     { label: "FAQ", href: "#faq" },
   ];
@@ -52,7 +52,7 @@ export function Header() {
               href="#extension"
               className="text-sm font-medium text-slate-700 hover:text-slate-950 transition-colors"
             >
-              Extension
+              AI Studio
             </Link>
           </nav>
 
@@ -94,7 +94,7 @@ export function Header() {
               type="button"
               className="px-3.5 py-1.5 rounded-full bg-slate-950 text-white text-xs font-semibold shadow-xs"
             >
-              Join waitlist
+              Request Demo
             </button>
             <button
               onClick={() => setShowMenu(true)}
@@ -134,7 +134,7 @@ export function Header() {
               Features
             </Link>
             <Link href="#extension" className="hover:text-slate-950 transition-colors">
-              Extension
+              AI Studio
             </Link>
             <Link href="#benefits" className="hover:text-slate-950 transition-colors">
               Benefits
@@ -157,7 +157,7 @@ export function Header() {
             onClick={() => setShowEnquiryModal(true)}
             className="px-4 sm:px-5 py-2 rounded-full bg-slate-950 hover:bg-black text-white text-xs sm:text-[13px] font-medium transition-all shadow-xs active:scale-95 cursor-pointer shrink-0"
           >
-            Join the waitlist
+            Request Demo
           </button>
         </div>
       </div>

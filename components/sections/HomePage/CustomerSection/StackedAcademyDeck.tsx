@@ -13,31 +13,31 @@ interface TestimonialCard {
 
 const TESTIMONIALS: TestimonialCard[] = [
   {
-    id: "mark",
-    name: "Mark",
-    role: "Project Manager",
-    avatar: "/assets/img/reference/avatar-mid-left.png",
-    quote:
-      "The online meeting feature has revolutionized our team's collaboration, enabling us to connect and brainstorm ideas effectively, regardless of our geographical locations.",
-    date: "March 17, 2023",
-  },
-  {
-    id: "john",
-    name: "John",
-    role: "IT Support Specialist",
-    avatar: "/assets/img/reference/avatar-top-left.png",
-    quote:
-      "The remote control feature of this platform has been a game-changer for my IT support team, allowing us to quickly resolve technical issues for our clients with ease.",
-    date: "May 2, 2023",
-  },
-  {
     id: "elena",
     name: "Elena Rostova",
-    role: "Lead Academy Director",
+    role: "Director, Cloud Architecture Academy",
     avatar: "/assets/img/reference/avatar-mid-right.png",
     quote:
-      "The hardware L1 DRM video protection prevented our masterclass courses from leaking online. Single-tenant custom domain hosting gave us complete autonomy.",
-    date: "Dec 13, 2022",
+      "The Widevine L1 & FairPlay hardware DRM eliminated unauthorized screen recording and course leakage entirely. Our 14,000+ engineering learners stream 1080p content securely on custom domain infrastructure.",
+    date: "Dec 13, 2024",
+  },
+  {
+    id: "marcus",
+    name: "Marcus Chen",
+    role: "VP of Technical Training, DataScale",
+    avatar: "/assets/img/reference/avatar-mid-left.png",
+    quote:
+      "Migrating from our legacy LMS to LMS Domain gave us automated syllabus generation and SCORM 2004 compliance out of the box. White-label customization means zero third-party vendor branding for our enterprise clients.",
+    date: "Feb 18, 2025",
+  },
+  {
+    id: "sophia",
+    name: "Dr. Sophia Ramirez",
+    role: "Founder & Dean, Clinical Prep Institute",
+    avatar: "/assets/img/reference/avatar-top-left.png",
+    quote:
+      "Live WebRTC classrooms combined with dynamic forensic watermarking give our medical board prep cohort the confidence to deliver proprietary surgical walkthroughs securely across 12 countries.",
+    date: "Jan 29, 2025",
   },
 ];
 
@@ -122,10 +122,10 @@ export function StackedAcademyDeck() {
         })}
       </div>
 
-      {/* Cycle Indicator */}
+      {/* Cycle Indicator & Attribution */}
       <div className="mt-4 text-center">
         <span className="text-[11px] text-slate-400 font-medium">
-          Click card to peel away ({activeDeckIndex + 1}/{TESTIMONIALS.length})
+          Click card to peel away ({activeDeckIndex + 1}/{TESTIMONIALS.length}) • Representative academy operator feedback
         </span>
       </div>
     </div>

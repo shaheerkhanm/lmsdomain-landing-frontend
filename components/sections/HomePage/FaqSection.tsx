@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import EnquiryForm from "@/components/layout/common/EnquiryForm";
 
 interface FaqItem {
   question: string;
@@ -33,10 +34,16 @@ const FAQS: FaqItem[] = [
     answer:
       "Yes. LMS Domain features native zero-code integrations with Zoom and Google Meet for live classrooms, Vimeo and AWS for custom video ingestion, and standard WebRTC for low-latency interactive breakout sessions.",
   },
+  {
+    question: "How long does onboarding and content migration from another LMS take?",
+    answer:
+      "Most academies complete migration in under 48 hours. Our automated migration tool imports existing SCORM packages, learner accounts, and course videos directly. Dedicated engineering support assists with custom domain DNS mapping and single sign-on (SSO) configuration.",
+  },
 ];
 
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showDemoModal, setShowDemoModal] = useState(false);
 
   const toggle = (idx: number) => {
     setOpenIndex(openIndex === idx ? null : idx);
@@ -49,13 +56,25 @@ export function FaqSection() {
         <div className="rounded-[32px] sm:rounded-[40px] bg-white border border-slate-200/90 p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             {/* Left Column: Title & Subtitle (Mota 00:32 Style) */}
-            <div className="lg:col-span-5 space-y-3">
+            <div className="lg:col-span-5 space-y-4">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-slate-900 tracking-tight leading-tight">
                 You ask – we answer.
               </h2>
               <p className="text-sm sm:text-base text-slate-500 leading-relaxed">
-                All you want to know about product.
+                Everything you need to know about our AI-powered LMS platform, hardware DRM video protection, and custom domain hosting.
               </p>
+              <div className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowDemoModal(true)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 text-white text-xs sm:text-sm font-semibold hover:bg-black transition-all active:scale-95 cursor-pointer shadow-xs"
+                >
+                  Request a Demo
+                  <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             {/* Right Column: Clean Divider Accordion Items */}
@@ -98,6 +117,11 @@ export function FaqSection() {
           </div>
         </div>
       </div>
+
+      {/* Enquiry / Demo Modal */}
+      {showDemoModal && (
+        <EnquiryForm onClose={() => setShowDemoModal(false)} />
+      )}
     </section>
   );
 }

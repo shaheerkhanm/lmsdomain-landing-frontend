@@ -3,11 +3,10 @@
 import React, { useEffect, useRef, useState } from "react";
 
 const STATEMENT_WORDS = [
-  "In", "today's", "fast-paced", "world,", "maximizing", "efficiency", "is",
-  "paramount.", "With", "an", "AI-native", "LMS", "built", "for", "speed,",
-  "we", "provide", "zero-latency", "student", "engagement,", "hardware", "DRM,",
-  "and", "instant", "cohort", "orchestration", "to", "elevate", "every",
-  "learning", "experience."
+  "In", "today's", "digital", "world,", "maximizing", "efficiency", "and", "protecting",
+  "knowledge", "is", "paramount.", "With", "an", "AI-native", "LMS", "built",
+  "for", "speed,", "we", "simplify", "course", "creation,", "enforce", "hardware",
+  "DRM,", "and", "scale", "uncompromised", "learning", "experiences", "globally."
 ];
 
 export function ManifestSection() {

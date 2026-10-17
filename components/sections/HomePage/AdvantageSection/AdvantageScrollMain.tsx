@@ -12,14 +12,14 @@ interface BenefitCard {
 
 const BENEFIT_CARDS: BenefitCard[] = [
   {
-    id: "collaborate",
-    title: "Collaborate",
+    id: "domains",
+    title: "Sovereign Domains",
     description:
-      "Seamless collaboration by allowing participants to communicate and interact in real-time.",
+      "Host on your own custom domain (e.g. academy.yourbrand.com) with 100% white-label isolation and auto-renewed SSL.",
     accentColor: "#2DD4BF",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-36 drop-shadow-md">
-        {/* 3D Isometric Pastel Cloud/Star Shape (Mota 00:26 Exact Motif) */}
+        {/* 3D Isometric Pastel Crystal / Domain Motif (Mota 00:26 Style) */}
         <path
           d="M60 20 L85 45 L75 80 L35 85 L20 50 Z"
           fill="#5EEAD4"
@@ -38,14 +38,14 @@ const BENEFIT_CARDS: BenefitCard[] = [
     ),
   },
   {
-    id: "security",
-    title: "Security",
+    id: "attendance-certs",
+    title: "Attendance & Certs",
     description:
-      "Hardware-level Widevine L1 DRM video protection and isolated single-tenant database schemas.",
+      "Telemetry logs real-time student watch time and automatically generates tamper-evident verifiable certificates.",
     accentColor: "#A78BFA",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-36 drop-shadow-md">
-        {/* 3D Isometric Pastel Cube / Lock (Mota Style) */}
+        {/* 3D Isometric Pastel Cube / Certificate Lock (Mota Style) */}
         <path
           d="M60 15 L100 38 L60 61 L20 38 Z"
           fill="#C4B5FD"
@@ -64,14 +64,29 @@ const BENEFIT_CARDS: BenefitCard[] = [
     ),
   },
   {
-    id: "automation",
-    title: "Automation",
+    id: "live-sessions",
+    title: "Live Classrooms",
     description:
-      "Autonomous batch attendance tracking, auto-graded quizzes, and automated certificate issuance.",
+      "Zero-latency multi-instructor WebRTC classrooms with breakout rooms, screen share, and automated recording archives.",
+    accentColor: "#38BDF8",
+    svgGraphic: (
+      <svg viewBox="0 0 120 120" className="size-28 sm:size-36 drop-shadow-md">
+        {/* 3D Isometric Sphere / Waveform */}
+        <circle cx="60" cy="60" r="38" fill="#BAE6FD" stroke="#38BDF8" strokeWidth="2" />
+        <circle cx="60" cy="60" r="20" fill="#0284C7" />
+        <path d="M45 60 L55 48 L65 72 L75 60" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      </svg>
+    ),
+  },
+  {
+    id: "monetization",
+    title: "Direct Monetization",
+    description:
+      "Connect your direct Stripe, Razorpay, or PayPal gateways with 0% revenue take rate on all course sales and subscriptions.",
     accentColor: "#FBBF24",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-36 drop-shadow-md">
-        {/* 3D Isometric Pastel Gear / Disc */}
+        {/* 3D Isometric Pastel Coin / Gear */}
         <circle cx="60" cy="60" r="38" fill="#FDE68A" stroke="#F59E0B" strokeWidth="2" />
         <circle cx="60" cy="60" r="16" fill="#D97706" />
         <rect x="54" y="12" width="12" height="16" rx="3" fill="#FBBF24" />
@@ -99,7 +114,7 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
           onClick={nextCard}
           className="px-4 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium cursor-pointer transition-colors flex items-center gap-2"
         >
-          <span>Click to cycle cards</span>
+          <span>Click to cycle benefits</span>
           <span className="font-mono text-[11px] text-slate-400">
             ({deckIndex + 1}/{BENEFIT_CARDS.length})
           </span>
@@ -110,12 +125,12 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
       {/* Angled Stacked Card Container (Mota 00:24 - 00:27 Exact Visual Composition) */}
       <div className="relative w-full max-w-lg h-[340px] sm:h-[380px] flex items-center justify-center cursor-pointer select-none" onClick={nextCard}>
         {BENEFIT_CARDS.map((card, idx) => {
-          // Relative position in deck: 0 = front, 1 = middle, 2 = back
+          // Relative position in deck: 0 = front, 1 = second, 2 = third, 3 = fourth
           const relativePos = (idx - deckIndex + BENEFIT_CARDS.length) % BENEFIT_CARDS.length;
 
           // Angular rotation and translation matching Mota reference (-16deg tilt)
           let transformStyle = "";
-          let zIndex = 30 - relativePos * 10;
+          let zIndex = 40 - relativePos * 10;
           let opacity = 1;
 
           if (relativePos === 0) {
@@ -123,9 +138,12 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
           } else if (relativePos === 1) {
             transformStyle = "rotate(-12deg) translate3d(24px, -18px, 0) scale(0.96)";
             opacity = 0.85;
-          } else {
+          } else if (relativePos === 2) {
             transformStyle = "rotate(-8deg) translate3d(48px, -36px, 0) scale(0.92)";
             opacity = 0.65;
+          } else {
+            transformStyle = "rotate(-4deg) translate3d(64px, -50px, 0) scale(0.88)";
+            opacity = 0.4;
           }
 
           return (
