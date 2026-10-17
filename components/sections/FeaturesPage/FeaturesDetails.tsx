@@ -54,10 +54,11 @@ async function FeaturesDetails() {
     }
 
     const featuresData = await getData("");
+    const featuresList = Array.isArray(featuresData) ? featuresData : [];
 
     return (
         <div className='main-padding flex flex-col md:gap-[50px] gap-[50px]'>
-            {featuresData?.map((feature: any, index: any) => {
+            {featuresList.map((feature: any, index: any) => {
                 const isReversed = index % 2 !== 0;
 
                 const iconBgColor = iconBgColorClasses[index % iconBgColorClasses.length];

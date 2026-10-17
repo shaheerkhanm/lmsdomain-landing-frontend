@@ -15,6 +15,7 @@ import Link from "next/link";
 
 
 function CustomerSliderSection({ data }: any) {
+    const customerItems = Array.isArray(data) ? data : [];
 
 
     const settings = {
@@ -34,7 +35,7 @@ function CustomerSliderSection({ data }: any) {
     return (
         <div className="lg:mt-[40px] md:mt-[30px] mt-[20px]">
             <Swiper {...settings}>
-                {data?.map((item: any, index: any) => (
+                {customerItems.map((item: any, index: any) => (
                     <SwiperSlide key={index}>
                         <Link href={''} className="px-0">
                             <motion.div

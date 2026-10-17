@@ -9,6 +9,7 @@ import { Icons } from "@/components/layout/common/Icons";
 gsap.registerPlugin(ScrollTrigger);
 
 function AdvantageScrollMain({ data }: any) {
+    const featureItems = Array.isArray(data) ? data : [];
     const containerRef = useRef<HTMLDivElement | null>(null);
 
 
@@ -111,7 +112,7 @@ function AdvantageScrollMain({ data }: any) {
                 <div className="relative advantage-animation grid lg:grid-cols-2 grid-cols-1 lg:gap-[80px] gap-0 lg:mt-0 mt-5 lg:place-items-stretch place-items-center">
                     {/* Left Content */}
                     <div className="left 2xl:w-[85%] lg:w-full md:w-[90%] lg:flex flex-col lg:gap-[10px] grid md:grid-cols-1 grid-cols-1 gap-[15px]">
-                        {data?.map((item: any, index: any) => (
+                        {featureItems.map((item: any, index: any) => (
                             <div
                                 key={index}
                                 className="content-item lg:bg-transparent bg-[#fafafa] rounded-[10px] lg:p-0 md:p-[20px] p-[14px] flex flex-col md:gap-[10px] gap-[8px] justify-center lg:min-h-[100vh] h-fit"
@@ -128,7 +129,7 @@ function AdvantageScrollMain({ data }: any) {
                                     {item.subTitle}
                                 </p>
                                 <div className="tags-items my-2">
-                                    {item?.tags?.map((tagitem: any, tagindex: any) => (
+                                    {(Array.isArray(item?.tags) ? item.tags : []).map((tagitem: any, tagindex: any) => (
                                         <div key={tagindex} className="flex items-center gap-2">
                                             <Icons.tickIconTags />
                                             <span className="font-semibold">{tagitem}</span>
@@ -143,7 +144,7 @@ function AdvantageScrollMain({ data }: any) {
                     {/* Right Image Block */}
                     <div className="rightblock h-screen lg:flex hidden flex-col justify-center">
                         <div className="relative w-full 2xl:h-[28vw] xl:h-[30vw] h-[25vw] overflow-hidden rounded-[20px]">
-                            {data?.map((item: any, index: any) => {
+                            {featureItems.map((item: any, index: any) => {
                                 const gradient = bgColors[index % bgColors.length].bgColor; // cycle through colors
                                 return (
                                     <div

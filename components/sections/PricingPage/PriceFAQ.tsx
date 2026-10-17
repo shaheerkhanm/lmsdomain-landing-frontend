@@ -53,6 +53,7 @@ async function PriceFAQ({ data }: any) {
 
     // Fetch all section data
     const faqData = await getData("");
+    const faqItems = Array.isArray(faqData) ? faqData : [];
 
     return (
         <div
@@ -60,11 +61,11 @@ async function PriceFAQ({ data }: any) {
             className='main-padding faq-section'>
             <MainTitle title={data?.title || 'Frequently Asked Questions'} h2ClassName={'text-center 2xl:mb-10 mb-5'} divClassName={''} />
             <Accordion type="single" collapsible defaultValue="0">
-                {faqData?.map((faqItem: any, index: any) => (
+                {faqItems.map((faqItem: any, index: any) => (
                     <AccordionItem
                         key={index}
                         value={index.toString()}
-                        className={`data-[state=open]:opacity-100 opacity-30 transition-all duration-200 flex gap-8 border md:py-3 py-2 md:px-5 px-4 ${index === faqData.length - 1 ? '!border-b-1' : ' !border-b-1'}`}>
+                        className={`data-[state=open]:opacity-100 opacity-30 transition-all duration-200 flex gap-8 border md:py-3 py-2 md:px-5 px-4 ${index === faqItems.length - 1 ? '!border-b-1' : ' !border-b-1'}`}>
                         <span className='text-[48px] font-bold min-w-[60px] max-w-[60px] text-[#9D96A8] md:block hidden'>
                             {String(index + 1).padStart(2, '0')}
                         </span>

@@ -54,7 +54,8 @@ function CodeValueSlider({ sliderData }: any) {
 
 
 
-    const showNav = sliderData.length > slidesPerView;
+    const sliderItems = Array.isArray(sliderData) ? sliderData : [];
+    const showNav = sliderItems.length > slidesPerView;
 
     const bgColors = [
         { color: "#6C4BFF" },
@@ -92,7 +93,7 @@ function CodeValueSlider({ sliderData }: any) {
                 </div>
             )}
             <Swiper {...settings}>
-                {sliderData?.map((item: any, index: any) => (
+                {sliderItems.map((item: any, index: any) => (
                     <SwiperSlide key={index}>
                         <Link href={item?.link || ''} className="px-0">
                             <motion.div

@@ -12,6 +12,7 @@ import "swiper/css/pagination";
 import Link from 'next/link';
 
 function MultipleContentSlider({ sliderData }: any) {
+    const sliderItems = Array.isArray(sliderData) ? sliderData : [];
 
     const settings = {
         modules: [Autoplay],
@@ -76,7 +77,7 @@ function MultipleContentSlider({ sliderData }: any) {
         <div className='mt-[40px]'>
             <div className="md:block hidden">
                 <Swiper {...settings}>
-                    {sliderData?.map((item: any, index: any) => (
+                    {sliderItems.map((item: any, index: any) => (
                         <SwiperSlide key={index}>
                             <motion.div
                                 initial={{ scale: 0, opacity: 0 }}
@@ -112,7 +113,7 @@ function MultipleContentSlider({ sliderData }: any) {
                 </Swiper>
             </div>
             <div className="md:hidden flex flex-col gap-4">
-                {sliderData?.map((item: any, index: any) => (
+                {sliderItems.map((item: any, index: any) => (
                     <div className="div" key={index}>
                         <motion.div
                             initial={{ scale: 0, opacity: 0 }}
