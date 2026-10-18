@@ -1,101 +1,121 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
-interface TestimonialItem {
+interface PlaceholderCard {
   id: string;
-  tag: string;
-  name: string;
-  role: string;
-  quote: string;
-  footerTag: string;
+  initials: string;
+  avatarBg: string;
+  title: string;
+  subtitle: string;
+  caseNum: string;
 }
 
-const PLACEHOLDER_TESTIMONIALS: TestimonialItem[] = [
+const PLACEHOLDER_CARDS: PlaceholderCard[] = [
   {
     id: "card-1",
-    tag: "ACADEMY SPOTLIGHT",
-    name: "Enterprise Academy Spotlight",
-    role: "Partner Case Study Placeholder",
-    quote:
-      "Reserved for enterprise partner case study. Verified cohort completion metrics, graduation telemetry, and custom domain deployment architecture will appear here upon partner program onboarding.",
-    footerTag: "Partner Verification Program",
+    initials: "EA",
+    avatarBg: "#161616",
+    title: "Customer story coming soon",
+    subtitle: "Reserved for verified enterprise academy case study and student outcomes.",
+    caseNum: "Spotlight #01",
   },
   {
     id: "card-2",
-    tag: "INSTITUTIONAL SPOTLIGHT",
-    name: "Professional Training Spotlight",
-    role: "Clinical & Continuing Ed Placeholder",
-    quote:
-      "Reserved for institutional partner case study. Verified compliance telemetry, student assessment performance, and board certification data will appear here following accredited cohort launch.",
-    footerTag: "Accredited Cohort Telemetry",
+    initials: "PT",
+    avatarBg: "#7B5CF5",
+    title: "Customer story coming soon",
+    subtitle: "Reserved for professional training and certification partner program showcase.",
+    caseNum: "Spotlight #02",
   },
   {
     id: "card-3",
-    tag: "PARTNER SHOWCASE",
-    name: "Global Academy Spotlight",
-    role: "Global Learning Platform Showcase",
-    quote:
-      "Reserved for early adopter academy spotlight. Custom branding, dedicated learning experiences, and online course workflows will be featured here.",
-    footerTag: "Feature Your Academy",
+    initials: "GA",
+    avatarBg: "#10B981",
+    title: "Customer story coming soon",
+    subtitle: "Reserved for global online academy launch and multi-batch milestones.",
+    caseNum: "Spotlight #03",
   },
 ];
 
 export function CustomerSection({ data }: { data?: any }) {
   const pinWrapperRef = useRef<HTMLDivElement>(null);
+  const textWrapperRef = useRef<HTMLDivElement>(null);
   const wallTextRef = useRef<HTMLHeadingElement>(null);
   const deckWrapperRef = useRef<HTMLDivElement>(null);
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
 
+  // Measure and fit headline width to ~88% of viewport (never wider than innerWidth - 96px)
   useEffect(() => {
-    const isReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const handleResize = () => {
+      if (!wallTextRef.current) return;
+      const vw = window.innerWidth;
+      // Target 88% of viewport width, clamped to innerWidth - 96px
+      const targetWidth = Math.min(vw * 0.88, vw - 96);
+
+      // Measure current width with baseline font size
+      wallTextRef.current.style.fontSize = "100px";
+      const measuredWidth = wallTextRef.current.offsetWidth || 1;
+      const desiredFontSize = Math.max(28, Math.floor((targetWidth / measuredWidth) * 100));
+
+      wallTextRef.current.style.fontSize = `${desiredFontSize}px`;
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const isReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // Desktop: 1024px and up (A20 Solid Text Scale + A21 Deck Upward Flight)
+      // Desktop: 1024px and up (A20 Text Scale + A21 Card Upward Flight)
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) {
-          gsap.set(wallTextRef.current, { scale: 1, color: "#161616" });
-          gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], { clearProps: "all" });
+          gsap.set(wallTextRef.current, { color: "#161616", scale: 1 });
+          gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], {
+            clearProps: "all",
+          });
           return;
         }
 
-        // Initial positions per spec §5.8:
-        // Text: scale 0.25, color #BDBDBD
-        gsap.set(wallTextRef.current, { scale: 0.25, color: "#BDBDBD" });
-        // Deck: starts 35vh down so it rises directly to center
-        gsap.set(deckWrapperRef.current, { y: "35vh" });
-        // Initial card rotations & jitter:
-        gsap.set(card1Ref.current, { rotateZ: -5, x: -8, y: 0 });
-        gsap.set(card2Ref.current, { rotateZ: 6, x: 10, y: 6 });
-        gsap.set(card3Ref.current, { rotateZ: 0, x: 0, y: 12 });
+        // Initial positions:
+        // Text scale 0.65 -> 1.0 (subtle zoom, stays inside bounds), color #9CA3AF -> #161616
+        gsap.set(wallTextRef.current, { scale: 0.75, color: "#9CA3AF" });
+        // Deck starts slightly lower and rises directly over "of"
+        gsap.set(deckWrapperRef.current, { y: 60, opacity: 0.9 });
+        // Initial card rotations: subtle fan
+        gsap.set(card1Ref.current, { rotateZ: -4, x: -6, y: 0 });
+        gsap.set(card2Ref.current, { rotateZ: 4, x: 8, y: 4 });
+        gsap.set(card3Ref.current, { rotateZ: 0, x: 0, y: 8 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
-            start: "top top",
-            end: "+=260%",
+            start: "top 60px",
+            end: "+=130%",
             pin: true,
             pinSpacing: true,
-            scrub: true,
+            scrub: 0.6,
           },
         });
 
-        // ----------------------------------------------------
-        // Stage 1 (0 -> 0.7): A20 Text scale 0.25 -> 1, color #BDBDBD -> #161616
-        // Deck rises from y +35vh to 0 (centered over "Wall of love")
-        // ----------------------------------------------------
+        // Stage 1 (0 -> 0.4): Text settles to full scale and dark color, Deck settles over "of"
         tl.to(
           wallTextRef.current,
           {
             scale: 1,
             color: "#161616",
             ease: "power1.out",
-            duration: 0.7,
+            duration: 0.4,
           },
           0
         );
@@ -104,48 +124,50 @@ export function CustomerSection({ data }: { data?: any }) {
           deckWrapperRef.current,
           {
             y: 0,
+            opacity: 1,
             ease: "power1.out",
-            duration: 0.5,
+            duration: 0.4,
           },
-          0.15
+          0
         );
 
-        // ----------------------------------------------------
-        // Stage 2 (0.7 -> 1.4): Card 1 flies upward (-110vh)
-        // ----------------------------------------------------
+        // Stage 2 (0.4 -> 0.8): Card 1 flies upward
         tl.to(
           card1Ref.current,
           {
-            y: "-110vh",
+            y: "-90vh",
             rotateZ: -8,
+            opacity: 0,
             ease: "power1.in",
-            duration: 0.7,
+            duration: 0.4,
           },
-          0.7
+          0.4
         );
 
-        // ----------------------------------------------------
-        // Stage 3 (1.4 -> 2.1): Card 2 flies upward (-110vh)
+        // Stage 3 (0.8 -> 1.2): Card 2 flies upward
         // Card 3 stays centered at 0deg!
-        // ----------------------------------------------------
         tl.to(
           card2Ref.current,
           {
-            y: "-110vh",
-            rotateZ: 3,
+            y: "-90vh",
+            rotateZ: 6,
+            opacity: 0,
             ease: "power1.in",
-            duration: 0.7,
+            duration: 0.4,
           },
-          1.4
+          0.8
         );
       });
 
       // Mobile: under 1024px (Normal flow, no pin)
       mm.add("(max-width: 1023px)", () => {
         gsap.set(wallTextRef.current, { scale: 1, color: "#161616" });
-        gsap.set([deckWrapperRef.current, card1Ref.current, card2Ref.current, card3Ref.current], {
-          clearProps: "all",
-        });
+        gsap.set(
+          [deckWrapperRef.current, card1Ref.current, card2Ref.current, card3Ref.current],
+          {
+            clearProps: "all",
+          }
+        );
       });
     }, pinWrapperRef);
 
@@ -157,130 +179,172 @@ export function CustomerSection({ data }: { data?: any }) {
       {/* Pinned Stage Container */}
       <div
         ref={pinWrapperRef}
-        className="relative w-full h-screen min-h-[680px] max-h-[960px] flex items-center justify-center overflow-hidden"
+        className="relative w-full h-[640px] sm:h-[700px] flex items-center justify-center overflow-hidden"
       >
-        {/* A20: Solid Giant Typography "Wall of love" (~85% viewport width, weight 700, solid #161616) */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+        {/* A20: Headline "Wall of love" fitting ~88% of screen with font-weight 600 */}
+        <div
+          ref={textWrapperRef}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 px-6 sm:px-12"
+        >
           <h2
             ref={wallTextRef}
-            className="text-[22vw] sm:text-[23vw] lg:text-[24vw] xl:text-[340px] font-bold tracking-[-0.04em] leading-none text-center whitespace-nowrap will-change-transform text-[#161616]"
+            className="font-semibold tracking-[-0.03em] leading-none text-center whitespace-nowrap will-change-transform text-[#161616]"
+            style={{ fontWeight: 600 }}
           >
             Wall of love
           </h2>
         </div>
 
-        {/* A21: Centered Testimonial Card Stack Deck (Covers the middle of "Wall of love", z-10) */}
+        {/* A21: Deck sits centered over "of", starting at the middle height of letters and hanging below baseline */}
         <div
           ref={deckWrapperRef}
-          className="absolute inset-0 z-10 flex items-center justify-center will-change-transform pointer-events-none"
+          className="absolute inset-x-0 top-[52%] -translate-y-1/2 z-10 flex items-center justify-center will-change-transform pointer-events-none"
         >
-          <div className="relative w-full max-w-lg h-[280px] sm:h-[320px] flex items-center justify-center pointer-events-auto">
+          <div className="relative w-full max-w-md h-[210px] sm:h-[220px] flex items-center justify-center pointer-events-auto">
             {/* Card 1 (Top of stack, z-30) */}
             <div
               ref={card1Ref}
-              style={{ zIndex: 30 }}
-              className="absolute w-[360px] sm:w-[460px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
+              style={{
+                zIndex: 30,
+                boxShadow:
+                  "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+              }}
+              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-between will-change-transform"
             >
               <div>
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-3">
-                    <div className="size-10 rounded-full bg-[#161616] text-white flex items-center justify-center font-bold text-xs">
-                      EA
+                <div className="flex items-center justify-between pb-3 border-b border-[#ECEDEF]">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className="size-8 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                      style={{ backgroundColor: PLACEHOLDER_CARDS[0].avatarBg }}
+                    >
+                      {PLACEHOLDER_CARDS[0].initials}
                     </div>
                     <div>
-                      <h4 className="text-sm font-semibold text-[#161616] leading-tight">
-                        {PLACEHOLDER_TESTIMONIALS[0].name}
+                      <h4 className="text-[15px] font-semibold text-[#161616] leading-tight">
+                        {PLACEHOLDER_CARDS[0].title}
                       </h4>
-                      <span className="text-[11px] text-[#6B6F76]">
-                        {PLACEHOLDER_TESTIMONIALS[0].role}
-                      </span>
                     </div>
                   </div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600">
-                    {PLACEHOLDER_TESTIMONIALS[0].tag}
+                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
+                    Placeholder
                   </span>
                 </div>
-                <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
-                  "{PLACEHOLDER_TESTIMONIALS[0].quote}"
+                <p className="mt-3 text-[13px] text-[#6B6F76] leading-relaxed">
+                  {PLACEHOLDER_CARDS[0].subtitle}
                 </p>
               </div>
-              <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-                <span className="font-medium text-slate-700">{PLACEHOLDER_TESTIMONIALS[0].footerTag}</span>
-                <span className="text-slate-400 font-mono">LMS Domain Early Access</span>
+              <div className="pt-3 border-t border-[#ECEDEF] flex items-center justify-between text-[11px] text-[#6B6F76]">
+                <span className="font-medium text-[#161616]">LMS Domain Academy Network</span>
+                <span className="font-mono text-[#7B5CF5] font-semibold">{PLACEHOLDER_CARDS[0].caseNum}</span>
               </div>
             </div>
 
             {/* Card 2 (Middle of stack, z-20) */}
             <div
               ref={card2Ref}
-              style={{ zIndex: 20 }}
-              className="absolute w-[360px] sm:w-[460px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
+              style={{
+                zIndex: 20,
+                boxShadow:
+                  "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+              }}
+              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-between will-change-transform"
             >
               <div>
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-3">
-                    <div className="size-10 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center font-bold text-xs">
-                      PT
+                <div className="flex items-center justify-between pb-3 border-b border-[#ECEDEF]">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className="size-8 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                      style={{ backgroundColor: PLACEHOLDER_CARDS[1].avatarBg }}
+                    >
+                      {PLACEHOLDER_CARDS[1].initials}
                     </div>
                     <div>
-                      <h4 className="text-sm font-semibold text-[#161616] leading-tight">
-                        {PLACEHOLDER_TESTIMONIALS[1].name}
+                      <h4 className="text-[15px] font-semibold text-[#161616] leading-tight">
+                        {PLACEHOLDER_CARDS[1].title}
                       </h4>
-                      <span className="text-[11px] text-[#6B6F76]">
-                        {PLACEHOLDER_TESTIMONIALS[1].role}
-                      </span>
                     </div>
                   </div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-purple-50 text-[#7B5CF5]">
-                    {PLACEHOLDER_TESTIMONIALS[1].tag}
+                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
+                    Placeholder
                   </span>
                 </div>
-                <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
-                  "{PLACEHOLDER_TESTIMONIALS[1].quote}"
+                <p className="mt-3 text-[13px] text-[#6B6F76] leading-relaxed">
+                  {PLACEHOLDER_CARDS[1].subtitle}
                 </p>
               </div>
-              <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-                <span className="font-medium text-slate-700">{PLACEHOLDER_TESTIMONIALS[1].footerTag}</span>
-                <span className="text-slate-400 font-mono">Institutional Telemetry</span>
+              <div className="pt-3 border-t border-[#ECEDEF] flex items-center justify-between text-[11px] text-[#6B6F76]">
+                <span className="font-medium text-[#161616]">LMS Domain Academy Network</span>
+                <span className="font-mono text-[#7B5CF5] font-semibold">{PLACEHOLDER_CARDS[1].caseNum}</span>
               </div>
             </div>
 
-            {/* Card 3 (Bottom of stack / stays at 0deg, z-10) */}
+            {/* Card 3 (Bottom of stack / stays settled at 0deg, z-10) */}
             <div
               ref={card3Ref}
-              style={{ zIndex: 10 }}
-              className="absolute w-[360px] sm:w-[460px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
+              style={{
+                zIndex: 10,
+                boxShadow:
+                  "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+              }}
+              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-between will-change-transform"
             >
               <div>
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                  <div className="flex items-center gap-3">
-                    <div className="size-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
-                      GA
+                <div className="flex items-center justify-between pb-3 border-b border-[#ECEDEF]">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className="size-8 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                      style={{ backgroundColor: PLACEHOLDER_CARDS[2].avatarBg }}
+                    >
+                      {PLACEHOLDER_CARDS[2].initials}
                     </div>
                     <div>
-                      <h4 className="text-sm font-semibold text-[#161616] leading-tight">
-                        {PLACEHOLDER_TESTIMONIALS[2].name}
+                      <h4 className="text-[15px] font-semibold text-[#161616] leading-tight">
+                        {PLACEHOLDER_CARDS[2].title}
                       </h4>
-                      <span className="text-[11px] text-[#6B6F76]">
-                        {PLACEHOLDER_TESTIMONIALS[2].role}
-                      </span>
                     </div>
                   </div>
-                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">
-                    {PLACEHOLDER_TESTIMONIALS[2].tag}
+                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
+                    Placeholder
                   </span>
                 </div>
-                <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
-                  "{PLACEHOLDER_TESTIMONIALS[2].quote}"
+                <p className="mt-3 text-[13px] text-[#6B6F76] leading-relaxed">
+                  {PLACEHOLDER_CARDS[2].subtitle}
                 </p>
               </div>
-              <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-                <span className="font-medium text-slate-700">{PLACEHOLDER_TESTIMONIALS[2].footerTag}</span>
-                <span className="text-[#7B5CF5] font-semibold">Inquire Now</span>
+              <div className="pt-3 border-t border-[#ECEDEF] flex items-center justify-between text-[11px] text-[#6B6F76]">
+                <span className="font-medium text-[#161616]">LMS Domain Academy Network</span>
+                <span className="font-mono text-[#7B5CF5] font-semibold">{PLACEHOLDER_CARDS[2].caseNum}</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Flow */}
+      <div className="w-full flex flex-col gap-4 lg:hidden px-4 py-8">
+        {PLACEHOLDER_CARDS.map((card) => (
+          <div
+            key={card.id}
+            className="rounded-[20px] bg-white border border-[#ECEDEF] shadow-sm p-5 flex flex-col gap-2"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div
+                  className="size-7 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                  style={{ backgroundColor: card.avatarBg }}
+                >
+                  {card.initials}
+                </div>
+                <h4 className="text-sm font-semibold text-[#161616]">{card.title}</h4>
+              </div>
+              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76]">
+                Placeholder
+              </span>
+            </div>
+            <p className="text-xs text-[#6B6F76]">{card.subtitle}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
