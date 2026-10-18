@@ -169,11 +169,11 @@ export function CustomerSection({ data }: { data?: any }) {
   }, []);
 
   return (
-    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible">
-      {/* Pinned Stage Container: Compact height with direct exit to FAQ */}
+    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:-mb-32">
+      {/* Pinned Stage Container: Compact height with direct exit to FAQ (Desktop Only >=1024px) */}
       <div
         ref={pinWrapperRef}
-        className="relative w-full h-[520px] sm:h-[560px] flex items-center justify-center overflow-hidden"
+        className="relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
       >
         {/* A20: Headline "Wall of love" fitting ~88% of screen with font-weight 600 */}
         <div
@@ -192,7 +192,7 @@ export function CustomerSection({ data }: { data?: any }) {
         {/* A21: Deck sits centered over "of", starting at the middle height of letters and hanging below baseline */}
         <div
           ref={deckWrapperRef}
-          className="absolute inset-x-0 top-[52%] -translate-y-1/2 z-10 flex items-center justify-center will-change-transform pointer-events-none"
+          className="absolute inset-x-0 top-[50%] -translate-y-1/2 z-10 flex items-center justify-center will-change-transform pointer-events-none"
         >
           <div className="relative w-full max-w-md h-[130px] sm:h-[140px] flex items-center justify-center pointer-events-auto">
             {/* Card 1 (Top of stack, z-30) */}
@@ -282,27 +282,34 @@ export function CustomerSection({ data }: { data?: any }) {
         </div>
       </div>
 
-      {/* Mobile Flow */}
-      <div className="w-full flex flex-col gap-4 lg:hidden px-4 py-8">
-        {PLACEHOLDER_CARDS.map((card) => (
-          <div
-            key={card.id}
-            className="rounded-[20px] bg-white border border-[#ECEDEF] shadow-sm p-4 flex items-center justify-between"
-          >
-            <div className="flex items-center gap-2.5">
-              <div
-                className="size-8 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                style={{ backgroundColor: card.avatarBg }}
-              >
-                {card.initials}
+      {/* Mobile Flow (<1024px, no pin): Text fits screen width with cards stacked below */}
+      <div className="w-full flex flex-col items-center gap-8 lg:hidden px-4 py-12">
+        <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-center text-[#161616]">
+          Wall of love
+        </h2>
+        <div className="w-full max-w-md flex flex-col gap-3.5">
+          {PLACEHOLDER_CARDS.map((card) => (
+            <div
+              key={card.id}
+              className="rounded-[20px] bg-white border border-[#ECEDEF] shadow-sm p-4 sm:p-5 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className="size-9 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                  style={{ backgroundColor: card.avatarBg }}
+                >
+                  {card.initials}
+                </div>
+                <h4 className="text-sm sm:text-base font-semibold text-[#161616]">
+                  Customer story coming soon
+                </h4>
               </div>
-              <h4 className="text-sm font-semibold text-[#161616]">Customer story coming soon</h4>
+              <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
+                Placeholder
+              </span>
             </div>
-            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76]">
-              Placeholder
-            </span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );

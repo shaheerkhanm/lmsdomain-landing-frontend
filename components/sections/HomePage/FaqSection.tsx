@@ -99,12 +99,12 @@ export function FaqSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="faq" className="py-20 sm:py-32 bg-[#F3F4F6] font-urbanist">
+    <section ref={sectionRef} id="faq" className="pt-8 sm:pt-10 lg:pt-6 pb-20 sm:pb-32 bg-[#F3F4F6] font-urbanist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Large Rounded Enclosure Card (Mota 00:32 Exact Style) */}
         <div
           ref={cardRef}
-          className="rounded-[32px] sm:rounded-[40px] bg-white border border-slate-100 p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)]"
+          className="rounded-[32px] sm:rounded-[40px] bg-white border border-slate-100 p-8 sm:p-12 lg:px-14 lg:pb-14 lg:pt-10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)]"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             {/* Left Column: Title & Subtitle (Mota 00:32 Style) */}
