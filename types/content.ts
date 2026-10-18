@@ -71,6 +71,7 @@ export interface AiToolTab {
   id: string;
   tabNumber: number;
   tag: string;
+  shortLabel: string;
   title: string;
   description: string;
 }

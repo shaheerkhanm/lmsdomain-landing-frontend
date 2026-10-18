@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import { aiSectionContent } from "@/content/home/ai";
 
 export function AiSection() {
@@ -10,7 +9,7 @@ export function AiSection() {
 
   // Simulated typing effect for tutor response when Tab 0 is active
   const tutorFullResponse =
-    "Quizzes check comprehension with automated scoring, while assignments require learner submissions and instructor review.";
+    "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor evaluation.";
 
   useEffect(() => {
     if (activeTab === 0) {
@@ -23,7 +22,7 @@ export function AiSection() {
           }
           return prev + 3;
         });
-      }, 30);
+      }, 25);
       return () => clearInterval(interval);
     }
   }, [activeTab]);
@@ -37,7 +36,7 @@ export function AiSection() {
     >
       <div
         id="ai-studio"
-        className="max-w-7xl mx-auto rounded-[36px] sm:rounded-[48px] lg:rounded-[56px] bg-[#161616] text-white py-14 sm:py-20 lg:py-24 px-6 sm:px-10 lg:px-14 relative overflow-hidden shadow-2xl border border-white/5"
+        className="max-w-7xl mx-auto rounded-[36px] sm:rounded-[48px] lg:rounded-[56px] bg-[#161616] text-white py-12 sm:py-16 lg:py-20 px-6 sm:px-10 lg:px-14 relative overflow-hidden shadow-2xl border border-white/10"
       >
         {/* Soft Accent Glow behind Window */}
         <div
@@ -46,7 +45,7 @@ export function AiSection() {
         />
 
         {/* Section Header */}
-        <div className="max-w-3xl mb-12 sm:mb-16 relative z-10">
+        <div className="max-w-3xl mb-10 sm:mb-14 relative z-10">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[#C9CCD1] text-xs font-semibold uppercase tracking-wider mb-4">
             <span className="text-[#7B5CF5]">✦</span>
             <span>{aiSectionContent.badge}</span>
@@ -59,7 +58,7 @@ export function AiSection() {
           </p>
         </div>
 
-        {/* Mobile Horizontal Tabs Row (<1024px, no pin) */}
+        {/* Mobile Horizontal Tabs Row (<1024px, no pin) - Short labels that fit */}
         <div className="flex lg:hidden overflow-x-auto no-scrollbar gap-2 pb-6 relative z-10">
           {aiSectionContent.tabs.map((tab, idx) => {
             const isActive = activeTab === idx;
@@ -74,85 +73,70 @@ export function AiSection() {
                     : "bg-white/10 text-[#C9CCD1] hover:bg-white/15 hover:text-white"
                 }`}
               >
-                {tab.title}
+                {tab.shortLabel}
               </button>
             );
           })}
         </div>
 
-        {/* Main Grid: Desktop Rail + Viewport (Left) & Animated Window (Right) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center relative z-10">
-          {/* Left Column: Numbered Rail + A13 Viewport (Desktop) */}
-          <div className="hidden lg:flex lg:col-span-5 items-center gap-6 sm:gap-8">
-            {/* Vertical Progress Rail with 4 Steps */}
-            <div className="relative flex flex-col items-center justify-between h-[340px] w-7 shrink-0">
-              {/* Background Rail Track */}
-              <div className="absolute top-3 bottom-3 w-0.5 bg-white/10 -z-10" />
-              {/* Active Purple Track */}
-              <div
-                className="absolute top-3 w-0.5 bg-[#7B5CF5] transition-all duration-500 ease-out -z-10"
-                style={{
-                  height: `${(activeTab / 3) * 100}%`,
-                }}
-              />
-
-              {[0, 1, 2, 3].map((idx) => {
-                const isActive = activeTab === idx;
-                return (
-                  <button
-                    key={idx}
-                    type="button"
-                    onClick={() => setActiveTab(idx as 0 | 1 | 2 | 3)}
-                    className={`size-7 rounded-full flex items-center justify-center text-xs font-mono transition-all duration-300 cursor-pointer ${
-                      isActive
-                        ? "bg-[#7B5CF5] text-white font-bold scale-110 shadow-lg shadow-[#7B5CF5]/40"
-                        : "bg-white/10 text-white/40 hover:text-white hover:bg-white/20"
-                    }`}
-                  >
-                    {idx + 1}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* A13: Single Visible Step Viewport */}
-            <div className="overflow-hidden h-[340px] relative w-full flex items-center">
-              <motion.div
-                animate={{ y: -activeTab * 340 }}
-                transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
-                className="flex flex-col w-full"
-              >
-                {aiSectionContent.tabs.map((tab, idx) => {
-                  const isActive = activeTab === idx;
-                  return (
-                    <motion.div
-                      key={tab.id}
-                      animate={{ opacity: isActive ? 1 : 0.2 }}
-                      transition={{ duration: 0.4 }}
-                      className="h-[340px] flex flex-col justify-center space-y-3.5 pr-4"
+        {/* Main Grid: Desktop Stepper (Left) & Animated Window (Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+          {/* Left Column: 4-Step Vertical Stepper (Desktop) */}
+          <div className="hidden lg:flex lg:col-span-5 flex-col justify-center space-y-4">
+            {aiSectionContent.tabs.map((tab, idx) => {
+              const isActive = activeTab === idx;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveTab(idx as 0 | 1 | 2 | 3)}
+                  className={`text-left p-4 rounded-2xl transition-all duration-200 cursor-pointer border ${
+                    isActive
+                      ? "bg-white/5 border-white/15 shadow-sm"
+                      : "bg-transparent border-transparent hover:bg-white/[0.03]"
+                  }`}
+                >
+                  <div className="flex items-start gap-3.5">
+                    {/* Step Number Circle */}
+                    <div
+                      className={`size-7 rounded-full flex items-center justify-center text-xs font-mono font-bold shrink-0 transition-all ${
+                        isActive
+                          ? "bg-[#7B5CF5] text-white shadow-md shadow-[#7B5CF5]/30 scale-105"
+                          : "bg-white/10 text-[#6B6F76] border border-white/10"
+                      }`}
                     >
-                      <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5]">
-                        <span>✦</span>
-                        <span className="uppercase tracking-widest text-[11px] font-bold">
+                      {idx + 1}
+                    </div>
+
+                    <div className="space-y-1 min-w-0 flex-1">
+                      {isActive && (
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#8E7CF8] block">
                           {tab.tag}
                         </span>
-                      </div>
-                      <h3 className="text-2xl sm:text-3xl lg:text-[34px] font-semibold tracking-tight text-white leading-snug">
+                      )}
+                      {/* Active step title is #FFFFFF, inactive titles are #6B6F76 */}
+                      <h3
+                        className={`text-[17px] sm:text-[18px] font-semibold tracking-tight transition-colors ${
+                          isActive ? "text-white" : "text-[#6B6F76]"
+                        }`}
+                      >
                         {tab.title}
                       </h3>
-                      <p className="text-sm sm:text-base text-[#C9CCD1] leading-relaxed max-w-md">
-                        {tab.description}
-                      </p>
-                    </motion.div>
-                  );
-                })}
-              </motion.div>
-            </div>
+                      {isActive && (
+                        <p className="text-[13px] sm:text-[14px] text-[#C9CCD1] leading-relaxed pt-1">
+                          {tab.description}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
 
           {/* Right Column: Animated Interactive Studio Window */}
           <div className="lg:col-span-7">
-            <div className="rounded-[28px] sm:rounded-[36px] bg-[#1E1F23] border border-white/10 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] p-5 sm:p-7 lg:p-8 space-y-6">
+            <div className="rounded-[28px] sm:rounded-[36px] bg-[#1E1F23] border border-white/15 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] p-5 sm:p-7 lg:p-8 space-y-6">
               {/* Window Header */}
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <div className="flex items-center gap-3">
@@ -163,7 +147,7 @@ export function AiSection() {
                     <span className="text-base sm:text-lg font-bold tracking-tight text-white block leading-tight">
                       LMS Domain AI Studio
                     </span>
-                    <span className="text-[11px] text-[#C9CCD1]/70 font-mono">
+                    <span className="text-[11px] text-[#C9CCD1] font-mono">
                       {currentTab.title}
                     </span>
                   </div>
@@ -174,20 +158,20 @@ export function AiSection() {
                 </span>
               </div>
 
-              {/* 4 Tool Switcher Tabs inside Window */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 bg-white/5 p-1 rounded-2xl text-xs font-medium border border-white/5">
+              {/* 4 Tool Switcher Tabs inside Window - Short labels that fit without ellipses */}
+              <div className="grid grid-cols-4 gap-1.5 bg-white/5 p-1 rounded-2xl text-xs font-medium border border-white/10">
                 {aiSectionContent.tabs.map((tab, idx) => (
                   <button
                     key={tab.id}
                     type="button"
                     onClick={() => setActiveTab(idx as 0 | 1 | 2 | 3)}
-                    className={`py-2 px-2 rounded-xl transition-all cursor-pointer text-center truncate ${
+                    className={`py-2 px-1 rounded-xl transition-all cursor-pointer text-center truncate text-[11px] sm:text-xs ${
                       activeTab === idx
                         ? "bg-[#7B5CF5] text-white shadow-sm font-semibold"
                         : "text-[#C9CCD1] hover:text-white hover:bg-white/5"
                     }`}
                   >
-                    {tab.title.replace("AI ", "")}
+                    {tab.shortLabel}
                   </button>
                 ))}
               </div>
@@ -226,7 +210,7 @@ export function AiSection() {
                       </div>
                     </div>
 
-                    <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-[#C9CCD1]/70">
+                    <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-[#C9CCD1]">
                       <span>Course History Saved</span>
                       <span className="text-[#A78BFA] font-medium">Context-Aware AI Tutor</span>
                     </div>
@@ -271,7 +255,7 @@ export function AiSection() {
                     </div>
 
                     <div className="pt-2 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-xs text-[#C9CCD1]/70">
+                      <span className="text-xs text-[#C9CCD1]">
                         Draft titles, descriptions & outcomes
                       </span>
                       <button
@@ -329,7 +313,7 @@ export function AiSection() {
                       </p>
                     </div>
 
-                    <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-[#C9CCD1]/70">
+                    <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-[#C9CCD1]">
                       <span>Continuous Academy Monitoring</span>
                       <span className="text-amber-400 font-medium">3 Suggested Actions</span>
                     </div>
@@ -345,7 +329,7 @@ export function AiSection() {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                       </svg>
                       <span className="font-medium text-white truncate">Search or ask anything…</span>
-                      <span className="ml-auto text-[10px] font-mono text-white/50 bg-white/10 border border-white/15 px-2 py-0.5 rounded">
+                      <span className="ml-auto text-[10px] font-mono text-[#C9CCD1] bg-white/10 border border-white/15 px-2 py-0.5 rounded">
                         ⌘K
                       </span>
                     </div>
@@ -383,7 +367,7 @@ export function AiSection() {
                       </div>
                     </div>
 
-                    <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-[#C9CCD1]/70">
+                    <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-[#C9CCD1]">
                       <span>One search box for admin and answers</span>
                       <span className="text-[#A78BFA] font-medium">Instant Universal Access</span>
                     </div>

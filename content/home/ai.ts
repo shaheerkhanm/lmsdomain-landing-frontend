@@ -9,6 +9,7 @@ export const aiSectionContent: AiSectionContent = {
       id: "tutor",
       tabNumber: 1,
       tag: "AI TUTOR",
+      shortLabel: "AI tutor",
       title: "HelpDesk AI tutor",
       description:
         "Learners ask questions and get answers taken from their own courses. Every chat is saved, with its own history for each course.",
@@ -17,6 +18,7 @@ export const aiSectionContent: AiSectionContent = {
       id: "generator",
       tabNumber: 2,
       tag: "CONTENT DRAFTING",
+      shortLabel: "Content",
       title: "Domie AI content generator",
       description:
         "Draft course titles, descriptions and learning outcomes, then edit and publish.",
@@ -25,6 +27,7 @@ export const aiSectionContent: AiSectionContent = {
       id: "analytics",
       tabNumber: 3,
       tag: "PRESCRIPTIVE ANALYTICS",
+      shortLabel: "Analytics",
       title: "AI prescriptive analytics",
       description:
         "A dashboard that flags falling enrolments, expiring coupons and low course engagement, with a short summary of what to do next.",
@@ -33,10 +36,10 @@ export const aiSectionContent: AiSectionContent = {
       id: "command_bar",
       tabNumber: 4,
       tag: "COMMAND BAR",
+      shortLabel: "Command bar",
       title: "AI command bar",
       description:
         "One search box for every admin page, plus answers to questions about the platform.",
     },
   ],
 };
-
