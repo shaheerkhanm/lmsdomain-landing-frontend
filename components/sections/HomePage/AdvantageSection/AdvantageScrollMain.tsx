@@ -1,9 +1,29 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
-import Image from "next/image";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { benefitsContent } from "@/content/home/benefits";
+
+const BENEFIT_CARDS = [
+  {
+    id: benefitsContent.cards[0].id,
+    title: benefitsContent.cards[0].title,
+    description: benefitsContent.cards[0].summary,
+    imageSrc: "/assets/img/home/benefits/benefit_sell_anywhere.png",
+  },
+  {
+    id: benefitsContent.cards[1].id,
+    title: benefitsContent.cards[1].title,
+    description: benefitsContent.cards[1].summary,
+    imageSrc: "/assets/img/home/benefits/benefit_your_brand.png",
+  },
+  {
+    id: benefitsContent.cards[2].id,
+    title: benefitsContent.cards[2].title,
+    description: benefitsContent.cards[2].summary,
+    imageSrc: "/assets/img/home/benefits/benefit_keep_learners.png",
+  },
+];
 
 export function AdvantageScrollMain({ data }: { data?: any }) {
   const pinWrapperRef = useRef<HTMLDivElement>(null);
@@ -24,15 +44,16 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
-        // A18: Initial side-by-side row view (cards sit completely upright, tops lined up, NO y-offset)
+        // A18: Initial side-by-side row view (all 3 cards equal size and equal top alignment, y: 0)
         gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], {
           x: 0,
           y: 0,
           rotateZ: 0,
+          scale: 1,
         });
         gsap.set(groupRef.current, { rotateZ: 0, scale: 1, opacity: 1 });
 
-        // ScrollTrigger pinned collapse sequence
+        // ScrollTrigger pinned collapse sequence per spec §5.7 & ref_25.00s to ref_27.75s
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
@@ -44,49 +65,69 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
           },
         });
 
+        // ----------------------------------------------------
         // Segment 1 (progress 0 -> 0.6):
-        // Group rotates 0 -> 45deg, scale 1 -> 1.25
+        // Scale never goes above 1 (stays at 0.95-1.0).
+        // Group rotates as one to -35deg.
+        // Cards slide into diagonal stack at center (Card 3 on top)
+        // ----------------------------------------------------
         tl.to(
           groupRef.current,
           {
-            rotateZ: 45,
-            scale: 1.22,
-            ease: "power2.inOut",
+            rotateZ: -35,
+            scale: 0.92,
+            ease: "power1.inOut",
             duration: 0.6,
           },
           0
         );
 
-        // Card 1 shifts inward to overlap card 2
         tl.to(
           card1Ref.current,
           {
-            x: 180,
+            x: 290,
             y: 0,
-            ease: "power2.inOut",
+            rotateZ: 0,
+            ease: "power1.inOut",
             duration: 0.6,
           },
           0
         );
 
-        // Card 3 shifts inward to overlap card 2
+        tl.to(
+          card2Ref.current,
+          {
+            x: 0,
+            y: 0,
+            rotateZ: 0,
+            ease: "power1.inOut",
+            duration: 0.6,
+          },
+          0
+        );
+
         tl.to(
           card3Ref.current,
           {
-            x: -180,
+            x: -290,
             y: 0,
-            ease: "power2.inOut",
+            rotateZ: 0,
+            ease: "power1.inOut",
             duration: 0.6,
           },
           0
         );
 
+        // ----------------------------------------------------
         // Segment 2 (progress 0.6 -> 1.0):
-        // Deck stays assembled in diagonal view, smooth exit transition
+        // Stack shrinks and fades toward the centre
+        // ----------------------------------------------------
         tl.to(
           groupRef.current,
           {
-            opacity: 0.95,
+            rotateZ: -45,
+            scale: 0.1,
+            opacity: 0,
             ease: "power1.in",
             duration: 0.4,
           },
@@ -96,26 +137,19 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
 
       // Mobile: under 1024px (Normal static stack, no pin or rotate exit)
       mm.add("(max-width: 1023px)", () => {
-        gsap.set(
-          [groupRef.current, card1Ref.current, card2Ref.current, card3Ref.current],
-          {
-            clearProps: "all",
-          }
-        );
+        gsap.set([groupRef.current, card1Ref.current, card2Ref.current, card3Ref.current], {
+          clearProps: "all",
+        });
       });
     }, pinWrapperRef);
 
     return () => ctx.revert();
   }, []);
 
-  const card1 = benefitsContent.cards[0];
-  const card2 = benefitsContent.cards[1];
-  const card3 = benefitsContent.cards[2];
-
   return (
     <div
       ref={pinWrapperRef}
-      className="relative max-w-6xl mx-auto w-full flex flex-col items-center justify-center min-h-[500px] sm:min-h-[540px] overflow-visible font-urbanist"
+      className="relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible font-urbanist"
     >
       {/* Desktop Group Wrapper (A19 GSAP scrubbed rotation & collapse) */}
       <div
@@ -125,40 +159,30 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         {/* Card 1: Sell Anywhere */}
         <div
           ref={card1Ref}
-          style={{
-            zIndex: 10,
-            boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
-          }}
-          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform text-center"
+          style={{ zIndex: 10 }}
+          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] shadow-[0_16px_40px_-10px_rgba(0,0,0,0.08)] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform"
         >
-          {/* Faint subtle grid texture */}
+          {/* Faint dot grid background */}
           <div
-            className="absolute inset-0 pointer-events-none opacity-20"
+            className="absolute inset-0 pointer-events-none opacity-30"
             style={{
               backgroundImage: "radial-gradient(#94A3B8 1px, transparent 1px)",
               backgroundSize: "16px 16px",
             }}
           />
-
-          {/* Top 55%: Large 3D Object (~180px tall) */}
-          <div className="relative z-10 w-[180px] h-[180px] shrink-0 flex items-center justify-center">
-            <Image
-              src="/assets/img/home/benefits/benefit_sell_anywhere.png"
-              alt="Sell anywhere 3D illustration"
-              width={180}
-              height={180}
-              className="object-contain drop-shadow-md"
-              priority
+          <div className="relative z-10 shrink-0 pt-2 flex items-center justify-center h-[170px]">
+            <img
+              src={BENEFIT_CARDS[0].imageSrc}
+              alt={BENEFIT_CARDS[0].title}
+              className="h-[145px] w-auto object-contain drop-shadow-md select-none pointer-events-none"
             />
           </div>
-
-          {/* Bottom Content: Title & 2-Line Subtitle */}
-          <div className="relative z-10 space-y-1.5 pb-2">
+          <div className="relative z-10 text-center space-y-2 pb-2">
             <h4 className="text-[18px] font-semibold text-[#161616] tracking-tight">
-              {card1.title}
+              {BENEFIT_CARDS[0].title}
             </h4>
-            <p className="text-[14px] font-normal text-[#6B6F76] leading-relaxed max-w-[260px]">
-              {card1.summary}
+            <p className="text-[13px] text-[#6B6F76] leading-relaxed max-w-[260px]">
+              {BENEFIT_CARDS[0].description}
             </p>
           </div>
         </div>
@@ -166,111 +190,81 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         {/* Card 2: Your brand, your domain */}
         <div
           ref={card2Ref}
-          style={{
-            zIndex: 20,
-            boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
-          }}
-          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform text-center"
+          style={{ zIndex: 20 }}
+          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] shadow-[0_16px_40px_-10px_rgba(0,0,0,0.08)] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform"
         >
           <div
-            className="absolute inset-0 pointer-events-none opacity-20"
+            className="absolute inset-0 pointer-events-none opacity-30"
             style={{
               backgroundImage: "radial-gradient(#94A3B8 1px, transparent 1px)",
               backgroundSize: "16px 16px",
             }}
           />
-
-          {/* Top 55%: Large 3D Object (~180px tall) */}
-          <div className="relative z-10 w-[180px] h-[180px] shrink-0 flex items-center justify-center">
-            <Image
-              src="/assets/img/home/benefits/benefit_your_brand.png"
-              alt="Your brand 3D illustration"
-              width={180}
-              height={180}
-              className="object-contain drop-shadow-md"
-              priority
+          <div className="relative z-10 shrink-0 pt-2 flex items-center justify-center h-[170px]">
+            <img
+              src={BENEFIT_CARDS[1].imageSrc}
+              alt={BENEFIT_CARDS[1].title}
+              className="h-[145px] w-auto object-contain drop-shadow-md select-none pointer-events-none"
             />
           </div>
-
-          <div className="relative z-10 space-y-1.5 pb-2">
+          <div className="relative z-10 text-center space-y-2 pb-2">
             <h4 className="text-[18px] font-semibold text-[#161616] tracking-tight">
-              {card2.title}
+              {BENEFIT_CARDS[1].title}
             </h4>
-            <p className="text-[14px] font-normal text-[#6B6F76] leading-relaxed max-w-[260px]">
-              {card2.summary}
+            <p className="text-[13px] text-[#6B6F76] leading-relaxed max-w-[260px]">
+              {BENEFIT_CARDS[1].description}
             </p>
           </div>
         </div>
 
-        {/* Card 3: Keep learners coming back (Lined up on same line, no y-offset) */}
+        {/* Card 3: Keep learners coming back */}
         <div
           ref={card3Ref}
-          style={{
-            zIndex: 30,
-            boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
-          }}
-          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform text-center"
+          style={{ zIndex: 30 }}
+          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] shadow-[0_16px_40px_-10px_rgba(0,0,0,0.08)] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform"
         >
           <div
-            className="absolute inset-0 pointer-events-none opacity-20"
+            className="absolute inset-0 pointer-events-none opacity-30"
             style={{
               backgroundImage: "radial-gradient(#94A3B8 1px, transparent 1px)",
               backgroundSize: "16px 16px",
             }}
           />
-
-          {/* Top 55%: Large 3D Object (~180px tall) */}
-          <div className="relative z-10 w-[180px] h-[180px] shrink-0 flex items-center justify-center">
-            <Image
-              src="/assets/img/home/benefits/benefit_keep_learners.png"
-              alt="Keep learners coming back 3D illustration"
-              width={180}
-              height={180}
-              className="object-contain drop-shadow-md"
-              priority
+          <div className="relative z-10 shrink-0 pt-2 flex items-center justify-center h-[170px]">
+            <img
+              src={BENEFIT_CARDS[2].imageSrc}
+              alt={BENEFIT_CARDS[2].title}
+              className="h-[145px] w-auto object-contain drop-shadow-md select-none pointer-events-none"
             />
           </div>
-
-          <div className="relative z-10 space-y-1.5 pb-2">
+          <div className="relative z-10 text-center space-y-2 pb-2">
             <h4 className="text-[18px] font-semibold text-[#161616] tracking-tight">
-              {card3.title}
+              {BENEFIT_CARDS[2].title}
             </h4>
-            <p className="text-[14px] font-normal text-[#6B6F76] leading-relaxed max-w-[260px]">
-              {card3.summary}
+            <p className="text-[13px] text-[#6B6F76] leading-relaxed max-w-[260px]">
+              {BENEFIT_CARDS[2].description}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Mobile Vertical Flow */}
-      <div className="w-full flex flex-col gap-6 lg:hidden px-4">
-        {benefitsContent.cards.map((card, idx) => (
+      {/* Mobile Vertical Flow (No exit animation) */}
+      <div className="w-full flex flex-col gap-6 lg:hidden">
+        {BENEFIT_CARDS.map((card) => (
           <div
             key={card.id}
             className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4"
           >
-            <div className="w-[140px] h-[140px] shrink-0 relative flex items-center justify-center">
-              <Image
-                src={
-                  idx === 0
-                    ? "/assets/img/home/benefits/benefit_sell_anywhere.png"
-                    : idx === 1
-                    ? "/assets/img/home/benefits/benefit_your_brand.png"
-                    : "/assets/img/home/benefits/benefit_keep_learners.png"
-                }
+            <div className="shrink-0 flex items-center justify-center h-[140px]">
+              <img
+                src={card.imageSrc}
                 alt={card.title}
-                width={140}
-                height={140}
-                className="object-contain drop-shadow-sm"
+                className="h-[120px] w-auto object-contain drop-shadow-sm select-none pointer-events-none"
               />
             </div>
-            <div className="space-y-1.5">
-              <h4 className="text-[18px] font-semibold text-[#161616] tracking-tight">
-                {card.title}
-              </h4>
-              <p className="text-[14px] font-normal text-[#6B6F76] leading-relaxed">
-                {card.summary}
-              </p>
+            <div className="space-y-2">
+              <h4 className="text-xl font-semibold text-[#161616]">{card.title}</h4>
+              <p className="text-sm text-[#6B6F76] leading-relaxed">{card.description}</p>
             </div>
           </div>
         ))}
