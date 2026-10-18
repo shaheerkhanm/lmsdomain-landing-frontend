@@ -1,7 +1,7 @@
 import { HeroContent } from "@/types/content";
 
 export const heroContent: HeroContent = {
-  titlePrefix: "Meet all-in-one platform to",
+  titlePrefix: "Meet all-in-one platform",
   rotatingWords: [
     { text: "teach", bg: "#F3CF74" },
     { text: "sell", bg: "#FBCFE8" },
@@ -13,50 +13,43 @@ export const heroContent: HeroContent = {
   ctaText: "Request a Demo",
   cards: [
     {
-      type: "chat",
+      type: "course_builder",
+      title: "Course builder",
+      subtitle: "Sections and lessons",
+      lessons: [
+        { title: "Course Introduction & Setup", type: "video" },
+        { title: "Architecture Blueprint", type: "pdf" },
+        { title: "Checkpoint Evaluation", type: "quiz" },
+      ],
+      dripChip: "Drip: unlocks Monday",
+    },
+    {
+      type: "ai_tutor",
       badge: "AI",
       title: "HelpDesk AI tutor",
+      subtitle: "Answers from your own courses",
       question: "What's the difference between a quiz and an assignment?",
       answer:
-        "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor evaluation.",
-      sourceLabel: "From your course: Module 2",
+        "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor review.",
+      sourceChip: "From your course: Module 2",
     },
     {
-      type: "analytics",
-      badge: "AI",
-      title: "AI prescriptive analytics",
-      flaggedRows: [
-        "Enrolments falling in Python Basics",
-        "2 coupons expire this week",
-        "Low engagement in Module 4",
-      ],
-      summary: "Review Module 4 checkpoint tasks and send a promotional update for expiring coupons.",
+      type: "checkout",
+      title: "Checkout",
+      subtitle: "Instant global enrollment",
+      courseName: "Full-Stack Web Engineering",
+      priceUsd: "$89",
+      priceInr: "₹7,499",
+      couponText: "WELCOME10 applied",
+      gateways: ["Stripe", "Razorpay", "Paytm", "DOKU"],
     },
     {
-      type: "generator",
-      badge: "AI",
-      title: "Domie AI content generator",
-      draftedTitle: "Modern Full-Stack Engineering",
-      draftedDescription:
-        "Learn essential frontend architecture, backend services, and scalable web deployment from scratch.",
-      learningOutcomes: [
-        "Construct responsive user interfaces with modern components",
-        "Implement clean server-side application logic and storage",
-        "Deliver complete web projects with verified domain hosting",
-      ],
-      buttonText: "Generate",
-    },
-    {
-      type: "command_bar",
-      badge: "AI",
-      title: "AI command bar",
-      searchPlaceholder: "Search or ask anything…",
-      resultRows: [
-        { label: "Settings / Custom Domain & SSL", category: "Admin page" },
-        { label: "Python Basics for Beginners", category: "Course" },
-        { label: "How do I schedule recurring live classes with Zoom?", category: "Platform question" },
-      ],
+      type: "certificate",
+      title: "Certificate issued",
+      subtitle: "Verified course completion",
+      learnerName: "Aisha K.",
+      courseName: "Full-Stack Web Engineering",
+      buttonText: "View certificate",
     },
   ],
 };
-

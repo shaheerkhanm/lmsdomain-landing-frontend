@@ -37,7 +37,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
-    <section className="relative pt-24 sm:pt-28 lg:pt-28 pb-16 sm:pb-24 overflow-x-clip bg-white font-urbanist">
+    <section className="relative pt-18 sm:pt-20 lg:pt-22 pb-12 sm:pb-16 overflow-x-clip bg-white font-urbanist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center">
         {/* A24: Hero load entrance stagger */}
         <motion.div
@@ -54,7 +54,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           {/* 2. Mota 2-Line Subtitle */}
           <motion.p
             variants={heroItemVariants}
-            className="mt-5 max-w-xl text-center text-sm sm:text-base text-[#6B6F76] leading-relaxed"
+            className="mt-4 max-w-xl text-center text-sm sm:text-base text-[#6B6F76] leading-relaxed"
           >
             {heroContent.subtitle}
           </motion.p>
@@ -63,7 +63,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           <motion.div
             variants={heroItemVariants}
             id="hero-cta"
-            className="mt-6 flex items-center justify-center"
+            className="mt-5 flex items-center justify-center"
           >
             <button
               type="button"
@@ -75,8 +75,8 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           </motion.div>
         </motion.div>
 
-        {/* 4. Mota Floating Cards & Converging Dashboard Stage (A05) */}
-        <div className="mt-14 sm:mt-16 lg:mt-20 w-full">
+        {/* 4. Mota Floating Cards & Converging Dashboard Stage (A05) - ~48px spacing from button */}
+        <div className="mt-11 sm:mt-12 w-full">
           <LmsProductStage onOpenModal={() => setShowDemoModal(true)} />
         </div>
       </div>

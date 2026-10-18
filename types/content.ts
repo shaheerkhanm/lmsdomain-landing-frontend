@@ -1,46 +1,53 @@
-export interface AiCardChat {
-  type: "chat";
+export interface HeroCourseBuilderCard {
+  type: "course_builder";
+  title: string;
+  subtitle: string;
+  lessons: { title: string; type: "video" | "pdf" | "quiz" }[];
+  dripChip: string;
+}
+
+export interface HeroTutorCard {
+  type: "ai_tutor";
   badge: string;
   title: string;
+  subtitle: string;
   question: string;
   answer: string;
-  sourceLabel: string;
+  sourceChip: string;
 }
 
-export interface AiCardAnalytics {
-  type: "analytics";
-  badge: string;
+export interface HeroCheckoutCard {
+  type: "checkout";
   title: string;
-  flaggedRows: string[];
-  summary: string;
+  subtitle: string;
+  courseName: string;
+  priceUsd: string;
+  priceInr: string;
+  couponText: string;
+  gateways: string[];
 }
 
-export interface AiCardGenerator {
-  type: "generator";
-  badge: string;
+export interface HeroCertificateCard {
+  type: "certificate";
   title: string;
-  draftedTitle: string;
-  draftedDescription: string;
-  learningOutcomes: string[];
+  subtitle: string;
+  learnerName: string;
+  courseName: string;
   buttonText: string;
 }
 
-export interface AiCardCommandBar {
-  type: "command_bar";
-  badge: string;
-  title: string;
-  searchPlaceholder: string;
-  resultRows: { label: string; category: string }[];
-}
-
-export type HeroAiCard = AiCardChat | AiCardAnalytics | AiCardGenerator | AiCardCommandBar;
+export type HeroProductCard =
+  | HeroCourseBuilderCard
+  | HeroTutorCard
+  | HeroCheckoutCard
+  | HeroCertificateCard;
 
 export interface HeroContent {
   titlePrefix: string;
   rotatingWords: { text: string; bg: string }[];
   subtitle: string;
   ctaText: string;
-  cards: HeroAiCard[];
+  cards: HeroProductCard[];
 }
 
 export interface FeatureCardItem {

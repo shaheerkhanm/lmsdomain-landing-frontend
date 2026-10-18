@@ -1,7 +1,14 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { heroContent } from "@/content/home/hero";
+import {
+  HeroCourseBuilderCard,
+  HeroTutorCard,
+  HeroCheckoutCard,
+  HeroCertificateCard,
+} from "@/types/content";
 
 interface LmsProductStageProps {
   onOpenModal?: () => void;
@@ -15,8 +22,17 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
   const card3Ref = useRef<HTMLDivElement>(null);
   const card4Ref = useRef<HTMLDivElement>(null);
 
+  const [currency, setCurrency] = useState<"USD" | "INR">("USD");
+
+  const card1Data = heroContent.cards[0] as HeroCourseBuilderCard;
+  const card2Data = heroContent.cards[1] as HeroTutorCard;
+  const card3Data = heroContent.cards[2] as HeroCheckoutCard;
+  const card4Data = heroContent.cards[3] as HeroCertificateCard;
+
   useEffect(() => {
-    const isReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
@@ -28,23 +44,21 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: stageRef.current,
-            start: "top 70%",
-            end: "top 15%",
+            start: "top 75%",
+            end: "top 18%",
             scrub: 0.8,
           },
         });
 
-        // Start offsets matching Mota reference frame 0.5s:
-        // Cards sit below the CTA button, stick out past the frame, and tilt noticeably
+        // Starts slightly floated and tilted within bounds (-6° to +6°, safe margins >= 48px)
         tl.from(
           card1Ref.current,
           {
-            x: -240,
-            y: -35,
-            scale: 1.15,
-            rotateZ: -8,
-            rotateX: 6,
-            transformPerspective: 1200,
+            x: -70,
+            y: -24,
+            rotateZ: -4.5,
+            rotateX: 4,
+            transformPerspective: 1000,
             ease: "power1.inOut",
           },
           0
@@ -53,12 +67,11 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         tl.from(
           card2Ref.current,
           {
-            x: 240,
-            y: -35,
-            scale: 1.15,
-            rotateZ: 7,
-            rotateX: 6,
-            transformPerspective: 1200,
+            x: 70,
+            y: -24,
+            rotateZ: 4.5,
+            rotateX: 4,
+            transformPerspective: 1000,
             ease: "power1.inOut",
           },
           0.02
@@ -67,35 +80,33 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         tl.from(
           card3Ref.current,
           {
-            x: -180,
-            y: 60,
-            scale: 1.12,
-            rotateZ: -6,
-            rotateX: 8,
-            transformPerspective: 1200,
+            x: -50,
+            y: 30,
+            rotateZ: -3.5,
+            rotateX: 4,
+            transformPerspective: 1000,
             ease: "power1.inOut",
           },
-          0.05
+          0.04
         );
 
         tl.from(
           card4Ref.current,
           {
-            x: 180,
-            y: 60,
-            scale: 1.12,
-            rotateZ: 6,
-            rotateX: 8,
-            transformPerspective: 1200,
+            x: 50,
+            y: 30,
+            rotateZ: 3.5,
+            rotateX: 4,
+            transformPerspective: 1000,
             ease: "power1.inOut",
           },
-          0.07
+          0.06
         );
 
         tl.from(
           frameRef.current,
           {
-            scale: 0.88,
+            scale: 0.94,
             ease: "power1.inOut",
           },
           0
@@ -110,17 +121,20 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
           scrollTrigger: {
             trigger: stageRef.current,
             start: "top 85%",
-            end: "top 40%",
+            end: "top 45%",
             scrub: 0.8,
           },
         });
 
-        tl.from([card1Ref.current, card2Ref.current, card3Ref.current, card4Ref.current], {
-          y: 20,
-          opacity: 0.85,
-          stagger: 0.04,
-          ease: "power1.out",
-        });
+        tl.from(
+          [card1Ref.current, card2Ref.current, card3Ref.current, card4Ref.current],
+          {
+            y: 20,
+            opacity: 0.9,
+            stagger: 0.05,
+            ease: "power1.out",
+          }
+        );
       });
     }, stageRef);
 
@@ -131,62 +145,62 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
     <div
       ref={stageRef}
       style={{ perspective: 1200 }}
-      className="relative mx-auto max-w-5xl w-full min-h-[580px] sm:min-h-[640px] font-urbanist overflow-visible"
+      className="relative mx-auto max-w-[940px] w-full font-urbanist overflow-visible scale-[0.88] sm:scale-95 lg:scale-100 origin-top"
     >
       <style jsx>{`
         @keyframes subtleFloat1 {
           0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-4px); }
+          50% { transform: translateY(-3px); }
         }
         @keyframes subtleFloat2 {
           0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-3.5px); }
+          50% { transform: translateY(-3px); }
         }
         @keyframes subtleFloat3 {
           0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-4px); }
+          50% { transform: translateY(-2.5px); }
         }
         @keyframes subtleFloat4 {
           0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-3px); }
+          50% { transform: translateY(-2.5px); }
         }
-        .float-wrap-1 { animation: subtleFloat1 3.4s ease-in-out infinite; }
+        .float-wrap-1 { animation: subtleFloat1 3.5s ease-in-out infinite; }
         .float-wrap-2 { animation: subtleFloat2 3.8s ease-in-out infinite 0.4s; }
         .float-wrap-3 { animation: subtleFloat3 3.6s ease-in-out infinite 0.8s; }
         .float-wrap-4 { animation: subtleFloat4 4.0s ease-in-out infinite 1.2s; }
       `}</style>
 
-      {/* Frame Layer (Shell: Dark frame + Sidebar + App Bar + Dot grid canvas) - Sibling to Cards */}
+      {/* Frame Layer (Shell: Dark frame + Sidebar + App Bar + Dot grid canvas) */}
       <div
         ref={frameRef}
-        className="rounded-[32px] sm:rounded-[36px] bg-[#18191B] p-2.5 sm:p-3 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.18)] min-h-[580px] sm:min-h-[640px] flex flex-col overflow-visible"
+        className="rounded-[28px] sm:rounded-[32px] bg-[#18191B] p-2 sm:p-2.5 shadow-[0_24px_60px_-15px_rgba(0,0,0,0.18)] min-h-[490px] sm:min-h-[520px] flex flex-col overflow-visible"
       >
-        <div className="rounded-[24px] sm:rounded-[28px] bg-[#FAF9F6] flex min-h-[560px] sm:min-h-[616px] relative overflow-hidden flex-1">
+        <div className="rounded-[22px] sm:rounded-[26px] bg-[#FAF9F6] flex min-h-[470px] sm:min-h-[500px] relative overflow-hidden flex-1">
           {/* Left Dark Icon Sidebar */}
-          <aside className="w-14 sm:w-16 bg-[#18191B] flex flex-col items-center justify-between py-5 shrink-0 text-white/50 border-r border-white/5 z-0">
+          <aside className="w-12 sm:w-14 bg-[#18191B] flex flex-col items-center justify-between py-4 shrink-0 text-white/50 border-r border-white/5 z-0">
             {/* Top Logo Mark */}
-            <div className="space-y-6 flex flex-col items-center">
-              <div className="size-9 rounded-xl bg-white/10 flex items-center justify-center text-white p-2">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="size-5" strokeWidth="2.5">
+            <div className="space-y-5 flex flex-col items-center">
+              <div className="size-8 rounded-lg bg-white/10 flex items-center justify-center text-white p-1.5">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="size-4" strokeWidth="2.5">
                   <rect x="3" y="3" width="18" height="18" rx="4" />
                   <path d="M9 9h6v6H9z" />
                 </svg>
               </div>
 
               {/* Sidebar Navigation Icons */}
-              <nav className="flex flex-col items-center gap-4 text-white/60">
-                <div className="size-8 rounded-lg bg-white/15 text-white flex items-center justify-center cursor-pointer">
-                  <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <nav className="flex flex-col items-center gap-3.5 text-white/60">
+                <div className="size-7 rounded-md bg-white/15 text-white flex items-center justify-center cursor-pointer">
+                  <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                   </svg>
                 </div>
-                <div className="size-8 rounded-lg hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
-                  <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <div className="size-7 rounded-md hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                  <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                   </svg>
                 </div>
-                <div className="size-8 rounded-lg hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
-                  <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <div className="size-7 rounded-md hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                  <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
                 </div>
@@ -194,291 +208,293 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             </div>
 
             {/* Bottom Utility Icons */}
-            <div className="flex flex-col items-center gap-4 text-white/50">
-              <div className="size-8 rounded-lg hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
-                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <div className="flex flex-col items-center gap-3.5 text-white/50">
+              <div className="size-7 rounded-md hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
               </div>
-              <div className="size-8 rounded-lg hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
-                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <div className="size-7 rounded-md hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <div className="size-8 rounded-lg hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
-                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
               </div>
             </div>
           </aside>
 
           {/* Main Dashboard Canvas Area */}
-          <div className="flex-1 p-4 sm:p-6 lg:p-7 flex flex-col justify-between relative z-0">
-            {/* Background Dot Grid Texture */}
+          <div className="flex-1 p-3.5 sm:p-5 flex flex-col justify-between relative z-0">
+            {/* Background Dot Grid */}
             <div
-              className="absolute inset-0 pointer-events-none opacity-40"
+              className="absolute inset-0 pointer-events-none opacity-30"
               style={{
                 backgroundImage: "radial-gradient(#CBD5E1 1px, transparent 1px)",
-                backgroundSize: "20px 20px",
+                backgroundSize: "18px 18px",
               }}
             />
 
             {/* Top Application Bar */}
-            <div className="relative z-0 flex items-center justify-between pb-5 sm:pb-6 border-b border-slate-200/80">
-              <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Home</h2>
+            <div className="relative z-0 flex items-center justify-between pb-3.5 border-b border-slate-200/80">
+              <h2 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">Home</h2>
 
-              <div className="flex items-center gap-3">
-                {/* Search Bar */}
-                <div className="hidden sm:flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-slate-200 shadow-2xs w-48 lg:w-64 text-xs text-slate-400">
-                  <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <div className="flex items-center gap-2.5">
+                <div className="hidden sm:flex items-center gap-1.5 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs text-[11px] text-slate-400">
+                  <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                   <span>Search courses or cohorts...</span>
                 </div>
 
-                {/* Black Pill Button: Start Meeting */}
                 <button
                   type="button"
                   onClick={onOpenModal}
-                  className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#161616] hover:bg-black text-white text-xs font-semibold flex items-center gap-1.5 shadow-2xs transition-all active:scale-95 cursor-pointer"
+                  className="px-3 py-1 rounded-full bg-[#161616] hover:bg-black text-white text-[11px] font-semibold flex items-center gap-1 shadow-2xs transition-all active:scale-95 cursor-pointer"
                 >
                   <span>Start Class</span>
-                  <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="size-2.5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M17 10.5V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1v-3.5l4 4v-11l-4 4z" />
                   </svg>
                 </button>
 
-                {/* User Avatar */}
-                <div className="size-8 rounded-full bg-purple-100 border border-purple-200 overflow-hidden shrink-0 flex items-center justify-center font-bold text-xs text-[#7B5CF5]">
+                <div className="size-7 rounded-full bg-purple-100 border border-purple-200 overflow-hidden shrink-0 flex items-center justify-center font-bold text-[11px] text-[#7B5CF5]">
                   LD
                 </div>
               </div>
             </div>
 
-            {/* Reserve height in canvas for the 2x2 grid */}
-            <div className="flex-1 min-h-[420px] sm:min-h-[460px]" />
+            {/* Reserved space in canvas for docked 2x2 cards */}
+            <div className="flex-1 min-h-[380px]" />
           </div>
         </div>
       </div>
 
-      {/* Cards Layer (4 Converging AI Tool Cards - Sibling to frame, absolutely positioned over canvas, z-10) */}
-      <div className="absolute inset-0 pt-[82px] sm:pt-[94px] pl-[64px] sm:pl-[84px] pr-4 sm:pr-6 pb-4 sm:pb-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 z-10 pointer-events-auto items-stretch">
-        {/* Card 1: HelpDesk AI tutor (Top-Left) */}
+      {/* Cards Layer (4 Mixed Product Cards - Sibling to frame, z-10) */}
+      <div className="absolute inset-0 pt-[68px] sm:pt-[76px] pl-[54px] sm:pl-[66px] pr-3 sm:pr-4 pb-3 sm:pb-4 grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 z-10 pointer-events-auto items-stretch">
+        {/* Card 1: Course Builder (Top-Left) */}
         <div ref={card1Ref} className="will-change-transform flex">
-          <div className="float-wrap-1 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div
+            className="float-wrap-1 w-full rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] flex flex-col justify-between hover:shadow-lg transition-shadow relative overflow-hidden"
+            style={{
+              boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+            }}
+          >
+            <span className="absolute top-0 left-6 right-6 h-[2px] rounded-full bg-[#7B5CF5] opacity-80" />
             <div>
-              <div className="flex items-center justify-between pb-1">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#7B5CF5] text-[10px] font-bold border border-purple-200/60">
-                    AI
-                  </span>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">HelpDesk AI tutor</h3>
-                </div>
+              <div className="flex items-center justify-between">
+                <h3 className="font-urbanist text-[17px] sm:text-[18px] font-semibold text-[#161616] tracking-tight">
+                  {card1Data.title}
+                </h3>
               </div>
-              <p className="text-xs text-[#6B6F76] mt-0.5">Learner questions answered from course context.</p>
+              <p className="text-[13px] text-[#6B6F76] mt-0.5 truncate">{card1Data.subtitle}</p>
 
-              <div className="mt-3.5 space-y-2.5">
-                {/* Learner Question Bubble */}
-                <div className="flex items-start gap-2 justify-end">
-                  <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-slate-100 px-3 py-2 text-xs text-slate-800">
-                    <p className="font-medium">What&apos;s the difference between a quiz and an assignment?</p>
-                  </div>
-                </div>
-
-                {/* AI Tutor Response Bubble */}
-                <div className="flex items-start gap-2">
-                  <div className="size-6 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
-                    AI
-                  </div>
-                  <div className="max-w-[90%] rounded-2xl rounded-tl-xs bg-purple-50/70 border border-purple-100 px-3 py-2 text-xs text-slate-800 space-y-1.5">
-                    <p className="leading-relaxed">
-                      Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor evaluation.
-                    </p>
-                    <div className="pt-0.5">
-                      <span className="inline-flex items-center gap-1 text-[10px] text-[#7B5CF5] font-semibold bg-white/90 border border-purple-200/60 px-2 py-0.5 rounded-full">
-                        <span>✦</span>
-                        From your course: Module 2
-                      </span>
+              {/* Three Lesson Rows with Icons */}
+              <div className="mt-3 space-y-2">
+                {card1Data.lessons.map((lesson, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between bg-[#F5F6F8] rounded-[12px] px-3 py-2 text-[13px] text-[#161616]"
+                  >
+                    <div className="flex items-center gap-2 truncate">
+                      {lesson.type === "video" && (
+                        <span className="size-5 rounded-md bg-purple-100 text-[#7B5CF5] flex items-center justify-center shrink-0">
+                          <svg className="size-3" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </span>
+                      )}
+                      {lesson.type === "pdf" && (
+                        <span className="size-5 rounded-md bg-indigo-100 text-indigo-600 flex items-center justify-center shrink-0">
+                          <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                          </svg>
+                        </span>
+                      )}
+                      {lesson.type === "quiz" && (
+                        <span className="size-5 rounded-md bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                          <svg className="size-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        </span>
+                      )}
+                      <span className="font-medium truncate">{lesson.title}</span>
                     </div>
+                    <span className="text-[11px] text-[#6B6F76] uppercase tracking-wider font-semibold ml-2 shrink-0">
+                      {lesson.type}
+                    </span>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Saved Course History</span>
-              <span className="text-[#7B5CF5] font-semibold">Context-Aware AI</span>
+            <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]">
+                <span className="size-1.5 rounded-full bg-[#7B5CF5]" />
+                {card1Data.dripChip}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Card 2: AI prescriptive analytics (Top-Right) */}
+        {/* Card 2: HelpDesk AI Tutor (Top-Right) */}
         <div ref={card2Ref} className="will-change-transform flex">
-          <div className="float-wrap-2 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div
+            className="float-wrap-2 w-full rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] flex flex-col justify-between hover:shadow-lg transition-shadow relative overflow-hidden"
+            style={{
+              boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+            }}
+          >
+            <span className="absolute top-0 left-6 right-6 h-[2px] rounded-full bg-[#8E7CF8] opacity-80" />
             <div>
-              <div className="flex items-center justify-between pb-1">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#7B5CF5] text-[10px] font-bold border border-purple-200/60">
-                    AI
-                  </span>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">AI prescriptive analytics</h3>
-                </div>
+              <div className="flex items-center justify-between">
+                <h3 className="font-urbanist text-[17px] sm:text-[18px] font-semibold text-[#161616] tracking-tight">
+                  {card2Data.title}
+                </h3>
+                <span className="px-2 py-0.5 rounded-full bg-[#7B5CF5] text-white text-[10px] font-bold">
+                  {card2Data.badge}
+                </span>
               </div>
-              <p className="text-xs text-[#6B6F76] mt-0.5">Flags drop-offs and recommends next steps.</p>
+              <p className="text-[13px] text-[#6B6F76] mt-0.5 truncate">{card2Data.subtitle}</p>
 
+              {/* Chat bubbles */}
               <div className="mt-3 space-y-2">
-                {/* 3 Flagged Rows */}
-                <div className="px-3 py-2 rounded-xl bg-amber-50/70 border border-amber-200/60 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 text-slate-800">
-                    <span className="size-2 rounded-full bg-amber-500 shrink-0" />
-                    <span className="font-medium truncate">Enrolments falling in Python Basics</span>
+                <div className="flex justify-end">
+                  <div className="max-w-[85%] rounded-[12px] rounded-tr-xs bg-[#F5F6F8] px-3 py-2 text-[12px] text-[#161616] font-medium leading-relaxed">
+                    {card2Data.question}
                   </div>
-                  <span className="text-[10px] text-amber-700 font-semibold shrink-0">Flagged</span>
                 </div>
 
-                <div className="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 text-slate-800">
-                    <span className="size-2 rounded-full bg-[#7B5CF5] shrink-0" />
-                    <span className="font-medium truncate">2 coupons expire this week</span>
+                <div className="flex items-start gap-2">
+                  <div className="size-5 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">
+                    AI
                   </div>
-                  <span className="text-[10px] text-purple-700 font-semibold shrink-0">Action</span>
-                </div>
-
-                <div className="px-3 py-2 rounded-xl bg-rose-50/60 border border-rose-200/60 flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2 text-slate-800">
-                    <span className="size-2 rounded-full bg-rose-500 shrink-0" />
-                    <span className="font-medium truncate">Low engagement in Module 4</span>
+                  <div className="max-w-[88%] rounded-[12px] rounded-tl-xs bg-purple-50/70 border border-purple-100 px-3 py-2 text-[12px] text-slate-800 leading-relaxed">
+                    {card2Data.answer}
                   </div>
-                  <span className="text-[10px] text-rose-700 font-semibold shrink-0">Review</span>
-                </div>
-
-                {/* One-Line Summary Card */}
-                <div className="mt-2.5 p-2.5 rounded-xl bg-purple-50/40 border border-purple-100 text-[11px] text-slate-700 flex items-start gap-1.5">
-                  <span className="text-[#7B5CF5] font-bold">Summary:</span>
-                  <span className="leading-tight">Review Module 4 checkpoint tasks and send a promotional update for expiring coupons.</span>
                 </div>
               </div>
             </div>
 
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Real-Time Insights</span>
-              <span className="text-amber-600 font-semibold">3 Flagged Items</span>
+            <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]">
+                <span className="size-1.5 rounded-full bg-[#8E7CF8]" />
+                {card2Data.sourceChip}
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Card 3: Domie AI content generator (Bottom-Left) */}
+        {/* Card 3: Checkout (Bottom-Left) */}
         <div ref={card3Ref} className="will-change-transform flex">
-          <div className="float-wrap-3 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div
+            className="float-wrap-3 w-full rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] flex flex-col justify-between hover:shadow-lg transition-shadow relative overflow-hidden"
+            style={{
+              boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+            }}
+          >
+            <span className="absolute top-0 left-6 right-6 h-[2px] rounded-full bg-[#F3CF74] opacity-80" />
             <div>
-              <div className="flex items-center justify-between pb-1">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#7B5CF5] text-[10px] font-bold border border-purple-200/60">
-                    AI
-                  </span>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Domie AI content generator</h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-urbanist text-[17px] sm:text-[18px] font-semibold text-[#161616] tracking-tight">
+                  {card3Data.title}
+                </h3>
+                {/* Currency Switch */}
+                <div className="inline-flex p-0.5 rounded-md bg-[#F5F6F8] border border-[#ECEDEF] text-[10px] font-semibold">
+                  <button
+                    type="button"
+                    onClick={() => setCurrency("USD")}
+                    className={`px-2 py-0.5 rounded ${
+                      currency === "USD" ? "bg-white text-[#161616] shadow-2xs" : "text-[#6B6F76]"
+                    }`}
+                  >
+                    USD
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setCurrency("INR")}
+                    className={`px-2 py-0.5 rounded ${
+                      currency === "INR" ? "bg-white text-[#161616] shadow-2xs" : "text-[#6B6F76]"
+                    }`}
+                  >
+                    INR
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={onOpenModal}
-                  className="px-3 py-1 rounded-full bg-[#161616] hover:bg-black text-white text-[11px] font-semibold transition-colors cursor-pointer"
-                >
-                  Generate
-                </button>
               </div>
-              <p className="text-xs text-[#6B6F76] mt-0.5">Drafted titles, descriptions, and learning outcomes.</p>
+              <p className="text-[13px] text-[#6B6F76] mt-0.5 truncate">{card3Data.subtitle}</p>
 
               <div className="mt-3 space-y-2">
-                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/70 space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">DRAFTED TITLE</span>
-                  <p className="text-xs font-bold text-slate-900">Modern Full-Stack Engineering</p>
-                  <p className="text-[11px] text-[#6B6F76] leading-tight">
-                    Learn essential frontend architecture, backend services, and scalable web deployment from scratch.
-                  </p>
+                <div className="flex items-center justify-between bg-[#F5F6F8] rounded-[12px] px-3 py-2 text-[13px]">
+                  <span className="font-medium text-[#161616] truncate">{card3Data.courseName}</span>
+                  <span className="font-bold text-[#161616] ml-2 shrink-0">
+                    {currency === "USD" ? card3Data.priceUsd : card3Data.priceInr}
+                  </span>
                 </div>
 
-                <div className="p-2.5 rounded-xl bg-purple-50/50 border border-purple-100 space-y-1">
-                  <span className="text-[10px] uppercase font-bold text-[#7B5CF5] block tracking-wider">3 LEARNING OUTCOMES</span>
-                  <ul className="text-[11px] text-slate-700 space-y-0.5 leading-snug">
-                    <li className="flex items-center gap-1.5 truncate">
-                      <span className="text-emerald-600 font-bold">✓</span> Construct responsive user interfaces with modern components
-                    </li>
-                    <li className="flex items-center gap-1.5 truncate">
-                      <span className="text-emerald-600 font-bold">✓</span> Implement clean server-side application logic and storage
-                    </li>
-                    <li className="flex items-center gap-1.5 truncate">
-                      <span className="text-emerald-600 font-bold">✓</span> Deliver complete web projects with verified domain hosting
-                    </li>
-                  </ul>
+                <div className="flex items-center justify-between bg-emerald-50/70 border border-emerald-100 rounded-[12px] px-3 py-1.5 text-[12px] text-emerald-800">
+                  <span className="flex items-center gap-1.5 font-medium">
+                    <svg className="size-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    {card3Data.couponText}
+                  </span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Applied</span>
                 </div>
               </div>
             </div>
 
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Edit & Publish Anytime</span>
-              <span className="text-[#7B5CF5] font-semibold">Course Drafting</span>
+            <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {card3Data.gateways.map((gw, idx) => (
+                  <span
+                    key={idx}
+                    className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]"
+                  >
+                    {gw}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Card 4: AI command bar (Bottom-Right) */}
+        {/* Card 4: Certificate Issued (Bottom-Right) */}
         <div ref={card4Ref} className="will-change-transform flex">
-          <div className="float-wrap-4 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
+          <div
+            className="float-wrap-4 w-full rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] flex flex-col justify-between hover:shadow-lg transition-shadow relative overflow-hidden"
+            style={{
+              boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+            }}
+          >
+            <span className="absolute top-0 left-6 right-6 h-[2px] rounded-full bg-[#A6E3D3] opacity-80" />
             <div>
-              <div className="flex items-center justify-between pb-1">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#7B5CF5] text-[10px] font-bold border border-purple-200/60">
-                    AI
-                  </span>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900">AI command bar</h3>
-                </div>
+              <div className="flex items-center justify-between">
+                <h3 className="font-urbanist text-[17px] sm:text-[18px] font-semibold text-[#161616] tracking-tight">
+                  {card4Data.title}
+                </h3>
               </div>
-              <p className="text-xs text-[#6B6F76] mt-0.5">One search box for admin navigation and questions.</p>
+              <p className="text-[13px] text-[#6B6F76] mt-0.5 truncate">{card4Data.subtitle}</p>
 
-              <div className="mt-3 space-y-2.5">
-                {/* Search Input Box */}
-                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-500">
-                  <svg className="size-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              <div className="mt-3 flex items-center gap-3 bg-[#F5F6F8] rounded-[12px] p-3 border border-[#ECEDEF]">
+                {/* 3D Medal Illustration */}
+                <div className="size-11 rounded-xl bg-linear-to-br from-[#F3CF74] via-[#EAB308] to-[#CA8A04] flex items-center justify-center text-white shadow-md shrink-0 border border-white/40">
+                  <svg className="size-6 drop-shadow-sm" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
-                  <span className="font-medium text-slate-800 truncate">Search or ask anything…</span>
-                  <span className="ml-auto text-[10px] font-mono text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded">⌘K</span>
                 </div>
-
-                {/* 3 Result Rows */}
-                <div className="space-y-1.5">
-                  <div className="px-2.5 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200/60 flex items-center justify-between text-xs transition-colors">
-                    <div className="flex items-center gap-2 text-slate-800">
-                      <span className="text-slate-400">⚙️</span>
-                      <span className="font-medium truncate">Settings / Custom Domain & SSL</span>
-                    </div>
-                    <span className="text-[10px] text-slate-400 font-mono shrink-0">Admin page</span>
-                  </div>
-
-                  <div className="px-2.5 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200/60 flex items-center justify-between text-xs transition-colors">
-                    <div className="flex items-center gap-2 text-slate-800">
-                      <span className="text-slate-400">📚</span>
-                      <span className="font-medium truncate">Python Basics for Beginners</span>
-                    </div>
-                    <span className="text-[10px] text-purple-700 font-mono shrink-0">Course</span>
-                  </div>
-
-                  <div className="px-2.5 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200/60 flex items-center justify-between text-xs transition-colors">
-                    <div className="flex items-center gap-2 text-slate-800">
-                      <span className="text-slate-400">💬</span>
-                      <span className="font-medium truncate">How do I schedule recurring live classes with Zoom?</span>
-                    </div>
-                    <span className="text-[10px] text-emerald-700 font-mono shrink-0">Platform question</span>
-                  </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13px] font-bold text-[#161616] truncate">{card4Data.learnerName}</p>
+                  <p className="text-[11px] text-[#6B6F76] truncate">{card4Data.courseName}</p>
                 </div>
               </div>
             </div>
 
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Universal Admin Command</span>
-              <span className="text-[#7B5CF5] font-semibold">Direct Answers</span>
+            <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
+              <button
+                type="button"
+                onClick={onOpenModal}
+                className="w-full py-1.5 px-3 rounded-[10px] bg-[#161616] hover:bg-black text-white text-[12px] font-semibold text-center transition-colors cursor-pointer"
+              >
+                {card4Data.buttonText}
+              </button>
             </div>
           </div>
         </div>
