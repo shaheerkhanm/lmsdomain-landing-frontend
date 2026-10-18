@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Manrope } from "next/font/google";
+import { Urbanist, Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/SmoothScroll"
 import Canonical from "@/components/layout/Canonical";
 import { Toaster } from "@/components/ui/sonner";
+
+const urbanist = Urbanist({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-urbanist",
+  display: "swap",
+});
 
 const inter = Inter({
   subsets: ['latin'],
@@ -32,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${manrope.variable} antialiased !mr-0`}>
+      <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} font-urbanist bg-white text-[#161616] antialiased !mr-0`}>
         <Canonical />
         <Header />
         <SmoothScroll>

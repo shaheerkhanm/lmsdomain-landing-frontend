@@ -87,3 +87,4 @@
 - **Phase 6 Wall of Love:** Implement A20, A21 (solid text scaling + upward card flight; remove click-peel; placeholder testimonials).
 - **Phase 7 Showcase:** Implement A13–A17 (single visible step slide, folder fly-in, ring, complete, 3D illustration).
 - **Phase 8 FAQ & Polish:** Implement A22, A23 (`ScrollTrigger.refresh()` on accordion toggle), mobile/reduced-motion passes.
+

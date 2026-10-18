@@ -36,7 +36,25 @@
   --breakpoint-2xl: 1536px;
   --breakpoint-3xl: 2100px;
 
+  /* Motion Reconstruction Tokens (§6.1) */
+  --color-page: #FFFFFF;
+  --color-alternate: #F3F4F6;
+  --color-ink: #161616;
+  --color-body-gray: #6B6F76;
+  --color-unlit: #C9CCD1;
+  --color-mota-accent: #7B5CF5;
+  --color-pill-yellow: #F3CF74;
+  --color-pill-purple: #8E7CF8;
+  --color-pill-mint: #A6E3D3;
+
+  --radius-card-large: 40px;
+  --radius-card-benefit: 28px;
+  --radius-card-ui: 20px;
+  --radius-pill-nav: 18px;
+  --radius-btn: 12px;
+
   /* Custom Fonts */
+  --font-urbanist: var(--font-urbanist);
   --font-manrope: var(--font-manrope);
   --font-inter: var(--font-inter);
 
