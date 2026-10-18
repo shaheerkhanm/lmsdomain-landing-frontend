@@ -1,140 +1,217 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-
 import { featuresContent } from "@/content/home/features";
 
 export function FeaturesSection({ data }: { data?: any }) {
   const pinWrapperRef = useRef<HTMLDivElement>(null);
+
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
   const card2ContentRef = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
   const card3ContentRef = useRef<HTMLDivElement>(null);
 
+  // VisualRefs for Card 1
+  const c1MainImgRef = useRef<HTMLDivElement>(null);
+  const c1SecondPanelRef = useRef<HTMLDivElement>(null);
+  const c1ChipRef = useRef<HTMLDivElement>(null);
+  const c1SvgPathRef = useRef<SVGPathElement>(null);
+
+  // VisualRefs for Card 2
+  const c2MainImgRef = useRef<HTMLDivElement>(null);
+  const c2SecondPanelRef = useRef<HTMLDivElement>(null);
+  const c2ChipRef = useRef<HTMLDivElement>(null);
+  const c2SvgPathRef = useRef<SVGPathElement>(null);
+
+  // VisualRefs for Card 3
+  const c3MainImgRef = useRef<HTMLDivElement>(null);
+  const c3SecondPanelRef = useRef<HTMLDivElement>(null);
+  const c3ChipRef = useRef<HTMLDivElement>(null);
+  const c3SvgPathRef = useRef<SVGPathElement>(null);
+
   useEffect(() => {
-    const isReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // Desktop: 1024px and up (A09 Rear-Reveal Stacking Cards)
+      // Desktop: 1024px and up (Mota exact paper-stacking cards)
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
-        // Initial positions per Mota frame 8.5s:
-        // Card 1 at 0
-        // Card 2 at +46px (peeking under card 1 with unblurred 02 number label)
-        // Card 3 at +92px (peeking under card 2 with unblurred 03 number label)
-        gsap.set(card1Ref.current, { y: 0 });
-        gsap.set(card2Ref.current, { y: 46 });
-        gsap.set(card2ContentRef.current, { opacity: 0.2, filter: "blur(4px)" });
-        gsap.set(card3Ref.current, { y: 92 });
-        gsap.set(card3ContentRef.current, { opacity: 0.2, filter: "blur(4px)" });
+        // Card 1 starts at top: 0px, settled.
+        // Card 2 starts below (y: 440px), showing its top strip "02" at bottom of Card 1.
+        // Card 2 content starts pale (opacity 0.25, light grey). NO BLUR.
+        // Card 3 starts below Card 2 (y: 486px), showing its top strip "03". Content opacity: 0.25. NO BLUR.
+        gsap.set(card1Ref.current, { y: 0, zIndex: 10 });
+        gsap.set(card2Ref.current, { y: 440, zIndex: 20 });
+        gsap.set(card2ContentRef.current, { opacity: 0.25 });
+        gsap.set(card3Ref.current, { y: 486, zIndex: 30 });
+        gsap.set(card3ContentRef.current, { opacity: 0.25 });
+
+        // Initial setup for inner visuals animations
+        gsap.set([c2MainImgRef.current, c3MainImgRef.current], { x: 40, opacity: 0 });
+        gsap.set([c2SecondPanelRef.current, c3SecondPanelRef.current], { scale: 0.9, opacity: 0 });
+        gsap.set([c2ChipRef.current, c3ChipRef.current], { scale: 0.85, opacity: 0 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
             start: "top 90px",
-            end: "+=200%",
+            end: "+=220%",
             pin: true,
             pinSpacing: true,
-            scrub: true,
+            scrub: 0.6,
           },
         });
 
         // ----------------------------------------------------
-        // Segment 1 (timeline 0 -> 1): Card 1 leaves, Card 2 reveals
+        // Segment 1 (progress 0 -> 1): Card 02 arrives from below and covers Card 01
+        // Card 01 remains in place at y: 0. Its top strip (0px -> 48px) stays visible with "01" label!
+        // Card 02 rises from y: 440 to y: 48px!
         // ----------------------------------------------------
-        // Card 1 leaves upwards out of view (-110vh)
-        tl.to(
-          card1Ref.current,
-          {
-            y: "-110vh",
-            ease: "none",
-            duration: 1,
-          },
-          0
-        );
-
-        // Card 2 rises from +46px to 0
         tl.to(
           card2Ref.current,
           {
-            y: 0,
-            ease: "power1.out",
+            y: 48,
+            ease: "power1.inOut",
             duration: 1,
           },
           0
         );
 
-        // Card 2 content clarifies over the last 60% of segment (0.4 -> 1.0)
+        // Card 02 content reaches full color (opacity 0.25 -> 1.0) without blur
         tl.to(
           card2ContentRef.current,
           {
             opacity: 1,
-            filter: "blur(0px)",
             ease: "power1.out",
-            duration: 0.6,
+            duration: 0.8,
           },
-          0.4
+          0.1
         );
 
-        // Card 3 rises from +92px to +46px (now peeking under Card 2)
+        // Card 02 inner visual motion (0 -> 0.4 main image, 0.2 -> 0.6 second panel, 0.4 -> 0.8 chip)
+        tl.to(
+          c2MainImgRef.current,
+          {
+            x: 0,
+            opacity: 1,
+            ease: "power2.out",
+            duration: 0.4,
+          },
+          0.1
+        );
+
+        tl.to(
+          c2SecondPanelRef.current,
+          {
+            scale: 1,
+            opacity: 1,
+            ease: "back.out(1.2)",
+            duration: 0.4,
+          },
+          0.3
+        );
+
+        tl.to(
+          c2ChipRef.current,
+          {
+            scale: 1,
+            opacity: 1,
+            ease: "back.out(1.5)",
+            duration: 0.3,
+          },
+          0.5
+        );
+
+        // Card 03 strip rises slightly with Card 02 to stay peeking at bottom
         tl.to(
           card3Ref.current,
           {
-            y: 46,
-            ease: "power1.out",
+            y: 486,
+            ease: "none",
             duration: 1,
           },
           0
         );
 
         // ----------------------------------------------------
-        // Segment 2 (timeline 1 -> 2): Card 2 leaves, Card 3 reveals
+        // Segment 2 (progress 1 -> 2): Card 03 arrives from below and covers Card 02
+        // Card 02 top strip (48px -> 96px) stays visible with "02" label!
+        // Card 03 rises from y: 486 to y: 96px!
         // ----------------------------------------------------
-        // Card 2 leaves upwards out of view (-110vh)
-        tl.to(
-          card2Ref.current,
-          {
-            y: "-110vh",
-            ease: "none",
-            duration: 1,
-          },
-          1
-        );
-
-        // Card 3 rises from +46px to 0
         tl.to(
           card3Ref.current,
           {
-            y: 0,
-            ease: "power1.out",
+            y: 96,
+            ease: "power1.inOut",
             duration: 1,
           },
           1
         );
 
-        // Card 3 content clarifies over the last 60% of segment (1.4 -> 2.0)
+        // Card 03 content reaches full color (opacity 0.25 -> 1.0) without blur
         tl.to(
           card3ContentRef.current,
           {
             opacity: 1,
-            filter: "blur(0px)",
             ease: "power1.out",
-            duration: 0.6,
+            duration: 0.8,
           },
-          1.4
+          1.1
+        );
+
+        // Card 03 inner visual motion
+        tl.to(
+          c3MainImgRef.current,
+          {
+            x: 0,
+            opacity: 1,
+            ease: "power2.out",
+            duration: 0.4,
+          },
+          1.1
+        );
+
+        tl.to(
+          c3SecondPanelRef.current,
+          {
+            scale: 1,
+            opacity: 1,
+            ease: "back.out(1.2)",
+            duration: 0.4,
+          },
+          1.3
+        );
+
+        tl.to(
+          c3ChipRef.current,
+          {
+            scale: 1,
+            opacity: 1,
+            ease: "back.out(1.5)",
+            duration: 0.3,
+          },
+          1.5
         );
       });
 
       // Mobile / Tablet: under 1024px (Normal stacked flow, no pin)
       mm.add("(max-width: 1023px)", () => {
-        // Clear any leftover inline transforms
-        gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], { clearProps: "all" });
-        gsap.set([card2ContentRef.current, card3ContentRef.current], { clearProps: "all" });
+        gsap.set(
+          [card1Ref.current, card2Ref.current, card3Ref.current],
+          { clearProps: "all" }
+        );
+        gsap.set(
+          [card2ContentRef.current, card3ContentRef.current],
+          { clearProps: "all" }
+        );
       });
     }, pinWrapperRef);
 
@@ -147,9 +224,9 @@ export function FeaturesSection({ data }: { data?: any }) {
 
   return (
     <section id="features" className="py-20 sm:py-28 bg-[#F3F4F6] font-urbanist overflow-visible">
-      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header (Mota Exact Style) */}
-        <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-20">
+      <div className="max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-3">
             <span>✦</span>
             <span className="uppercase tracking-widest text-[11px]">CORE CAPABILITIES</span>
@@ -159,226 +236,370 @@ export function FeaturesSection({ data }: { data?: any }) {
           </h2>
         </div>
 
-        {/* Pinned Stage Wrapper (Desktop: pinned 200vh sequence; Mobile: vertical flow) */}
-        <div ref={pinWrapperRef} className="relative w-full flex justify-center items-center py-4 overflow-visible">
-          {/* Card Frame Geometry: Wide card format matching Mota frame 8.5s */}
-          <div className="relative w-full max-w-[1320px] h-[470px] sm:h-[490px] hidden lg:block overflow-visible">
+        {/* Pinned Stage Wrapper */}
+        <div
+          ref={pinWrapperRef}
+          className="relative w-full flex justify-center items-center py-4 overflow-visible"
+        >
+          {/* Card Frame Geometry: Wide card format matching Mota reference */}
+          <div className="relative w-full max-w-[1280px] h-[520px] hidden lg:block overflow-visible">
             {/* ======================================================== */}
-            {/* Card 01: Courses that run themselves (z-index: 30) */}
+            {/* Card 01: Courses that run themselves (Bottom of stack) */}
             {/* ======================================================== */}
             <div
               ref={card1Ref}
-              className="absolute inset-0 rounded-[40px] bg-white border border-slate-200/80 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] p-8 sm:p-12 lg:p-14 flex flex-col justify-between overflow-hidden z-30 will-change-transform"
+              className="absolute inset-0 rounded-[36px] bg-white border border-[#ECEDEF] p-8 lg:p-12 flex flex-col justify-between overflow-hidden will-change-transform"
+              style={{
+                boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+              }}
             >
-              <div className="grid grid-cols-12 gap-8 items-center h-full">
-                {/* Left Column: Title & Subtitle */}
-                <div className="col-span-5 space-y-4">
+              {/* Top Strip with 01 label */}
+              <div className="flex items-center justify-between pb-4 border-b border-[#ECEDEF]">
+                <div className="flex items-center gap-3">
+                  <span className="text-[14px] font-mono font-bold text-[#161616] px-2.5 py-0.5 rounded-md bg-[#F5F6F8] border border-[#ECEDEF]">
+                    01
+                  </span>
+                  <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B6F76]">
+                    Course Management
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-12 gap-8 items-center h-full pt-4">
+                {/* Left Column (55%): Title, Text, Checklist */}
+                <div className="col-span-6 space-y-4 pr-4">
                   <h3 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-snug">
                     {card1.title}
                   </h3>
-                  <p className="text-sm sm:text-base text-[#6B6F76] leading-relaxed max-w-sm">
+                  <p className="text-base text-[#6B6F76] leading-relaxed max-w-md">
                     {card1.summary}
                   </p>
+
+                  <div className="pt-2 flex flex-wrap gap-2">
+                    {card1.details.map((item, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]"
+                      >
+                        <span className="size-1.5 rounded-full bg-[#7B5CF5]" />
+                        {item}
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                {/* Right Column: Course Structure & Watermark Diagram */}
-                <div className="col-span-7 relative flex items-center justify-center min-h-[340px]">
-                  {/* Connecting Line with Center Icon */}
-                  <div className="absolute inset-x-8 top-1/2 -translate-y-1/2 flex items-center justify-center pointer-events-none">
-                    <div className="w-full h-px bg-slate-200" />
-                    <div className="absolute size-11 rounded-2xl bg-[#161616] text-white flex items-center justify-center shadow-md">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="size-5" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Top-Right Overlapping Video Player Card */}
-                  <div className="relative -mr-12 mb-20 w-72 rounded-2xl overflow-hidden bg-[#161616] p-4 border border-slate-800 shadow-md text-white">
-                    <div className="flex items-center justify-between text-[11px] text-slate-400 pb-3 border-b border-white/10">
-                      <span className="font-semibold text-white">Lesson 04: Structured Sections</span>
-                      <span className="text-[#7B5CF5] font-mono text-[10px] font-semibold">Video + PDF</span>
-                    </div>
-                    <div className="py-5 text-center">
-                      <div className="size-10 rounded-full bg-white/10 mx-auto flex items-center justify-center text-white text-sm">
-                        ▶
+                {/* Right Column (45%): Moving Visuals Group */}
+                <div className="col-span-6 relative flex items-center justify-center min-h-[340px]">
+                  {/* Visual 1: Lesson Player with Watermark */}
+                  <div
+                    ref={c1MainImgRef}
+                    className="relative w-[340px] rounded-2xl overflow-hidden bg-[#161616] border border-slate-800 shadow-xl text-white will-change-transform z-10"
+                  >
+                    <div className="relative h-44 w-full overflow-hidden bg-slate-900">
+                      <Image
+                        src="/assets/img/home/features/instructor_lesson.jpg"
+                        alt="Lesson player preview"
+                        fill
+                        className="object-cover opacity-85"
+                      />
+                      {/* Faint moving watermark across video */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none rotate-[-15deg]">
+                        <span className="text-white/35 font-mono text-xs tracking-wider font-semibold animate-pulse">
+                          learner@email.com • 1080p
+                        </span>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="size-10 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center text-white text-xs pl-0.5">
+                          ▶
+                        </div>
                       </div>
                     </div>
-                    <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                      <div className="w-2/3 h-full bg-[#7B5CF5]" />
-                    </div>
-                    <div className="mt-2 flex items-center justify-between text-[10px] text-slate-400 font-mono">
-                      <span>Drip: Unlocks on progress</span>
-                      <span className="text-emerald-400">Watermarked Video</span>
+                    <div className="p-3 bg-[#18191B] flex items-center justify-between text-[11px] text-slate-300">
+                      <span className="font-semibold text-white">Lesson 02: Architecture Blueprint</span>
+                      <span className="text-[#7B5CF5] font-mono">12:40</span>
                     </div>
                   </div>
 
-                  {/* Bottom-Left Overlapping Watermark & Device Limits Card */}
-                  <div className="relative -ml-12 mt-20 w-64 rounded-2xl overflow-hidden bg-white p-4 border border-slate-200 shadow-lg text-slate-900">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                      LESSON INTEGRITY
+                  {/* Visual 2: Overlapping Section Outline Panel */}
+                  <div
+                    ref={c1SecondPanelRef}
+                    className="absolute -left-4 bottom-2 w-56 rounded-xl bg-white p-3 border border-[#ECEDEF] shadow-lg text-[#161616] z-20"
+                  >
+                    <p className="text-[11px] font-bold text-[#6B6F76] uppercase tracking-wider">
+                      Module Outline
+                    </p>
+                    <p className="text-[12px] font-semibold text-[#161616] mt-0.5 truncate">
+                      Sections & Lessons
+                    </p>
+                    <div className="mt-2 space-y-1 text-[11px] text-[#6B6F76]">
+                      <div className="flex items-center gap-1.5 text-emerald-600 font-medium">
+                        <span>✓</span>
+                        <span className="truncate">1. Video lesson (ready)</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-[#161616]">
+                        <span>•</span>
+                        <span className="truncate">2. Architecture PDF doc</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Visual 3: Floating Chip (Drip lock) */}
+                  <div
+                    ref={c1ChipRef}
+                    className="absolute -right-2 top-4 z-30 animate-[float1_3s_ease-in-out_infinite]"
+                  >
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-md">
+                      <span className="size-2 rounded-full bg-amber-500" />
+                      Unlocks in 3 days
                     </span>
-                    <div className="mt-2 p-2.5 rounded-xl bg-slate-50 border border-slate-100 font-mono text-[11px] text-slate-700 space-y-1">
-                      <div className="flex justify-between">
-                        <span>Watermark:</span>
-                        <span className="text-emerald-600 font-bold">Enabled</span>
-                      </div>
-                      <div className="flex justify-between text-[10px] text-slate-500">
-                        <span>Device limits:</span>
-                        <span>1 Active Session</span>
-                      </div>
-                    </div>
-                    <div className="mt-3 flex items-center gap-1.5 text-[10px] text-[#7B5CF5] font-semibold">
-                      <span className="size-1.5 rounded-full bg-[#7B5CF5] animate-pulse" />
-                      <span>Video • Text • PDF • Documents</span>
-                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Index label: "01" bottom-left, 15px, near-black */}
-              <div className="absolute bottom-4 sm:bottom-5 left-8 text-[15px] font-mono font-semibold text-[#161616]">
-                01
               </div>
             </div>
 
             {/* ======================================================== */}
-            {/* Card 02: Assess and certify (z-index: 20) */}
+            {/* Card 02: Assess and certify (Middle of stack) */}
             {/* ======================================================== */}
             <div
               ref={card2Ref}
-              className="absolute inset-0 rounded-[40px] bg-white border border-slate-200/80 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] p-8 sm:p-12 lg:p-14 flex flex-col justify-between overflow-hidden z-20 will-change-transform"
+              className="absolute inset-0 rounded-[36px] bg-white border border-[#ECEDEF] p-8 lg:p-12 flex flex-col justify-between overflow-hidden will-change-transform"
+              style={{
+                boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+              }}
             >
               <div ref={card2ContentRef} className="h-full flex flex-col justify-between">
-                <div className="grid grid-cols-12 gap-8 items-center h-full">
-                  {/* Left Column: Title & Subtitle */}
-                  <div className="col-span-5 space-y-4">
+                {/* Top Strip with 02 label */}
+                <div className="flex items-center justify-between pb-4 border-b border-[#ECEDEF]">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[14px] font-mono font-bold text-[#161616] px-2.5 py-0.5 rounded-md bg-[#F5F6F8] border border-[#ECEDEF]">
+                      02
+                    </span>
+                    <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B6F76]">
+                      Evaluation & Certificates
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-12 gap-8 items-center h-full pt-4">
+                  {/* Left Column (55%): Title, Text, Checklist */}
+                  <div className="col-span-6 space-y-4 pr-4">
                     <h3 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-snug">
                       {card2.title}
                     </h3>
-                    <p className="text-sm sm:text-base text-[#6B6F76] leading-relaxed max-w-sm">
+                    <p className="text-base text-[#6B6F76] leading-relaxed max-w-md">
                       {card2.summary}
                     </p>
+
+                    <div className="pt-2 flex flex-wrap gap-2">
+                      {card2.details.map((item, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]"
+                        >
+                          <span className="size-1.5 rounded-full bg-[#8E7CF8]" />
+                          {item}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Right Column: Concentric Orbit Graphic for Assessments */}
-                  <div className="col-span-7 relative flex items-center justify-center min-h-[340px]">
-                    {/* Left Quiz Card */}
-                    <div className="absolute left-2 top-1/2 -translate-y-1/2 w-44 rounded-2xl bg-white p-3.5 border border-slate-200 shadow-sm z-10 text-xs">
-                      <span className="text-[10px] font-bold text-[#7B5CF5] uppercase tracking-wider block">QUIZ EVALUATION</span>
-                      <p className="font-semibold text-slate-800 text-[11px] mt-1">Graded Quiz #3</p>
-                      <div className="mt-2 text-[10px] text-emerald-600 font-semibold">Automated Scoring: 92%</div>
+                  {/* Right Column (45%): Visuals (Checkpoint Overlay + Quiz Card + Certificate) */}
+                  <div className="col-span-6 relative flex items-center justify-center min-h-[340px]">
+                    {/* Visual 1: Paused Video with Checkpoint Question Overlay */}
+                    <div
+                      ref={c2MainImgRef}
+                      className="relative w-[340px] rounded-2xl overflow-hidden bg-[#161616] border border-slate-800 shadow-xl text-white will-change-transform z-10"
+                    >
+                      <div className="relative h-44 w-full overflow-hidden bg-slate-900">
+                        <Image
+                          src="/assets/img/home/features/course_preview.jpg"
+                          alt="Checkpoint quiz overlay"
+                          fill
+                          className="object-cover opacity-40"
+                        />
+                        {/* Checkpoint Question Overlay */}
+                        <div className="absolute inset-0 p-3.5 flex flex-col justify-between bg-black/60 backdrop-blur-2xs">
+                          <div className="flex items-center justify-between">
+                            <span className="px-2 py-0.5 rounded-full bg-amber-500/90 text-white text-[10px] font-bold uppercase tracking-wider">
+                              In-Video Checkpoint
+                            </span>
+                            <span className="text-[10px] text-slate-300">04:18 Paused</span>
+                          </div>
+                          <div>
+                            <p className="text-[12px] font-medium text-white">
+                              Which architecture pattern enables multi-tenant scaling?
+                            </p>
+                            <div className="mt-2 space-y-1 text-[10px]">
+                              <div className="px-2 py-1 rounded bg-white/10 text-slate-300">A. Single database instance</div>
+                              <div className="px-2 py-1 rounded bg-emerald-500/30 border border-emerald-400 text-emerald-200 font-semibold flex items-center justify-between">
+                                <span>B. Isolated tenant routing</span>
+                                <span>✓ Correct</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-2.5 bg-[#18191B] flex items-center justify-between text-[11px] text-slate-300">
+                        <span>Checkpoint quiz required to unlock lesson finish</span>
+                      </div>
                     </div>
 
-                    {/* Center Radar Rings Container */}
-                    <div className="relative size-72 flex items-center justify-center">
-                      <div className="absolute inset-0 rounded-full border border-slate-200/80 pointer-events-none" />
-                      <div className="absolute inset-8 rounded-full border border-slate-200/70 pointer-events-none" />
-                      <div className="absolute inset-16 rounded-full border border-slate-200/60 pointer-events-none" />
-                      <div className="absolute inset-24 rounded-full border border-slate-200/50 pointer-events-none" />
-
-                      {/* Center Award/Check Tile */}
-                      <div className="size-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-800 shadow-sm z-10">
-                        <svg className="size-6 text-[#7B5CF5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                        </svg>
+                    {/* Visual 2: Overlapping Quiz Card */}
+                    <div
+                      ref={c2SecondPanelRef}
+                      className="absolute -left-4 bottom-2 w-56 rounded-xl bg-white p-3 border border-[#ECEDEF] shadow-lg text-[#161616] z-20"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold uppercase text-[#7B5CF5]">Graded Quiz</span>
+                        <span className="text-[11px] font-bold text-emerald-600">92% Score</span>
                       </div>
-
-                      {/* Orbiting Assessment Tool Category Pills */}
-                      <div className="absolute top-2 left-10 px-2.5 py-1 rounded-xl bg-purple-100 text-[#7B5CF5] text-[10px] font-bold shadow-2xs">
-                        Graded Quizzes
-                      </div>
-                      <div className="absolute top-6 right-8 px-2.5 py-1 rounded-xl bg-emerald-100 text-emerald-800 text-[10px] font-bold shadow-2xs">
-                        Certificates
-                      </div>
-                      <div className="absolute bottom-6 left-8 px-2.5 py-1 rounded-xl bg-amber-100 text-amber-800 text-[10px] font-bold shadow-2xs">
-                        Instructor Review
-                      </div>
-                      <div className="absolute bottom-3 right-8 px-2.5 py-1 rounded-xl bg-pink-100 text-pink-800 text-[10px] font-bold shadow-2xs">
-                        In-Video Checkpoints
-                      </div>
+                      <p className="text-[12px] font-semibold text-[#161616] mt-1">Instructor Review</p>
+                      <p className="text-[10px] text-[#6B6F76]">Automated evaluation completed</p>
                     </div>
 
-                    {/* Certificate Card Right */}
-                    <div className="absolute right-2 top-1/2 -translate-y-1/2 w-44 rounded-2xl bg-white p-3.5 border border-slate-200 shadow-sm z-10 text-xs">
-                      <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider block">COMPLETION</span>
-                      <div className="font-bold text-slate-800 text-[11px] mt-1">Certificate Issued</div>
-                      <div className="mt-1 text-[10px] text-slate-500">Configurable Design ✓</div>
+                    {/* Visual 3: Certificate Preview Chip */}
+                    <div
+                      ref={c2ChipRef}
+                      className="absolute -right-2 top-4 z-30 animate-[float2_3.2s_ease-in-out_infinite]"
+                    >
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-md">
+                        <span className="size-2 rounded-full bg-emerald-500" />
+                        Certificate issued
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Index label: "02" bottom-left, rendered in peeking bottom shelf, crisp & unblurred */}
-              <div className="absolute bottom-3 left-8 text-[15px] font-mono font-semibold text-[#161616] z-20 pointer-events-none">
-                02
               </div>
             </div>
 
             {/* ======================================================== */}
-            {/* Card 03: Live and cohort learning (z-index: 10) */}
+            {/* Card 03: Live and cohort learning (Top of stack) */}
             {/* ======================================================== */}
             <div
               ref={card3Ref}
-              className="absolute inset-0 rounded-[40px] bg-white border border-slate-200/80 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)] p-8 sm:p-12 lg:p-14 flex flex-col justify-between overflow-hidden z-10 will-change-transform"
+              className="absolute inset-0 rounded-[36px] bg-white border border-[#ECEDEF] p-8 lg:p-12 flex flex-col justify-between overflow-hidden will-change-transform"
+              style={{
+                boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+              }}
             >
               <div ref={card3ContentRef} className="h-full flex flex-col justify-between">
-                <div className="grid grid-cols-12 gap-8 items-center h-full">
-                  {/* Left Column: Title & Subtitle */}
-                  <div className="col-span-5 space-y-4">
+                {/* Top Strip with 03 label */}
+                <div className="flex items-center justify-between pb-4 border-b border-[#ECEDEF]">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[14px] font-mono font-bold text-[#161616] px-2.5 py-0.5 rounded-md bg-[#F5F6F8] border border-[#ECEDEF]">
+                      03
+                    </span>
+                    <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B6F76]">
+                      Interactive Cohorts & Zoom
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-12 gap-8 items-center h-full pt-4">
+                  {/* Left Column (55%): Title, Text, Checklist */}
+                  <div className="col-span-6 space-y-4 pr-4">
                     <h3 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-snug">
                       {card3.title}
                     </h3>
-                    <p className="text-sm sm:text-base text-[#6B6F76] leading-relaxed max-w-sm">
+                    <p className="text-base text-[#6B6F76] leading-relaxed max-w-md">
                       {card3.summary}
                     </p>
+
+                    <div className="pt-2 flex flex-wrap gap-2">
+                      {card3.details.map((item, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]"
+                        >
+                          <span className="size-1.5 rounded-full bg-[#10B981]" />
+                          {item}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Right Column: Live Classes & Tutor Booking Visual */}
-                  <div className="col-span-7 relative flex items-center justify-center min-h-[340px]">
-                    {/* Primary Top Video Tile (Live Class with Zoom) */}
-                    <div className="relative -mr-10 mb-16 w-72 rounded-3xl overflow-hidden bg-[#161616] p-4 border border-slate-800 shadow-md text-white">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="px-2 py-0.5 rounded bg-blue-600 text-[10px] font-bold uppercase tracking-wider">
-                          ZOOM LIVE
+                  {/* Right Column (45%): Participant Video Call Tile (Matching Mota reference exactly!) */}
+                  <div className="col-span-6 relative flex items-center justify-center min-h-[340px]">
+                    {/* Main Live Class Tile with 2 Participant Photos */}
+                    <div
+                      ref={c3MainImgRef}
+                      className="relative w-[340px] rounded-2xl overflow-hidden bg-[#18191B] p-3 border border-slate-800 shadow-xl text-white will-change-transform z-10 space-y-2.5"
+                    >
+                      <div className="flex items-center justify-between px-1 text-[11px] text-slate-400">
+                        <span className="flex items-center gap-1.5 font-semibold text-white">
+                          <span className="size-2 rounded-full bg-red-500 animate-ping" />
+                          Live Zoom Session
                         </span>
-                        <span className="text-[11px] text-slate-400 font-mono">Recurring Bootcamp</span>
+                        <span className="text-[10px] font-mono text-emerald-400 font-semibold">
+                          Bootcamp Cohort
+                        </span>
                       </div>
-                      <div className="py-6 text-center">
-                        <span className="text-2xl">📹</span>
-                        <h5 className="font-bold text-xs mt-1">Live Interactive Class</h5>
-                        <p className="text-[10px] text-slate-400">Class Recording Saved to Course</p>
+
+                      {/* Video Grid: 2 Participant Camera Feeds */}
+                      <div className="grid grid-cols-2 gap-2">
+                        {/* Feed 1: Learner (Mia Lewis) */}
+                        <div className="relative h-28 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
+                          <Image
+                            src="/assets/img/home/features/participant_mia.jpg"
+                            alt="Mia Lewis"
+                            fill
+                            className="object-cover"
+                          />
+                          {/* Mota style dark name pill */}
+                          <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15">
+                            <span className="size-1.5 rounded-full bg-emerald-400" />
+                            Mia Lewis
+                          </div>
+                        </div>
+
+                        {/* Feed 2: Tutor (Alex Peterson) */}
+                        <div className="relative h-28 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
+                          <Image
+                            src="/assets/img/home/features/participant_alex.jpg"
+                            alt="Alex Peterson"
+                            fill
+                            className="object-cover"
+                          />
+                          {/* Mota style dark name pill */}
+                          <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15">
+                            <span className="size-1.5 rounded-full bg-emerald-400" />
+                            Alex Peterson
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between text-[10px] text-slate-400 pt-2 border-t border-white/10">
-                        <span className="text-emerald-400">● Zoom Integrated</span>
-                        <span>Interactive Attendance</span>
+
+                      <div className="flex items-center justify-between px-1 text-[10px] text-slate-400 pt-1">
+                        <span>One-to-one tutor booking & team training</span>
+                        <span className="text-white font-mono">24 participants</span>
                       </div>
                     </div>
 
-                    {/* Secondary Bottom Card (Tutor Booking & Team Training) */}
-                    <div className="relative -ml-10 mt-16 w-72 rounded-3xl overflow-hidden bg-white p-4 border border-slate-200 shadow-lg text-slate-900">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="font-bold text-slate-900 text-xs">1-on-1 Tutor Booking</span>
-                        <span className="text-[11px] font-mono text-emerald-600 font-bold">Confirmed</span>
-                      </div>
-                      <div className="py-4 space-y-2">
-                        <div className="flex items-center justify-between text-[11px] p-2 rounded-lg bg-slate-50">
-                          <span>Team Training Package</span>
-                          <span className="font-bold text-[#7B5CF5]">Enterprise Ready</span>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between text-[10px] text-slate-500 pt-2 border-t border-slate-100">
-                        <span>Cohort Bootcamps</span>
-                        <span className="text-emerald-600 font-semibold">Active</span>
-                      </div>
+                    {/* Visual 2: Overlapping Tutor Booking Slot Picker */}
+                    <div
+                      ref={c3SecondPanelRef}
+                      className="absolute -left-4 bottom-2 w-56 rounded-xl bg-white p-3 border border-[#ECEDEF] shadow-lg text-[#161616] z-20"
+                    >
+                      <span className="text-[10px] font-bold uppercase text-emerald-600">
+                        1-on-1 Booking
+                      </span>
+                      <p className="text-[12px] font-semibold text-[#161616] mt-0.5">
+                        Tomorrow, 10:00 AM
+                      </p>
+                      <p className="text-[10px] text-[#6B6F76]">45-min Zoom live consultation</p>
+                    </div>
+
+                    {/* Visual 3: Floating Bootcamp Chip */}
+                    <div
+                      ref={c3ChipRef}
+                      className="absolute -right-2 top-4 z-30 animate-[float3_3.4s_ease-in-out_infinite]"
+                    >
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-md">
+                        <span className="size-2 rounded-full bg-[#7B5CF5]" />
+                        Bootcamp: week 3
+                      </span>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Index label: "03" bottom-left, rendered in peeking bottom shelf, crisp & unblurred */}
-              <div className="absolute bottom-3 left-8 text-[15px] font-mono font-semibold text-[#161616] z-20 pointer-events-none">
-                03
               </div>
             </div>
           </div>
@@ -387,44 +608,36 @@ export function FeaturesSection({ data }: { data?: any }) {
           {/* Mobile / Tablet Responsive Fallback (Vertical Flow) */}
           {/* ======================================================== */}
           <div className="w-full flex flex-col gap-6 lg:hidden">
-            {/* Card 1 */}
-            <div className="rounded-[32px] bg-white border border-slate-200/80 shadow-md p-6 sm:p-8 flex flex-col justify-between">
-              <div className="space-y-4">
-                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616]">
-                  {card1.title}
-                </h3>
-                <p className="text-sm text-[#6B6F76] leading-relaxed">
-                  {card1.summary}
-                </p>
+            {featuresContent.cards.map((card, idx) => (
+              <div
+                key={card.id}
+                className="rounded-[28px] bg-white border border-[#ECEDEF] shadow-md p-6 sm:p-8 flex flex-col justify-between"
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
+                      0{idx + 1}
+                    </span>
+                  </div>
+                  <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616]">
+                    {card.title}
+                  </h3>
+                  <p className="text-sm text-[#6B6F76] leading-relaxed">
+                    {card.summary}
+                  </p>
+                  <div className="pt-2 flex flex-wrap gap-1.5">
+                    {card.details.map((item, dIdx) => (
+                      <span
+                        key={dIdx}
+                        className="px-2.5 py-0.5 rounded-full text-[11px] bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
-              <div className="pt-6 text-xs font-mono font-semibold text-[#161616]">01</div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="rounded-[32px] bg-white border border-slate-200/80 shadow-md p-6 sm:p-8 flex flex-col justify-between">
-              <div className="space-y-4">
-                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616]">
-                  {card2.title}
-                </h3>
-                <p className="text-sm text-[#6B6F76] leading-relaxed">
-                  {card2.summary}
-                </p>
-              </div>
-              <div className="pt-6 text-xs font-mono font-semibold text-[#161616]">02</div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="rounded-[32px] bg-white border border-slate-200/80 shadow-md p-6 sm:p-8 flex flex-col justify-between">
-              <div className="space-y-4">
-                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616]">
-                  {card3.title}
-                </h3>
-                <p className="text-sm text-[#6B6F76] leading-relaxed">
-                  {card3.summary}
-                </p>
-              </div>
-              <div className="pt-6 text-xs font-mono font-semibold text-[#161616]">03</div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
