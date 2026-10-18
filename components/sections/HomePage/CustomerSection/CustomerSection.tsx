@@ -1,15 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 interface PlaceholderCard {
   id: string;
   initials: string;
   avatarBg: string;
-  title: string;
-  subtitle: string;
-  caseNum: string;
 }
 
 const PLACEHOLDER_CARDS: PlaceholderCard[] = [
@@ -17,25 +14,16 @@ const PLACEHOLDER_CARDS: PlaceholderCard[] = [
     id: "card-1",
     initials: "EA",
     avatarBg: "#161616",
-    title: "Customer story coming soon",
-    subtitle: "Reserved for verified enterprise academy case study and student outcomes.",
-    caseNum: "Spotlight #01",
   },
   {
     id: "card-2",
     initials: "PT",
     avatarBg: "#7B5CF5",
-    title: "Customer story coming soon",
-    subtitle: "Reserved for professional training and certification partner program showcase.",
-    caseNum: "Spotlight #02",
   },
   {
     id: "card-3",
     initials: "GA",
     avatarBg: "#10B981",
-    title: "Customer story coming soon",
-    subtitle: "Reserved for global online academy launch and multi-batch milestones.",
-    caseNum: "Spotlight #03",
   },
 ];
 
@@ -53,7 +41,6 @@ export function CustomerSection({ data }: { data?: any }) {
     const handleResize = () => {
       if (!wallTextRef.current) return;
       const vw = window.innerWidth;
-      // Target 88% of viewport width, clamped to innerWidth - 96px
       const targetWidth = Math.min(vw * 0.88, vw - 96);
 
       // Measure current width with baseline font size
@@ -88,34 +75,31 @@ export function CustomerSection({ data }: { data?: any }) {
         }
 
         // Initial positions:
-        // Text scale 0.65 -> 1.0 (subtle zoom, stays inside bounds), color #9CA3AF -> #161616
-        gsap.set(wallTextRef.current, { scale: 0.75, color: "#9CA3AF" });
-        // Deck starts slightly lower and rises directly over "of"
-        gsap.set(deckWrapperRef.current, { y: 60, opacity: 0.9 });
-        // Initial card rotations: subtle fan
+        gsap.set(wallTextRef.current, { scale: 0.8, color: "#9CA3AF" });
+        gsap.set(deckWrapperRef.current, { y: 40, opacity: 0.95 });
         gsap.set(card1Ref.current, { rotateZ: -4, x: -6, y: 0 });
         gsap.set(card2Ref.current, { rotateZ: 4, x: 8, y: 4 });
-        gsap.set(card3Ref.current, { rotateZ: 0, x: 0, y: 8 });
+        gsap.set(card3Ref.current, { rotateZ: 0, x: 0, y: 6 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
-            start: "top 60px",
-            end: "+=130%",
+            start: "top 80px",
+            end: "+=70%",
             pin: true,
             pinSpacing: true,
-            scrub: 0.6,
+            scrub: 0.5,
           },
         });
 
-        // Stage 1 (0 -> 0.4): Text settles to full scale and dark color, Deck settles over "of"
+        // Stage 1 (0 -> 0.25): Text settles to full scale and dark color, Deck settles over "of"
         tl.to(
           wallTextRef.current,
           {
             scale: 1,
             color: "#161616",
             ease: "power1.out",
-            duration: 0.4,
+            duration: 0.25,
           },
           0
         );
@@ -126,36 +110,46 @@ export function CustomerSection({ data }: { data?: any }) {
             y: 0,
             opacity: 1,
             ease: "power1.out",
-            duration: 0.4,
+            duration: 0.25,
           },
           0
         );
 
-        // Stage 2 (0.4 -> 0.8): Card 1 flies upward
+        // Stage 2 (0.25 -> 0.6): Card 1 flies upward
         tl.to(
           card1Ref.current,
           {
-            y: "-90vh",
+            y: "-85vh",
             rotateZ: -8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.4,
+            duration: 0.35,
           },
-          0.4
+          0.25
         );
 
-        // Stage 3 (0.8 -> 1.2): Card 2 flies upward
-        // Card 3 stays centered at 0deg!
+        // Stage 3 (0.6 -> 0.95): Card 2 flies upward; Card 3 settles at 0deg
         tl.to(
           card2Ref.current,
           {
-            y: "-90vh",
+            y: "-85vh",
             rotateZ: 6,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.4,
+            duration: 0.35,
           },
-          0.8
+          0.6
+        );
+
+        tl.to(
+          card3Ref.current,
+          {
+            x: 0,
+            y: 0,
+            rotateZ: 0,
+            duration: 0.2,
+          },
+          0.75
         );
       });
 
@@ -176,10 +170,10 @@ export function CustomerSection({ data }: { data?: any }) {
 
   return (
     <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible">
-      {/* Pinned Stage Container */}
+      {/* Pinned Stage Container: Compact height with direct exit to FAQ */}
       <div
         ref={pinWrapperRef}
-        className="relative w-full h-[640px] sm:h-[700px] flex items-center justify-center overflow-hidden"
+        className="relative w-full h-[520px] sm:h-[560px] flex items-center justify-center overflow-hidden"
       >
         {/* A20: Headline "Wall of love" fitting ~88% of screen with font-weight 600 */}
         <div
@@ -200,7 +194,7 @@ export function CustomerSection({ data }: { data?: any }) {
           ref={deckWrapperRef}
           className="absolute inset-x-0 top-[52%] -translate-y-1/2 z-10 flex items-center justify-center will-change-transform pointer-events-none"
         >
-          <div className="relative w-full max-w-md h-[210px] sm:h-[220px] flex items-center justify-center pointer-events-auto">
+          <div className="relative w-full max-w-md h-[130px] sm:h-[140px] flex items-center justify-center pointer-events-auto">
             {/* Card 1 (Top of stack, z-30) */}
             <div
               ref={card1Ref}
@@ -209,34 +203,23 @@ export function CustomerSection({ data }: { data?: any }) {
                 boxShadow:
                   "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
               }}
-              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-between will-change-transform"
+              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-center will-change-transform"
             >
-              <div>
-                <div className="flex items-center justify-between pb-3 border-b border-[#ECEDEF]">
-                  <div className="flex items-center gap-2.5">
-                    <div
-                      className="size-8 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                      style={{ backgroundColor: PLACEHOLDER_CARDS[0].avatarBg }}
-                    >
-                      {PLACEHOLDER_CARDS[0].initials}
-                    </div>
-                    <div>
-                      <h4 className="text-[15px] font-semibold text-[#161616] leading-tight">
-                        {PLACEHOLDER_CARDS[0].title}
-                      </h4>
-                    </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="size-9 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                    style={{ backgroundColor: PLACEHOLDER_CARDS[0].avatarBg }}
+                  >
+                    {PLACEHOLDER_CARDS[0].initials}
                   </div>
-                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
-                    Placeholder
-                  </span>
+                  <h4 className="text-[16px] font-semibold text-[#161616] leading-tight">
+                    Customer story coming soon
+                  </h4>
                 </div>
-                <p className="mt-3 text-[13px] text-[#6B6F76] leading-relaxed">
-                  {PLACEHOLDER_CARDS[0].subtitle}
-                </p>
-              </div>
-              <div className="pt-3 border-t border-[#ECEDEF] flex items-center justify-between text-[11px] text-[#6B6F76]">
-                <span className="font-medium text-[#161616]">LMS Domain Academy Network</span>
-                <span className="font-mono text-[#7B5CF5] font-semibold">{PLACEHOLDER_CARDS[0].caseNum}</span>
+                <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
+                  Placeholder
+                </span>
               </div>
             </div>
 
@@ -248,34 +231,23 @@ export function CustomerSection({ data }: { data?: any }) {
                 boxShadow:
                   "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
               }}
-              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-between will-change-transform"
+              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-center will-change-transform"
             >
-              <div>
-                <div className="flex items-center justify-between pb-3 border-b border-[#ECEDEF]">
-                  <div className="flex items-center gap-2.5">
-                    <div
-                      className="size-8 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                      style={{ backgroundColor: PLACEHOLDER_CARDS[1].avatarBg }}
-                    >
-                      {PLACEHOLDER_CARDS[1].initials}
-                    </div>
-                    <div>
-                      <h4 className="text-[15px] font-semibold text-[#161616] leading-tight">
-                        {PLACEHOLDER_CARDS[1].title}
-                      </h4>
-                    </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="size-9 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                    style={{ backgroundColor: PLACEHOLDER_CARDS[1].avatarBg }}
+                  >
+                    {PLACEHOLDER_CARDS[1].initials}
                   </div>
-                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
-                    Placeholder
-                  </span>
+                  <h4 className="text-[16px] font-semibold text-[#161616] leading-tight">
+                    Customer story coming soon
+                  </h4>
                 </div>
-                <p className="mt-3 text-[13px] text-[#6B6F76] leading-relaxed">
-                  {PLACEHOLDER_CARDS[1].subtitle}
-                </p>
-              </div>
-              <div className="pt-3 border-t border-[#ECEDEF] flex items-center justify-between text-[11px] text-[#6B6F76]">
-                <span className="font-medium text-[#161616]">LMS Domain Academy Network</span>
-                <span className="font-mono text-[#7B5CF5] font-semibold">{PLACEHOLDER_CARDS[1].caseNum}</span>
+                <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
+                  Placeholder
+                </span>
               </div>
             </div>
 
@@ -287,34 +259,23 @@ export function CustomerSection({ data }: { data?: any }) {
                 boxShadow:
                   "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
               }}
-              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-between will-change-transform"
+              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-center will-change-transform"
             >
-              <div>
-                <div className="flex items-center justify-between pb-3 border-b border-[#ECEDEF]">
-                  <div className="flex items-center gap-2.5">
-                    <div
-                      className="size-8 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                      style={{ backgroundColor: PLACEHOLDER_CARDS[2].avatarBg }}
-                    >
-                      {PLACEHOLDER_CARDS[2].initials}
-                    </div>
-                    <div>
-                      <h4 className="text-[15px] font-semibold text-[#161616] leading-tight">
-                        {PLACEHOLDER_CARDS[2].title}
-                      </h4>
-                    </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="size-9 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                    style={{ backgroundColor: PLACEHOLDER_CARDS[2].avatarBg }}
+                  >
+                    {PLACEHOLDER_CARDS[2].initials}
                   </div>
-                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
-                    Placeholder
-                  </span>
+                  <h4 className="text-[16px] font-semibold text-[#161616] leading-tight">
+                    Customer story coming soon
+                  </h4>
                 </div>
-                <p className="mt-3 text-[13px] text-[#6B6F76] leading-relaxed">
-                  {PLACEHOLDER_CARDS[2].subtitle}
-                </p>
-              </div>
-              <div className="pt-3 border-t border-[#ECEDEF] flex items-center justify-between text-[11px] text-[#6B6F76]">
-                <span className="font-medium text-[#161616]">LMS Domain Academy Network</span>
-                <span className="font-mono text-[#7B5CF5] font-semibold">{PLACEHOLDER_CARDS[2].caseNum}</span>
+                <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
+                  Placeholder
+                </span>
               </div>
             </div>
           </div>
@@ -326,23 +287,20 @@ export function CustomerSection({ data }: { data?: any }) {
         {PLACEHOLDER_CARDS.map((card) => (
           <div
             key={card.id}
-            className="rounded-[20px] bg-white border border-[#ECEDEF] shadow-sm p-5 flex flex-col gap-2"
+            className="rounded-[20px] bg-white border border-[#ECEDEF] shadow-sm p-4 flex items-center justify-between"
           >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div
-                  className="size-7 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                  style={{ backgroundColor: card.avatarBg }}
-                >
-                  {card.initials}
-                </div>
-                <h4 className="text-sm font-semibold text-[#161616]">{card.title}</h4>
+            <div className="flex items-center gap-2.5">
+              <div
+                className="size-8 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
+                style={{ backgroundColor: card.avatarBg }}
+              >
+                {card.initials}
               </div>
-              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76]">
-                Placeholder
-              </span>
+              <h4 className="text-sm font-semibold text-[#161616]">Customer story coming soon</h4>
             </div>
-            <p className="text-xs text-[#6B6F76]">{card.subtitle}</p>
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#F5F6F8] text-[#6B6F76]">
+              Placeholder
+            </span>
           </div>
         ))}
       </div>
