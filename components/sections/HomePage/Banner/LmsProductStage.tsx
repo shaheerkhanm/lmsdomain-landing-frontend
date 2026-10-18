@@ -4,10 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { heroContent } from "@/content/home/hero";
 import {
-  CourseBuilderCardData,
-  AiTutorCardData,
-  CheckoutCardData,
-  CertificateCardData,
+  HeroCourseBuilderCard,
+  HeroTutorCard,
+  HeroCheckoutCard,
+  HeroCertificateCard,
 } from "@/types/content";
 
 interface LmsProductStageProps {
@@ -24,10 +24,10 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
 
   const [currency, setCurrency] = useState<"USD" | "INR">("USD");
 
-  const card1Data = heroContent.cards[0] as CourseBuilderCardData;
-  const card2Data = heroContent.cards[1] as AiTutorCardData;
-  const card3Data = heroContent.cards[2] as CheckoutCardData;
-  const card4Data = heroContent.cards[3] as CertificateCardData;
+  const card1Data = heroContent.cards[0] as HeroCourseBuilderCard;
+  const card2Data = heroContent.cards[1] as HeroTutorCard;
+  const card3Data = heroContent.cards[2] as HeroCheckoutCard;
+  const card4Data = heroContent.cards[3] as HeroCertificateCard;
 
   useEffect(() => {
     const isReduced =
