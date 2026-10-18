@@ -11,38 +11,34 @@ export const benefitsContent: BenefitsContent = {
       id: "sell-anywhere",
       title: "Sell anywhere",
       summary:
-        "Catalogue, cart and wishlist; coupons; Stripe, Razorpay, Paytm and DOKU; offline payments; multiple currencies and languages.",
+        "Sell courses with Stripe, Razorpay, Paytm or DOKU, with coupons and multiple currencies.",
       details: [
-        "Course catalogue, shopping cart, and wishlist",
-        "Configurable promotional discount coupons",
-        "Stripe, Razorpay, Paytm, and DOKU checkout",
-        "Offline payments and multi-currency / multi-language support",
+        "Course catalogue, cart and coupons",
+        "Stripe, Razorpay, Paytm and DOKU",
+        "Multiple currencies and languages",
       ],
     },
     {
       id: "your-brand-your-domain",
       title: "Your brand, your domain",
       summary:
-        "Custom domain with SSL, per-school logos and colours, home page builder, SEO settings.",
+        "Your own domain, logo and colours, with a home page you build yourself.",
       details: [
-        "Custom domain with automated SSL certificates",
-        "Per-school logos, typography, and brand colours",
-        "Drag-and-drop home page builder",
-        "Built-in search engine optimization (SEO) settings",
+        "Custom domain with automated SSL",
+        "Per-school logos and brand colours",
+        "Home page builder and SEO controls",
       ],
     },
     {
       id: "keep-learners-coming-back",
       title: "Keep learners coming back",
       summary:
-        "Achievements and points, leaderboard, course forum, email and SMS notifications.",
+        "Points, leaderboards, course forums and email or SMS reminders.",
       details: [
-        "Gamified achievements and learner reward points",
-        "Competitive cohort leaderboards",
-        "Interactive course discussion forums",
-        "Automated email and SMS milestone notifications",
+        "Achievements and learner points",
+        "Cohort leaderboards and course forum",
+        "Automated email and SMS reminders",
       ],
     },
   ],
 };
-

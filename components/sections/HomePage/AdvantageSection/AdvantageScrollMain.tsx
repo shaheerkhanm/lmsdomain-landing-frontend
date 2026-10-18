@@ -1,104 +1,9 @@
 "use client";
 
 import React, { useEffect, useRef } from "react";
+import Image from "next/image";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-
-interface BenefitCard {
-  id: string;
-  title: string;
-  description: string;
-  svgGraphic: React.ReactNode;
-}
-
 import { benefitsContent } from "@/content/home/benefits";
-
-const BENEFIT_CARDS: BenefitCard[] = [
-  {
-    id: benefitsContent.cards[0].id,
-    title: benefitsContent.cards[0].title,
-    description: benefitsContent.cards[0].summary,
-    svgGraphic: (
-      <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
-        <defs>
-          <linearGradient id="sell-top" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#A7F3D0" />
-            <stop offset="100%" stopColor="#5EEAD4" />
-          </linearGradient>
-          <linearGradient id="sell-left" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#2DD4BF" />
-            <stop offset="100%" stopColor="#0D9488" />
-          </linearGradient>
-          <linearGradient id="sell-right" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#14B8A6" />
-            <stop offset="100%" stopColor="#047857" />
-          </linearGradient>
-        </defs>
-        {/* 3D Isometric Global Payment & Checkout Vault */}
-        <polygon points="60,22 96,42 60,62 24,42" fill="url(#sell-top)" />
-        <polygon points="24,42 60,62 60,102 24,82" fill="url(#sell-left)" />
-        <polygon points="60,62 96,42 96,82 60,102" fill="url(#sell-right)" />
-        <polygon points="60,34 78,44 60,54 42,44" fill="#FFFFFF" fillOpacity="0.4" />
-      </svg>
-    ),
-  },
-  {
-    id: benefitsContent.cards[1].id,
-    title: benefitsContent.cards[1].title,
-    description: benefitsContent.cards[1].summary,
-    svgGraphic: (
-      <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
-        <defs>
-          <linearGradient id="brand-top" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#E9D5FF" />
-            <stop offset="100%" stopColor="#C4B5FD" />
-          </linearGradient>
-          <linearGradient id="brand-left" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#A855F7" />
-            <stop offset="100%" stopColor="#7E22CE" />
-          </linearGradient>
-          <linearGradient id="brand-right" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#7C3AED" />
-            <stop offset="100%" stopColor="#581C87" />
-          </linearGradient>
-        </defs>
-        {/* 3D Isometric Brand & Custom Domain Shield Podium */}
-        <polygon points="60,18 98,40 60,62 22,40" fill="url(#brand-top)" />
-        <polygon points="22,40 60,62 60,104 22,82" fill="url(#brand-left)" />
-        <polygon points="60,62 98,40 98,82 60,104" fill="url(#brand-right)" />
-        <circle cx="60" cy="40" r="12" fill="#FFFFFF" fillOpacity="0.45" />
-      </svg>
-    ),
-  },
-  {
-    id: benefitsContent.cards[2].id,
-    title: benefitsContent.cards[2].title,
-    description: benefitsContent.cards[2].summary,
-    svgGraphic: (
-      <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
-        <defs>
-          <linearGradient id="engage-top" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#BAE6FD" />
-            <stop offset="100%" stopColor="#7DD3FC" />
-          </linearGradient>
-          <linearGradient id="engage-left" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0284C7" />
-            <stop offset="100%" stopColor="#0369A1" />
-          </linearGradient>
-          <linearGradient id="engage-right" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#0EA5E9" />
-            <stop offset="100%" stopColor="#075985" />
-          </linearGradient>
-        </defs>
-        {/* 3D Isometric Points & Achievement Beacon */}
-        <polygon points="60,20 96,41 60,62 24,41" fill="url(#engage-top)" />
-        <polygon points="24,41 60,62 60,102 24,81" fill="url(#engage-left)" />
-        <polygon points="60,62 96,41 96,81 60,102" fill="url(#engage-right)" />
-        <circle cx="60" cy="41" r="14" fill="#FFFFFF" fillOpacity="0.35" />
-        <circle cx="60" cy="41" r="7" fill="#FFFFFF" fillOpacity="0.75" />
-      </svg>
-    ),
-  },
-];
 
 export function AdvantageScrollMain({ data }: { data?: any }) {
   const pinWrapperRef = useRef<HTMLDivElement>(null);
@@ -108,7 +13,9 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
   const card3Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const isReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
@@ -117,13 +24,15 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
-        // A18: Initial side-by-side row view (cards sit completely upright, no fan overlap)
-        gsap.set(card1Ref.current, { x: 0, y: 0, rotateZ: 0 });
-        gsap.set(card2Ref.current, { x: 0, y: 0, rotateZ: 0 });
-        gsap.set(card3Ref.current, { x: 0, y: 24, rotateZ: 0 });
+        // A18: Initial side-by-side row view (cards sit completely upright, tops lined up, NO y-offset)
+        gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], {
+          x: 0,
+          y: 0,
+          rotateZ: 0,
+        });
         gsap.set(groupRef.current, { rotateZ: 0, scale: 1, opacity: 1 });
 
-        // ScrollTrigger pinned collapse sequence per spec §5.7
+        // ScrollTrigger pinned collapse sequence
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
@@ -135,68 +44,49 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
           },
         });
 
-        // ----------------------------------------------------
         // Segment 1 (progress 0 -> 0.6):
         // Group rotates 0 -> 45deg, scale 1 -> 1.25
-        // Cards slide into diagonal stack at center (Card 3 on top)
-        // ----------------------------------------------------
         tl.to(
           groupRef.current,
           {
             rotateZ: 45,
-            scale: 1.25,
-            ease: "power1.inOut",
+            scale: 1.22,
+            ease: "power2.inOut",
             duration: 0.6,
           },
           0
         );
 
+        // Card 1 shifts inward to overlap card 2
         tl.to(
           card1Ref.current,
           {
-            x: 320,
+            x: 180,
             y: 0,
-            rotateZ: 0,
-            ease: "power1.inOut",
+            ease: "power2.inOut",
             duration: 0.6,
           },
           0
         );
 
-        tl.to(
-          card2Ref.current,
-          {
-            x: 0,
-            y: 0,
-            rotateZ: 0,
-            ease: "power1.inOut",
-            duration: 0.6,
-          },
-          0
-        );
-
+        // Card 3 shifts inward to overlap card 2
         tl.to(
           card3Ref.current,
           {
-            x: -320,
-            y: -24,
-            rotateZ: 0,
-            ease: "power1.inOut",
+            x: -180,
+            y: 0,
+            ease: "power2.inOut",
             duration: 0.6,
           },
           0
         );
 
-        // ----------------------------------------------------
         // Segment 2 (progress 0.6 -> 1.0):
-        // Group: rotateZ 45 -> 70deg, scale 1.25 -> 0.1, opacity 1 -> 0
-        // ----------------------------------------------------
+        // Deck stays assembled in diagonal view, smooth exit transition
         tl.to(
           groupRef.current,
           {
-            rotateZ: 70,
-            scale: 0.1,
-            opacity: 0,
+            opacity: 0.95,
             ease: "power1.in",
             duration: 0.4,
           },
@@ -206,110 +96,181 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
 
       // Mobile: under 1024px (Normal static stack, no pin or rotate exit)
       mm.add("(max-width: 1023px)", () => {
-        gsap.set([groupRef.current, card1Ref.current, card2Ref.current, card3Ref.current], {
-          clearProps: "all",
-        });
+        gsap.set(
+          [groupRef.current, card1Ref.current, card2Ref.current, card3Ref.current],
+          {
+            clearProps: "all",
+          }
+        );
       });
     }, pinWrapperRef);
 
     return () => ctx.revert();
   }, []);
 
+  const card1 = benefitsContent.cards[0];
+  const card2 = benefitsContent.cards[1];
+  const card3 = benefitsContent.cards[2];
+
   return (
     <div
       ref={pinWrapperRef}
-      className="relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible"
+      className="relative max-w-6xl mx-auto w-full flex flex-col items-center justify-center min-h-[500px] sm:min-h-[540px] overflow-visible font-urbanist"
     >
       {/* Desktop Group Wrapper (A19 GSAP scrubbed rotation & collapse) */}
       <div
         ref={groupRef}
-        className="hidden lg:flex items-center justify-center gap-8 will-change-transform transform-gpu select-none"
+        className="hidden lg:flex items-center justify-center gap-7 will-change-transform transform-gpu select-none"
       >
         {/* Card 1: Sell Anywhere */}
         <div
           ref={card1Ref}
-          style={{ zIndex: 10 }}
-          className="relative w-[300px] h-[340px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.08)] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform"
+          style={{
+            zIndex: 10,
+            boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+          }}
+          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform text-center"
         >
-          {/* Faint 16px grid background */}
+          {/* Faint subtle grid texture */}
           <div
-            className="absolute inset-0 pointer-events-none opacity-30"
+            className="absolute inset-0 pointer-events-none opacity-20"
             style={{
               backgroundImage: "radial-gradient(#94A3B8 1px, transparent 1px)",
               backgroundSize: "16px 16px",
             }}
           />
-          <div className="relative z-10 shrink-0 pt-2">{BENEFIT_CARDS[0].svgGraphic}</div>
-          <div className="relative z-10 text-center space-y-2 pb-2">
+
+          {/* Top 55%: Large 3D Object (~180px tall) */}
+          <div className="relative z-10 w-[180px] h-[180px] shrink-0 flex items-center justify-center">
+            <Image
+              src="/assets/img/home/benefits/benefit_sell_anywhere.png"
+              alt="Sell anywhere 3D illustration"
+              width={180}
+              height={180}
+              className="object-contain drop-shadow-md"
+              priority
+            />
+          </div>
+
+          {/* Bottom Content: Title & 2-Line Subtitle */}
+          <div className="relative z-10 space-y-1.5 pb-2">
             <h4 className="text-[18px] font-semibold text-[#161616] tracking-tight">
-              {BENEFIT_CARDS[0].title}
+              {card1.title}
             </h4>
-            <p className="text-[13px] text-[#6B6F76] leading-relaxed max-w-[240px]">
-              {BENEFIT_CARDS[0].description}
+            <p className="text-[14px] font-normal text-[#6B6F76] leading-relaxed max-w-[260px]">
+              {card1.summary}
             </p>
           </div>
         </div>
 
-        {/* Card 2: Attendance & Certs */}
+        {/* Card 2: Your brand, your domain */}
         <div
           ref={card2Ref}
-          style={{ zIndex: 20 }}
-          className="relative w-[300px] h-[340px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.08)] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform"
+          style={{
+            zIndex: 20,
+            boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+          }}
+          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform text-center"
         >
           <div
-            className="absolute inset-0 pointer-events-none opacity-30"
+            className="absolute inset-0 pointer-events-none opacity-20"
             style={{
               backgroundImage: "radial-gradient(#94A3B8 1px, transparent 1px)",
               backgroundSize: "16px 16px",
             }}
           />
-          <div className="relative z-10 shrink-0 pt-2">{BENEFIT_CARDS[1].svgGraphic}</div>
-          <div className="relative z-10 text-center space-y-2 pb-2">
+
+          {/* Top 55%: Large 3D Object (~180px tall) */}
+          <div className="relative z-10 w-[180px] h-[180px] shrink-0 flex items-center justify-center">
+            <Image
+              src="/assets/img/home/benefits/benefit_your_brand.png"
+              alt="Your brand 3D illustration"
+              width={180}
+              height={180}
+              className="object-contain drop-shadow-md"
+              priority
+            />
+          </div>
+
+          <div className="relative z-10 space-y-1.5 pb-2">
             <h4 className="text-[18px] font-semibold text-[#161616] tracking-tight">
-              {BENEFIT_CARDS[1].title}
+              {card2.title}
             </h4>
-            <p className="text-[13px] text-[#6B6F76] leading-relaxed max-w-[240px]">
-              {BENEFIT_CARDS[1].description}
+            <p className="text-[14px] font-normal text-[#6B6F76] leading-relaxed max-w-[260px]">
+              {card2.summary}
             </p>
           </div>
         </div>
 
-        {/* Card 3: Live Classrooms */}
+        {/* Card 3: Keep learners coming back (Lined up on same line, no y-offset) */}
         <div
           ref={card3Ref}
-          style={{ zIndex: 30 }}
-          className="relative w-[300px] h-[340px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.08)] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform"
+          style={{
+            zIndex: 30,
+            boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+          }}
+          className="relative w-[320px] h-[390px] rounded-[24px] bg-white border border-[#ECEDEF] p-6 flex flex-col items-center justify-between overflow-hidden will-change-transform text-center"
         >
           <div
-            className="absolute inset-0 pointer-events-none opacity-30"
+            className="absolute inset-0 pointer-events-none opacity-20"
             style={{
               backgroundImage: "radial-gradient(#94A3B8 1px, transparent 1px)",
               backgroundSize: "16px 16px",
             }}
           />
-          <div className="relative z-10 shrink-0 pt-2">{BENEFIT_CARDS[2].svgGraphic}</div>
-          <div className="relative z-10 text-center space-y-2 pb-2">
+
+          {/* Top 55%: Large 3D Object (~180px tall) */}
+          <div className="relative z-10 w-[180px] h-[180px] shrink-0 flex items-center justify-center">
+            <Image
+              src="/assets/img/home/benefits/benefit_keep_learners.png"
+              alt="Keep learners coming back 3D illustration"
+              width={180}
+              height={180}
+              className="object-contain drop-shadow-md"
+              priority
+            />
+          </div>
+
+          <div className="relative z-10 space-y-1.5 pb-2">
             <h4 className="text-[18px] font-semibold text-[#161616] tracking-tight">
-              {BENEFIT_CARDS[2].title}
+              {card3.title}
             </h4>
-            <p className="text-[13px] text-[#6B6F76] leading-relaxed max-w-[240px]">
-              {BENEFIT_CARDS[2].description}
+            <p className="text-[14px] font-normal text-[#6B6F76] leading-relaxed max-w-[260px]">
+              {card3.summary}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Mobile Vertical Flow (No exit animation) */}
-      <div className="w-full flex flex-col gap-6 lg:hidden">
-        {BENEFIT_CARDS.map((card) => (
+      {/* Mobile Vertical Flow */}
+      <div className="w-full flex flex-col gap-6 lg:hidden px-4">
+        {benefitsContent.cards.map((card, idx) => (
           <div
             key={card.id}
-            className="rounded-[28px] bg-white border border-slate-200/90 shadow-md p-6 flex flex-col items-center text-center gap-4"
+            className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4"
           >
-            <div className="shrink-0">{card.svgGraphic}</div>
-            <div className="space-y-2">
-              <h4 className="text-xl font-semibold text-[#161616]">{card.title}</h4>
-              <p className="text-sm text-[#6B6F76] leading-relaxed">{card.description}</p>
+            <div className="w-[140px] h-[140px] shrink-0 relative flex items-center justify-center">
+              <Image
+                src={
+                  idx === 0
+                    ? "/assets/img/home/benefits/benefit_sell_anywhere.png"
+                    : idx === 1
+                    ? "/assets/img/home/benefits/benefit_your_brand.png"
+                    : "/assets/img/home/benefits/benefit_keep_learners.png"
+                }
+                alt={card.title}
+                width={140}
+                height={140}
+                className="object-contain drop-shadow-sm"
+              />
+            </div>
+            <div className="space-y-1.5">
+              <h4 className="text-[18px] font-semibold text-[#161616] tracking-tight">
+                {card.title}
+              </h4>
+              <p className="text-[14px] font-normal text-[#6B6F76] leading-relaxed">
+                {card.summary}
+              </p>
             </div>
           </div>
         ))}
