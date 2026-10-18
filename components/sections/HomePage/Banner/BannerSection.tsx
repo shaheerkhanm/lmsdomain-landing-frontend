@@ -37,7 +37,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
-    <section className="relative pt-18 sm:pt-20 lg:pt-22 pb-12 sm:pb-16 overflow-x-clip bg-white font-urbanist">
+    <section className="relative pt-10 sm:pt-12 lg:pt-14 pb-8 sm:pb-12 overflow-x-clip bg-white font-urbanist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center">
         {/* A24: Hero load entrance stagger */}
         <motion.div
@@ -54,7 +54,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           {/* 2. Mota 2-Line Subtitle */}
           <motion.p
             variants={heroItemVariants}
-            className="mt-4 max-w-xl text-center text-sm sm:text-base text-[#6B6F76] leading-relaxed"
+            className="mt-2.5 max-w-lg text-center text-xs sm:text-sm text-[#6B6F76] leading-relaxed"
           >
             {heroContent.subtitle}
           </motion.p>
@@ -63,12 +63,12 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           <motion.div
             variants={heroItemVariants}
             id="hero-cta"
-            className="mt-5 flex items-center justify-center"
+            className="mt-3.5 flex items-center justify-center"
           >
             <button
               type="button"
               onClick={() => setShowDemoModal(true)}
-              className="px-6 sm:px-8 py-3 rounded-full bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-medium shadow-2xs hover:shadow-sm transition-all active:scale-95 cursor-pointer"
+              className="px-6 sm:px-8 py-2.5 rounded-full bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-medium shadow-2xs hover:shadow-sm transition-all active:scale-95 cursor-pointer"
             >
               {heroContent.ctaText}
             </button>
@@ -76,7 +76,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
         </motion.div>
 
         {/* 4. Mota Floating Cards & Converging Dashboard Stage (A05) - ~48px spacing from button */}
-        <div className="mt-11 sm:mt-12 w-full">
+        <div className="mt-8 sm:mt-10 w-full">
           <LmsProductStage onOpenModal={() => setShowDemoModal(true)} />
         </div>
       </div>

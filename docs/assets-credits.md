@@ -23,3 +23,4 @@ All stock photos used on the LMS Domain website are royalty-free assets from Uns
    - **Source:** Unsplash (`photo-1516321318423-f06f85e504b3`)
    - **Description:** Online curriculum and video assessment preview
    - **Usage:** Card 02 (Assess and certify) checkpoint video preview
+
