@@ -37,7 +37,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
-    <section className="relative pt-36 sm:pt-40 lg:pt-42 pb-16 sm:pb-24 overflow-x-clip bg-white font-urbanist">
+    <section className="relative pt-[152px] pb-16 sm:pb-24 overflow-x-clip bg-white font-urbanist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center">
         {/* A24: Hero load entrance stagger */}
         <motion.div
@@ -46,7 +46,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           animate="visible"
           className="flex flex-col items-center w-full"
         >
-          {/* 1. Mota Display Headline: >= 56px clearance from nav */}
+          {/* 1. Mota Display Headline: exactly 56px clearance from nav (Nav A h-24 = 96px, pt-[152px] -> 152 - 96 = 56px clearance) */}
           <motion.div variants={heroItemVariants} className="w-full">
             <MainHeading data={data} />
           </motion.div>
@@ -54,7 +54,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           {/* 2. Mota 2-Line Subtitle */}
           <motion.p
             variants={heroItemVariants}
-            className="mt-4 sm:mt-5 max-w-xl text-center text-sm sm:text-base text-[#6B6F76] leading-relaxed"
+            className="mt-2.5 max-w-lg text-center text-xs sm:text-sm text-[#6B6F76] leading-relaxed"
           >
             {heroContent.subtitle}
           </motion.p>
@@ -63,12 +63,12 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           <motion.div
             variants={heroItemVariants}
             id="hero-cta"
-            className="mt-6 flex items-center justify-center"
+            className="mt-3.5 flex items-center justify-center"
           >
             <button
               type="button"
               onClick={() => setShowDemoModal(true)}
-              className="px-6 sm:px-8 py-3 rounded-full bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-medium shadow-2xs hover:shadow-sm transition-all active:scale-95 cursor-pointer"
+              className="px-6 sm:px-8 py-2.5 rounded-full bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-medium shadow-2xs hover:shadow-sm transition-all active:scale-95 cursor-pointer"
             >
               {heroContent.ctaText}
             </button>
@@ -76,7 +76,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
         </motion.div>
 
         {/* 4. Mota Floating Cards & Converging Dashboard Stage (A05) */}
-        <div className="mt-12 sm:mt-14 lg:mt-16 w-full">
+        <div className="mt-6 sm:mt-7 w-full">
           <LmsProductStage onOpenModal={() => setShowDemoModal(true)} />
         </div>
       </div>
