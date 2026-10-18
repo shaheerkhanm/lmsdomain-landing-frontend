@@ -93,8 +93,8 @@ export function AiSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Numbered Rail + A13 Single Visible Step Viewport */}
           <div className="lg:col-span-5 flex items-center gap-6 sm:gap-8">
-            {/* Vertical Progress Rail with Steps 1, 2, 3 */}
-            <div className="relative flex flex-col items-center justify-between h-[280px] shrink-0">
+            {/* Vertical Progress Rail with Steps 1, 2, 3 (Mota Exact Style) */}
+            <div className="relative flex flex-col items-center justify-between h-[280px] w-6 shrink-0">
               {/* Background Rail Track */}
               <div className="absolute top-3 bottom-3 w-0.5 bg-slate-200 -z-10" />
               {/* Active Purple Track */}
@@ -107,18 +107,15 @@ export function AiSection() {
 
               {[0, 1, 2].map((idx) => {
                 const isActive = activeTab === idx;
-                const isPassed = activeTab >= idx;
                 return (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setActiveTab(idx as 0 | 1 | 2)}
-                    className={`size-8 sm:size-9 rounded-full flex items-center justify-center text-xs font-semibold font-mono transition-all duration-300 cursor-pointer ${
+                    className={`size-6 rounded-full flex items-center justify-center text-xs font-mono transition-all duration-300 cursor-pointer bg-white ${
                       isActive
-                        ? "bg-[#7B5CF5] text-white shadow-sm scale-110"
-                        : isPassed
-                        ? "bg-[#161616] text-white"
-                        : "bg-white border border-slate-300 text-slate-400 hover:text-slate-800"
+                        ? "text-[#161616] font-bold scale-110"
+                        : "text-slate-400 hover:text-slate-800"
                     }`}
                   >
                     {idx + 1}

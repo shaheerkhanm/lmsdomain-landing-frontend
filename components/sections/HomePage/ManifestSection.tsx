@@ -60,7 +60,7 @@ export function ManifestSection() {
             <span
               key={idx}
               ref={(el) => { wordsRef.current[idx] = el; }}
-              className="transition-colors duration-75 text-[#C9CCD1]"
+              className="text-[#C9CCD1] will-change-[color]"
             >
               {word}
             </span>

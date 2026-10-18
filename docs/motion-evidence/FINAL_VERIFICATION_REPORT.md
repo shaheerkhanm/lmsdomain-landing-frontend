@@ -45,14 +45,70 @@ Every motion sequence defined in the `LMS Domain: Motion Reconstruction Specific
 
 ---
 
-## 3. Master Contact Sheet
+## 3. Discrepancy Audit & Targeted Corrections
+
+During the live frame-by-frame verification against the authoritative Mota reference video (`original-8f1db74615ce6da4e6985a0a2a24290c.mp4`), five specific behavioral discrepancies were identified where code was present but did not produce the intended visible motion or visual parity:
+
+1. **Hero Vertical Rhythm & Fold Visibility (`BannerSection.tsx`)**:
+   - *Discrepancy:* Excessive top padding (`pt-40` / 160px) and bottom margins pushed bottom stage cards ("Curriculum Storage", "Domie AI Copilot") below the 1440×900 initial viewport fold at scroll position 0.
+   - *Correction:* Reduced top padding to `pt-24 sm:pt-28 lg:pt-28` and spacing above stage to `mt-8 sm:mt-10`. All 4 floating cards and the central workspace are now prominently visible on initial page load, matching Mota reference frame `t_0.1s.jpg`.
+
+2. **Keyword Pill Wipe Sizing & Alignment (`KeywordPill.tsx`)**:
+   - *Discrepancy:* Unequal character counts between alternating words ("intelligent", "multi-tenant", "automated") caused text centering shifts during left-to-right clip-path wipes.
+   - *Correction:* Added in-flow ghost sizing span during wipe transitions with explicit horizontal padding (`px-5 sm:px-7`) and clean `prevIndex` reset upon transition completion, preventing character jumping.
+
+3. **Nav B CTA Morph Width Snapping (`Header.tsx`)**:
+   - *Discrepancy:* GSAP tween specified `width: "auto"`, causing non-numeric instant jumping rather than continuous 60fps expansion from a 40px square to pill width.
+   - *Correction:* Replaced with dynamic width measurement (`navBBtnRef.current.offsetWidth || 124`) for a continuous interpolation from 40px square to 124px pill, switching to `auto` only on complete.
+
+4. **Manifesto Word Illumination Transition Conflict (`ManifestSection.tsx`)**:
+   - *Discrepancy:* Tailwind CSS transition class `transition-colors duration-75` on individual word spans fought GSAP ScrollTrigger's RAF-by-RAF color scrubbing, introducing lag during fast scroll.
+   - *Correction:* Removed CSS transition; added `will-change-[color]`, allowing ScrollTrigger to directly control `#C9CCD1` -> `#161616` color interpolation with zero latency.
+
+5. **Showcase Left Rail Typography & Alignment (`AiSection.tsx`)**:
+   - *Discrepancy:* Step badges previously used filled/bordered pill circles (`size-8 bg-[#7B5CF5]` / `border-slate-300`) with high visual weight, contrasting with Mota's clean, frameless typographic numbers.
+   - *Correction:* Replaced with frameless typographic digits (`1`, `2`, `3`) on a vertical purple tracking line, matching Mota reference frame `frame_0165_16.5s.jpg`.
+
+---
+
+## 4. Fresh Docker Production Build Verification
+
+To guarantee that the running container reflects the exact production build rather than hot-reloaded or locally patched files:
+- **Build Method:** `docker build -t lmsdomain-frontend-redesign:latest .`
+- **Build Duration:** 122.9s (exit code 0; clean production standalone output).
+- **Container Lifecycle:** The existing container was stopped, removed, and recreated using the fresh image:
+  ```bash
+  docker run -d --name lmsdomain-frontend-redesign \
+    -p 127.0.0.1:8080:8080 \
+    --network lmsdomain-landing-frontend_default \
+    -e NODE_ENV=production \
+    -e PORT=8080 \
+    -e HOSTNAME=0.0.0.0 \
+    -e BACKEND_URL=http://backend:5201 \
+    -e NEXT_PUBLIC_BACKEND_URL=http://127.0.0.1:5201 \
+    lmsdomain-frontend-redesign:latest
+  ```
+- **Container Health:** Container `528b4a7dfe4c` verified healthy (`Up 4 minutes`, HTTP 200 on `http://127.0.0.1:8080/`).
+- **CDP Motion Verification:** Verified live container at 1440×900 via Chrome CDP:
+  - Hero initial fold: 4 cards visible; dock to 2×2 grid; idle float active.
+  - Header: Nav A fade, Nav B smooth numeric morph.
+  - Manifesto: Responsive scrub without CSS transition lag.
+  - Showcase: Dynamic tab switching with ring animation and 3D live panel.
+  - Side-by-side evidence re-captured and regenerated.
+
+---
+
+## 5. Master Contact Sheet
 
 All 8 sequences are compiled into a master visual verification sheet:
 - Path: `docs/motion-evidence/master_motion_contact_sheet.png`
 
 ---
 
-## 4. Tracked Open Issues
+## 6. Tracked Open Issues & Disclosures
 
 Per `docs/motion-evidence/OPEN_ISSUES.md`:
 - **Issue 1 (Customer Testimonials):** The 3 testimonial cards in Sequence 7 currently display explicitly marked placeholder copy ("Enterprise Academy Partner", "Medical Training Institute", "Your Academy Story Here") to satisfy LMS product context without fabricating customer names or institutions. Real customer quotes and logo marks can be swapped into `components/sections/HomePage/CustomerSection/StackedAcademyDeck.tsx` upon marketing release.
+- **Issue 2 (Production Deployment):** In strict compliance with guidelines, changes are retained exclusively on branch `feature/redesign-v2` and tested locally in Docker. No production deployment has been initiated.
+
+

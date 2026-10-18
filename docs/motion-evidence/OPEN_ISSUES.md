@@ -25,3 +25,4 @@ The marketing website showcases several deep technical capabilities. Ensure prod
 2. **Single-Tenant Custom Domains:** Confirm wildcard SSL provisioning via Let's Encrypt / Cloudflare for tenant subdomains is automated.
 3. **SCORM 2004:** Confirm SCORM 2004 4th Edition manifest parser and CMI runtime datamodel support in the core player engine.
 4. **Domie AI Copilot:** Confirm model integration, rate limits, and latency benchmarks for multi-week curriculum and syllabus generation.
+

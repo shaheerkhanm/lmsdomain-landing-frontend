@@ -35,7 +35,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
-    <section className="relative pt-28 sm:pt-36 lg:pt-40 pb-16 sm:pb-24 overflow-x-clip bg-white font-urbanist">
+    <section className="relative pt-24 sm:pt-28 lg:pt-28 pb-16 sm:pb-24 overflow-x-clip bg-white font-urbanist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center">
         {/* A24: Hero load entrance stagger */}
         <motion.div
@@ -52,7 +52,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           {/* 2. Mota 2-Line Subtitle */}
           <motion.p
             variants={heroItemVariants}
-            className="mt-6 max-w-xl text-center text-sm sm:text-base text-[#6B6F76] leading-relaxed"
+            className="mt-5 max-w-xl text-center text-sm sm:text-base text-[#6B6F76] leading-relaxed"
           >
             Deploy white-label academies at global scale with hardware L1 DRM video protection, single-tenant custom domains, and Domie AI curriculum orchestration. Built for high-stakes learning.
           </motion.p>
@@ -61,7 +61,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           <motion.div
             variants={heroItemVariants}
             id="hero-cta"
-            className="mt-7 flex items-center justify-center"
+            className="mt-6 flex items-center justify-center"
           >
             <button
               type="button"
@@ -74,7 +74,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
         </motion.div>
 
         {/* 4. Mota Floating Cards & Converging Dashboard Stage (A05) */}
-        <div className="mt-12 sm:mt-16 w-full">
+        <div className="mt-8 sm:mt-10 w-full">
           <LmsProductStage onOpenModal={() => setShowDemoModal(true)} />
         </div>
       </div>

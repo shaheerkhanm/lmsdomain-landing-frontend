@@ -52,10 +52,22 @@ export function Header() {
 
         // 2. Button morphs: starts 40px wide gray (#3A3A3A at 60%), expands to full width & darkens to #161616 over 0.35s
         if (navBBtnRef.current) {
+          const targetWidth = navBBtnRef.current.offsetWidth || 124;
           tl.fromTo(
             navBBtnRef.current,
             { width: 40, backgroundColor: "rgba(58,58,58,0.6)" },
-            { width: "auto", backgroundColor: "#161616", duration: 0.35, ease: "power2.out" },
+            {
+              width: targetWidth,
+              backgroundColor: "#161616",
+              duration: 0.35,
+              ease: "power2.out",
+              onComplete: () => {
+                if (navBBtnRef.current) navBBtnRef.current.style.width = "auto";
+              },
+              onReverseComplete: () => {
+                if (navBBtnRef.current) navBBtnRef.current.style.width = "40px";
+              },
+            },
             0.2
           );
         }

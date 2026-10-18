@@ -45,10 +45,10 @@ export function KeywordPill() {
       >
         {/* In-flow sizing span to give container natural height and width */}
         <span className="invisible select-none" aria-hidden="true">
-          {current.text.length > previous.text.length ? current.text : previous.text}
+          {isAnimating ? (current.text.length > previous.text.length ? current.text : previous.text) : current.text}
         </span>
-        <span className="absolute inset-0 flex items-center justify-center text-[#161616]">
-          {previous.text}
+        <span className="absolute inset-0 px-5 sm:px-7 py-1 sm:py-1.5 flex items-center justify-center text-[#161616]">
+          {isAnimating ? previous.text : current.text}
         </span>
       </span>
 
@@ -59,7 +59,10 @@ export function KeywordPill() {
           initial={{ clipPath: "inset(0 100% 0 0 round 9999px)" }}
           animate={{ clipPath: "inset(0 0% 0 0 round 9999px)" }}
           transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
-          onAnimationComplete={() => setIsAnimating(false)}
+          onAnimationComplete={() => {
+            setIsAnimating(false);
+            setPrevIndex(null);
+          }}
           style={{ backgroundColor: current.bg }}
           className="absolute inset-0 rounded-full px-5 sm:px-7 py-1 sm:py-1.5 text-3xl sm:text-5xl lg:text-[60px] leading-tight font-medium text-[#161616] flex items-center justify-center whitespace-nowrap"
         >
@@ -71,3 +74,4 @@ export function KeywordPill() {
 }
 
 export default KeywordPill;
+
