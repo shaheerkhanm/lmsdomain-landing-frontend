@@ -14,23 +14,26 @@ export function FeaturesSection({ data }: { data?: any }) {
   const card3Ref = useRef<HTMLDivElement>(null);
   const card3ContentRef = useRef<HTMLDivElement>(null);
 
-  // VisualRefs for Card 1
-  const c1MainImgRef = useRef<HTMLDivElement>(null);
-  const c1SecondPanelRef = useRef<HTMLDivElement>(null);
-  const c1ChipRef = useRef<HTMLDivElement>(null);
-  const c1SvgPathRef = useRef<SVGPathElement>(null);
+  // Card 1 inner visuals
+  const c1LessonTileRef = useRef<HTMLDivElement>(null);
+  const c1OutlineTileRef = useRef<HTMLDivElement>(null);
+  const c1LineRef = useRef<SVGLineElement>(null);
+  const c1LockChipRef = useRef<HTMLDivElement>(null);
 
-  // VisualRefs for Card 2
-  const c2MainImgRef = useRef<HTMLDivElement>(null);
-  const c2SecondPanelRef = useRef<HTMLDivElement>(null);
-  const c2ChipRef = useRef<HTMLDivElement>(null);
-  const c2SvgPathRef = useRef<SVGPathElement>(null);
+  // Card 2 inner visuals
+  const c2QuizCardRef = useRef<HTMLDivElement>(null);
+  const c2CenterNodeRef = useRef<HTMLDivElement>(null);
+  const c2LineRef = useRef<SVGLineElement>(null);
+  const c2Cert1Ref = useRef<HTMLDivElement>(null);
+  const c2Cert2Ref = useRef<HTMLDivElement>(null);
+  const c2Cert3Ref = useRef<HTMLDivElement>(null);
 
-  // VisualRefs for Card 3
-  const c3MainImgRef = useRef<HTMLDivElement>(null);
-  const c3SecondPanelRef = useRef<HTMLDivElement>(null);
-  const c3ChipRef = useRef<HTMLDivElement>(null);
-  const c3SvgPathRef = useRef<SVGPathElement>(null);
+  // Card 3 inner visuals
+  const c3Tile1Ref = useRef<HTMLDivElement>(null);
+  const c3Tile2Ref = useRef<HTMLDivElement>(null);
+  const c3Chip1Ref = useRef<HTMLDivElement>(null);
+  const c3Chip2Ref = useRef<HTMLDivElement>(null);
+  const c3BookingChipRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const isReduced =
@@ -40,30 +43,57 @@ export function FeaturesSection({ data }: { data?: any }) {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // Desktop: 1024px and up (Mota exact paper-stacking cards)
+      // Desktop: 1024px and up (Reference paper-stacking cards)
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
-        // Card 1 starts at top: 0px, settled.
-        // Card 2 starts below (y: 440px), showing its top strip "02" at bottom of Card 1.
-        // Card 2 content starts pale (opacity 0.25, light grey). NO BLUR.
-        // Card 3 starts below Card 2 (y: 486px), showing its top strip "03". Content opacity: 0.25. NO BLUR.
+        // Card 1 settled at top: 0
         gsap.set(card1Ref.current, { y: 0, zIndex: 10 });
-        gsap.set(card2Ref.current, { y: 440, zIndex: 20 });
-        gsap.set(card2ContentRef.current, { opacity: 0.25 });
-        gsap.set(card3Ref.current, { y: 486, zIndex: 30 });
-        gsap.set(card3ContentRef.current, { opacity: 0.25 });
+        // Card 2 peeks 28px below Card 1 (y: 512px)
+        gsap.set(card2Ref.current, { y: 512, zIndex: 20 });
+        gsap.set(card2ContentRef.current, { opacity: 0.35 });
+        // Card 3 peeks below Card 2 (y: 540px)
+        gsap.set(card3Ref.current, { y: 540, zIndex: 30 });
+        gsap.set(card3ContentRef.current, { opacity: 0.35 });
 
-        // Initial setup for inner visuals animations
-        gsap.set([c2MainImgRef.current, c3MainImgRef.current], { x: 40, opacity: 0 });
-        gsap.set([c2SecondPanelRef.current, c3SecondPanelRef.current], { scale: 0.9, opacity: 0 });
-        gsap.set([c2ChipRef.current, c3ChipRef.current], { scale: 0.85, opacity: 0 });
+        // Initial positions for Card 1 visual composition:
+        // Video tile and outline start 60px apart (outline at -30px, lesson at +30px)
+        gsap.set(c1LessonTileRef.current, { x: 30 });
+        gsap.set(c1OutlineTileRef.current, { x: -30 });
+        if (c1LineRef.current) {
+          const pathLen = c1LineRef.current.getTotalLength() || 120;
+          gsap.set(c1LineRef.current, {
+            strokeDasharray: pathLen,
+            strokeDashoffset: pathLen,
+          });
+        }
+        gsap.set(c1LockChipRef.current, { scale: 0.8, opacity: 0 });
+
+        // Initial positions for Card 2 visual composition:
+        gsap.set(c2QuizCardRef.current, { x: -20, opacity: 0.5 });
+        gsap.set(c2CenterNodeRef.current, { scale: 0.8, opacity: 0.5 });
+        if (c2LineRef.current) {
+          const pathLen = c2LineRef.current.getTotalLength() || 90;
+          gsap.set(c2LineRef.current, {
+            strokeDasharray: pathLen,
+            strokeDashoffset: pathLen,
+          });
+        }
+        gsap.set(c2Cert1Ref.current, { rotateZ: 0, x: 0, y: 0 });
+        gsap.set(c2Cert2Ref.current, { rotateZ: 0, x: 0, y: 0 });
+        gsap.set(c2Cert3Ref.current, { rotateZ: 0, x: 0, y: 0 });
+
+        // Initial positions for Card 3 visual composition:
+        gsap.set(c3Tile1Ref.current, { x: 40, opacity: 0 });
+        gsap.set(c3Tile2Ref.current, { x: 40, opacity: 0 });
+        gsap.set([c3Chip1Ref.current, c3Chip2Ref.current], { scale: 0.8, opacity: 0 });
+        gsap.set(c3BookingChipRef.current, { scale: 0.8, opacity: 0 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
-            start: "top 90px",
-            end: "+=220%",
+            start: "top 120px",
+            end: "+=260%",
             pin: true,
             pinSpacing: true,
             scrub: 0.6,
@@ -71,134 +101,129 @@ export function FeaturesSection({ data }: { data?: any }) {
         });
 
         // ----------------------------------------------------
-        // Segment 1 (progress 0 -> 1): Card 02 arrives from below and covers Card 01
-        // Card 01 remains in place at y: 0. Its top strip (0px -> 48px) stays visible with "01" label!
-        // Card 02 rises from y: 440 to y: 48px!
+        // Segment 1 (timeline 0.0 -> 0.35): Card 1 active
+        // ----------------------------------------------------
+        // Lesson tile and outline slide toward each other to overlap
+        tl.to(
+          c1LessonTileRef.current,
+          { x: 0, duration: 0.25, ease: "power2.out" },
+          0
+        );
+        tl.to(
+          c1OutlineTileRef.current,
+          { x: 0, duration: 0.25, ease: "power2.out" },
+          0
+        );
+        // Line draws to lock icon
+        if (c1LineRef.current) {
+          tl.to(
+            c1LineRef.current,
+            { strokeDashoffset: 0, duration: 0.2, ease: "power1.inOut" },
+            0.15
+          );
+        }
+        // "Unlocks in 3 days" chip pops in (scale 0.8 to 1)
+        tl.to(
+          c1LockChipRef.current,
+          { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.5)" },
+          0.25
+        );
+
+        // ----------------------------------------------------
+        // Segment 2 (timeline 0.35 -> 0.70): Card 2 slides up over Card 1
+        // Card 1 stays in place, leaving 28px top ledge with "01" exposed.
+        // Card 2 rises to y: 28px.
         // ----------------------------------------------------
         tl.to(
           card2Ref.current,
-          {
-            y: 48,
-            ease: "power1.inOut",
-            duration: 1,
-          },
-          0
+          { y: 28, duration: 0.35, ease: "power1.inOut" },
+          0.35
         );
 
-        // Card 02 content reaches full color (opacity 0.25 -> 1.0) without blur
+        // Content opacity 0.35 -> 1.0 when settled
         tl.to(
           card2ContentRef.current,
-          {
-            opacity: 1,
-            ease: "power1.out",
-            duration: 0.8,
-          },
-          0.1
+          { opacity: 1, duration: 0.25, ease: "power1.out" },
+          0.45
         );
 
-        // Card 02 inner visual motion (0 -> 0.4 main image, 0.2 -> 0.6 second panel, 0.4 -> 0.8 chip)
+        // Card 2 visual motion:
         tl.to(
-          c2MainImgRef.current,
-          {
-            x: 0,
-            opacity: 1,
-            ease: "power2.out",
-            duration: 0.4,
-          },
-          0.1
+          c2QuizCardRef.current,
+          { x: 0, opacity: 1, duration: 0.2, ease: "power1.out" },
+          0.4
         );
-
         tl.to(
-          c2SecondPanelRef.current,
-          {
-            scale: 1,
-            opacity: 1,
-            ease: "back.out(1.2)",
-            duration: 0.4,
-          },
-          0.3
+          c2CenterNodeRef.current,
+          { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(1.2)" },
+          0.42
         );
-
+        if (c2LineRef.current) {
+          tl.to(
+            c2LineRef.current,
+            { strokeDashoffset: 0, duration: 0.2, ease: "power1.inOut" },
+            0.48
+          );
+        }
+        // Certificates fan out into 3 stacked layers
         tl.to(
-          c2ChipRef.current,
-          {
-            scale: 1,
-            opacity: 1,
-            ease: "back.out(1.5)",
-            duration: 0.3,
-          },
-          0.5
+          c2Cert1Ref.current,
+          { rotateZ: -6, x: -8, y: -4, duration: 0.25, ease: "power2.out" },
+          0.52
         );
-
-        // Card 03 strip rises slightly with Card 02 to stay peeking at bottom
         tl.to(
-          card3Ref.current,
-          {
-            y: 486,
-            ease: "none",
-            duration: 1,
-          },
-          0
+          c2Cert2Ref.current,
+          { rotateZ: 0, x: 0, y: 0, duration: 0.25, ease: "power2.out" },
+          0.52
+        );
+        tl.to(
+          c2Cert3Ref.current,
+          { rotateZ: 6, x: 8, y: 4, duration: 0.25, ease: "power2.out" },
+          0.52
         );
 
         // ----------------------------------------------------
-        // Segment 2 (progress 1 -> 2): Card 03 arrives from below and covers Card 02
-        // Card 02 top strip (48px -> 96px) stays visible with "02" label!
-        // Card 03 rises from y: 486 to y: 96px!
+        // Segment 3 (timeline 0.70 -> 1.0): Card 3 slides up over Card 2
+        // Card 2 top ledge (28px to 56px) with "02" stays exposed.
+        // Card 3 rises to y: 56px.
         // ----------------------------------------------------
         tl.to(
           card3Ref.current,
-          {
-            y: 96,
-            ease: "power1.inOut",
-            duration: 1,
-          },
-          1
+          { y: 56, duration: 0.3, ease: "power1.inOut" },
+          0.7
         );
 
-        // Card 03 content reaches full color (opacity 0.25 -> 1.0) without blur
+        // Content opacity 0.35 -> 1.0 when settled
         tl.to(
           card3ContentRef.current,
-          {
-            opacity: 1,
-            ease: "power1.out",
-            duration: 0.8,
-          },
-          1.1
+          { opacity: 1, duration: 0.2, ease: "power1.out" },
+          0.8
         );
 
-        // Card 03 inner visual motion
+        // Card 3 visual motion:
+        // Mia slides in
         tl.to(
-          c3MainImgRef.current,
-          {
-            x: 0,
-            opacity: 1,
-            ease: "power2.out",
-            duration: 0.4,
-          },
-          1.1
+          c3Tile1Ref.current,
+          { x: 0, opacity: 1, duration: 0.2, ease: "power2.out" },
+          0.72
         );
-
+        // Alex slides in 0.15 later
         tl.to(
-          c3SecondPanelRef.current,
-          {
-            scale: 1,
-            opacity: 1,
-            ease: "back.out(1.2)",
-            duration: 0.4,
-          },
-          1.3
+          c3Tile2Ref.current,
+          { x: 0, opacity: 1, duration: 0.2, ease: "power2.out" },
+          0.78
         );
-
+        // Name chips pop in
         tl.to(
-          c3ChipRef.current,
-          {
-            scale: 1,
-            opacity: 1,
-            ease: "back.out(1.5)",
-            duration: 0.3,
-          },
-          1.5
+          [c3Chip1Ref.current, c3Chip2Ref.current],
+          { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
+          0.85
+        );
+        // "Tomorrow, 10:00" chip pops in
+        tl.to(
+          c3BookingChipRef.current,
+          { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
+          0.9
         );
       });
 
@@ -225,7 +250,7 @@ export function FeaturesSection({ data }: { data?: any }) {
   return (
     <section id="features" className="py-20 sm:py-28 bg-[#F3F4F6] font-urbanist overflow-visible">
       <div className="max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Section Header: Scrolls away normally */}
         <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-3">
             <span>✦</span>
@@ -236,64 +261,69 @@ export function FeaturesSection({ data }: { data?: any }) {
           </h2>
         </div>
 
-        {/* Pinned Stage Wrapper */}
+        {/* Pinned Stage Wrapper (Desktop >= 1024px) */}
         <div
           ref={pinWrapperRef}
           className="relative w-full flex justify-center items-center py-4 overflow-visible"
         >
-          {/* Card Frame Geometry: Wide card format matching Mota reference */}
-          <div className="relative w-full max-w-[1280px] h-[520px] hidden lg:block overflow-visible">
+          {/* Card Frame Geometry: 90% width, radius 24px, height ~540px (~62vh at 1440x900) */}
+          <div className="relative w-[90%] max-w-[1240px] h-[540px] hidden lg:block overflow-visible">
             {/* ======================================================== */}
-            {/* Card 01: Courses that run themselves (Bottom of stack) */}
+            {/* Card 01: Courses that run themselves */}
             {/* ======================================================== */}
             <div
               ref={card1Ref}
-              className="absolute inset-0 rounded-[36px] bg-white border border-[#ECEDEF] p-8 lg:p-12 flex flex-col justify-between overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[540px] rounded-[24px] bg-white border border-[#ECEDEF] p-8 lg:p-12 overflow-hidden will-change-transform"
               style={{
-                boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+                boxShadow: "0 20px 50px -15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.02)",
               }}
             >
-              {/* Top Strip with 01 label */}
-              <div className="flex items-center justify-between pb-4 border-b border-[#ECEDEF]">
-                <div className="flex items-center gap-3">
-                  <span className="text-[14px] font-mono font-bold text-[#161616] px-2.5 py-0.5 rounded-md bg-[#F5F6F8] border border-[#ECEDEF]">
-                    01
-                  </span>
-                  <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B6F76]">
-                    Course Management
-                  </span>
-                </div>
+              {/* Top Ledge Label: Exposed when Card 02 stacks at y: 28px */}
+              <div className="absolute top-2.5 left-10 text-[11px] font-mono text-[#9CA3AF] select-none pointer-events-none">
+                01
               </div>
 
-              <div className="grid grid-cols-12 gap-8 items-center h-full pt-4">
-                {/* Left Column (55%): Title, Text, Checklist */}
-                <div className="col-span-6 space-y-4 pr-4">
-                  <h3 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-snug">
+              {/* Bottom Left Corner Number */}
+              <div className="absolute bottom-8 left-10 text-[11px] font-mono text-[#9CA3AF] select-none">
+                01
+              </div>
+
+              {/* Card Body Grid */}
+              <div className="grid grid-cols-12 gap-8 items-center h-full">
+                {/* Left Half (~50%): Title & 1-2 lines grey description */}
+                <div className="col-span-6 pr-6 space-y-2">
+                  <h3 className="text-[22px] sm:text-[24px] font-medium text-[#161616] tracking-tight leading-snug">
                     {card1.title}
                   </h3>
-                  <p className="text-base text-[#6B6F76] leading-relaxed max-w-md">
+                  <p className="text-[15px] text-[#6B7280] leading-relaxed max-w-md">
                     {card1.summary}
                   </p>
-
-                  <div className="pt-2 flex flex-wrap gap-2">
-                    {card1.details.map((item, idx) => (
-                      <span
-                        key={idx}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]"
-                      >
-                        <span className="size-1.5 rounded-full bg-[#7B5CF5]" />
-                        {item}
-                      </span>
-                    ))}
-                  </div>
                 </div>
 
-                {/* Right Column (45%): Moving Visuals Group */}
-                <div className="col-span-6 relative flex items-center justify-center min-h-[340px]">
-                  {/* Visual 1: Lesson Player with Watermark */}
+                {/* Right Half (~50%): Image Composition */}
+                <div className="col-span-6 relative flex items-center justify-center min-h-[380px]">
+                  {/* SVG Connecting Line */}
+                  <svg
+                    className="absolute inset-0 w-full h-full pointer-events-none z-15"
+                    style={{ overflow: "visible" }}
+                  >
+                    <line
+                      ref={c1LineRef}
+                      x1="180"
+                      y1="230"
+                      x2="280"
+                      y2="140"
+                      stroke="#7B5CF5"
+                      strokeWidth="1.5"
+                      strokeDasharray="140"
+                      strokeDashoffset="140"
+                    />
+                  </svg>
+
+                  {/* Visual 1: Lesson Video Tile */}
                   <div
-                    ref={c1MainImgRef}
-                    className="relative w-[340px] rounded-2xl overflow-hidden bg-[#161616] border border-slate-800 shadow-xl text-white will-change-transform z-10"
+                    ref={c1LessonTileRef}
+                    className="relative w-[320px] rounded-2xl overflow-hidden bg-[#161616] border border-slate-800 shadow-xl text-white will-change-transform z-10"
                   >
                     <div className="relative h-44 w-full overflow-hidden bg-slate-900">
                       <Image
@@ -302,9 +332,9 @@ export function FeaturesSection({ data }: { data?: any }) {
                         fill
                         className="object-cover opacity-85"
                       />
-                      {/* Faint moving watermark across video */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none rotate-[-15deg]">
-                        <span className="text-white/35 font-mono text-xs tracking-wider font-semibold animate-pulse">
+                      {/* Watermark across video */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none rotate-[-12deg]">
+                        <span className="text-white/35 font-mono text-[11px] tracking-wider font-semibold">
                           learner@email.com • 1080p
                         </span>
                       </div>
@@ -320,18 +350,18 @@ export function FeaturesSection({ data }: { data?: any }) {
                     </div>
                   </div>
 
-                  {/* Visual 2: Overlapping Section Outline Panel */}
+                  {/* Visual 2: Overlapping Module Outline Card */}
                   <div
-                    ref={c1SecondPanelRef}
-                    className="absolute -left-4 bottom-2 w-56 rounded-xl bg-white p-3 border border-[#ECEDEF] shadow-lg text-[#161616] z-20"
+                    ref={c1OutlineTileRef}
+                    className="absolute left-6 bottom-6 w-52 rounded-xl bg-white p-3.5 border border-[#ECEDEF] shadow-lg text-[#161616] z-20 will-change-transform"
                   >
-                    <p className="text-[11px] font-bold text-[#6B6F76] uppercase tracking-wider">
+                    <p className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">
                       Module Outline
                     </p>
-                    <p className="text-[12px] font-semibold text-[#161616] mt-0.5 truncate">
+                    <p className="text-[12px] font-semibold text-[#161616] mt-0.5">
                       Sections & Lessons
                     </p>
-                    <div className="mt-2 space-y-1 text-[11px] text-[#6B6F76]">
+                    <div className="mt-2 space-y-1 text-[11px] text-[#6B7280]">
                       <div className="flex items-center gap-1.5 text-emerald-600 font-medium">
                         <span>✓</span>
                         <span className="truncate">1. Video lesson (ready)</span>
@@ -343,10 +373,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                     </div>
                   </div>
 
-                  {/* Visual 3: Floating Chip (Drip lock) */}
+                  {/* Visual 3: Lock Chip */}
                   <div
-                    ref={c1ChipRef}
-                    className="absolute -right-2 top-4 z-30 animate-[float1_3s_ease-in-out_infinite]"
+                    ref={c1LockChipRef}
+                    className="absolute right-6 top-8 z-30 will-change-transform"
                   >
                     <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-md">
                       <span className="size-2 rounded-full bg-amber-500" />
@@ -358,114 +388,133 @@ export function FeaturesSection({ data }: { data?: any }) {
             </div>
 
             {/* ======================================================== */}
-            {/* Card 02: Assess and certify (Middle of stack) */}
+            {/* Card 02: Assess and certify */}
             {/* ======================================================== */}
             <div
               ref={card2Ref}
-              className="absolute inset-0 rounded-[36px] bg-white border border-[#ECEDEF] p-8 lg:p-12 flex flex-col justify-between overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[540px] rounded-[24px] bg-white border border-[#ECEDEF] p-8 lg:p-12 overflow-hidden will-change-transform"
               style={{
-                boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+                boxShadow: "0 20px 50px -15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.02)",
               }}
             >
-              <div ref={card2ContentRef} className="h-full flex flex-col justify-between">
-                {/* Top Strip with 02 label */}
-                <div className="flex items-center justify-between pb-4 border-b border-[#ECEDEF]">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[14px] font-mono font-bold text-[#161616] px-2.5 py-0.5 rounded-md bg-[#F5F6F8] border border-[#ECEDEF]">
-                      02
-                    </span>
-                    <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B6F76]">
-                      Evaluation & Certificates
-                    </span>
-                  </div>
+              {/* Top Ledge Label: Exposed when Card 03 stacks at y: 56px */}
+              <div className="absolute top-2.5 left-10 text-[11px] font-mono text-[#9CA3AF] select-none pointer-events-none">
+                02
+              </div>
+
+              {/* Bottom Left Corner Number */}
+              <div className="absolute bottom-8 left-10 text-[11px] font-mono text-[#9CA3AF] select-none">
+                02
+              </div>
+
+              {/* Card Body Grid with pale-to-full text opacity */}
+              <div ref={card2ContentRef} className="grid grid-cols-12 gap-8 items-center h-full">
+                {/* Left Half (~50%): Title & 1-2 lines grey description */}
+                <div className="col-span-6 pr-6 space-y-2">
+                  <h3 className="text-[22px] sm:text-[24px] font-medium text-[#161616] tracking-tight leading-snug">
+                    {card2.title}
+                  </h3>
+                  <p className="text-[15px] text-[#6B7280] leading-relaxed max-w-md">
+                    {card2.summary}
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-12 gap-8 items-center h-full pt-4">
-                  {/* Left Column (55%): Title, Text, Checklist */}
-                  <div className="col-span-6 space-y-4 pr-4">
-                    <h3 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-snug">
-                      {card2.title}
-                    </h3>
-                    <p className="text-base text-[#6B6F76] leading-relaxed max-w-md">
-                      {card2.summary}
-                    </p>
+                {/* Right Half (~50%): Image Composition (Quiz + Central Node + Fanning Certificates) */}
+                <div className="col-span-6 relative flex items-center justify-center min-h-[380px]">
+                  {/* SVG Connecting Line from Quiz to Center Icon */}
+                  <svg
+                    className="absolute inset-0 w-full h-full pointer-events-none z-15"
+                    style={{ overflow: "visible" }}
+                  >
+                    <line
+                      ref={c2LineRef}
+                      x1="180"
+                      y1="190"
+                      x2="260"
+                      y2="190"
+                      stroke="#7B5CF5"
+                      strokeWidth="1.5"
+                      strokeDasharray="90"
+                      strokeDashoffset="90"
+                    />
+                  </svg>
 
-                    <div className="pt-2 flex flex-wrap gap-2">
-                      {card2.details.map((item, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]"
-                        >
-                          <span className="size-1.5 rounded-full bg-[#8E7CF8]" />
-                          {item}
-                        </span>
-                      ))}
+                  {/* Left: Quiz Card */}
+                  <div
+                    ref={c2QuizCardRef}
+                    className="absolute left-4 w-44 rounded-xl bg-white p-3.5 border border-[#ECEDEF] shadow-lg text-[#161616] z-10 will-change-transform"
+                  >
+                    <div className="flex items-center justify-between pb-1.5 border-b border-[#F3F4F6]">
+                      <span className="text-[10px] font-bold uppercase text-[#7B5CF5]">Graded Quiz</span>
+                      <span className="text-[11px] font-bold text-emerald-600">100%</span>
+                    </div>
+                    <p className="text-[11px] font-semibold text-[#161616] mt-2">Evaluation</p>
+                    <div className="mt-1.5 space-y-1 text-[9px] text-[#6B7280]">
+                      <div className="flex items-center gap-1 text-emerald-600">
+                        <span>✓</span>
+                        <span>Multi-tenant routing</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-[#9CA3AF]">
+                        <span>•</span>
+                        <span>Automated score</span>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Right Column (45%): Visuals (Checkpoint Overlay + Quiz Card + Certificate) */}
-                  <div className="col-span-6 relative flex items-center justify-center min-h-[340px]">
-                    {/* Visual 1: Paused Video with Checkpoint Question Overlay */}
+                  {/* Center: Small central icon with 6 colored squares around it (Reference File Manager) */}
+                  <div
+                    ref={c2CenterNodeRef}
+                    className="relative z-20 size-11 rounded-xl bg-[#161616] text-white flex items-center justify-center shadow-lg border border-white/20 will-change-transform"
+                  >
+                    <span className="text-sm">✦</span>
+                    {/* 6 colored satellite squares */}
+                    <span className="absolute -top-3 -left-2 size-2 rounded-xs bg-[#7B5CF5]" />
+                    <span className="absolute -top-3.5 right-1 size-2 rounded-xs bg-emerald-500" />
+                    <span className="absolute top-2 -right-3.5 size-2 rounded-xs bg-amber-500" />
+                    <span className="absolute -bottom-3 -right-1 size-2 rounded-xs bg-rose-500" />
+                    <span className="absolute -bottom-3 left-1 size-2 rounded-xs bg-blue-500" />
+                    <span className="absolute bottom-1 -left-3.5 size-2 rounded-xs bg-indigo-500" />
+                  </div>
+
+                  {/* Right: Certificate Stack that Fans Out into 3 Layers */}
+                  <div className="absolute right-4 w-52 h-40 relative flex items-center justify-center z-10">
+                    {/* Layer 1 (Back left tilt) */}
                     <div
-                      ref={c2MainImgRef}
-                      className="relative w-[340px] rounded-2xl overflow-hidden bg-[#161616] border border-slate-800 shadow-xl text-white will-change-transform z-10"
+                      ref={c2Cert1Ref}
+                      className="absolute inset-0 rounded-xl bg-slate-50 border border-[#ECEDEF] p-3 shadow-md will-change-transform"
                     >
-                      <div className="relative h-44 w-full overflow-hidden bg-slate-900">
-                        <Image
-                          src="/assets/img/home/features/course_preview.jpg"
-                          alt="Checkpoint quiz overlay"
-                          fill
-                          className="object-cover opacity-40"
-                        />
-                        {/* Checkpoint Question Overlay */}
-                        <div className="absolute inset-0 p-3.5 flex flex-col justify-between bg-black/60 backdrop-blur-2xs">
-                          <div className="flex items-center justify-between">
-                            <span className="px-2 py-0.5 rounded-full bg-amber-500/90 text-white text-[10px] font-bold uppercase tracking-wider">
-                              In-Video Checkpoint
-                            </span>
-                            <span className="text-[10px] text-slate-300">04:18 Paused</span>
-                          </div>
-                          <div>
-                            <p className="text-[12px] font-medium text-white">
-                              Which architecture pattern enables multi-tenant scaling?
-                            </p>
-                            <div className="mt-2 space-y-1 text-[10px]">
-                              <div className="px-2 py-1 rounded bg-white/10 text-slate-300">A. Single database instance</div>
-                              <div className="px-2 py-1 rounded bg-emerald-500/30 border border-emerald-400 text-emerald-200 font-semibold flex items-center justify-between">
-                                <span>B. Isolated tenant routing</span>
-                                <span>✓ Correct</span>
-                              </div>
-                            </div>
-                          </div>
+                      <div className="h-full border border-dashed border-[#CBD5E1] rounded-lg p-2 flex flex-col justify-between">
+                        <span className="text-[9px] font-mono text-[#9CA3AF]">CERTIFICATE #01</span>
+                        <div className="size-4 rounded-full bg-[#7B5CF5]/20 self-end" />
+                      </div>
+                    </div>
+
+                    {/* Layer 2 (Middle) */}
+                    <div
+                      ref={c2Cert2Ref}
+                      className="absolute inset-0 rounded-xl bg-white border border-[#ECEDEF] p-3 shadow-lg will-change-transform"
+                    >
+                      <div className="h-full border border-dashed border-[#CBD5E1] rounded-lg p-2 flex flex-col justify-between">
+                        <span className="text-[9px] font-mono text-[#9CA3AF]">CERTIFICATE #02</span>
+                        <div className="size-4 rounded-full bg-emerald-500/20 self-end" />
+                      </div>
+                    </div>
+
+                    {/* Layer 3 (Top right tilt) */}
+                    <div
+                      ref={c2Cert3Ref}
+                      className="absolute inset-0 rounded-xl bg-white border border-[#ECEDEF] p-3 shadow-xl will-change-transform"
+                    >
+                      <div className="h-full border border-dashed border-[#7B5CF5]/40 bg-[#FDFCFF] rounded-lg p-2 flex flex-col justify-between">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[9px] font-mono font-bold text-[#7B5CF5]">VERIFIED CERTIFICATE</span>
+                          <span className="text-[10px]">🎓</span>
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-bold text-[#161616]">Course Completion</p>
+                          <p className="text-[9px] text-[#6B7280]">Issued on completion</p>
                         </div>
                       </div>
-                      <div className="p-2.5 bg-[#18191B] flex items-center justify-between text-[11px] text-slate-300">
-                        <span>Checkpoint quiz required to unlock lesson finish</span>
-                      </div>
-                    </div>
-
-                    {/* Visual 2: Overlapping Quiz Card */}
-                    <div
-                      ref={c2SecondPanelRef}
-                      className="absolute -left-4 bottom-2 w-56 rounded-xl bg-white p-3 border border-[#ECEDEF] shadow-lg text-[#161616] z-20"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold uppercase text-[#7B5CF5]">Graded Quiz</span>
-                        <span className="text-[11px] font-bold text-emerald-600">92% Score</span>
-                      </div>
-                      <p className="text-[12px] font-semibold text-[#161616] mt-1">Instructor Review</p>
-                      <p className="text-[10px] text-[#6B6F76]">Automated evaluation completed</p>
-                    </div>
-
-                    {/* Visual 3: Certificate Preview Chip */}
-                    <div
-                      ref={c2ChipRef}
-                      className="absolute -right-2 top-4 z-30 animate-[float2_3.2s_ease-in-out_infinite]"
-                    >
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-md">
-                        <span className="size-2 rounded-full bg-emerald-500" />
-                        Certificate issued
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -473,130 +522,90 @@ export function FeaturesSection({ data }: { data?: any }) {
             </div>
 
             {/* ======================================================== */}
-            {/* Card 03: Live and cohort learning (Top of stack) */}
+            {/* Card 03: Live and cohort learning */}
             {/* ======================================================== */}
             <div
               ref={card3Ref}
-              className="absolute inset-0 rounded-[36px] bg-white border border-[#ECEDEF] p-8 lg:p-12 flex flex-col justify-between overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[540px] rounded-[24px] bg-white border border-[#ECEDEF] p-8 lg:p-12 overflow-hidden will-change-transform"
               style={{
-                boxShadow: "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
+                boxShadow: "0 20px 50px -15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.02)",
               }}
             >
-              <div ref={card3ContentRef} className="h-full flex flex-col justify-between">
-                {/* Top Strip with 03 label */}
-                <div className="flex items-center justify-between pb-4 border-b border-[#ECEDEF]">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[14px] font-mono font-bold text-[#161616] px-2.5 py-0.5 rounded-md bg-[#F5F6F8] border border-[#ECEDEF]">
-                      03
-                    </span>
-                    <span className="text-[12px] font-semibold uppercase tracking-wider text-[#6B6F76]">
-                      Interactive Cohorts & Zoom
-                    </span>
-                  </div>
+              {/* Bottom Left Corner Number */}
+              <div className="absolute bottom-8 left-10 text-[11px] font-mono text-[#9CA3AF] select-none">
+                03
+              </div>
+
+              {/* Card Body Grid with pale-to-full text opacity */}
+              <div ref={card3ContentRef} className="grid grid-cols-12 gap-8 items-center h-full">
+                {/* Left Half (~50%): Title & 1-2 lines grey description */}
+                <div className="col-span-6 pr-6 space-y-2">
+                  <h3 className="text-[22px] sm:text-[24px] font-medium text-[#161616] tracking-tight leading-snug">
+                    {card3.title}
+                  </h3>
+                  <p className="text-[15px] text-[#6B7280] leading-relaxed max-w-md">
+                    {card3.summary}
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-12 gap-8 items-center h-full pt-4">
-                  {/* Left Column (55%): Title, Text, Checklist */}
-                  <div className="col-span-6 space-y-4 pr-4">
-                    <h3 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-snug">
-                      {card3.title}
-                    </h3>
-                    <p className="text-base text-[#6B6F76] leading-relaxed max-w-md">
-                      {card3.summary}
-                    </p>
-
-                    <div className="pt-2 flex flex-wrap gap-2">
-                      {card3.details.map((item, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]"
+                {/* Right Half (~50%): Participant Video Feeds + Chips */}
+                <div className="col-span-6 relative flex items-center justify-center min-h-[380px]">
+                  <div className="relative w-[340px] flex flex-col gap-3">
+                    {/* Live Video Feeds Row */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {/* Tile 1: Mia Lewis */}
+                      <div
+                        ref={c3Tile1Ref}
+                        className="relative h-32 rounded-xl overflow-hidden bg-slate-800 border border-slate-700/80 shadow-md will-change-transform"
+                      >
+                        <Image
+                          src="/assets/img/home/features/participant_mia.jpg"
+                          alt="Mia Lewis"
+                          fill
+                          className="object-cover"
+                        />
+                        {/* Name Chip */}
+                        <div
+                          ref={c3Chip1Ref}
+                          className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15 will-change-transform"
                         >
-                          <span className="size-1.5 rounded-full bg-[#10B981]" />
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Right Column (45%): Participant Video Call Tile (Matching Mota reference exactly!) */}
-                  <div className="col-span-6 relative flex items-center justify-center min-h-[340px]">
-                    {/* Main Live Class Tile with 2 Participant Photos */}
-                    <div
-                      ref={c3MainImgRef}
-                      className="relative w-[340px] rounded-2xl overflow-hidden bg-[#18191B] p-3 border border-slate-800 shadow-xl text-white will-change-transform z-10 space-y-2.5"
-                    >
-                      <div className="flex items-center justify-between px-1 text-[11px] text-slate-400">
-                        <span className="flex items-center gap-1.5 font-semibold text-white">
-                          <span className="size-2 rounded-full bg-red-500 animate-ping" />
-                          Live Zoom Session
-                        </span>
-                        <span className="text-[10px] font-mono text-emerald-400 font-semibold">
-                          Bootcamp Cohort
-                        </span>
-                      </div>
-
-                      {/* Video Grid: 2 Participant Camera Feeds */}
-                      <div className="grid grid-cols-2 gap-2">
-                        {/* Feed 1: Learner (Mia Lewis) */}
-                        <div className="relative h-28 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
-                          <Image
-                            src="/assets/img/home/features/participant_mia.jpg"
-                            alt="Mia Lewis"
-                            fill
-                            className="object-cover"
-                          />
-                          {/* Mota style dark name pill */}
-                          <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15">
-                            <span className="size-1.5 rounded-full bg-emerald-400" />
-                            Mia Lewis
-                          </div>
-                        </div>
-
-                        {/* Feed 2: Tutor (Alex Peterson) */}
-                        <div className="relative h-28 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
-                          <Image
-                            src="/assets/img/home/features/participant_alex.jpg"
-                            alt="Alex Peterson"
-                            fill
-                            className="object-cover"
-                          />
-                          {/* Mota style dark name pill */}
-                          <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15">
-                            <span className="size-1.5 rounded-full bg-emerald-400" />
-                            Alex Peterson
-                          </div>
+                          <span className="size-1.5 rounded-full bg-emerald-400" />
+                          Mia Lewis
                         </div>
                       </div>
 
-                      <div className="flex items-center justify-between px-1 text-[10px] text-slate-400 pt-1">
-                        <span>One-to-one tutor booking & team training</span>
-                        <span className="text-white font-mono">24 participants</span>
+                      {/* Tile 2: Alex Peterson */}
+                      <div
+                        ref={c3Tile2Ref}
+                        className="relative h-32 rounded-xl overflow-hidden bg-slate-800 border border-slate-700/80 shadow-md will-change-transform"
+                      >
+                        <Image
+                          src="/assets/img/home/features/participant_alex.jpg"
+                          alt="Alex Peterson"
+                          fill
+                          className="object-cover"
+                        />
+                        {/* Name Chip */}
+                        <div
+                          ref={c3Chip2Ref}
+                          className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15 will-change-transform"
+                        >
+                          <span className="size-1.5 rounded-full bg-emerald-400" />
+                          Alex Peterson
+                        </div>
                       </div>
                     </div>
 
-                    {/* Visual 2: Overlapping Tutor Booking Slot Picker */}
+                    {/* Booking Chip: Pops in */}
                     <div
-                      ref={c3SecondPanelRef}
-                      className="absolute -left-4 bottom-2 w-56 rounded-xl bg-white p-3 border border-[#ECEDEF] shadow-lg text-[#161616] z-20"
+                      ref={c3BookingChipRef}
+                      className="self-center will-change-transform"
                     >
-                      <span className="text-[10px] font-bold uppercase text-emerald-600">
-                        1-on-1 Booking
-                      </span>
-                      <p className="text-[12px] font-semibold text-[#161616] mt-0.5">
-                        Tomorrow, 10:00 AM
-                      </p>
-                      <p className="text-[10px] text-[#6B6F76]">45-min Zoom live consultation</p>
-                    </div>
-
-                    {/* Visual 3: Floating Bootcamp Chip */}
-                    <div
-                      ref={c3ChipRef}
-                      className="absolute -right-2 top-4 z-30 animate-[float3_3.4s_ease-in-out_infinite]"
-                    >
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-md">
+                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-[#ECEDEF] shadow-md text-[#161616]">
                         <span className="size-2 rounded-full bg-[#7B5CF5]" />
-                        Bootcamp: week 3
-                      </span>
+                        <span className="text-[12px] font-semibold">Tomorrow, 10:00</span>
+                        <span className="text-[10px] text-[#6B7280]">1-on-1 Zoom</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -605,7 +614,7 @@ export function FeaturesSection({ data }: { data?: any }) {
           </div>
 
           {/* ======================================================== */}
-          {/* Mobile / Tablet Responsive Fallback (Vertical Flow: Cards stacked plainly with image below text) */}
+          {/* Mobile / Tablet Responsive Fallback (<1024px: Unchanged Flow) */}
           {/* ======================================================== */}
           <div className="w-full flex flex-col gap-6 lg:hidden">
             {featuresContent.cards.map((card, idx) => (
@@ -622,7 +631,7 @@ export function FeaturesSection({ data }: { data?: any }) {
                   <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616]">
                     {card.title}
                   </h3>
-                  <p className="text-sm text-[#6B6F76] leading-relaxed">
+                  <p className="text-sm text-[#6B7280] leading-relaxed">
                     {card.summary}
                   </p>
                   <div className="pt-2 flex flex-wrap gap-1.5">
@@ -642,8 +651,8 @@ export function FeaturesSection({ data }: { data?: any }) {
                       <div className="flex flex-col">
                         <div className="relative h-44 sm:h-52 w-full overflow-hidden">
                           <Image
-                            src="/assets/img/home/features/feature_course_canvas.jpg"
-                            alt="Course Builder Canvas"
+                            src="/assets/img/home/features/instructor_lesson.jpg"
+                            alt="Lesson player preview"
                             fill
                             className="object-cover"
                           />
@@ -670,8 +679,8 @@ export function FeaturesSection({ data }: { data?: any }) {
                         </div>
                         <div className="relative h-36 sm:h-44 w-full rounded-xl overflow-hidden border border-white/10">
                           <Image
-                            src="/assets/img/home/features/quiz_math_matrix.png"
-                            alt="Quiz Matrix Evaluation"
+                            src="/assets/img/home/features/course_preview.jpg"
+                            alt="Course Preview"
                             fill
                             className="object-cover"
                           />

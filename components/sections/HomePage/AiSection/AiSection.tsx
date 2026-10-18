@@ -1,11 +1,31 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { aiSectionContent } from "@/content/home/ai";
 
 export function AiSection() {
   const [activeTab, setActiveTab] = useState<0 | 1 | 2 | 3>(0);
   const [typedChars, setTypedChars] = useState(0);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardContainerRef = useRef<HTMLDivElement>(null);
+
+  // Rail numbers & segment fills
+  const num1Ref = useRef<HTMLSpanElement>(null);
+  const num2Ref = useRef<HTMLSpanElement>(null);
+  const num3Ref = useRef<HTMLSpanElement>(null);
+  const num4Ref = useRef<HTMLSpanElement>(null);
+
+  const seg1FillRef = useRef<HTMLDivElement>(null);
+  const seg2FillRef = useRef<HTMLDivElement>(null);
+  const seg3FillRef = useRef<HTMLDivElement>(null);
+
+  // Text column step containers
+  const text0Ref = useRef<HTMLDivElement>(null);
+  const text1Ref = useRef<HTMLDivElement>(null);
+  const text2Ref = useRef<HTMLDivElement>(null);
+  const text3Ref = useRef<HTMLDivElement>(null);
 
   // Simulated typing effect for tutor response when Tab 0 is active
   const tutorFullResponse =
@@ -27,15 +47,175 @@ export function AiSection() {
     }
   }, [activeTab]);
 
+  useEffect(() => {
+    const isReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+
+      // Desktop: 1024px and up (Pinned 4-step scrubbed timeline)
+      mm.add("(min-width: 1024px)", () => {
+        if (isReduced) return;
+
+        // Initial rail states
+        gsap.set(num1Ref.current, { color: "#FFFFFF" });
+        gsap.set([num2Ref.current, num3Ref.current, num4Ref.current], {
+          color: "#6B7280",
+        });
+        gsap.set(
+          [seg1FillRef.current, seg2FillRef.current, seg3FillRef.current],
+          { scaleY: 0, transformOrigin: "top" }
+        );
+
+        // Initial text states: Step 0 visible, 1-3 hidden below (+40px)
+        gsap.set(text0Ref.current, { y: 0, opacity: 1, pointerEvents: "auto" });
+        gsap.set(
+          [text1Ref.current, text2Ref.current, text3Ref.current],
+          { y: 40, opacity: 0, pointerEvents: "none" }
+        );
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: cardContainerRef.current,
+            start: "top 80px",
+            end: "+=360%",
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.5,
+            onUpdate: (self) => {
+              const p = self.progress;
+              let nextTab: 0 | 1 | 2 | 3 = 0;
+              if (p >= 0.75) nextTab = 3;
+              else if (p >= 0.5) nextTab = 2;
+              else if (p >= 0.25) nextTab = 1;
+              else nextTab = 0;
+              setActiveTab((prev) => (prev !== nextTab ? nextTab : prev));
+            },
+          },
+        });
+
+        // ====================================================
+        // Segment 1 (0 -> 1): Step 0 -> Step 1
+        // ====================================================
+        // Line 1 fills with #7B5CF5
+        tl.to(
+          seg1FillRef.current,
+          { scaleY: 1, ease: "none", duration: 1 },
+          0
+        );
+        // Num 2 turns white as segment completes
+        tl.to(
+          num2Ref.current,
+          { color: "#FFFFFF", duration: 0.2 },
+          0.8
+        );
+        // Text 0 exits up (-40px, fades out)
+        tl.to(
+          text0Ref.current,
+          { y: -40, opacity: 0, pointerEvents: "none", duration: 0.35, ease: "power1.inOut" },
+          0.7
+        );
+        // Text 1 enters from below (+40px -> 0, fades in)
+        tl.to(
+          text1Ref.current,
+          { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.35, ease: "power1.inOut" },
+          0.75
+        );
+
+        // ====================================================
+        // Segment 2 (1 -> 2): Step 1 -> Step 2
+        // ====================================================
+        // Line 2 fills with #7B5CF5
+        tl.to(
+          seg2FillRef.current,
+          { scaleY: 1, ease: "none", duration: 1 },
+          1
+        );
+        // Num 3 turns white
+        tl.to(
+          num3Ref.current,
+          { color: "#FFFFFF", duration: 0.2 },
+          1.8
+        );
+        // Text 1 exits up
+        tl.to(
+          text1Ref.current,
+          { y: -40, opacity: 0, pointerEvents: "none", duration: 0.35, ease: "power1.inOut" },
+          1.7
+        );
+        // Text 2 enters from below
+        tl.to(
+          text2Ref.current,
+          { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.35, ease: "power1.inOut" },
+          1.75
+        );
+
+        // ====================================================
+        // Segment 3 (2 -> 3): Step 2 -> Step 3
+        // ====================================================
+        // Line 3 fills with #7B5CF5
+        tl.to(
+          seg3FillRef.current,
+          { scaleY: 1, ease: "none", duration: 1 },
+          2
+        );
+        // Num 4 turns white
+        tl.to(
+          num4Ref.current,
+          { color: "#FFFFFF", duration: 0.2 },
+          2.8
+        );
+        // Text 2 exits up
+        tl.to(
+          text2Ref.current,
+          { y: -40, opacity: 0, pointerEvents: "none", duration: 0.35, ease: "power1.inOut" },
+          2.7
+        );
+        // Text 3 enters from below
+        tl.to(
+          text3Ref.current,
+          { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.35, ease: "power1.inOut" },
+          2.75
+        );
+      });
+
+      // Mobile / Tablet: under 1024px (Normal stacked flow, no pin)
+      mm.add("(max-width: 1023px)", () => {
+        gsap.set(
+          [
+            text0Ref.current,
+            text1Ref.current,
+            text2Ref.current,
+            text3Ref.current,
+            num1Ref.current,
+            num2Ref.current,
+            num3Ref.current,
+            num4Ref.current,
+            seg1FillRef.current,
+            seg2FillRef.current,
+            seg3FillRef.current,
+          ],
+          { clearProps: "all" }
+        );
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
   const currentTab = aiSectionContent.tabs[activeTab];
 
   return (
     <section
+      ref={sectionRef}
       id="extension"
       className="py-16 sm:py-24 px-3 sm:px-6 lg:px-8 bg-white font-urbanist relative overflow-visible"
     >
       <div
         id="ai-studio"
+        ref={cardContainerRef}
         className="max-w-7xl mx-auto rounded-[36px] sm:rounded-[48px] lg:rounded-[56px] bg-[#161616] text-white py-12 sm:py-16 lg:py-20 px-6 sm:px-10 lg:px-14 relative overflow-hidden shadow-2xl border border-white/10"
       >
         {/* Soft Accent Glow behind Window */}
@@ -58,7 +238,7 @@ export function AiSection() {
           </p>
         </div>
 
-        {/* Mobile Horizontal Tabs Row (<1024px, no pin) - Short labels that fit */}
+        {/* Mobile Horizontal Tabs Row (<1024px, no pin) - Preserved */}
         <div className="flex lg:hidden overflow-x-auto no-scrollbar gap-2 pb-6 relative z-10 -mx-1 px-1">
           {aiSectionContent.tabs.map((tab, idx) => {
             const isActive = activeTab === idx;
@@ -79,59 +259,136 @@ export function AiSection() {
           })}
         </div>
 
-        {/* Main Grid: Desktop Stepper (Left) & Animated Window (Right) */}
+        {/* Main Grid: Desktop Rail + Text Column (Left) & Animated Window (Right) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
-          {/* Left Column: 4-Step Vertical Stepper (Desktop) */}
-          <div className="hidden lg:flex lg:col-span-5 flex-col justify-center space-y-4">
-            {aiSectionContent.tabs.map((tab, idx) => {
-              const isActive = activeTab === idx;
-              return (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveTab(idx as 0 | 1 | 2 | 3)}
-                  className={`text-left p-4 rounded-2xl transition-all duration-200 cursor-pointer border ${
-                    isActive
-                      ? "bg-white/5 border-white/15 shadow-sm"
-                      : "bg-transparent border-transparent hover:bg-white/[0.03]"
-                  }`}
-                >
-                  <div className="flex items-start gap-3.5">
-                    {/* Step Number Circle */}
-                    <div
-                      className={`size-7 rounded-full flex items-center justify-center text-xs font-mono font-bold shrink-0 transition-all ${
-                        isActive
-                          ? "bg-[#7B5CF5] text-white shadow-md shadow-[#7B5CF5]/30 scale-105"
-                          : "bg-white/10 text-[#6B6F76] border border-white/10"
-                      }`}
-                    >
-                      {idx + 1}
-                    </div>
+          {/* Left Column (Desktop >=1024px): Numbered Rail + Active Step Text */}
+          <div className="hidden lg:flex lg:col-span-5 items-center">
+            {/* Numbered Progress Rail (~6% from left) */}
+            <div className="flex flex-col items-center select-none w-6 shrink-0 py-2">
+              {/* Step 1 */}
+              <span
+                ref={num1Ref}
+                className="text-[14px] font-mono font-bold transition-colors leading-none"
+              >
+                1
+              </span>
+              {/* Segment 1 */}
+              <div className="w-[2px] h-20 bg-white/15 relative overflow-hidden my-1 rounded-full">
+                <div
+                  ref={seg1FillRef}
+                  className="absolute inset-x-0 top-0 bottom-0 bg-[#7B5CF5] rounded-full origin-top"
+                />
+              </div>
 
-                    <div className="space-y-1 min-w-0 flex-1">
-                      {isActive && (
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#8E7CF8] block">
-                          {tab.tag}
-                        </span>
-                      )}
-                      {/* Active step title is #FFFFFF, inactive titles are #6B6F76 */}
-                      <h3
-                        className={`text-[17px] sm:text-[18px] font-semibold tracking-tight transition-colors ${
-                          isActive ? "text-white" : "text-[#6B6F76]"
-                        }`}
-                      >
-                        {tab.title}
-                      </h3>
-                      {isActive && (
-                        <p className="text-[13px] sm:text-[14px] text-[#C9CCD1] leading-relaxed pt-1">
-                          {tab.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </button>
-              );
-            })}
+              {/* Step 2 */}
+              <span
+                ref={num2Ref}
+                className="text-[14px] font-mono font-bold transition-colors leading-none"
+              >
+                2
+              </span>
+              {/* Segment 2 */}
+              <div className="w-[2px] h-20 bg-white/15 relative overflow-hidden my-1 rounded-full">
+                <div
+                  ref={seg2FillRef}
+                  className="absolute inset-x-0 top-0 bottom-0 bg-[#7B5CF5] rounded-full origin-top"
+                />
+              </div>
+
+              {/* Step 3 */}
+              <span
+                ref={num3Ref}
+                className="text-[14px] font-mono font-bold transition-colors leading-none"
+              >
+                3
+              </span>
+              {/* Segment 3 */}
+              <div className="w-[2px] h-20 bg-white/15 relative overflow-hidden my-1 rounded-full">
+                <div
+                  ref={seg3FillRef}
+                  className="absolute inset-x-0 top-0 bottom-0 bg-[#7B5CF5] rounded-full origin-top"
+                />
+              </div>
+
+              {/* Step 4 */}
+              <span
+                ref={num4Ref}
+                className="text-[14px] font-mono font-bold transition-colors leading-none"
+              >
+                4
+              </span>
+            </div>
+
+            {/* Text Column (Only Active Step Shown, transitions +/- 40px) */}
+            <div className="ml-8 sm:ml-10 max-w-md relative min-h-[220px] flex items-center flex-1">
+              {/* Step 0 Text */}
+              <div
+                ref={text0Ref}
+                className="absolute inset-x-0 will-change-transform space-y-3"
+              >
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8E7CF8] tracking-wider uppercase">
+                  <span>✦</span>
+                  <span>AI ADD-ON</span>
+                </div>
+                <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold text-white tracking-tight leading-[1.15]">
+                  {aiSectionContent.tabs[0].title}
+                </h3>
+                <p className="text-base text-[#C9CCD1] leading-relaxed">
+                  {aiSectionContent.tabs[0].description}
+                </p>
+              </div>
+
+              {/* Step 1 Text */}
+              <div
+                ref={text1Ref}
+                className="absolute inset-x-0 will-change-transform space-y-3"
+              >
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8E7CF8] tracking-wider uppercase">
+                  <span>✦</span>
+                  <span>AI ADD-ON</span>
+                </div>
+                <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold text-white tracking-tight leading-[1.15]">
+                  {aiSectionContent.tabs[1].title}
+                </h3>
+                <p className="text-base text-[#C9CCD1] leading-relaxed">
+                  {aiSectionContent.tabs[1].description}
+                </p>
+              </div>
+
+              {/* Step 2 Text */}
+              <div
+                ref={text2Ref}
+                className="absolute inset-x-0 will-change-transform space-y-3"
+              >
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8E7CF8] tracking-wider uppercase">
+                  <span>✦</span>
+                  <span>AI ADD-ON</span>
+                </div>
+                <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold text-white tracking-tight leading-[1.15]">
+                  {aiSectionContent.tabs[2].title}
+                </h3>
+                <p className="text-base text-[#C9CCD1] leading-relaxed">
+                  {aiSectionContent.tabs[2].description}
+                </p>
+              </div>
+
+              {/* Step 3 Text */}
+              <div
+                ref={text3Ref}
+                className="absolute inset-x-0 will-change-transform space-y-3"
+              >
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#8E7CF8] tracking-wider uppercase">
+                  <span>✦</span>
+                  <span>AI ADD-ON</span>
+                </div>
+                <h3 className="text-3xl sm:text-4xl lg:text-[44px] font-semibold text-white tracking-tight leading-[1.15]">
+                  {aiSectionContent.tabs[3].title}
+                </h3>
+                <p className="text-base text-[#C9CCD1] leading-relaxed">
+                  {aiSectionContent.tabs[3].description}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Right Column: Animated Interactive Studio Window */}
@@ -158,7 +415,7 @@ export function AiSection() {
                 </span>
               </div>
 
-              {/* 4 Tool Switcher Tabs inside Window - Short labels that fit without ellipses */}
+              {/* 4 Tool Switcher Tabs inside Window */}
               <div className="grid grid-cols-4 gap-1.5 bg-white/5 p-1 rounded-2xl text-xs font-medium border border-white/10">
                 {aiSectionContent.tabs.map((tab, idx) => (
                   <button

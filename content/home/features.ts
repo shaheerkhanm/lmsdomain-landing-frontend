@@ -8,12 +8,11 @@ export const featuresContent: FeaturesContent = {
       stepNumber: "01",
       title: "Courses that run themselves",
       summary:
-        "Deliver structured sections and lessons across video, text, PDF, and documents with watermarked video, drip content, and device limits.",
+        "Sections and lessons in video, text and PDF, with watermarked video and drip content.",
       details: [
-        "Structured sections and lessons (video, text, PDF, documents)",
+        "Structured sections and lessons (video, text, PDF)",
         "Watermarked video protection against screen recording",
-        "Drip content scheduling by date or student progress",
-        "Device limits to prevent unauthorized account sharing",
+        "Drip content scheduling by date or progress",
       ],
     },
     {
@@ -21,12 +20,11 @@ export const featuresContent: FeaturesContent = {
       stepNumber: "02",
       title: "Assess and certify",
       summary:
-        "Evaluate mastery with graded quizzes, assignments with instructor review, premium in-video checkpoint quizzes, and customizable certificates.",
+        "Quizzes, assignments and in-video checkpoints, with a certificate when learners finish.",
       details: [
-        "Graded quizzes with automated scoring and instant feedback",
-        "Assignments with in-depth instructor review and grading",
-        "In-video checkpoint quizzes (premium) to verify watch progress",
-        "Configurable certificates on course completion",
+        "Graded quizzes with automated scoring",
+        "Assignments with in-depth instructor review",
+        "In-video checkpoints and final certificates",
       ],
     },
     {
@@ -34,12 +32,11 @@ export const featuresContent: FeaturesContent = {
       stepNumber: "03",
       title: "Live and cohort learning",
       summary:
-        "Host interactive live classes with Zoom, bootcamps with recurring live sessions, one-to-one tutor bookings, and team training packages.",
+        "Live classes on Zoom, bootcamps and one-to-one tutor booking.",
       details: [
-        "Live classes with Zoom and recorded archives",
-        "Bootcamps with recurring live classes and milestones",
-        "One-to-one tutor booking with calendar availability",
-        "Team training packages for organizations and cohorts",
+        "Live classes with Zoom integration",
+        "Bootcamps with milestones and cohorts",
+        "One-to-one tutor booking calendar",
       ],
     },
   ],

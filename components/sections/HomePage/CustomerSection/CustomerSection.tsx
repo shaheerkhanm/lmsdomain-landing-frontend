@@ -2,39 +2,21 @@
 
 import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-
-interface PlaceholderCard {
-  id: string;
-  initials: string;
-  avatarBg: string;
-}
-
-const PLACEHOLDER_CARDS: PlaceholderCard[] = [
-  {
-    id: "card-1",
-    initials: "EA",
-    avatarBg: "#161616",
-  },
-  {
-    id: "card-2",
-    initials: "PT",
-    avatarBg: "#7B5CF5",
-  },
-  {
-    id: "card-3",
-    initials: "GA",
-    avatarBg: "#10B981",
-  },
-];
+import { testimonialsContent } from "@/content/home/testimonials";
+import { TestimonialCard } from "./StackedAcademyDeck";
 
 export function CustomerSection({ data }: { data?: any }) {
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const textWrapperRef = useRef<HTMLDivElement>(null);
   const wallTextRef = useRef<HTMLHeadingElement>(null);
   const deckWrapperRef = useRef<HTMLDivElement>(null);
+
+  // 5 Card refs
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
+  const card4Ref = useRef<HTMLDivElement>(null);
+  const card5Ref = useRef<HTMLDivElement>(null);
 
   // Measure and fit headline width to ~88% of viewport (never wider than innerWidth - 96px)
   useEffect(() => {
@@ -64,42 +46,58 @@ export function CustomerSection({ data }: { data?: any }) {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // Desktop: 1024px and up (A20 Text Scale + A21 Card Upward Flight)
+      // Desktop: 1024px and up (5-Card Deck & Flight Sequence)
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) {
           gsap.set(wallTextRef.current, { color: "#161616", scale: 1 });
-          gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], {
-            clearProps: "all",
-          });
+          gsap.set(
+            [
+              card1Ref.current,
+              card2Ref.current,
+              card3Ref.current,
+              card4Ref.current,
+              card5Ref.current,
+            ],
+            { clearProps: "all" }
+          );
           return;
         }
 
         // Initial positions:
-        gsap.set(wallTextRef.current, { scale: 0.8, color: "#9CA3AF" });
-        gsap.set(deckWrapperRef.current, { y: 40, opacity: 0.95 });
-        gsap.set(card1Ref.current, { rotateZ: -4, x: -6, y: 0 });
-        gsap.set(card2Ref.current, { rotateZ: 4, x: 8, y: 4 });
-        gsap.set(card3Ref.current, { rotateZ: 0, x: 0, y: 6 });
+        // Headline starts grey and slightly scaled down
+        gsap.set(wallTextRef.current, { scale: 0.85, color: "#9CA3AF" });
+
+        // Deck starts below screen
+        gsap.set(deckWrapperRef.current, { y: "45vh", opacity: 0 });
+
+        // Alternating tilts: -4, +3, -2, +4, -3
+        gsap.set(card1Ref.current, { rotateZ: -4, x: 0, y: 0 });
+        gsap.set(card2Ref.current, { rotateZ: 3, x: 0, y: 0 });
+        gsap.set(card3Ref.current, { rotateZ: -2, x: 0, y: 0 });
+        gsap.set(card4Ref.current, { rotateZ: 4, x: 0, y: 0 });
+        gsap.set(card5Ref.current, { rotateZ: -3, x: 0, y: 0 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
             start: "top 80px",
-            end: "+=70%",
+            end: "+=120%",
             pin: true,
             pinSpacing: true,
             scrub: 0.5,
           },
         });
 
-        // Stage 1 (0 -> 0.25): Text settles to full scale and dark color, Deck settles over "of"
+        // ----------------------------------------------------
+        // Stage 1 (0 -> 0.2): Headline turns black, deck rises over "of"
+        // ----------------------------------------------------
         tl.to(
           wallTextRef.current,
           {
             scale: 1,
             color: "#161616",
             ease: "power1.out",
-            duration: 0.25,
+            duration: 0.2,
           },
           0
         );
@@ -110,46 +108,79 @@ export function CustomerSection({ data }: { data?: any }) {
             y: 0,
             opacity: 1,
             ease: "power1.out",
-            duration: 0.25,
+            duration: 0.2,
           },
           0
         );
 
-        // Stage 2 (0.25 -> 0.6): Card 1 flies upward
+        // ----------------------------------------------------
+        // Stage 2 (0.2 -> 0.38): Card 1 flies up and out past top
+        // ----------------------------------------------------
         tl.to(
           card1Ref.current,
           {
-            y: "-85vh",
-            rotateZ: -8,
+            y: "-110vh",
+            rotateZ: -10,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.35,
+            duration: 0.18,
           },
-          0.25
+          0.2
         );
 
-        // Stage 3 (0.6 -> 0.95): Card 2 flies upward; Card 3 settles at 0deg
+        // ----------------------------------------------------
+        // Stage 3 (0.38 -> 0.56): Card 2 flies up and out past top
+        // ----------------------------------------------------
         tl.to(
           card2Ref.current,
           {
-            y: "-85vh",
-            rotateZ: 6,
+            y: "-110vh",
+            rotateZ: 9,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.35,
+            duration: 0.18,
           },
-          0.6
+          0.38
         );
 
+        // ----------------------------------------------------
+        // Stage 4 (0.56 -> 0.74): Card 3 flies up and out past top
+        // ----------------------------------------------------
         tl.to(
           card3Ref.current,
           {
-            x: 0,
-            y: 0,
-            rotateZ: 0,
-            duration: 0.2,
+            y: "-110vh",
+            rotateZ: -8,
+            opacity: 0,
+            ease: "power1.in",
+            duration: 0.18,
           },
-          0.75
+          0.56
+        );
+
+        // ----------------------------------------------------
+        // Stage 5 (0.74 -> 0.92): Card 4 flies up and out past top; Card 5 settles at 0deg
+        // ----------------------------------------------------
+        tl.to(
+          card4Ref.current,
+          {
+            y: "-110vh",
+            rotateZ: 10,
+            opacity: 0,
+            ease: "power1.in",
+            duration: 0.18,
+          },
+          0.74
+        );
+
+        tl.to(
+          card5Ref.current,
+          {
+            rotateZ: 0,
+            ease: "power1.out",
+            duration: 0.18,
+          },
+          0.78
         );
       });
 
@@ -157,7 +188,14 @@ export function CustomerSection({ data }: { data?: any }) {
       mm.add("(max-width: 1023px)", () => {
         gsap.set(wallTextRef.current, { scale: 1, color: "#161616" });
         gsap.set(
-          [deckWrapperRef.current, card1Ref.current, card2Ref.current, card3Ref.current],
+          [
+            deckWrapperRef.current,
+            card1Ref.current,
+            card2Ref.current,
+            card3Ref.current,
+            card4Ref.current,
+            card5Ref.current,
+          ],
           {
             clearProps: "all",
           }
@@ -168,6 +206,8 @@ export function CustomerSection({ data }: { data?: any }) {
     return () => ctx.revert();
   }, []);
 
+  const cards = testimonialsContent.cards;
+
   return (
     <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:-mb-32">
       {/* Pinned Stage Container: Compact height with direct exit to FAQ (Desktop Only >=1024px) */}
@@ -175,7 +215,7 @@ export function CustomerSection({ data }: { data?: any }) {
         ref={pinWrapperRef}
         className="relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
       >
-        {/* A20: Headline "Wall of love" fitting ~88% of screen with font-weight 600 */}
+        {/* Headline "Wall of love" fitting ~88% of screen with font-weight 600 */}
         <div
           ref={textWrapperRef}
           className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 px-6 sm:px-12"
@@ -185,129 +225,67 @@ export function CustomerSection({ data }: { data?: any }) {
             className="font-semibold tracking-[-0.03em] leading-none text-center whitespace-nowrap will-change-transform text-[#161616]"
             style={{ fontWeight: 600 }}
           >
-            Wall of love
+            {testimonialsContent.sectionTitle}
           </h2>
         </div>
 
-        {/* A21: Deck sits centered over "of", starting at the middle height of letters and hanging below baseline */}
+        {/* Deck sits centered over "of" */}
         <div
           ref={deckWrapperRef}
           className="absolute inset-x-0 top-[50%] -translate-y-1/2 z-10 flex items-center justify-center will-change-transform pointer-events-none"
         >
-          <div className="relative w-full max-w-md h-[130px] sm:h-[140px] flex items-center justify-center pointer-events-auto">
-            {/* Card 1 (Top of stack, z-30) */}
+          <div className="relative w-[300px] h-[170px] flex items-center justify-center pointer-events-auto">
+            {/* Card 1 (Top of stack, z-50, tilt -4deg) */}
             <div
               ref={card1Ref}
-              style={{
-                zIndex: 30,
-                boxShadow:
-                  "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
-              }}
-              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-center will-change-transform"
+              className="absolute inset-0 z-50 will-change-transform"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="size-9 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                    style={{ backgroundColor: PLACEHOLDER_CARDS[0].avatarBg }}
-                  >
-                    {PLACEHOLDER_CARDS[0].initials}
-                  </div>
-                  <h4 className="text-[16px] font-semibold text-[#161616] leading-tight">
-                    Customer story coming soon
-                  </h4>
-                </div>
-                <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
-                  Placeholder
-                </span>
-              </div>
+              <TestimonialCard item={cards[0]} />
             </div>
 
-            {/* Card 2 (Middle of stack, z-20) */}
+            {/* Card 2 (z-40, tilt +3deg) */}
             <div
               ref={card2Ref}
-              style={{
-                zIndex: 20,
-                boxShadow:
-                  "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
-              }}
-              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-center will-change-transform"
+              className="absolute inset-0 z-40 will-change-transform"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="size-9 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                    style={{ backgroundColor: PLACEHOLDER_CARDS[1].avatarBg }}
-                  >
-                    {PLACEHOLDER_CARDS[1].initials}
-                  </div>
-                  <h4 className="text-[16px] font-semibold text-[#161616] leading-tight">
-                    Customer story coming soon
-                  </h4>
-                </div>
-                <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
-                  Placeholder
-                </span>
-              </div>
+              <TestimonialCard item={cards[1]} />
             </div>
 
-            {/* Card 3 (Bottom of stack / stays settled at 0deg, z-10) */}
+            {/* Card 3 (z-30, tilt -2deg) */}
             <div
               ref={card3Ref}
-              style={{
-                zIndex: 10,
-                boxShadow:
-                  "0 24px 48px -16px rgba(22,22,22,0.14), 0 2px 6px rgba(22,22,22,0.04)",
-              }}
-              className="absolute w-[340px] sm:w-[420px] rounded-[20px] bg-white border border-[#ECEDEF] p-5 sm:p-6 flex flex-col justify-center will-change-transform"
+              className="absolute inset-0 z-30 will-change-transform"
             >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="size-9 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                    style={{ backgroundColor: PLACEHOLDER_CARDS[2].avatarBg }}
-                  >
-                    {PLACEHOLDER_CARDS[2].initials}
-                  </div>
-                  <h4 className="text-[16px] font-semibold text-[#161616] leading-tight">
-                    Customer story coming soon
-                  </h4>
-                </div>
-                <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
-                  Placeholder
-                </span>
-              </div>
+              <TestimonialCard item={cards[2]} />
+            </div>
+
+            {/* Card 4 (z-20, tilt +4deg) */}
+            <div
+              ref={card4Ref}
+              className="absolute inset-0 z-20 will-change-transform"
+            >
+              <TestimonialCard item={cards[3]} />
+            </div>
+
+            {/* Card 5 (Bottom of stack, stays settled at 0deg, z-10, tilt -3deg) */}
+            <div
+              ref={card5Ref}
+              className="absolute inset-0 z-10 will-change-transform"
+            >
+              <TestimonialCard item={cards[4]} />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Mobile Flow (<1024px, no pin): Text fits screen width with cards stacked below */}
+      {/* Mobile Flow (<1024px, no pin): Text fits screen width with all 5 cards stacked below */}
       <div className="w-full flex flex-col items-center gap-8 lg:hidden px-4 py-12">
         <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-center text-[#161616]">
-          Wall of love
+          {testimonialsContent.sectionTitle}
         </h2>
-        <div className="w-full max-w-md flex flex-col gap-3.5">
-          {PLACEHOLDER_CARDS.map((card) => (
-            <div
-              key={card.id}
-              className="rounded-[20px] bg-white border border-[#ECEDEF] shadow-sm p-4 sm:p-5 flex items-center justify-between"
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="size-9 rounded-full text-white flex items-center justify-center font-bold text-xs shrink-0"
-                  style={{ backgroundColor: card.avatarBg }}
-                >
-                  {card.initials}
-                </div>
-                <h4 className="text-sm sm:text-base font-semibold text-[#161616]">
-                  Customer story coming soon
-                </h4>
-              </div>
-              <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]">
-                Placeholder
-              </span>
-            </div>
+        <div className="w-full max-w-md flex flex-col items-center gap-3.5">
+          {cards.map((card) => (
+            <TestimonialCard key={card.id} item={card} />
           ))}
         </div>
       </div>

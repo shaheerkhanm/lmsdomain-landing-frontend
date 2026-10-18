@@ -114,6 +114,22 @@ export interface FaqContent {
   items: FaqItem[];
 }
 
+export interface TestimonialItem {
+  id: string;
+  name: string;
+  role: string;
+  avatar?: string;
+  quote?: string;
+  date?: string;
+  social?: "twitter" | "linkedin";
+  placeholder: boolean;
+}
+
+export interface TestimonialsContent {
+  sectionTitle: string;
+  cards: TestimonialItem[];
+}
+
 export interface FooterContent {
   description: string;
 }
