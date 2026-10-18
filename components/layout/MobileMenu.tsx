@@ -30,7 +30,7 @@ export function MobileMenu({ navLinks, onClose, onOpenDemo }: MobileMenuProps) {
             key={link.label}
             href={link.href}
             onClick={onClose}
-            className="px-3 py-3 text-base font-semibold text-slate-800 hover:text-MainColor hover:bg-slate-50 rounded-lg transition-colors"
+            className="px-3 py-3 min-h-[44px] flex items-center text-base font-semibold text-slate-800 hover:text-MainColor hover:bg-slate-50 rounded-lg transition-colors"
           >
             {link.label}
           </Link>
@@ -42,7 +42,7 @@ export function MobileMenu({ navLinks, onClose, onOpenDemo }: MobileMenuProps) {
         <button
           onClick={onOpenDemo}
           type="button"
-          className="w-full py-3 px-4 text-center font-semibold text-white bg-MainColor hover:bg-[#5A3DE6] rounded-xl shadow-sm transition active:scale-[0.98]"
+          className="w-full min-h-[44px] py-3 px-4 flex items-center justify-center text-center font-semibold text-white bg-[#161616] hover:bg-black rounded-xl shadow-sm transition active:scale-[0.98] cursor-pointer"
         >
           Request a Demo
         </button>
@@ -52,7 +52,7 @@ export function MobileMenu({ navLinks, onClose, onOpenDemo }: MobileMenuProps) {
           target="_blank"
           rel="noopener noreferrer"
           onClick={onClose}
-          className="w-full py-3 px-4 text-center font-semibold text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300 rounded-xl transition hover:bg-slate-50"
+          className="w-full min-h-[44px] py-3 px-4 flex items-center justify-center text-center font-semibold text-slate-700 hover:text-slate-900 border border-slate-200 hover:border-slate-300 rounded-xl transition hover:bg-slate-50"
         >
           Sign In
         </Link>

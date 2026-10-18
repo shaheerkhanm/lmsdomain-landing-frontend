@@ -43,7 +43,7 @@ export function FooterSection({ addressData, contentData }: { addressData: any; 
   return (
     <footer className="bg-slate-50 border-t border-slate-200 text-slate-800 font-inter pt-16 pb-12">
       <div className="main-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 pb-12">
           {/* Brand Column */}
           <div className="lg:col-span-5 space-y-5">
             <Link href="/" className="inline-block">
@@ -71,7 +71,7 @@ export function FooterSection({ addressData, contentData }: { addressData: any; 
           </div>
 
           {/* Navigation Links Columns */}
-          <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-8">
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8">
             {navData.map((section, idx) => (
               <div key={idx} className="space-y-4">
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">

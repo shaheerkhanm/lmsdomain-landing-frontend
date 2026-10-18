@@ -59,7 +59,7 @@ export function AiSection() {
         </div>
 
         {/* Mobile Horizontal Tabs Row (<1024px, no pin) - Short labels that fit */}
-        <div className="flex lg:hidden overflow-x-auto no-scrollbar gap-2 pb-6 relative z-10">
+        <div className="flex lg:hidden overflow-x-auto no-scrollbar gap-2 pb-6 relative z-10 -mx-1 px-1">
           {aiSectionContent.tabs.map((tab, idx) => {
             const isActive = activeTab === idx;
             return (
@@ -67,7 +67,7 @@ export function AiSection() {
                 key={tab.id}
                 type="button"
                 onClick={() => setActiveTab(idx as 0 | 1 | 2 | 3)}
-                className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-4 py-2.5 min-h-[44px] flex items-center justify-center rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
                   isActive
                     ? "bg-[#7B5CF5] text-white shadow-md font-bold"
                     : "bg-white/10 text-[#C9CCD1] hover:bg-white/15 hover:text-white"

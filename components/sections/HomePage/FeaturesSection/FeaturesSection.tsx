@@ -605,7 +605,7 @@ export function FeaturesSection({ data }: { data?: any }) {
           </div>
 
           {/* ======================================================== */}
-          {/* Mobile / Tablet Responsive Fallback (Vertical Flow) */}
+          {/* Mobile / Tablet Responsive Fallback (Vertical Flow: Cards stacked plainly with image below text) */}
           {/* ======================================================== */}
           <div className="w-full flex flex-col gap-6 lg:hidden">
             {featuresContent.cards.map((card, idx) => (
@@ -634,6 +634,85 @@ export function FeaturesSection({ data }: { data?: any }) {
                         {item}
                       </span>
                     ))}
+                  </div>
+
+                  {/* Visual panel below text */}
+                  <div className="mt-5 rounded-2xl bg-[#18191B] border border-slate-200 overflow-hidden relative">
+                    {idx === 0 && (
+                      <div className="flex flex-col">
+                        <div className="relative h-44 sm:h-52 w-full overflow-hidden">
+                          <Image
+                            src="/assets/img/home/features/feature_course_canvas.jpg"
+                            alt="Course Builder Canvas"
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
+                            <div className="size-10 rounded-full bg-white/30 backdrop-blur-xs flex items-center justify-center text-white text-xs pl-0.5">
+                              ▶
+                            </div>
+                          </div>
+                        </div>
+                        <div className="p-3 bg-[#18191B] flex items-center justify-between text-xs text-slate-300">
+                          <span className="font-semibold text-white truncate">Lesson 02: Architecture Blueprint</span>
+                          <span className="text-[#7B5CF5] font-mono ml-2 shrink-0">12:40</span>
+                        </div>
+                      </div>
+                    )}
+
+                    {idx === 1 && (
+                      <div className="p-4 bg-slate-900 flex flex-col gap-3">
+                        <div className="flex items-center justify-between text-xs text-slate-300">
+                          <span className="font-semibold text-white">Quiz Evaluation</span>
+                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                            100% Score
+                          </span>
+                        </div>
+                        <div className="relative h-36 sm:h-44 w-full rounded-xl overflow-hidden border border-white/10">
+                          <Image
+                            src="/assets/img/home/features/quiz_math_matrix.png"
+                            alt="Quiz Matrix Evaluation"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {idx === 2 && (
+                      <div className="p-4 bg-slate-900 flex flex-col gap-3">
+                        <div className="grid grid-cols-2 gap-2.5">
+                          <div className="relative h-28 sm:h-36 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
+                            <Image
+                              src="/assets/img/home/features/participant_mia.jpg"
+                              alt="Mia Lewis"
+                              fill
+                              className="object-cover"
+                            />
+                            <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15">
+                              <span className="size-1.5 rounded-full bg-emerald-400" />
+                              Mia Lewis
+                            </div>
+                          </div>
+                          <div className="relative h-28 sm:h-36 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
+                            <Image
+                              src="/assets/img/home/features/participant_alex.jpg"
+                              alt="Alex Peterson"
+                              fill
+                              className="object-cover"
+                            />
+                            <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15">
+                              <span className="size-1.5 rounded-full bg-emerald-400" />
+                              Alex Peterson
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between text-[11px] text-slate-400 px-1 pt-0.5">
+                          <span>1-on-1 Live Consultation</span>
+                          <span className="text-white font-mono">24 participants</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

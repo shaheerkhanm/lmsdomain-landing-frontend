@@ -117,10 +117,10 @@ export function Header() {
         ref={navARef}
         className="w-full absolute top-0 inset-x-0 z-40 font-urbanist"
       >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-20 sm:h-24 flex items-center justify-between md:justify-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-20 sm:h-24 flex items-center justify-between lg:justify-center">
           {/* Desktop Centered Symmetrical Navigation (Features, AI Studio, [Square Mark 48px], Benefits, FAQ) */}
           <nav
-            className="hidden md:flex items-center gap-10 lg:gap-12"
+            className="hidden lg:flex items-center gap-10 lg:gap-12"
             aria-label="Hero Symmetrical Navigation"
           >
             <Link
@@ -163,9 +163,9 @@ export function Header() {
             </Link>
           </nav>
 
-          {/* Mobile Top Brand Icon */}
-          <div className="flex md:hidden items-center">
-            <Link href="/" aria-label="LMS Domain Home">
+          {/* Mobile / Tablet Top Brand Icon (<1024px) */}
+          <div className="flex lg:hidden items-center">
+            <Link href="/" aria-label="LMS Domain Home" className="min-w-[44px] min-h-[44px] flex items-center justify-center">
               <img
                 src="/assets/img/logo/mark-square.svg"
                 alt="LMS Domain Mark"
@@ -174,12 +174,12 @@ export function Header() {
             </Link>
           </div>
 
-          {/* Mobile Top Controls */}
-          <div className="flex md:hidden items-center gap-2">
+          {/* Mobile / Tablet Top Controls (<1024px, >=44px tap targets) */}
+          <div className="flex lg:hidden items-center gap-2.5">
             <button
               onClick={() => setShowEnquiryModal(true)}
               type="button"
-              className="px-3.5 py-1.5 rounded-full bg-[#161616] text-white text-xs font-semibold shadow-xs"
+              className="min-h-[44px] px-4 py-2 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center justify-center cursor-pointer active:scale-95"
             >
               Request Demo
             </button>
@@ -187,9 +187,9 @@ export function Header() {
               onClick={() => setShowMenu(true)}
               type="button"
               aria-label="Open navigation menu"
-              className="p-2 text-slate-700 hover:text-slate-950 hover:bg-slate-100 rounded-lg transition"
+              className="min-w-[44px] min-h-[44px] p-2 text-slate-700 hover:text-slate-950 hover:bg-slate-100 rounded-xl transition flex items-center justify-center cursor-pointer active:scale-95"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
@@ -197,11 +197,11 @@ export function Header() {
         </div>
       </header>
 
-      {/* 2. Nav B: Floating Centered Glass Pill Header (A04 Scroll Triggered State) */}
+      {/* 2. Nav B: Floating Centered Glass Pill Header (A04 Scroll Triggered State, Desktop Only >=1024px) */}
       <div
         ref={navBRef}
         style={{ opacity: 0, pointerEvents: "none" }}
-        className="fixed top-4 inset-x-0 z-50 flex justify-center font-urbanist"
+        className="fixed top-4 inset-x-0 z-50 justify-center font-urbanist hidden lg:flex"
       >
         <div className="inline-flex items-center gap-5 sm:gap-7 bg-white/95 backdrop-blur-md px-4 sm:px-6 py-2 rounded-full border border-slate-200/80 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.08)]">
           {/* Nav B Links (No logo per spec §5.2) */}

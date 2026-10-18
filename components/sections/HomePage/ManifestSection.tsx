@@ -24,25 +24,51 @@ export function ManifestSection() {
       // Base color per spec §5.5: #C9CCD1
       gsap.set(words, { color: "#C9CCD1" });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 25%",
-          end: "+=120%",
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.4,
-        },
+      const mm = gsap.matchMedia();
+
+      // Desktop: 1024px and up (Pinned word illumination)
+      mm.add("(min-width: 1024px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 25%",
+            end: "+=120%",
+            pin: true,
+            pinSpacing: true,
+            scrub: 0.4,
+          },
+        });
+
+        tl.to(words, {
+          color: "#161616",
+          stagger: {
+            each: 0.08,
+            from: "start",
+          },
+          ease: "power1.inOut",
+        });
       });
 
-      // Strict left-to-right word-by-word illumination
-      tl.to(words, {
-        color: "#161616",
-        stagger: {
-          each: 0.08,
-          from: "start",
-        },
-        ease: "power1.inOut",
+      // Mobile / Tablet: under 1024px (Keep word reveal, NO pin)
+      mm.add("(max-width: 1023px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            end: "bottom 35%",
+            pin: false,
+            scrub: 0.4,
+          },
+        });
+
+        tl.to(words, {
+          color: "#161616",
+          stagger: {
+            each: 0.08,
+            from: "start",
+          },
+          ease: "power1.inOut",
+        });
       });
     }, sectionRef);
 
