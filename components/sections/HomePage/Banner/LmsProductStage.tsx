@@ -263,202 +263,222 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         </div>
       </div>
 
-      {/* Cards Layer (4 Converging Cards - Sibling to frame, absolutely positioned over canvas, z-10) */}
+      {/* Cards Layer (4 Converging AI Tool Cards - Sibling to frame, absolutely positioned over canvas, z-10) */}
       <div className="absolute inset-0 pt-[82px] sm:pt-[94px] pl-[64px] sm:pl-[84px] pr-4 sm:pr-6 pb-4 sm:pb-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 z-10 pointer-events-auto items-stretch">
-        {/* Card 1: Protected Video Player (Top-Left) */}
+        {/* Card 1: HelpDesk AI tutor (Top-Left) */}
         <div ref={card1Ref} className="will-change-transform flex">
           <div className="float-wrap-1 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900">Protected Video Player</h3>
-              <p className="text-xs text-[#6B6F76] mt-0.5">White-label video playback with hardware L1 DRM.</p>
+              <div className="flex items-center justify-between pb-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#7B5CF5] text-[10px] font-bold border border-purple-200/60">
+                    AI
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">HelpDesk AI tutor</h3>
+                </div>
+              </div>
+              <p className="text-xs text-[#6B6F76] mt-0.5">Learner questions answered from course context.</p>
 
-              <div className="mt-4 space-y-2.5">
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">HARDWARE DRM SHIELD</span>
-                  <div className="mt-1 flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 text-xs font-mono text-slate-800">
-                    <span>Widevine L1 + FairPlay</span>
-                    <svg className="size-3.5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
+              <div className="mt-3.5 space-y-2.5">
+                {/* Learner Question Bubble */}
+                <div className="flex items-start gap-2 justify-end">
+                  <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-slate-100 px-3 py-2 text-xs text-slate-800">
+                    <p className="font-medium">What&apos;s the difference between a quiz and an assignment?</p>
                   </div>
                 </div>
 
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">DYNAMIC WATERMARK</span>
-                  <div className="mt-1 flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 text-xs font-mono text-slate-800">
-                    <span>#LMS-9481 | 192.168.1.104</span>
-                    <svg className="size-3.5 text-slate-400 cursor-pointer hover:text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
+                {/* AI Tutor Response Bubble */}
+                <div className="flex items-start gap-2">
+                  <div className="size-6 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                    AI
+                  </div>
+                  <div className="max-w-[90%] rounded-2xl rounded-tl-xs bg-purple-50/70 border border-purple-100 px-3 py-2 text-xs text-slate-800 space-y-1.5">
+                    <p className="leading-relaxed">
+                      Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor evaluation.
+                    </p>
+                    <div className="pt-0.5">
+                      <span className="inline-flex items-center gap-1 text-[10px] text-[#7B5CF5] font-semibold bg-white/90 border border-purple-200/60 px-2 py-0.5 rounded-full">
+                        <span>✦</span>
+                        From your course: Module 2
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span className="inline-flex items-center gap-1.5">
-                <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-                Decrypted inside Hardware TEE
-              </span>
-              <span className="text-emerald-600 font-bold">Hardware DRM Shield</span>
+              <span>Saved Course History</span>
+              <span className="text-[#7B5CF5] font-semibold">Context-Aware AI</span>
             </div>
           </div>
         </div>
 
-        {/* Card 2: Custom Domain & Single-Tenant Schema (Top-Right) */}
+        {/* Card 2: AI prescriptive analytics (Top-Right) */}
         <div ref={card2Ref} className="will-change-transform flex">
           <div className="float-wrap-2 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
             <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900">Custom Domain & SSO</h3>
-              <p className="text-xs text-[#6B6F76] mt-0.5">Isolated single-tenant academy schema.</p>
+              <div className="flex items-center justify-between pb-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#7B5CF5] text-[10px] font-bold border border-purple-200/60">
+                    AI
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">AI prescriptive analytics</h3>
+                </div>
+              </div>
+              <p className="text-xs text-[#6B6F76] mt-0.5">Flags drop-offs and recommends next steps.</p>
 
-              <div className="mt-4 space-y-3">
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">ACADEMY HOSTNAME</span>
-                  <div className="mt-1 flex items-center justify-between px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 text-xs font-mono text-slate-800">
-                    <span>academy.yourbrand.com</span>
-                    <span className="text-[10px] text-emerald-600 font-bold">LIVE</span>
+              <div className="mt-3 space-y-2">
+                {/* 3 Flagged Rows */}
+                <div className="px-3 py-2 rounded-xl bg-amber-50/70 border border-amber-200/60 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2 text-slate-800">
+                    <span className="size-2 rounded-full bg-amber-500 shrink-0" />
+                    <span className="font-medium truncate">Enrolments falling in Python Basics</span>
                   </div>
+                  <span className="text-[10px] text-amber-700 font-semibold shrink-0">Flagged</span>
                 </div>
 
-                <div className="flex items-center gap-5 text-xs text-slate-700">
-                  <label className="inline-flex items-center gap-1.5 cursor-pointer">
-                    <span className="size-3.5 rounded-full border-2 border-slate-900 flex items-center justify-center">
-                      <span className="size-1.5 rounded-full bg-slate-900" />
-                    </span>
-                    <span className="font-medium">SSL Active</span>
-                  </label>
-                  <label className="inline-flex items-center gap-1.5 text-slate-500 cursor-pointer">
-                    <span className="size-3.5 rounded-full border border-slate-300" />
-                    <span>Okta / SAML SSO</span>
-                  </label>
+                <div className="px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/70 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2 text-slate-800">
+                    <span className="size-2 rounded-full bg-[#7B5CF5] shrink-0" />
+                    <span className="font-medium truncate">2 coupons expire this week</span>
+                  </div>
+                  <span className="text-[10px] text-purple-700 font-semibold shrink-0">Action</span>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={onOpenModal}
-                  className="px-4 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-colors cursor-pointer"
-                >
-                  Configure DNS
-                </button>
+                <div className="px-3 py-2 rounded-xl bg-rose-50/60 border border-rose-200/60 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-2 text-slate-800">
+                    <span className="size-2 rounded-full bg-rose-500 shrink-0" />
+                    <span className="font-medium truncate">Low engagement in Module 4</span>
+                  </div>
+                  <span className="text-[10px] text-rose-700 font-semibold shrink-0">Review</span>
+                </div>
+
+                {/* One-Line Summary Card */}
+                <div className="mt-2.5 p-2.5 rounded-xl bg-purple-50/40 border border-purple-100 text-[11px] text-slate-700 flex items-start gap-1.5">
+                  <span className="text-[#7B5CF5] font-bold">Summary:</span>
+                  <span className="leading-tight">Review Module 4 checkpoint tasks and send a promotional update for expiring coupons.</span>
+                </div>
               </div>
             </div>
 
             <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Custom Wildcard SSL</span>
-              <span className="text-[#7B5CF5] font-semibold">Custom Domain Active</span>
+              <span>Real-Time Insights</span>
+              <span className="text-amber-600 font-semibold">3 Flagged Items</span>
             </div>
           </div>
         </div>
 
-        {/* Card 3: Storage Capacity / Curriculum Hub (Bottom-Left) */}
+        {/* Card 3: Domie AI content generator (Bottom-Left) */}
         <div ref={card3Ref} className="will-change-transform flex">
           <div className="float-wrap-3 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
             <div>
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900">Curriculum Storage</h3>
+              <div className="flex items-center justify-between pb-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#7B5CF5] text-[10px] font-bold border border-purple-200/60">
+                    AI
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">Domie AI content generator</h3>
+                </div>
                 <button
                   type="button"
                   onClick={onOpenModal}
-                  className="px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-[11px] font-semibold transition-colors cursor-pointer"
+                  className="px-3 py-1 rounded-full bg-[#161616] hover:bg-black text-white text-[11px] font-semibold transition-colors cursor-pointer"
                 >
-                  Upload SCORM
+                  Generate
                 </button>
               </div>
+              <p className="text-xs text-[#6B6F76] mt-0.5">Drafted titles, descriptions, and learning outcomes.</p>
 
-              <div className="mt-3 flex items-baseline justify-between">
-                <div className="text-sm sm:text-base font-bold text-slate-900">
-                  124 <span className="text-slate-400 font-normal text-xs">/ 512 Gb</span>
-                </div>
-                <span className="text-xs font-mono font-semibold text-slate-600">24 %</span>
-              </div>
-
-              {/* Segmented Color Progress Bar (Mota 00:04 Exact Colors) */}
-              <div className="mt-2.5 h-2 w-full rounded-full bg-slate-100 overflow-hidden flex gap-0.5">
-                <div className="w-[38%] bg-[#818CF8] rounded-l-full" />
-                <div className="w-[32%] bg-[#5EEAD4]" />
-                <div className="w-[17%] bg-[#FCD34D]" />
-                <div className="w-[13%] bg-[#60A5FA] rounded-r-full" />
-              </div>
-
-              {/* 4 Category Breakdown Tiles */}
-              <div className="mt-3.5 grid grid-cols-2 gap-2 text-xs">
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="size-2 rounded-full bg-[#818CF8]" />
-                    <span className="font-medium text-slate-700 text-[11px]">SCORM/HTML5</span>
-                  </div>
-                  <span className="font-bold text-slate-900 text-[11px]">48 Gb</span>
+              <div className="mt-3 space-y-2">
+                <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/70 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">DRAFTED TITLE</span>
+                  <p className="text-xs font-bold text-slate-900">Modern Full-Stack Engineering</p>
+                  <p className="text-[11px] text-[#6B6F76] leading-tight">
+                    Learn essential frontend architecture, backend services, and scalable web deployment from scratch.
+                  </p>
                 </div>
 
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="size-2 rounded-full bg-[#5EEAD4]" />
-                    <span className="font-medium text-slate-700 text-[11px]">DRM Videos</span>
-                  </div>
-                  <span className="font-bold text-slate-900 text-[11px]">42 Gb</span>
+                <div className="p-2.5 rounded-xl bg-purple-50/50 border border-purple-100 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-[#7B5CF5] block tracking-wider">3 LEARNING OUTCOMES</span>
+                  <ul className="text-[11px] text-slate-700 space-y-0.5 leading-snug">
+                    <li className="flex items-center gap-1.5 truncate">
+                      <span className="text-emerald-600 font-bold">✓</span> Construct responsive user interfaces with modern components
+                    </li>
+                    <li className="flex items-center gap-1.5 truncate">
+                      <span className="text-emerald-600 font-bold">✓</span> Implement clean server-side application logic and storage
+                    </li>
+                    <li className="flex items-center gap-1.5 truncate">
+                      <span className="text-emerald-600 font-bold">✓</span> Deliver complete web projects with verified domain hosting
+                    </li>
+                  </ul>
                 </div>
-
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="size-2 rounded-full bg-[#FCD34D]" />
-                    <span className="font-medium text-slate-700 text-[11px]">PDF Rubrics</span>
-                  </div>
-                  <span className="font-bold text-slate-900 text-[11px]">21 Gb</span>
-                </div>
-
-                <div className="p-2 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <span className="size-2 rounded-full bg-[#60A5FA]" />
-                    <span className="font-medium text-slate-700 text-[11px]">Lecture Audio</span>
-                  </div>
-                  <span className="font-bold text-slate-900 text-[11px]">13 Gb</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-2 text-[10px] text-slate-400 font-mono">
-              1,238 curriculum assets indexed
-            </div>
-          </div>
-        </div>
-
-        {/* Card 4: Domie AI Curriculum Copilot (Bottom-Right) */}
-        <div ref={card4Ref} className="will-change-transform flex">
-          <div className="float-wrap-4 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
-            <div className="flex items-start justify-between gap-3">
-              <div className="space-y-2">
-                <h3 className="text-sm sm:text-base font-bold text-slate-900">Domie AI Copilot</h3>
-                <p className="text-xs text-[#6B6F76] leading-relaxed max-w-[190px]">
-                  Auto-generate multi-week syllabi, rubric quizzes, and lecture briefs in seconds.
-                </p>
-                <div className="pt-2">
-                  <button
-                    type="button"
-                    onClick={onOpenModal}
-                    className="px-3.5 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-semibold transition-colors cursor-pointer"
-                  >
-                    Generate Syllabus
-                  </button>
-                </div>
-              </div>
-
-              {/* 3D Pastel Gear/Illustration (Mota Motif) */}
-              <div className="size-24 sm:size-28 shrink-0 relative flex items-center justify-center">
-                <div className="absolute inset-0 bg-linear-to-tr from-purple-100/60 to-pink-100/60 rounded-2xl blur-lg -z-10" />
-                <svg viewBox="0 0 100 100" className="size-full drop-shadow-md">
-                  <path d="M15 65 L60 85 L85 70 L40 50 Z" fill="#F472B6" />
-                  <circle cx="50" cy="40" r="22" fill="#E0F2FE" stroke="#BAE6FD" strokeWidth="2" />
-                  <circle cx="50" cy="40" r="10" fill="#0F172A" />
-                  <circle cx="70" cy="62" r="8" fill="#18181B" />
-                </svg>
               </div>
             </div>
 
             <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span className="text-[#7B5CF5] font-semibold">Domie AI v2.4 Engine</span>
-              <span className="text-emerald-600 font-bold">Active AI Assistant</span>
+              <span>Edit & Publish Anytime</span>
+              <span className="text-[#7B5CF5] font-semibold">Course Drafting</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Card 4: AI command bar (Bottom-Right) */}
+        <div ref={card4Ref} className="will-change-transform flex">
+          <div className="float-wrap-4 w-full rounded-2xl sm:rounded-3xl bg-white p-4 sm:p-5 border border-slate-200/90 shadow-[0_12px_30px_-10px_rgba(0,0,0,0.06)] flex flex-col justify-between hover:shadow-md transition-shadow">
+            <div>
+              <div className="flex items-center justify-between pb-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-full bg-purple-50 text-[#7B5CF5] text-[10px] font-bold border border-purple-200/60">
+                    AI
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900">AI command bar</h3>
+                </div>
+              </div>
+              <p className="text-xs text-[#6B6F76] mt-0.5">One search box for admin navigation and questions.</p>
+
+              <div className="mt-3 space-y-2.5">
+                {/* Search Input Box */}
+                <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 border border-slate-200/80 text-xs text-slate-500">
+                  <svg className="size-3.5 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <span className="font-medium text-slate-800 truncate">Search or ask anything…</span>
+                  <span className="ml-auto text-[10px] font-mono text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded">⌘K</span>
+                </div>
+
+                {/* 3 Result Rows */}
+                <div className="space-y-1.5">
+                  <div className="px-2.5 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200/60 flex items-center justify-between text-xs transition-colors">
+                    <div className="flex items-center gap-2 text-slate-800">
+                      <span className="text-slate-400">⚙️</span>
+                      <span className="font-medium truncate">Settings / Custom Domain & SSL</span>
+                    </div>
+                    <span className="text-[10px] text-slate-400 font-mono shrink-0">Admin page</span>
+                  </div>
+
+                  <div className="px-2.5 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200/60 flex items-center justify-between text-xs transition-colors">
+                    <div className="flex items-center gap-2 text-slate-800">
+                      <span className="text-slate-400">📚</span>
+                      <span className="font-medium truncate">Python Basics for Beginners</span>
+                    </div>
+                    <span className="text-[10px] text-purple-700 font-mono shrink-0">Course</span>
+                  </div>
+
+                  <div className="px-2.5 py-1.5 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200/60 flex items-center justify-between text-xs transition-colors">
+                    <div className="flex items-center gap-2 text-slate-800">
+                      <span className="text-slate-400">💬</span>
+                      <span className="font-medium truncate">How do I schedule recurring live classes with Zoom?</span>
+                    </div>
+                    <span className="text-[10px] text-emerald-700 font-mono shrink-0">Platform question</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
+              <span>Universal Admin Command</span>
+              <span className="text-[#7B5CF5] font-semibold">Direct Answers</span>
             </div>
           </div>
         </div>

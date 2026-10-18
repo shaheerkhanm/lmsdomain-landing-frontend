@@ -54,7 +54,7 @@ export function BannerGridSection({ data, graphData }: { data: any; graphData: a
             <span>Live Interactive Session</span>
             <span className="flex items-center gap-1 text-MainColor font-semibold">
               <span className="size-1.5 rounded-full bg-MainColor animate-ping" />
-              L1 DRM Active
+              Live Session Active
             </span>
           </div>
 

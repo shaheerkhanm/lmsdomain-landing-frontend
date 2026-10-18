@@ -8,11 +8,9 @@ interface WordItem {
   bg: string;
 }
 
-const WORDS: WordItem[] = [
-  { text: "teach", bg: "#F3CF74" },
-  { text: "certify", bg: "#8E7CF8" },
-  { text: "scale", bg: "#A6E3D3" },
-];
+import { heroContent } from "@/content/home/hero";
+
+const WORDS = heroContent.rotatingWords;
 
 export function KeywordPill() {
   const [currentIndex, setCurrentIndex] = useState(0);

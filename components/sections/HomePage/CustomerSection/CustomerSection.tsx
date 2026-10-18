@@ -35,9 +35,9 @@ const PLACEHOLDER_TESTIMONIALS: TestimonialItem[] = [
     id: "card-3",
     tag: "PARTNER SHOWCASE",
     name: "Global Academy Spotlight",
-    role: "Sovereign Platform Showcase",
+    role: "Global Learning Platform Showcase",
     quote:
-      "Reserved for early adopter academy spotlight. White-label custom branding, dedicated mobile applications, and proprietary curriculum workflows will be featured here.",
+      "Reserved for early adopter academy spotlight. Custom branding, dedicated learning experiences, and online course workflows will be featured here.",
     footerTag: "Feature Your Academy",
   },
 ];

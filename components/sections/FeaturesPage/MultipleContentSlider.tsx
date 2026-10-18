@@ -42,7 +42,7 @@ function MultipleContentSlider({ sliderData }: any) {
     //         title: "Video Lessons",
     //         details: [
     //             "Youtube Video Lessons",
-    //             "Vimeo Integration",
+    //             "Watermarked Video Upload",
     //             "Video File Upload",
     //             "HTML5 Video URLs",
     //         ],

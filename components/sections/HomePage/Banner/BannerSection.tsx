@@ -31,6 +31,8 @@ const heroItemVariants: Variants = {
   },
 };
 
+import { heroContent } from "@/content/home/hero";
+
 export function BannerSection({ data, graphData }: { data: any; graphData: any }) {
   const [showDemoModal, setShowDemoModal] = useState(false);
 
@@ -54,7 +56,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
             variants={heroItemVariants}
             className="mt-5 max-w-xl text-center text-sm sm:text-base text-[#6B6F76] leading-relaxed"
           >
-            Deploy white-label academies at global scale with hardware L1 DRM video protection, single-tenant custom domains, and Domie AI curriculum orchestration. Built for high-stakes learning.
+            {heroContent.subtitle}
           </motion.p>
 
           {/* 3. Black Pill CTA Button (Mota Pill Style) with id="hero-cta" */}
@@ -68,7 +70,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
               onClick={() => setShowDemoModal(true)}
               className="px-6 sm:px-8 py-3 rounded-full bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-medium shadow-2xs hover:shadow-sm transition-all active:scale-95 cursor-pointer"
             >
-              Request a Demo
+              {heroContent.ctaText}
             </button>
           </motion.div>
         </motion.div>

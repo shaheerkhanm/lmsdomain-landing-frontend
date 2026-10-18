@@ -4,11 +4,11 @@ import React from "react";
 import Link from "next/link";
 
 const INTEGRATIONS = [
-  { name: "Zoom Video", category: "Live Classrooms", badge: "Native WebRTC" },
-  { name: "Google Meet", category: "Cohort Meetings", badge: "OAuth 2.0" },
+  { name: "Zoom Video", category: "Live Classrooms", badge: "Live Interactive" },
+  { name: "Paytm", category: "Digital Wallet", badge: "Payment Gateway" },
   { name: "Stripe", category: "Global Payments", badge: "135+ Currencies" },
   { name: "Razorpay", category: "Regional Checkout", badge: "UPI & NetBanking" },
-  { name: "Vimeo OTT", category: "Video Ingestion", badge: "Adaptive HLS" },
+  { name: "DOKU", category: "Southeast Asia", badge: "Payment Gateway" },
   { name: "AWS CloudFront", category: "Edge Delivery", badge: "Global CDN" },
 ];
 
@@ -36,10 +36,10 @@ export function TestimonialSection({ data }: { data: any }) {
               🛡️
             </div>
             <h3 className="text-lg font-bold text-slate-950 font-manrope">
-              Forensic Anti-Piracy Shield
+              Watermarked Video Protection
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Protect high-value curriculum with hardware-enforced Widevine L1 & FairPlay encryption, dynamic student watermark burn-in, and screen capture prevention.
+              Protect course lessons with dynamic student watermarking, device limits, and video protection.
             </p>
           </div>
 
@@ -51,7 +51,7 @@ export function TestimonialSection({ data }: { data: any }) {
               Strict Tenant Data Segregation
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              Every training academy operates with isolated database scopes, ensuring student assessments, rosters, and payment logs remain strictly confidential.
+              Every training academy operates with dedicated database scopes, ensuring student assessments, rosters, and payment logs remain strictly confidential.
             </p>
           </div>
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import SocialMediaIcons from "../SocialMediaIcons";
 import CopyrightSection from "../CopyrightSection";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { footerContent } from "@/content/home/footer";
 
 const navData = [
   {
@@ -60,7 +61,7 @@ export function FooterSection({ addressData, contentData }: { addressData: any; 
               />
             ) : (
               <p className="text-sm text-slate-600 leading-relaxed max-w-sm">
-                Next-generation learning management infrastructure empowering trainers, institutions, and businesses with white-label branded academies, hardware L1 DRM protection, and Domie AI.
+                {footerContent.description}
               </p>
             )}
 

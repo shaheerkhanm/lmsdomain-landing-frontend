@@ -29,7 +29,7 @@ export function ResultSection({ data }: { data?: any }) {
             Omni-channel delivery, any cohort, multi-language.
           </h2>
           <p className="mt-4 text-base text-slate-600 leading-relaxed">
-            Scalable architecture engineered for international academies with native DRM protection, localized subtitles, and zero revenue sharing.
+            Scalable architecture engineered for international academies with watermarked video protection, localized interfaces, and multi-currency selling.
           </p>
         </div>
 
@@ -40,17 +40,17 @@ export function ResultSection({ data }: { data?: any }) {
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200/60">
-                  Multilingual AI Engine
+                  Multi-Language Support
                 </span>
-                <span className="text-xs font-semibold text-slate-500">20+ Languages Ready</span>
+                <span className="text-xs font-semibold text-slate-500">Global Ready</span>
               </div>
 
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                  All major languages, localized in real time.
+                  All major languages, localized interfaces.
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 mt-1">
-                  Translate lecture transcripts, quiz prompts, and student workbooks with verified technical terminology.
+                  Deliver courses, quiz prompts, and student workbooks with native multi-language and multi-currency support.
                 </p>
               </div>
 
@@ -106,10 +106,10 @@ export function ResultSection({ data }: { data?: any }) {
                   100%
                 </span>
                 <h4 className="text-base font-bold text-slate-900">
-                  Single-Tenant Database Isolation
+                  Multi-Tenant Architecture
                 </h4>
                 <p className="text-xs text-slate-600 leading-relaxed">
-                  Every academy instance runs with dedicated schemas, zero shared student data, and custom SSL domains.
+                  Every academy instance runs with dedicated schemas, role-based access, and custom SSL domains.
                 </p>
               </div>
 
@@ -119,26 +119,26 @@ export function ResultSection({ data }: { data?: any }) {
                   <span className="text-lg font-extrabold text-emerald-600">0% Cut</span>
                 </div>
                 <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                  <span className="text-[10px] text-slate-400 font-bold uppercase block">DRM Enforcement</span>
-                  <span className="text-lg font-extrabold text-MainColor">Widevine L1</span>
+                  <span className="text-[10px] text-slate-400 font-bold uppercase block">Video Protection</span>
+                  <span className="text-lg font-extrabold text-MainColor">Watermarked</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-              <span>Full Data Sovereignty</span>
+              <span>Full Data Privacy</span>
               <span className="text-slate-800 font-bold">Zero Vendor Lock-In</span>
             </div>
           </div>
 
-          {/* Card 3: Adaptive Bitrate Video & DRM Card (Span 6) */}
+          {/* Card 3: Adaptive Bitrate Video Card (Span 6) */}
           <div className="md:col-span-6 bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-xs hover:border-slate-300 transition-all space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100">
               <span className="text-[11px] font-bold uppercase tracking-wider text-MainColor bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200/60">
                 Low-Latency Streaming
               </span>
               <div className="flex gap-1">
-                {["720p", "1080p60", "4K"].map((res) => (
+                {["720p", "1080p", "HD"].map((res) => (
                   <button
                     key={res}
                     type="button"
@@ -160,7 +160,7 @@ export function ResultSection({ data }: { data?: any }) {
                 Adaptive Bitrate Edge Video CDN
               </h4>
               <p className="text-xs text-slate-600 mt-1">
-                Optimized HLS & DASH packaging cached at 300+ global edge locations for lag-free playback on mobile networks.
+                Optimized video delivery cached at global edge locations for smooth playback on mobile networks.
               </p>
             </div>
 
@@ -190,13 +190,13 @@ export function ResultSection({ data }: { data?: any }) {
 
             <div className="grid grid-cols-3 gap-2 text-center text-xs">
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 font-semibold text-slate-800">
-                📹 Zoom & Meet
+                📹 Zoom Live
               </div>
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 font-semibold text-slate-800">
                 💳 Stripe & Razorpay
               </div>
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 font-semibold text-slate-800">
-                ⚡ AWS CloudFront
+                ⚡ Global CDN
               </div>
             </div>
           </div>

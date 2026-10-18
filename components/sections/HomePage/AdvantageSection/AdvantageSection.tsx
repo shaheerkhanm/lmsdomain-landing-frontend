@@ -4,6 +4,8 @@ import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import AdvantageScrollMain from "./AdvantageScrollMain";
 
+import { benefitsContent } from "@/content/home/benefits";
+
 export function AdvantageSection({ data }: { data?: any }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
 
@@ -43,14 +45,14 @@ export function AdvantageSection({ data }: { data?: any }) {
         <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-20">
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-3">
             <span>✦</span>
-            <span className="uppercase tracking-widest text-[11px]">BENEFITS</span>
+            <span className="uppercase tracking-widest text-[11px]">{benefitsContent.badge}</span>
           </div>
           <h2
             ref={headingRef}
             className="text-3xl sm:text-5xl lg:text-6xl font-semibold text-[#161616] tracking-tight leading-tight"
           >
-            <span className="block">One platform for</span>
-            <span className="block mt-1 sm:mt-2">every kind of academy</span>
+            <span className="block">{benefitsContent.title.line1}</span>
+            <span className="block mt-1 sm:mt-2">{benefitsContent.title.line2}</span>
           </h2>
         </div>
 

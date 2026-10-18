@@ -6,43 +6,9 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-interface FaqItem {
-  question: string;
-  answer: string;
-}
+import { faqContent } from "@/content/home/faq";
 
-const FAQS: FaqItem[] = [
-  {
-    question: "How does Widevine L1 hardware DRM prevent screen recording?",
-    answer:
-      "Widevine L1 decrypts video frames directly inside the device's secure hardware memory (TEE). Any screen capture application (such as OBS, QuickTime, browser recording extensions, or HDMI capture cards) receives a stream of pure black pixels. Additionally, a dynamic forensic watermark with the student's unique ID is burned into playback to identify unauthorized physical recording.",
-  },
-  {
-    question: "Can I host the academy entirely on my own custom domain?",
-    answer:
-      "Yes. Every LMS Domain instance is 100% white-label. You point your custom DNS (e.g., academy.yourbrand.com) to our edge infrastructure. We automatically provision and renew wildcard SSL certificates, and all student emails and transactional receipts come from your branded domain.",
-  },
-  {
-    question: "Do you take any revenue share or percentage from course sales?",
-    answer:
-      "No. We take a 0% revenue take rate. You connect your direct Stripe, Razorpay, or PayPal accounts, and all tuition and subscription fees deposit directly into your business bank accounts immediately.",
-  },
-  {
-    question: "How does Domie AI generate course syllabi and auto-graded quizzes?",
-    answer:
-      "Domie AI analyzes your topic prompt, video transcripts, or uploaded lecture notes to draft structured multi-week syllabi, rubric-aligned multiple-choice questions, and coding challenges. You retain full editorial approval before anything is published to learners.",
-  },
-  {
-    question: "Can I integrate my existing Zoom, Google Meet, or Vimeo accounts?",
-    answer:
-      "Yes. LMS Domain features native zero-code integrations with Zoom and Google Meet for live classrooms, Vimeo and AWS for custom video ingestion, and standard WebRTC for low-latency interactive breakout sessions.",
-  },
-  {
-    question: "How long does onboarding and content migration from another LMS take?",
-    answer:
-      "Most academies complete migration in under 48 hours. Our automated migration tool imports existing SCORM packages, learner accounts, and course videos directly. Dedicated engineering support assists with custom domain DNS mapping and single sign-on (SSO) configuration.",
-  },
-];
+const FAQS = faqContent.items;
 
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -150,7 +116,7 @@ export function FaqSection() {
                 You ask – we answer.
               </h2>
               <p className="text-sm sm:text-base text-slate-500 leading-relaxed font-normal">
-                Everything you need to know about our AI-powered LMS platform, hardware DRM video protection, and custom domain hosting.
+                {faqContent.subtitle}
               </p>
               <div className="pt-2">
                 <button

@@ -8,23 +8,23 @@ import { BACKEND_URL } from "@/utils/constants/constant";
 
 const DEFAULT_TEACH_FEATURES = [
   {
-    title: "Automated Assessment & Rubrics",
-    subTitle: "Draft quizzes, auto-grade student submissions, and sync scores directly to your centralized cohort gradebook.",
+    title: "Quizzes & Assignments",
+    subTitle: "Assess learning with structured quizzes, instructor-reviewed assignments, and certificates on completion.",
     image: "/assets/img/features/feature-icon-1.svg",
   },
   {
-    title: "Hardware L1 DRM Screen Shield",
-    subTitle: "Prevent unauthorized screen recording with studio-grade Widevine L1 & FairPlay encryption and dynamic watermarking.",
+    title: "Watermarked Video Protection",
+    subTitle: "Protect course lessons with video watermarking and device limits to prevent unauthorized sharing.",
     image: "/assets/img/features/feature-icon-2.svg",
   },
   {
-    title: "Live Interactive Cohorts",
-    subTitle: "Deliver low-latency live classrooms with integrated real-time polling, whiteboard collaboration, and batch chat.",
+    title: "Live Classes with Zoom",
+    subTitle: "Deliver live classes, bootcamps with recurring sessions, and one-to-one tutor bookings.",
     image: "/assets/img/features/feature-icon-3.svg",
   },
   {
-    title: "Automated Attendance & Rostering",
-    subTitle: "Track exact student session durations across hybrid batches and automatically issue verified completion certificates.",
+    title: "Achievements & Certificates",
+    subTitle: "Track progress with points, leaderboard rankings, and customizable course completion certificates.",
     image: "/assets/img/features/feature-icon-4.svg",
   },
 ];

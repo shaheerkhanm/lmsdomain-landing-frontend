@@ -2,25 +2,25 @@ import React from "react";
 
 const PLATFORM_SPECIFICATIONS = [
   {
-    title: "Widevine L1 & FairPlay",
-    tagline: "Studio-Grade Hardware DRM",
-    description: "Prevents screen-capture tools and unauthorized stream rips with hardware-level video decryption.",
-    badge: "Anti-Piracy Standard",
+    title: "Watermarked Video Lessons",
+    tagline: "Lesson Protection",
+    description: "Protects course video playback with dynamic watermarking and strict device limits.",
+    badge: "Lesson Security",
   },
   {
-    title: "Zero-Leakage Isolation",
-    tagline: "Multi-Tenant Architecture",
-    description: "Each academy operates in an isolated tenant schema with encrypted student data and individual SSL certificates.",
+    title: "Multi-Tenant Architecture",
+    tagline: "Data Security",
+    description: "Each academy operates with encrypted student data, role permissions, and individual SSL certificates.",
     badge: "Enterprise Security",
   },
   {
     title: "Distributed Edge Delivery",
     tagline: "Global CDN Video Streaming",
     description: "Optimized adaptive bitrate streaming with edge-cached assets for smooth playback on mobile and desktop.",
-    badge: "Low-Latency Edge",
+    badge: "Fast Edge Delivery",
   },
   {
-    title: "Sovereign Custom Domain",
+    title: "Custom Domain with SSL",
     tagline: "Custom Domain Onboarding",
     description: "Operate entirely under your own domain name with customized email SMTP, receipts, and brand colors.",
     badge: "Full Brand Control",

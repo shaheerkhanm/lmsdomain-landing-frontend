@@ -80,7 +80,7 @@ const TESTIMONIAL_PANELS: TestimonialPanel[] = [
   {
     id: "panel-bot-right",
     avatar: "/assets/img/reference/avatar-bot-right.png",
-    text: "Our company leverages LMS Domain to protect proprietary curriculum with Widevine L1.",
+    text: "Our company leverages LMS Domain to deliver structured courses with watermarked video lessons.",
     type: "pill",
     positionClass: "bottom-3 lg:bottom-5 right-4 sm:right-10 lg:right-16 z-0 opacity-60 max-w-[240px] lg:max-w-[290px] hidden lg:flex",
     delayClass: "animate-float-1",

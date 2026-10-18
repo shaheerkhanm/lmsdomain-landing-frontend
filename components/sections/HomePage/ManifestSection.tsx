@@ -3,12 +3,9 @@
 import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
-const STATEMENT_WORDS = [
-  "In", "today's", "digital", "world,", "maximizing", "efficiency", "and", "protecting",
-  "knowledge", "is", "paramount.", "With", "an", "AI-native", "LMS", "built",
-  "for", "speed,", "we", "simplify", "course", "creation,", "enforce", "hardware",
-  "DRM,", "and", "scale", "uncompromised", "learning", "experiences", "globally."
-];
+import { manifestoContent } from "@/content/home/manifesto";
+
+const STATEMENT_WORDS = manifestoContent.text.split(" ");
 
 export function ManifestSection() {
   const sectionRef = useRef<HTMLElement>(null);
