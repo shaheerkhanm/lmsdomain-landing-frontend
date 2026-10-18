@@ -74,7 +74,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
         </motion.div>
 
         {/* 4. Mota Floating Cards & Converging Dashboard Stage (A05) */}
-        <div className="mt-8 sm:mt-10 w-full">
+        <div className="mt-14 sm:mt-16 lg:mt-20 w-full">
           <LmsProductStage onOpenModal={() => setShowDemoModal(true)} />
         </div>
       </div>

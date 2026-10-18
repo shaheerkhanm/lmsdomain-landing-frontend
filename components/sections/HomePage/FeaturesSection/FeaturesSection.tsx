@@ -21,20 +21,20 @@ export function FeaturesSection({ data }: { data?: any }) {
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
-        // Initial positions per spec §5.4:
+        // Initial positions per Mota frame 8.5s:
         // Card 1 at 0
-        // Card 2 at +150px (peeking under card 1, content blurred and at 0.2 opacity)
-        // Card 3 at +300px (content blurred and at 0.2 opacity)
+        // Card 2 at +46px (peeking under card 1 with unblurred 02 number label)
+        // Card 3 at +92px (peeking under card 2 with unblurred 03 number label)
         gsap.set(card1Ref.current, { y: 0 });
-        gsap.set(card2Ref.current, { y: 150 });
+        gsap.set(card2Ref.current, { y: 46 });
         gsap.set(card2ContentRef.current, { opacity: 0.2, filter: "blur(4px)" });
-        gsap.set(card3Ref.current, { y: 300 });
+        gsap.set(card3Ref.current, { y: 92 });
         gsap.set(card3ContentRef.current, { opacity: 0.2, filter: "blur(4px)" });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
-            start: "top 120px",
+            start: "top 90px",
             end: "+=200%",
             pin: true,
             pinSpacing: true,
@@ -56,7 +56,7 @@ export function FeaturesSection({ data }: { data?: any }) {
           0
         );
 
-        // Card 2 rises from +150px to 0
+        // Card 2 rises from +46px to 0
         tl.to(
           card2Ref.current,
           {
@@ -79,11 +79,11 @@ export function FeaturesSection({ data }: { data?: any }) {
           0.4
         );
 
-        // Card 3 rises from +300px to +150px (now peeking under Card 2)
+        // Card 3 rises from +92px to +46px (now peeking under Card 2)
         tl.to(
           card3Ref.current,
           {
-            y: 150,
+            y: 46,
             ease: "power1.out",
             duration: 1,
           },
@@ -104,7 +104,7 @@ export function FeaturesSection({ data }: { data?: any }) {
           1
         );
 
-        // Card 3 rises from +150px to 0
+        // Card 3 rises from +46px to 0
         tl.to(
           card3Ref.current,
           {
@@ -141,7 +141,7 @@ export function FeaturesSection({ data }: { data?: any }) {
 
   return (
     <section id="features" className="py-20 sm:py-28 bg-[#F3F4F6] font-urbanist overflow-visible">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header (Mota Exact Style) */}
         <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-20">
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-3">
@@ -154,9 +154,9 @@ export function FeaturesSection({ data }: { data?: any }) {
         </div>
 
         {/* Pinned Stage Wrapper (Desktop: pinned 200vh sequence; Mobile: vertical flow) */}
-        <div ref={pinWrapperRef} className="relative w-full flex justify-center items-center py-4">
-          {/* Card Frame Geometry: ≈89vw (max 1280px) × ≈68vh (min 560px, max 640px), radius 40px */}
-          <div className="relative w-[89vw] max-w-[1280px] h-[68vh] min-h-[560px] max-h-[640px] hidden lg:block">
+        <div ref={pinWrapperRef} className="relative w-full flex justify-center items-center py-4 overflow-visible">
+          {/* Card Frame Geometry: Wide card format matching Mota frame 8.5s */}
+          <div className="relative w-full max-w-[1320px] h-[470px] sm:h-[490px] hidden lg:block overflow-visible">
             {/* ======================================================== */}
             {/* Card 01: Hardware DRM Video Protection (z-index: 30) */}
             {/* ======================================================== */}
@@ -225,8 +225,8 @@ export function FeaturesSection({ data }: { data?: any }) {
                 </div>
               </div>
 
-              {/* Index label: "01" bottom-left, 15px, near-black, 32px from edges */}
-              <div className="absolute bottom-8 left-8 text-[15px] font-mono font-semibold text-[#161616]">
+              {/* Index label: "01" bottom-left, 15px, near-black */}
+              <div className="absolute bottom-4 sm:bottom-5 left-8 text-[15px] font-mono font-semibold text-[#161616]">
                 01
               </div>
             </div>
@@ -298,11 +298,11 @@ export function FeaturesSection({ data }: { data?: any }) {
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Index label: "02" bottom-left */}
-                <div className="absolute bottom-8 left-8 text-[15px] font-mono font-semibold text-[#161616]">
-                  02
-                </div>
+              {/* Index label: "02" bottom-left, rendered in peeking bottom shelf, crisp & unblurred */}
+              <div className="absolute bottom-3 left-8 text-[15px] font-mono font-semibold text-[#161616] z-20 pointer-events-none">
+                02
               </div>
             </div>
 
@@ -365,11 +365,11 @@ export function FeaturesSection({ data }: { data?: any }) {
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Index label: "03" bottom-left */}
-                <div className="absolute bottom-8 left-8 text-[15px] font-mono font-semibold text-[#161616]">
-                  03
-                </div>
+              {/* Index label: "03" bottom-left, rendered in peeking bottom shelf, crisp & unblurred */}
+              <div className="absolute bottom-3 left-8 text-[15px] font-mono font-semibold text-[#161616] z-20 pointer-events-none">
+                03
               </div>
             </div>
           </div>

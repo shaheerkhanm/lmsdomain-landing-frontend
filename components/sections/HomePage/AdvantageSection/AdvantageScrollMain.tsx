@@ -18,9 +18,25 @@ const BENEFIT_CARDS: BenefitCard[] = [
       "Host on your own custom domain with 100% white-label isolation, dynamic DNS, and hardware-backed TEE security.",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
-        <path d="M60 20 L85 45 L75 80 L35 85 L20 50 Z" fill="#5EEAD4" stroke="#2DD4BF" strokeWidth="2" />
-        <path d="M85 45 L105 60 L95 95 L75 80 Z" fill="#14B8A6" />
-        <path d="M35 85 L75 80 L65 105 L25 100 Z" fill="#0F766E" />
+        <defs>
+          <linearGradient id="domain-top" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#A7F3D0" />
+            <stop offset="100%" stopColor="#5EEAD4" />
+          </linearGradient>
+          <linearGradient id="domain-left" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2DD4BF" />
+            <stop offset="100%" stopColor="#0D9488" />
+          </linearGradient>
+          <linearGradient id="domain-right" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#14B8A6" />
+            <stop offset="100%" stopColor="#047857" />
+          </linearGradient>
+        </defs>
+        {/* 3D Isometric Sovereign Domain Vault */}
+        <polygon points="60,22 96,42 60,62 24,42" fill="url(#domain-top)" />
+        <polygon points="24,42 60,62 60,102 24,82" fill="url(#domain-left)" />
+        <polygon points="60,62 96,42 96,82 60,102" fill="url(#domain-right)" />
+        <polygon points="60,34 78,44 60,54 42,44" fill="#FFFFFF" fillOpacity="0.4" />
       </svg>
     ),
   },
@@ -31,9 +47,25 @@ const BENEFIT_CARDS: BenefitCard[] = [
       "Telemetry logs real-time student watch time and automatically issues tamper-evident verifiable PDF credentials.",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
-        <path d="M60 15 L100 38 L60 61 L20 38 Z" fill="#C4B5FD" stroke="#A78BFA" strokeWidth="2" />
-        <path d="M20 38 L60 61 L60 105 L20 82 Z" fill="#8B5CF6" />
-        <path d="M60 61 L100 38 L100 82 L60 105 Z" fill="#6D28D9" />
+        <defs>
+          <linearGradient id="cert-top" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#E9D5FF" />
+            <stop offset="100%" stopColor="#C4B5FD" />
+          </linearGradient>
+          <linearGradient id="cert-left" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#A855F7" />
+            <stop offset="100%" stopColor="#7E22CE" />
+          </linearGradient>
+          <linearGradient id="cert-right" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#7C3AED" />
+            <stop offset="100%" stopColor="#581C87" />
+          </linearGradient>
+        </defs>
+        {/* 3D Isometric Certificate Podium */}
+        <polygon points="60,18 98,40 60,62 22,40" fill="url(#cert-top)" />
+        <polygon points="22,40 60,62 60,104 22,82" fill="url(#cert-left)" />
+        <polygon points="60,62 98,40 98,82 60,104" fill="url(#cert-right)" />
+        <circle cx="60" cy="40" r="12" fill="#FFFFFF" fillOpacity="0.45" />
       </svg>
     ),
   },
@@ -44,9 +76,26 @@ const BENEFIT_CARDS: BenefitCard[] = [
       "Zero-latency multi-speaker WebRTC classrooms with breakout rooms, screen share, and instant cloud sync.",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
-        <circle cx="60" cy="60" r="38" fill="#BAE6FD" stroke="#38BDF8" strokeWidth="2" />
-        <circle cx="60" cy="60" r="20" fill="#0284C7" />
-        <path d="M45 60 L55 48 L65 72 L75 60" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+        <defs>
+          <linearGradient id="live-top" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#BAE6FD" />
+            <stop offset="100%" stopColor="#7DD3FC" />
+          </linearGradient>
+          <linearGradient id="live-left" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#0284C7" />
+            <stop offset="100%" stopColor="#0369A1" />
+          </linearGradient>
+          <linearGradient id="live-right" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#0EA5E9" />
+            <stop offset="100%" stopColor="#075985" />
+          </linearGradient>
+        </defs>
+        {/* 3D Isometric Live Interactive Studio Beacon */}
+        <polygon points="60,20 96,41 60,62 24,41" fill="url(#live-top)" />
+        <polygon points="24,41 60,62 60,102 24,81" fill="url(#live-left)" />
+        <polygon points="60,62 96,41 96,81 60,102" fill="url(#live-right)" />
+        <circle cx="60" cy="41" r="14" fill="#FFFFFF" fillOpacity="0.35" />
+        <circle cx="60" cy="41" r="7" fill="#FFFFFF" fillOpacity="0.75" />
       </svg>
     ),
   },

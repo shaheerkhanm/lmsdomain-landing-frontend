@@ -34,15 +34,16 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
           },
         });
 
-        // Start offsets per spec §5.3 table (progress 0 -> progress 1)
+        // Start offsets matching Mota reference frame 0.5s:
+        // Cards sit below the CTA button, stick out past the frame, and tilt noticeably
         tl.from(
           card1Ref.current,
           {
-            x: -140,
-            y: -170,
-            scale: 1.18,
-            rotateZ: -2,
-            rotateX: 8,
+            x: -240,
+            y: -35,
+            scale: 1.15,
+            rotateZ: -8,
+            rotateX: 6,
             transformPerspective: 1200,
             ease: "power1.inOut",
           },
@@ -52,11 +53,11 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         tl.from(
           card2Ref.current,
           {
-            x: 120,
-            y: -190,
-            scale: 1.18,
-            rotateZ: 2,
-            rotateX: 8,
+            x: 240,
+            y: -35,
+            scale: 1.15,
+            rotateZ: 7,
+            rotateX: 6,
             transformPerspective: 1200,
             ease: "power1.inOut",
           },
@@ -66,11 +67,11 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         tl.from(
           card3Ref.current,
           {
-            x: -60,
-            y: -40,
+            x: -180,
+            y: 60,
             scale: 1.12,
-            rotateZ: 3,
-            rotateX: 10,
+            rotateZ: -6,
+            rotateX: 8,
             transformPerspective: 1200,
             ease: "power1.inOut",
           },
@@ -80,11 +81,11 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         tl.from(
           card4Ref.current,
           {
-            x: 60,
-            y: -60,
+            x: 180,
+            y: 60,
             scale: 1.12,
-            rotateZ: -3,
-            rotateX: 10,
+            rotateZ: 6,
+            rotateX: 8,
             transformPerspective: 1200,
             ease: "power1.inOut",
           },
@@ -94,7 +95,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         tl.from(
           frameRef.current,
           {
-            scale: 0.85,
+            scale: 0.88,
             ease: "power1.inOut",
           },
           0

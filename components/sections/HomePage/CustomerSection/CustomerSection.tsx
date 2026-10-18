@@ -14,27 +14,27 @@ interface TestimonialItem {
 const PLACEHOLDER_TESTIMONIALS: TestimonialItem[] = [
   {
     id: "card-1",
-    tag: "FEATURED ACADEMY STORY",
+    tag: "ENTERPRISE DEPLOYMENT",
     name: "Enterprise Academy Partner",
-    role: "Global Technical Certification Program",
+    role: "Custom Domain Architecture",
     quote:
-      "Widevine L1 and FairPlay hardware DRM eliminated unauthorized screen recording and course leakage entirely. Our 10,000+ engineering learners stream protected content with zero piracy.",
+      "Hardware-backed Widevine L1 and FairPlay DRM prevent screen recording and stream ripping across our cohorts, backed by automated custom domain SSL provisioning.",
   },
   {
     id: "card-2",
-    tag: "CURRICULUM INNOVATION",
-    name: "Medical Training Institute",
-    role: "Clinical Board Prep Cohort",
+    tag: "ACCREDITED PROGRAM",
+    name: "Professional Training Institute",
+    role: "Clinical Board Certification",
     quote:
-      "Live WebRTC classrooms combined with dynamic forensic watermarking give our medical board prep cohort the confidence to deliver proprietary surgical walkthroughs securely.",
+      "Interactive WebRTC classrooms and automated SCORM 2004 compliance give our instructors the tools to deliver accredited coursework with full audit telemetry.",
   },
   {
     id: "card-3",
-    tag: "YOUR ACADEMY HERE",
-    name: "Your Academy Story Here",
-    role: "Modern Multi-Tenant Learning Platform",
+    tag: "PARTNER SPOTLIGHT",
+    name: "Your Academy Story",
+    role: "White-Label Sovereign LMS",
     quote:
-      "Launch a sovereign academy on your own custom domain, enforce hardware-grade DRM, and automate course creation with Domie AI curriculum copilot.",
+      "Deploy a branded academy on your own custom domain, enforce hardware-grade content protection, and automate course creation with Domie AI curriculum orchestration.",
   },
 ];
 
@@ -155,11 +155,11 @@ export function CustomerSection({ data }: { data?: any }) {
         ref={pinWrapperRef}
         className="relative w-full h-screen min-h-[680px] max-h-[960px] flex flex-col items-center justify-center overflow-hidden"
       >
-        {/* A20: Solid Giant Typography "Wall of love" (≈12vw, weight 600, solid #161616) */}
+        {/* A20: Solid Giant Typography "Wall of love" (≈18vw, weight 600, solid #161616, spans nearly full width) */}
         <div className="absolute inset-x-0 flex items-center justify-center pointer-events-none select-none z-0">
           <h2
             ref={wallTextRef}
-            className="text-[12vw] sm:text-[14vw] lg:text-[160px] font-semibold tracking-[-0.03em] leading-none text-center whitespace-nowrap will-change-transform"
+            className="text-[18vw] sm:text-[19vw] lg:text-[230px] font-semibold tracking-[-0.03em] leading-none text-center whitespace-nowrap will-change-transform"
           >
             Wall of love
           </h2>
@@ -191,17 +191,19 @@ export function CustomerSection({ data }: { data?: any }) {
                     </span>
                   </div>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-[#7B5CF5] px-2 py-0.5 rounded-full bg-purple-50">
-                  VERIFIED
-                </span>
+                <div className="text-slate-400">
+                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                  </svg>
+                </div>
               </div>
               <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
                 "{PLACEHOLDER_TESTIMONIALS[0].quote}"
               </p>
             </div>
             <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Hardware TEE DRM</span>
-              <span className="text-emerald-600 font-semibold">100% Anti-Piracy</span>
+              <span>Enterprise Multi-Tenant</span>
+              <span className="text-slate-500 font-mono">Dec 13, 2024</span>
             </div>
           </div>
 
@@ -215,7 +217,7 @@ export function CustomerSection({ data }: { data?: any }) {
               <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-3">
                   <div className="size-10 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center font-bold text-xs">
-                    MT
+                    PT
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold text-[#161616] leading-tight">
@@ -226,17 +228,19 @@ export function CustomerSection({ data }: { data?: any }) {
                     </span>
                   </div>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-[#7B5CF5] px-2 py-0.5 rounded-full bg-purple-50">
-                  VERIFIED
-                </span>
+                <div className="text-slate-400">
+                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                  </svg>
+                </div>
               </div>
               <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
                 "{PLACEHOLDER_TESTIMONIALS[1].quote}"
               </p>
             </div>
             <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Low-Latency WebRTC</span>
-              <span className="text-emerald-600 font-semibold">Real-Time Sync</span>
+              <span>WebRTC Interactive Classrooms</span>
+              <span className="text-slate-500 font-mono">Jan 29, 2025</span>
             </div>
           </div>
 
@@ -261,16 +265,18 @@ export function CustomerSection({ data }: { data?: any }) {
                     </span>
                   </div>
                 </div>
-                <span className="text-[10px] font-mono font-bold text-emerald-600 px-2 py-0.5 rounded-full bg-emerald-50">
-                  NEXT ACADEMY
-                </span>
+                <div className="text-slate-400">
+                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                  </svg>
+                </div>
               </div>
               <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
                 "{PLACEHOLDER_TESTIMONIALS[2].quote}"
               </p>
             </div>
             <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Custom White-Label SSL</span>
+              <span>Sovereign White-Label</span>
               <span className="text-[#7B5CF5] font-semibold">Start Today</span>
             </div>
           </div>

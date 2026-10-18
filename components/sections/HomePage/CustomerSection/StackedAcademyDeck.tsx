@@ -13,30 +13,30 @@ interface TestimonialCard {
 
 const TESTIMONIALS: TestimonialCard[] = [
   {
-    id: "elena",
-    name: "Elena Rostova",
-    role: "Director, Cloud Architecture Academy",
+    id: "partner-1",
+    name: "Enterprise Academy Partner",
+    role: "Custom Domain Architecture",
     avatar: "/assets/img/reference/avatar-mid-right.png",
     quote:
-      "The Widevine L1 & FairPlay hardware DRM eliminated unauthorized screen recording and course leakage entirely. Our 14,000+ engineering learners stream 1080p content securely on custom domain infrastructure.",
+      "Hardware-backed Widevine L1 and FairPlay DRM prevent screen recording and stream ripping across our cohorts, backed by automated custom domain SSL provisioning.",
     date: "Dec 13, 2024",
   },
   {
-    id: "marcus",
-    name: "Marcus Chen",
-    role: "VP of Technical Training, DataScale",
+    id: "partner-2",
+    name: "Professional Training Partner",
+    role: "Accredited Clinical Training",
     avatar: "/assets/img/reference/avatar-mid-left.png",
     quote:
-      "Migrating from our legacy LMS to LMS Domain gave us automated syllabus generation and SCORM 2004 compliance out of the box. White-label customization means zero third-party vendor branding for our enterprise clients.",
+      "Interactive WebRTC classrooms and automated SCORM 2004 compliance give our instructors the tools to deliver accredited coursework with full audit telemetry.",
     date: "Feb 18, 2025",
   },
   {
-    id: "sophia",
-    name: "Dr. Sophia Ramirez",
-    role: "Founder & Dean, Clinical Prep Institute",
+    id: "partner-3",
+    name: "Your Academy Story",
+    role: "White-Label Sovereign LMS",
     avatar: "/assets/img/reference/avatar-top-left.png",
     quote:
-      "Live WebRTC classrooms combined with dynamic forensic watermarking give our medical board prep cohort the confidence to deliver proprietary surgical walkthroughs securely across 12 countries.",
+      "Deploy a branded academy on your own custom domain, enforce hardware-grade content protection, and automate course creation with Domie AI curriculum orchestration.",
     date: "Jan 29, 2025",
   },
 ];

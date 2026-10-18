@@ -125,7 +125,7 @@ export function AiSection() {
             </div>
 
             {/* A13: Single Visible Step Viewport (overflow: hidden, translates vertically on tab change) */}
-            <div className="overflow-hidden h-[300px] sm:h-[320px] relative w-full flex flex-col justify-center">
+            <div className="overflow-hidden h-[320px] relative w-full">
               <motion.div
                 animate={{ y: -activeTab * 320 }}
                 transition={{ duration: 0.5, ease: [0.65, 0, 0.35, 1] }}
