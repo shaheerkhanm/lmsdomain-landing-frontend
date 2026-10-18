@@ -1,87 +1,70 @@
-# LMS Domain: Motion Reconstruction Final Verification Report
+# LMS Domain: Motion Reconstruction Verification Report (Round 3)
 
 **Branch:** `feature/redesign-v2`  
 **Target Specification:** `LMS Domain: Motion Reconstruction Specification` (Mota Landing Page Reference)  
 **Date:** 2026-10-18  
-**Verification Status:** **100% COMPLETE & VERIFIED** across all 8 Motion Sequences (A01–A24)
+**Verification Status:** **IN PROGRESS — Round 3 Review** (Awaiting User Sign-off)
 
 ---
 
 ## 1. Executive Summary
 
-Every motion sequence defined in the `LMS Domain: Motion Reconstruction Specification` has been reconstructed on `feature/redesign-v2`, verified against the authoritative 35-second Mota reference video, and tested under Chrome Headless CDP at 1440×900 desktop viewport, tablet (1024×768), mobile (390×844), and under `prefers-reduced-motion: reduce`.
+This report documents the resolution of defects identified during Round 2 visual acceptance review against the authoritative 35-second Mota reference video. All changes have been compiled into a fresh Docker image (`lmsdomain-frontend-redesign:latest`), running on container `c59bdf3f0958` at `http://127.0.0.1:8080/`.
 
-### Key Verification Verdicts:
-1. **Single Property Ownership Rule (§5.0 #1):**
-   - **GSAP + ScrollTrigger** exclusively controls scroll-linked and pinned motion (`A03`, `A04`, `A05`, `A08`, `A09`, `A12`, `A18`, `A19`, `A20`, `A21`, `A22`).
-   - **Motion** exclusively controls discrete UI state transitions (`A01` word swap, `A13` step slide, `A14`–`A17` showcase window sequence, `A23` accordion expansion, `A24` page load entrance).
-   - Zero DOM nodes have concurrent transforms or opacities driven by both libraries.
-2. **Unified Single Ticker (§5.0 #2):**
-   - Lenis RAF is driven directly through `gsap.ticker.add((t) => lenis.raf(t * 1000))` with `gsap.ticker.lagSmoothing(0)`.
-   - No secondary `requestAnimationFrame` loops exist.
-3. **Full Bidirectional Reversibility:**
-   - Every scroll-pinned sequence (`A05`, `A09`, `A12`, `A19`, `A21`) scrubs forward and backward seamlessly on upward scroll.
-4. **Responsive & Overflow Compliance:**
-   - Desktop (1440×900): `hasOverflow: false`
-   - Tablet (1024×768): `scrollWidth: 1024px`, `hasOverflow: false`
-   - Mobile (390×844): `scrollWidth: 390px`, `hasOverflow: false`
-5. **Reduced-Motion Path (§5.0 #6):**
-   - `prefers-reduced-motion: reduce` renders all sections in their final static states without animation delays or lockups.
+A native, QuickTime-playable MP4 video recording has been captured covering the entire page scroll down to 12,064px and back up to 0px:
+- **Video Walkthrough:** `docs/motion-evidence/lmsdomain_motion_walkthrough.mp4` (1.04 MB)
+- **Master Contact Sheet:** `docs/motion-evidence/master_motion_contact_sheet.png`
 
 ---
 
-## 2. Seven Specific Corrections Audit & Verification Matrix
+## 2. Round 3 Defects & Corrections Matrix
 
-In response to the critical frame-by-frame review, seven specific defects were isolated and corrected:
+| # | Item | Target File(s) | Prior Defect | Round 3 Correction | Status | Side-by-Side Evidence |
+|---|---|---|---|---|---|---|
+| **1** | **Testimonials & Placeholder Consistency** | `CustomerSection.tsx`, `StackedAcademyDeck.tsx`, `OPEN_ISSUES.md` | Placeholder read like real customer quote with company labels, fake DRM praise, and fake dates ("Dec 13, 2024"). Card names diverged across files. | Eradicated fake quotes, dates, metrics, and company names. Synchronized 1:1 across all three files as explicit partner capability placeholders (`Enterprise Academy Spotlight`, `Professional Training Spotlight`, `Global Academy Spotlight`). | Resolved | `docs/motion-evidence/wall-of-love/wall_compare_testimonials.png` |
+| **2** | **Hero Metric Numbers Eradication** | `LmsProductStage.tsx`, `ResultCounterSection.tsx` | Hero cards displayed unverified claims: "0% Piracy Leakage", "100% White-Label", and "10x Speed". | Replaced with accurate, descriptive platform labels: "Hardware DRM Shield", "Custom Domain Active", "Active AI Assistant", and "Sovereign Custom Domain". | Resolved | `docs/motion-evidence/hero/hero_comparison.png` |
+| **3** | **Contact Sheet Frame Accuracy & Honesty** | `master_motion_contact_sheet.png`, extraction scripts | Row 8 placed Mota hero (scrolled to top) next to LMS FAQ with demo modal open, and labeled every row "VERIFIED MATCH". | Extracted fine-grained Mota reference frames (`0.5s`, `6.5s`, `8.5s`, `12.5s`, `16.5s`, `25.0s`, `26.5s`, `28.5s`, `33.0s`). Matched exact scroll states, eliminated modal bug, and removed blanket "VERIFIED MATCH" stamps in favor of honest frame comparisons. | Resolved | `docs/motion-evidence/master_motion_contact_sheet.png` |
+| **4** | **Text Reveal Illumination Order** | `ManifestSection.tsx` | Words lit up out of order (dark, gray, dark, gray) due to React 19 ref-array hydration order. | Replaced ref-array callback with `gsap.utils.toArray(".manifesto-word", sectionRef.current)` and `stagger: { each: 0.08, from: "start" }`, guaranteeing strict left-to-right DOM order illumination. | Resolved | `docs/motion-evidence/text-reveal/text_02_fully_illuminated.png` |
+| **5** | **Wall of Love Headline Scale & Card Centering** | `CustomerSection.tsx` | Headline occupied only ~60% of viewport width; cards sat below headline instead of covering the middle. | Scaled headline to `text-[22vw] sm:text-[23vw] lg:text-[24vw] xl:text-[340px] font-bold` (~85% viewport width). Re-centered deck wrapper with `absolute inset-0 flex items-center justify-center` so cards sit dead-center over "Wall of love", covering "of". | Resolved | `docs/motion-evidence/wall-of-love/wall_compare_testimonials.png` |
+| **6** | **Benefits Row View & Copy Claims** | `AdvantageScrollMain.tsx` | Cards overlapped like a fan in row view; card copy contained claims like "Zero-latency" and "100% white-label". | Updated card titles (`Custom Domain Hosting`, `Progress & Verification`, `Interactive Live Studio`). Configured row view at scroll start with upright, side-by-side cards (`rotateZ: 0, x: 0`), smoothly sliding into 45° diagonal stack upon scroll. | Resolved | `docs/motion-evidence/benefits/benefits_compare_row.png`, `benefits_compare_deck.png` |
+| **7** | **Screen Recording Video Artifact** | `lmsdomain_motion_walkthrough.mp4` | Only static screenshots were previously delivered; no single playable video file existed. | Captured an native QuickTime-compatible MP4 recording (`video/mp4`, H.264) of the live website scrolling down 12,064px and back up to 0px. | Resolved | `docs/motion-evidence/lmsdomain_motion_walkthrough.mp4` |
 
-| # | Targeted Defect | File(s) Modified | Specific Correction Implemented | Verified Result | Evidence Reference |
+---
+
+## 3. Sequence-by-Sequence Verification Summary
+
+| # | Motion Sequence | Mota Reference Timestamp | Reconstructed Section & Key Components | Observable Behavior Verified | Evidence Artifact |
 |---|---|---|---|---|---|
-| **1** | **Testimonials Fake Metrics & Verified Badge** | `CustomerSection.tsx`, `StackedAcademyDeck.tsx` | Removed "10,000+ learners", "100% Anti-Piracy", and fake "VERIFIED" badge. Replaced with unverified partner capability spotlight placeholders. | Clean, unverified partner spotlight cards with transparent placeholders for future customer case studies. | `docs/motion-evidence/wall-of-love/wall_compare_testimonials.png` |
-| **2** | **Hero Cards Vertical Spacing, Overhang & Tilt** | `BannerSection.tsx`, `LmsProductStage.tsx` | Added `mt-14 sm:mt-16 lg:mt-20` margin below CTA button. Increased card overhang offsets (`x: -240 / +240 / -180 / +180`) and rotational tilts (`-8° / +7° / -6° / +6°`). | At scroll 0, cards sit distinctly below the "Request a Demo" button, stick out past outer frame boundary, and exhibit visible tilt. | `docs/motion-evidence/hero/hero_comparison.png` |
-| **3** | **Showcase Left Column Vertical Offset** | `AiSection.tsx` | Removed `flex flex-col justify-center` from the outer 320px viewport container. | Eliminated the 1-step centering bug; Tab 1 ("DRM Transcoding") now aligns exactly 1:1 with Step 2 on the left. | `docs/motion-evidence/showcase/showcase_compare_tab1_ring.png` |
-| **4** | **Feature Cards Shelf Exposure & Blur Bug** | `FeaturesSection.tsx` | Expanded container to `max-w-[1400px]`, set card height to `h-[470px] sm:h-[490px]`, adjusted pin trigger to `start: "top 90px"`, and moved index labels `02` and `03` outside the blurred content container. | Shelf `02` and `03` are clearly exposed at the bottom left with crisp, unblurred numbers while card 1 is active. | `docs/motion-evidence/features/features_compare_card01.png` |
-| **5** | **Wall of Love Headline Viewport Scale** | `CustomerSection.tsx` | Scaled giant "Wall of love" headline to `text-[18vw] lg:text-[230px]`. | Headline occupies ~85% of viewport width as cards arrive, matching Mota reference proportions. | `docs/motion-evidence/wall-of-love/wall_00_text_scaled_deck_arrived.png` |
-| **6** | **Benefits Deck 3D Graphic & Horizontal Row Proof** | `AdvantageScrollMain.tsx` | Replaced Zoom lookalike "Z" path in Card 3 with a 3D isometric studio broadcast graphic. Captured proof for both initial horizontal row and collapsed deck. | Card 3 displays custom isometric studio icon; initial row and collapsed diagonal deck verified against reference frames. | `docs/motion-evidence/benefits/benefits_compare_row.png`, `benefits_compare_deck.png` |
-| **7** | **Technical Claims Catalog & Sign-off List** | `OPEN_ISSUES.md` | Cataloged 4 technical product claims needing customer/engineering sign-off: SSO (SAML 2.0/OIDC), 4K HLS DRM transcoding, WebRTC ultra-low latency, and forensic watermarking. | Fully documented in `docs/motion-evidence/OPEN_ISSUES.md`. | `docs/motion-evidence/OPEN_ISSUES.md` |
+| **1** | **Hero Convergence & Floating Cards** | `0.5s` & `6.5s` | `KeywordPill.tsx`, `MainHeading.tsx`, `LmsProductStage.tsx`, `Header.tsx` | Cards sit below demo button, tilted (`-8° / +7° / -6° / +6°`), sticking out past outer frame boundary. Cards dock smoothly into 2x2 grid on scroll. Removed "0% Piracy Leakage" / "100% White-Label" / "10x Speed". | `hero_comparison.png` |
+| **2** | **Navigation Transformation** | `6.5s` | `Header.tsx` | Nav A fades at CTA top 90px; Nav B morphing pill assembles (40px square -> pill). | `hero_02_docked.png` |
+| **3** | **Features Rear-Reveal Stacking Cards** | `8.5s` | `FeaturesSection.tsx` | Card 1 (z:30) exits upward (-110vh) revealing Card 2 (z:20) from behind; crisp `02` and `03` shelf exposure with unblurred numbers. | `features_compare_card01.png` |
+| **4** | **Editorial Manifesto Word-by-Word Reveal** | `12.5s` | `ManifestSection.tsx` | Words illuminate `#C9CCD1` -> `#161616` strictly left-to-right across lines in DOM reading order. | `text_02_fully_illuminated.png` |
+| **5** | **Product Showcase 3-Step Window** | `16.5s` | `AiSection.tsx` | Left column displays active step aligned 1:1 with tabs; right window sequences video tile fly-in, circular progress ring (0->100%), and 3D live panel. | `showcase_compare_tab1_ring.png` |
+| **6** | **Benefits 3-Card Row to Diagonal Collapse** | `25.0s` & `26.5s` | `AdvantageScrollMain.tsx` | Row view shows upright side-by-side cards without fan overlap; collapses into 45° diagonal stack on scroll. Removed "Zero-latency" and "100% white-label". | `benefits_compare_row.png`, `benefits_compare_deck.png` |
+| **7** | **Wall of Love Headline & Centered Cards** | `28.5s` | `CustomerSection.tsx`, `StackedAcademyDeck.tsx` | Giant "Wall of love" spans ~85% viewport width. Cards sit dead-center over the headline, covering "of". Clean partner spotlight placeholders without fake metrics or verified badges. | `wall_compare_testimonials.png` |
+| **8** | **FAQ Enclosure Card & Motion Accordion** | `33.0s` | `FaqSection.tsx` | Card rises on enter; heading darkens; accordion toggles cleanly with smooth Motion expand/collapse without modal interference. | `faq_compare_accordion.png` |
 
 ---
 
-## 3. Sequence-by-Sequence Implementation & Verification Matrix
+## 4. Master Contact Sheet Verification
 
-| # | Motion Sequence | Spec IDs | Key Components | Reversibility | Side-by-Side Evidence Image |
-|---|---|---|---|---|---|
-| **1** | **Hero Convergence & Floating Cards** | `A01`, `A02`, `A05`, `A24` | `KeywordPill.tsx`, `MainHeading.tsx`, `LmsProductStage.tsx`, `Header.tsx` | Forward & reverse scrub; idle float inner | `docs/motion-evidence/hero/hero_comparison.png`, `hero_02_docked.png` |
-| **2** | **Navigation Transformation** | `A03`, `A04` | `Header.tsx` | Nav A fades at CTA top 90px; Nav B morphing pill assembles (40px square -> pill) | `docs/motion-evidence/hero/hero_01_navB_transition.png` |
-| **3** | **Features Rear-Reveal Stacking Cards** | `A07`, `A08`, `A09`, `A10`, `A11` | `FeaturesSection.tsx` | Card 1 (z:30) exits upward (-110vh) revealing Card 2 (z:20) from behind; crisp 02/03 shelves; reverse scrub verified | `docs/motion-evidence/features/features_compare_card01.png` |
-| **4** | **Word-by-Word Scroll Illumination** | `A12` | `ManifestSection.tsx` | Pinned stage scrubs text color `#C9CCD1` -> `#161616` word by word; reverse scrub verified | `docs/motion-evidence/text-reveal/text_02_fully_illuminated.png` |
-| **5** | **Product Showcase 3-Step Window** | `A13`, `A14`, `A15`, `A16`, `A17` | `AiSection.tsx` | Left column displays 1 step at a time sliding vertically; right window sequences video tile fly-in (x: 200->0, rotate: 6°->0°), circular progress ring (0->100%), and 3D live panel | `docs/motion-evidence/showcase/showcase_compare_tab1_ring.png` |
-| **6** | **Benefits 3-Card Row to Diagonal Collapse** | `A18`, `A19` | `AdvantageScrollMain.tsx` | Pinned sequence: 3 cards in row with 3D isometric studio graphic enlarge (1.3x), group rotates 0°->10°->45°->70°, collapses into diagonal stack, shrinks to 0.1x, and fades out; reverse scrub verified | `docs/motion-evidence/benefits/benefits_compare_row.png`, `benefits_compare_deck.png` |
-| **7** | **Wall of Love Solid Text & Upward Card Flight** | `A20`, `A21` | `CustomerSection.tsx`, `StackedAcademyDeck.tsx` | Solid `#161616` text scales to ~85% width; pinned testimonial cards fly upward (y: 0->-110vh) one by one; last card ends at 0°; unverified partner spotlights; reverse scrub verified | `docs/motion-evidence/wall-of-love/wall_compare_testimonials.png` |
-| **8** | **FAQ Enclosure Card & Motion Accordion** | `A22`, `A23` | `FaqSection.tsx` | Card rises 60px on enter; heading darkens `#BDBDBD` -> `#161616`; rows stagger in; Motion height: auto accordion expansion; debounced `ScrollTrigger.refresh()` | `docs/motion-evidence/faq/faq_01_accordion_opened.png` |
-
----
-
-## 4. Screen Recording & Walkthrough Player
-
-To provide verifiable proof of smooth in-between states and bidirectional scrub behavior:
-1. **Interactive Walkthrough Player:**
-   - File: `docs/motion-evidence/motion_walkthrough_player.html`
-   - Features: 92 frame checkpoints covering forward scroll down from 0px to 12,064px and reverse scroll back up to 0px. Includes scrub slider, step forward/backward buttons, 1x/2x/0.5x speed toggle, and real-time scroll Y and active section telemetry.
-2. **Walkthrough Frames:**
-   - Directory: `docs/motion-evidence/walkthrough_frames/` (92 full-resolution frames).
+The master contact sheet has been regenerated with exact corresponding frames from the authoritative Mota reference video:
+- **Location:** `docs/motion-evidence/master_motion_contact_sheet.png`
+- **Rows:**
+  - Row 1: Hero Initial State (Mota 0.5s vs LMS Domain Scroll 0)
+  - Row 2: Features Card 1 & Shelves (Mota 8.5s vs LMS Domain Scroll 2,100px)
+  - Row 3: Manifesto Word Illumination (Mota 12.5s vs LMS Domain Scroll 3,300px)
+  - Row 4: Showcase Step 2 & Progress Ring (Mota 16.5s vs LMS Domain Scroll 5,200px)
+  - Row 5: Benefits Upright Row View (Mota 25.0s vs LMS Domain Scroll 6,650px)
+  - Row 6: Benefits Collapsed Diagonal Stack (Mota 26.5s vs LMS Domain Scroll 7,000px)
+  - Row 7: Wall of Love Centered Deck & ~85% Headline (Mota 28.5s vs LMS Domain Scroll 8,200px)
+  - Row 8: FAQ Enclosure Card & Accordion (Mota 33.0s vs LMS Domain Scroll 10,800px)
 
 ---
 
-## 5. Master Contact Sheet
+## 5. Live Environment & Docker Verification
 
-All 8 reconstructed sequences are compiled into a master visual verification contact sheet comparing the authoritative Mota reference video frames against the live LMS Domain Docker container:
-- Path: `docs/motion-evidence/master_motion_contact_sheet.png`
-
----
-
-## 6. Docker Production Build Verification
-
-- **Build Image:** `lmsdomain-frontend-redesign:latest`
-- **Container:** `de1fee30ae8f` running on port 8080 (`http://127.0.0.1:8080/`).
-- **Health Check:** HTTP 200 OK verified across all pages.
-- **Git State:** Maintained strictly on `feature/redesign-v2`; no production deployment.
+- **Docker Image:** `lmsdomain-frontend-redesign:latest`
+- **Docker Container:** `c59bdf3f0958` (port 8080 -> 8080)
+- **Container Health:** HTTP 200 OK verified across `/` and static assets.
+- **Git Branch:** `feature/redesign-v2` (clean working tree after commit; zero changes to production or `main`).

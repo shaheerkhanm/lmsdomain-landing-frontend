@@ -4,40 +4,44 @@ import React, { useState } from "react";
 
 interface TestimonialCard {
   id: string;
+  tag: string;
   name: string;
   role: string;
   avatar: string;
   quote: string;
-  date: string;
+  footerTag: string;
 }
 
 const TESTIMONIALS: TestimonialCard[] = [
   {
     id: "partner-1",
-    name: "Enterprise Academy Partner",
-    role: "Custom Domain Architecture",
+    tag: "ACADEMY SPOTLIGHT",
+    name: "Enterprise Academy Spotlight",
+    role: "Partner Case Study Placeholder",
     avatar: "/assets/img/reference/avatar-mid-right.png",
     quote:
-      "Hardware-backed Widevine L1 and FairPlay DRM prevent screen recording and stream ripping across our cohorts, backed by automated custom domain SSL provisioning.",
-    date: "Dec 13, 2024",
+      "Reserved for enterprise partner case study. Verified cohort completion metrics, graduation telemetry, and custom domain deployment architecture will appear here upon partner program onboarding.",
+    footerTag: "Partner Verification Program",
   },
   {
     id: "partner-2",
-    name: "Professional Training Partner",
-    role: "Accredited Clinical Training",
+    tag: "INSTITUTIONAL SPOTLIGHT",
+    name: "Professional Training Spotlight",
+    role: "Clinical & Continuing Ed Placeholder",
     avatar: "/assets/img/reference/avatar-mid-left.png",
     quote:
-      "Interactive WebRTC classrooms and automated SCORM 2004 compliance give our instructors the tools to deliver accredited coursework with full audit telemetry.",
-    date: "Feb 18, 2025",
+      "Reserved for institutional partner case study. Verified compliance telemetry, student assessment performance, and board certification data will appear here following accredited cohort launch.",
+    footerTag: "Accredited Cohort Telemetry",
   },
   {
     id: "partner-3",
-    name: "Your Academy Story",
-    role: "White-Label Sovereign LMS",
+    tag: "PARTNER SHOWCASE",
+    name: "Global Academy Spotlight",
+    role: "Sovereign Platform Showcase",
     avatar: "/assets/img/reference/avatar-top-left.png",
     quote:
-      "Deploy a branded academy on your own custom domain, enforce hardware-grade content protection, and automate course creation with Domie AI curriculum orchestration.",
-    date: "Jan 29, 2025",
+      "Reserved for early adopter academy spotlight. White-label custom branding, dedicated mobile applications, and proprietary curriculum workflows will be featured here.",
+    footerTag: "Feature Your Academy",
   },
 ];
 
@@ -80,10 +84,10 @@ export function StackedAcademyDeck() {
                 zIndex,
                 opacity,
               }}
-              className="absolute w-[320px] sm:w-[400px] rounded-[24px] sm:rounded-[28px] bg-white border border-slate-200/90 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.08)] p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 ease-out"
+              className="absolute w-[320px] sm:w-[420px] rounded-[24px] sm:rounded-[28px] bg-white border border-slate-200/90 shadow-[0_16px_40px_-10px_rgba(0,0,0,0.08)] p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 ease-out"
             >
-              {/* Header: Avatar, Name, Role, Twitter Bird */}
-              <div className="flex items-center justify-between pb-3">
+              {/* Header: Avatar, Name, Role, Spotlight Tag */}
+              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-3">
                   <img
                     src={t.avatar}
@@ -100,22 +104,20 @@ export function StackedAcademyDeck() {
                   </div>
                 </div>
 
-                {/* Twitter Bird Icon (Mota 00:28 Exact Icon) */}
-                <div className="text-slate-400">
-                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" />
-                  </svg>
-                </div>
+                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                  {t.tag}
+                </span>
               </div>
 
               {/* Quote Text */}
-              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed py-1">
-                {t.quote}
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed py-2">
+                "{t.quote}"
               </p>
 
-              {/* Date Metadata */}
-              <div className="pt-2 text-[11px] text-slate-400 font-mono">
-                {t.date}
+              {/* Footer Tag */}
+              <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+                <span className="font-medium text-slate-600">{t.footerTag}</span>
+                <span className="font-mono">Spotlight Preview</span>
               </div>
             </div>
           );
@@ -125,7 +127,7 @@ export function StackedAcademyDeck() {
       {/* Cycle Indicator & Attribution */}
       <div className="mt-4 text-center">
         <span className="text-[11px] text-slate-400 font-medium">
-          Click card to peel away ({activeDeckIndex + 1}/{TESTIMONIALS.length}) • Representative academy operator feedback
+          Click card to peel away ({activeDeckIndex + 1}/{TESTIMONIALS.length}) • Partner Spotlight Showcase
         </span>
       </div>
     </div>

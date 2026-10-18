@@ -301,7 +301,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
                 <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
                 Decrypted inside Hardware TEE
               </span>
-              <span className="text-emerald-600 font-bold">0% Piracy Leakage</span>
+              <span className="text-emerald-600 font-bold">Hardware DRM Shield</span>
             </div>
           </div>
         </div>
@@ -347,7 +347,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
 
             <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
               <span>Custom Wildcard SSL</span>
-              <span className="text-[#7B5CF5] font-semibold">100% White-Label</span>
+              <span className="text-[#7B5CF5] font-semibold">Custom Domain Active</span>
             </div>
           </div>
         </div>
@@ -458,7 +458,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
 
             <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
               <span className="text-[#7B5CF5] font-semibold">Domie AI v2.4 Engine</span>
-              <span className="text-emerald-600 font-bold">10x Speed</span>
+              <span className="text-emerald-600 font-bold">Active AI Assistant</span>
             </div>
           </div>
         </div>

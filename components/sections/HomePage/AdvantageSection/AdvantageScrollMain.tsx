@@ -13,9 +13,9 @@ interface BenefitCard {
 const BENEFIT_CARDS: BenefitCard[] = [
   {
     id: "domains",
-    title: "Sovereign Domains",
+    title: "Custom Domain Hosting",
     description:
-      "Host on your own custom domain with 100% white-label isolation, dynamic DNS, and hardware-backed TEE security.",
+      "Deploy your sovereign academy under your brand's root domain or custom subdomain with automated wildcard SSL certificates and DNS orchestration.",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
         <defs>
@@ -42,9 +42,9 @@ const BENEFIT_CARDS: BenefitCard[] = [
   },
   {
     id: "attendance-certs",
-    title: "Attendance & Certs",
+    title: "Progress & Verification",
     description:
-      "Telemetry logs real-time student watch time and automatically issues tamper-evident verifiable PDF credentials.",
+      "Cryptographically verifiable course completion credentials backed by audit-grade cohort attendance and assessment telemetry.",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
         <defs>
@@ -71,9 +71,9 @@ const BENEFIT_CARDS: BenefitCard[] = [
   },
   {
     id: "live-sessions",
-    title: "Live Classrooms",
+    title: "Interactive Live Studio",
     description:
-      "Zero-latency multi-speaker WebRTC classrooms with breakout rooms, screen share, and instant cloud sync.",
+      "Ultra-low latency multi-speaker WebRTC classrooms with breakout rooms, screen sharing, and synchronized cloud archiving.",
     svgGraphic: (
       <svg viewBox="0 0 120 120" className="size-28 sm:size-32 drop-shadow-md">
         <defs>
@@ -118,10 +118,11 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
-        // A18: Initial slight tilts and y offsets (-1deg, 0deg, +1deg; 0, +8, +16px)
-        gsap.set(card1Ref.current, { x: 0, y: 0, rotateZ: -1 });
-        gsap.set(card2Ref.current, { x: 0, y: 8, rotateZ: 0 });
-        gsap.set(card3Ref.current, { x: 0, y: 16, rotateZ: 1 });
+        // A18: Initial side-by-side row view (cards sit completely upright, no fan overlap)
+        gsap.set(card1Ref.current, { x: 0, y: 0, rotateZ: 0 });
+        gsap.set(card2Ref.current, { x: 0, y: 0, rotateZ: 0 });
+        gsap.set(card3Ref.current, { x: 0, y: 24, rotateZ: 0 });
+        gsap.set(groupRef.current, { rotateZ: 0, scale: 1, opacity: 1 });
 
         // ScrollTrigger pinned collapse sequence per spec §5.7
         const tl = gsap.timeline({
@@ -136,81 +137,60 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         });
 
         // ----------------------------------------------------
-        // Segment 1 (progress 0 -> 0.3):
-        // Group: rotateZ 0 -> 10deg, scale 1 -> 1.3
-        // Cards: x-gaps shrink so edges overlap by ≈40px
-        // ----------------------------------------------------
-        tl.to(
-          groupRef.current,
-          {
-            rotateZ: 10,
-            scale: 1.3,
-            ease: "power1.inOut",
-            duration: 0.3,
-          },
-          0
-        );
-
-        tl.to(
-          card1Ref.current,
-          {
-            x: 120,
-            ease: "power1.inOut",
-            duration: 0.3,
-          },
-          0
-        );
-
-        tl.to(
-          card3Ref.current,
-          {
-            x: -120,
-            ease: "power1.inOut",
-            duration: 0.3,
-          },
-          0
-        );
-
-        // ----------------------------------------------------
-        // Segment 2 (progress 0.3 -> 0.7):
-        // Group: rotateZ 10 -> 45deg
-        // Cards: move to shared center with small residual offsets (±24px)
+        // Segment 1 (progress 0 -> 0.6):
+        // Group rotates 0 -> 45deg, scale 1 -> 1.25
+        // Cards slide into diagonal stack at center (Card 3 on top)
         // ----------------------------------------------------
         tl.to(
           groupRef.current,
           {
             rotateZ: 45,
+            scale: 1.25,
             ease: "power1.inOut",
-            duration: 0.4,
+            duration: 0.6,
           },
-          0.3
+          0
         );
 
         tl.to(
           card1Ref.current,
           {
-            x: 290,
-            rotateZ: -4,
+            x: 320,
+            y: 0,
+            rotateZ: 0,
             ease: "power1.inOut",
-            duration: 0.4,
+            duration: 0.6,
           },
-          0.3
+          0
+        );
+
+        tl.to(
+          card2Ref.current,
+          {
+            x: 0,
+            y: 0,
+            rotateZ: 0,
+            ease: "power1.inOut",
+            duration: 0.6,
+          },
+          0
         );
 
         tl.to(
           card3Ref.current,
           {
-            x: -290,
-            rotateZ: 4,
+            x: -320,
+            y: -24,
+            rotateZ: 0,
             ease: "power1.inOut",
-            duration: 0.4,
+            duration: 0.6,
           },
-          0.3
+          0
         );
 
         // ----------------------------------------------------
-        // Segment 3 (progress 0.7 -> 1.0):
-        // Group: rotateZ 45 -> 70deg, scale 1.3 -> 0.1, opacity 1 -> 0
+        // Segment 2 (progress 0.6 -> 1.0):
+        // Group: rotateZ 45 -> 70deg, scale 1.25 -> 0.1, opacity 1 -> 0
         // ----------------------------------------------------
         tl.to(
           groupRef.current,
@@ -219,9 +199,9 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
             scale: 0.1,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.3,
+            duration: 0.4,
           },
-          0.7
+          0.6
         );
       });
 

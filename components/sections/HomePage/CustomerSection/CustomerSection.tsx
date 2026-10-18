@@ -9,32 +9,36 @@ interface TestimonialItem {
   name: string;
   role: string;
   quote: string;
+  footerTag: string;
 }
 
 const PLACEHOLDER_TESTIMONIALS: TestimonialItem[] = [
   {
     id: "card-1",
-    tag: "ENTERPRISE DEPLOYMENT",
-    name: "Enterprise Academy Partner",
-    role: "Custom Domain Architecture",
+    tag: "ACADEMY SPOTLIGHT",
+    name: "Enterprise Academy Spotlight",
+    role: "Partner Case Study Placeholder",
     quote:
-      "Hardware-backed Widevine L1 and FairPlay DRM prevent screen recording and stream ripping across our cohorts, backed by automated custom domain SSL provisioning.",
+      "Reserved for enterprise partner case study. Verified cohort completion metrics, graduation telemetry, and custom domain deployment architecture will appear here upon partner program onboarding.",
+    footerTag: "Partner Verification Program",
   },
   {
     id: "card-2",
-    tag: "ACCREDITED PROGRAM",
-    name: "Professional Training Institute",
-    role: "Clinical Board Certification",
+    tag: "INSTITUTIONAL SPOTLIGHT",
+    name: "Professional Training Spotlight",
+    role: "Clinical & Continuing Ed Placeholder",
     quote:
-      "Interactive WebRTC classrooms and automated SCORM 2004 compliance give our instructors the tools to deliver accredited coursework with full audit telemetry.",
+      "Reserved for institutional partner case study. Verified compliance telemetry, student assessment performance, and board certification data will appear here following accredited cohort launch.",
+    footerTag: "Accredited Cohort Telemetry",
   },
   {
     id: "card-3",
-    tag: "PARTNER SPOTLIGHT",
-    name: "Your Academy Story",
-    role: "White-Label Sovereign LMS",
+    tag: "PARTNER SHOWCASE",
+    name: "Global Academy Spotlight",
+    role: "Sovereign Platform Showcase",
     quote:
-      "Deploy a branded academy on your own custom domain, enforce hardware-grade content protection, and automate course creation with Domie AI curriculum orchestration.",
+      "Reserved for early adopter academy spotlight. White-label custom branding, dedicated mobile applications, and proprietary curriculum workflows will be featured here.",
+    footerTag: "Feature Your Academy",
   },
 ];
 
@@ -61,10 +65,10 @@ export function CustomerSection({ data }: { data?: any }) {
         }
 
         // Initial positions per spec §5.8:
-        // Text: scale 0.2, color #BDBDBD
-        gsap.set(wallTextRef.current, { scale: 0.2, color: "#BDBDBD" });
-        // Deck: starts below viewport
-        gsap.set(deckWrapperRef.current, { y: "60vh" });
+        // Text: scale 0.25, color #BDBDBD
+        gsap.set(wallTextRef.current, { scale: 0.25, color: "#BDBDBD" });
+        // Deck: starts 35vh down so it rises directly to center
+        gsap.set(deckWrapperRef.current, { y: "35vh" });
         // Initial card rotations & jitter:
         gsap.set(card1Ref.current, { rotateZ: -5, x: -8, y: 0 });
         gsap.set(card2Ref.current, { rotateZ: 6, x: 10, y: 6 });
@@ -82,8 +86,8 @@ export function CustomerSection({ data }: { data?: any }) {
         });
 
         // ----------------------------------------------------
-        // Stage 1 (0 -> 0.7): A20 Text scale 0.2 -> 1, color #BDBDBD -> #161616
-        // Deck rises from y +60vh to 0
+        // Stage 1 (0 -> 0.7): A20 Text scale 0.25 -> 1, color #BDBDBD -> #161616
+        // Deck rises from y +35vh to 0 (centered over "Wall of love")
         // ----------------------------------------------------
         tl.to(
           wallTextRef.current,
@@ -103,7 +107,7 @@ export function CustomerSection({ data }: { data?: any }) {
             ease: "power1.out",
             duration: 0.5,
           },
-          0.2
+          0.15
         );
 
         // ----------------------------------------------------
@@ -122,7 +126,7 @@ export function CustomerSection({ data }: { data?: any }) {
 
         // ----------------------------------------------------
         // Stage 3 (1.4 -> 2.1): Card 2 flies upward (-110vh)
-        // Card 3 stays at 0deg!
+        // Card 3 stays centered at 0deg!
         // ----------------------------------------------------
         tl.to(
           card2Ref.current,
@@ -153,131 +157,127 @@ export function CustomerSection({ data }: { data?: any }) {
       {/* Pinned Stage Container */}
       <div
         ref={pinWrapperRef}
-        className="relative w-full h-screen min-h-[680px] max-h-[960px] flex flex-col items-center justify-center overflow-hidden"
+        className="relative w-full h-screen min-h-[680px] max-h-[960px] flex items-center justify-center overflow-hidden"
       >
-        {/* A20: Solid Giant Typography "Wall of love" (≈18vw, weight 600, solid #161616, spans nearly full width) */}
-        <div className="absolute inset-x-0 flex items-center justify-center pointer-events-none select-none z-0">
+        {/* A20: Solid Giant Typography "Wall of love" (~85% viewport width, weight 700, solid #161616) */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
           <h2
             ref={wallTextRef}
-            className="text-[18vw] sm:text-[19vw] lg:text-[230px] font-semibold tracking-[-0.03em] leading-none text-center whitespace-nowrap will-change-transform"
+            className="text-[22vw] sm:text-[23vw] lg:text-[24vw] xl:text-[340px] font-bold tracking-[-0.04em] leading-none text-center whitespace-nowrap will-change-transform text-[#161616]"
           >
             Wall of love
           </h2>
         </div>
 
-        {/* A21: Centered Testimonial Card Stack Deck (Overlaid on top of text, z-10) */}
+        {/* A21: Centered Testimonial Card Stack Deck (Covers the middle of "Wall of love", z-10) */}
         <div
           ref={deckWrapperRef}
-          className="relative z-10 w-full max-w-lg h-[280px] sm:h-[320px] flex items-center justify-center will-change-transform"
+          className="absolute inset-0 z-10 flex items-center justify-center will-change-transform pointer-events-none"
         >
-          {/* Card 1 (Top of stack, z-30) */}
-          <div
-            ref={card1Ref}
-            style={{ zIndex: 30 }}
-            className="absolute w-[340px] sm:w-[440px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.12)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
-          >
-            <div>
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-3">
-                  <div className="size-10 rounded-full bg-[#161616] text-white flex items-center justify-center font-bold text-xs">
-                    EA
+          <div className="relative w-full max-w-lg h-[280px] sm:h-[320px] flex items-center justify-center pointer-events-auto">
+            {/* Card 1 (Top of stack, z-30) */}
+            <div
+              ref={card1Ref}
+              style={{ zIndex: 30 }}
+              className="absolute w-[360px] sm:w-[460px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
+            >
+              <div>
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <div className="size-10 rounded-full bg-[#161616] text-white flex items-center justify-center font-bold text-xs">
+                      EA
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-[#161616] leading-tight">
+                        {PLACEHOLDER_TESTIMONIALS[0].name}
+                      </h4>
+                      <span className="text-[11px] text-[#6B6F76]">
+                        {PLACEHOLDER_TESTIMONIALS[0].role}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-[#161616] leading-tight">
-                      {PLACEHOLDER_TESTIMONIALS[0].name}
-                    </h4>
-                    <span className="text-[11px] text-[#6B6F76]">
-                      {PLACEHOLDER_TESTIMONIALS[0].role}
-                    </span>
-                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                    {PLACEHOLDER_TESTIMONIALS[0].tag}
+                  </span>
                 </div>
-                <div className="text-slate-400">
-                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                  </svg>
-                </div>
+                <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
+                  "{PLACEHOLDER_TESTIMONIALS[0].quote}"
+                </p>
               </div>
-              <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
-                "{PLACEHOLDER_TESTIMONIALS[0].quote}"
-              </p>
+              <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
+                <span className="font-medium text-slate-700">{PLACEHOLDER_TESTIMONIALS[0].footerTag}</span>
+                <span className="text-slate-400 font-mono">LMS Domain Early Access</span>
+              </div>
             </div>
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Enterprise Multi-Tenant</span>
-              <span className="text-slate-500 font-mono">Dec 13, 2024</span>
-            </div>
-          </div>
 
-          {/* Card 2 (Middle of stack, z-20) */}
-          <div
-            ref={card2Ref}
-            style={{ zIndex: 20 }}
-            className="absolute w-[340px] sm:w-[440px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.12)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
-          >
-            <div>
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-3">
-                  <div className="size-10 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center font-bold text-xs">
-                    PT
+            {/* Card 2 (Middle of stack, z-20) */}
+            <div
+              ref={card2Ref}
+              style={{ zIndex: 20 }}
+              className="absolute w-[360px] sm:w-[460px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
+            >
+              <div>
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <div className="size-10 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center font-bold text-xs">
+                      PT
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-[#161616] leading-tight">
+                        {PLACEHOLDER_TESTIMONIALS[1].name}
+                      </h4>
+                      <span className="text-[11px] text-[#6B6F76]">
+                        {PLACEHOLDER_TESTIMONIALS[1].role}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-[#161616] leading-tight">
-                      {PLACEHOLDER_TESTIMONIALS[1].name}
-                    </h4>
-                    <span className="text-[11px] text-[#6B6F76]">
-                      {PLACEHOLDER_TESTIMONIALS[1].role}
-                    </span>
-                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-purple-50 text-[#7B5CF5]">
+                    {PLACEHOLDER_TESTIMONIALS[1].tag}
+                  </span>
                 </div>
-                <div className="text-slate-400">
-                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                  </svg>
-                </div>
+                <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
+                  "{PLACEHOLDER_TESTIMONIALS[1].quote}"
+                </p>
               </div>
-              <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
-                "{PLACEHOLDER_TESTIMONIALS[1].quote}"
-              </p>
+              <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
+                <span className="font-medium text-slate-700">{PLACEHOLDER_TESTIMONIALS[1].footerTag}</span>
+                <span className="text-slate-400 font-mono">Institutional Telemetry</span>
+              </div>
             </div>
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>WebRTC Interactive Classrooms</span>
-              <span className="text-slate-500 font-mono">Jan 29, 2025</span>
-            </div>
-          </div>
 
-          {/* Card 3 (Bottom of stack / stays at 0deg, z-10) */}
-          <div
-            ref={card3Ref}
-            style={{ zIndex: 10 }}
-            className="absolute w-[340px] sm:w-[440px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_20px_50px_-10px_rgba(0,0,0,0.12)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
-          >
-            <div>
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                <div className="flex items-center gap-3">
-                  <div className="size-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
-                    LD
+            {/* Card 3 (Bottom of stack / stays at 0deg, z-10) */}
+            <div
+              ref={card3Ref}
+              style={{ zIndex: 10 }}
+              className="absolute w-[360px] sm:w-[460px] rounded-[28px] bg-white border border-slate-200/90 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.14)] p-6 sm:p-7 flex flex-col justify-between will-change-transform"
+            >
+              <div>
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <div className="flex items-center gap-3">
+                    <div className="size-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs">
+                      GA
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-semibold text-[#161616] leading-tight">
+                        {PLACEHOLDER_TESTIMONIALS[2].name}
+                      </h4>
+                      <span className="text-[11px] text-[#6B6F76]">
+                        {PLACEHOLDER_TESTIMONIALS[2].role}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-semibold text-[#161616] leading-tight">
-                      {PLACEHOLDER_TESTIMONIALS[2].name}
-                    </h4>
-                    <span className="text-[11px] text-[#6B6F76]">
-                      {PLACEHOLDER_TESTIMONIALS[2].role}
-                    </span>
-                  </div>
+                  <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">
+                    {PLACEHOLDER_TESTIMONIALS[2].tag}
+                  </span>
                 </div>
-                <div className="text-slate-400">
-                  <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                  </svg>
-                </div>
+                <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
+                  "{PLACEHOLDER_TESTIMONIALS[2].quote}"
+                </p>
               </div>
-              <p className="mt-4 text-[13px] sm:text-sm text-[#161616] leading-relaxed">
-                "{PLACEHOLDER_TESTIMONIALS[2].quote}"
-              </p>
-            </div>
-            <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
-              <span>Sovereign White-Label</span>
-              <span className="text-[#7B5CF5] font-semibold">Start Today</span>
+              <div className="pt-3 mt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#6B6F76]">
+                <span className="font-medium text-slate-700">{PLACEHOLDER_TESTIMONIALS[2].footerTag}</span>
+                <span className="text-[#7B5CF5] font-semibold">Inquire Now</span>
+              </div>
             </div>
           </div>
         </div>

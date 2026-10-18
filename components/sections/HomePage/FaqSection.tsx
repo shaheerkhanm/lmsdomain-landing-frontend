@@ -175,7 +175,7 @@ export function FaqSection() {
                     <button
                       type="button"
                       onClick={() => toggle(idx)}
-                      className="w-full text-left flex items-center justify-between gap-4 cursor-pointer group"
+                      className="faq-accordion-trigger w-full text-left flex items-center justify-between gap-4 cursor-pointer group"
                     >
                       <span className="text-sm sm:text-base font-medium text-[#161616] group-hover:text-slate-600 transition-colors">
                         {faq.question}

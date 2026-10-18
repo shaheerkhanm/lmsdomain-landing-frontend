@@ -13,9 +13,9 @@ In strict adherence to specification §6.2:
 - All invented learner metrics (e.g. "10,000+ learners", "14,000+ learners") and absolute claims ("100% Anti-Piracy") have been eradicated.
 - The misleading "VERIFIED" badge has been completely removed from all cards.
 - Cards now render clean, designated partner spotlight capability statements:
-  - **Card 1:** "Enterprise Academy Partner" / "Custom Domain Architecture"
-  - **Card 2:** "Professional Training Partner" / "Accredited Clinical Training"
-  - **Card 3:** "Your Academy Story" / "White-Label Sovereign LMS"
+  - **Card 1:** "Enterprise Academy Spotlight" / "Partner Case Study Placeholder"
+  - **Card 2:** "Professional Training Spotlight" / "Clinical & Continuing Ed Placeholder"
+  - **Card 3:** "Global Academy Spotlight" / "Sovereign Platform Showcase"
 
 **Action Required Prior to Production Deployment:**
 Replace placeholder cards with real, consented client quotes, verified enterprise logos, and authorized case studies once customer marketing agreements are formally executed.

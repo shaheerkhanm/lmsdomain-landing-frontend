@@ -12,35 +12,40 @@ const STATEMENT_WORDS = [
 
 export function ManifestSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const wordsRef = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const isReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const ctx = gsap.context(() => {
+      const words = gsap.utils.toArray<HTMLElement>(".manifesto-word", sectionRef.current);
+
       if (isReduced) {
-        gsap.set(wordsRef.current, { color: "#161616" });
+        gsap.set(words, { color: "#161616" });
         return;
       }
 
       // Base color per spec §5.5: #C9CCD1
-      gsap.set(wordsRef.current, { color: "#C9CCD1" });
+      gsap.set(words, { color: "#C9CCD1" });
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 35%",
-          end: "+=70%",
+          start: "top 25%",
+          end: "+=120%",
           pin: true,
           pinSpacing: true,
-          scrub: 0.5,
+          scrub: 0.4,
         },
       });
 
-      tl.to(wordsRef.current, {
+      // Strict left-to-right word-by-word illumination
+      tl.to(words, {
         color: "#161616",
-        stagger: 0.1,
-        ease: "none",
+        stagger: {
+          each: 0.08,
+          from: "start",
+        },
+        ease: "power1.inOut",
       });
     }, sectionRef);
 
@@ -59,8 +64,7 @@ export function ManifestSection() {
           {STATEMENT_WORDS.map((word, idx) => (
             <span
               key={idx}
-              ref={(el) => { wordsRef.current[idx] = el; }}
-              className="text-[#C9CCD1] will-change-[color]"
+              className="manifesto-word text-[#C9CCD1] will-change-[color]"
             >
               {word}
             </span>

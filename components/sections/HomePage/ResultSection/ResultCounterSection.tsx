@@ -20,7 +20,7 @@ const PLATFORM_SPECIFICATIONS = [
     badge: "Low-Latency Edge",
   },
   {
-    title: "100% White-Label Freedom",
+    title: "Sovereign Custom Domain",
     tagline: "Custom Domain Onboarding",
     description: "Operate entirely under your own domain name with customized email SMTP, receipts, and brand colors.",
     badge: "Full Brand Control",
