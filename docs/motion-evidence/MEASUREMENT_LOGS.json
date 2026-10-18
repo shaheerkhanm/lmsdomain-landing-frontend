@@ -640,5 +640,288 @@
         }
       }
     }
+  ],
+  "mobileAudit": [
+    {
+      "name": "mobile_375",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 1,
+      "overflowExamples": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "className": "px-4 py-2.5 min-h-[44px] flex items-center justify",
+          "right": 399,
+          "width": 111
+        }
+      ],
+      "header": {
+        "menuBtnVisible": true,
+        "menuBtnWidth": 44,
+        "menuBtnHeight": 44,
+        "menuBtnTapTargetGe44": true,
+        "demoBtnTapTargetGe44": true
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": false
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": []
+    },
+    {
+      "name": "mobile_414",
+      "viewportWidth": 414,
+      "scrollWidth": 414,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": true,
+        "menuBtnWidth": 44,
+        "menuBtnHeight": 44,
+        "menuBtnTapTargetGe44": true,
+        "demoBtnTapTargetGe44": true
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": false
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": []
+    },
+    {
+      "name": "tablet_768",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": true,
+        "menuBtnWidth": 44,
+        "menuBtnHeight": 44,
+        "menuBtnTapTargetGe44": true,
+        "demoBtnTapTargetGe44": true
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": false
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": []
+    },
+    {
+      "name": "tablet_1024",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": true,
+        "menuBtnWidth": 44,
+        "menuBtnHeight": 44,
+        "menuBtnTapTargetGe44": true,
+        "demoBtnTapTargetGe44": true
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": true
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": [
+        "relative w-full flex justify-center items-center py-4 overflow-visible",
+        "manifesto",
+        "relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible font-urbanist",
+        "relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
+      ]
+    },
+    {
+      "name": "desktop_1280",
+      "viewportWidth": 1280,
+      "scrollWidth": 1280,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": false,
+        "menuBtnWidth": 0,
+        "menuBtnHeight": 0,
+        "menuBtnTapTargetGe44": false,
+        "demoBtnTapTargetGe44": false
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": true
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": [
+        "relative w-full flex justify-center items-center py-4 overflow-visible",
+        "manifesto",
+        "relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible font-urbanist",
+        "relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
+      ]
+    },
+    {
+      "name": "desktop_1440",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": false,
+        "menuBtnWidth": 0,
+        "menuBtnHeight": 0,
+        "menuBtnTapTargetGe44": false,
+        "demoBtnTapTargetGe44": false
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": true
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": [
+        "relative w-full flex justify-center items-center py-4 overflow-visible",
+        "manifesto",
+        "relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible font-urbanist",
+        "relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
+      ]
+    }
+  ],
+  "gapAfterWall": [
+    {
+      "width": 1280,
+      "card3Bottom": 263,
+      "faqH2Top": 384,
+      "gapToH2": 121,
+      "faqCardTop": 343,
+      "gapToCard": 80
+    },
+    {
+      "width": 1440,
+      "card3Bottom": 263,
+      "faqH2Top": 377,
+      "gapToH2": 114,
+      "faqCardTop": 336,
+      "gapToCard": 73
+    }
   ]
 }
