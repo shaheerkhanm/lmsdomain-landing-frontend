@@ -710,6 +710,7 @@ export function FeaturesSection({ data }: { data?: any }) {
                         src="/assets/img/home/features/participant_mia.jpg"
                         alt="Mia Lewis"
                         fill
+                        priority
                         className="object-cover"
                       />
                     </div>
@@ -738,6 +739,7 @@ export function FeaturesSection({ data }: { data?: any }) {
                         src="/assets/img/home/features/participant_alex.jpg"
                         alt="Alex Peterson"
                         fill
+                        priority
                         className="object-cover"
                       />
                     </div>
