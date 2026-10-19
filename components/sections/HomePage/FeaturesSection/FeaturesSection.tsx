@@ -7,6 +7,8 @@ import { featuresContent } from "@/content/home/features";
 
 export function FeaturesSection({ data }: { data?: any }) {
   const pinWrapperRef = useRef<HTMLDivElement>(null);
+  const titleBlockRef = useRef<HTMLDivElement>(null);
+  const cardStackWrapperRef = useRef<HTMLDivElement>(null);
 
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
@@ -15,18 +17,18 @@ export function FeaturesSection({ data }: { data?: any }) {
   const card3ContentRef = useRef<HTMLDivElement>(null);
 
   // Card 1 inner visuals
-  const c1LessonTileRef = useRef<HTMLDivElement>(null);
-  const c1OutlineTileRef = useRef<HTMLDivElement>(null);
+  const c1TeacherPhotoRef = useRef<HTMLDivElement>(null);
+  const c1LearnerPhotoRef = useRef<HTMLDivElement>(null);
+  const c1IconRef = useRef<HTMLDivElement>(null);
   const c1LineRef = useRef<SVGLineElement>(null);
-  const c1LockChipRef = useRef<HTMLDivElement>(null);
+  const c1ChipRef = useRef<HTMLDivElement>(null);
 
   // Card 2 inner visuals
-  const c2QuizCardRef = useRef<HTMLDivElement>(null);
+  const c2LearnerPhotoRef = useRef<HTMLDivElement>(null);
   const c2CenterNodeRef = useRef<HTMLDivElement>(null);
   const c2LineRef = useRef<SVGLineElement>(null);
-  const c2Cert1Ref = useRef<HTMLDivElement>(null);
-  const c2Cert2Ref = useRef<HTMLDivElement>(null);
-  const c2Cert3Ref = useRef<HTMLDivElement>(null);
+  const c2CertCardRef = useRef<HTMLDivElement>(null);
+  const c2AvatarFanRef = useRef<HTMLDivElement>(null);
 
   // Card 3 inner visuals
   const c3Tile1Ref = useRef<HTMLDivElement>(null);
@@ -49,50 +51,50 @@ export function FeaturesSection({ data }: { data?: any }) {
 
         // Card 1 settled at top: 0
         gsap.set(card1Ref.current, { y: 0, zIndex: 10 });
-        // Card 2 peeks 28px below Card 1 (y: 512px)
-        gsap.set(card2Ref.current, { y: 512, zIndex: 20 });
+        // Card 2 top 24px peeks below Card 1 (480px height - 24px = 456px)
+        gsap.set(card2Ref.current, { y: 456, zIndex: 20 });
         gsap.set(card2ContentRef.current, { opacity: 0.35 });
-        // Card 3 peeks below Card 2 (y: 540px)
-        gsap.set(card3Ref.current, { y: 540, zIndex: 30 });
+        // Card 3 peeks below Card 2
+        gsap.set(card3Ref.current, { y: 480, zIndex: 30 });
         gsap.set(card3ContentRef.current, { opacity: 0.35 });
 
-        // Initial positions for Card 1 visual composition:
-        // Video tile and outline start 60px apart (outline at -30px, lesson at +30px)
-        gsap.set(c1LessonTileRef.current, { x: 30 });
-        gsap.set(c1OutlineTileRef.current, { x: -30 });
+        // Initial positions for Card 1 visuals:
+        // Teacher and learner start 60px away and scale 0.9
+        gsap.set(c1TeacherPhotoRef.current, { x: 50, y: -20, scale: 0.92 });
+        gsap.set(c1LearnerPhotoRef.current, { x: -40, y: 30, scale: 0.92 });
+        gsap.set(c1IconRef.current, { scale: 0.8, opacity: 0.6 });
         if (c1LineRef.current) {
-          const pathLen = c1LineRef.current.getTotalLength() || 120;
+          const pathLen = c1LineRef.current.getTotalLength() || 140;
           gsap.set(c1LineRef.current, {
             strokeDasharray: pathLen,
             strokeDashoffset: pathLen,
           });
         }
-        gsap.set(c1LockChipRef.current, { scale: 0.8, opacity: 0 });
+        gsap.set(c1ChipRef.current, { scale: 0.8, opacity: 0 });
 
-        // Initial positions for Card 2 visual composition:
-        gsap.set(c2QuizCardRef.current, { x: -20, opacity: 0.5 });
+        // Initial positions for Card 2 visuals:
+        gsap.set(c2LearnerPhotoRef.current, { x: -40, scale: 0.92, opacity: 0.5 });
         gsap.set(c2CenterNodeRef.current, { scale: 0.8, opacity: 0.5 });
+        gsap.set(c2CertCardRef.current, { x: 40, scale: 0.92, opacity: 0.5 });
         if (c2LineRef.current) {
-          const pathLen = c2LineRef.current.getTotalLength() || 90;
+          const pathLen = c2LineRef.current.getTotalLength() || 120;
           gsap.set(c2LineRef.current, {
             strokeDasharray: pathLen,
             strokeDashoffset: pathLen,
           });
         }
-        gsap.set(c2Cert1Ref.current, { rotateZ: 0, x: 0, y: 0 });
-        gsap.set(c2Cert2Ref.current, { rotateZ: 0, x: 0, y: 0 });
-        gsap.set(c2Cert3Ref.current, { rotateZ: 0, x: 0, y: 0 });
+        gsap.set(c2AvatarFanRef.current, { scale: 0.7, opacity: 0 });
 
-        // Initial positions for Card 3 visual composition:
-        gsap.set(c3Tile1Ref.current, { x: 40, opacity: 0 });
-        gsap.set(c3Tile2Ref.current, { x: 40, opacity: 0 });
+        // Initial positions for Card 3 visuals:
+        gsap.set(c3Tile1Ref.current, { x: 50, y: -20, scale: 0.92, opacity: 0 });
+        gsap.set(c3Tile2Ref.current, { x: -40, y: 30, scale: 0.92, opacity: 0 });
         gsap.set([c3Chip1Ref.current, c3Chip2Ref.current], { scale: 0.8, opacity: 0 });
         gsap.set(c3BookingChipRef.current, { scale: 0.8, opacity: 0 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
-            start: "top 120px",
+            start: "top 140px",
             end: "+=260%",
             pin: true,
             pinSpacing: true,
@@ -101,20 +103,24 @@ export function FeaturesSection({ data }: { data?: any }) {
         });
 
         // ----------------------------------------------------
-        // Segment 1 (timeline 0.0 -> 0.35): Card 1 active
+        // Stage 1 (0 -> 0.3): Card 1 active
+        // Photos slide 60px toward final spot, scale 0.92 -> 1, line draws, chip pops in
         // ----------------------------------------------------
-        // Lesson tile and outline slide toward each other to overlap
         tl.to(
-          c1LessonTileRef.current,
-          { x: 0, duration: 0.25, ease: "power2.out" },
+          c1TeacherPhotoRef.current,
+          { x: 0, y: 0, scale: 1, duration: 0.25, ease: "power2.out" },
           0
         );
         tl.to(
-          c1OutlineTileRef.current,
-          { x: 0, duration: 0.25, ease: "power2.out" },
+          c1LearnerPhotoRef.current,
+          { x: 0, y: 0, scale: 1, duration: 0.25, ease: "power2.out" },
           0
         );
-        // Line draws to lock icon
+        tl.to(
+          c1IconRef.current,
+          { scale: 1, opacity: 1, duration: 0.2, ease: "power1.out" },
+          0.1
+        );
         if (c1LineRef.current) {
           tl.to(
             c1LineRef.current,
@@ -122,104 +128,103 @@ export function FeaturesSection({ data }: { data?: any }) {
             0.15
           );
         }
-        // "Unlocks in 3 days" chip pops in (scale 0.8 to 1)
         tl.to(
-          c1LockChipRef.current,
+          c1ChipRef.current,
           { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.5)" },
-          0.25
+          0.22
         );
 
         // ----------------------------------------------------
-        // Segment 2 (timeline 0.35 -> 0.70): Card 2 slides up over Card 1
-        // Card 1 stays in place, leaving 28px top ledge with "01" exposed.
-        // Card 2 rises to y: 28px.
+        // Stage 2 (0.3 -> 0.65): Card 02 comes up
+        // 1. Title scrolls up and out of view
+        // 2. Card 01 moves up ~40px to sit ~100px below nav
+        // 3. Card 02 slides up over Card 01 to y: -12px (leaving 28px ledge with 01)
         // ----------------------------------------------------
+        tl.to(
+          titleBlockRef.current,
+          { y: -120, opacity: 0, duration: 0.2, ease: "power1.inOut" },
+          0.3
+        );
+        tl.to(
+          card1Ref.current,
+          { y: -40, duration: 0.25, ease: "power1.inOut" },
+          0.3
+        );
         tl.to(
           card2Ref.current,
-          { y: 28, duration: 0.35, ease: "power1.inOut" },
-          0.35
+          { y: -12, duration: 0.35, ease: "power1.inOut" },
+          0.32
         );
 
-        // Content opacity 0.35 -> 1.0 when settled
+        // Card 2 content turns full black on settle
         tl.to(
           card2ContentRef.current,
           { opacity: 1, duration: 0.25, ease: "power1.out" },
-          0.45
+          0.48
         );
 
-        // Card 2 visual motion:
+        // Card 2 visuals animate in:
         tl.to(
-          c2QuizCardRef.current,
-          { x: 0, opacity: 1, duration: 0.2, ease: "power1.out" },
-          0.4
+          c2LearnerPhotoRef.current,
+          { x: 0, scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
+          0.42
         );
         tl.to(
           c2CenterNodeRef.current,
           { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(1.2)" },
-          0.42
+          0.44
+        );
+        tl.to(
+          c2CertCardRef.current,
+          { x: 0, scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
+          0.44
         );
         if (c2LineRef.current) {
           tl.to(
             c2LineRef.current,
             { strokeDashoffset: 0, duration: 0.2, ease: "power1.inOut" },
-            0.48
+            0.5
           );
         }
-        // Certificates fan out into 3 stacked layers
         tl.to(
-          c2Cert1Ref.current,
-          { rotateZ: -6, x: -8, y: -4, duration: 0.25, ease: "power2.out" },
-          0.52
-        );
-        tl.to(
-          c2Cert2Ref.current,
-          { rotateZ: 0, x: 0, y: 0, duration: 0.25, ease: "power2.out" },
-          0.52
-        );
-        tl.to(
-          c2Cert3Ref.current,
-          { rotateZ: 6, x: 8, y: 4, duration: 0.25, ease: "power2.out" },
-          0.52
+          c2AvatarFanRef.current,
+          { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(1.5)" },
+          0.54
         );
 
         // ----------------------------------------------------
-        // Segment 3 (timeline 0.70 -> 1.0): Card 3 slides up over Card 2
-        // Card 2 top ledge (28px to 56px) with "02" stays exposed.
-        // Card 3 rises to y: 56px.
+        // Stage 3 (0.65 -> 1.0): Card 03 comes up
+        // Card 03 slides up to y: +16px (leaving 01 and 02 ledges stacked above)
         // ----------------------------------------------------
         tl.to(
           card3Ref.current,
-          { y: 56, duration: 0.3, ease: "power1.inOut" },
-          0.7
+          { y: 16, duration: 0.32, ease: "power1.inOut" },
+          0.68
         );
 
-        // Content opacity 0.35 -> 1.0 when settled
+        // Card 3 content turns full black on settle
         tl.to(
           card3ContentRef.current,
           { opacity: 1, duration: 0.2, ease: "power1.out" },
           0.8
         );
 
-        // Card 3 visual motion:
-        // Mia slides in
+        // Card 3 visuals animate in:
         tl.to(
           c3Tile1Ref.current,
-          { x: 0, opacity: 1, duration: 0.2, ease: "power2.out" },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
           0.72
         );
-        // Alex slides in 0.15 later
         tl.to(
           c3Tile2Ref.current,
-          { x: 0, opacity: 1, duration: 0.2, ease: "power2.out" },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
           0.78
         );
-        // Name chips pop in
         tl.to(
           [c3Chip1Ref.current, c3Chip2Ref.current],
           { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
           0.85
         );
-        // "Tomorrow, 10:00" chip pops in
         tl.to(
           c3BookingChipRef.current,
           { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
@@ -230,7 +235,7 @@ export function FeaturesSection({ data }: { data?: any }) {
       // Mobile / Tablet: under 1024px (Normal stacked flow, no pin)
       mm.add("(max-width: 1023px)", () => {
         gsap.set(
-          [card1Ref.current, card2Ref.current, card3Ref.current],
+          [card1Ref.current, card2Ref.current, card3Ref.current, titleBlockRef.current],
           { clearProps: "all" }
         );
         gsap.set(
@@ -250,58 +255,65 @@ export function FeaturesSection({ data }: { data?: any }) {
   return (
     <section id="features" className="py-20 sm:py-28 bg-[#F3F4F6] font-urbanist overflow-visible">
       <div className="max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header: Scrolls away normally */}
-        <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-3">
-            <span>✦</span>
-            <span className="uppercase tracking-widest text-[11px]">CORE CAPABILITIES</span>
-          </div>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-semibold text-[#161616] tracking-tight leading-tight">
-            {featuresContent.sectionTitle}
-          </h2>
-        </div>
-
         {/* Pinned Stage Wrapper (Desktop >= 1024px) */}
         <div
           ref={pinWrapperRef}
-          className="relative w-full flex justify-center items-center py-4 overflow-visible"
+          className="relative w-full flex flex-col items-center overflow-visible"
         >
-          {/* Card Frame Geometry: 90% width, radius 24px, height ~540px (~62vh at 1440x900) */}
-          <div className="relative w-[90%] max-w-[1240px] h-[540px] hidden lg:block overflow-visible">
+          {/* Section Header: Sits above Card 01 at first, then scrolls away */}
+          <div
+            ref={titleBlockRef}
+            className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 will-change-transform"
+          >
+            <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-2.5">
+              <span>✦</span>
+              <span className="uppercase tracking-widest text-[11px]">CORE CAPABILITIES</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-semibold text-[#161616] tracking-tight leading-tight">
+              {featuresContent.sectionTitle}
+            </h2>
+          </div>
+
+          {/* Card Stack Frame: Width ~1290px (90%), Height 480px, Radius 24px */}
+          <div
+            ref={cardStackWrapperRef}
+            className="relative w-[90%] max-w-[1290px] h-[480px] hidden lg:block overflow-visible"
+          >
             {/* ======================================================== */}
             {/* Card 01: Courses that run themselves */}
             {/* ======================================================== */}
             <div
               ref={card1Ref}
-              className="absolute inset-x-0 top-0 h-[540px] rounded-[24px] bg-white border border-[#ECEDEF] p-8 lg:p-12 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
               style={{
-                boxShadow: "0 20px 50px -15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.02)",
+                boxShadow:
+                  "0 20px 50px -15px rgba(22,22,22,0.08), 0 2px 8px rgba(22,22,22,0.03)",
               }}
             >
-              {/* Top Ledge Label: Exposed when Card 02 stacks at y: 28px */}
-              <div className="absolute top-2.5 left-10 text-[11px] font-mono text-[#9CA3AF] select-none pointer-events-none">
+              {/* Top Ledge Number (Exposed as a real card edge when Card 02 stacks above) */}
+              <div className="absolute top-2.5 left-8 text-[12px] font-mono font-bold text-[#9CA3AF] select-none pointer-events-none">
                 01
               </div>
 
-              {/* Bottom Left Corner Number */}
-              <div className="absolute bottom-8 left-10 text-[11px] font-mono text-[#9CA3AF] select-none">
+              {/* Bottom-Left Corner Number (12px grey, 32px from edges) */}
+              <div className="absolute bottom-8 left-8 text-[12px] font-mono text-[#9CA3AF] select-none">
                 01
               </div>
 
-              {/* Card Body Grid */}
-              <div className="grid grid-cols-12 gap-8 items-center h-full">
-                {/* Left Half (~50%): Title & 1-2 lines grey description */}
-                <div className="col-span-6 pr-6 space-y-2">
-                  <h3 className="text-[22px] sm:text-[24px] font-medium text-[#161616] tracking-tight leading-snug">
+              {/* Card Body: Left 40% (Vertically Centred), Right 55% */}
+              <div className="flex items-center justify-between h-full w-full">
+                {/* Left Column (about 40%): Title 28px, Description 16px, max 3 lines */}
+                <div className="w-[40%] flex flex-col justify-center pr-6 space-y-3">
+                  <h3 className="text-[28px] font-medium text-[#161616] tracking-tight leading-snug">
                     {card1.title}
                   </h3>
-                  <p className="text-[15px] text-[#6B7280] leading-relaxed max-w-md">
+                  <p className="text-[16px] text-[#6B7280] leading-relaxed max-w-[360px] line-clamp-3">
                     {card1.summary}
                   </p>
                 </div>
 
-                {/* Right Half (~50%): Image Composition */}
-                <div className="col-span-6 relative flex items-center justify-center min-h-[380px]">
+                {/* Right Column (about 55%): Image Composition filling ~80% of card height */}
+                <div className="w-[55%] h-[380px] relative flex items-center justify-center">
                   {/* SVG Connecting Line */}
                   <svg
                     className="absolute inset-0 w-full h-full pointer-events-none z-15"
@@ -309,76 +321,66 @@ export function FeaturesSection({ data }: { data?: any }) {
                   >
                     <line
                       ref={c1LineRef}
-                      x1="180"
-                      y1="230"
-                      x2="280"
-                      y2="140"
+                      x1="60"
+                      y1="190"
+                      x2="220"
+                      y2="190"
                       stroke="#7B5CF5"
                       strokeWidth="1.5"
-                      strokeDasharray="140"
-                      strokeDashoffset="140"
                     />
                   </svg>
 
-                  {/* Visual 1: Lesson Video Tile */}
+                  {/* Small round icon on the left (Reference style) */}
                   <div
-                    ref={c1LessonTileRef}
-                    className="relative w-[320px] rounded-2xl overflow-hidden bg-[#161616] border border-slate-800 shadow-xl text-white will-change-transform z-10"
+                    ref={c1IconRef}
+                    className="absolute left-6 top-1/2 -translate-y-1/2 size-9 rounded-full bg-white border border-[#ECEDEF] shadow-md flex items-center justify-center text-[#7B5CF5] z-20 will-change-transform"
                   >
-                    <div className="relative h-44 w-full overflow-hidden bg-slate-900">
-                      <Image
-                        src="/assets/img/home/features/instructor_lesson.jpg"
-                        alt="Lesson player preview"
-                        fill
-                        className="object-cover opacity-85"
-                      />
-                      {/* Watermark across video */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none rotate-[-12deg]">
-                        <span className="text-white/35 font-mono text-[11px] tracking-wider font-semibold">
-                          learner@email.com • 1080p
-                        </span>
-                      </div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="size-10 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center text-white text-xs pl-0.5">
-                          ▶
-                        </div>
-                      </div>
+                    <span className="size-3.5 rounded-full border-2 border-[#7B5CF5] flex items-center justify-center">
+                      <span className="size-1 rounded-full bg-[#7B5CF5]" />
+                    </span>
+                  </div>
+
+                  {/* Photo 1: Teacher recording lesson (Top Right, ~300x210px) */}
+                  <div
+                    ref={c1TeacherPhotoRef}
+                    className="absolute right-6 top-2 w-[300px] h-[210px] rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-xl z-10 will-change-transform"
+                  >
+                    <Image
+                      src="/assets/img/home/features/instructor_lesson.jpg"
+                      alt="Teacher recording lesson"
+                      fill
+                      className="object-cover opacity-90"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none rotate-[-12deg]">
+                      <span className="text-white/30 font-mono text-[10px] tracking-wider font-semibold">
+                        instructor@academy.com • 4K
+                      </span>
                     </div>
-                    <div className="p-3 bg-[#18191B] flex items-center justify-between text-[11px] text-slate-300">
-                      <span className="font-semibold text-white">Lesson 02: Architecture Blueprint</span>
-                      <span className="text-[#7B5CF5] font-mono">12:40</span>
+                    <div className="absolute bottom-2 left-2 px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1.5 border border-white/10">
+                      <span className="size-1.5 rounded-full bg-red-500 animate-pulse" />
+                      Recording Lesson 02
                     </div>
                   </div>
 
-                  {/* Visual 2: Overlapping Module Outline Card */}
+                  {/* Photo 2: Learner on laptop (Bottom Left, ~290x200px) */}
                   <div
-                    ref={c1OutlineTileRef}
-                    className="absolute left-6 bottom-6 w-52 rounded-xl bg-white p-3.5 border border-[#ECEDEF] shadow-lg text-[#161616] z-20 will-change-transform"
+                    ref={c1LearnerPhotoRef}
+                    className="absolute left-20 bottom-2 w-[290px] h-[200px] rounded-2xl overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-2xl z-20 will-change-transform"
                   >
-                    <p className="text-[10px] font-bold text-[#6B7280] uppercase tracking-wider">
-                      Module Outline
-                    </p>
-                    <p className="text-[12px] font-semibold text-[#161616] mt-0.5">
-                      Sections & Lessons
-                    </p>
-                    <div className="mt-2 space-y-1 text-[11px] text-[#6B7280]">
-                      <div className="flex items-center gap-1.5 text-emerald-600 font-medium">
-                        <span>✓</span>
-                        <span className="truncate">1. Video lesson (ready)</span>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-[#161616]">
-                        <span>•</span>
-                        <span className="truncate">2. Architecture PDF doc</span>
-                      </div>
-                    </div>
+                    <Image
+                      src="/assets/img/home/features/learner_laptop.jpg"
+                      alt="Learner on laptop"
+                      fill
+                      className="object-cover"
+                    />
                   </div>
 
-                  {/* Visual 3: Lock Chip */}
+                  {/* Chip: "Unlocks in 3 days" pops in */}
                   <div
-                    ref={c1LockChipRef}
-                    className="absolute right-6 top-8 z-30 will-change-transform"
+                    ref={c1ChipRef}
+                    className="absolute right-4 top-52 z-30 will-change-transform"
                   >
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-md">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-lg">
                       <span className="size-2 rounded-full bg-amber-500" />
                       Unlocks in 3 days
                     </span>
@@ -392,82 +394,75 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* ======================================================== */}
             <div
               ref={card2Ref}
-              className="absolute inset-x-0 top-0 h-[540px] rounded-[24px] bg-white border border-[#ECEDEF] p-8 lg:p-12 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
               style={{
-                boxShadow: "0 20px 50px -15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.02)",
+                boxShadow:
+                  "0 20px 50px -15px rgba(22,22,22,0.12), 0 4px 12px rgba(22,22,22,0.04)",
               }}
             >
-              {/* Top Ledge Label: Exposed when Card 03 stacks at y: 56px */}
-              <div className="absolute top-2.5 left-10 text-[11px] font-mono text-[#9CA3AF] select-none pointer-events-none">
+              {/* Top Ledge Number */}
+              <div className="absolute top-2.5 left-8 text-[12px] font-mono font-bold text-[#9CA3AF] select-none pointer-events-none">
                 02
               </div>
 
-              {/* Bottom Left Corner Number */}
-              <div className="absolute bottom-8 left-10 text-[11px] font-mono text-[#9CA3AF] select-none">
+              {/* Bottom-Left Corner Number */}
+              <div className="absolute bottom-8 left-8 text-[12px] font-mono text-[#9CA3AF] select-none">
                 02
               </div>
 
-              {/* Card Body Grid with pale-to-full text opacity */}
-              <div ref={card2ContentRef} className="grid grid-cols-12 gap-8 items-center h-full">
-                {/* Left Half (~50%): Title & 1-2 lines grey description */}
-                <div className="col-span-6 pr-6 space-y-2">
-                  <h3 className="text-[22px] sm:text-[24px] font-medium text-[#161616] tracking-tight leading-snug">
+              {/* Card Body */}
+              <div ref={card2ContentRef} className="flex items-center justify-between h-full w-full">
+                {/* Left Column (40%): Vertically Centred */}
+                <div className="w-[40%] flex flex-col justify-center pr-6 space-y-3">
+                  <h3 className="text-[28px] font-medium text-[#161616] tracking-tight leading-snug">
                     {card2.title}
                   </h3>
-                  <p className="text-[15px] text-[#6B7280] leading-relaxed max-w-md">
+                  <p className="text-[16px] text-[#6B7280] leading-relaxed max-w-[360px] line-clamp-3">
                     {card2.summary}
                   </p>
                 </div>
 
-                {/* Right Half (~50%): Image Composition (Quiz + Central Node + Fanning Certificates) */}
-                <div className="col-span-6 relative flex items-center justify-center min-h-[380px]">
-                  {/* SVG Connecting Line from Quiz to Center Icon */}
+                {/* Right Column (55%): Image Composition */}
+                <div className="w-[55%] h-[380px] relative flex items-center justify-center">
+                  {/* SVG Connecting Line */}
                   <svg
                     className="absolute inset-0 w-full h-full pointer-events-none z-15"
                     style={{ overflow: "visible" }}
                   >
                     <line
                       ref={c2LineRef}
-                      x1="180"
+                      x1="220"
                       y1="190"
-                      x2="260"
+                      x2="310"
                       y2="190"
                       stroke="#7B5CF5"
                       strokeWidth="1.5"
-                      strokeDasharray="90"
-                      strokeDashoffset="90"
                     />
                   </svg>
 
-                  {/* Left: Quiz Card */}
+                  {/* Photo 1: Learner on left (~290x200px) */}
                   <div
-                    ref={c2QuizCardRef}
-                    className="absolute left-4 w-44 rounded-xl bg-white p-3.5 border border-[#ECEDEF] shadow-lg text-[#161616] z-10 will-change-transform"
+                    ref={c2LearnerPhotoRef}
+                    className="absolute left-6 w-[290px] h-[200px] rounded-2xl overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-xl z-10 will-change-transform"
                   >
-                    <div className="flex items-center justify-between pb-1.5 border-b border-[#F3F4F6]">
-                      <span className="text-[10px] font-bold uppercase text-[#7B5CF5]">Graded Quiz</span>
-                      <span className="text-[11px] font-bold text-emerald-600">100%</span>
-                    </div>
-                    <p className="text-[11px] font-semibold text-[#161616] mt-2">Evaluation</p>
-                    <div className="mt-1.5 space-y-1 text-[9px] text-[#6B7280]">
-                      <div className="flex items-center gap-1 text-emerald-600">
-                        <span>✓</span>
-                        <span>Multi-tenant routing</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-[#9CA3AF]">
-                        <span>•</span>
-                        <span>Automated score</span>
-                      </div>
+                    <Image
+                      src="/assets/img/home/features/learner_quiz.jpg"
+                      alt="Learner taking assessment"
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-xs text-[10px] font-semibold text-emerald-300 flex items-center gap-1 border border-white/10">
+                      <span>✓</span>
+                      Quiz Score: 98%
                     </div>
                   </div>
 
-                  {/* Center: Small central icon with 6 colored squares around it (Reference File Manager) */}
+                  {/* Center Node with 6 colored squares (Reference File Manager) */}
                   <div
                     ref={c2CenterNodeRef}
                     className="relative z-20 size-11 rounded-xl bg-[#161616] text-white flex items-center justify-center shadow-lg border border-white/20 will-change-transform"
                   >
                     <span className="text-sm">✦</span>
-                    {/* 6 colored satellite squares */}
                     <span className="absolute -top-3 -left-2 size-2 rounded-xs bg-[#7B5CF5]" />
                     <span className="absolute -top-3.5 right-1 size-2 rounded-xs bg-emerald-500" />
                     <span className="absolute top-2 -right-3.5 size-2 rounded-xs bg-amber-500" />
@@ -476,45 +471,42 @@ export function FeaturesSection({ data }: { data?: any }) {
                     <span className="absolute bottom-1 -left-3.5 size-2 rounded-xs bg-indigo-500" />
                   </div>
 
-                  {/* Right: Certificate Stack that Fans Out into 3 Layers */}
-                  <div className="absolute right-4 w-52 h-40 relative flex items-center justify-center z-10">
-                    {/* Layer 1 (Back left tilt) */}
-                    <div
-                      ref={c2Cert1Ref}
-                      className="absolute inset-0 rounded-xl bg-slate-50 border border-[#ECEDEF] p-3 shadow-md will-change-transform"
-                    >
-                      <div className="h-full border border-dashed border-[#CBD5E1] rounded-lg p-2 flex flex-col justify-between">
-                        <span className="text-[9px] font-mono text-[#9CA3AF]">CERTIFICATE #01</span>
-                        <div className="size-4 rounded-full bg-[#7B5CF5]/20 self-end" />
-                      </div>
+                  {/* Certificate Card on right (~290x200px) */}
+                  <div
+                    ref={c2CertCardRef}
+                    className="absolute right-6 w-[290px] h-[200px] rounded-2xl bg-white border border-[#ECEDEF] shadow-xl p-5 flex flex-col justify-between z-10 will-change-transform"
+                  >
+                    <div className="flex items-center justify-between border-b border-[#F3F4F6] pb-2.5">
+                      <span className="text-[10px] font-mono font-bold text-[#7B5CF5] uppercase tracking-wider">
+                        CERTIFICATE OF COMPLETION
+                      </span>
+                      <span className="text-base">🎓</span>
                     </div>
 
-                    {/* Layer 2 (Middle) */}
-                    <div
-                      ref={c2Cert2Ref}
-                      className="absolute inset-0 rounded-xl bg-white border border-[#ECEDEF] p-3 shadow-lg will-change-transform"
-                    >
-                      <div className="h-full border border-dashed border-[#CBD5E1] rounded-lg p-2 flex flex-col justify-between">
-                        <span className="text-[9px] font-mono text-[#9CA3AF]">CERTIFICATE #02</span>
-                        <div className="size-4 rounded-full bg-emerald-500/20 self-end" />
-                      </div>
+                    <div className="space-y-1">
+                      <p className="text-[13px] font-bold text-[#161616]">Full-Stack Architecture</p>
+                      <p className="text-[11px] text-[#6B7280]">Awarded to certified cohort graduate</p>
                     </div>
 
-                    {/* Layer 3 (Top right tilt) */}
-                    <div
-                      ref={c2Cert3Ref}
-                      className="absolute inset-0 rounded-xl bg-white border border-[#ECEDEF] p-3 shadow-xl will-change-transform"
-                    >
-                      <div className="h-full border border-dashed border-[#7B5CF5]/40 bg-[#FDFCFF] rounded-lg p-2 flex flex-col justify-between">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[9px] font-mono font-bold text-[#7B5CF5]">VERIFIED CERTIFICATE</span>
-                          <span className="text-[10px]">🎓</span>
-                        </div>
-                        <div>
-                          <p className="text-[11px] font-bold text-[#161616]">Course Completion</p>
-                          <p className="text-[9px] text-[#6B7280]">Issued on completion</p>
-                        </div>
-                      </div>
+                    <div className="flex items-center justify-between text-[10px] text-[#9CA3AF] border-t border-[#F3F4F6] pt-2">
+                      <span>ID: LMS-98421</span>
+                      <span className="text-emerald-600 font-semibold">Verified Credential</span>
+                    </div>
+                  </div>
+
+                  {/* 3 Avatar Photos fanning out on right */}
+                  <div
+                    ref={c2AvatarFanRef}
+                    className="absolute right-2 bottom-3 flex items-center -space-x-2.5 z-30 will-change-transform"
+                  >
+                    <div className="relative size-8 rounded-full overflow-hidden ring-2 ring-white shadow-md">
+                      <Image src="/assets/img/home/testimonials/author-1.jpg" alt="Learner" fill className="object-cover" />
+                    </div>
+                    <div className="relative size-8 rounded-full overflow-hidden ring-2 ring-white shadow-md">
+                      <Image src="/assets/img/home/testimonials/author-2.jpg" alt="Learner" fill className="object-cover" />
+                    </div>
+                    <div className="relative size-8 rounded-full overflow-hidden ring-2 ring-white shadow-md">
+                      <Image src="/assets/img/home/testimonials/author-3.jpg" alt="Learner" fill className="object-cover" />
                     </div>
                   </div>
                 </div>
@@ -526,86 +518,80 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* ======================================================== */}
             <div
               ref={card3Ref}
-              className="absolute inset-x-0 top-0 h-[540px] rounded-[24px] bg-white border border-[#ECEDEF] p-8 lg:p-12 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
               style={{
-                boxShadow: "0 20px 50px -15px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.02)",
+                boxShadow:
+                  "0 20px 50px -15px rgba(22,22,22,0.14), 0 4px 12px rgba(22,22,22,0.05)",
               }}
             >
-              {/* Bottom Left Corner Number */}
-              <div className="absolute bottom-8 left-10 text-[11px] font-mono text-[#9CA3AF] select-none">
+              {/* Bottom-Left Corner Number */}
+              <div className="absolute bottom-8 left-8 text-[12px] font-mono text-[#9CA3AF] select-none">
                 03
               </div>
 
-              {/* Card Body Grid with pale-to-full text opacity */}
-              <div ref={card3ContentRef} className="grid grid-cols-12 gap-8 items-center h-full">
-                {/* Left Half (~50%): Title & 1-2 lines grey description */}
-                <div className="col-span-6 pr-6 space-y-2">
-                  <h3 className="text-[22px] sm:text-[24px] font-medium text-[#161616] tracking-tight leading-snug">
+              {/* Card Body */}
+              <div ref={card3ContentRef} className="flex items-center justify-between h-full w-full">
+                {/* Left Column (40%): Vertically Centred */}
+                <div className="w-[40%] flex flex-col justify-center pr-6 space-y-3">
+                  <h3 className="text-[28px] font-medium text-[#161616] tracking-tight leading-snug">
                     {card3.title}
                   </h3>
-                  <p className="text-[15px] text-[#6B7280] leading-relaxed max-w-md">
+                  <p className="text-[16px] text-[#6B7280] leading-relaxed max-w-[360px] line-clamp-3">
                     {card3.summary}
                   </p>
                 </div>
 
-                {/* Right Half (~50%): Participant Video Feeds + Chips */}
-                <div className="col-span-6 relative flex items-center justify-center min-h-[380px]">
-                  <div className="relative w-[340px] flex flex-col gap-3">
-                    {/* Live Video Feeds Row */}
-                    <div className="grid grid-cols-2 gap-3">
-                      {/* Tile 1: Mia Lewis */}
-                      <div
-                        ref={c3Tile1Ref}
-                        className="relative h-32 rounded-xl overflow-hidden bg-slate-800 border border-slate-700/80 shadow-md will-change-transform"
-                      >
-                        <Image
-                          src="/assets/img/home/features/participant_mia.jpg"
-                          alt="Mia Lewis"
-                          fill
-                          className="object-cover"
-                        />
-                        {/* Name Chip */}
-                        <div
-                          ref={c3Chip1Ref}
-                          className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15 will-change-transform"
-                        >
-                          <span className="size-1.5 rounded-full bg-emerald-400" />
-                          Mia Lewis
-                        </div>
-                      </div>
-
-                      {/* Tile 2: Alex Peterson */}
-                      <div
-                        ref={c3Tile2Ref}
-                        className="relative h-32 rounded-xl overflow-hidden bg-slate-800 border border-slate-700/80 shadow-md will-change-transform"
-                      >
-                        <Image
-                          src="/assets/img/home/features/participant_alex.jpg"
-                          alt="Alex Peterson"
-                          fill
-                          className="object-cover"
-                        />
-                        {/* Name Chip */}
-                        <div
-                          ref={c3Chip2Ref}
-                          className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15 will-change-transform"
-                        >
-                          <span className="size-1.5 rounded-full bg-emerald-400" />
-                          Alex Peterson
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Booking Chip: Pops in */}
+                {/* Right Column (55%): Image Composition */}
+                <div className="w-[55%] h-[380px] relative flex items-center justify-center">
+                  {/* Photo 1: Mia Lewis (Top Right, ~290x200px) */}
+                  <div
+                    ref={c3Tile1Ref}
+                    className="absolute right-6 top-3 w-[290px] h-[200px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-xl z-10 will-change-transform"
+                  >
+                    <Image
+                      src="/assets/img/home/features/participant_mia.jpg"
+                      alt="Mia Lewis"
+                      fill
+                      className="object-cover"
+                    />
                     <div
-                      ref={c3BookingChipRef}
-                      className="self-center will-change-transform"
+                      ref={c3Chip1Ref}
+                      className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-xs text-[11px] font-semibold text-white flex items-center gap-1.5 border border-white/15 will-change-transform"
                     >
-                      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-[#ECEDEF] shadow-md text-[#161616]">
-                        <span className="size-2 rounded-full bg-[#7B5CF5]" />
-                        <span className="text-[12px] font-semibold">Tomorrow, 10:00</span>
-                        <span className="text-[10px] text-[#6B7280]">1-on-1 Zoom</span>
-                      </div>
+                      <span className="size-1.5 rounded-full bg-emerald-400" />
+                      Mia Lewis
+                    </div>
+                  </div>
+
+                  {/* Photo 2: Alex Peterson (Bottom Left, ~290x200px) */}
+                  <div
+                    ref={c3Tile2Ref}
+                    className="absolute left-12 bottom-3 w-[290px] h-[200px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-2xl z-20 will-change-transform"
+                  >
+                    <Image
+                      src="/assets/img/home/features/participant_alex.jpg"
+                      alt="Alex Peterson"
+                      fill
+                      className="object-cover"
+                    />
+                    <div
+                      ref={c3Chip2Ref}
+                      className="absolute bottom-2.5 left-2.5 px-2.5 py-1 rounded-lg bg-black/80 backdrop-blur-xs text-[11px] font-semibold text-white flex items-center gap-1.5 border border-white/15 will-change-transform"
+                    >
+                      <span className="size-1.5 rounded-full bg-emerald-400" />
+                      Alex Peterson
+                    </div>
+                  </div>
+
+                  {/* Chip: "Tomorrow, 10:00" booking chip pops in */}
+                  <div
+                    ref={c3BookingChipRef}
+                    className="absolute right-4 bottom-2 z-30 will-change-transform"
+                  >
+                    <div className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-[#ECEDEF] shadow-lg text-[#161616]">
+                      <span className="size-2 rounded-full bg-[#7B5CF5]" />
+                      <span className="text-[12px] font-semibold">Tomorrow, 10:00</span>
+                      <span className="text-[10px] text-[#6B7280]">1-on-1 Zoom</span>
                     </div>
                   </div>
                 </div>
@@ -656,11 +642,6 @@ export function FeaturesSection({ data }: { data?: any }) {
                             fill
                             className="object-cover"
                           />
-                          <div className="absolute inset-0 bg-black/25 flex items-center justify-center">
-                            <div className="size-10 rounded-full bg-white/30 backdrop-blur-xs flex items-center justify-center text-white text-xs pl-0.5">
-                              ▶
-                            </div>
-                          </div>
                         </div>
                         <div className="p-3 bg-[#18191B] flex items-center justify-between text-xs text-slate-300">
                           <span className="font-semibold text-white truncate">Lesson 02: Architecture Blueprint</span>

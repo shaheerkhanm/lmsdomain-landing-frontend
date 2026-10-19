@@ -209,11 +209,11 @@ export function CustomerSection({ data }: { data?: any }) {
   const cards = testimonialsContent.cards;
 
   return (
-    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:-mb-32">
-      {/* Pinned Stage Container: Compact height with direct exit to FAQ (Desktop Only >=1024px) */}
+    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible">
+      {/* Pinned Stage Container (Desktop Only >=1024px) */}
       <div
         ref={pinWrapperRef}
-        className="relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
+        className="relative w-full h-[400px] hidden lg:flex items-center justify-center overflow-hidden"
       >
         {/* Headline "Wall of love" fitting ~88% of screen with font-weight 600 */}
         <div
@@ -234,7 +234,7 @@ export function CustomerSection({ data }: { data?: any }) {
           ref={deckWrapperRef}
           className="absolute inset-x-0 top-[50%] -translate-y-1/2 z-10 flex items-center justify-center will-change-transform pointer-events-none"
         >
-          <div className="relative w-[300px] h-[170px] flex items-center justify-center pointer-events-auto">
+          <div className="relative w-[320px] h-[180px] flex items-center justify-center pointer-events-auto">
             {/* Card 1 (Top of stack, z-50, tilt -4deg) */}
             <div
               ref={card1Ref}

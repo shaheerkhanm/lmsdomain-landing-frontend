@@ -9,6 +9,7 @@ const STATEMENT_WORDS = manifestoContent.text.split(" ");
 
 export function ManifestSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const paragraphBlockRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const isReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -21,17 +22,17 @@ export function ManifestSection() {
         return;
       }
 
-      // Base color per spec §5.5: #C9CCD1
+      // Base color per spec: #C9CCD1
       gsap.set(words, { color: "#C9CCD1" });
 
       const mm = gsap.matchMedia();
 
-      // Desktop: 1024px and up (Pinned word illumination)
+      // Desktop: 1024px and up (Pinned word illumination vertically centred)
       mm.add("(min-width: 1024px)", () => {
         const tl = gsap.timeline({
           scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 25%",
+            trigger: paragraphBlockRef.current,
+            start: "center center",
             end: "+=120%",
             pin: true,
             pinSpacing: true,
@@ -79,10 +80,13 @@ export function ManifestSection() {
     <section
       ref={sectionRef}
       id="manifesto"
-      className="py-28 sm:py-36 bg-white font-urbanist relative overflow-hidden flex items-center justify-center min-h-[500px]"
+      className="py-24 sm:py-32 bg-white font-urbanist relative overflow-visible flex items-center justify-center min-h-[600px]"
     >
-      <div className="max-w-[820px] mx-auto px-4 sm:px-6 text-center">
-        {/* A12: Editorial Text Reveal Typography (≈44px at 1440px, weight 500, line-height 1.3) */}
+      <div
+        ref={paragraphBlockRef}
+        className="max-w-[820px] mx-auto px-4 sm:px-6 text-center will-change-transform"
+      >
+        {/* Editorial Text Reveal Typography (≈44px at 1440px, weight 500, line-height 1.3) */}
         <p className="text-3xl sm:text-4xl lg:text-[44px] font-medium leading-[1.3] tracking-tight flex flex-wrap justify-center gap-x-2.5 sm:gap-x-3 gap-y-1.5 sm:gap-y-2 select-none">
           {STATEMENT_WORDS.map((word, idx) => (
             <span
