@@ -49,17 +49,19 @@ export function FeaturesSection({ data }: { data?: any }) {
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
+        const isLargeScreen = window.innerWidth >= 1366 && window.innerHeight >= 850;
+        const cardH = isLargeScreen ? 480 : 440;
+
         // Card 1 settled at top: 0
         gsap.set(card1Ref.current, { y: 0, zIndex: 10 });
-        // Card 2 top 24px peeks below Card 1 (480px height - 24px = 456px)
-        gsap.set(card2Ref.current, { y: 456, zIndex: 20 });
+        // Card 2 top 24px peeks below Card 1
+        gsap.set(card2Ref.current, { y: cardH - 24, zIndex: 20 });
         gsap.set(card2ContentRef.current, { opacity: 0.35 });
         // Card 3 peeks below Card 2
-        gsap.set(card3Ref.current, { y: 480, zIndex: 30 });
+        gsap.set(card3Ref.current, { y: cardH, zIndex: 30 });
         gsap.set(card3ContentRef.current, { opacity: 0.35 });
 
         // Initial positions for Card 1 visuals:
-        // Teacher and learner start 60px away and scale 0.9
         gsap.set(c1TeacherPhotoRef.current, { x: 50, y: -20, scale: 0.92 });
         gsap.set(c1LearnerPhotoRef.current, { x: -40, y: 30, scale: 0.92 });
         gsap.set(c1IconRef.current, { scale: 0.8, opacity: 0.6 });
@@ -94,7 +96,7 @@ export function FeaturesSection({ data }: { data?: any }) {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
-            start: "top 140px",
+            start: "top top",
             end: "+=260%",
             pin: true,
             pinSpacing: true,
@@ -103,132 +105,133 @@ export function FeaturesSection({ data }: { data?: any }) {
         });
 
         // ----------------------------------------------------
-        // Stage 1 (0 -> 0.3): Card 1 active
+        // Stage 1 (0 -> 0.25): Card 1 active
         // Photos slide 60px toward final spot, scale 0.92 -> 1, line draws, chip pops in
         // ----------------------------------------------------
         tl.to(
           c1TeacherPhotoRef.current,
-          { x: 0, y: 0, scale: 1, duration: 0.25, ease: "power2.out" },
+          { x: 0, y: 0, scale: 1, duration: 0.22, ease: "power2.out" },
           0
         );
         tl.to(
           c1LearnerPhotoRef.current,
-          { x: 0, y: 0, scale: 1, duration: 0.25, ease: "power2.out" },
+          { x: 0, y: 0, scale: 1, duration: 0.22, ease: "power2.out" },
           0
         );
         tl.to(
           c1IconRef.current,
-          { scale: 1, opacity: 1, duration: 0.2, ease: "power1.out" },
-          0.1
+          { scale: 1, opacity: 1, duration: 0.18, ease: "power1.out" },
+          0.08
         );
         if (c1LineRef.current) {
           tl.to(
             c1LineRef.current,
-            { strokeDashoffset: 0, duration: 0.2, ease: "power1.inOut" },
-            0.15
+            { strokeDashoffset: 0, duration: 0.18, ease: "power1.inOut" },
+            0.12
           );
         }
         tl.to(
           c1ChipRef.current,
-          { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.5)" },
-          0.22
+          { scale: 1, opacity: 1, duration: 0.14, ease: "back.out(1.5)" },
+          0.18
         );
 
         // ----------------------------------------------------
-        // Stage 2 (0.3 -> 0.65): Card 02 comes up
-        // 1. Title scrolls up and out of view
-        // 2. Card 01 moves up ~40px to sit ~100px below nav
-        // 3. Card 02 slides up over Card 01 to y: -12px (leaving 28px ledge with 01)
+        // Stage 2 (0.25 -> 0.62): Card 02 comes up
+        // 1. Heading scrolls up out of view
+        // 2. Card 01 moves up as a whole until its top sits 24px below nav (~120px from window top)
+        // 3. Card 02 slides up from below to y: -110px (top is 148px, leaving 28px ledge on Card 01)
         // ----------------------------------------------------
         tl.to(
           titleBlockRef.current,
-          { y: -120, opacity: 0, duration: 0.2, ease: "power1.inOut" },
-          0.3
+          { y: -160, opacity: 0, duration: 0.25, ease: "power1.inOut" },
+          0.25
         );
         tl.to(
           card1Ref.current,
-          { y: -40, duration: 0.25, ease: "power1.inOut" },
-          0.3
+          { y: -138, duration: 0.32, ease: "power1.inOut" },
+          0.26
         );
         tl.to(
           card2Ref.current,
-          { y: -12, duration: 0.35, ease: "power1.inOut" },
-          0.32
+          { y: -110, duration: 0.36, ease: "power1.inOut" },
+          0.28
         );
 
-        // Card 2 content turns full black on settle
+        // Card 2 content turns full opacity on settle
         tl.to(
           card2ContentRef.current,
-          { opacity: 1, duration: 0.25, ease: "power1.out" },
-          0.48
+          { opacity: 1, duration: 0.22, ease: "power1.out" },
+          0.45
         );
 
         // Card 2 visuals animate in:
         tl.to(
           c2LearnerPhotoRef.current,
-          { x: 0, scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
-          0.42
+          { x: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power2.out" },
+          0.4
         );
         tl.to(
           c2CenterNodeRef.current,
-          { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(1.2)" },
-          0.44
+          { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(1.2)" },
+          0.42
         );
         tl.to(
           c2CertCardRef.current,
-          { x: 0, scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
-          0.44
+          { x: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power2.out" },
+          0.42
         );
         if (c2LineRef.current) {
           tl.to(
             c2LineRef.current,
-            { strokeDashoffset: 0, duration: 0.2, ease: "power1.inOut" },
-            0.5
+            { strokeDashoffset: 0, duration: 0.18, ease: "power1.inOut" },
+            0.48
           );
         }
         tl.to(
           c2AvatarFanRef.current,
-          { scale: 1, opacity: 1, duration: 0.2, ease: "back.out(1.5)" },
-          0.54
+          { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(1.5)" },
+          0.52
         );
 
         // ----------------------------------------------------
-        // Stage 3 (0.65 -> 1.0): Card 03 comes up
-        // Card 03 slides up to y: +16px (leaving 01 and 02 ledges stacked above)
+        // Stage 3 (0.62 -> 1.0): Card 03 comes up
+        // Card 03 slides up to y: -82px (top is 176px, leaving 28px ledge on Card 02)
+        // Both 01 and 02 ledges remain exposed above Card 03, below nav
         // ----------------------------------------------------
         tl.to(
           card3Ref.current,
-          { y: 16, duration: 0.32, ease: "power1.inOut" },
-          0.68
+          { y: -82, duration: 0.34, ease: "power1.inOut" },
+          0.62
         );
 
-        // Card 3 content turns full black on settle
+        // Card 3 content turns full opacity on settle
         tl.to(
           card3ContentRef.current,
           { opacity: 1, duration: 0.2, ease: "power1.out" },
-          0.8
+          0.78
         );
 
         // Card 3 visuals animate in:
         tl.to(
           c3Tile1Ref.current,
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power2.out" },
           0.72
         );
         tl.to(
           c3Tile2Ref.current,
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.25, ease: "power2.out" },
-          0.78
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power2.out" },
+          0.76
         );
         tl.to(
           [c3Chip1Ref.current, c3Chip2Ref.current],
           { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
-          0.85
+          0.82
         );
         tl.to(
           c3BookingChipRef.current,
           { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
-          0.9
+          0.88
         );
       });
 
@@ -253,45 +256,45 @@ export function FeaturesSection({ data }: { data?: any }) {
   const card3 = featuresContent.cards[2];
 
   return (
-    <section id="features" className="py-20 sm:py-28 bg-[#F3F4F6] font-urbanist overflow-visible">
-      <div className="max-w-[1360px] w-full mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="features" className="py-12 sm:py-16 lg:py-0 bg-[#F3F4F6] font-urbanist overflow-visible">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-0">
         {/* Pinned Stage Wrapper (Desktop >= 1024px) */}
         <div
           ref={pinWrapperRef}
-          className="relative w-full flex flex-col items-center overflow-visible"
+          className="relative w-full flex flex-col items-center overflow-visible lg:pt-[92px] lg:pb-[40px] lg:min-h-screen"
         >
-          {/* Section Header: Sits above Card 01 at first, then scrolls away */}
+          {/* Section Header: Sits 24px below nav, gap to card is 32px */}
           <div
             ref={titleBlockRef}
-            className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 will-change-transform"
+            className="text-center max-w-2xl mx-auto mb-[32px] will-change-transform"
           >
-            <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-2.5">
+            <div className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#7B5CF5] mb-[12px]">
               <span>✦</span>
-              <span className="uppercase tracking-widest text-[11px]">CORE CAPABILITIES</span>
+              <span className="uppercase tracking-widest text-[12px]">CORE CAPABILITIES</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-semibold text-[#161616] tracking-tight leading-tight">
+            <h2 className="text-[48px] font-semibold text-[#161616] tracking-tight leading-[1.1] max-w-2xl mx-auto">
               {featuresContent.sectionTitle}
             </h2>
           </div>
 
-          {/* Card Stack Frame: Width ~1290px (90%), Height 480px, Radius 24px */}
+          {/* Card Stack Frame: Width 1290px (90% of window), Height 480px (440px at 1280x800), Radius 24px */}
           <div
             ref={cardStackWrapperRef}
-            className="relative w-[90%] max-w-[1290px] h-[480px] hidden lg:block overflow-visible"
+            className="relative w-[90vw] max-w-[1290px] h-[440px] [@media(min-width:1366px)_and_(min-height:850px)]:h-[480px] hidden lg:block overflow-visible"
           >
             {/* ======================================================== */}
             {/* Card 01: Courses that run themselves */}
             {/* ======================================================== */}
             <div
               ref={card1Ref}
-              className="absolute inset-x-0 top-0 h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[440px] [@media(min-width:1366px)_and_(min-height:850px)]:h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
               style={{
                 boxShadow:
                   "0 20px 50px -15px rgba(22,22,22,0.08), 0 2px 8px rgba(22,22,22,0.03)",
               }}
             >
               {/* Top Ledge Number (Exposed as a real card edge when Card 02 stacks above) */}
-              <div className="absolute top-2.5 left-8 text-[12px] font-mono font-bold text-[#9CA3AF] select-none pointer-events-none">
+              <div className="absolute top-2 left-8 text-[12px] font-mono font-bold text-[#9CA3AF] select-none pointer-events-none">
                 01
               </div>
 
@@ -394,14 +397,14 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* ======================================================== */}
             <div
               ref={card2Ref}
-              className="absolute inset-x-0 top-0 h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[440px] [@media(min-width:1366px)_and_(min-height:850px)]:h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
               style={{
                 boxShadow:
                   "0 20px 50px -15px rgba(22,22,22,0.12), 0 4px 12px rgba(22,22,22,0.04)",
               }}
             >
               {/* Top Ledge Number */}
-              <div className="absolute top-2.5 left-8 text-[12px] font-mono font-bold text-[#9CA3AF] select-none pointer-events-none">
+              <div className="absolute top-2 left-8 text-[12px] font-mono font-bold text-[#9CA3AF] select-none pointer-events-none">
                 02
               </div>
 
@@ -440,10 +443,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                     />
                   </svg>
 
-                  {/* Photo 1: Learner on left (~290x200px) */}
+                  {/* Photo 1: Learner on left (~270x190px) */}
                   <div
                     ref={c2LearnerPhotoRef}
-                    className="absolute left-6 w-[290px] h-[200px] rounded-2xl overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-xl z-10 will-change-transform"
+                    className="absolute left-6 w-[270px] h-[190px] rounded-2xl overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-xl z-10 will-change-transform"
                   >
                     <Image
                       src="/assets/img/home/features/learner_quiz.jpg"
@@ -471,10 +474,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                     <span className="absolute bottom-1 -left-3.5 size-2 rounded-xs bg-indigo-500" />
                   </div>
 
-                  {/* Certificate Card on right (~290x200px) */}
+                  {/* Certificate Card on right (~280x190px, >=32px from edges) */}
                   <div
                     ref={c2CertCardRef}
-                    className="absolute right-6 w-[290px] h-[200px] rounded-2xl bg-white border border-[#ECEDEF] shadow-xl p-5 flex flex-col justify-between z-10 will-change-transform"
+                    className="absolute right-8 w-[280px] h-[190px] rounded-2xl bg-white border border-[#ECEDEF] shadow-xl p-5 flex flex-col justify-between z-10 will-change-transform"
                   >
                     <div className="flex items-center justify-between border-b border-[#F3F4F6] pb-2.5">
                       <span className="text-[10px] font-mono font-bold text-[#7B5CF5] uppercase tracking-wider">
@@ -494,10 +497,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                     </div>
                   </div>
 
-                  {/* 3 Avatar Photos fanning out on right */}
+                  {/* 3 Avatar Photos fanning out on right (inside card 02, >=32px from edges) */}
                   <div
                     ref={c2AvatarFanRef}
-                    className="absolute right-2 bottom-3 flex items-center -space-x-2.5 z-30 will-change-transform"
+                    className="absolute right-8 bottom-8 flex items-center -space-x-2.5 z-30 will-change-transform"
                   >
                     <div className="relative size-8 rounded-full overflow-hidden ring-2 ring-white shadow-md">
                       <Image src="/assets/img/home/testimonials/author-1.jpg" alt="Learner" fill className="object-cover" />
@@ -518,7 +521,7 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* ======================================================== */}
             <div
               ref={card3Ref}
-              className="absolute inset-x-0 top-0 h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[440px] [@media(min-width:1366px)_and_(min-height:850px)]:h-[480px] rounded-[24px] bg-white border border-[#ECEDEF] px-10 py-8 overflow-hidden will-change-transform"
               style={{
                 boxShadow:
                   "0 20px 50px -15px rgba(22,22,22,0.14), 0 4px 12px rgba(22,22,22,0.05)",

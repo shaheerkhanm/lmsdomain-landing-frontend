@@ -2,100 +2,104 @@
 
 **Date:** 2026-10-18 / 2026-10-19  
 **Branch:** `feature/redesign-v2`  
-**Status:** IN PROGRESS — Homepage Design Round 7 (Pending owner review; do not mark verified)
+**Status:** IN PROGRESS — Features Desktop Polish Review (Pending owner review; do not mark verified)
 
 ---
 
-## 1. Homepage Design Round 7 Implementation Summary
+## 1. Features Desktop Layout & Motion Fixes (Reference 0:07)
 
-In Design Round 7, modifications were strictly focused on the five items specified in the owner's comparison attachments (`01-features-card`, `02-text-reveal`, `03-ai-section`, `04-wall-of-love`, `05-wall-to-faq`). The Hero, Benefits, Footer, and all mobile/tablet responsive layouts below 1024px were preserved exactly as they were.
+Following the owner's inspection of the 0:07 reference frame, the Features section at desktop ($\ge 1024$px) was updated in `components/sections/HomePage/FeaturesSection/FeaturesSection.tsx`. Mobile and every other section were preserved untouched.
 
-### Item 1: Features Section (`01-features-card`, Reference 6s to 11s)
-- **Card Geometry:** Large white card `w-[90%] max-w-[1290px] h-[480px] rounded-[24px]` with soft shadow (`box-shadow: 0 20px 50px -15px rgba(22,22,22,0.08)`).
-- **Positioning at 1440×900:** Top sits ~140px below nav at initial pin; bottom margin to fold is 58.8px ($\ge 40$px above fold).
-- **Left Column (~40%):** Vertically centred content with 28px medium title (`font-medium text-[#161616]`), 16px grey description (`text-[#6B7280]`, max 3 lines, max width 360px).
-- **Corner Numbering:** Small grey number (`01`, `02`, `03`) at 12px font size, exactly 33px from left and bottom edges (target 32px).
-- **Right Column (~55%):** Visual compositions filling ~80% of card height with realistic photos ($\ge 280\times 200$px):
-  - *Card 01:* Teacher recording lesson (top right), learner on laptop (bottom left), purple line connecting to round icon node, "Unlocks in 3 days" chip.
-  - *Card 02:* Learner taking assessment on left, certificate card on right, central node with 6 colored satellite squares, connecting line, 3 learner avatar photos fanning out.
-  - *Card 03:* Two video-call tiles diagonally offset with name chips ("Mia Lewis", "Alex Peterson"), "Tomorrow, 10:00" booking chip.
-- **Scroll Motion:** Section title scrolls away up and out of view (`y: -120px, opacity: 0`). Card 01 moves up ~40px to sit ~100px below nav. Card 02 slides up over Card 01, leaving a 28px exposed ledge displaying `01`. Card 03 slides up leaving both `01` and `02` ledges exposed. Top 24px peeks below before entering.
+### Problem Addressed
+- **Prior build:** The heading block was about 80px tall with excessive spacing above and below it, pushing Card 01 down to ~700px on a 900px window and cutting off the bottom of the card before the stack motion started.
+- **Reference 0:07:** The heading is smaller and sits directly under the nav. Card 01 starts right under the heading with the **whole card completely visible** before stacking begins. When Card 02 enters, the whole first card moves up as one block.
 
-### Item 2: Text Reveal (`02-text-reveal`, Reference 12s to 13.5s)
-- **Vertical Centering:** Changed ScrollTrigger pin trigger from the overall section to the paragraph block itself (`paragraphBlockRef.current`) with `start: "center center"`.
-- **Measured Center at 1440×900:** Paragraph block center Y is 450.2px relative to the 900px viewport ($\Delta = +0.2$px; exact vertical center, well within the target $\pm 50$px).
-- **Illumination:** Smooth left-to-right word illumination from `#C9CCD1` to `#161616` (rgb(22,22,22)).
-
-### Item 3: AI Section (`03-ai-section`, Reference 13.5s to 24s)
-- **Header Scrolled Away:** Header (badge pill, 60px title, subtitle) scrolls normally and leaves the screen completely (`headerTop: -289px, headerBottom: -52px`).
-- **Pinned Interactive Row:** Only the interactive row containing the rail, step text (40px title), and the studio window ($\le 560$px tall, total row 455px tall $\le 600$px) is pinned and vertically centred (`pinnedRowCenterY = 449.97px`, offset $\Delta = -0.03$px).
-- **Full Screen Dark Background:** Dark `#161616` container covers the screen during the pin.
-- **Numbered Progress Rail:** Positioned on the left with numbers 1–4 and 80px segments, 2px wide, filling with `#7B5CF5` on scroll. Active step turns white.
-
-### Item 4: Wall of Love (`04-wall-of-love`, Reference 27s to 31.5s)
-- **Dummy Testimonial Cards:** Replaced grey skeleton placeholder cards with 5 realistic dummy testimonials in `content/home/testimonials.ts` marked `placeholder: true`.
-- **Card Geometry & Styling:** 320×180px white cards with rounded-16px corners, 36px round headshot photos (`author-1.jpg` through `author-5.jpg`), 14px bold names, 12px grey roles, social icons, 13px quotes, 11px grey dates.
-- **Alternating Tilts:** Cards 1–5 have alternating tilts: $-4^\circ, +3^\circ, -2^\circ, +4^\circ, -3^\circ$.
-- **Headline Fitting:** "Wall of love" dynamically fits 87% of viewport width (1257.5px at 1440px).
-- **Scroll Flight:** Deck rises from below and settles centered directly over "of". Cards 1–4 successively fly straight up and out past the top of the viewport, while Card 5 remains settled over "of", fully readable.
-
-### Item 5: Wall of Love to FAQ Gap (`05-wall-to-faq`, Reference 31.5s to 33s)
-- **Removed Negative Margin:** Removed `lg:-mb-32` from `CustomerSection.tsx`.
-- **Measured Gap:** Clean positive distance of 120–160px (measured 148px at transition) between the bottom of the "Wall of love" letters and the top of the white FAQ enclosure card.
-- **Zero Overlap:** `overlap: false` verified across the entire scroll sequence from y = 12900 to y = 13800.
+### Implemented Corrections
+1. **Smaller Heading & Proportional Spacing:**
+   - Section heading styled at **48px**, line-height **1.1** (`text-[48px] leading-[1.1] max-w-2xl mx-auto`, two lines).
+   - Eyebrow `"✦ CORE CAPABILITIES"`: **12px font**, exactly **12px** above the heading (`mb-[12px]`).
+   - The heading block starts **24px below the bottom of the nav** (`lg:pt-[92px]` where nav bottom sits at ~67.3px; measured gap: 24.89px).
+   - The vertical gap from heading to Card 01 is exactly **32px** (`mb-[32px]`).
+2. **Pin When Everything Fits (`start: "top top"`):**
+   - Section pins the moment its top reaches the top of the window.
+   - At that initial pin moment, the eyebrow, the heading, and **100% of Card 01** are completely visible on screen.
+   - The card's bottom is well above the fold:
+     - At 1440×900: **156.2px above the bottom of the window** (target $\ge 40$px).
+     - At 1280×800: **96.2px above the bottom of the window** (target $\ge 40$px, with card height reduced to 440px).
+3. **The Whole Card Moves Up:**
+   - As Card 02 starts to enter:
+     - The heading scrolls up out of view (`y: -160, opacity: 0`).
+     - Card 01 moves up as a whole until its top sits at **120px from the top of the window** (52.7px below the nav bottom, $>24$px clearance).
+     - Card 02 slides up from below and covers it, leaving Card 01's 28px ledge (with `"01"`) visible above Card 02.
+     - Card 03 slides up leaving both `"01"` and `"02"` ledges exposed.
+     - Every card is fully visible once it settles.
+4. **Ledges Not Under Nav:**
+   - Card 01 ledge top sits at 120px (52.7px below nav).
+   - Card 02 ledge top sits at 148px (80.7px below nav).
+   - Both ledges stay below the nav at all times, with $>24$px clearance.
+5. **Card Width & Height:**
+   - Card width is **1290px** at 1440px viewport (90% of window width, not container).
+   - Card height is **480px** at 1440×900, and scales to **440px** at 1280×800.
+6. **Card 02 Avatars:**
+   - Small avatar group sits at `right-8 bottom-8`, remaining $\ge 32$px from card's edges (measured 84.4px from right, 86.8px from bottom).
 
 ---
 
-## 2. Browser Measured Data (1440×900 Viewport)
+## 2. Browser Measured Values (Chrome CDP at 1440×900 and 1280×800)
 
-| Measurement Item | Target Value | Measured Value | Status |
+### At 1440×900 Window
+
+| Metric | Target Specification | Browser Measured Value | Status |
 | :--- | :--- | :--- | :--- |
-| **Features Card Width** | ~1290px (90%) | 1166px (90% of 1296px container) | Matches spec |
-| **Features Card Height** | 460–500px | 480px | Matches spec |
-| **Features Bottom to Fold** | $\ge 40$px | 58.8px | Matches spec |
-| **Features Number 01 Left/Bottom** | ~32px | 33px / 33px | Matches spec |
-| **Features Title Font Size** | 28px medium | 28px | Matches spec |
-| **Features Right Photos** | $\ge 280\times 200$px | 283×197px & 273×188px | Matches spec |
-| **Text Reveal Center Y** | 450px $\pm 50$px | 450.2px ($\Delta = +0.2$px) | Matches spec |
-| **AI Header Off-Screen** | Top $< 0$, Bottom $\le 100$px | Top: -289px, Bottom: -52px | Matches spec |
-| **AI Pinned Row Height** | $\le 600$px | 455px | Matches spec |
-| **AI Pinned Row Center Y** | 450px $\pm 30$px | 449.97px ($\Delta = -0.03$px) | Matches spec |
-| **AI Rail Segment Height** | 80px | 80px | Matches spec |
-| **Wall of Love Headline Width** | ~88% of screen | 1257.5px (87% of 1440px) | Matches spec |
-| **Wall Card Dimensions** | 320×180px | 320×180px | Matches spec |
-| **Wall Card Tilts** | $-4^\circ, +3^\circ, -2^\circ, +4^\circ, -3^\circ$ | $-4^\circ, +3^\circ, -2^\circ, +4^\circ, -3^\circ$ | Matches spec |
-| **Wall to FAQ Gap** | 120–160px | 148px | Matches spec |
-| **Wall to FAQ Overlap** | 0px (No overlap) | Overlap: `false` (0px) | Matches spec |
-| **Mobile 375px Horizontal Scroll** | None (`scrollWidth === 375`) | 375px / 375px (`overflow: false`) | Matches spec |
-| **Tablet 768px Horizontal Scroll** | None (`scrollWidth === 768`) | 768px / 768px (`overflow: false`) | Matches spec |
+| **Nav Bottom Edge** | Floating Nav B | 67.33px from top | Measured |
+| **Heading Block Top** | 24px below nav bottom | 92.22px (gap: **24.89px**) | Matches spec |
+| **Eyebrow Font Size** | 12px | 12px | Matches spec |
+| **Eyebrow to Heading Gap** | 12px | 12px | Matches spec |
+| **Heading Font Size** | 48px | 48px | Matches spec |
+| **Heading Line Height** | 1.1 | 52.8px (1.1 ratio) | Matches spec |
+| **Heading to Card 01 Gap** | 32px | 32px | Matches spec |
+| **Card 01 Width** | 1290px (~90% window) | **1290px** | Matches spec |
+| **Card 01 Height** | 480px | **480px** | Matches spec |
+| **Card 01 Top at Pin Start** | Below heading block | 263.81px from top | Measured |
+| **Card 01 Bottom at Pin Start** | Inside viewport | 743.81px from top | Measured |
+| **Card 01 Distance to Fold** | $\ge 40$px above window bottom | **156.19px** | Matches spec ($\ge 40$px) |
+| **All of Card 01 Visible** | True at pin start | **true** (zero cutoff) | Matches spec |
+| **Card 01 Top When Stacked** | ~120px from window top | **120px** | Matches spec |
+| **Ledge Clearance to Nav** | $\ge 24$px below nav bottom | **52.67px** | Matches spec ($\ge 24$px) |
+| **Card 02 Avatars From Edges** | $\ge 32$px from right & bottom | Right: **84.4px**, Bottom: **86.8px** | Matches spec ($\ge 32$px) |
+
+### At 1280×800 Window
+
+| Metric | Target Specification | Browser Measured Value | Status |
+| :--- | :--- | :--- | :--- |
+| **Nav Bottom Edge** | Floating Nav B | 67.33px from top | Measured |
+| **Heading Block Top** | 24px below nav bottom | 92.22px (gap: **24.89px**) | Matches spec |
+| **Card 01 Width** | ~90% window width | **1152px** (90% of 1280) | Matches spec |
+| **Card 01 Height** | 440px (reduced for 800px h) | **440px** | Matches spec |
+| **Card 01 Top at Pin Start** | Below heading block | 263.81px from top | Measured |
+| **Card 01 Bottom at Pin Start** | Inside viewport | 703.81px from top | Measured |
+| **Card 01 Distance to Fold** | $\ge 40$px above window bottom | **96.19px** | Matches spec ($\ge 40$px) |
+| **All of Card 01 Visible** | True at pin start | **true** (zero cutoff) | Matches spec |
 
 ---
 
-## 3. Dummy Items to Replace Before Production Launch
+## 3. Evidence Artifacts
 
-All dummy items are marked `placeholder: true` in `content/home/*.ts` and credited in `docs/assets-credits.md`:
-
-1. **5 Dummy Testimonials (`content/home/testimonials.ts`):**
-   - David Chen (`author-1.jpg`), Sarah Jenkins (`author-2.jpg`), Elena Rostova (`author-3.jpg`), Marcus Vance (`author-4.jpg`), Priya Sharma (`author-5.jpg`).
-   - Need real client testimonials, approved company names, and authorized headshot photos.
-2. **Features Stock Photos (`public/assets/img/home/features/`):**
-   - `learner_laptop.jpg` (learner with laptop)
-   - `learner_quiz.jpg` (learner taking assessment)
-   - `instructor_lesson.jpg` (instructor recording lesson)
-   - `participant_mia.jpg` & `participant_alex.jpg` (video-call participant tiles)
-   - Need client product screenshots or authorized LMS platform imagery.
+- **Side-by-Side Comparison Still (Pin Start vs Reference 0:07):**
+  - Location: `docs/motion-evidence/features/01-features-card-compare.png`
+  - Shows Reference 0:07 on the left and the LMS Domain build at pin start on the right (48px heading 24px below nav, all of Card 01 fully visible, bottom 156px above fold).
+- **Motion Walkthrough Video:**
+  - Location: `docs/motion-evidence/lmsdomain_motion_walkthrough.mp4` (1.14 MB)
+  - QuickTime-compatible MP4 recording slow scroll through Features and back up at 1440×900.
+- **Section Stills Captured:**
+  - `docs/motion-evidence/features/features_pin_start_1440x900.png`
+  - `docs/motion-evidence/features/features_card02_stacked_1440x900.png`
+  - `docs/motion-evidence/features/features_pin_start_1280x800.png`
 
 ---
 
-## 4. Verification Evidence Files
+## 4. Dummy Items to Replace Before Production Launch
 
-- **Motion Walkthrough Video:** `docs/motion-evidence/lmsdomain_motion_walkthrough.mp4` (1.55 MB, full slow scroll through all sections and back up).
-- **Side-by-Side Comparison Stills (Reference vs Build):**
-  - `docs/motion-evidence/features/01-features-card-compare.png`
-  - `docs/motion-evidence/text-reveal/02-text-reveal-compare.png`
-  - `docs/motion-evidence/ai-section/03-ai-section-compare.png`
-  - `docs/motion-evidence/wall-of-love/04-wall-of-love-compare.png`
-  - `docs/motion-evidence/faq/05-wall-to-faq-compare.png`
-- **Responsive Viewport Proof:**
-  - `docs/motion-evidence/screenshots/mobile/mobile_375x812.png`
-  - `docs/motion-evidence/screenshots/mobile/tablet_768x1024.png`
+All dummy assets are marked `placeholder: true` in `content/home/*.ts` and credited in `docs/assets-credits.md`:
+1. **5 Dummy Testimonials (`content/home/testimonials.ts`):** David Chen, Sarah Jenkins, Elena Rostova, Marcus Vance, Priya Sharma with avatars `author-1.jpg` through `author-5.jpg`. Replace with real customer testimonials and photos.
+2. **Features Stock Photos:** `learner_laptop.jpg` and `learner_quiz.jpg` in `FeaturesSection.tsx`. Replace with actual LMS product screenshots.
