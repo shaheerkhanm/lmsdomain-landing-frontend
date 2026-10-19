@@ -50,36 +50,71 @@ export function FeaturesSection({ data }: { data?: any }) {
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
-      // Desktop: 1024px and up (Reference paper-stacking cards)
+      // Desktop: 1024px and up (Conveyor motion model)
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
-        const getDimensions = () => {
+        const getLayout = () => {
+          const windowH = window.innerHeight;
+          // Card height H: 68% of the window height (about 612px at 900)
+          const cardH = Math.round(windowH * 0.68);
+
+          // Nav bottom: Floating Nav B sits at fixed top-4 with bottom at ~67.33px
+          const navB = document.querySelector(".fixed.top-4 > div");
+          const navBRect = navB ? navB.getBoundingClientRect() : null;
+          const navBottom =
+            navBRect && navBRect.bottom > 0 ? navBRect.bottom : 67.33;
+
+          // Held card top: exactly 85px below the bottom of the nav (~152px)
+          const heldTop = Math.round(navBottom + 85);
+
+
+          // Card stack wrapper offsetTop relative to pinned container at start
           const cardTopAtStart = cardStackWrapperRef.current?.offsetTop || 281;
-          const cardH = window.innerHeight - cardTopAtStart - 32;
-          return { cardTopAtStart, cardH };
+
+          // y offset to position a card in the held spot
+          const yHeld = heldTop - cardTopAtStart;
+
+          // Next card sits directly behind held card, 78px lower
+          const yBehind = yHeld + 78;
+
+          // Card exits completely off the top of the screen (under nav)
+          const yExit = -(cardTopAtStart + cardH + 60);
+
+          // Incoming cards start cleanly below the fold
+          const yBelowFold = windowH - cardTopAtStart + 100;
+
+          return {
+            windowH,
+            cardH,
+            heldTop,
+            cardTopAtStart,
+            yHeld,
+            yBehind,
+            yExit,
+            yBelowFold,
+          };
         };
 
-        const { cardTopAtStart, cardH } = getDimensions();
+        const { cardH, yBelowFold } = getLayout();
 
-        // All three cards share the exact same height H (no resizing during scroll)
-        gsap.set(card1Ref.current, { y: 0, height: cardH, zIndex: 10 });
-        gsap.set(c1NumRef.current, { y: 0 });
+        // Initial setup:
+        // Card 01 starts in front at y: 0 (zIndex: 30)
+        gsap.set(card1Ref.current, { y: 0, height: cardH, zIndex: 30 });
 
-        // Card 2 starts fully below window (y: 100vh), zero peeking
-        gsap.set(card2Ref.current, { y: "100vh", height: cardH, zIndex: 20 });
+        // Card 02 starts below the fold (zIndex: 20), pale content
+        gsap.set(card2Ref.current, { y: yBelowFold, height: cardH, zIndex: 20 });
         gsap.set(card2ContentRef.current, { opacity: 0.35 });
-        gsap.set(c2NumRef.current, { y: 0 });
 
-        // Card 3 starts fully below window (y: 100vh), zero peeking
-        gsap.set(card3Ref.current, { y: "100vh", height: cardH, zIndex: 30 });
+        // Card 03 starts below the fold (zIndex: 10), pale content
+        gsap.set(card3Ref.current, { y: yBelowFold, height: cardH, zIndex: 10 });
         gsap.set(card3ContentRef.current, { opacity: 0.35 });
-        gsap.set(c3NumRef.current, { y: 0 });
 
+        // Recompute H and update heights on window resize only, never during scroll
         const handleResize = () => {
-          const dims = getDimensions();
+          const { cardH: newH } = getLayout();
           gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], {
-            height: dims.cardH,
+            height: newH,
           });
         };
         window.addEventListener("resize", handleResize);
@@ -129,165 +164,187 @@ export function FeaturesSection({ data }: { data?: any }) {
         });
 
         // ----------------------------------------------------
-        // Stage 1 (0 -> 0.25): Card 1 active
-        // Photos slide toward final spot, scale 0.92 -> 1, line draws, chip pops in
-        // ----------------------------------------------------
-        tl.to(
-          c1TeacherPhotoRef.current,
-          { x: 0, y: 0, scale: 1, duration: 0.22, ease: "power2.out" },
-          0
-        );
-        tl.to(
-          c1LearnerPhotoRef.current,
-          { x: 0, y: 0, scale: 1, duration: 0.22, ease: "power2.out" },
-          0
-        );
-        tl.to(
-          c1IconRef.current,
-          { scale: 1, opacity: 1, duration: 0.18, ease: "power1.out" },
-          0.08
-        );
-        if (c1LineRef.current) {
-          tl.to(
-            c1LineRef.current,
-            { strokeDashoffset: 0, duration: 0.18, ease: "power1.inOut" },
-            0.12
-          );
-        }
-        tl.to(
-          c1ChipRef.current,
-          { scale: 1, opacity: 1, duration: 0.14, ease: "back.out(1.5)" },
-          0.18
-        );
-
-        // ----------------------------------------------------
-        // Stage 2 (0.25 -> 0.62): Card 02 comes up
-        // 1. Heading scrolls up out of view
-        // 2. Card 01 moves up until top sits 24px below nav (~92px from window top)
-        // 3. Card 01 single number shifts up into the exposed 28px top ledge
-        // 4. Card 02 slides up from below to top = 120px (leaving 28px ledge on Card 01)
+        // Stage 1 (0.00 -> 0.16): Card 01 -> held spot, Card 02 rises behind Card 01
+        // Heading & Card 01 move up together until Card 01 top is 85px below nav.
+        // Card 02 rises behind Card 01 to 78px lower (bottom 78px shows with "02").
         // ----------------------------------------------------
         tl.to(
           titleBlockRef.current,
-          { y: -160, opacity: 0, duration: 0.25, ease: "power1.inOut" },
-          0.25
+          { y: -160, opacity: 0, duration: 0.16, ease: "power1.inOut" },
+          0
         );
         tl.to(
           card1Ref.current,
           {
-            y: () => -(getDimensions().cardTopAtStart - 92),
-            duration: 0.32,
+            y: () => getLayout().yHeld,
+            duration: 0.16,
             ease: "power1.inOut",
           },
-          0.26
-        );
-        tl.to(
-          c1NumRef.current,
-          {
-            y: () => -(getDimensions().cardH - 58),
-            duration: 0.3,
-            ease: "power1.inOut",
-          },
-          0.26
+          0
         );
         tl.to(
           card2Ref.current,
           {
-            y: () => -(getDimensions().cardTopAtStart - 120),
-            duration: 0.36,
+            y: () => getLayout().yBehind,
+            duration: 0.16,
             ease: "power1.inOut",
           },
-          0.28
+          0
         );
 
-        // Card 2 content turns full opacity on settle
+        // ----------------------------------------------------
+        // Stage 2 (0.16 -> 0.36): Hold Card 01 while images animate
+        // ----------------------------------------------------
         tl.to(
-          card2ContentRef.current,
-          { opacity: 1, duration: 0.22, ease: "power1.out" },
-          0.45
-        );
-
-        // Card 2 visuals animate in:
-        tl.to(
-          c2LearnerPhotoRef.current,
-          { x: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power2.out" },
-          0.4
+          c1TeacherPhotoRef.current,
+          { x: 0, y: 0, scale: 1, duration: 0.16, ease: "power2.out" },
+          0.18
         );
         tl.to(
-          c2CenterNodeRef.current,
-          { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(1.2)" },
-          0.42
+          c1LearnerPhotoRef.current,
+          { x: 0, y: 0, scale: 1, duration: 0.16, ease: "power2.out" },
+          0.18
         );
         tl.to(
-          c2CertCardRef.current,
-          { x: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power2.out" },
-          0.42
+          c1IconRef.current,
+          { scale: 1, opacity: 1, duration: 0.12, ease: "power1.out" },
+          0.22
         );
-        if (c2LineRef.current) {
+        if (c1LineRef.current) {
           tl.to(
-            c2LineRef.current,
-            { strokeDashoffset: 0, duration: 0.18, ease: "power1.inOut" },
-            0.48
+            c1LineRef.current,
+            { strokeDashoffset: 0, duration: 0.14, ease: "power1.inOut" },
+            0.24
           );
         }
         tl.to(
-          c2AvatarFanRef.current,
-          { scale: 1, opacity: 1, duration: 0.18, ease: "back.out(1.5)" },
-          0.52
+          c1ChipRef.current,
+          { scale: 1, opacity: 1, duration: 0.12, ease: "back.out(1.5)" },
+          0.28
         );
 
         // ----------------------------------------------------
-        // Stage 3 (0.62 -> 1.0): Card 03 comes up
-        // 1. Card 02 single number shifts up into Card 02's exposed 28px top ledge
-        // 2. Card 03 slides up to top = 148px (leaving 28px ledge on Card 02)
-        // Both 01 and 02 ledges remain exposed above Card 03, below nav
+        // Stage 3 (0.36 -> 0.54): Advance from Card 01 to Card 02
+        // Card 01 moves up and leaves off the top (under nav).
+        // Card 02 moves up 78px into held spot; text becomes dark (opacity: 1).
+        // Card 03 rises behind Card 02 to 78px lower (showing its "03" strip).
         // ----------------------------------------------------
         tl.to(
-          c2NumRef.current,
+          card1Ref.current,
           {
-            y: () => -(getDimensions().cardH - 58),
-            duration: 0.3,
+            y: () => getLayout().yExit,
+            duration: 0.18,
             ease: "power1.inOut",
           },
-          0.62
+          0.36
+        );
+        tl.to(
+          card2Ref.current,
+          {
+            y: () => getLayout().yHeld,
+            duration: 0.18,
+            ease: "power1.inOut",
+          },
+          0.36
+        );
+        tl.to(
+          card2ContentRef.current,
+          { opacity: 1, duration: 0.14, ease: "power1.out" },
+          0.42
         );
         tl.to(
           card3Ref.current,
           {
-            y: () => -(getDimensions().cardTopAtStart - 148),
-            duration: 0.34,
+            y: () => getLayout().yBehind,
+            duration: 0.18,
             ease: "power1.inOut",
           },
-          0.62
+          0.36
         );
 
-        // Card 3 content turns full opacity on settle
+        // ----------------------------------------------------
+        // Stage 4 (0.54 -> 0.72): Hold Card 02 while images animate
+        // ----------------------------------------------------
         tl.to(
-          card3ContentRef.current,
-          { opacity: 1, duration: 0.2, ease: "power1.out" },
-          0.78
+          c2LearnerPhotoRef.current,
+          { x: 0, scale: 1, opacity: 1, duration: 0.16, ease: "power2.out" },
+          0.56
+        );
+        tl.to(
+          c2CenterNodeRef.current,
+          { scale: 1, opacity: 1, duration: 0.14, ease: "back.out(1.2)" },
+          0.58
+        );
+        tl.to(
+          c2CertCardRef.current,
+          { x: 0, scale: 1, opacity: 1, duration: 0.16, ease: "power2.out" },
+          0.58
+        );
+        if (c2LineRef.current) {
+          tl.to(
+            c2LineRef.current,
+            { strokeDashoffset: 0, duration: 0.14, ease: "power1.inOut" },
+            0.62
+          );
+        }
+        tl.to(
+          c2AvatarFanRef.current,
+          { scale: 1, opacity: 1, duration: 0.14, ease: "back.out(1.5)" },
+          0.66
         );
 
-        // Card 3 visuals animate in:
+        // ----------------------------------------------------
+        // Stage 5 (0.72 -> 0.88): Advance from Card 02 to Card 03
+        // Card 02 moves up and leaves off the top (under nav).
+        // Card 03 moves up 78px into held spot; text becomes dark (opacity: 1).
+        // Card 03 has no next card behind it.
+        // ----------------------------------------------------
         tl.to(
-          c3Tile1Ref.current,
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power2.out" },
+          card2Ref.current,
+          {
+            y: () => getLayout().yExit,
+            duration: 0.16,
+            ease: "power1.inOut",
+          },
           0.72
         );
         tl.to(
-          c3Tile2Ref.current,
-          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.22, ease: "power2.out" },
+          card3Ref.current,
+          {
+            y: () => getLayout().yHeld,
+            duration: 0.16,
+            ease: "power1.inOut",
+          },
+          0.72
+        );
+        tl.to(
+          card3ContentRef.current,
+          { opacity: 1, duration: 0.14, ease: "power1.out" },
           0.76
+        );
+
+        // ----------------------------------------------------
+        // Stage 6 (0.86 -> 0.98): Hold Card 03 while images animate
+        // ----------------------------------------------------
+        tl.to(
+          c3Tile1Ref.current,
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.14, ease: "power2.out" },
+          0.86
+        );
+        tl.to(
+          c3Tile2Ref.current,
+          { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.14, ease: "power2.out" },
+          0.88
         );
         tl.to(
           [c3Chip1Ref.current, c3Chip2Ref.current],
-          { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
-          0.82
+          { scale: 1, opacity: 1, duration: 0.12, ease: "back.out(1.4)" },
+          0.90
         );
         tl.to(
           c3BookingChipRef.current,
-          { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
-          0.88
+          { scale: 1, opacity: 1, duration: 0.12, ease: "back.out(1.4)" },
+          0.94
         );
 
         return () => {
@@ -345,35 +402,35 @@ export function FeaturesSection({ data }: { data?: any }) {
             </h2>
           </div>
 
-          {/* Card Stack Frame: Width 1290px (90vw), Height calc(100vh - 272px - 32px), Radius 24px */}
+          {/* Card Stack Frame: Width 89vw (about 1280px), Height 68vh (about 612px at 900) */}
           <div
             ref={cardStackWrapperRef}
-            className="relative w-[90vw] max-w-[1290px] h-[calc(100vh-272px-32px)] hidden lg:block overflow-visible"
+            className="relative w-[89vw] max-w-[1280px] h-[68vh] hidden lg:block overflow-visible"
           >
             {/* ======================================================== */}
             {/* Card 01: Courses that run themselves */}
             {/* ======================================================== */}
             <div
               ref={card1Ref}
-              className="absolute inset-x-0 top-0 h-[calc(100vh-272px-32px)] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[68vh] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
               style={{
                 boxShadow:
-                  "0 20px 50px -15px rgba(22,22,22,0.08), 0 2px 8px rgba(22,22,22,0.03)",
+                  "0 25px 50px -12px rgba(22,22,22,0.12), 0 4px 12px rgba(22,22,22,0.04)",
               }}
             >
-              {/* Bottom-Left Corner Number (14px font, 32px from left and bottom edges) */}
+              {/* Bottom-Left Corner Number (14px font, 35px from left, 40px from bottom) */}
               <div
                 ref={c1NumRef}
-                className="absolute bottom-8 left-8 text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-40 will-change-transform"
+                className="absolute bottom-[40px] left-[35px] text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-30"
               >
                 01
               </div>
 
-              {/* Card Body: Left 40% (Vertically Centred), Right 47% (Image Composition) */}
+              {/* Card Body: Left 40% (Vertically Centred), Right 48% (Image Composition) */}
               <div className="flex items-center justify-between h-full w-full">
-                {/* Left Column (40%): Title 34px, Description 20px, max 3 lines, max-w 440px */}
+                {/* Left Column (40%): Title 30px, Description 20px, max 3 lines, max-w 440px */}
                 <div className="w-[40%] flex flex-col justify-center pr-6 space-y-4">
-                  <h3 className="text-[34px] font-medium text-[#161616] tracking-tight leading-[1.2]">
+                  <h3 className="text-[30px] font-medium text-[#161616] tracking-tight leading-[1.2]">
                     {card1.title}
                   </h3>
                   <p className="text-[20px] text-[#6B7280] leading-relaxed max-w-[440px] line-clamp-3">
@@ -381,8 +438,8 @@ export function FeaturesSection({ data }: { data?: any }) {
                   </p>
                 </div>
 
-                {/* Right Column (47% width, 78% height): Image Composition */}
-                <div className="w-[47%] h-[78%] relative flex items-center justify-center">
+                {/* Right Column (48% width, 100% height): Image Composition */}
+                <div className="w-[48%] h-full relative flex items-center justify-center">
                   {/* SVG Connecting Line */}
                   <svg
                     className="absolute inset-0 w-full h-full pointer-events-none z-15"
@@ -409,10 +466,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                     </span>
                   </div>
 
-                  {/* Photo 1: Teacher recording lesson (Top Right, ~374x250px) */}
+                  {/* Photo 1: Teacher recording lesson (Top Right, ~320x180px) */}
                   <div
                     ref={c1TeacherPhotoRef}
-                    className="absolute right-4 top-2 w-[374px] h-[250px] rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-xl z-10 will-change-transform"
+                    className="absolute right-4 top-1/2 -translate-y-[65%] w-[320px] h-[180px] rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 shadow-xl z-10 will-change-transform"
                   >
                     <Image
                       src="/assets/img/home/features/instructor_lesson.jpg"
@@ -431,10 +488,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                     </div>
                   </div>
 
-                  {/* Photo 2: Learner on laptop (Bottom Left, ~340x230px) */}
+                  {/* Photo 2: Learner on laptop (Bottom Left, ~280x165px) */}
                   <div
                     ref={c1LearnerPhotoRef}
-                    className="absolute left-14 bottom-2 w-[340px] h-[230px] rounded-2xl overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-2xl z-20 will-change-transform"
+                    className="absolute left-10 top-1/2 -translate-y-[15%] w-[280px] h-[165px] rounded-2xl overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-2xl z-20 will-change-transform"
                   >
                     <Image
                       src="/assets/img/home/features/learner_laptop.jpg"
@@ -447,7 +504,7 @@ export function FeaturesSection({ data }: { data?: any }) {
                   {/* Chip: "Unlocks in 3 days" pops in */}
                   <div
                     ref={c1ChipRef}
-                    className="absolute right-2 top-60 z-30 will-change-transform"
+                    className="absolute right-6 bottom-16 z-30 will-change-transform"
                   >
                     <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-[12px] font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-lg">
                       <span className="size-2 rounded-full bg-amber-500" />
@@ -463,25 +520,25 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* ======================================================== */}
             <div
               ref={card2Ref}
-              className="absolute inset-x-0 top-0 h-[calc(100vh-272px-32px)] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[68vh] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
               style={{
                 boxShadow:
-                  "0 20px 50px -15px rgba(22,22,22,0.12), 0 4px 12px rgba(22,22,22,0.04)",
+                  "0 25px 50px -12px rgba(22,22,22,0.12), 0 4px 12px rgba(22,22,22,0.04)",
               }}
             >
               {/* Bottom-Left Corner Number */}
               <div
                 ref={c2NumRef}
-                className="absolute bottom-8 left-8 text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-40 will-change-transform"
+                className="absolute bottom-[40px] left-[35px] text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-30"
               >
                 02
               </div>
 
               {/* Card Body */}
               <div ref={card2ContentRef} className="flex items-center justify-between h-full w-full">
-                {/* Left Column (40%): Vertically Centred */}
+                {/* Left Column (40%): Title 30px, Description 20px */}
                 <div className="w-[40%] flex flex-col justify-center pr-6 space-y-4">
-                  <h3 className="text-[34px] font-medium text-[#161616] tracking-tight leading-[1.2]">
+                  <h3 className="text-[30px] font-medium text-[#161616] tracking-tight leading-[1.2]">
                     {card2.title}
                   </h3>
                   <p className="text-[20px] text-[#6B7280] leading-relaxed max-w-[440px] line-clamp-3">
@@ -489,8 +546,8 @@ export function FeaturesSection({ data }: { data?: any }) {
                   </p>
                 </div>
 
-                {/* Right Column (47% width, 78% height): Image Composition */}
-                <div className="w-[47%] h-[78%] relative flex items-center justify-center">
+                {/* Right Column (48% width, 100% height): Image Composition */}
+                <div className="w-[48%] h-full relative flex items-center justify-center">
                   {/* SVG Connecting Line */}
                   <svg
                     className="absolute inset-0 w-full h-full pointer-events-none z-15"
@@ -507,10 +564,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                     />
                   </svg>
 
-                  {/* Photo 1: Learner on left (~320x220px) */}
+                  {/* Photo 1: Learner on left (~280x180px) */}
                   <div
                     ref={c2LearnerPhotoRef}
-                    className="absolute left-2 w-[320px] h-[220px] rounded-2xl overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-xl z-10 will-change-transform"
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-[280px] h-[180px] rounded-2xl overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-xl z-10 will-change-transform"
                   >
                     <Image
                       src="/assets/img/home/features/learner_quiz.jpg"
@@ -538,26 +595,26 @@ export function FeaturesSection({ data }: { data?: any }) {
                     <span className="absolute bottom-1 -left-3.5 size-2.5 rounded-xs bg-indigo-500" />
                   </div>
 
-                  {/* Certificate Card on right (~320x220px) */}
+                  {/* Certificate Card on right (~280x180px) */}
                   <div
                     ref={c2CertCardRef}
-                    className="absolute right-4 w-[320px] h-[220px] rounded-2xl bg-white border border-[#ECEDEF] shadow-xl p-6 flex flex-col justify-between z-10 will-change-transform"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 w-[280px] h-[180px] rounded-2xl bg-white border border-[#ECEDEF] shadow-xl p-5 flex flex-col justify-between z-10 will-change-transform"
                   >
-                    <div className="flex items-center justify-between border-b border-[#F3F4F6] pb-3">
+                    <div className="flex items-center justify-between border-b border-[#F3F4F6] pb-2.5">
                       <span className="text-[11px] font-mono font-bold text-[#7B5CF5] uppercase tracking-wider">
                         CERTIFICATE OF COMPLETION
                       </span>
-                      <span className="text-lg">🎓</span>
+                      <span className="text-base">🎓</span>
                     </div>
 
-                    <div className="space-y-1">
-                      <p className="text-[15px] font-bold text-[#161616]">Full-Stack Architecture</p>
-                      <p className="text-[12px] text-[#6B7280]">Awarded to certified cohort graduate</p>
+                    <div className="space-y-0.5">
+                      <p className="text-[14px] font-bold text-[#161616]">Full-Stack Architecture</p>
+                      <p className="text-[11px] text-[#6B7280]">Awarded to certified cohort graduate</p>
                     </div>
 
-                    <div className="flex items-center justify-between text-[11px] text-[#9CA3AF] border-t border-[#F3F4F6] pt-2.5">
+                    <div className="flex items-center justify-between text-[11px] text-[#9CA3AF] border-t border-[#F3F4F6] pt-2">
                       <span>ID: LMS-98421</span>
-                      <span className="text-emerald-600 font-semibold">Verified Credential</span>
+                      <span className="text-emerald-600 font-semibold">Verified</span>
                     </div>
                   </div>
 
@@ -585,25 +642,25 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* ======================================================== */}
             <div
               ref={card3Ref}
-              className="absolute inset-x-0 top-0 h-[calc(100vh-272px-32px)] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[68vh] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
               style={{
                 boxShadow:
-                  "0 20px 50px -15px rgba(22,22,22,0.14), 0 4px 12px rgba(22,22,22,0.05)",
+                  "0 25px 50px -12px rgba(22,22,22,0.14), 0 4px 12px rgba(22,22,22,0.05)",
               }}
             >
               {/* Bottom-Left Corner Number */}
               <div
                 ref={c3NumRef}
-                className="absolute bottom-8 left-8 text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-40 will-change-transform"
+                className="absolute bottom-[40px] left-[35px] text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-30"
               >
                 03
               </div>
 
               {/* Card Body */}
               <div ref={card3ContentRef} className="flex items-center justify-between h-full w-full">
-                {/* Left Column (40%): Vertically Centred */}
+                {/* Left Column (40%): Title 30px, Description 20px */}
                 <div className="w-[40%] flex flex-col justify-center pr-6 space-y-4">
-                  <h3 className="text-[34px] font-medium text-[#161616] tracking-tight leading-[1.2]">
+                  <h3 className="text-[30px] font-medium text-[#161616] tracking-tight leading-[1.2]">
                     {card3.title}
                   </h3>
                   <p className="text-[20px] text-[#6B7280] leading-relaxed max-w-[440px] line-clamp-3">
@@ -611,12 +668,12 @@ export function FeaturesSection({ data }: { data?: any }) {
                   </p>
                 </div>
 
-                {/* Right Column (47% width, 78% height): Image Composition */}
-                <div className="w-[47%] h-[78%] relative flex items-center justify-center">
-                  {/* Photo 1: Mia Lewis (Top Right, ~350x235px) */}
+                {/* Right Column (48% width, 100% height): Image Composition */}
+                <div className="w-[48%] h-full relative flex items-center justify-center">
+                  {/* Photo 1: Mia Lewis (Top Right, ~290x180px) */}
                   <div
                     ref={c3Tile1Ref}
-                    className="absolute right-4 top-2 w-[350px] h-[235px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-xl z-10 will-change-transform"
+                    className="absolute right-4 top-1/2 -translate-y-[65%] w-[290px] h-[180px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-xl z-10 will-change-transform"
                   >
                     <Image
                       src="/assets/img/home/features/participant_mia.jpg"
@@ -633,10 +690,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                     </div>
                   </div>
 
-                  {/* Photo 2: Alex Peterson (Bottom Left, ~350x235px) */}
+                  {/* Photo 2: Alex Peterson (Bottom Left, ~270x165px) */}
                   <div
                     ref={c3Tile2Ref}
-                    className="absolute left-8 bottom-2 w-[350px] h-[235px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-2xl z-20 will-change-transform"
+                    className="absolute left-8 top-1/2 -translate-y-[15%] w-[270px] h-[165px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-2xl z-20 will-change-transform"
                   >
                     <Image
                       src="/assets/img/home/features/participant_alex.jpg"
