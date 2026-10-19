@@ -174,7 +174,7 @@ export function FeaturesSection({ data }: { data?: any }) {
         tl.to(
           c1NumRef.current,
           {
-            y: -(card1StackedH - 38),
+            y: -(card1StackedH - 58),
             duration: 0.3,
             ease: "power1.inOut",
           },
@@ -235,7 +235,7 @@ export function FeaturesSection({ data }: { data?: any }) {
         tl.to(
           c2NumRef.current,
           {
-            y: -(card2StackedH - 38),
+            y: -(card2StackedH - 58),
             duration: 0.3,
             ease: "power1.inOut",
           },
