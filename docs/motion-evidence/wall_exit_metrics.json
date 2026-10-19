@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-10-19T19:31:51.983Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "card5FlyingY": 13455,
+  "headingAloneY": 13528,
+  "faqArrivingY": 13873,
+  "measuredReleaseDistance": {
+    "h2Top": -697.53125,
+    "h2Bottom": -477.53125,
+    "faqCardTop": -56.53125,
+    "gap": 421,
+    "gapVhPct": 46.77777777777778
+  }
+}

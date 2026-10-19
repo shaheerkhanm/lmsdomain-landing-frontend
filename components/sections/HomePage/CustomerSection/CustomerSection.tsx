@@ -27,8 +27,13 @@ export function CustomerSection({ data }: { data?: any }) {
 
       // Measure current width with baseline font size
       wallTextRef.current.style.fontSize = "100px";
-      const measuredWidth = wallTextRef.current.offsetWidth || 1;
-      const desiredFontSize = Math.max(28, Math.floor((targetWidth / measuredWidth) * 100));
+      const measuredWidth = wallTextRef.current.offsetWidth;
+      if (!measuredWidth || measuredWidth < 100) {
+        const desiredFontSize = Math.min(220, Math.max(28, Math.floor((targetWidth / 780) * 100)));
+        wallTextRef.current.style.fontSize = `${desiredFontSize}px`;
+        return;
+      }
+      const desiredFontSize = Math.min(220, Math.max(28, Math.floor((targetWidth / measuredWidth) * 100)));
 
       wallTextRef.current.style.fontSize = `${desiredFontSize}px`;
     };
@@ -86,7 +91,7 @@ export function CustomerSection({ data }: { data?: any }) {
           scrollTrigger: {
             trigger: pinWrapperRef.current,
             start: "top top",
-            end: "+=140%",
+            end: "+=160%",
             pin: true,
             pinSpacing: true,
             scrub: 0.5,
@@ -94,7 +99,7 @@ export function CustomerSection({ data }: { data?: any }) {
         });
 
         // ----------------------------------------------------
-        // Stage 1 (0 -> 0.16): Headline turns black, deck rises to held position
+        // Stage 1 (0 -> 0.12): Headline turns black, deck rises to held position
         // ----------------------------------------------------
         tl.to(
           wallTextRef.current,
@@ -102,7 +107,7 @@ export function CustomerSection({ data }: { data?: any }) {
             scale: 1,
             color: "#161616",
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
           0
         );
@@ -113,13 +118,13 @@ export function CustomerSection({ data }: { data?: any }) {
             y: 0,
             opacity: 1,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
           0
         );
 
         // ----------------------------------------------------
-        // Stage 2 (0.20 -> 0.36): Card 1 flies up; Card 2 takes top spot; Card 3 takes 2nd; Card 4 appears in 3rd
+        // Stage 2 (0.15 -> 0.27): Card 1 flies up; Card 2 takes top spot; Card 3 takes 2nd; Card 4 appears in 3rd
         // ----------------------------------------------------
         tl.to(
           card1Ref.current,
@@ -128,9 +133,9 @@ export function CustomerSection({ data }: { data?: any }) {
             rotateZ: -8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.20
+          0.15
         );
         tl.to(
           card2Ref.current,
@@ -139,9 +144,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 0,
             rotateZ: 2,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.20
+          0.15
         );
         tl.to(
           card3Ref.current,
@@ -150,9 +155,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 8,
             rotateZ: -2,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.20
+          0.15
         );
         tl.to(
           card4Ref.current,
@@ -162,13 +167,13 @@ export function CustomerSection({ data }: { data?: any }) {
             x: -6,
             rotateZ: 4,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.20
+          0.15
         );
 
         // ----------------------------------------------------
-        // Stage 3 (0.40 -> 0.56): Card 2 flies up; Card 3 takes top spot; Card 4 takes 2nd; Card 5 appears in 3rd
+        // Stage 3 (0.30 -> 0.42): Card 2 flies up; Card 3 takes top spot; Card 4 takes 2nd; Card 5 appears in 3rd
         // ----------------------------------------------------
         tl.to(
           card2Ref.current,
@@ -177,9 +182,9 @@ export function CustomerSection({ data }: { data?: any }) {
             rotateZ: 8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.40
+          0.30
         );
         tl.to(
           card3Ref.current,
@@ -188,9 +193,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 0,
             rotateZ: -2,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.40
+          0.30
         );
         tl.to(
           card4Ref.current,
@@ -199,9 +204,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 8,
             rotateZ: 4,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.40
+          0.30
         );
         tl.to(
           card5Ref.current,
@@ -211,13 +216,13 @@ export function CustomerSection({ data }: { data?: any }) {
             x: -6,
             rotateZ: -3,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.40
+          0.30
         );
 
         // ----------------------------------------------------
-        // Stage 4 (0.60 -> 0.76): Card 3 flies up; Card 4 takes top spot; Card 5 takes 2nd
+        // Stage 4 (0.45 -> 0.57): Card 3 flies up; Card 4 takes top spot; Card 5 takes 2nd
         // ----------------------------------------------------
         tl.to(
           card3Ref.current,
@@ -226,9 +231,9 @@ export function CustomerSection({ data }: { data?: any }) {
             rotateZ: -8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.60
+          0.45
         );
         tl.to(
           card4Ref.current,
@@ -237,9 +242,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 0,
             rotateZ: 2,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.60
+          0.45
         );
         tl.to(
           card5Ref.current,
@@ -248,13 +253,13 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 8,
             rotateZ: -3,
             ease: "power1.out",
-            duration: 0.16,
+            duration: 0.12,
           },
-          0.60
+          0.45
         );
 
         // ----------------------------------------------------
-        // Stage 5 (0.80 -> 0.95): Card 4 flies up; Card 5 takes top spot and settles flat at 0deg
+        // Stage 5 (0.60 -> 0.72): Card 4 flies up; Card 5 takes top spot and settles flat at 0deg
         // ----------------------------------------------------
         tl.to(
           card4Ref.current,
@@ -263,9 +268,9 @@ export function CustomerSection({ data }: { data?: any }) {
             rotateZ: 10,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.15,
+            duration: 0.12,
           },
-          0.80
+          0.60
         );
         tl.to(
           card5Ref.current,
@@ -274,10 +279,38 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 0,
             rotateZ: 0,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.12,
           },
-          0.80
+          0.60
         );
+
+        // ----------------------------------------------------
+        // Stage 6 (0.75 -> 0.86): Card 5 flies up and out past top
+        // ----------------------------------------------------
+        tl.to(
+          card5Ref.current,
+          {
+            y: "-120vh",
+            rotateZ: -8,
+            ease: "power1.in",
+            duration: 0.11,
+          },
+          0.75
+        );
+        tl.to(
+          card5Ref.current,
+          {
+            opacity: 0,
+            ease: "power2.in",
+            duration: 0.03,
+          },
+          0.83
+        );
+
+        // ----------------------------------------------------
+        // Stage 7 (0.86 -> 1.00): Only heading visible (14-15% hold before unpin)
+        // ----------------------------------------------------
+        tl.to({}, { duration: 0.14 }, 0.86);
       });
 
       // Mobile: under 1024px (Normal flow, no pin)
@@ -305,7 +338,7 @@ export function CustomerSection({ data }: { data?: any }) {
   const cards = testimonialsContent.cards;
 
   return (
-    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:-mb-[180px]">
+    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:pb-[57px]">
       {/* Pinned Stage Container (Desktop Only >=1024px) */}
       <div
         ref={pinWrapperRef}

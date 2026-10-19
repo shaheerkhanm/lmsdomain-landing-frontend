@@ -2,11 +2,41 @@
 
 **Date:** 2026-10-19  
 **Branch:** `feature/redesign-v2`  
-**Status:** IN PROGRESS — Wall of Love Revision (Pending owner review; do not mark verified)
+**Status:** IN PROGRESS (Pending owner review; do not mark verified)
 
 ---
 
-## 1. Wall of Love Desktop Vertical Centering, 30vw Cards, and Cascading Deck Sequence
+## 1. Wall of Love Exit Sequence & FAQ Transition (Reference Frames 00:00:01.000 – 00:00:01.750)
+
+Following the owner's instructions and reference image `03-ref-wall-to-faq` (16 reference frames from 30.5s) / `04-build-wall-to-faq`, the desktop Wall of Love section exit at $\ge 1024$px in `components/sections/HomePage/CustomerSection/CustomerSection.tsx` has been updated so that all 5 cards leave before the pin releases:
+
+### Implemented Exit Specifications
+
+1. **All 5 Cards Fly Out:**
+   - Card 5 accelerates straight up off the screen (`y: -120vh, rotateZ: -8deg, ease: "power1.in"`), flying up past the top of the heading and across the navbar just like Cards 1–4.
+   - Matches reference frame `00:00:01.000`.
+2. **Hold on Heading Alone:**
+   - Once Card 5 has flown off, a ~14–15% hold of the total pin length is maintained with **only** the black centered "Wall of love" heading visible and no cards on screen before the pin releases.
+   - Matches reference frame `00:00:01.250`.
+3. **Release Gap to FAQ (~45vh / ~400px):**
+   - After release, as the user scrolls down, the heading scrolls up, and the FAQ card comes up from the bottom.
+   - The measured distance from the bottom of the "Wall of love" letters to the top of the FAQ card is **421.0px (46.8% of the 900px viewport)**, precisely matching the target ~45vh (~400px at 900px window height), replacing the earlier 120–160px card-to-FAQ rule.
+   - Matches reference frame `00:00:01.500`.
+4. **Reverse Scroll:**
+   - Scrolling back up runs the exact sequence in reverse: the FAQ card retreats, the "Wall of love" heading enters and re-pins centered on screen, holds alone, and Card 5 drops back down from above into the top spot before Cards 4, 3, 2, 1 return.
+
+### Browser Measured Values (Chrome CDP at 1440×900)
+
+| Parameter | Target Specification | Browser Measured Value | Status |
+| :--- | :--- | :--- | :--- |
+| **Moment 1: Card 5 Flight (Ref 00:00:01.000)** | Card 5 flying up crossing navbar/heading | ScrollY: **13455**, Top: **104.6px**, Bottom: **336.8px** | Exact match |
+| **Moment 2: Heading Alone (Ref 00:00:01.250)** | Heading centered, all cards off-screen | ScrollY: **13528**, $c_5\text{ bottom} < -100\text{px}$, $h_2\text{ top} = 340.5\text{px}$ | Exact match |
+| **Moment 3: FAQ Arrival (Ref 00:00:01.500)** | Heading in upper viewport, FAQ entering below | ScrollY: **13873**, $h_2\text{ top} = 185.5\text{px}$, $\text{faqTop} = 886.5\text{px}$ | Exact match |
+| **Letter Bottom to FAQ Card Top Gap** | $\approx 45\text{vh}$ ($\approx 400\text{px}$ in 900px window) | **421.0px** (**46.8%** of 900px viewport) | Exact match (~45vh) |
+
+---
+
+## 2. Wall of Love Desktop Vertical Centering, 30vw Cards, and Cascading Deck Sequence
 
 Following the owner's instructions in prompt 12 and the attached reference images (`01-wall-held` and `02-ref-wall-sequence`), the desktop Wall of Love section at $\ge 1024$px in `components/sections/HomePage/CustomerSection/CustomerSection.tsx` and `StackedAcademyDeck.tsx` has been updated to match the reference geometry and flight motion model. Mobile (<1024px), Features conveyor, FAQ, and all other sections remain preserved untouched.
 
@@ -95,15 +125,22 @@ The conveyor motion model and Card 03 visual polish implemented in prompt 11 rem
 ## 4. Evidence Artifacts
 
 - **Side-by-Side Comparison Stills (Reference vs Our Build):**
+  - `docs/motion-evidence/01-compare-card5-flying.png` (Reference 00:00:01.000 vs Build: Card 5 flying out crossing navbar)
+  - `docs/motion-evidence/02-compare-heading-alone.png` (Reference 00:00:01.250 vs Build: Heading alone centered during hold)
+  - `docs/motion-evidence/03-compare-faq-arriving.png` (Reference 00:00:01.500 vs Build: Pin released, ~45vh / 421px gap to entering FAQ card)
   - `docs/motion-evidence/01-wall-held-compare.png` (Reference vs Build: Wall of love held state with 50% window height red line)
   - `docs/motion-evidence/wall-of-love/04-wall-of-love-compare.png` (Reference vs Build in wall-of-love folder)
   - `docs/motion-evidence/features/01-card02-held-compare.png` (Reference vs Build: Features Card 02)
   - `docs/motion-evidence/features/02-card03-held-compare.png` (Reference vs Build: Features Card 03)
 - **High-Resolution Stage Stills:**
+  - `docs/motion-evidence/01_build_card5_flying.png` (1440×900 Card 5 flying upward past nav at scrollY 13455)
+  - `docs/motion-evidence/02_build_heading_alone.png` (1440×900 Heading alone centered at scrollY 13528)
+  - `docs/motion-evidence/03_build_faq_arriving.png` (1440×900 FAQ arriving at scrollY 13873)
   - `docs/motion-evidence/01_wall_held_1440_redline.png` (1440×900 with red line at $y = 450\text{px}$)
 - **Motion Walkthrough Videos:**
-  - `docs/motion-evidence/lmsdomain_motion_walkthrough.mp4` (Full interactive scroll through Wall of love deck flight and unpinning into FAQ)
+  - `docs/motion-evidence/lmsdomain_motion_walkthrough.mp4` (Full interactive scroll through Wall of love exit, heading hold, unpinning into FAQ with ~45vh gap, and reverse scroll)
 - **Detailed JSON Metrics:**
+  - `docs/motion-evidence/wall_exit_metrics.json` (CDP measurements of Card 5 flight, heading hold, and 421px release gap to FAQ)
   - `docs/motion-evidence/wall_audit_summary.json` (CDP measurements at 1440×900 and 1280×800)
 
 ---
