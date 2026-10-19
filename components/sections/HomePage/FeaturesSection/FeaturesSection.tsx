@@ -54,25 +54,35 @@ export function FeaturesSection({ data }: { data?: any }) {
       mm.add("(min-width: 1024px)", () => {
         if (isReduced) return;
 
-        const cardTopAtStart = cardStackWrapperRef.current?.offsetTop || 272;
-        const card1StartH = window.innerHeight - cardTopAtStart - 32;
-        const card1StackedH = window.innerHeight - 92 - 32;
-        const card2StackedH = window.innerHeight - 120 - 32;
-        const card3StackedH = window.innerHeight - 148 - 32;
+        const getDimensions = () => {
+          const cardTopAtStart = cardStackWrapperRef.current?.offsetTop || 281;
+          const cardH = window.innerHeight - cardTopAtStart - 32;
+          return { cardTopAtStart, cardH };
+        };
 
-        // Card 1 settled at top: 0, height fills window down to 32px from bottom
-        gsap.set(card1Ref.current, { y: 0, height: card1StartH, zIndex: 10 });
+        const { cardTopAtStart, cardH } = getDimensions();
+
+        // All three cards share the exact same height H (no resizing during scroll)
+        gsap.set(card1Ref.current, { y: 0, height: cardH, zIndex: 10 });
         gsap.set(c1NumRef.current, { y: 0 });
 
         // Card 2 starts fully below window (y: 100vh), zero peeking
-        gsap.set(card2Ref.current, { y: "100vh", height: card2StackedH, zIndex: 20 });
+        gsap.set(card2Ref.current, { y: "100vh", height: cardH, zIndex: 20 });
         gsap.set(card2ContentRef.current, { opacity: 0.35 });
         gsap.set(c2NumRef.current, { y: 0 });
 
         // Card 3 starts fully below window (y: 100vh), zero peeking
-        gsap.set(card3Ref.current, { y: "100vh", height: card3StackedH, zIndex: 30 });
+        gsap.set(card3Ref.current, { y: "100vh", height: cardH, zIndex: 30 });
         gsap.set(card3ContentRef.current, { opacity: 0.35 });
         gsap.set(c3NumRef.current, { y: 0 });
+
+        const handleResize = () => {
+          const dims = getDimensions();
+          gsap.set([card1Ref.current, card2Ref.current, card3Ref.current], {
+            height: dims.cardH,
+          });
+        };
+        window.addEventListener("resize", handleResize);
 
         // Initial positions for Card 1 visuals:
         gsap.set(c1TeacherPhotoRef.current, { x: 50, y: -20, scale: 0.92 });
@@ -114,6 +124,7 @@ export function FeaturesSection({ data }: { data?: any }) {
             pin: true,
             pinSpacing: true,
             scrub: 0.6,
+            invalidateOnRefresh: true,
           },
         });
 
@@ -164,8 +175,7 @@ export function FeaturesSection({ data }: { data?: any }) {
         tl.to(
           card1Ref.current,
           {
-            y: -(cardTopAtStart - 92),
-            height: card1StackedH,
+            y: () => -(getDimensions().cardTopAtStart - 92),
             duration: 0.32,
             ease: "power1.inOut",
           },
@@ -174,7 +184,7 @@ export function FeaturesSection({ data }: { data?: any }) {
         tl.to(
           c1NumRef.current,
           {
-            y: -(card1StackedH - 58),
+            y: () => -(getDimensions().cardH - 58),
             duration: 0.3,
             ease: "power1.inOut",
           },
@@ -183,7 +193,7 @@ export function FeaturesSection({ data }: { data?: any }) {
         tl.to(
           card2Ref.current,
           {
-            y: -(cardTopAtStart - 120),
+            y: () => -(getDimensions().cardTopAtStart - 120),
             duration: 0.36,
             ease: "power1.inOut",
           },
@@ -235,7 +245,7 @@ export function FeaturesSection({ data }: { data?: any }) {
         tl.to(
           c2NumRef.current,
           {
-            y: -(card2StackedH - 58),
+            y: () => -(getDimensions().cardH - 58),
             duration: 0.3,
             ease: "power1.inOut",
           },
@@ -244,7 +254,7 @@ export function FeaturesSection({ data }: { data?: any }) {
         tl.to(
           card3Ref.current,
           {
-            y: -(cardTopAtStart - 148),
+            y: () => -(getDimensions().cardTopAtStart - 148),
             duration: 0.34,
             ease: "power1.inOut",
           },
@@ -279,6 +289,10 @@ export function FeaturesSection({ data }: { data?: any }) {
           { scale: 1, opacity: 1, duration: 0.15, ease: "back.out(1.4)" },
           0.88
         );
+
+        return () => {
+          window.removeEventListener("resize", handleResize);
+        };
       });
 
       // Mobile / Tablet: under 1024px (Normal stacked flow, no pin)
@@ -449,7 +463,7 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* ======================================================== */}
             <div
               ref={card2Ref}
-              className="absolute inset-x-0 top-0 h-[calc(100vh-120px-32px)] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[calc(100vh-272px-32px)] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
               style={{
                 boxShadow:
                   "0 20px 50px -15px rgba(22,22,22,0.12), 0 4px 12px rgba(22,22,22,0.04)",
@@ -571,7 +585,7 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* ======================================================== */}
             <div
               ref={card3Ref}
-              className="absolute inset-x-0 top-0 h-[calc(100vh-148px-32px)] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
+              className="absolute inset-x-0 top-0 h-[calc(100vh-272px-32px)] rounded-[24px] bg-white border border-[#ECEDEF] px-12 py-8 overflow-hidden will-change-transform"
               style={{
                 boxShadow:
                   "0 20px 50px -15px rgba(22,22,22,0.14), 0 4px 12px rgba(22,22,22,0.05)",

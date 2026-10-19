@@ -57,9 +57,63 @@ Following the owner's instruction in prompt 10 (`checkpoint: pre-features-v2`, r
 
 ---
 
-## 2. Browser Measured Values (Chrome CDP at 1440×900 and 1280×800)
+## 2. Uniform Constant Card Height H Across All Cards and Scroll States
 
-### At 1440×900 Window
+### Problem Addressed
+Previously, Card 01 was calculated at `calc(100vh - 304px)` at pin start, but Cards 02 and 03 were sized to end 32px above the bottom of the window from their stacked positions (`calc(100vh - 120px - 32px)` and `calc(100vh - 148px - 32px)`). Additionally, a timeline tween animated `height` on Card 01, causing Card 01 to appear to resize during scroll.
+
+### Implemented Fix
+1. **Single Constant Card Height $H$:**
+   - Evaluated once from Card 01 at pin start:
+     `H = 100vh - (card 01 top at pin start) - 32px`
+   - At 1440×900: $H = 900 - 281.4 - 32 = 587\text{px}$.
+   - At 1280×800: $H = 800 - 281.4 - 32 = 487\text{px}$.
+   - Applied uniformly to all three cards (`card1Ref`, `card2Ref`, `card3Ref`) in JSX and GSAP initial sets.
+   - Recalculated only on window resize (via resize listener and ScrollTrigger invalidation), never during scroll.
+2. **Zero Height/Scale Tweens During Scroll:**
+   - Removed all `height`, `scale`, and `scaleY` tweens on the cards.
+   - Card 01 moves up via `y` only (`y: -(cardTopAtStart - 92)`).
+   - Card 02 and Card 03 translate via `y` only into their stacked positions.
+3. **Card Bottoms Settle Naturally Without Stretching:**
+   - At 1440×900:
+     - Card 01 initial bottom: **868.4px** (32px above window bottom)
+     - Card 01 stacked bottom: $92.4 + 587 = \mathbf{679.4\text{px}}$
+     - Card 02 settled bottom: $120.4 + 587 = \mathbf{707.4\text{px}}$
+     - Card 03 settled bottom: $148.4 + 587 = \mathbf{735.4\text{px}}$
+     - Neither Card 02 nor Card 03 is stretched to the window bottom; they preserve the authentic paper-stack look.
+4. **Preserved Features v2 Polish:**
+   - 56px heading, 12px eyebrow, 40px gap, single bottom-left numbering shifting into the 28px exposed top ledges, zero peeking of Card 02 at pin start, and scaled photo dimensions.
+
+---
+
+## 3. Browser Measured Values (Chrome CDP at 1440×900 and 1280×800)
+
+### Card Heights Across Scroll Stages (All 3 Cards Must Report Identical Heights)
+
+#### At 1440×900 Viewport ($H = 587\text{px}$)
+
+| Scroll Stage | Scroll Y | Card 01 Height | Card 02 Height | Card 03 Height | Scale / Transform | All Equal? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1. Pin Start** | 1171px | **587px** | **587px** | **587px** | `matrix(1, 0, 0, 1, 0, 0)` | **YES (587px)** |
+| **2. Mid-Stack (Card 02 Settled)** | 2461px | **587px** | **587px** | **587px** | `matrix(1, 0, 0, 1, 0, -184.3)` | **YES (587px)** |
+| **3. Fully Stacked (Card 03 Settled)** | 3561px | **587px** | **587px** | **587px** | `matrix(1, 0, 0, 1, 0, -189)` / `-161` / `-133` | **YES (587px)** |
+
+*Settled Tops & Bottoms at 1440×900:*
+- Card 01: Top = **92.4px**, Bottom = **679.4px**
+- Card 02: Top = **120.4px**, Bottom = **707.4px** (spec: ~707px)
+- Card 03: Top = **148.4px**, Bottom = **735.4px** (spec: ~735px)
+
+#### At 1280×800 Viewport ($H = 487\text{px}$)
+
+| Scroll Stage | Scroll Y | Card 01 Height | Card 02 Height | Card 03 Height | Scale / Transform | All Equal? |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1. Pin Start** | 1171px | **487px** | **487px** | **487px** | `matrix(1, 0, 0, 1, 0, 0)` | **YES (487px)** |
+| **2. Mid-Stack (Card 02 Settled)** | 2461px | **487px** | **487px** | **487px** | `matrix(1, 0, 0, 1, 0, -189)` | **YES (487px)** |
+| **3. Fully Stacked (Card 03 Settled)** | 3561px | **487px** | **487px** | **487px** | `matrix(1, 0, 0, 1, 0, -189)` / `-161` / `-133` | **YES (487px)** |
+
+---
+
+### Layout & Spacing Verification
 
 | Metric | Target Specification | Browser Measured Value | Status |
 | :--- | :--- | :--- | :--- |
@@ -69,42 +123,29 @@ Following the owner's instruction in prompt 10 (`checkpoint: pre-features-v2`, r
 | **Heading Line Height** | 1.1 | 61.6px (1.1 ratio) | Matches spec |
 | **Eyebrow Font Size & Gap** | 12px, 12px above heading | **12px font**, **12px gap** | Matches spec |
 | **Gap Heading to Card** | 40px | **40px** | Matches spec |
-| **Card 01 Top at Pin Start** | Below heading block | **281px** from top | Measured |
-| **Card 01 Height** | calc(100vh - 272px - 32px) | **587px** (**65.2%** of window) | Matches spec (~600–620px) |
-| **Card 01 Bottom at Pin Start** | Window bottom minus 32px | **868px** from top | Matches spec |
-| **Card 01 Bottom Distance to Window Bottom** | Exactly ~32px | **32px** ($900 - 868 = 32$) | Matches spec |
-| **Number of "01" / "02" Labels Visible at Start** | Exactly 1 (Card 01 bottom-left) | **1** (`text: "01"`, 14px font, left 108px) | Matches spec |
+| **Card 01 Top at Pin Start** | Below heading block | **281.4px** from top | Measured |
+| **Card 01 Bottom at Pin Start (1440×900)** | Window bottom minus 32px | **868.4px** from top (32px to fold) | Matches spec |
+| **Card 01 Bottom at Pin Start (1280×800)** | Window bottom minus 32px | **768.4px** from top (32px to fold) | Matches spec |
+| **Visible Number Labels at Start** | Exactly 1 (Card 01 bottom-left) | **1** (`text: "01"`, 14px font) | Matches spec |
 | **Top-Left Duplicate Number** | Removed completely | **None** in DOM | Matches spec |
-| **Card 02 Peeking Below at Start** | None (starts at y: 100vh) | **false** (`card2Top: 1181px`) | Matches spec |
-
-### At 1280×800 Window
-
-| Metric | Target Specification | Browser Measured Value | Status |
-| :--- | :--- | :--- | :--- |
-| **Nav Bottom Edge** | Floating Nav B | 67.33px from top | Measured |
-| **Heading Block Top** | ~16px below nav bottom | 84.00px from top (gap: **17px**) | Matches spec (~16px) |
-| **Heading Font Size** | 56px | **56px** | Matches spec |
-| **Gap Heading to Card** | 40px | **40px** | Matches spec |
-| **Card 01 Top at Pin Start** | Below heading block | **281px** from top | Measured |
-| **Card 01 Height** | calc(100vh - 272px - 32px) | **487px** (**60.9%** of window) | Matches spec (~500–520px) |
-| **Card 01 Bottom at Pin Start** | Window bottom minus 32px | **768px** from top | Matches spec |
-| **Card 01 Bottom Distance to Window Bottom** | Exactly ~32px | **32px** ($800 - 768 = 32$) | Matches spec |
-| **Number of "01" / "02" Labels Visible at Start** | Exactly 1 (Card 01 bottom-left) | **1** (`text: "01"`, 14px font, left 97px) | Matches spec |
-| **Card 02 Peeking Below at Start** | None (starts at y: 100vh) | **false** (`card2Top: 1081px`) | Matches spec |
+| **Card 02 Peeking Below at Start** | None (starts at y: 100vh) | **false** (offscreen at 1181px / 1081px) | Matches spec |
 
 ---
 
-## 3. Evidence Artifacts
+## 4. Evidence Artifacts
 
-- **Side-by-Side Comparison Still (Pin Start vs Reference 0:07):**
-  - Location: `01-features-card-compare.png` in artifacts and `docs/motion-evidence/features/01-features-card-compare.png`
-  - Shows Reference 0:07 on the left and LMS Domain at pin start on the right (56px heading 16px below nav, all of Card 01 fully visible, bottom sitting exactly 32px above window bottom, single "01" label at bottom-left, zero peeking of Card 02).
-- **Motion Walkthrough Videos:**
+- **Motion Walkthrough Videos (Through Features and back up):**
   - `lmsdomain_motion_walkthrough.mp4` (1440×900)
   - `lmsdomain_motion_walkthrough_1280.mp4` (1280×800)
-- **Pin Start Stills:**
-  - `scratch/features_v2_1440x900.png`
-  - `scratch/features_v2_1280x800.png`
+- **High-Resolution Stage Stills (1440×900):**
+  - `docs/motion-evidence/features/features_stage1_pin_start_1440.png`
+  - `docs/motion-evidence/features/features_stage2_card02_settled_1440.png`
+  - `docs/motion-evidence/features/features_stage3_card03_settled_1440.png`
+- **Side-by-Side Comparison Still (Pin Start vs Reference 0:07):**
+  - `docs/motion-evidence/features/01-features-card-compare.png`
+  - `01-features-card-compare.png` in artifacts
+- **Audit Measurement Data:**
+  - `scratch/audit_uniform_cards_result.json`
 
 ---
 
