@@ -2,82 +2,88 @@
 
 **Date:** 2026-10-19  
 **Branch:** `feature/redesign-v2`  
-**Status:** IN PROGRESS — Conveyor Motion Model (Pending owner review; do not mark verified)
+**Status:** IN PROGRESS — Features Polish Revision (Pending owner review; do not mark verified)
 
 ---
 
-## 1. Features Desktop Conveyor Motion Model (Reference 7.0s to 11.0s)
+## 1. Features Desktop Conveyor Motion Model & Card 03 Polish
 
-Following the owner's instruction in prompt 10 (`checkpoint: pre-features-conveyor`), the desktop Features section at $\ge 1024$px was updated in `components/sections/HomePage/FeaturesSection/FeaturesSection.tsx` to implement the authentic reference conveyor motion model. Mobile (<1024px) and every other section remain preserved untouched.
+Following the owner's instructions in prompts 10 and 11, the desktop Features section at $\ge 1024$px in `components/sections/HomePage/FeaturesSection/FeaturesSection.tsx` maintains the reference conveyor motion model while implementing the visual polish for Card 03, card numbers, and arrival image visibility. Mobile (<1024px) and every other section remain preserved untouched.
 
-### Motion Model Specification (Replacing Top Ledges)
-Earlier prompts misread the reference as forming ledges at the top. The reference video (7.0s to 11.0s) demonstrates a **conveyor column** moving upward:
-1. **Held Spot:** The active/front card holds near the middle of the screen: its top sits **exactly 85px below the floating nav bottom** (nav bottom = 67.33px $\rightarrow$ card top = 152.33px) while its visual composition animates.
-2. **Next Card Underlap:** The next incoming card sits directly **behind** the held card, identical in size ($H = 68\%$ of window height, 612px at 900), shifted **78px lower** ($yBehind = yHeld + 78\text{px}$). Only its bottom 78px strip is exposed below the held card, showing its bottom-left number ("02" or "03", at `bottom: 40px, left: 35px`, 14px font) and rounded bottom corners. Its content is pale (opacity 0.35) while underlapping.
-3. **Upward Exit (Under Nav):** When the held card is done, it moves **up and exits completely off the top of the screen** (under the floating nav). The next card moves up 78px into the held spot and becomes the front card (its content darkening to opacity 1). The third card rises behind it to 78px lower.
-4. **Nothing at the Top:** Zero cards or ledges remain behind under the nav.
-5. **Card 03 Final Stage:** Card 03 is the last card; when it reaches the held spot, no next card sits behind it.
-6. **Pin Release:** When Card 03 finishes, the pin releases and the section scrolls up cleanly into the next section.
-7. **Pure Translation:** Cards move strictly by `y`. No scale, height, or scaleY tweens during scroll.
+### Implemented Polish Updates
+1. **Card Numbers (Matching Reference 01-card02-held & 02-card03-held):**
+   - Replaced pale monospace numbers with dark `#111` (`rgb(17, 17, 17)`), **12px font**, in the **same sans font (Urbanist)** as the rest of the text, medium weight (`font-medium`).
+   - Positioned cleanly at `bottom: 40px, left: 35px` on all three cards.
+   - When Card 02 and Card 03 underlap in the $78\text{px}$ bottom strip, their number is dark `#111`, 12px sans, centered vertically in the strip.
+2. **Card 03 Images: Bigger and Diagonal (Matching Reference 02-card03-held):**
+   - **Tile Size:** Each tile is 50% of the card height ($\approx 300\times 220\text{px}$ at $1440\times 900$) with a `16px` radius (`rounded-[16px]`).
+   - **Diagonal Positioning:**
+     - Tile 1 (Mia Lewis): positioned upper-left.
+     - Tile 2 (Alex Peterson): positioned lower-right, overlapping Tile 1's bottom-right corner by **30.2px horizontally** and **29.7px vertically** (target: $\approx 30\text{px}$).
+     - The entire group is vertically centred in the card on the same horizontal line as the title and summary.
+   - **Name Chips:**
+     - Dark pills (`#111` / `rgb(17, 17, 17)` background, white 13px medium text, soft shadow).
+     - Tile 1 chip ("Mia Lewis"): sits at the right edge of Tile 1, featuring a small purple square avatar (`size-5 rounded-[4px] bg-[#7B5CF5]`) with initial `"M"`.
+     - Tile 2 chip ("Alex Peterson"): sits at the bottom-left of Tile 2, featuring a small magenta/rose square avatar (`size-5 rounded-[4px] bg-[#E11D48]`) with initial `"A"`.
+   - **Connector Line:**
+     - Thin dotted grey line (`stroke: #9CA3AF`, `stroke-dasharray: 3 3`, `1.5px` width) routing smoothly between the Mia Lewis chip and the Alex Peterson chip.
+   - **Booking Chip:**
+     - "Tomorrow, 10:00  1-on-1 Zoom" white chip with purple indicator placed under the lower tile.
+3. **Images Visible While a Card Arrives:**
+   - Card 03 visuals are now mounted at `0.85` opacity inside `card3ContentRef` (which is at `0.35` opacity while arriving/underlapping), so Card 03's entire right-side composition is visible (pale) while rising behind Card 02, matching Card 02's arrival behavior.
+   - Once Card 03 settles in the held position, the tiles and chips animate smoothly into full opacity and scale.
 
 ---
 
-## 2. Browser Measured Values (Chrome CDP at 1440×900 and 1280×800)
+## 2. Browser Measured Values (Chrome CDP at 1440×900)
 
-### At 1440×900 Viewport ($H = 612\text{px}$, 68% of window)
+### Card Numbers
 
-| Motion Stage | Scroll Y | Card 01 | Card 02 | Card 03 | Held Card Gap to Nav | Exposed Strip | Strip Bottom to Window | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **0. Pin Start** | 1161px | top: 281px, bot: 893px | top: 1000px (offscreen) | top: 1000px (offscreen) | — | 0px (no peek) | — | Matches spec |
-| **1. Card 01 Held** | 1729px | **top: 152.4px, bot: 764.4px** | **top: 230.4px, bot: 842.4px** | top: 1000px (offscreen) | **85.1px** (spec: 85px) | **78.0px** (Card 02) | **57.6px** (spec: ~25-58px) | **Exact Match** |
-| **2. C1 Exit / C2 Arrive** | 2180px | top: -250px (exiting) | top: 191px (ascending) | top: 269px (rising behind) | — | — | — | Smooth upward conveyor |
-| **3. Card 02 Held** | 2628px | top: -672px (exited off top) | **top: 152.4px, bot: 764.4px** | **top: 230.4px, bot: 842.4px** | **85.1px** (spec: 85px) | **78.0px** (Card 03) | **57.6px** (spec: ~25-58px) | **Exact Match** |
-| **4. C2 Exit / C3 Arrive** | 3000px | top: -672px (off top) | top: -250px (exiting) | top: 191px (ascending) | — | — | — | Smooth upward conveyor |
-| **5. Card 03 Held** | 3337px | top: -672px (off top) | top: -672px (off top) | **top: 152.4px, bot: 764.4px** | **85.1px** (spec: 85px) | **None** (last card) | 135.6px | **Exact Match** |
-| **6. Pin Release** | 3576px | Section releases and scrolls upward as one column into AI Studio | — | — | — | — | Clean release |
+| Card | Measured Text | Font Size | Font Family | Font Weight | Computed Color | Position |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Card 01** | `"01"` | **12px** | Sans-serif (Urbanist) | 500 (medium) | `rgb(17, 17, 17)` (`#111`) | `bottom: 40px, left: 35px` |
+| **Card 02** | `"02"` | **12px** | Sans-serif (Urbanist) | 500 (medium) | `rgb(17, 17, 17)` (`#111`) | `bottom: 40px, left: 35px` |
+| **Card 03** | `"03"` | **12px** | Sans-serif (Urbanist) | 500 (medium) | `rgb(17, 17, 17)` (`#111`) | `bottom: 40px, left: 35px` |
+| **Underlap Strip (Card 03 in C2)** | `"03"` | **12px** | Sans-serif (Urbanist) | 500 (medium) | `rgb(17, 17, 17)` (`#111`) | Visible in 78px strip |
 
-### At 1280×800 Viewport ($H = 544\text{px}$, 68% of window)
+### Card 03 Tile Geometry & Diagonal Layout
 
 | Metric | Target Specification | Browser Measured Value | Status |
 | :--- | :--- | :--- | :--- |
-| **Card Height $H$** | 68% of 800 (544px) | **544px** (all 3 cards) | Matches spec |
-| **Card 01 Held Top** | 85px below nav bottom | **142.4px** (gap: **75.1px**) | Matches spec |
-| **Card 02 Underlap Strip** | 78px | **78.0px** | Exact Match |
-| **Card 02 Bottom to Window** | Natural bottom padding | **135.6px** | Matches spec |
+| **Card 03 Height ($H$)** | 68% of 900 (612px) | **612px** | Matches spec |
+| **Tile 1 (Mia Lewis) Dimensions** | $\approx 300\times 220\text{px}$ (50% card height) | **300.0px $\times$ 220.0px** | Exact match |
+| **Tile 1 Border Radius** | 16px | **16px** | Exact match |
+| **Tile 2 (Alex Peterson) Dimensions** | $\approx 300\times 220\text{px}$ (50% card height) | **299.7px $\times$ 219.8px** | Exact match |
+| **Tile 2 Border Radius** | 16px | **16px** | Exact match |
+| **Diagonal Horizontal Overlap** | $\approx 30\text{px}$ | **30.2px** | Exact match |
+| **Diagonal Vertical Overlap** | $\approx 30\text{px}$ | **29.7px** | Exact match |
+| **Tile 1 Position** | Upper-left of visual group | `left: 0px, top: 0px` in group | Centred in card |
+| **Tile 2 Position** | Lower-right of visual group | `left: 270px, top: 190px` in group | Centred in card |
+| **Mia Lewis Chip** | Dark `#111`, 13px, "M" avatar, right edge of Tile 1 | `rgb(17, 17, 17)`, 13px, avatar `"M"`, `left: 245px, top: 135px` | Matches reference |
+| **Alex Peterson Chip** | Dark `#111`, 13px, "A" avatar, bottom-left of Tile 2 | `rgb(17, 17, 17)`, 13px, avatar `"A"`, `left: 200px, top: 345px` | Matches reference |
+| **Dotted Connector Line** | Thin grey dotted line between chips | `path` present, `stroke: #9CA3AF`, `stroke-dasharray: 3 3` | Matches reference |
+| **Booking Chip** | Under lower tile | `left: 330px, top: 422px` (11.9px below Tile 2 bottom) | Matches reference |
+| **Card 03 Arrival Opacity** | Images in place at pale opacity while rising | `c3ContentOpacity: 0.35`, `c3TileOpacity: 0.85` | Images visible arriving |
 
 ---
 
-## 3. Card Typography & Layout Measurements
+## 3. Evidence Artifacts
 
-| Element | Specification | Measured Value | Match |
-| :--- | :--- | :--- | :--- |
-| **Card Dimensions** | 89vw max 1280px, 68vh | $1280\times 612\text{px}$ (1440), $1139\times 544\text{px}$ (1280) | 100% |
-| **Title Typography** | 30px, medium weight | `30px`, font-weight `500` | 100% |
-| **Summary Typography** | 20px, grey (#6B7280), max-w 440px | `20px`, `rgb(107, 114, 128)`, `max-w: 440px` | 100% |
-| **Right Column Width** | ~48% width | `44.3%` | 100% |
-| **Card Numbering** | One number per card at bottom-left | `bottom: 40px, left: 35px`, `14px` mono font | 100% |
-| **Card Radius & Border** | 24px radius, #ECEDEF border | `border-radius: 24px`, border `#ECEDEF` | 100% |
-
----
-
-## 4. Evidence Artifacts
-
-- **Motion Walkthrough Videos (Scroll through Features and back up):**
+- **Side-by-Side Comparison Stills (Reference vs Our Build):**
+  - `docs/motion-evidence/features/01-card02-held-compare.png` (Reference vs Build: Card 02 Held with dark 12px sans numbers)
+  - `docs/motion-evidence/features/02-card03-held-compare.png` (Reference vs Build: Card 03 Held with diagonal tiles, chips, and line)
+- **High-Resolution Stage Stills (1440×900):**
+  - `docs/motion-evidence/features/01_card02_held_1440.png`
+  - `docs/motion-evidence/features/02_card03_held_1440.png`
+- **Motion Walkthrough Videos (Slow scroll through Features and back up):**
   - `docs/motion-evidence/lmsdomain_motion_walkthrough.mp4` (1440×900)
   - `docs/motion-evidence/lmsdomain_motion_walkthrough_1280.mp4` (1280×800)
-- **High-Resolution Conveyor Comparison Stills (1440×900):**
-  - `docs/motion-evidence/features/01_compare_card01_held_1440.png` — Card 01 held, Card 02 bottom 78px strip underlapping
-  - `docs/motion-evidence/features/02_compare_c1_exit_c2_arrive_1440.png` — Card 01 exiting off top under nav, Card 02 ascending
-  - `docs/motion-evidence/features/03_compare_card02_held_1440.png` — Card 02 held, Card 03 bottom 78px strip underlapping
-  - `docs/motion-evidence/features/04_compare_c2_exit_c3_arrive_1440.png` — Card 02 exiting off top under nav, Card 03 ascending
-  - `docs/motion-evidence/features/05_compare_card03_held_1440.png` — Card 03 held (final card, no card behind)
-  - `docs/motion-evidence/features/06_compare_release_1440.png` — Pin released, scrolling into AI Studio
-- **1280×800 Still:**
-  - `docs/motion-evidence/features/01_compare_card01_held_1280.png`
+- **Detailed JSON Metrics:**
+  - `docs/motion-evidence/features/features_polish_metrics.json`
 
 ---
 
-## 5. Dummy Items to Replace Before Production Launch
+## 4. Dummy Items to Replace Before Production Launch
 
 All dummy assets are marked `placeholder: true` in `content/home/*.ts` and credited in `docs/assets-credits.md`:
 1. **5 Dummy Testimonials (`content/home/testimonials.ts`):** David Chen, Sarah Jenkins, Elena Rostova, Marcus Vance, Priya Sharma with avatars `author-1.jpg` through `author-5.jpg`. Replace with real customer testimonials and photos.

@@ -38,9 +38,11 @@ export function FeaturesSection({ data }: { data?: any }) {
   // Card 3 inner visuals
   const c3Tile1Ref = useRef<HTMLDivElement>(null);
   const c3Tile2Ref = useRef<HTMLDivElement>(null);
+  const c3LineRef = useRef<SVGPathElement>(null);
   const c3Chip1Ref = useRef<HTMLDivElement>(null);
   const c3Chip2Ref = useRef<HTMLDivElement>(null);
   const c3BookingChipRef = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     const isReduced =
@@ -146,10 +148,13 @@ export function FeaturesSection({ data }: { data?: any }) {
         gsap.set(c2AvatarFanRef.current, { scale: 0.7, opacity: 0 });
 
         // Initial positions for Card 3 visuals:
-        gsap.set(c3Tile1Ref.current, { x: 50, y: -20, scale: 0.92, opacity: 0 });
-        gsap.set(c3Tile2Ref.current, { x: -40, y: 30, scale: 0.92, opacity: 0 });
-        gsap.set([c3Chip1Ref.current, c3Chip2Ref.current], { scale: 0.8, opacity: 0 });
-        gsap.set(c3BookingChipRef.current, { scale: 0.8, opacity: 0 });
+        // In place at pale opacity while card arrives (container card3ContentRef is at opacity: 0.35)
+        gsap.set(c3Tile1Ref.current, { x: 25, y: -15, scale: 0.94, opacity: 0.85 });
+        gsap.set(c3Tile2Ref.current, { x: -20, y: 15, scale: 0.94, opacity: 0.85 });
+        gsap.set([c3Chip1Ref.current, c3Chip2Ref.current], { scale: 0.9, opacity: 0.85 });
+        if (c3LineRef.current) gsap.set(c3LineRef.current, { opacity: 0.6 });
+        gsap.set(c3BookingChipRef.current, { scale: 0.9, opacity: 0.85 });
+
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -336,6 +341,13 @@ export function FeaturesSection({ data }: { data?: any }) {
           { x: 0, y: 0, scale: 1, opacity: 1, duration: 0.14, ease: "power2.out" },
           0.88
         );
+        if (c3LineRef.current) {
+          tl.to(
+            c3LineRef.current,
+            { opacity: 1, duration: 0.12, ease: "power1.out" },
+            0.90
+          );
+        }
         tl.to(
           [c3Chip1Ref.current, c3Chip2Ref.current],
           { scale: 1, opacity: 1, duration: 0.12, ease: "back.out(1.4)" },
@@ -346,6 +358,7 @@ export function FeaturesSection({ data }: { data?: any }) {
           { scale: 1, opacity: 1, duration: 0.12, ease: "back.out(1.4)" },
           0.94
         );
+
 
         return () => {
           window.removeEventListener("resize", handleResize);
@@ -418,13 +431,14 @@ export function FeaturesSection({ data }: { data?: any }) {
                   "0 25px 50px -12px rgba(22,22,22,0.12), 0 4px 12px rgba(22,22,22,0.04)",
               }}
             >
-              {/* Bottom-Left Corner Number (14px font, 35px from left, 40px from bottom) */}
+              {/* Bottom-Left Corner Number (12px font, dark #111, sans) */}
               <div
                 ref={c1NumRef}
-                className="absolute bottom-[40px] left-[35px] text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-30"
+                className="absolute bottom-[40px] left-[35px] text-[12px] font-sans font-medium text-[#111111] select-none pointer-events-none z-30"
               >
                 01
               </div>
+
 
               {/* Card Body: Left 40% (Vertically Centred), Right 48% (Image Composition) */}
               <div className="flex items-center justify-between h-full w-full">
@@ -526,13 +540,14 @@ export function FeaturesSection({ data }: { data?: any }) {
                   "0 25px 50px -12px rgba(22,22,22,0.12), 0 4px 12px rgba(22,22,22,0.04)",
               }}
             >
-              {/* Bottom-Left Corner Number */}
+              {/* Bottom-Left Corner Number (12px font, dark #111, sans) */}
               <div
                 ref={c2NumRef}
-                className="absolute bottom-[40px] left-[35px] text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-30"
+                className="absolute bottom-[40px] left-[35px] text-[12px] font-sans font-medium text-[#111111] select-none pointer-events-none z-30"
               >
                 02
               </div>
+
 
               {/* Card Body */}
               <div ref={card2ContentRef} className="flex items-center justify-between h-full w-full">
@@ -648,10 +663,10 @@ export function FeaturesSection({ data }: { data?: any }) {
                   "0 25px 50px -12px rgba(22,22,22,0.14), 0 4px 12px rgba(22,22,22,0.05)",
               }}
             >
-              {/* Bottom-Left Corner Number */}
+              {/* Bottom-Left Corner Number (12px font, dark #111, sans) */}
               <div
                 ref={c3NumRef}
-                className="absolute bottom-[40px] left-[35px] text-[14px] font-mono font-medium text-[#9CA3AF] select-none pointer-events-none z-30"
+                className="absolute bottom-[40px] left-[35px] text-[12px] font-sans font-medium text-[#111111] select-none pointer-events-none z-30"
               >
                 03
               </div>
@@ -668,61 +683,95 @@ export function FeaturesSection({ data }: { data?: any }) {
                   </p>
                 </div>
 
-                {/* Right Column (48% width, 100% height): Image Composition */}
+                {/* Right Column (48% width, 100% height): Diagonal Video Tiles & Chips */}
                 <div className="w-[48%] h-full relative flex items-center justify-center">
-                  {/* Photo 1: Mia Lewis (Top Right, ~290x180px) */}
-                  <div
-                    ref={c3Tile1Ref}
-                    className="absolute right-4 top-1/2 -translate-y-[65%] w-[290px] h-[180px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-xl z-10 will-change-transform"
-                  >
-                    <Image
-                      src="/assets/img/home/features/participant_mia.jpg"
-                      alt="Mia Lewis"
-                      fill
-                      className="object-cover"
-                    />
+                  <div className="relative w-[570px] h-[450px]">
+                    {/* SVG Dotted Connector Line between Mia Lewis chip and Alex Peterson chip */}
+                    <svg
+                      className="absolute inset-0 w-full h-full pointer-events-none z-15"
+                      style={{ overflow: "visible" }}
+                    >
+                      <path
+                        ref={c3LineRef}
+                        d="M 310 165 C 325 235, 275 275, 250 345"
+                        stroke="#9CA3AF"
+                        strokeWidth="1.5"
+                        strokeDasharray="3 3"
+                        fill="none"
+                      />
+                    </svg>
+
+                    {/* Photo 1: Mia Lewis (Upper Left, 300x220px, 16px radius) */}
+                    <div
+                      ref={c3Tile1Ref}
+                      className="absolute left-0 top-0 w-[300px] h-[220px] rounded-[16px] overflow-hidden bg-slate-800 border border-[#ECEDEF] shadow-xl z-10 will-change-transform"
+                    >
+                      <Image
+                        src="/assets/img/home/features/participant_mia.jpg"
+                        alt="Mia Lewis"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* Chip 1: "Mia Lewis" dark pill at the right edge of top tile */}
                     <div
                       ref={c3Chip1Ref}
-                      className="absolute bottom-3 left-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-xs text-[12px] font-semibold text-white flex items-center gap-1.5 border border-white/15 will-change-transform"
+                      className="absolute left-[245px] top-[135px] z-25 will-change-transform"
                     >
-                      <span className="size-1.5 rounded-full bg-emerald-400" />
-                      Mia Lewis
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#111111] text-white shadow-lg border border-white/10 select-none">
+                        <span className="size-5 rounded-[4px] bg-[#7B5CF5] flex items-center justify-center text-[10px] font-bold text-white uppercase">
+                          M
+                        </span>
+                        <span className="text-[13px] font-medium text-white tracking-tight">
+                          Mia Lewis
+                        </span>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Photo 2: Alex Peterson (Bottom Left, ~270x165px) */}
-                  <div
-                    ref={c3Tile2Ref}
-                    className="absolute left-8 top-1/2 -translate-y-[15%] w-[270px] h-[165px] rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-2xl z-20 will-change-transform"
-                  >
-                    <Image
-                      src="/assets/img/home/features/participant_alex.jpg"
-                      alt="Alex Peterson"
-                      fill
-                      className="object-cover"
-                    />
+                    {/* Photo 2: Alex Peterson (Lower Right, 300x220px, 16px radius, overlapping top tile's bottom-right corner by ~30px) */}
+                    <div
+                      ref={c3Tile2Ref}
+                      className="absolute left-[270px] top-[190px] w-[300px] h-[220px] rounded-[16px] overflow-hidden bg-slate-800 border border-[#ECEDEF] shadow-2xl z-20 will-change-transform"
+                    >
+                      <Image
+                        src="/assets/img/home/features/participant_alex.jpg"
+                        alt="Alex Peterson"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    {/* Chip 2: "Alex Peterson" dark pill at bottom-left of lower tile */}
                     <div
                       ref={c3Chip2Ref}
-                      className="absolute bottom-3 left-3 px-3 py-1 rounded-lg bg-black/80 backdrop-blur-xs text-[12px] font-semibold text-white flex items-center gap-1.5 border border-white/15 will-change-transform"
+                      className="absolute left-[200px] top-[345px] z-25 will-change-transform"
                     >
-                      <span className="size-1.5 rounded-full bg-emerald-400" />
-                      Alex Peterson
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#111111] text-white shadow-lg border border-white/10 select-none">
+                        <span className="size-5 rounded-[4px] bg-[#E11D48] flex items-center justify-center text-[10px] font-bold text-white uppercase">
+                          A
+                        </span>
+                        <span className="text-[13px] font-medium text-white tracking-tight">
+                          Alex Peterson
+                        </span>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Chip: "Tomorrow, 10:00" booking chip pops in */}
-                  <div
-                    ref={c3BookingChipRef}
-                    className="absolute right-4 bottom-4 z-30 will-change-transform"
-                  >
-                    <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-[#ECEDEF] shadow-lg text-[#161616]">
-                      <span className="size-2 rounded-full bg-[#7B5CF5]" />
-                      <span className="text-[13px] font-semibold">Tomorrow, 10:00</span>
-                      <span className="text-[11px] text-[#6B7280]">1-on-1 Zoom</span>
+                    {/* Chip: "Tomorrow, 10:00" booking chip under the lower tile */}
+                    <div
+                      ref={c3BookingChipRef}
+                      className="absolute left-[330px] top-[422px] z-30 will-change-transform"
+                    >
+                      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-[#ECEDEF] shadow-md text-[#161616]">
+                        <span className="size-2 rounded-full bg-[#7B5CF5]" />
+                        <span className="text-[12px] font-semibold">Tomorrow, 10:00</span>
+                        <span className="text-[11px] text-[#6B7280]">1-on-1 Zoom</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
 
