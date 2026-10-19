@@ -70,18 +70,23 @@ export function CustomerSection({ data }: { data?: any }) {
         // Deck starts below screen
         gsap.set(deckWrapperRef.current, { y: "45vh", opacity: 0 });
 
-        // Alternating tilts: -4, +3, -2, +4, -3
-        gsap.set(card1Ref.current, { rotateZ: -4, x: 0, y: 0 });
-        gsap.set(card2Ref.current, { rotateZ: 3, x: 0, y: 0 });
-        gsap.set(card3Ref.current, { rotateZ: -2, x: 0, y: 0 });
-        gsap.set(card4Ref.current, { rotateZ: 4, x: 0, y: 0 });
-        gsap.set(card5Ref.current, { rotateZ: -3, x: 0, y: 0 });
+        // Tilts & depth offsets:
+        // Card 1: -4deg, y: 0, x: 0
+        // Card 2: +3deg, y: 30px, x: 8px (under Card 1)
+        // Card 3: -2deg, y: 60px, x: -6px (under Card 2)
+        // Card 4: +4deg, y: 60px, x: 6px, opacity: 0 (hidden under Card 3)
+        // Card 5: -3deg, y: 60px, x: -4px, opacity: 0 (hidden under Card 4)
+        gsap.set(card1Ref.current, { rotateZ: -4, x: 0, y: 0, opacity: 1 });
+        gsap.set(card2Ref.current, { rotateZ: 3, x: 8, y: 30, opacity: 1 });
+        gsap.set(card3Ref.current, { rotateZ: -2, x: -6, y: 60, opacity: 1 });
+        gsap.set(card4Ref.current, { rotateZ: 4, x: 6, y: 60, opacity: 0 });
+        gsap.set(card5Ref.current, { rotateZ: -3, x: -4, y: 60, opacity: 0 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinWrapperRef.current,
-            start: "top 80px",
-            end: "+=120%",
+            start: "top top",
+            end: "+=140%",
             pin: true,
             pinSpacing: true,
             scrub: 0.5,
@@ -89,7 +94,7 @@ export function CustomerSection({ data }: { data?: any }) {
         });
 
         // ----------------------------------------------------
-        // Stage 1 (0 -> 0.2): Headline turns black, deck rises over "of"
+        // Stage 1 (0 -> 0.16): Headline turns black, deck rises to held position
         // ----------------------------------------------------
         tl.to(
           wallTextRef.current,
@@ -97,7 +102,7 @@ export function CustomerSection({ data }: { data?: any }) {
             scale: 1,
             color: "#161616",
             ease: "power1.out",
-            duration: 0.2,
+            duration: 0.16,
           },
           0
         );
@@ -108,79 +113,170 @@ export function CustomerSection({ data }: { data?: any }) {
             y: 0,
             opacity: 1,
             ease: "power1.out",
-            duration: 0.2,
+            duration: 0.16,
           },
           0
         );
 
         // ----------------------------------------------------
-        // Stage 2 (0.2 -> 0.38): Card 1 flies up and out past top
+        // Stage 2 (0.20 -> 0.36): Card 1 flies up; Card 2 takes top spot; Card 3 takes 2nd; Card 4 appears in 3rd
         // ----------------------------------------------------
         tl.to(
           card1Ref.current,
           {
-            y: "-110vh",
-            rotateZ: -10,
+            y: "-120vh",
+            rotateZ: -8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.18,
+            duration: 0.16,
           },
-          0.2
+          0.20
+        );
+        tl.to(
+          card2Ref.current,
+          {
+            y: 0,
+            x: 0,
+            rotateZ: 2,
+            ease: "power1.out",
+            duration: 0.16,
+          },
+          0.20
+        );
+        tl.to(
+          card3Ref.current,
+          {
+            y: 30,
+            x: 8,
+            rotateZ: -2,
+            ease: "power1.out",
+            duration: 0.16,
+          },
+          0.20
+        );
+        tl.to(
+          card4Ref.current,
+          {
+            opacity: 1,
+            y: 60,
+            x: -6,
+            rotateZ: 4,
+            ease: "power1.out",
+            duration: 0.16,
+          },
+          0.20
         );
 
         // ----------------------------------------------------
-        // Stage 3 (0.38 -> 0.56): Card 2 flies up and out past top
+        // Stage 3 (0.40 -> 0.56): Card 2 flies up; Card 3 takes top spot; Card 4 takes 2nd; Card 5 appears in 3rd
         // ----------------------------------------------------
         tl.to(
           card2Ref.current,
           {
-            y: "-110vh",
-            rotateZ: 9,
+            y: "-120vh",
+            rotateZ: 8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.18,
+            duration: 0.16,
           },
-          0.38
+          0.40
+        );
+        tl.to(
+          card3Ref.current,
+          {
+            y: 0,
+            x: 0,
+            rotateZ: -2,
+            ease: "power1.out",
+            duration: 0.16,
+          },
+          0.40
+        );
+        tl.to(
+          card4Ref.current,
+          {
+            y: 30,
+            x: 8,
+            rotateZ: 4,
+            ease: "power1.out",
+            duration: 0.16,
+          },
+          0.40
+        );
+        tl.to(
+          card5Ref.current,
+          {
+            opacity: 1,
+            y: 60,
+            x: -6,
+            rotateZ: -3,
+            ease: "power1.out",
+            duration: 0.16,
+          },
+          0.40
         );
 
         // ----------------------------------------------------
-        // Stage 4 (0.56 -> 0.74): Card 3 flies up and out past top
+        // Stage 4 (0.60 -> 0.76): Card 3 flies up; Card 4 takes top spot; Card 5 takes 2nd
         // ----------------------------------------------------
         tl.to(
           card3Ref.current,
           {
-            y: "-110vh",
+            y: "-120vh",
             rotateZ: -8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.18,
+            duration: 0.16,
           },
-          0.56
+          0.60
+        );
+        tl.to(
+          card4Ref.current,
+          {
+            y: 0,
+            x: 0,
+            rotateZ: 2,
+            ease: "power1.out",
+            duration: 0.16,
+          },
+          0.60
+        );
+        tl.to(
+          card5Ref.current,
+          {
+            y: 30,
+            x: 8,
+            rotateZ: -3,
+            ease: "power1.out",
+            duration: 0.16,
+          },
+          0.60
         );
 
         // ----------------------------------------------------
-        // Stage 5 (0.74 -> 0.92): Card 4 flies up and out past top; Card 5 settles at 0deg
+        // Stage 5 (0.80 -> 0.95): Card 4 flies up; Card 5 takes top spot and settles flat at 0deg
         // ----------------------------------------------------
         tl.to(
           card4Ref.current,
           {
-            y: "-110vh",
+            y: "-120vh",
             rotateZ: 10,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.18,
+            duration: 0.15,
           },
-          0.74
+          0.80
         );
-
         tl.to(
           card5Ref.current,
           {
+            y: 0,
+            x: 0,
             rotateZ: 0,
             ease: "power1.out",
-            duration: 0.18,
+            duration: 0.15,
           },
-          0.78
+          0.80
         );
       });
 
@@ -209,11 +305,11 @@ export function CustomerSection({ data }: { data?: any }) {
   const cards = testimonialsContent.cards;
 
   return (
-    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible">
+    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:-mb-[180px]">
       {/* Pinned Stage Container (Desktop Only >=1024px) */}
       <div
         ref={pinWrapperRef}
-        className="relative w-full h-[400px] hidden lg:flex items-center justify-center overflow-hidden"
+        className="relative w-full h-screen hidden lg:flex items-center justify-center overflow-hidden"
       >
         {/* Headline "Wall of love" fitting ~88% of screen with font-weight 600 */}
         <div
@@ -229,12 +325,13 @@ export function CustomerSection({ data }: { data?: any }) {
           </h2>
         </div>
 
-        {/* Deck sits centered over "of" */}
+        {/* Deck sits centered over "of", top edge at ~47% down window */}
         <div
           ref={deckWrapperRef}
-          className="absolute inset-x-0 top-[50%] -translate-y-1/2 z-10 flex items-center justify-center will-change-transform pointer-events-none"
+          className="absolute left-1/2 -translate-x-1/2 z-20 will-change-transform pointer-events-none"
+          style={{ top: "47%" }}
         >
-          <div className="relative w-[320px] h-[180px] flex items-center justify-center pointer-events-auto">
+          <div className="relative w-[30vw] max-w-[440px] h-[215px] pointer-events-auto">
             {/* Card 1 (Top of stack, z-50, tilt -4deg) */}
             <div
               ref={card1Ref}
@@ -243,7 +340,7 @@ export function CustomerSection({ data }: { data?: any }) {
               <TestimonialCard item={cards[0]} />
             </div>
 
-            {/* Card 2 (z-40, tilt +3deg) */}
+            {/* Card 2 (z-40, tilt +3deg, +30px offset) */}
             <div
               ref={card2Ref}
               className="absolute inset-0 z-40 will-change-transform"
@@ -251,7 +348,7 @@ export function CustomerSection({ data }: { data?: any }) {
               <TestimonialCard item={cards[1]} />
             </div>
 
-            {/* Card 3 (z-30, tilt -2deg) */}
+            {/* Card 3 (z-30, tilt -2deg, +60px offset) */}
             <div
               ref={card3Ref}
               className="absolute inset-0 z-30 will-change-transform"
