@@ -14,7 +14,7 @@ export function TestimonialCard({
 }) {
   return (
     <div
-      className={`w-[320px] h-[180px] lg:w-full lg:h-full rounded-[16px] lg:rounded-[20px] bg-white border border-[#ECEDEF] p-4 lg:p-[28px] flex flex-col justify-between shadow-[0_16px_36px_-10px_rgba(0,0,0,0.08),0_2px_6px_rgba(0,0,0,0.02)] lg:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.04)] select-none ${className}`}
+      className={`w-full h-full rounded-[16px] lg:rounded-[20px] bg-white border border-[#ECEDEF] p-4 lg:p-[28px] flex flex-col justify-between shadow-[0_16px_36px_-10px_rgba(0,0,0,0.08),0_2px_6px_rgba(0,0,0,0.02)] lg:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.04)] select-none ${className}`}
     >
       {/* Top row: avatar (36px mobile, 44px desktop), name, role, social icon (14px mobile, 18px desktop) */}
       <div className="flex items-start justify-between">

@@ -11,6 +11,7 @@ export function SmoothScroll({ children }) {
   useEffect(() => {
     // 1. Register ScrollTrigger plugin
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     // 2. Check for motion test query param (?motiontest=1)
     const isTestMode = typeof window !== "undefined" && window.location.search.includes("motiontest=1");
@@ -20,6 +21,8 @@ export function SmoothScroll({ children }) {
       lerp: isTestMode ? 1 : 0.08,
       duration: isTestMode ? 0 : 1.1,
       smoothWheel: !isTestMode,
+      smoothTouch: false,
+      syncTouch: false,
       autoRaf: false,
     });
     lenisRef.current = lenis;

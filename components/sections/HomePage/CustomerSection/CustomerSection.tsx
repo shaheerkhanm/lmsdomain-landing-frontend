@@ -6,17 +6,28 @@ import { testimonialsContent } from "@/content/home/testimonials";
 import { TestimonialCard } from "./StackedAcademyDeck";
 
 export function CustomerSection({ data }: { data?: any }) {
+  const sectionRef = useRef<HTMLElement>(null);
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const textWrapperRef = useRef<HTMLDivElement>(null);
   const wallTextRef = useRef<HTMLHeadingElement>(null);
   const deckWrapperRef = useRef<HTMLDivElement>(null);
 
-  // 5 Card refs
+  // 5 Card refs (Desktop >=1024px)
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
   const card4Ref = useRef<HTMLDivElement>(null);
   const card5Ref = useRef<HTMLDivElement>(null);
+
+  // Mobile refs (<1024px)
+  const mContainerRef = useRef<HTMLDivElement>(null);
+  const mWallTextRef = useRef<HTMLHeadingElement>(null);
+  const mDeckWrapperRef = useRef<HTMLDivElement>(null);
+  const mCard1Ref = useRef<HTMLDivElement>(null);
+  const mCard2Ref = useRef<HTMLDivElement>(null);
+  const mCard3Ref = useRef<HTMLDivElement>(null);
+  const mCard4Ref = useRef<HTMLDivElement>(null);
+  const mCard5Ref = useRef<HTMLDivElement>(null);
 
   // Measure and fit headline width to ~88% of viewport (never wider than innerWidth - 96px)
   useEffect(() => {
@@ -313,24 +324,223 @@ export function CustomerSection({ data }: { data?: any }) {
         tl.to({}, { duration: 0.14 }, 0.86);
       });
 
-      // Mobile: under 1024px (Normal flow, no pin)
+      // Mobile: under 1024px (Sticky 300vh container, deck rises and cards 1-4 fly out, card 5 stays)
       mm.add("(max-width: 1023px)", () => {
-        gsap.set(wallTextRef.current, { scale: 1, color: "#161616" });
-        gsap.set(
-          [
-            deckWrapperRef.current,
-            card1Ref.current,
-            card2Ref.current,
-            card3Ref.current,
-            card4Ref.current,
-            card5Ref.current,
-          ],
+        if (isReduced) {
+          gsap.set(mWallTextRef.current, { scale: 1, color: "#161616" });
+          gsap.set(
+            [
+              mDeckWrapperRef.current,
+              mCard1Ref.current,
+              mCard2Ref.current,
+              mCard3Ref.current,
+              mCard4Ref.current,
+              mCard5Ref.current,
+            ],
+            { clearProps: "all" }
+          );
+          return;
+        }
+
+        // Initial positions:
+        gsap.set(mWallTextRef.current, { scale: 0.85, color: "#9CA3AF" });
+        gsap.set(mDeckWrapperRef.current, { y: "40vh", opacity: 0 });
+
+        gsap.set(mCard1Ref.current, { rotateZ: -4, x: 0, y: 0, opacity: 1 });
+        gsap.set(mCard2Ref.current, { rotateZ: 3, x: 6, y: 20, opacity: 1 });
+        gsap.set(mCard3Ref.current, { rotateZ: -2, x: -5, y: 40, opacity: 1 });
+        gsap.set(mCard4Ref.current, { rotateZ: 4, x: 5, y: 40, opacity: 0 });
+        gsap.set(mCard5Ref.current, { rotateZ: -3, x: -4, y: 40, opacity: 0 });
+
+        const mtl = gsap.timeline({
+          scrollTrigger: {
+            trigger: mContainerRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.5,
+          },
+        });
+
+        // Stage 1 (0 -> 0.14): Title turns black, deck rises to center
+        mtl.to(
+          mWallTextRef.current,
           {
-            clearProps: "all",
-          }
+            scale: 1,
+            color: "#161616",
+            ease: "power1.out",
+            duration: 0.14,
+          },
+          0
         );
+
+        mtl.to(
+          mDeckWrapperRef.current,
+          {
+            y: 0,
+            opacity: 1,
+            ease: "power1.out",
+            duration: 0.14,
+          },
+          0
+        );
+
+        // Stage 2 (0.16 -> 0.32): Card 1 flies up; Card 2 takes top; Card 3 takes 2nd; Card 4 appears
+        mtl.to(
+          mCard1Ref.current,
+          {
+            y: "-110vh",
+            rotateZ: -8,
+            opacity: 0,
+            ease: "power1.in",
+            duration: 0.15,
+          },
+          0.16
+        );
+        mtl.to(
+          mCard2Ref.current,
+          {
+            y: 0,
+            x: 0,
+            rotateZ: 2,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.16
+        );
+        mtl.to(
+          mCard3Ref.current,
+          {
+            y: 20,
+            x: 6,
+            rotateZ: -2,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.16
+        );
+        mtl.to(
+          mCard4Ref.current,
+          {
+            opacity: 1,
+            y: 40,
+            x: -5,
+            rotateZ: 4,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.16
+        );
+
+        // Stage 3 (0.34 -> 0.50): Card 2 flies up; Card 3 takes top; Card 4 takes 2nd; Card 5 appears
+        mtl.to(
+          mCard2Ref.current,
+          {
+            y: "-110vh",
+            rotateZ: 8,
+            opacity: 0,
+            ease: "power1.in",
+            duration: 0.15,
+          },
+          0.34
+        );
+        mtl.to(
+          mCard3Ref.current,
+          {
+            y: 0,
+            x: 0,
+            rotateZ: -2,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.34
+        );
+        mtl.to(
+          mCard4Ref.current,
+          {
+            y: 20,
+            x: 6,
+            rotateZ: 4,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.34
+        );
+        mtl.to(
+          mCard5Ref.current,
+          {
+            opacity: 1,
+            y: 40,
+            x: -4,
+            rotateZ: -3,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.34
+        );
+
+        // Stage 4 (0.52 -> 0.68): Card 3 flies up; Card 4 takes top; Card 5 takes 2nd
+        mtl.to(
+          mCard3Ref.current,
+          {
+            y: "-110vh",
+            rotateZ: -8,
+            opacity: 0,
+            ease: "power1.in",
+            duration: 0.15,
+          },
+          0.52
+        );
+        mtl.to(
+          mCard4Ref.current,
+          {
+            y: 0,
+            x: 0,
+            rotateZ: 2,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.52
+        );
+        mtl.to(
+          mCard5Ref.current,
+          {
+            y: 20,
+            x: 6,
+            rotateZ: -3,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.52
+        );
+
+        // Stage 5 (0.70 -> 0.86): Card 4 flies up; Card 5 takes top and settles flat at 0deg
+        mtl.to(
+          mCard4Ref.current,
+          {
+            y: "-110vh",
+            rotateZ: 10,
+            opacity: 0,
+            ease: "power1.in",
+            duration: 0.15,
+          },
+          0.70
+        );
+        mtl.to(
+          mCard5Ref.current,
+          {
+            y: 0,
+            x: 0,
+            rotateZ: 0,
+            ease: "power1.out",
+            duration: 0.15,
+          },
+          0.70
+        );
+
+        // Stage 6 (0.86 -> 1.00): Card 5 stays settled on screen before release
+        mtl.to({}, { duration: 0.14 }, 0.86);
       });
-    }, pinWrapperRef);
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
@@ -338,7 +548,7 @@ export function CustomerSection({ data }: { data?: any }) {
   const cards = testimonialsContent.cards;
 
   return (
-    <section id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:pb-[57px]">
+    <section ref={sectionRef} id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:pb-[57px]">
       {/* Pinned Stage Container (Desktop Only >=1024px) */}
       <div
         ref={pinWrapperRef}
@@ -408,15 +618,71 @@ export function CustomerSection({ data }: { data?: any }) {
         </div>
       </div>
 
-      {/* Mobile Flow (<1024px, no pin): Text fits screen width with all 5 cards stacked below */}
-      <div className="w-full flex flex-col items-center gap-8 lg:hidden px-4 py-12">
-        <h2 className="text-3xl sm:text-5xl font-semibold tracking-tight text-center text-[#161616]">
-          {testimonialsContent.sectionTitle}
-        </h2>
-        <div className="w-full max-w-md flex flex-col items-center gap-3.5">
-          {cards.map((card) => (
-            <TestimonialCard key={card.id} item={card} />
-          ))}
+      {/* Mobile Sticky 300vh Container (<1024px) */}
+      <div
+        ref={mContainerRef}
+        className="relative w-full h-[300vh] lg:hidden overflow-visible"
+      >
+        <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden px-4">
+          {/* Headline "Wall of love" fitting ~88% of screen */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 px-4">
+            <h2
+              ref={mWallTextRef}
+              className="font-semibold tracking-[-0.03em] leading-[1.05] text-center will-change-transform max-w-[88vw] text-[62px] sm:text-[76px]"
+              style={{ fontWeight: 600, color: "#9CA3AF" }}
+            >
+              Wall of<br />love
+            </h2>
+          </div>
+
+          {/* Deck sits centered over the title, top edge at ~48% down window */}
+          <div
+            ref={mDeckWrapperRef}
+            className="absolute left-1/2 -translate-x-1/2 z-20 will-change-transform pointer-events-none"
+            style={{ top: "48%" }}
+          >
+            <div className="relative w-[300px] max-w-[86vw] h-[180px] pointer-events-auto">
+              {/* Card 1 */}
+              <div
+                ref={mCard1Ref}
+                className="absolute inset-0 z-50 will-change-transform"
+              >
+                <TestimonialCard item={cards[0]} />
+              </div>
+
+              {/* Card 2 */}
+              <div
+                ref={mCard2Ref}
+                className="absolute inset-0 z-40 will-change-transform"
+              >
+                <TestimonialCard item={cards[1]} />
+              </div>
+
+              {/* Card 3 */}
+              <div
+                ref={mCard3Ref}
+                className="absolute inset-0 z-30 will-change-transform"
+              >
+                <TestimonialCard item={cards[2]} />
+              </div>
+
+              {/* Card 4 */}
+              <div
+                ref={mCard4Ref}
+                className="absolute inset-0 z-20 will-change-transform"
+              >
+                <TestimonialCard item={cards[3]} />
+              </div>
+
+              {/* Card 5 */}
+              <div
+                ref={mCard5Ref}
+                className="absolute inset-0 z-10 will-change-transform"
+              >
+                <TestimonialCard item={cards[4]} />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

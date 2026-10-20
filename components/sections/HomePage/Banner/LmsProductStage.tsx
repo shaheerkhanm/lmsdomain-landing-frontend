@@ -15,12 +15,21 @@ interface LmsProductStageProps {
 }
 
 export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const card1Ref = useRef<HTMLDivElement>(null);
   const card2Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
   const card4Ref = useRef<HTMLDivElement>(null);
+
+  // Mobile refs
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const mobileStageRef = useRef<HTMLDivElement>(null);
+  const card1MobileRef = useRef<HTMLDivElement>(null);
+  const card2MobileRef = useRef<HTMLDivElement>(null);
+  const card3MobileRef = useRef<HTMLDivElement>(null);
+  const card4MobileRef = useRef<HTMLDivElement>(null);
 
   const [currency, setCurrency] = useState<"USD" | "INR">("USD");
 
@@ -118,20 +127,149 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         );
       });
 
-      // Mobile / Tablet: under 1024px (No float or dock motion)
+      // Mobile / Tablet: under 1024px (Cards deal-in stack in 220vh container)
       mm.add("(max-width: 1023px)", () => {
-        gsap.set(
-          [card1Ref.current, card2Ref.current, card3Ref.current, card4Ref.current, frameRef.current],
-          { clearProps: "all" }
+        if (isReduced) {
+          gsap.set(
+            [card1MobileRef.current, card2MobileRef.current, card3MobileRef.current, card4MobileRef.current],
+            { clearProps: "all" }
+          );
+          return;
+        }
+
+        // Start: cards stacked on top of each other with small tilts (-3deg, 2deg, -2deg, 3deg),
+        // each offset 10px down, Course builder on top
+        gsap.set(card1MobileRef.current, { x: 0, y: 0, rotateZ: -3, scale: 1, zIndex: 40 });
+        gsap.set(card2MobileRef.current, { x: 0, y: 10, rotateZ: 2, scale: 1, zIndex: 30 });
+        gsap.set(card3MobileRef.current, { x: 0, y: 20, rotateZ: -2, scale: 1, zIndex: 20 });
+        gsap.set(card4MobileRef.current, { x: 0, y: 30, rotateZ: 3, scale: 1, zIndex: 10 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: mobileContainerRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.5,
+          },
+        });
+
+        // 1. Card 1 deals out up & left, shrinks to 0.9, settles as top ledge (24px visible)
+        tl.to(
+          card1MobileRef.current,
+          {
+            x: -48,
+            y: -50,
+            rotateZ: -7,
+            duration: 0.16,
+            ease: "power1.out",
+          },
+          0
         );
+        tl.to(
+          card1MobileRef.current,
+          {
+            x: 0,
+            y: -58,
+            scale: 0.9,
+            rotateZ: 0,
+            duration: 0.16,
+            ease: "power1.inOut",
+          },
+          0.16
+        );
+        tl.set(card1MobileRef.current, { zIndex: 10 }, 0.32);
+        tl.to(
+          card2MobileRef.current,
+          {
+            y: 0,
+            rotateZ: 0,
+            duration: 0.16,
+            ease: "power1.out",
+          },
+          0.16
+        );
+
+        // 2. Card 2 deals out up & left, shrinks to 0.9, settles as 2nd ledge
+        tl.to(
+          card2MobileRef.current,
+          {
+            x: -48,
+            y: -40,
+            rotateZ: -6,
+            duration: 0.16,
+            ease: "power1.out",
+          },
+          0.34
+        );
+        tl.to(
+          card2MobileRef.current,
+          {
+            x: 0,
+            y: -34,
+            scale: 0.9,
+            rotateZ: 0,
+            duration: 0.16,
+            ease: "power1.inOut",
+          },
+          0.50
+        );
+        tl.set(card2MobileRef.current, { zIndex: 20 }, 0.66);
+        tl.to(
+          card3MobileRef.current,
+          {
+            y: 0,
+            rotateZ: 0,
+            duration: 0.16,
+            ease: "power1.out",
+          },
+          0.50
+        );
+
+        // 3. Card 3 deals out up & left, shrinks to 0.9, settles as 3rd ledge
+        tl.to(
+          card3MobileRef.current,
+          {
+            x: -48,
+            y: -30,
+            rotateZ: -5,
+            duration: 0.16,
+            ease: "power1.out",
+          },
+          0.68
+        );
+        tl.to(
+          card3MobileRef.current,
+          {
+            x: 0,
+            y: -10,
+            scale: 0.9,
+            rotateZ: 0,
+            duration: 0.16,
+            ease: "power1.inOut",
+          },
+          0.84
+        );
+        tl.set(card3MobileRef.current, { zIndex: 30 }, 0.98);
+        tl.to(
+          card4MobileRef.current,
+          {
+            y: 14,
+            rotateZ: 0,
+            scale: 1,
+            duration: 0.16,
+            ease: "power1.out",
+          },
+          0.84
+        );
+        tl.set(card4MobileRef.current, { zIndex: 40 }, 0.98);
       });
-    }, stageRef);
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <div className="w-full font-urbanist">
+    <div ref={containerRef} className="w-full font-urbanist">
       {/* Desktop Stage: Dashboard frame with floating converging cards (>=1024px) */}
       <div
         ref={stageRef}
@@ -471,165 +609,191 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
       </div>
     </div>
 
-      {/* Mobile / Tablet View (<1024px): 4 Cards stacked one per row at full width, no float or dock motion */}
-      <div className="w-full flex flex-col gap-4 lg:hidden mt-6">
-        {/* Card 1: Course builder */}
-        <div className="w-full rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-sm flex flex-col justify-between">
-          <div>
-            <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
-              {card1Data.title}
-            </h3>
-            <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card1Data.subtitle}</p>
-
-            <div className="mt-3 space-y-2">
-              {card1Data.lessons.map((lesson, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center justify-between bg-[#F5F6F8] rounded-[10px] px-3 py-2 text-xs"
-                >
-                  <span className="font-medium text-[#161616] truncate">{lesson.title}</span>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#6B6F76] bg-white border border-[#ECEDEF] px-1.5 py-0.5 rounded ml-2 shrink-0">
-                    {lesson.type}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
-            <span className="text-xs font-semibold text-[#6B6F76] flex items-center gap-1.5">
-              <span className="size-1.5 rounded-full bg-emerald-500" />
-              {card1Data.dripChip}
-            </span>
-          </div>
-        </div>
-
-        {/* Card 2: HelpDesk AI tutor */}
-        <div className="w-full rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-sm flex flex-col justify-between">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded-full bg-purple-100 text-[#7B5CF5] text-[10px] font-bold">
-                {card2Data.badge}
-              </span>
-              <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
-                {card2Data.title}
-              </h3>
-            </div>
-            <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card2Data.subtitle}</p>
-
-            <div className="mt-3 space-y-2">
-              <div className="flex items-start gap-2 justify-end">
-                <div className="max-w-[85%] rounded-[10px] bg-[#F5F6F8] px-3 py-1.5 text-xs text-[#161616]">
-                  <p className="font-medium">{card2Data.question}</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-2">
-                <div className="size-6 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
-                  AI
-                </div>
-                <div className="max-w-[90%] rounded-[10px] bg-purple-50/70 border border-purple-100 px-3 py-2 text-xs text-slate-800">
-                  <p className="leading-relaxed">{card2Data.answer}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
-            <span className="inline-flex items-center gap-1 text-xs text-[#7B5CF5] font-semibold bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60">
-              <span>✦</span>
-              {card2Data.sourceChip}
-            </span>
-          </div>
-        </div>
-
-        {/* Card 3: Checkout */}
-        <div className="w-full rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-sm flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between">
-              <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
-                {card3Data.title}
-              </h3>
-              <div className="flex items-center gap-1 bg-[#F5F6F8] rounded-full p-0.5 border border-[#ECEDEF] text-xs font-semibold">
-                <button
-                  type="button"
-                  onClick={() => setCurrency("USD")}
-                  className={`px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
-                    currency === "USD" ? "bg-[#161616] text-white" : "text-[#6B6F76] hover:text-[#161616]"
-                  }`}
-                >
-                  USD
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCurrency("INR")}
-                  className={`px-2.5 py-1 rounded-full transition-colors cursor-pointer ${
-                    currency === "INR" ? "bg-[#161616] text-white" : "text-[#6B6F76] hover:text-[#161616]"
-                  }`}
-                >
-                  INR
-                </button>
-              </div>
-            </div>
-            <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card3Data.subtitle}</p>
-
-            <div className="mt-3 space-y-2">
-              <div className="flex items-center justify-between bg-[#F5F6F8] rounded-[10px] px-3 py-2 text-xs">
-                <span className="font-medium text-[#161616]">{card3Data.courseName}</span>
-                <span className="font-bold text-[#161616] ml-2 shrink-0">
-                  {currency === "USD" ? card3Data.priceUsd : card3Data.priceInr}
-                </span>
-              </div>
-              <div className="flex items-center justify-between bg-emerald-50/70 border border-emerald-100 rounded-[10px] px-3 py-1.5 text-xs text-emerald-800">
-                <span className="flex items-center gap-1.5 font-medium">
-                  <svg className="size-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                  </svg>
-                  {card3Data.couponText}
-                </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">Applied</span>
-              </div>
-            </div>
-          </div>
-          <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              {card3Data.gateways.map((gw, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]"
-                >
-                  {gw}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Card 4: Certificate issued */}
-        <div className="w-full rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-sm flex flex-col justify-between">
-          <div>
-            <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
-              {card4Data.title}
-            </h3>
-            <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card4Data.subtitle}</p>
-
-            <div className="mt-3 flex items-center gap-3 bg-[#F5F6F8] rounded-[10px] p-2.5 border border-[#ECEDEF]">
-              <div className="size-9 rounded-lg bg-linear-to-br from-[#F3CF74] via-[#EAB308] to-[#CA8A04] flex items-center justify-center text-white shadow-xs shrink-0 border border-white/40">
-                <svg className="size-5 drop-shadow-xs" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="text-xs sm:text-sm font-bold text-[#161616] truncate">{card4Data.learnerName}</p>
-                <p className="text-[11px] text-[#6B6F76] truncate">{card4Data.courseName}</p>
-              </div>
-            </div>
-          </div>
-          <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
-            <button
-              type="button"
-              onClick={onOpenModal}
-              className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-semibold text-center transition-colors cursor-pointer flex items-center justify-center"
+      {/* Mobile / Tablet View (<1024px): 4 Cards Deal-In Stack in a Sticky Stage */}
+      <div
+        ref={mobileContainerRef}
+        className="relative w-full h-[220vh] lg:hidden mt-4"
+      >
+        <div
+          ref={mobileStageRef}
+          className="sticky top-[80px] w-full h-[420px] max-w-[390px] mx-auto flex flex-col items-center justify-center overflow-visible"
+        >
+          <div className="relative w-full h-[320px]">
+            {/* Card 1: Course builder */}
+            <div
+              ref={card1MobileRef}
+              style={{ zIndex: 40 }}
+              className="absolute inset-0 rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
             >
-              {card4Data.buttonText}
-            </button>
+              <div>
+                <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
+                  {card1Data.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card1Data.subtitle}</p>
+
+                <div className="mt-3 space-y-2">
+                  {card1Data.lessons.map((lesson, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between bg-[#F5F6F8] rounded-[10px] px-3 py-2 text-xs"
+                    >
+                      <span className="font-medium text-[#161616] truncate">{lesson.title}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#6B6F76] bg-white border border-[#ECEDEF] px-1.5 py-0.5 rounded ml-2 shrink-0">
+                        {lesson.type}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
+                <span className="text-xs font-semibold text-[#6B6F76] flex items-center gap-1.5">
+                  <span className="size-1.5 rounded-full bg-emerald-500" />
+                  {card1Data.dripChip}
+                </span>
+              </div>
+            </div>
+
+            {/* Card 2: HelpDesk AI tutor */}
+            <div
+              ref={card2MobileRef}
+              style={{ zIndex: 30 }}
+              className="absolute inset-0 rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+            >
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-full bg-purple-100 text-[#7B5CF5] text-[10px] font-bold">
+                    {card2Data.badge}
+                  </span>
+                  <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
+                    {card2Data.title}
+                  </h3>
+                </div>
+                <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card2Data.subtitle}</p>
+
+                <div className="mt-2.5 space-y-2">
+                  <div className="flex items-start gap-2 justify-end">
+                    <div className="max-w-[85%] rounded-[10px] bg-[#F5F6F8] px-3 py-1.5 text-xs text-[#161616]">
+                      <p className="font-medium">{card2Data.question}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <div className="size-6 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                      AI
+                    </div>
+                    <div className="max-w-[90%] rounded-[10px] bg-purple-50/70 border border-purple-100 px-3 py-2 text-xs text-slate-800">
+                      <p className="leading-relaxed line-clamp-2">{card2Data.answer}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-2.5 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
+                <span className="inline-flex items-center gap-1 text-xs text-[#7B5CF5] font-semibold bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60">
+                  <span>✦</span>
+                  {card2Data.sourceChip}
+                </span>
+              </div>
+            </div>
+
+            {/* Card 3: Checkout */}
+            <div
+              ref={card3MobileRef}
+              style={{ zIndex: 20 }}
+              className="absolute inset-0 rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+            >
+              <div>
+                <div className="flex items-center justify-between">
+                  <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
+                    {card3Data.title}
+                  </h3>
+                  <div className="flex items-center gap-1 bg-[#F5F6F8] rounded-full p-0.5 border border-[#ECEDEF] text-xs font-semibold">
+                    <button
+                      type="button"
+                      onClick={() => setCurrency("USD")}
+                      className={`px-2 py-0.5 rounded-full transition-colors cursor-pointer ${
+                        currency === "USD" ? "bg-[#161616] text-white" : "text-[#6B6F76] hover:text-[#161616]"
+                      }`}
+                    >
+                      USD
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setCurrency("INR")}
+                      className={`px-2 py-0.5 rounded-full transition-colors cursor-pointer ${
+                        currency === "INR" ? "bg-[#161616] text-white" : "text-[#6B6F76] hover:text-[#161616]"
+                      }`}
+                    >
+                      INR
+                    </button>
+                  </div>
+                </div>
+                <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card3Data.subtitle}</p>
+
+                <div className="mt-2.5 space-y-1.5">
+                  <div className="flex items-center justify-between bg-[#F5F6F8] rounded-[10px] px-3 py-1.5 text-xs">
+                    <span className="font-medium text-[#161616] truncate">{card3Data.courseName}</span>
+                    <span className="font-bold text-[#161616] ml-2 shrink-0">
+                      {currency === "USD" ? card3Data.priceUsd : card3Data.priceInr}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between bg-emerald-50/70 border border-emerald-100 rounded-[10px] px-3 py-1 text-xs text-emerald-800">
+                    <span className="flex items-center gap-1.5 font-medium">
+                      <svg className="size-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      {card3Data.couponText}
+                    </span>
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-700">Applied</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  {card3Data.gateways.map((gw, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]"
+                    >
+                      {gw}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4: Certificate issued */}
+            <div
+              ref={card4MobileRef}
+              style={{ zIndex: 10 }}
+              className="absolute inset-0 rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+            >
+              <div>
+                <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
+                  {card4Data.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card4Data.subtitle}</p>
+
+                <div className="mt-2.5 flex items-center gap-2.5 bg-[#F5F6F8] rounded-[10px] p-2 border border-[#ECEDEF]">
+                  <div className="size-8 rounded-lg bg-linear-to-br from-[#F3CF74] via-[#EAB308] to-[#CA8A04] flex items-center justify-center text-white shadow-xs shrink-0 border border-white/40">
+                    <svg className="size-4 drop-shadow-xs" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs sm:text-sm font-bold text-[#161616] truncate">{card4Data.learnerName}</p>
+                    <p className="text-[11px] text-[#6B6F76] truncate">{card4Data.courseName}</p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-2.5 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
+                <button
+                  type="button"
+                  onClick={onOpenModal}
+                  className="w-full min-h-[40px] py-2 px-3 rounded-xl bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-semibold text-center transition-colors cursor-pointer flex items-center justify-center"
+                >
+                  {card4Data.buttonText}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

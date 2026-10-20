@@ -43,6 +43,17 @@ export function FeaturesSection({ data }: { data?: any }) {
   const c3Chip2Ref = useRef<HTMLDivElement>(null);
   const c3BookingChipRef = useRef<HTMLDivElement>(null);
 
+  // Mobile refs
+  const card1MobileRef = useRef<HTMLDivElement>(null);
+  const card2MobileRef = useRef<HTMLDivElement>(null);
+  const card3MobileRef = useRef<HTMLDivElement>(null);
+  const c1MobilePhotoRef = useRef<HTMLDivElement>(null);
+  const c2MobilePhotoRef = useRef<HTMLDivElement>(null);
+  const c3MobileTile1Ref = useRef<HTMLDivElement>(null);
+  const c3MobileTile2Ref = useRef<HTMLDivElement>(null);
+  const c3MobileChip1Ref = useRef<HTMLDivElement>(null);
+  const c3MobileChip2Ref = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     const isReduced =
@@ -365,24 +376,125 @@ export function FeaturesSection({ data }: { data?: any }) {
         };
       });
 
-      // Mobile / Tablet: under 1024px (Normal stacked flow, no pin)
+      // Mobile / Tablet: under 1024px (Sticky stacking cards + visual animations)
       mm.add("(max-width: 1023px)", () => {
-        gsap.set(
-          [
-            card1Ref.current,
-            card2Ref.current,
-            card3Ref.current,
-            titleBlockRef.current,
-            c1NumRef.current,
-            c2NumRef.current,
-            c3NumRef.current,
-          ],
-          { clearProps: "all" }
-        );
-        gsap.set(
-          [card2ContentRef.current, card3ContentRef.current],
-          { clearProps: "all" }
-        );
+        if (isReduced) {
+          gsap.set(
+            [
+              card1MobileRef.current,
+              card2MobileRef.current,
+              card3MobileRef.current,
+              c1MobilePhotoRef.current,
+              c2MobilePhotoRef.current,
+              c3MobileTile1Ref.current,
+              c3MobileTile2Ref.current,
+              c3MobileChip1Ref.current,
+              c3MobileChip2Ref.current,
+            ],
+            { clearProps: "all" }
+          );
+          return;
+        }
+
+        // Card 1 covered by Card 2: scale 0.94 and opacity 0.6
+        if (card1MobileRef.current && card2MobileRef.current) {
+          gsap.to(card1MobileRef.current, {
+            scale: 0.94,
+            opacity: 0.6,
+            transformOrigin: "top center",
+            ease: "none",
+            scrollTrigger: {
+              trigger: card2MobileRef.current,
+              start: "top 340px",
+              end: "top 100px",
+              scrub: 0.5,
+            },
+          });
+        }
+
+        // Card 1 visuals entrance: photos slide ~40px into place and scale 0.9->1
+        if (c1MobilePhotoRef.current && card1MobileRef.current) {
+          gsap.fromTo(
+            c1MobilePhotoRef.current,
+            { y: 40, scale: 0.9, opacity: 0.7 },
+            {
+              y: 0,
+              scale: 1,
+              opacity: 1,
+              ease: "power1.out",
+              scrollTrigger: {
+                trigger: card1MobileRef.current,
+                start: "top 85%",
+                end: "top 120px",
+                scrub: 0.5,
+              },
+            }
+          );
+        }
+
+        // Card 2 covered by Card 3: scale 0.94 and opacity 0.6
+        if (card2MobileRef.current && card3MobileRef.current) {
+          gsap.to(card2MobileRef.current, {
+            scale: 0.94,
+            opacity: 0.6,
+            transformOrigin: "top center",
+            ease: "none",
+            scrollTrigger: {
+              trigger: card3MobileRef.current,
+              start: "top 360px",
+              end: "top 120px",
+              scrub: 0.5,
+            },
+          });
+        }
+
+        // Card 2 visuals entrance: photos slide ~40px into place and scale 0.9->1
+        if (c2MobilePhotoRef.current && card2MobileRef.current) {
+          gsap.fromTo(
+            c2MobilePhotoRef.current,
+            { y: 40, scale: 0.9, opacity: 0.7 },
+            {
+              y: 0,
+              scale: 1,
+              opacity: 1,
+              ease: "power1.out",
+              scrollTrigger: {
+                trigger: card2MobileRef.current,
+                start: "top 85%",
+                end: "top 140px",
+                scrub: 0.5,
+              },
+            }
+          );
+        }
+
+        // Card 3 visuals entrance: photos slide ~40px into place, scale 0.9->1, chips pop in
+        if (card3MobileRef.current) {
+          const c3Tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: card3MobileRef.current,
+              start: "top 85%",
+              end: "top 160px",
+              scrub: 0.5,
+            },
+          });
+          if (c3MobileTile1Ref.current && c3MobileTile2Ref.current) {
+            c3Tl.fromTo(
+              [c3MobileTile1Ref.current, c3MobileTile2Ref.current],
+              { y: 40, scale: 0.9, opacity: 0.7 },
+              { y: 0, scale: 1, opacity: 1, ease: "power1.out", stagger: 0.08 },
+              0
+            );
+          }
+          if (c3MobileChip1Ref.current && c3MobileChip2Ref.current) {
+            c3Tl.fromTo(
+              [c3MobileChip1Ref.current, c3MobileChip2Ref.current],
+              { scale: 0.7, opacity: 0 },
+              { scale: 1, opacity: 1, ease: "back.out(1.4)", stagger: 0.06 },
+              0.15
+            );
+          }
+        }
       });
     }, pinWrapperRef);
 
@@ -778,113 +890,159 @@ export function FeaturesSection({ data }: { data?: any }) {
           </div>
 
           {/* ======================================================== */}
-          {/* Mobile / Tablet Responsive Fallback (<1024px: Unchanged Flow) */}
+          {/* Mobile / Tablet View (<1024px): Sticky Stacking Cards */}
           {/* ======================================================== */}
-          <div className="w-full flex flex-col gap-6 lg:hidden">
-            {featuresContent.cards.map((card, idx) => (
-              <div
-                key={card.id}
-                className="rounded-[28px] bg-white border border-[#ECEDEF] shadow-md p-6 sm:p-8 flex flex-col justify-between"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
-                      0{idx + 1}
-                    </span>
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616]">
-                    {card.title}
-                  </h3>
-                  <p className="text-sm text-[#6B7280] leading-relaxed">
-                    {card.summary}
-                  </p>
-                  <div className="pt-2 flex flex-wrap gap-1.5">
-                    {card.details.map((item, dIdx) => (
-                      <span
-                        key={dIdx}
-                        className="px-2.5 py-0.5 rounded-full text-[11px] bg-[#F5F6F8] text-[#161616] border border-[#ECEDEF]"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                  </div>
+          <div className="w-full flex flex-col gap-8 lg:hidden pb-16">
+            {/* Card 01 */}
+            <div
+              ref={card1MobileRef}
+              style={{ top: "80px", zIndex: 10 }}
+              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.12)] p-6 sm:p-8 flex flex-col justify-between will-change-transform"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
+                    01
+                  </span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616] tracking-tight">
+                  {card1.title}
+                </h3>
+                <p className="text-sm text-[#6B7280] leading-relaxed">
+                  {card1.summary}
+                </p>
 
-                  {/* Visual panel below text */}
-                  <div className="mt-5 rounded-2xl bg-[#18191B] border border-slate-200 overflow-hidden relative">
-                    {idx === 0 && (
-                      <div className="flex flex-col">
-                        <div className="relative h-44 sm:h-52 w-full overflow-hidden">
-                          <Image
-                            src="/assets/img/home/features/instructor_lesson.jpg"
-                            alt="Lesson player preview"
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                        <div className="p-3 bg-[#18191B] flex items-center justify-between text-xs text-slate-300">
-                          <span className="font-semibold text-white truncate">Lesson 02: Architecture Blueprint</span>
-                          <span className="text-[#7B5CF5] font-mono ml-2 shrink-0">12:40</span>
-                        </div>
-                      </div>
-                    )}
-
-                    {idx === 1 && (
-                      <div className="p-4 bg-slate-900 flex flex-col gap-3">
-                        <div className="flex items-center justify-between text-xs text-slate-300">
-                          <span className="font-semibold text-white">Quiz Evaluation</span>
-                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                            100% Score
-                          </span>
-                        </div>
-                        <div className="relative h-36 sm:h-44 w-full rounded-xl overflow-hidden border border-white/10">
-                          <Image
-                            src="/assets/img/home/features/course_preview.jpg"
-                            alt="Course Preview"
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {idx === 2 && (
-                      <div className="p-4 bg-slate-900 flex flex-col gap-3">
-                        <div className="grid grid-cols-2 gap-2.5">
-                          <div className="relative h-28 sm:h-36 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
-                            <Image
-                              src="/assets/img/home/features/participant_mia.jpg"
-                              alt="Mia Lewis"
-                              fill
-                              className="object-cover"
-                            />
-                            <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15">
-                              <span className="size-1.5 rounded-full bg-emerald-400" />
-                              Mia Lewis
-                            </div>
-                          </div>
-                          <div className="relative h-28 sm:h-36 rounded-xl overflow-hidden bg-slate-800 border border-white/10">
-                            <Image
-                              src="/assets/img/home/features/participant_alex.jpg"
-                              alt="Alex Peterson"
-                              fill
-                              className="object-cover"
-                            />
-                            <div className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15">
-                              <span className="size-1.5 rounded-full bg-emerald-400" />
-                              Alex Peterson
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between text-[11px] text-slate-400 px-1 pt-0.5">
-                          <span>1-on-1 Live Consultation</span>
-                          <span className="text-white font-mono">24 participants</span>
-                        </div>
-                      </div>
-                    )}
+                {/* Visual panel below text */}
+                <div
+                  ref={c1MobilePhotoRef}
+                  className="mt-4 rounded-2xl bg-[#18191B] border border-slate-200 overflow-hidden relative will-change-transform"
+                >
+                  <div className="flex flex-col">
+                    <div className="relative h-44 sm:h-52 w-full overflow-hidden">
+                      <Image
+                        src="/assets/img/home/features/instructor_lesson.jpg"
+                        alt="Lesson player preview"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="p-3 bg-[#18191B] flex items-center justify-between text-xs text-slate-300">
+                      <span className="font-semibold text-white truncate">Lesson 02: Architecture Blueprint</span>
+                      <span className="text-[#7B5CF5] font-mono ml-2 shrink-0">12:40</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            {/* Card 02 */}
+            <div
+              ref={card2MobileRef}
+              style={{ top: "100px", zIndex: 20 }}
+              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.14)] p-6 sm:p-8 flex flex-col justify-between will-change-transform"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
+                    02
+                  </span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616] tracking-tight">
+                  {card2.title}
+                </h3>
+                <p className="text-sm text-[#6B7280] leading-relaxed">
+                  {card2.summary}
+                </p>
+
+                {/* Visual panel below text */}
+                <div
+                  ref={c2MobilePhotoRef}
+                  className="mt-4 rounded-2xl bg-slate-900 border border-white/10 p-4 flex flex-col gap-3 relative will-change-transform"
+                >
+                  <div className="flex items-center justify-between text-xs text-slate-300">
+                    <span className="font-semibold text-white">Quiz Evaluation</span>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                      100% Score
+                    </span>
+                  </div>
+                  <div className="relative h-36 sm:h-44 w-full rounded-xl overflow-hidden border border-white/10">
+                    <Image
+                      src="/assets/img/home/features/course_preview.jpg"
+                      alt="Course Preview"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 03 */}
+            <div
+              ref={card3MobileRef}
+              style={{ top: "120px", zIndex: 30 }}
+              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.16)] p-6 sm:p-8 flex flex-col justify-between will-change-transform"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
+                    03
+                  </span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616] tracking-tight">
+                  {card3.title}
+                </h3>
+                <p className="text-sm text-[#6B7280] leading-relaxed">
+                  {card3.summary}
+                </p>
+
+                {/* Visual panel below text: 2 diagonal tiles & chips */}
+                <div className="mt-4 rounded-2xl bg-slate-900 border border-white/10 p-4 flex flex-col gap-3 relative overflow-hidden">
+                  <div className="grid grid-cols-2 gap-2.5">
+                    <div
+                      ref={c3MobileTile1Ref}
+                      className="relative h-28 sm:h-36 rounded-xl overflow-hidden bg-slate-800 border border-white/10 will-change-transform"
+                    >
+                      <Image
+                        src="/assets/img/home/features/participant_mia.jpg"
+                        alt="Mia Lewis"
+                        fill
+                        className="object-cover"
+                      />
+                      <div
+                        ref={c3MobileChip1Ref}
+                        className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15 will-change-transform"
+                      >
+                        <span className="size-1.5 rounded-full bg-emerald-400" />
+                        Mia Lewis
+                      </div>
+                    </div>
+                    <div
+                      ref={c3MobileTile2Ref}
+                      className="relative h-28 sm:h-36 rounded-xl overflow-hidden bg-slate-800 border border-white/10 will-change-transform"
+                    >
+                      <Image
+                        src="/assets/img/home/features/participant_alex.jpg"
+                        alt="Alex Peterson"
+                        fill
+                        className="object-cover"
+                      />
+                      <div
+                        ref={c3MobileChip2Ref}
+                        className="absolute bottom-1.5 left-1.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-xs text-[10px] font-semibold text-white flex items-center gap-1 border border-white/15 will-change-transform"
+                      >
+                        <span className="size-1.5 rounded-full bg-emerald-400" />
+                        Alex Peterson
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] text-slate-400 px-1 pt-0.5">
+                    <span>1-on-1 Live Consultation</span>
+                    <span className="text-white font-mono">24 participants</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

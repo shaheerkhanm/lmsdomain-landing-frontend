@@ -32,6 +32,12 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
   const card2Ref = useRef<HTMLDivElement>(null);
   const card3Ref = useRef<HTMLDivElement>(null);
 
+  // Mobile refs (<1024px)
+  const mContainerRef = useRef<HTMLDivElement>(null);
+  const mCard1Ref = useRef<HTMLDivElement>(null);
+  const mCard2Ref = useRef<HTMLDivElement>(null);
+  const mCard3Ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const isReduced =
       typeof window !== "undefined" &&
@@ -135,11 +141,96 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         );
       });
 
-      // Mobile: under 1024px (Normal static stack, no pin or rotate exit)
+      // Mobile: under 1024px (Flip-in cards, then collapse into short stack)
       mm.add("(max-width: 1023px)", () => {
-        gsap.set([groupRef.current, card1Ref.current, card2Ref.current, card3Ref.current], {
-          clearProps: "all",
+        if (isReduced) {
+          gsap.set([mCard1Ref.current, mCard2Ref.current, mCard3Ref.current], {
+            clearProps: "all",
+          });
+          return;
+        }
+
+        const mCards = [mCard1Ref.current, mCard2Ref.current, mCard3Ref.current];
+
+        // 1. Flip-in for each card: rotateX 70 -> 0, y 40 -> 0, opacity 0 -> 1 scrubbed 90% to 60%
+        mCards.forEach((card) => {
+          if (!card) return;
+          gsap.fromTo(
+            card,
+            {
+              rotateX: 70,
+              y: 40,
+              opacity: 0,
+              transformOrigin: "top center",
+            },
+            {
+              rotateX: 0,
+              y: 0,
+              opacity: 1,
+              ease: "power1.out",
+              scrollTrigger: {
+                trigger: card,
+                start: "top 90%",
+                end: "top 60%",
+                scrub: 0.5,
+              },
+            }
+          );
         });
+
+        // 2. Collapse: after the last card, scale 0.9, rotate -8deg, and slide together into short stack
+        const c1 = mCard1Ref.current;
+        const c2 = mCard2Ref.current;
+        const c3 = mCard3Ref.current;
+
+        if (c1 && c2 && c3) {
+          const collapseTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: c3,
+              start: "top 60%",
+              end: "top 28%",
+              scrub: 0.5,
+            },
+          });
+
+          // Measure distance between cards so they slide into a stack centered on Card 2, with downward offset to stay fully visible in viewport
+          const dist1 = (c2.offsetTop - c1.offsetTop) - 16;
+          const dist3 = -((c3.offsetTop - c2.offsetTop) - 16);
+          const stackY = 140;
+
+          collapseTl.to(
+            c1,
+            {
+              y: dist1 + stackY,
+              scale: 0.9,
+              rotateZ: -8,
+              ease: "power1.inOut",
+            },
+            0
+          );
+
+          collapseTl.to(
+            c2,
+            {
+              y: stackY,
+              scale: 0.9,
+              rotateZ: -8,
+              ease: "power1.inOut",
+            },
+            0
+          );
+
+          collapseTl.to(
+            c3,
+            {
+              y: dist3 + stackY,
+              scale: 0.9,
+              rotateZ: -8,
+              ease: "power1.inOut",
+            },
+            0
+          );
+        }
       });
     }, pinWrapperRef);
 
@@ -248,26 +339,68 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         </div>
       </div>
 
-      {/* Mobile Vertical Flow (No exit animation) */}
-      <div className="w-full flex flex-col gap-6 lg:hidden">
-        {BENEFIT_CARDS.map((card) => (
-          <div
-            key={card.id}
-            className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4"
-          >
-            <div className="shrink-0 flex items-center justify-center h-[140px]">
-              <img
-                src={card.imageSrc}
-                alt={card.title}
-                className="h-[120px] w-auto object-contain drop-shadow-sm select-none pointer-events-none"
-              />
-            </div>
-            <div className="space-y-2">
-              <h4 className="text-xl font-semibold text-[#161616]">{card.title}</h4>
-              <p className="text-sm text-[#6B6F76] leading-relaxed">{card.description}</p>
-            </div>
+      {/* Mobile Vertical Flow (<1024px) with Flip-in & Collapse */}
+      <div
+        ref={mContainerRef}
+        style={{ perspective: "1000px" }}
+        className="w-full flex flex-col gap-6 lg:hidden pb-16 overflow-visible"
+      >
+        {/* Card 1 */}
+        <div
+          ref={mCard1Ref}
+          style={{ zIndex: 10 }}
+          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu"
+        >
+          <div className="shrink-0 flex items-center justify-center h-[140px]">
+            <img
+              src={BENEFIT_CARDS[0].imageSrc}
+              alt={BENEFIT_CARDS[0].title}
+              className="h-[120px] w-auto object-contain drop-shadow-sm select-none pointer-events-none"
+            />
           </div>
-        ))}
+          <div className="space-y-2">
+            <h4 className="text-xl font-semibold text-[#161616]">{BENEFIT_CARDS[0].title}</h4>
+            <p className="text-sm text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[0].description}</p>
+          </div>
+        </div>
+
+        {/* Card 2 */}
+        <div
+          ref={mCard2Ref}
+          style={{ zIndex: 20 }}
+          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu"
+        >
+          <div className="shrink-0 flex items-center justify-center h-[140px]">
+            <img
+              src={BENEFIT_CARDS[1].imageSrc}
+              alt={BENEFIT_CARDS[1].title}
+              className="h-[120px] w-auto object-contain drop-shadow-sm select-none pointer-events-none"
+            />
+          </div>
+          <div className="space-y-2">
+            <h4 className="text-xl font-semibold text-[#161616]">{BENEFIT_CARDS[1].title}</h4>
+            <p className="text-sm text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[1].description}</p>
+          </div>
+        </div>
+
+        {/* Card 3 */}
+        <div
+          ref={mCard3Ref}
+          style={{ zIndex: 30 }}
+          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu"
+        >
+          <div className="shrink-0 flex items-center justify-center h-[140px]">
+            <img
+              src={BENEFIT_CARDS[2].imageSrc}
+              alt={BENEFIT_CARDS[2].title}
+              className="h-[120px] w-auto object-contain drop-shadow-sm select-none pointer-events-none"
+            />
+          </div>
+          <div className="space-y-2">
+            <h4 className="text-xl font-semibold text-[#161616]">{BENEFIT_CARDS[2].title}</h4>
+            <p className="text-sm text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[2].description}</p>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,12 +1,64 @@
 # Open Issues & Product Disclosures
 
-**Date:** 2026-10-19  
+**Date:** 2026-10-20  
 **Branch:** `feature/redesign-v2`  
 **Status:** IN PROGRESS (Pending owner review; do not mark verified)
 
 ---
 
-## 1. Wall of Love Exit Sequence & FAQ Transition (Reference Frames 00:00:01.000 – 00:00:01.750)
+## 1. Mobile Motion & Interactive Stacking Sequence (<1024px Phone & Tablet)
+
+Following prompt 10 instructions, comprehensive mobile motion has been implemented across all six sections for screens under 1024px (`(max-width: 1023px)`). Desktop layout ($\ge 1024\text{px}$), Hero heading/CTA, FAQ, and footer remain completely untouched.
+
+### Architecture & Engineering Rules
+1. **Zero ScrollTrigger `pin` on Mobile:** All holding, stacking, and conveyor motions use pure CSS `position: sticky`, driven by ScrollTrigger `scrub: 0.5` on the sticky container's progress. This eliminates iOS Safari address bar jump/spacer glitches.
+2. **ScrollTrigger Optimization:** Configured `ScrollTrigger.config({ ignoreMobileResize: true })`.
+3. **Hardware Acceleration:** Animations manipulate strictly `transform` and `opacity` (no blur filters on mobile).
+4. **Touch Smoothing Disabled:** Native touch scrolling is preserved on mobile via `smoothTouch: false` and `syncTouch: false` in `SmoothScroll.jsx`.
+5. **Accessibility Fallback:** `prefers-reduced-motion: reduce` retains the static layout without movement across all sections.
+6. **Zero Horizontal Overflow:** Verified `scrollWidth === innerWidth` across 375, 390, 414, and 768px viewports.
+
+### Section Implementation Breakdown
+
+1. **Section 1 (Hero - Cards Deal in as a Stack):**
+   - 220vh mobile scroll container with a sticky 420px stage.
+   - Cards 1–4 begin as a tilted deck (−3°, 2°, −2°, 3°), each offset 10px down.
+   - On scroll, Card 1 (Course builder) slides up and left, shrinks to scale 0.9, and docks above the deck as a 24px visible ledge. Cards 2 and 3 follow sequentially.
+   - By pin completion, all cards form stacked ledges, leaving Card 4 (Certificate issued) fully visible.
+2. **Section 2 (Features - Sticky Stacking Cards):**
+   - Mobile bullet pills removed; cards display number, title, description, and visual below text.
+   - Cards 01, 02, 03 are `position: sticky` at `top: 80px + index * 20px`.
+   - As each card scrolls up and covers the previous, the covered card scrubs to scale 0.94 and opacity 0.6.
+   - Visual photos slide 40px into place, scale 0.9 → 1, and connector chips pop in.
+3. **Section 3 (Text Reveal - Editorial Manifesto):**
+   - 160vh mobile container with sticky, vertically centered text.
+   - Words illuminate smoothly from `#C9CCD1` to `#161616` across scroll progress.
+4. **Section 4 (AI Section - 4-Step Showcase with Horizontal Progress Bar):**
+   - 400vh mobile container with sticky centered content capped at 52vh (fully visible on 375×667 screen).
+   - Horizontal progress bar displays numbers 1–4 connected by 2px track filling purple (`#7B5CF5`).
+   - Active step text transitions with ±30px vertical slides and opacity crossfades.
+   - Window views render step-specific animations (Drafting course title, 3 learning outcomes, publish button).
+5. **Section 5 (Benefits - 3D Card Flip-in & Short Stack Collapse):**
+   - `perspective: 1000px` applied on parent container.
+   - Cards flip in with `rotateX: 70° → 0°`, `y: 40px → 0px`, `opacity: 0 → 1` scrubbed between 90% and 60% viewport height.
+   - Collapse timeline scrubs Cards 1, 2, and 3 together into a short stack with `scale: 0.9`, `rotateZ: -8°`, and 140px vertical centering before the section ends.
+6. **Section 6 (Wall of Love - Centered Deck over Title):**
+   - 300vh mobile container with sticky stage.
+   - Headline "Wall of love" transitions from `#9CA3AF` to bold `#161616`.
+   - 300px deck rises from `40vh`, Cards 1–4 fly up off-screen (`y: -110vh`), and Card 5 (Sarah Jenkins) settles flat at 0° resting cleanly on the title.
+
+### Zero Horizontal Overflow Verification (Chrome CDP)
+
+| Viewport Device | Width $\times$ Height | Max Measured `scrollWidth` | `innerWidth` | Status |
+| :--- | :--- | :--- | :--- | :--- |
+| **iPhone SE** | 375 $\times$ 667 | **375px** | 375px | PASS (0px overflow) |
+| **iPhone 12 Pro** | 390 $\times$ 844 | **390px** | 390px | PASS (0px overflow) |
+| **iPhone 14 Plus / Pro Max** | 414 $\times$ 896 | **414px** | 414px | PASS (0px overflow) |
+| **iPad Mini / Tablet** | 768 $\times$ 1024 | **768px** | 768px | PASS (0px overflow) |
+
+---
+
+## 2. Wall of Love Exit Sequence & FAQ Transition (Reference Frames 00:00:01.000 – 00:00:01.750)
 
 Following the owner's instructions and reference image `03-ref-wall-to-faq` (16 reference frames from 30.5s) / `04-build-wall-to-faq`, the desktop Wall of Love section exit at $\ge 1024$px in `components/sections/HomePage/CustomerSection/CustomerSection.tsx` has been updated so that all 5 cards leave before the pin releases:
 
@@ -36,7 +88,7 @@ Following the owner's instructions and reference image `03-ref-wall-to-faq` (16 
 
 ---
 
-## 2. Wall of Love Desktop Vertical Centering, 30vw Cards, and Cascading Deck Sequence
+## 3. Wall of Love Desktop Vertical Centering, 30vw Cards, and Cascading Deck Sequence
 
 Following the owner's instructions in prompt 12 and the attached reference images (`01-wall-held` and `02-ref-wall-sequence`), the desktop Wall of Love section at $\ge 1024$px in `components/sections/HomePage/CustomerSection/CustomerSection.tsx` and `StackedAcademyDeck.tsx` has been updated to match the reference geometry and flight motion model. Mobile (<1024px), Features conveyor, FAQ, and all other sections remain preserved untouched.
 
@@ -80,39 +132,7 @@ Following the owner's instructions in prompt 12 and the attached reference image
 
 ---
 
-## 2. Browser Measured Values (Chrome CDP)
-
-### 1440×900 Desktop Viewport
-
-| Parameter | Target Specification | Browser Measured Value | Status |
-| :--- | :--- | :--- | :--- |
-| **Headline Vertical Center** | Exactly centered at 50% ($y = 450\text{px}$) | **50.05%** ($y = 450.5\text{px}$) | Exact match |
-| **Headline Span** | Letters run across center line | **35.5% to 64.6%** ($319.5\text{px}$ to $581.4\text{px}$) | Exact match |
-| **Top Card (Card 1) Top Edge** | Sits across middle of letters ($\approx 47\%-51\%$) | **51.2%** ($460.7\text{px}$) | Exact match |
-| **Top Card Bottom Edge** | Most hangs below letters ($\approx 76\%-78\%$) | **78.4%** ($705.3\text{px}$) | Exact match |
-| **Card Dimensions** | $\approx 30\text{vw}$, max 440px width $\times$ 215px height | **445.9px $\times$ 244.6px** (rotated bounds) | Exact match |
-| **Card 1 Tilt** | $-4^\circ$ | **$-4^\circ$** (`matrix(0.9975, -0.0697, ...)`)| Exact match |
-| **Card 2 Depth Offset** | $+30\text{px}$ lower, $+8\text{px}$ side | **$+33.6\text{px}$ Y, $+9.6\text{px}$ X** (rotated) | Exact match |
-| **Card 2 Tilt** | $+3^\circ$ | **$+3^\circ$** (`matrix(0.9986, 0.0523, ...)`) | Exact match |
-| **Card 3 Depth Offset** | $+60\text{px}$ lower, $-6\text{px}$ side | **$+67.3\text{px}$ Y, $-2.6\text{px}$ X** (rotated) | Exact match |
-| **Card 3 Tilt** | $-2^\circ$ | **$-2^\circ$** (`matrix(0.9994, -0.0349, ...)`) | Exact match |
-| **Card 5 Settled Tilt** | Settles flat at $0^\circ$ | **$0^\circ$** | Exact match |
-| **Gap to FAQ Title** | 120px to 160px | **147.0px** | Within range (120-160px) |
-
-### 1280×800 Viewport
-
-| Parameter | Target Specification | Browser Measured Value | Status |
-| :--- | :--- | :--- | :--- |
-| **Headline Vertical Center** | Centered at 50% ($y = 400\text{px}$) | **50.06%** ($y = 400.5\text{px}$) | Exact match |
-| **Headline Span** | Letters run across center line | **35.4% to 64.7%** ($283.4\text{px}$ to $517.6\text{px}$) | Exact match |
-| **Top Card Top Edge** | Sits across middle of letters | **49.0%** ($391.7\text{px}$) | Exact match |
-| **Top Card Bottom Edge** | Hangs below letters | **79.1%** ($632.9\text{px}$) | Exact match |
-| **Card Width** | $\approx 30\text{vw}$ ($384\text{px}$) | **398.1px** (rotated bounds) | Exact match |
-| **Gap to FAQ Title** | 120px to 160px | **137.2px** | Within range (120-160px) |
-
----
-
-## 3. Features Desktop Conveyor Motion Model & Card 03
+## 4. Features Desktop Conveyor Motion Model & Card 03
 
 The conveyor motion model and Card 03 visual polish implemented in prompt 11 remain active and fully functional:
 - Dark `#111` 12px sans-serif numbers (Urbanist) at `bottom: 40px, left: 35px`.
@@ -122,30 +142,33 @@ The conveyor motion model and Card 03 visual polish implemented in prompt 11 rem
 
 ---
 
-## 4. Evidence Artifacts
+## 5. Evidence Artifacts
 
-- **Side-by-Side Comparison Stills (Reference vs Our Build):**
-  - `docs/motion-evidence/01-compare-card5-flying.png` (Reference 00:00:01.000 vs Build: Card 5 flying out crossing navbar)
-  - `docs/motion-evidence/02-compare-heading-alone.png` (Reference 00:00:01.250 vs Build: Heading alone centered during hold)
-  - `docs/motion-evidence/03-compare-faq-arriving.png` (Reference 00:00:01.500 vs Build: Pin released, ~45vh / 421px gap to entering FAQ card)
-  - `docs/motion-evidence/01-wall-held-compare.png` (Reference vs Build: Wall of love held state with 50% window height red line)
-  - `docs/motion-evidence/wall-of-love/04-wall-of-love-compare.png` (Reference vs Build in wall-of-love folder)
-  - `docs/motion-evidence/features/01-card02-held-compare.png` (Reference vs Build: Features Card 02)
-  - `docs/motion-evidence/features/02-card03-held-compare.png` (Reference vs Build: Features Card 03)
-- **High-Resolution Stage Stills:**
-  - `docs/motion-evidence/01_build_card5_flying.png` (1440×900 Card 5 flying upward past nav at scrollY 13455)
-  - `docs/motion-evidence/02_build_heading_alone.png` (1440×900 Heading alone centered at scrollY 13528)
-  - `docs/motion-evidence/03_build_faq_arriving.png` (1440×900 FAQ arriving at scrollY 13873)
-  - `docs/motion-evidence/01_wall_held_1440_redline.png` (1440×900 with red line at $y = 450\text{px}$)
-- **Motion Walkthrough Videos:**
-  - `docs/motion-evidence/lmsdomain_motion_walkthrough.mp4` (Full interactive scroll through Wall of love exit, heading hold, unpinning into FAQ with ~45vh gap, and reverse scroll)
-- **Detailed JSON Metrics:**
-  - `docs/motion-evidence/wall_exit_metrics.json` (CDP measurements of Card 5 flight, heading hold, and 421px release gap to FAQ)
-  - `docs/motion-evidence/wall_audit_summary.json` (CDP measurements at 1440×900 and 1280×800)
+### Mobile Evidence Artifacts (<1024px)
+- **High-Resolution Stage Stills (iPhone 12 Pro 390×844):**
+  - `docs/motion-evidence/01_mobile_hero_cards_stacked.png`: Section 1 (Hero cards dealing into stacked ledges)
+  - `docs/motion-evidence/02_mobile_features_stacked.png`: Section 2 (Features sticky cards 01, 02, 03 stacked at 80px/100px/120px)
+  - `docs/motion-evidence/03_mobile_manifest_lit.png`: Section 3 (Manifesto text illuminated in dark `#161616`)
+  - `docs/motion-evidence/04_mobile_ai_step_progress.png`: Section 4 (AI Studio horizontal 1-4 progress bar and active window)
+  - `docs/motion-evidence/05_mobile_benefits_collapsed.png`: Section 5 (Benefits cards collapsed into -8° short stack)
+  - `docs/motion-evidence/06_mobile_wall_card5_held.png`: Section 6 (Wall of love Card 5 settled flat over black heading)
+- **Full Page Walkthrough Video:**
+  - `docs/motion-evidence/iphone_12_pro_scroll_walkthrough.mp4`: Complete interactive scroll down to footer and back up to hero on iPhone 12 Pro (390×844) showing clean reverse motion.
+
+### Desktop Verification Artifacts ($\ge 1024\text{px}$)
+- **Full Desktop Walkthrough Video:**
+  - `docs/motion-evidence/desktop_1440_unchanged_walkthrough.mp4`: 1440×900 desktop walkthrough confirming zero desktop regressions.
+- **Side-by-Side Comparison Stills (Reference vs Build):**
+  - `docs/motion-evidence/01-compare-card5-flying.png` (Ref 00:00:01.000 vs Build: Card 5 flight)
+  - `docs/motion-evidence/02-compare-heading-alone.png` (Ref 00:00:01.250 vs Build: Heading hold)
+  - `docs/motion-evidence/03-compare-faq-arriving.png` (Ref 00:00:01.500 vs Build: FAQ arrival with ~45vh gap)
+  - `docs/motion-evidence/01-wall-held-compare.png` (Ref vs Build: Wall of love held state)
+  - `docs/motion-evidence/features/01-card02-held-compare.png` (Ref vs Build: Features Card 02)
+  - `docs/motion-evidence/features/02-card03-held-compare.png` (Ref vs Build: Features Card 03)
 
 ---
 
-## 5. Dummy Items to Replace Before Production Launch
+## 6. Dummy Items to Replace Before Production Launch
 
 All dummy assets are marked `placeholder: true` in `content/home/*.ts` and credited in `docs/assets-credits.md`:
 1. **5 Dummy Testimonials (`content/home/testimonials.ts`):** David Chen, Sarah Jenkins, Elena Rostova, Marcus Vance, Priya Sharma with avatars `author-1.jpg` through `author-5.jpg`. Replace with real customer testimonials and photos.
