@@ -42,10 +42,25 @@ Following prompt 10 instructions, comprehensive mobile motion has been implement
    - `perspective: 1000px` applied on parent container.
    - Cards flip in with `rotateX: 70° → 0°`, `y: 40px → 0px`, `opacity: 0 → 1` scrubbed between 90% and 60% viewport height.
    - Collapse timeline scrubs Cards 1, 2, and 3 together into a short stack with `scale: 0.9`, `rotateZ: -8°`, and 140px vertical centering before the section ends.
-6. **Section 6 (Wall of Love - Centered Deck over Title):**
-   - 300vh mobile container with sticky stage.
-   - Headline "Wall of love" transitions from `#9CA3AF` to bold `#161616`.
-   - 300px deck rises from `40vh`, Cards 1–4 fly up off-screen (`y: -110vh`), and Card 5 (Sarah Jenkins) settles flat at 0° resting cleanly on the title.
+6. **Section 6 (Wall of Love - Centered Deck over "love" Mid-Line & 5-Card Flight):**
+   - 300vh mobile container with sticky stage (`-mb-[22vh]`).
+   - **Headline:** Two lines "Wall of" / "love", 80px font at 390 wide (`text-[68px] min-[375px]:text-[74px] min-[390px]:text-[80px] sm:text-[96px]`), vertically centered at 50% screen height (top: 346px, bottom: 498px, center: 422px).
+   - **Deck Positioning:** Top edge docks at `calc(50% + 38px)` (460px down), placing Card 1's top edge exactly at the vertical middle of the "love" line. "Wall of" (346–422px) and the top half of "love" (422–460px) remain fully visible above the deck. 300px card width (max 86vw) with original tilts.
+   - **5-Card Sequential Flight:** Cards 1–4 fly up off-screen (`y: -120vh`). Card 5 (Sarah Jenkins) also flies straight up off-screen (`y: -120vh, rotateZ: -8deg`).
+   - **Heading Alone Hold:** The black "Wall of love" heading stays alone centered on screen for 15% of the sticky scroll length (progress 0.85 to 1.00) before unpinning.
+   - **Gap to FAQ:** After the section ends, the empty space between the bottom of "love" (12675px) and the top of the FAQ card (12928px) is **253px (exactly 30.0% vh at 844px height)**.
+
+### Browser Measured Values on Mobile (iPhone 12 Pro 390×844)
+
+| Parameter | Target Specification | Measured Value | Status |
+| :--- | :--- | :--- | :--- |
+| **Heading Font Size** | ~80px at 390px wide | `80px` (`text-[80px]`, `leading-[0.95]`) | PASS |
+| **Heading Vertical Center** | Vertically centered in sticky stage | Top: `346px`, Bottom: `498px`, Center: `422px` (50.0% of 844px) | PASS |
+| **Deck Top Edge Position** | Middle of "love" line | `deck.top = 460px` (Middle of "love" is 422 + 38 = 460px) | PASS |
+| **Text Visibility Above Card** | "Wall of" + top half of "love" | 346px to 460px (114px) exposed above card top | PASS |
+| **Card Flight** | All 5 cards fly out off-screen | Cards 1–5: `top: -573px`, `opacity: 0` | PASS |
+| **Heading Alone Hold** | ~15% of sticky length | Progress 0.85 to 1.00 (duration: 0.15 = 15%) | PASS |
+| **Gap to FAQ Card** | ~30vh after section ends | `253px` (**29.9% vh** at maxScroll; **29.9% vh** static) | PASS (~30vh) |
 
 ### Zero Horizontal Overflow Verification (Chrome CDP)
 
@@ -146,6 +161,8 @@ The conveyor motion model and Card 03 visual polish implemented in prompt 11 rem
 
 ### Mobile Evidence Artifacts (<1024px)
 - **High-Resolution Stage Stills (iPhone 12 Pro 390×844):**
+  - `docs/motion-evidence/01_mobile_wall_deck_settled.png`: Mobile Wall of love with 80px two-line heading centered, top card docked at middle of "love" exposing "Wall of" + top half of "love".
+  - `docs/motion-evidence/02_mobile_wall_heading_alone.png`: Mobile Wall of love after all 5 cards have flown up off-screen, black heading held alone centered for 15% of sticky length.
   - `docs/motion-evidence/01_mobile_hero_cards_stacked.png`: Section 1 (Hero cards dealing into stacked ledges)
   - `docs/motion-evidence/02_mobile_features_stacked.png`: Section 2 (Features sticky cards 01, 02, 03 stacked at 80px/100px/120px)
   - `docs/motion-evidence/03_mobile_manifest_lit.png`: Section 3 (Manifesto text illuminated in dark `#161616`)
@@ -159,6 +176,7 @@ The conveyor motion model and Card 03 visual polish implemented in prompt 11 rem
 - **Full Desktop Walkthrough Video:**
   - `docs/motion-evidence/desktop_1440_unchanged_walkthrough.mp4`: 1440×900 desktop walkthrough confirming zero desktop regressions.
 - **Side-by-Side Comparison Stills (Reference vs Build):**
+  - `docs/motion-evidence/02_card03_held_1440.png`: Card 03 held at 1440×900 showing Alex Peterson video tile loaded and rendered with photo.
   - `docs/motion-evidence/01-compare-card5-flying.png` (Ref 00:00:01.000 vs Build: Card 5 flight)
   - `docs/motion-evidence/02-compare-heading-alone.png` (Ref 00:00:01.250 vs Build: Heading hold)
   - `docs/motion-evidence/03-compare-faq-arriving.png` (Ref 00:00:01.500 vs Build: FAQ arrival with ~45vh gap)
@@ -168,7 +186,29 @@ The conveyor motion model and Card 03 visual polish implemented in prompt 11 rem
 
 ---
 
-## 6. Dummy Items to Replace Before Production Launch
+## 6. Leftover Verification Items & Container Configuration
+
+1. **Card 03 Alex Peterson Photo (Desktop Features):**
+   - Verified local file exists at `public/assets/img/home/features/participant_alex.jpg`.
+   - Verified `next.config.ts` includes `images: { unoptimized: true }` and `FeaturesItems.tsx` includes `priority={true}`.
+   - Tested in Chrome CDP at 1440×900: `alexImg.complete === true`, `naturalWidth === 600`, `offsetWidth === 298`. Video tile renders photo with no dark placeholder.
+2. **Desktop `overflow-x: clip` Verification (1440×900):**
+   - Audited across 8 scroll steps ($y = 0, 800, 1600, 2400, 3200, 4500, 6000, 8000$).
+   - In all steps, `scrollWidth === innerWidth === 1440` and `hasHScroll === false`. Zero desktop horizontal scrolling or layout shift.
+3. **Backend Environment Variable Names:**
+   - Evaluated via `grep -rn "process.env" --include="*.ts" --include="*.tsx" --include="*.js" --exclude-dir="node_modules" --exclude-dir=".next" .`.
+   - Code strictly reads:
+     - `BACKEND_URL`: Internal SSR & Next.js proxy rewrite destination (`http://lms-landing-backend:3000`).
+     - `NEXT_PUBLIC_BACKEND_URL`: Browser client-side API requests (`http://localhost:5201`).
+     - `PORT`: Node server listen port (`8080`).
+   - `BACKEND_INTERNAL_URL` is not referenced anywhere in source code.
+4. **Container Port Binding:**
+   - Container restarted and bound strictly to `127.0.0.1:8080:8080`:
+     `docker run -d --name lmsdomain-frontend-redesign --network lmsdomain-landing-backend_lms-network -p 127.0.0.1:8080:8080 -e BACKEND_URL=http://lms-landing-backend:3000 -e NEXT_PUBLIC_BACKEND_URL=http://localhost:5201 -e PORT=8080 lmsdomain-frontend-redesign:latest`.
+
+---
+
+## 7. Dummy Items to Replace Before Production Launch
 
 All dummy assets are marked `placeholder: true` in `content/home/*.ts` and credited in `docs/assets-credits.md`:
 1. **5 Dummy Testimonials (`content/home/testimonials.ts`):** David Chen, Sarah Jenkins, Elena Rostova, Marcus Vance, Priya Sharma with avatars `author-1.jpg` through `author-5.jpg`. Replace with real customer testimonials and photos.

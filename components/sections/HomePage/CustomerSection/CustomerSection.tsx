@@ -361,14 +361,14 @@ export function CustomerSection({ data }: { data?: any }) {
           },
         });
 
-        // Stage 1 (0 -> 0.14): Title turns black, deck rises to center
+        // Stage 1 (0 -> 0.12): Title turns black, deck rises to middle of "love"
         mtl.to(
           mWallTextRef.current,
           {
             scale: 1,
             color: "#161616",
             ease: "power1.out",
-            duration: 0.14,
+            duration: 0.12,
           },
           0
         );
@@ -379,22 +379,22 @@ export function CustomerSection({ data }: { data?: any }) {
             y: 0,
             opacity: 1,
             ease: "power1.out",
-            duration: 0.14,
+            duration: 0.12,
           },
           0
         );
 
-        // Stage 2 (0.16 -> 0.32): Card 1 flies up; Card 2 takes top; Card 3 takes 2nd; Card 4 appears
+        // Stage 2 (0.14 -> 0.27): Card 1 flies up; Card 2 takes top; Card 3 takes 2nd; Card 4 appears
         mtl.to(
           mCard1Ref.current,
           {
-            y: "-110vh",
+            y: "-120vh",
             rotateZ: -8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.16
+          0.14
         );
         mtl.to(
           mCard2Ref.current,
@@ -403,9 +403,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 0,
             rotateZ: 2,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.16
+          0.14
         );
         mtl.to(
           mCard3Ref.current,
@@ -414,9 +414,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 6,
             rotateZ: -2,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.16
+          0.14
         );
         mtl.to(
           mCard4Ref.current,
@@ -426,22 +426,22 @@ export function CustomerSection({ data }: { data?: any }) {
             x: -5,
             rotateZ: 4,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.16
+          0.14
         );
 
-        // Stage 3 (0.34 -> 0.50): Card 2 flies up; Card 3 takes top; Card 4 takes 2nd; Card 5 appears
+        // Stage 3 (0.29 -> 0.42): Card 2 flies up; Card 3 takes top; Card 4 takes 2nd; Card 5 appears
         mtl.to(
           mCard2Ref.current,
           {
-            y: "-110vh",
+            y: "-120vh",
             rotateZ: 8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.34
+          0.29
         );
         mtl.to(
           mCard3Ref.current,
@@ -450,9 +450,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 0,
             rotateZ: -2,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.34
+          0.29
         );
         mtl.to(
           mCard4Ref.current,
@@ -461,9 +461,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 6,
             rotateZ: 4,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.34
+          0.29
         );
         mtl.to(
           mCard5Ref.current,
@@ -473,22 +473,22 @@ export function CustomerSection({ data }: { data?: any }) {
             x: -4,
             rotateZ: -3,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.34
+          0.29
         );
 
-        // Stage 4 (0.52 -> 0.68): Card 3 flies up; Card 4 takes top; Card 5 takes 2nd
+        // Stage 4 (0.44 -> 0.57): Card 3 flies up; Card 4 takes top; Card 5 takes 2nd
         mtl.to(
           mCard3Ref.current,
           {
-            y: "-110vh",
+            y: "-120vh",
             rotateZ: -8,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.52
+          0.44
         );
         mtl.to(
           mCard4Ref.current,
@@ -497,9 +497,9 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 0,
             rotateZ: 2,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.52
+          0.44
         );
         mtl.to(
           mCard5Ref.current,
@@ -508,22 +508,22 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 6,
             rotateZ: -3,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.52
+          0.44
         );
 
-        // Stage 5 (0.70 -> 0.86): Card 4 flies up; Card 5 takes top and settles flat at 0deg
+        // Stage 5 (0.59 -> 0.72): Card 4 flies up; Card 5 takes top and settles flat at 0deg
         mtl.to(
           mCard4Ref.current,
           {
-            y: "-110vh",
+            y: "-120vh",
             rotateZ: 10,
             opacity: 0,
             ease: "power1.in",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.70
+          0.59
         );
         mtl.to(
           mCard5Ref.current,
@@ -532,13 +532,26 @@ export function CustomerSection({ data }: { data?: any }) {
             x: 0,
             rotateZ: 0,
             ease: "power1.out",
-            duration: 0.15,
+            duration: 0.13,
           },
-          0.70
+          0.59
         );
 
-        // Stage 6 (0.86 -> 1.00): Card 5 stays settled on screen before release
-        mtl.to({}, { duration: 0.14 }, 0.86);
+        // Stage 6 (0.74 -> 0.85): Card 5 flies up like cards 1-4
+        mtl.to(
+          mCard5Ref.current,
+          {
+            y: "-120vh",
+            rotateZ: -8,
+            opacity: 0,
+            ease: "power1.in",
+            duration: 0.11,
+          },
+          0.74
+        );
+
+        // Stage 7 (0.85 -> 1.00): Heading stays alone on screen (15% of sticky length)
+        mtl.to({}, { duration: 0.15 }, 0.85);
       });
     }, sectionRef);
 
@@ -621,25 +634,25 @@ export function CustomerSection({ data }: { data?: any }) {
       {/* Mobile Sticky 300vh Container (<1024px) */}
       <div
         ref={mContainerRef}
-        className="relative w-full h-[300vh] lg:hidden overflow-visible"
+        className="relative w-full h-[300vh] lg:hidden overflow-visible -mb-[22vh]"
       >
         <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden px-4">
           {/* Headline "Wall of love" fitting ~88% of screen */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 px-4">
             <h2
               ref={mWallTextRef}
-              className="font-semibold tracking-[-0.03em] leading-[1.05] text-center will-change-transform max-w-[88vw] text-[62px] sm:text-[76px]"
+              className="font-semibold tracking-[-0.03em] leading-[0.95] text-center will-change-transform max-w-[88vw] text-[68px] min-[375px]:text-[74px] min-[390px]:text-[80px] sm:text-[96px]"
               style={{ fontWeight: 600, color: "#9CA3AF" }}
             >
               Wall of<br />love
             </h2>
           </div>
 
-          {/* Deck sits centered over the title, top edge at ~48% down window */}
+          {/* Deck sits centered over the title, top edge at the middle of the "love" line */}
           <div
             ref={mDeckWrapperRef}
             className="absolute left-1/2 -translate-x-1/2 z-20 will-change-transform pointer-events-none"
-            style={{ top: "48%" }}
+            style={{ top: "calc(50% + 38px)" }}
           >
             <div className="relative w-[300px] max-w-[86vw] h-[180px] pointer-events-auto">
               {/* Card 1 */}
