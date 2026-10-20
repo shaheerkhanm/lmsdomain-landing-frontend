@@ -396,17 +396,16 @@ export function FeaturesSection({ data }: { data?: any }) {
           return;
         }
 
-        // Card 1 covered by Card 2: scale 0.94 and opacity 0.6
+        // Covered cards remain solid opacity 1 at all times per mobile rules
         if (card1MobileRef.current && card2MobileRef.current) {
           gsap.to(card1MobileRef.current, {
-            scale: 0.94,
-            opacity: 0.6,
-            transformOrigin: "top center",
+            scale: 1,
+            opacity: 1,
             ease: "none",
             scrollTrigger: {
               trigger: card2MobileRef.current,
               start: "top 340px",
-              end: "top 100px",
+              end: "top 124px",
               scrub: 0.5,
             },
           });
@@ -432,17 +431,16 @@ export function FeaturesSection({ data }: { data?: any }) {
           );
         }
 
-        // Card 2 covered by Card 3: scale 0.94 and opacity 0.6
+        // Card 2 covered by Card 3: remain solid opacity 1 at all times
         if (card2MobileRef.current && card3MobileRef.current) {
           gsap.to(card2MobileRef.current, {
-            scale: 0.94,
-            opacity: 0.6,
-            transformOrigin: "top center",
+            scale: 1,
+            opacity: 1,
             ease: "none",
             scrollTrigger: {
               trigger: card3MobileRef.current,
               start: "top 360px",
-              end: "top 120px",
+              end: "top 168px",
               scrub: 0.5,
             },
           });
@@ -522,7 +520,7 @@ export function FeaturesSection({ data }: { data?: any }) {
               <span>✦</span>
               <span className="uppercase tracking-widest text-[12px]">CORE CAPABILITIES</span>
             </div>
-            <h2 className="text-[56px] font-semibold text-[#161616] tracking-tight leading-[1.1] max-w-3xl mx-auto">
+            <h2 className="text-[32px] lg:text-[56px] font-semibold text-[#161616] tracking-tight leading-[1.1] max-w-3xl mx-auto">
               {featuresContent.sectionTitle}
             </h2>
           </div>
@@ -897,18 +895,20 @@ export function FeaturesSection({ data }: { data?: any }) {
             <div
               ref={card1MobileRef}
               style={{ top: "80px", zIndex: 10 }}
-              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.12)] p-6 sm:p-8 flex flex-col justify-between will-change-transform"
+              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.12)] flex flex-col overflow-hidden will-change-transform select-none"
             >
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
-                    01
-                  </span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616] tracking-tight">
+              {/* Top 44px Strip: Number + Title on one clean line */}
+              <div className="h-[44px] px-5 sm:px-6 flex items-center gap-2.5 bg-white border-b border-[#ECEDEF] rounded-t-[28px] shrink-0">
+                <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
+                  01
+                </span>
+                <h3 className="text-base sm:text-lg font-semibold text-[#161616] tracking-tight truncate">
                   {card1.title}
                 </h3>
-                <p className="text-sm text-[#6B7280] leading-relaxed">
+              </div>
+              {/* Card Body */}
+              <div className="p-5 sm:p-6 bg-white rounded-b-[28px] space-y-3">
+                <p className="text-[15px] text-[#6B7280] leading-relaxed">
                   {card1.summary}
                 </p>
 
@@ -938,19 +938,21 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* Card 02 */}
             <div
               ref={card2MobileRef}
-              style={{ top: "100px", zIndex: 20 }}
-              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.14)] p-6 sm:p-8 flex flex-col justify-between will-change-transform"
+              style={{ top: "124px", zIndex: 20 }}
+              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.14)] flex flex-col overflow-hidden will-change-transform select-none"
             >
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
-                    02
-                  </span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616] tracking-tight">
+              {/* Top 44px Strip: Number + Title on one clean line */}
+              <div className="h-[44px] px-5 sm:px-6 flex items-center gap-2.5 bg-white border-b border-[#ECEDEF] rounded-t-[28px] shrink-0">
+                <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
+                  02
+                </span>
+                <h3 className="text-base sm:text-lg font-semibold text-[#161616] tracking-tight truncate">
                   {card2.title}
                 </h3>
-                <p className="text-sm text-[#6B7280] leading-relaxed">
+              </div>
+              {/* Card Body */}
+              <div className="p-5 sm:p-6 bg-white rounded-b-[28px] space-y-3">
+                <p className="text-[15px] text-[#6B7280] leading-relaxed">
                   {card2.summary}
                 </p>
 
@@ -980,19 +982,21 @@ export function FeaturesSection({ data }: { data?: any }) {
             {/* Card 03 */}
             <div
               ref={card3MobileRef}
-              style={{ top: "120px", zIndex: 30 }}
-              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.16)] p-6 sm:p-8 flex flex-col justify-between will-change-transform"
+              style={{ top: "168px", zIndex: 30 }}
+              className="sticky rounded-[28px] bg-white border border-[#ECEDEF] shadow-[0_16px_36px_-12px_rgba(0,0,0,0.16)] flex flex-col overflow-hidden will-change-transform select-none"
             >
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
-                    03
-                  </span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-semibold text-[#161616] tracking-tight">
+              {/* Top 44px Strip: Number + Title */}
+              <div className="h-[44px] px-5 sm:px-6 flex items-center gap-2.5 bg-white border-b border-[#ECEDEF] rounded-t-[28px] shrink-0">
+                <span className="text-xs font-mono font-bold text-[#161616] px-2 py-0.5 rounded bg-[#F5F6F8] border border-[#ECEDEF]">
+                  03
+                </span>
+                <h3 className="text-base sm:text-lg font-semibold text-[#161616] tracking-tight truncate">
                   {card3.title}
                 </h3>
-                <p className="text-sm text-[#6B7280] leading-relaxed">
+              </div>
+              {/* Card Body */}
+              <div className="p-5 sm:p-6 bg-white rounded-b-[28px] space-y-3">
+                <p className="text-[15px] text-[#6B7280] leading-relaxed">
                   {card3.summary}
                 </p>
 

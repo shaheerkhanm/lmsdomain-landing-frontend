@@ -11,6 +11,7 @@ export function ManifestSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const paragraphBlockRef = useRef<HTMLDivElement>(null);
   const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const mobileTextRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const isReduced = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -61,6 +62,7 @@ export function ManifestSection() {
 
         gsap.set(mobileWords, { color: "#C9CCD1" });
 
+        // Mobile / Tablet: under 1024px (180vh Container: 0-50% reveal, 50-65% read hold, 65-95% scrolls away off top of screen)
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: mobileContainerRef.current,
@@ -70,16 +72,37 @@ export function ManifestSection() {
           },
         });
 
-        // Word illumination finishes by 80% of scroll so it is fully read before release
-        tl.to(mobileWords, {
-          color: "#161616",
-          stagger: {
-            each: 0.04,
-            from: "start",
+        // 1. Word illumination finishes by 50% of scroll
+        tl.to(
+          mobileWords,
+          {
+            color: "#161616",
+            stagger: {
+              each: 0.02,
+              from: "start",
+            },
+            duration: 0.50,
+            ease: "power1.inOut",
           },
-          duration: 0.8,
-          ease: "power1.inOut",
-        }, 0);
+          0
+        );
+
+        // 2. Once fully revealed, paragraph scrolls away off the top of the screen before AI section enters
+        if (mobileTextRef.current) {
+          tl.to(
+            mobileTextRef.current,
+            {
+              y: "-70vh",
+              opacity: 0,
+              duration: 0.30,
+              ease: "power1.in",
+            },
+            0.65
+          );
+        }
+
+        // 3. Clear 64px runway hold before AI enters
+        tl.to({}, { duration: 0.05 }, 0.95);
       });
     }, sectionRef);
 
@@ -90,7 +113,7 @@ export function ManifestSection() {
     <section
       ref={sectionRef}
       id="manifesto"
-      className="bg-white font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16"
+      className="bg-[#F3F4F6] lg:bg-white font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16"
     >
       {/* Desktop Layout (>=1024px: Pinned Row) */}
       <div
@@ -109,13 +132,16 @@ export function ManifestSection() {
         </p>
       </div>
 
-      {/* Mobile Layout (<1024px: 130vh Sticky Container, Vertically Centred) */}
+      {/* Mobile Layout (<1024px: 180vh Sticky Container, Vertically Centred) */}
       <div
         ref={mobileContainerRef}
-        className="relative w-full h-[130vh] lg:hidden"
+        className="relative w-full h-[180vh] lg:hidden"
       >
         <div className="sticky top-[calc((100vh-130px)/2)] h-[130px] w-full flex items-center justify-center px-6">
-          <p className="text-2xl sm:text-3xl font-medium leading-[1.35] tracking-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-2.5 gap-y-1.5 select-none text-center max-w-[700px]">
+          <p
+            ref={mobileTextRef}
+            className="text-2xl sm:text-3xl font-medium leading-[1.35] tracking-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-2.5 gap-y-1.5 select-none text-center max-w-[700px] will-change-transform"
+          >
             {STATEMENT_WORDS.map((word, idx) => (
               <span
                 key={idx}

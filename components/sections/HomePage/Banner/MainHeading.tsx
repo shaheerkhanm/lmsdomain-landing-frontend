@@ -7,7 +7,7 @@ import { heroContent } from "@/content/home/hero";
 export function MainHeading({ data }: { data?: any }) {
   return (
     <div className="flex flex-col items-center text-center max-w-3xl mx-auto font-urbanist">
-      <h1 className="text-3xl sm:text-5xl lg:text-[56px] font-semibold tracking-tight text-[#161616] leading-[1.12]">
+      <h1 className="text-[32px] sm:text-5xl lg:text-[56px] font-semibold tracking-tight text-[#161616] leading-[1.12]">
         <span className="block">{heroContent.titlePrefix}</span>
         <span className="block mt-1 sm:mt-1.5">
           to <KeywordPill />

@@ -249,23 +249,38 @@ export function AiSection() {
           },
         });
 
-        // Segment 1 (0 -> 1): Step 0 -> Step 1
+        // Segment 1 (0 -> 1): Step 0 -> Step 1 (no text overlap: old text fully leaves before new text arrives)
         tl.to(mSeg1FillRef.current, { scaleX: 1, ease: "none", duration: 1 }, 0);
-        tl.to(mNum2Ref.current, { color: "#FFFFFF", duration: 0.2 }, 0.8);
-        tl.to(mText0Ref.current, { y: -30, opacity: 0, pointerEvents: "none", duration: 0.35, ease: "power1.inOut" }, 0.7);
-        tl.to(mText1Ref.current, { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.35, ease: "power1.inOut" }, 0.75);
+        tl.to(mNum2Ref.current, { color: "#FFFFFF", duration: 0.15 }, 0.84);
+        tl.to(mText0Ref.current, { y: -20, opacity: 0, pointerEvents: "none", duration: 0.12, ease: "power1.in" }, 0.70);
+        tl.fromTo(
+          mText1Ref.current,
+          { y: 20, opacity: 0, pointerEvents: "none" },
+          { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.12, ease: "power1.out" },
+          0.84
+        );
 
         // Segment 2 (1 -> 2): Step 1 -> Step 2
         tl.to(mSeg2FillRef.current, { scaleX: 1, ease: "none", duration: 1 }, 1);
-        tl.to(mNum3Ref.current, { color: "#FFFFFF", duration: 0.2 }, 1.8);
-        tl.to(mText1Ref.current, { y: -30, opacity: 0, pointerEvents: "none", duration: 0.35, ease: "power1.inOut" }, 1.7);
-        tl.to(mText2Ref.current, { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.35, ease: "power1.inOut" }, 1.75);
+        tl.to(mNum3Ref.current, { color: "#FFFFFF", duration: 0.15 }, 1.84);
+        tl.to(mText1Ref.current, { y: -20, opacity: 0, pointerEvents: "none", duration: 0.12, ease: "power1.in" }, 1.70);
+        tl.fromTo(
+          mText2Ref.current,
+          { y: 20, opacity: 0, pointerEvents: "none" },
+          { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.12, ease: "power1.out" },
+          1.84
+        );
 
         // Segment 3 (2 -> 3): Step 2 -> Step 3
         tl.to(mSeg3FillRef.current, { scaleX: 1, ease: "none", duration: 1 }, 2);
-        tl.to(mNum4Ref.current, { color: "#FFFFFF", duration: 0.2 }, 2.8);
-        tl.to(mText2Ref.current, { y: -30, opacity: 0, pointerEvents: "none", duration: 0.35, ease: "power1.inOut" }, 2.7);
-        tl.to(mText3Ref.current, { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.35, ease: "power1.inOut" }, 2.75);
+        tl.to(mNum4Ref.current, { color: "#FFFFFF", duration: 0.15 }, 2.84);
+        tl.to(mText2Ref.current, { y: -20, opacity: 0, pointerEvents: "none", duration: 0.12, ease: "power1.in" }, 2.70);
+        tl.fromTo(
+          mText3Ref.current,
+          { y: 20, opacity: 0, pointerEvents: "none" },
+          { y: 0, opacity: 1, pointerEvents: "auto", duration: 0.12, ease: "power1.out" },
+          2.84
+        );
       });
     }, sectionRef);
 
@@ -464,7 +479,7 @@ export function AiSection() {
     <section
       ref={sectionRef}
       id="extension"
-      className="pt-0 pb-0 lg:py-24 px-3 sm:px-6 lg:px-8 bg-white font-urbanist relative overflow-visible mb-16"
+      className="pt-0 pb-0 lg:py-24 px-3 sm:px-6 lg:px-8 bg-[#F3F4F6] lg:bg-white font-urbanist relative overflow-visible mb-16"
     >
       <div
         id="ai-studio"
@@ -492,14 +507,14 @@ export function AiSection() {
 
         {/* Mobile Sticky 280vh Container (<1024px: 70vh per step) */}
         <div ref={mobileContainerRef} className="relative w-full h-[280vh] lg:hidden">
-          <div className="sticky top-[calc((100vh-450px)/2)] h-[450px] w-full flex flex-col justify-between items-center py-2 px-1 max-w-md mx-auto">
-            {/* Mobile Header: Pill, title, and subtitle sit directly above progress bar (24px gap) */}
-            <div className="text-center w-full mb-6">
+          <div className="sticky top-[calc((100vh-590px)/2)] h-[590px] w-full flex flex-col justify-between items-center py-2 px-1 max-w-md mx-auto">
+            {/* Mobile Header: Pill, title (restored to 32px), and subtitle sit directly above progress bar (24px gap) */}
+            <div className="text-center w-full mb-4">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[#C9CCD1] text-[10px] font-semibold uppercase tracking-wider mb-2">
                 <span className="text-[#7B5CF5]">✦</span>
                 <span>{aiSectionContent.badge}</span>
               </div>
-              <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight leading-tight">
+              <h2 className="text-[32px] font-semibold text-white tracking-tight leading-tight max-w-sm mx-auto">
                 {aiSectionContent.title}
               </h2>
               <p className="mt-1 text-xs text-[#C9CCD1] max-w-xs mx-auto leading-relaxed">
@@ -524,28 +539,28 @@ export function AiSection() {
               <span ref={mNum4Ref} className="text-xs font-mono font-bold text-[#6B7280] transition-colors">4</span>
             </div>
 
-            {/* Step Text Container: Only active step shown, transitions +/- 30px */}
-            <div className="w-full relative h-[68px] mb-2 px-1 overflow-hidden">
+            {/* Step Text Container: Fixed height 88px, 16px space to window */}
+            <div className="w-full relative h-[88px] mb-4 px-1 overflow-hidden shrink-0">
               <div ref={mText0Ref} className="absolute inset-0 flex flex-col justify-center will-change-transform">
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight truncate">{aiSectionContent.tabs[0].title}</h3>
-                <p className="text-xs text-[#C9CCD1] leading-relaxed line-clamp-2">{aiSectionContent.tabs[0].description}</p>
+                <h3 className="text-[20px] font-semibold text-white tracking-tight leading-snug">{aiSectionContent.tabs[0].title}</h3>
+                <p className="text-[14px] sm:text-[15px] text-[#C9CCD1] leading-relaxed mt-0.5 line-clamp-2">{aiSectionContent.tabs[0].description}</p>
               </div>
               <div ref={mText1Ref} className="absolute inset-0 flex flex-col justify-center will-change-transform opacity-0 pointer-events-none">
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight truncate">{aiSectionContent.tabs[1].title}</h3>
-                <p className="text-xs text-[#C9CCD1] leading-relaxed line-clamp-2">{aiSectionContent.tabs[1].description}</p>
+                <h3 className="text-[20px] font-semibold text-white tracking-tight leading-snug">{aiSectionContent.tabs[1].title}</h3>
+                <p className="text-[14px] sm:text-[15px] text-[#C9CCD1] leading-relaxed mt-0.5 line-clamp-2">{aiSectionContent.tabs[1].description}</p>
               </div>
               <div ref={mText2Ref} className="absolute inset-0 flex flex-col justify-center will-change-transform opacity-0 pointer-events-none">
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight truncate">{aiSectionContent.tabs[2].title}</h3>
-                <p className="text-xs text-[#C9CCD1] leading-relaxed line-clamp-2">{aiSectionContent.tabs[2].description}</p>
+                <h3 className="text-[20px] font-semibold text-white tracking-tight leading-snug">{aiSectionContent.tabs[2].title}</h3>
+                <p className="text-[14px] sm:text-[15px] text-[#C9CCD1] leading-relaxed mt-0.5 line-clamp-2">{aiSectionContent.tabs[2].description}</p>
               </div>
               <div ref={mText3Ref} className="absolute inset-0 flex flex-col justify-center will-change-transform opacity-0 pointer-events-none">
-                <h3 className="text-base sm:text-lg font-bold text-white tracking-tight truncate">{aiSectionContent.tabs[3].title}</h3>
-                <p className="text-xs text-[#C9CCD1] leading-relaxed line-clamp-2">{aiSectionContent.tabs[3].description}</p>
+                <h3 className="text-[20px] font-semibold text-white tracking-tight leading-snug">{aiSectionContent.tabs[3].title}</h3>
+                <p className="text-[14px] sm:text-[15px] text-[#C9CCD1] leading-relaxed mt-0.5 line-clamp-2">{aiSectionContent.tabs[3].description}</p>
               </div>
             </div>
 
-            {/* AI Interactive Window (capped at 55vh, max-h-[52vh], fully visible on 375x667) */}
-            <div className="w-full max-h-[52vh] rounded-[24px] bg-[#1E1F23] border border-white/15 p-3.5 sm:p-4 flex flex-col justify-between overflow-hidden shadow-xl">
+            {/* AI Interactive Window (min-h-[300px], content scrolls inside if needed) */}
+            <div className="w-full h-[300px] min-h-[300px] rounded-[24px] bg-[#1E1F23] border border-white/15 p-3.5 sm:p-4 flex flex-col justify-between overflow-y-auto shadow-xl shrink-0">
               {/* Window Header */}
               <div className="flex items-center justify-between pb-2 border-b border-white/10">
                 <div className="flex items-center gap-2">

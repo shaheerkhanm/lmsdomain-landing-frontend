@@ -37,7 +37,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
-    <section className="relative pt-[152px] pb-0 lg:pb-24 mb-16 lg:mb-0 overflow-x-clip bg-white font-urbanist">
+    <section className="relative pt-[152px] pb-0 lg:pb-24 mb-16 lg:mb-0 overflow-x-clip bg-[#F3F4F6] lg:bg-white font-urbanist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center">
         {/* A24: Hero load entrance stagger */}
         <motion.div
@@ -54,7 +54,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           {/* 2. Mota 2-Line Subtitle */}
           <motion.p
             variants={heroItemVariants}
-            className="mt-2.5 max-w-lg text-center text-xs sm:text-sm text-[#6B6F76] leading-relaxed"
+            className="mt-2.5 max-w-lg text-center text-[15px] sm:text-base text-[#6B6F76] leading-relaxed"
           >
             {heroContent.subtitle}
           </motion.p>
@@ -75,7 +75,8 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           </motion.div>
         </motion.div>
 
-        {/* 4. Mota Floating Cards & Converging Dashboard Stage (A05) */}
+        {/* 4. Mota Floating Cards & Converging Dashboard Stage (Desktop >=1024px & Mobile <1024px) */}
+        {/* Exactly 24px clearance (mt-6) below the CTA button */}
         <div className="mt-6 sm:mt-7 w-full">
           <LmsProductStage onOpenModal={() => setShowDemoModal(true)} />
         </div>

@@ -39,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} font-urbanist bg-white text-[#161616] antialiased !mr-0`}>
+      <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} font-urbanist bg-[#F3F4F6] lg:bg-white text-[#161616] antialiased !mr-0`}>
         <Canonical />
         <Header />
         <SmoothScroll>

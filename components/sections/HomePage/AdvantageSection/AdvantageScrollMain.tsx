@@ -141,7 +141,7 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         );
       });
 
-      // Mobile: under 1024px (Flip-in cards, then collapse into short stack)
+      // Mobile: under 1024px (Flip-in cards in natural vertical flow, no off-section translations)
       mm.add("(max-width: 1023px)", () => {
         if (isReduced) {
           gsap.set([mCard1Ref.current, mCard2Ref.current, mCard3Ref.current], {
@@ -152,14 +152,14 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
 
         const mCards = [mCard1Ref.current, mCard2Ref.current, mCard3Ref.current];
 
-        // 1. Flip-in for each card: rotateX 70 -> 0, y 40 -> 0, opacity 0 -> 1 scrubbed 90% to 60%
+        // Flip-in for each card: rotateX 70 -> 0, y 30 -> 0, opacity 0 -> 1 scrubbed 90% to 65%
         mCards.forEach((card) => {
           if (!card) return;
           gsap.fromTo(
             card,
             {
-              rotateX: 70,
-              y: 40,
+              rotateX: 60,
+              y: 30,
               opacity: 0,
               transformOrigin: "top center",
             },
@@ -171,66 +171,12 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
               scrollTrigger: {
                 trigger: card,
                 start: "top 90%",
-                end: "top 60%",
+                end: "top 65%",
                 scrub: 0.5,
               },
             }
           );
         });
-
-        // 2. Collapse: after the last card, scale 0.9, rotate -8deg, and slide together into short stack
-        const c1 = mCard1Ref.current;
-        const c2 = mCard2Ref.current;
-        const c3 = mCard3Ref.current;
-
-        if (c1 && c2 && c3) {
-          const collapseTl = gsap.timeline({
-            scrollTrigger: {
-              trigger: c3,
-              start: "top 60%",
-              end: "top 28%",
-              scrub: 0.5,
-            },
-          });
-
-          // Measure distance between cards so they slide into a stack centered on Card 2, with downward offset to stay fully visible in viewport
-          const dist1 = (c2.offsetTop - c1.offsetTop) - 16;
-          const dist3 = -((c3.offsetTop - c2.offsetTop) - 16);
-          const stackY = 140;
-
-          collapseTl.to(
-            c1,
-            {
-              y: dist1 + stackY,
-              scale: 0.9,
-              rotateZ: -8,
-              ease: "power1.inOut",
-            },
-            0
-          );
-
-          collapseTl.to(
-            c2,
-            {
-              y: stackY,
-              scale: 0.9,
-              rotateZ: -8,
-              ease: "power1.inOut",
-            },
-            0
-          );
-
-          collapseTl.to(
-            c3,
-            {
-              y: dist3 + stackY,
-              scale: 0.9,
-              rotateZ: -8,
-              ease: "power1.inOut",
-            },
-            0
-          );
-        }
       });
     }, pinWrapperRef);
 
@@ -240,7 +186,7 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
   return (
     <div
       ref={pinWrapperRef}
-      className="relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible font-urbanist"
+      className="relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-0 lg:min-h-[480px] overflow-visible font-urbanist"
     >
       {/* Desktop Group Wrapper (A19 GSAP scrubbed rotation & collapse) */}
       <div
@@ -349,7 +295,7 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         <div
           ref={mCard1Ref}
           style={{ zIndex: 10 }}
-          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu"
+          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu select-none"
         >
           <div className="shrink-0 flex items-center justify-center h-[140px]">
             <img
@@ -359,8 +305,8 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
             />
           </div>
           <div className="space-y-2">
-            <h4 className="text-xl font-semibold text-[#161616]">{BENEFIT_CARDS[0].title}</h4>
-            <p className="text-sm text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[0].description}</p>
+            <h4 className="text-[20px] font-semibold text-[#161616] tracking-tight">{BENEFIT_CARDS[0].title}</h4>
+            <p className="text-[15px] text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[0].description}</p>
           </div>
         </div>
 
@@ -368,7 +314,7 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         <div
           ref={mCard2Ref}
           style={{ zIndex: 20 }}
-          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu"
+          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu select-none"
         >
           <div className="shrink-0 flex items-center justify-center h-[140px]">
             <img
@@ -378,8 +324,8 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
             />
           </div>
           <div className="space-y-2">
-            <h4 className="text-xl font-semibold text-[#161616]">{BENEFIT_CARDS[1].title}</h4>
-            <p className="text-sm text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[1].description}</p>
+            <h4 className="text-[20px] font-semibold text-[#161616] tracking-tight">{BENEFIT_CARDS[1].title}</h4>
+            <p className="text-[15px] text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[1].description}</p>
           </div>
         </div>
 
@@ -387,7 +333,7 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
         <div
           ref={mCard3Ref}
           style={{ zIndex: 30 }}
-          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu"
+          className="rounded-[24px] bg-white border border-[#ECEDEF] shadow-md p-6 flex flex-col items-center text-center gap-4 will-change-transform transform-gpu select-none"
         >
           <div className="shrink-0 flex items-center justify-center h-[140px]">
             <img
@@ -397,8 +343,8 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
             />
           </div>
           <div className="space-y-2">
-            <h4 className="text-xl font-semibold text-[#161616]">{BENEFIT_CARDS[2].title}</h4>
-            <p className="text-sm text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[2].description}</p>
+            <h4 className="text-[20px] font-semibold text-[#161616] tracking-tight">{BENEFIT_CARDS[2].title}</h4>
+            <p className="text-[15px] text-[#6B6F76] leading-relaxed">{BENEFIT_CARDS[2].description}</p>
           </div>
         </div>
       </div>

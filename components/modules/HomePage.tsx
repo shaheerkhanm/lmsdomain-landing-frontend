@@ -41,7 +41,7 @@ export async function HomePage() {
   ]);
 
   return (
-    <div className="relative font-urbanist bg-white text-slate-900 overflow-x-clip lg:overflow-hidden">
+    <div className="relative font-urbanist bg-[#F3F4F6] lg:bg-white text-slate-900 overflow-x-clip lg:overflow-hidden">
       {/* 1. Mota Hero Stage: Cycling Pastel Pill Badge + Converging 2x2 Dashboard Mockup */}
       <BannerSection graphData={homeGraphdata} data={homeHeroData} />
 

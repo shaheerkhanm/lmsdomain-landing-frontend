@@ -144,6 +144,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         gsap.set(card3MobileRef.current, { x: 0, y: 92, rotateZ: -2, scale: 1, zIndex: 20 });
         gsap.set(card4MobileRef.current, { x: 0, y: 102, rotateZ: 3, scale: 1, zIndex: 10 });
 
+        // Total 200vh runway: 4 cards x 50vh hold
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: mobileContainerRef.current,
@@ -153,15 +154,15 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
           },
         });
 
-        // 1. Card 1 moves straight up (no sideways movement), scales to 0.92, settles as 24px ledge at y=0
+        // 1. Card 1 moves straight up (no sideways movement), settles as 24px ledge at y=0 (0 to 25% of scroll)
         tl.to(
           card1MobileRef.current,
           {
             x: 0,
             y: 0,
-            scale: 0.92,
+            scale: 1,
             rotateZ: 0,
-            duration: 0.30,
+            duration: 0.22,
             ease: "power1.out",
           },
           0
@@ -172,27 +173,27 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             x: 0,
             y: 72,
             rotateZ: 0,
-            duration: 0.28,
+            duration: 0.22,
             ease: "power1.out",
           },
           0
         );
         // Card 2 takes higher z-index so it cleanly covers Card 1 below y=24
-        tl.set(card2MobileRef.current, { zIndex: 40 }, 0.28);
-        tl.set(card1MobileRef.current, { zIndex: 10 }, 0.28);
+        tl.set(card2MobileRef.current, { zIndex: 40 }, 0.24);
+        tl.set(card1MobileRef.current, { zIndex: 10 }, 0.24);
 
-        // 2. Card 2 moves straight up, scales to 0.92, settles as 2nd 24px ledge at y=24
+        // 2. Card 2 moves straight up, settles as 2nd 24px ledge at y=24 (25% to 50% of scroll)
         tl.to(
           card2MobileRef.current,
           {
             x: 0,
             y: 24,
-            scale: 0.92,
+            scale: 1,
             rotateZ: 0,
-            duration: 0.30,
+            duration: 0.22,
             ease: "power1.out",
           },
-          0.33
+          0.25
         );
         tl.to(
           card3MobileRef.current,
@@ -200,47 +201,56 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             x: 0,
             y: 72,
             rotateZ: 0,
-            duration: 0.28,
+            duration: 0.22,
             ease: "power1.out",
           },
-          0.33
+          0.25
         );
         // Card 3 takes higher z-index so it cleanly covers Card 2 below y=48
-        tl.set(card3MobileRef.current, { zIndex: 40 }, 0.61);
-        tl.set(card2MobileRef.current, { zIndex: 20 }, 0.61);
+        tl.set(card3MobileRef.current, { zIndex: 40 }, 0.49);
+        tl.set(card2MobileRef.current, { zIndex: 20 }, 0.49);
 
-        // 3. Card 3 moves straight up, scales to 0.92, settles as 3rd 24px ledge at y=48
+        // 3. Card 3 moves straight up, settles as 3rd 24px ledge at y=48 (50% to 75% of scroll)
         tl.to(
           card3MobileRef.current,
           {
             x: 0,
             y: 48,
-            scale: 0.92,
+            scale: 1,
             rotateZ: 0,
-            duration: 0.30,
+            duration: 0.22,
             ease: "power1.out",
           },
-          0.66
+          0.50
         );
-        // Card 4 straightens, stays scale 1 at y=72 fully visible
         tl.to(
           card4MobileRef.current,
           {
             x: 0,
             y: 72,
             rotateZ: 0,
-            scale: 1,
-            duration: 0.28,
+            duration: 0.22,
             ease: "power1.out",
           },
-          0.66
+          0.50
         );
-        // Card 4 takes top z-index, fully visible under the three 24px ledges
-        tl.set(card4MobileRef.current, { zIndex: 40 }, 0.92);
-        tl.set(card3MobileRef.current, { zIndex: 30 }, 0.92);
+        // Card 4 takes top z-index so it cleanly sits in front
+        tl.set(card4MobileRef.current, { zIndex: 40 }, 0.74);
+        tl.set(card3MobileRef.current, { zIndex: 30 }, 0.74);
 
-        // 4. Brief settle hold before hero unpins immediately
-        tl.to({}, { duration: 0.06 }, 0.94);
+        // 4. Card 4 settles flat at y=72, fully visible under the three 24px ledges (75% to 100% of scroll)
+        tl.to(
+          card4MobileRef.current,
+          {
+            x: 0,
+            y: 72,
+            scale: 1,
+            rotateZ: 0,
+            duration: 0.22,
+            ease: "power1.out",
+          },
+          0.75
+        );
       });
     }, containerRef);
 
@@ -591,7 +601,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
       {/* Mobile / Tablet View (<1024px): 4 Cards Deal-In Stack in a Sticky Stage */}
       <div
         ref={mobileContainerRef}
-        className="relative w-full h-[160vh] lg:hidden"
+        className="relative w-full h-[200vh] lg:hidden"
       >
         <div
           ref={mobileStageRef}
@@ -602,33 +612,38 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             <div
               ref={card1MobileRef}
               style={{ zIndex: 40 }}
-              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col will-change-transform overflow-hidden select-none"
             >
-              <div>
-                <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
+              {/* Ledge Header Strip: 24px high, 12px medium title */}
+              <div className="h-[24px] px-3.5 flex items-center bg-white border-b border-[#ECEDEF] shrink-0">
+                <span className="text-[12px] font-medium text-[#161616] truncate leading-none">
                   {card1Data.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card1Data.subtitle}</p>
-
-                <div className="mt-3 space-y-2">
-                  {card1Data.lessons.map((lesson, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between bg-[#F5F6F8] rounded-[10px] px-3 py-2 text-xs"
-                    >
-                      <span className="font-medium text-[#161616] truncate">{lesson.title}</span>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#6B6F76] bg-white border border-[#ECEDEF] px-1.5 py-0.5 rounded ml-2 shrink-0">
-                        {lesson.type}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
-                <span className="text-xs font-semibold text-[#6B6F76] flex items-center gap-1.5">
-                  <span className="size-1.5 rounded-full bg-emerald-500" />
-                  {card1Data.dripChip}
                 </span>
+              </div>
+              {/* Card Content Body */}
+              <div className="p-4 flex-1 flex flex-col justify-between bg-white overflow-hidden">
+                <div>
+                  <p className="text-xs text-[#6B6F76]">{card1Data.subtitle}</p>
+                  <div className="mt-2.5 space-y-1.5">
+                    {card1Data.lessons.map((lesson, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between bg-[#F5F6F8] rounded-[10px] px-3 py-1.5 text-xs"
+                      >
+                        <span className="font-medium text-[#161616] truncate">{lesson.title}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#6B6F76] bg-white border border-[#ECEDEF] px-1.5 py-0.5 rounded ml-2 shrink-0">
+                          {lesson.type}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
+                  <span className="text-xs font-semibold text-[#6B6F76] flex items-center gap-1.5">
+                    <span className="size-1.5 rounded-full bg-emerald-500" />
+                    {card1Data.dripChip}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -636,40 +651,43 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             <div
               ref={card2MobileRef}
               style={{ zIndex: 30 }}
-              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col will-change-transform overflow-hidden select-none"
             >
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded-full bg-purple-100 text-[#7B5CF5] text-[10px] font-bold">
-                    {card2Data.badge}
-                  </span>
-                  <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
-                    {card2Data.title}
-                  </h3>
-                </div>
-                <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card2Data.subtitle}</p>
-
-                <div className="mt-2.5 space-y-2">
-                  <div className="flex items-start gap-2 justify-end">
-                    <div className="max-w-[85%] rounded-[10px] bg-[#F5F6F8] px-3 py-1.5 text-xs text-[#161616]">
-                      <p className="font-medium">{card2Data.question}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="size-6 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
-                      AI
-                    </div>
-                    <div className="max-w-[90%] rounded-[10px] bg-purple-50/70 border border-purple-100 px-3 py-2 text-xs text-slate-800">
-                      <p className="leading-relaxed line-clamp-2">{card2Data.answer}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-2.5 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
-                <span className="inline-flex items-center gap-1 text-xs text-[#7B5CF5] font-semibold bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200/60">
-                  <span>✦</span>
-                  {card2Data.sourceChip}
+              {/* Ledge Header Strip: 24px high, 12px medium title */}
+              <div className="h-[24px] px-3.5 flex items-center justify-between bg-white border-b border-[#ECEDEF] shrink-0">
+                <span className="text-[12px] font-medium text-[#161616] truncate leading-none">
+                  {card2Data.title}
                 </span>
+                <span className="px-1.5 py-0.2 rounded-full bg-purple-100 text-[#7B5CF5] text-[9px] font-bold">
+                  {card2Data.badge}
+                </span>
+              </div>
+              {/* Card Content Body */}
+              <div className="p-4 flex-1 flex flex-col justify-between bg-white overflow-hidden">
+                <div>
+                  <p className="text-xs text-[#6B6F76]">{card2Data.subtitle}</p>
+                  <div className="mt-2 space-y-1.5">
+                    <div className="flex items-start gap-2 justify-end">
+                      <div className="max-w-[85%] rounded-[10px] bg-[#F5F6F8] px-3 py-1 text-xs text-[#161616]">
+                        <p className="font-medium truncate">{card2Data.question}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="size-5 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[9px] font-bold shrink-0">
+                        AI
+                      </div>
+                      <div className="max-w-[88%] rounded-[10px] bg-purple-50/70 border border-purple-100 px-2.5 py-1 text-xs text-slate-800">
+                        <p className="leading-snug line-clamp-2 text-[11px]">{card2Data.answer}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1 text-[11px] text-[#7B5CF5] font-semibold bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200/60">
+                    <span>✦</span>
+                    {card2Data.sourceChip}
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -677,64 +695,72 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             <div
               ref={card3MobileRef}
               style={{ zIndex: 20 }}
-              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col will-change-transform overflow-hidden select-none"
             >
-              <div>
-                <div className="flex items-center justify-between">
-                  <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
-                    {card3Data.title}
-                  </h3>
-                  <div className="flex items-center gap-1 bg-[#F5F6F8] rounded-full p-0.5 border border-[#ECEDEF] text-xs font-semibold">
-                    <button
-                      type="button"
-                      onClick={() => setCurrency("USD")}
-                      className={`px-2 py-0.5 rounded-full transition-colors cursor-pointer ${
-                        currency === "USD" ? "bg-[#161616] text-white" : "text-[#6B6F76] hover:text-[#161616]"
-                      }`}
-                    >
-                      USD
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCurrency("INR")}
-                      className={`px-2 py-0.5 rounded-full transition-colors cursor-pointer ${
-                        currency === "INR" ? "bg-[#161616] text-white" : "text-[#6B6F76] hover:text-[#161616]"
-                      }`}
-                    >
-                      INR
-                    </button>
-                  </div>
-                </div>
-                <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card3Data.subtitle}</p>
-
-                <div className="mt-2.5 space-y-1.5">
-                  <div className="flex items-center justify-between bg-[#F5F6F8] rounded-[10px] px-3 py-1.5 text-xs">
-                    <span className="font-medium text-[#161616] truncate">{card3Data.courseName}</span>
-                    <span className="font-bold text-[#161616] ml-2 shrink-0">
-                      {currency === "USD" ? card3Data.priceUsd : card3Data.priceInr}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between bg-emerald-50/70 border border-emerald-100 rounded-[10px] px-3 py-1 text-xs text-emerald-800">
-                    <span className="flex items-center gap-1.5 font-medium">
-                      <svg className="size-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      {card3Data.couponText}
-                    </span>
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-700">Applied</span>
-                  </div>
-                </div>
+              {/* Ledge Header Strip: 24px high, 12px medium title */}
+              <div className="h-[24px] px-3.5 flex items-center justify-between bg-white border-b border-[#ECEDEF] shrink-0">
+                <span className="text-[12px] font-medium text-[#161616] truncate leading-none">
+                  {card3Data.title}
+                </span>
+                <span className="text-[10px] font-mono text-[#6B6F76]">
+                  {currency}
+                </span>
               </div>
-              <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  {card3Data.gateways.map((gw, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]"
-                    >
-                      {gw}
-                    </span>
-                  ))}
+              {/* Card Content Body */}
+              <div className="p-4 flex-1 flex flex-col justify-between bg-white overflow-hidden">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <p className="text-xs text-[#6B6F76]">{card3Data.subtitle}</p>
+                    <div className="flex items-center gap-1 bg-[#F5F6F8] rounded-full p-0.5 border border-[#ECEDEF] text-[10px] font-semibold">
+                      <button
+                        type="button"
+                        onClick={() => setCurrency("USD")}
+                        className={`px-1.5 py-0.2 rounded-full transition-colors cursor-pointer ${
+                          currency === "USD" ? "bg-[#161616] text-white" : "text-[#6B6F76]"
+                        }`}
+                      >
+                        USD
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setCurrency("INR")}
+                        className={`px-1.5 py-0.2 rounded-full transition-colors cursor-pointer ${
+                          currency === "INR" ? "bg-[#161616] text-white" : "text-[#6B6F76]"
+                        }`}
+                      >
+                        INR
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-2 space-y-1.5">
+                    <div className="flex items-center justify-between bg-[#F5F6F8] rounded-[10px] px-3 py-1.5 text-xs">
+                      <span className="font-medium text-[#161616] truncate">{card3Data.courseName}</span>
+                      <span className="font-bold text-[#161616] ml-2 shrink-0">
+                        {currency === "USD" ? card3Data.priceUsd : card3Data.priceInr}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between bg-emerald-50/70 border border-emerald-100 rounded-[10px] px-2.5 py-1 text-[11px] text-emerald-800">
+                      <span className="flex items-center gap-1 font-medium">
+                        <svg className="size-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        {card3Data.couponText}
+                      </span>
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-700">Applied</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
+                  <div className="flex items-center gap-1 flex-wrap">
+                    {card3Data.gateways.map((gw, idx) => (
+                      <span
+                        key={idx}
+                        className="px-1.5 py-0.5 rounded text-[9px] font-semibold bg-[#F5F6F8] text-[#6B6F76] border border-[#ECEDEF]"
+                      >
+                        {gw}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -743,34 +769,36 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             <div
               ref={card4MobileRef}
               style={{ zIndex: 10 }}
-              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col will-change-transform overflow-hidden select-none"
             >
-              <div>
-                <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
-                  {card4Data.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-[#6B6F76] mt-0.5">{card4Data.subtitle}</p>
+              <div className="p-4 flex-1 flex flex-col justify-between bg-white">
+                <div>
+                  <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
+                    {card4Data.title}
+                  </h3>
+                  <p className="text-xs text-[#6B6F76] mt-0.5">{card4Data.subtitle}</p>
 
-                <div className="mt-2.5 flex items-center gap-2.5 bg-[#F5F6F8] rounded-[10px] p-2 border border-[#ECEDEF]">
-                  <div className="size-8 rounded-lg bg-linear-to-br from-[#F3CF74] via-[#EAB308] to-[#CA8A04] flex items-center justify-center text-white shadow-xs shrink-0 border border-white/40">
-                    <svg className="size-4 drop-shadow-xs" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs sm:text-sm font-bold text-[#161616] truncate">{card4Data.learnerName}</p>
-                    <p className="text-[11px] text-[#6B6F76] truncate">{card4Data.courseName}</p>
+                  <div className="mt-3 flex items-center gap-2.5 bg-[#F5F6F8] rounded-[10px] p-2.5 border border-[#ECEDEF]">
+                    <div className="size-8 rounded-lg bg-linear-to-br from-[#F3CF74] via-[#EAB308] to-[#CA8A04] flex items-center justify-center text-white shadow-xs shrink-0 border border-white/40">
+                      <svg className="size-4 drop-shadow-xs" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs sm:text-sm font-bold text-[#161616] truncate">{card4Data.learnerName}</p>
+                      <p className="text-[11px] text-[#6B6F76] truncate">{card4Data.courseName}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="mt-2.5 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={onOpenModal}
-                  className="w-full min-h-[40px] py-2 px-3 rounded-xl bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-semibold text-center transition-colors cursor-pointer flex items-center justify-center"
-                >
-                  {card4Data.buttonText}
-                </button>
+                <div className="mt-3 pt-2.5 border-t border-[#ECEDEF] flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={onOpenModal}
+                    className="w-full min-h-[40px] py-2 px-3 rounded-xl bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-semibold text-center transition-colors cursor-pointer flex items-center justify-center"
+                  >
+                    {card4Data.buttonText}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

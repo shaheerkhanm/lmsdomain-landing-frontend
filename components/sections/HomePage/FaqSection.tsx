@@ -111,7 +111,7 @@ export function FaqSection() {
             <div className="lg:col-span-5 space-y-4">
               <h2
                 ref={headingRef}
-                className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-[#161616] tracking-tight leading-tight"
+                className="text-[32px] sm:text-4xl lg:text-5xl font-semibold text-[#161616] tracking-tight leading-tight"
               >
                 You ask – we answer.
               </h2>

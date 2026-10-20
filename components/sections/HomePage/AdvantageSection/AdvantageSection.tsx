@@ -49,7 +49,7 @@ export function AdvantageSection({ data }: { data?: any }) {
           </div>
           <h2
             ref={headingRef}
-            className="text-3xl sm:text-5xl lg:text-6xl font-semibold text-[#161616] tracking-tight leading-tight"
+            className="text-[32px] sm:text-5xl lg:text-6xl font-semibold text-[#161616] tracking-tight leading-tight"
           >
             <span className="block">{benefitsContent.title.line1}</span>
             <span className="block mt-1 sm:mt-2">{benefitsContent.title.line2}</span>

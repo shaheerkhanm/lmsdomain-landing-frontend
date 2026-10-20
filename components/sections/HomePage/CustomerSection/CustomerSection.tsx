@@ -349,8 +349,8 @@ export function CustomerSection({ data }: { data?: any }) {
         gsap.set(mCard1Ref.current, { rotateZ: -4, x: 0, y: 0, opacity: 1 });
         gsap.set(mCard2Ref.current, { rotateZ: 3, x: 6, y: 20, opacity: 1 });
         gsap.set(mCard3Ref.current, { rotateZ: -2, x: -5, y: 40, opacity: 1 });
-        gsap.set(mCard4Ref.current, { rotateZ: 4, x: 5, y: 40, opacity: 0 });
-        gsap.set(mCard5Ref.current, { rotateZ: -3, x: -4, y: 40, opacity: 0 });
+        gsap.set(mCard4Ref.current, { rotateZ: 4, x: 5, y: 40, opacity: 1 });
+        gsap.set(mCard5Ref.current, { rotateZ: -3, x: -4, y: 40, opacity: 1 });
 
         const mtl = gsap.timeline({
           scrollTrigger: {
@@ -636,9 +636,9 @@ export function CustomerSection({ data }: { data?: any }) {
         ref={mContainerRef}
         className="relative w-full h-[220vh] lg:hidden overflow-visible"
       >
-        <div className="sticky top-[calc((100vh-152px)/2)] h-[152px] w-full flex items-center justify-center overflow-visible px-4">
-          {/* Headline "Wall of love" fitting ~88% of screen */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 px-4">
+        <div className="sticky top-[calc((100vh-366px)/2)] h-[366px] w-full flex flex-col items-center justify-center overflow-visible px-4">
+          {/* Headline "Wall of love": fully readable, unclipped */}
+          <div className="pointer-events-none select-none z-0 px-4">
             <h2
               ref={mWallTextRef}
               className="font-semibold tracking-[-0.03em] leading-[0.95] text-center will-change-transform max-w-[88vw] text-[68px] min-[375px]:text-[74px] min-[390px]:text-[80px] sm:text-[96px]"
@@ -648,52 +648,49 @@ export function CustomerSection({ data }: { data?: any }) {
             </h2>
           </div>
 
-          {/* Deck sits centered over the title, top edge at the middle of the "love" line */}
+          {/* Deck sits exactly 24px below the bottom of "love" */}
           <div
             ref={mDeckWrapperRef}
-            className="absolute left-1/2 -translate-x-1/2 z-20 will-change-transform pointer-events-none"
-            style={{ top: "calc(50% + 38px)" }}
+            className="mt-6 relative w-[300px] max-w-[86vw] h-[190px] z-20 will-change-transform pointer-events-auto"
           >
-            <div className="relative w-[300px] max-w-[86vw] h-[180px] pointer-events-auto">
-              {/* Card 1 */}
-              <div
-                ref={mCard1Ref}
-                className="absolute inset-0 z-50 will-change-transform"
-              >
-                <TestimonialCard item={cards[0]} />
-              </div>
+            {/* Card 1 */}
+            <div
+              ref={mCard1Ref}
+              className="absolute inset-0 z-50 will-change-transform"
+            >
+              <TestimonialCard item={cards[0]} />
+            </div>
 
-              {/* Card 2 */}
-              <div
-                ref={mCard2Ref}
-                className="absolute inset-0 z-40 will-change-transform"
-              >
-                <TestimonialCard item={cards[1]} />
-              </div>
+            {/* Card 2 */}
+            <div
+              ref={mCard2Ref}
+              className="absolute inset-0 z-40 will-change-transform"
+            >
+              <TestimonialCard item={cards[1]} />
+            </div>
 
-              {/* Card 3 */}
-              <div
-                ref={mCard3Ref}
-                className="absolute inset-0 z-30 will-change-transform"
-              >
-                <TestimonialCard item={cards[2]} />
-              </div>
+            {/* Card 3 */}
+            <div
+              ref={mCard3Ref}
+              className="absolute inset-0 z-30 will-change-transform"
+            >
+              <TestimonialCard item={cards[2]} />
+            </div>
 
-              {/* Card 4 */}
-              <div
-                ref={mCard4Ref}
-                className="absolute inset-0 z-20 will-change-transform"
-              >
-                <TestimonialCard item={cards[3]} />
-              </div>
+            {/* Card 4 */}
+            <div
+              ref={mCard4Ref}
+              className="absolute inset-0 z-20 will-change-transform"
+            >
+              <TestimonialCard item={cards[3]} />
+            </div>
 
-              {/* Card 5 */}
-              <div
-                ref={mCard5Ref}
-                className="absolute inset-0 z-10 will-change-transform"
-              >
-                <TestimonialCard item={cards[4]} />
-              </div>
+            {/* Card 5 */}
+            <div
+              ref={mCard5Ref}
+              className="absolute inset-0 z-10 will-change-transform"
+            >
+              <TestimonialCard item={cards[4]} />
             </div>
           </div>
         </div>

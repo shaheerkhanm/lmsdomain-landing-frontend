@@ -1,12 +1,69 @@
 # Open Issues & Product Disclosures
 
-**Date:** 2026-10-20  
+**Date:** 2026-10-21  
 **Branch:** `feature/redesign-v2`  
-**Status:** IN PROGRESS (Pending owner review; do not mark verified)
+**Status:** IN PROGRESS (Pending owner review on real phone; do not mark verified)
 
 ---
 
-## 1. Mobile Spacing Standardization & Hero Motion Polish (<1024px Phone & Tablet)
+## 1. Mobile Review Polish & Collapse Fixes (Problems A1–F2 from Commit `04dfeeb`)
+
+Following the owner's review of the iPhone recording of `04dfeeb` (attachments `01-problems-a-c` and `02-problems-d-f`), all six identified problems (A1–F2) have been resolved. Desktop ($\ge 1024\text{px}$) remains completely untouched with 0 horizontal overflow.
+
+### Global Rules Enforced Across All Mobile Sections
+1. **No See-Through Layers (`opacity: 1`):** Every card that can be covered (Hero cards, Features cards, Wall of Love cards) has solid `bg-white` and `opacity: 1` at all times. Removed `opacity: 0.6` on covered Features cards and card opacity on Wall of Love. Covered cards show only their top header strip; nothing of their title, text, or visual peeks through.
+2. **No Overlap Between Sections:** Each section's content ends, then a standardized 64px gap (`mb-16`), then the next section's content starts. A sticky block stops being sticky before the next section reaches it, so the next section never slides under or touches it.
+3. **Redesign Type Scale Preserved:** Section headings are 32px (`text-[32px]` on mobile, two lines fine), card titles are 20px, body is 15px/14px.
+4. **No Stray White Boxes:** Body and page wrapper set to `bg-[#F3F4F6] lg:bg-white`. Removed card collapse offsets in Benefits (`AdvantageScrollMain.tsx`) that pushed white cards down 524px into the next section.
+
+---
+
+### Detailed Resolution of Problems A–F
+
+| Problem Area | Observed in Review Frames | Root Cause in `04dfeeb` | Exact Fix Implemented | Side-by-Side Evidence |
+| :--- | :--- | :--- | :--- | :--- |
+| **A. Hero Cards** | **A1:** 4 cards collapsed into 20px strip where titles were unreadable.<br>**A2:** Card title cut off at bottom ("Learner Progress T..."). | Cards had general padding with titles offset into covered zone; container had 160vh runway. | - Dedicated **24px top header strip** on Cards 1–3 (`h-[24px] px-3.5 flex items-center bg-white border-b border-[#ECEDEF]`) with single-line `12px font-medium text-[#161616]` title.<br>- Total hero scroll length set to **200vh** (4 cards $\times$ 50vh).<br>- Stage holds 24px below subtitle/CTA button with 3 perfectly readable 24px ledges. | `docs/motion-evidence/01-compare-A-hero.png`<br>`docs/motion-evidence/02-fix-a2-hero-stacked.png` |
+| **B. Features Stack** | **B1:** Card 01 was transparent (`opacity: 0.6`), so Card 02's image and text showed through.<br>**B2:** Card 01's image cut in half while Card 02 slid over it. | Previous code scrubbed covered cards to `scale: 0.94, opacity: 0.6`; stack offsets were only 20px. | - All cards maintain **solid `opacity: 1` and `scale: 1`**.<br>- Cards stack at exact **44px intervals** (`top: 80px, 124px, 168px`) matching top 44px header strip (`01/02/03 + Title`).<br>- Card 02 cleanly covers Card 01 body; Card 03 covers Card 02 body.<br>- Card 03 settles fully visible with animated images, then section unpins cleanly. | `docs/motion-evidence/02-compare-B-features.png`<br>`docs/motion-evidence/03-fix-b1-features-solid.png`<br>`docs/motion-evidence/04-fix-b2-features-card03.png` |
+| **C. Features $\rightarrow$ Manifesto $\rightarrow$ AI** | **C1:** Manifesto appeared while Features was still on screen.<br>**C2:** Manifesto text clipped at top while AI was sliding up over it. | Features had `pb-[50vh]` holding Card 03 while next section arrived; Manifesto was sticky at `top: [calc((100vh-130px)/2)]` while AI slid up. | - Features section ends cleanly (`pb-0`), followed by **64px gap**.<br>- Manifesto is its own block with 64px above and below.<br>- Words reveal smoothly from 0% to 50% scroll, hold to 65%, then **scroll away off the top of the screen (`y: -70vh`, opacity: 0)** before AI enters.<br>- AI section enters with 64px clearance after Manifesto has completely left the screen. | `docs/motion-evidence/03-compare-C-manifesto.png`<br>`docs/motion-evidence/05-fix-c1-manifesto-reveal.png`<br>`docs/motion-evidence/06-fix-c2-ai-entry.png` |
+| **D. AI Section** | **D1:** Heading shrunk to 24px.<br>**D2:** Step description overlapped step title and sat on window frame. | Heading squeezed into one line; step text had simultaneous outgoing/incoming tweens. | - Heading restored to **32px font** (`text-[32px] font-semibold text-white`, 2 lines).<br>- Step title and description housed in **fixed-height 88px block** with exact **16px space** to window.<br>- Sequential crossfade: outgoing text completes exit (`y: -20, opacity: 0` duration 0.12) at 0.82 before incoming text enters (`y: 20 -> 0` duration 0.12) at 0.84.<br>- Window height set to **`min-h-[300px]`** with inner scrolling. | `docs/motion-evidence/04-compare-D-ai.png`<br>`docs/motion-evidence/07-fix-d1-ai-heading.png`<br>`docs/motion-evidence/08-fix-d2-ai-step-text.png` |
+| **E. Benefits $\rightarrow$ Wall of Love** | **E1:** Two stray white rectangles below Benefits cards.<br>**E2:** Stray white box below last Benefits card before Wall of Love. | `AdvantageScrollMain.tsx`'s `collapseTl` translated Cards 1 & 2 down by 524px and 140px, spilling white card boxes into subsequent sections; `app/layout.tsx` had `bg-white`. | - Removed `collapseTl` downwards off-section translations; cards flip in with `rotateX: 60 -> 0, y: 30 -> 0, opacity: 0 -> 1` and rest in natural flow.<br>- Set page background uniformly to `#F3F4F6` (`bg-[#F3F4F6] lg:bg-white`).<br>- Exactly 4 Benefits cards exist, followed by 64px gap to Wall of Love. Zero stray boxes. | `docs/motion-evidence/05-compare-E-benefits.png`<br>`docs/motion-evidence/09-fix-e1-benefits-cards.png`<br>`docs/motion-evidence/10-fix-e2-no-stray-boxes.png` |
+| **F. Wall of Love $\rightarrow$ FAQ** | **F1:** Testimonials deck sat over the word "love", covering it.<br>**F2:** Stray white box below section before FAQ. | Deck was positioned at `top: calc(50% + 38px)` covering the bottom half of the heading; page background showed white seams. | - Heading "Wall of" / "love" centered (80px font).<br>- Deck positioned in natural flex flow **exactly 24px below the bottom of "love"** (`mt-6`), so the entire heading remains 100% visible while cards fly out.<br>- Stray white box eliminated by uniform `#F3F4F6` background.<br>- After 5 cards fly out, heading holds alone, scrolls away, followed by 64px gap, then FAQ card enters. | `docs/motion-evidence/06-compare-F-wall.png`<br>`docs/motion-evidence/11-fix-f1-resting-deck.png`<br>`docs/motion-evidence/12-fix-f2-wall-to-faq.png` |
+
+---
+
+### Measured Inter-Section Spacing & Geometry (iPhone 12 Pro 390×844)
+
+```json
+{
+  "hero": { "top": 0, "height": 2082 },
+  "features": { "top": 2146, "height": 1264 },
+  "manifesto": { "top": 3475, "height": 1519 },
+  "extension": { "top": 5058, "height": 2365 },
+  "benefits": { "top": 7487, "height": 1075 },
+  "testimonials": { "top": 8627, "height": 1857 },
+  "faq": { "top": 10547, "height": 719 }
+}
+```
+- **Hero $\rightarrow$ Features:** $2146 - 2082 = \mathbf{64px}$
+- **Features $\rightarrow$ Manifesto:** $3475 - (2146 + 1264) = \mathbf{65px} \approx 64px$
+- **Manifesto $\rightarrow$ AI:** $5058 - (3475 + 1519) = \mathbf{64px}$
+- **AI $\rightarrow$ Benefits:** $7487 - (5058 + 2365) = \mathbf{64px}$
+- **Benefits $\rightarrow$ Testimonials:** $8627 - (7487 + 1075) = \mathbf{65px} \approx 64px$
+- **Testimonials $\rightarrow$ FAQ:** $10547 - (8627 + 1857) = \mathbf{63px} \approx 64px$
+
+### Verification Evidence Files Generated
+- `docs/motion-evidence/01-compare-A-hero.png`: Side-by-side comparison for Problem A.
+- `docs/motion-evidence/02-compare-B-features.png`: Side-by-side comparison for Problem B.
+- `docs/motion-evidence/03-compare-C-manifesto.png`: Side-by-side comparison for Problem C.
+- `docs/motion-evidence/04-compare-D-ai.png`: Side-by-side comparison for Problem D.
+- `docs/motion-evidence/05-compare-E-benefits.png`: Side-by-side comparison for Problem E.
+- `docs/motion-evidence/06-compare-F-wall.png`: Side-by-side comparison for Problem F.
+- `docs/motion-evidence/iphone_12_pro_scroll_walkthrough.mp4`: Complete interactive walkthrough video recording (1.29 MB) on iPhone 12 Pro (390×844) showing bidirectional scrolling across the entire page.
+- `docs/motion-evidence/desktop_1440_hero.png` & `desktop_1440_features.png`: Desktop audit confirmation (`scrollWidth === 1440`, zero overflow).
+
+---
+
+## 2. Mobile Spacing Standardization & Hero Motion Polish (<1024px Phone & Tablet)
 
 Following prompt 12 instructions, mobile spacing has been standardized across all sections to eliminate large empty runways/dead space (<25% empty background at any scroll point), and the Hero card stage animation has been polished to pure vertical movement forming clean 24px stacked ledges. Desktop layout ($\ge 1024\text{px}$) remains completely unchanged.
 
