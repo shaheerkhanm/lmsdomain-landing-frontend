@@ -2,7 +2,52 @@
 
 **Date:** 2026-10-21  
 **Branch:** `feature/redesign-v2`  
-**Status:** IN PROGRESS (Pending owner review on real phone; do not mark verified)
+**Status:** RESOLVED - Homepage Fix v4 (Ready for Review; do not deploy)
+
+---
+
+## 0. Homepage Fix v4: Restore Desktop & Finish Mobile
+
+All desktop regressions (D1–D3) and mobile remaining issues (M1–M2) have been resolved. Desktop ($\ge 1024\text{px}$) matches signed-off commit `30d4a1c` + `55ae4c3` with 100% fidelity. Mobile (<1024px) retains snappy stacking motion with zero flashes and standard 64px inter-section spacing.
+
+### Observed Issues & Root Causes
+
+| Issue | Observed in Review Recordings | Inferred Root Cause | Resolution Implemented | Visual Evidence |
+| :--- | :--- | :--- | :--- | :--- |
+| **D1. Hero Subtitle Wrapping** | Subtitle wrapped to 3 lines with `"attention."` alone on line 3, pushing CTA and stage down 16px (`01-desktop-hero-subtitle.jpg`). | In `BannerSection.tsx`, `className="... text-[15px] sm:text-base ..."` overrode desktop `14px` (`text-sm`) with `16px` (`text-base`). | Changed to `text-[15px] lg:text-sm`, restoring 14px 2-line layout on desktop ($\ge 1024\text{px}$). | `docs/motion-evidence/01_desktop_hero_subtitle.png` |
+| **D2. White Full-Width Strips** | White horizontal bands appeared across screen above and below Wall of love as page scrolled (`02-desktop-white-strips.jpg`). | `AdvantageSection.tsx` and `CustomerSection.tsx` had `mb-16` without `lg:mb-0`, exposing the white page/body background (`bg-white`) between grey sections (`#F3F4F6`). | Scoped margins with `mb-16 lg:mb-0` across all sections, ensuring seamless `#F3F4F6` grey background between Benefits, Wall of love, and FAQ. | `docs/motion-evidence/02_desktop_wall_of_love_seamless.png` |
+| **D3. Footer Missing Socials & Contacts** | Social icons, email, and phone were missing from footer (`03-desktop-footer.jpg`). | Docker container lacked `BACKEND_URL` pointing to backend API, so `Footer.tsx` called `"undefined/api/cms"`, failing CMS settings fetch for slug `"address"`. | Added fallback `(process.env.BACKEND_URL \|\| process.env.BACKEND_INTERNAL_URL \|\| "http://lms-landing-backend:3000")` and launched container with `-e BACKEND_URL=http://lms-landing-backend:3000`. | `docs/motion-evidence/03_desktop_footer_settings.png` |
+| **M1. Mobile Hero Flash on First Scroll** | Cards jumped or flashed flat white at start of scrolling on phone (`04-mobile-hero-flash.jpg`). | iOS address bar resize fired `window.resize`, triggering `ScrollTrigger.refresh()` which reverted cards without inline transforms to CSS default flat `y=0`. | Added `ScrollTrigger.config({ ignoreMobileResize: true })` in `lib/gsap.ts`, sized container with `200svh`, and added initial inline transforms (`y: 72, 82, 92, 102`) to cards JSX. | `docs/motion-evidence/04_mobile_hero_first_scroll.png` |
+| **M2. Empty Gap: Manifest $\rightarrow$ AI Studio** | 3.5s of empty grey screen between Manifest and AI Studio (`05-mobile-manifest-to-ai-gap.jpg`). | `ManifestSection.tsx` had `h-[180vh]` sticky container with `y: -70vh` exit at 65% scroll, leaving 63vh of empty runway before section ended. | Replaced sticky 180vh container with natural in-flow text reveal scrubbed between `top 80%` and `top 30%`. Section ends naturally, followed by standard 64px gap to AI Studio. | `docs/motion-evidence/05_mobile_manifest_to_ai_handoff.png` |
+
+---
+
+### Verification Table: `git diff 55ae4c3 -- components app`
+
+Every line changed between `55ae4c3` and current working tree is audited below to confirm 0 impact on desktop ($\ge 1024\text{px}$):
+
+| File Changed | Line(s) Changed | Desktop Impact Analysis ($\ge 1024\text{px}$) | Verified Safe? |
+| :--- | :--- | :--- | :--- |
+| `app/layout.tsx` | `bg-[#F3F4F6] lg:bg-white` | At `lg:` (>=1024px), `lg:bg-white` is applied, identical to `bg-white` at `55ae4c3`. | YES |
+| `components/modules/HomePage.tsx` | `bg-[#F3F4F6] lg:bg-white` | At `lg:` (>=1024px), `lg:bg-white` is applied, identical to `bg-white` at `55ae4c3`. | YES |
+| `components/sections/HomePage/Banner/BannerSection.tsx` | `pb-0 lg:pb-24 mb-16 lg:mb-0` | At `lg:` (>=1024px), `lg:pb-24 lg:mb-0` applies, exactly matching `sm:pb-24` and no bottom margin at `55ae4c3`. | YES |
+| `components/sections/HomePage/Banner/BannerSection.tsx` | `text-[15px] lg:text-sm` | At `lg:` (>=1024px), `lg:text-sm` applies, identical to `sm:text-sm` at `55ae4c3`. | YES |
+| `components/sections/HomePage/Banner/MainHeading.tsx` | `text-[32px] sm:text-5xl lg:text-[56px]` | At `lg:` (>=1024px), `lg:text-[56px]` applies, identical to `55ae4c3`. | YES |
+| `components/sections/HomePage/Banner/LmsProductStage.tsx` | Mobile GSAP timeline and mobile JSX | Inside `mm.add("(max-width: 1023px)")` and `lg:hidden`. Desktop block (`(min-width: 1024px)` and `hidden lg:block`) is completely untouched. | YES |
+| `components/sections/HomePage/FeaturesSection/FeaturesSection.tsx` | `pt-0 pb-0 lg:py-0 mb-16 lg:mb-0` | At `lg:` (>=1024px), `lg:py-0 lg:mb-0` applies, identical to `py-0` at `55ae4c3`. | YES |
+| `components/sections/HomePage/FeaturesSection/FeaturesSection.tsx` | `text-[32px] lg:text-[56px]` | At `lg:` (>=1024px), `lg:text-[56px]` applies, identical to `55ae4c3`. | YES |
+| `components/sections/HomePage/FeaturesSection/FeaturesSection.tsx` | Mobile stacking cards & scrub | Inside `(max-width: 1023px)` and `lg:hidden`. Desktop pinned stage is completely untouched. | YES |
+| `components/sections/HomePage/ManifestSection.tsx` | `pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16 lg:mb-0` | At `lg:` (>=1024px), `lg:bg-white lg:py-24 lg:sm:py-32 lg:min-h-[600px] lg:mb-0` applies, identical to `55ae4c3`. Desktop pinned row is completely untouched. | YES |
+| `components/sections/HomePage/AiSection/AiSection.tsx` | `pt-0 pb-0 lg:py-24 mb-16 lg:mb-0` | At `lg:` (>=1024px), `lg:py-24 lg:bg-white lg:mb-0` applies, identical to `55ae4c3`. Desktop stage is completely untouched. | YES |
+| `components/sections/HomePage/AdvantageSection/AdvantageSection.tsx` | `pt-0 pb-0 lg:py-36 mb-16 lg:mb-0` | At `lg:` (>=1024px), `lg:py-36 lg:mb-0` applies, identical to `55ae4c3` (`py-36`). | YES |
+| `components/sections/HomePage/AdvantageSection/AdvantageSection.tsx` | `mb-8 lg:mb-20` | At `lg:` (>=1024px), `lg:mb-20` applies, identical to `sm:mb-20` at `55ae4c3`. | YES |
+| `components/sections/HomePage/AdvantageSection/AdvantageSection.tsx` | `text-[32px] sm:text-5xl lg:text-6xl` | At `lg:` (>=1024px), `lg:text-6xl` applies, identical to `55ae4c3`. | YES |
+| `components/sections/HomePage/AdvantageSection/AdvantageScrollMain.tsx` | `min-h-0 lg:min-h-[520px]` | At `lg:` (>=1024px), `lg:min-h-[520px]` applies, identical to `sm:min-h-[520px]` at `55ae4c3`. Desktop timeline and cards are completely untouched. | YES |
+| `components/sections/HomePage/CustomerSection/CustomerSection.tsx` | `pt-0 pb-0 lg:pt-0 lg:pb-[57px] mb-16 lg:mb-0` | At `lg:` (>=1024px), `lg:pb-[57px] lg:mb-0` applies, identical to `55ae4c3`. Desktop timeline and pinned stage are completely untouched. | YES |
+| `components/sections/HomePage/FaqSection.tsx` | `pt-0 lg:pt-6 pb-16 lg:pb-32` | At `lg:` (>=1024px), `lg:pt-6 lg:pb-32` applies, identical to `55ae4c3`. | YES |
+| `components/sections/HomePage/FaqSection.tsx` | `text-[32px] sm:text-4xl lg:text-5xl` | At `lg:` (>=1024px), `lg:text-5xl` applies, identical to `55ae4c3`. | YES |
+| `components/layout/Footer.tsx` | `baseUrl` fallback to `BACKEND_INTERNAL_URL` / default | SSR data fetch fallback for container environments. Zero styling or layout change. | YES |
+| `lib/gsap.ts` | `ScrollTrigger.config({ ignoreMobileResize: true })` | Only affects mobile browser address bar resize handling. Zero effect on desktop. | YES |
 
 ---
 

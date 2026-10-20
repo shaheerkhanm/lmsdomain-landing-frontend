@@ -561,7 +561,7 @@ export function CustomerSection({ data }: { data?: any }) {
   const cards = testimonialsContent.cards;
 
   return (
-    <section ref={sectionRef} id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible pt-0 pb-0 lg:pb-[57px] mb-16">
+    <section ref={sectionRef} id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible pt-0 pb-0 lg:pt-0 lg:pb-[57px] mb-16 lg:mb-0">
       {/* Pinned Stage Container (Desktop Only >=1024px) */}
       <div
         ref={pinWrapperRef}

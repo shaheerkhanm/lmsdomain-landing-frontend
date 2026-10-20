@@ -52,7 +52,7 @@ export function ManifestSection() {
         });
       });
 
-      // Mobile / Tablet: under 1024px (Sticky paragraph in 160vh container, vertically centred)
+      // Mobile / Tablet: under 1024px (Natural document flow illumination, no empty runway)
       mm.add("(max-width: 1023px)", () => {
         const mobileWords = gsap.utils.toArray<HTMLElement>(".manifesto-word-mobile", mobileContainerRef.current);
         if (isReduced) {
@@ -62,47 +62,20 @@ export function ManifestSection() {
 
         gsap.set(mobileWords, { color: "#C9CCD1" });
 
-        // Mobile / Tablet: under 1024px (180vh Container: 0-50% reveal, 50-65% read hold, 65-95% scrolls away off top of screen)
-        const tl = gsap.timeline({
+        gsap.to(mobileWords, {
+          color: "#161616",
+          stagger: {
+            each: 0.03,
+            from: "start",
+          },
+          ease: "power1.inOut",
           scrollTrigger: {
-            trigger: mobileContainerRef.current,
-            start: "top top",
-            end: "bottom bottom",
+            trigger: mobileTextRef.current,
+            start: "top 80%",
+            end: "top 30%",
             scrub: 0.5,
           },
         });
-
-        // 1. Word illumination finishes by 50% of scroll
-        tl.to(
-          mobileWords,
-          {
-            color: "#161616",
-            stagger: {
-              each: 0.02,
-              from: "start",
-            },
-            duration: 0.50,
-            ease: "power1.inOut",
-          },
-          0
-        );
-
-        // 2. Once fully revealed, paragraph scrolls away off the top of the screen before AI section enters
-        if (mobileTextRef.current) {
-          tl.to(
-            mobileTextRef.current,
-            {
-              y: "-70vh",
-              opacity: 0,
-              duration: 0.30,
-              ease: "power1.in",
-            },
-            0.65
-          );
-        }
-
-        // 3. Clear 64px runway hold before AI enters
-        tl.to({}, { duration: 0.05 }, 0.95);
       });
     }, sectionRef);
 
@@ -113,7 +86,7 @@ export function ManifestSection() {
     <section
       ref={sectionRef}
       id="manifesto"
-      className="bg-[#F3F4F6] lg:bg-white font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16"
+      className="bg-[#F3F4F6] lg:bg-white font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16 lg:mb-0"
     >
       {/* Desktop Layout (>=1024px: Pinned Row) */}
       <div
@@ -132,26 +105,24 @@ export function ManifestSection() {
         </p>
       </div>
 
-      {/* Mobile Layout (<1024px: 180vh Sticky Container, Vertically Centred) */}
+      {/* Mobile Layout (<1024px: In-flow text reveal, no sticky runway) */}
       <div
         ref={mobileContainerRef}
-        className="relative w-full h-[180vh] lg:hidden"
+        className="w-full px-6 py-12 lg:hidden flex items-center justify-center"
       >
-        <div className="sticky top-[calc((100vh-130px)/2)] h-[130px] w-full flex items-center justify-center px-6">
-          <p
-            ref={mobileTextRef}
-            className="text-2xl sm:text-3xl font-medium leading-[1.35] tracking-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-2.5 gap-y-1.5 select-none text-center max-w-[700px] will-change-transform"
-          >
-            {STATEMENT_WORDS.map((word, idx) => (
-              <span
-                key={idx}
-                className="manifesto-word-mobile text-[#C9CCD1] will-change-[color]"
-              >
-                {word}
-              </span>
-            ))}
-          </p>
-        </div>
+        <p
+          ref={mobileTextRef}
+          className="text-2xl sm:text-3xl font-medium leading-[1.35] tracking-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-2.5 gap-y-1.5 select-none text-center max-w-[700px]"
+        >
+          {STATEMENT_WORDS.map((word, idx) => (
+            <span
+              key={idx}
+              className="manifesto-word-mobile text-[#C9CCD1] will-change-[color]"
+            >
+              {word}
+            </span>
+          ))}
+        </p>
       </div>
     </section>
   );

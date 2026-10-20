@@ -54,7 +54,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
           {/* 2. Mota 2-Line Subtitle */}
           <motion.p
             variants={heroItemVariants}
-            className="mt-2.5 max-w-lg text-center text-[15px] sm:text-base text-[#6B6F76] leading-relaxed"
+            className="mt-2.5 max-w-lg text-center text-[15px] lg:text-sm text-[#6B6F76] leading-relaxed"
           >
             {heroContent.subtitle}
           </motion.p>

@@ -7,20 +7,17 @@ async function Footer() {
 
   const getData = async (slug: string) => {
     try {
-      const location = process.env.BACKEND_URL + apiRoutes?.getAllCms
+      const baseUrl = (process.env.BACKEND_URL || process.env.BACKEND_INTERNAL_URL || "http://lms-landing-backend:3000").replace(/\/$/, "");
+      const location = baseUrl + apiRoutes?.getAllCms;
       const response = await fetchData({
         url: location,
         body: { slug },
-
-      })
-
-
-
-      return response
+      });
+      return response;
     } catch (error) {
-      return {}
+      return {};
     }
-  }
+  };
 
   // Fetch all section data
   const addressData = await getData("address");

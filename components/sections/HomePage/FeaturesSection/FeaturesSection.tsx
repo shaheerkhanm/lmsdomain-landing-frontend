@@ -504,7 +504,7 @@ export function FeaturesSection({ data }: { data?: any }) {
   const card3 = featuresContent.cards[2];
 
   return (
-    <section id="features" className="pt-0 pb-0 lg:py-0 bg-[#F3F4F6] font-urbanist overflow-visible mb-16">
+    <section id="features" className="pt-0 pb-0 lg:py-0 bg-[#F3F4F6] font-urbanist overflow-visible mb-16 lg:mb-0">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-0">
         {/* Pinned Stage Wrapper (Desktop >= 1024px) */}
         <div

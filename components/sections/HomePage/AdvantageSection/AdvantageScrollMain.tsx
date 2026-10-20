@@ -186,7 +186,7 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
   return (
     <div
       ref={pinWrapperRef}
-      className="relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-0 lg:min-h-[480px] overflow-visible font-urbanist"
+      className="relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-0 lg:min-h-[520px] overflow-visible font-urbanist"
     >
       {/* Desktop Group Wrapper (A19 GSAP scrubbed rotation & collapse) */}
       <div

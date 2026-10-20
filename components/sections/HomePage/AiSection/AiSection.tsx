@@ -479,7 +479,7 @@ export function AiSection() {
     <section
       ref={sectionRef}
       id="extension"
-      className="pt-0 pb-0 lg:py-24 px-3 sm:px-6 lg:px-8 bg-[#F3F4F6] lg:bg-white font-urbanist relative overflow-visible mb-16"
+      className="pt-0 pb-0 lg:py-24 px-3 sm:px-6 lg:px-8 bg-[#F3F4F6] lg:bg-white font-urbanist relative overflow-visible mb-16 lg:mb-0"
     >
       <div
         id="ai-studio"

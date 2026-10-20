@@ -601,17 +601,17 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
       {/* Mobile / Tablet View (<1024px): 4 Cards Deal-In Stack in a Sticky Stage */}
       <div
         ref={mobileContainerRef}
-        className="relative w-full h-[200vh] lg:hidden"
+        className="relative w-full h-[200svh] lg:hidden"
       >
         <div
           ref={mobileStageRef}
-          className="sticky top-[calc((100vh-388px)/2)] w-full h-[388px] max-w-[420px] mx-auto overflow-visible px-4"
+          className="sticky top-[calc((100svh-388px)/2)] w-full h-[388px] max-w-[420px] mx-auto overflow-visible px-4"
         >
           <div className="relative w-full h-[388px]">
             {/* Card 1: Course builder */}
             <div
               ref={card1MobileRef}
-              style={{ zIndex: 40 }}
+              style={{ zIndex: 40, transform: "translate3d(0px, 72px, 0px) rotate(-3deg)" }}
               className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col will-change-transform overflow-hidden select-none"
             >
               {/* Ledge Header Strip: 24px high, 12px medium title */}
@@ -650,7 +650,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             {/* Card 2: HelpDesk AI tutor */}
             <div
               ref={card2MobileRef}
-              style={{ zIndex: 30 }}
+              style={{ zIndex: 30, transform: "translate3d(0px, 82px, 0px) rotate(2deg)" }}
               className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col will-change-transform overflow-hidden select-none"
             >
               {/* Ledge Header Strip: 24px high, 12px medium title */}
@@ -694,7 +694,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             {/* Card 3: Checkout */}
             <div
               ref={card3MobileRef}
-              style={{ zIndex: 20 }}
+              style={{ zIndex: 20, transform: "translate3d(0px, 92px, 0px) rotate(-2deg)" }}
               className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col will-change-transform overflow-hidden select-none"
             >
               {/* Ledge Header Strip: 24px high, 12px medium title */}
@@ -768,7 +768,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             {/* Card 4: Certificate issued */}
             <div
               ref={card4MobileRef}
-              style={{ zIndex: 10 }}
+              style={{ zIndex: 10, transform: "translate3d(0px, 102px, 0px) rotate(3deg)" }}
               className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col will-change-transform overflow-hidden select-none"
             >
               <div className="p-4 flex-1 flex flex-col justify-between bg-white">
