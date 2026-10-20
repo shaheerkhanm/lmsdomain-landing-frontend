@@ -99,7 +99,7 @@ export function FaqSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="faq" className="pt-8 sm:pt-10 lg:pt-6 pb-20 sm:pb-32 bg-[#F3F4F6] font-urbanist">
+    <section ref={sectionRef} id="faq" className="pt-0 lg:pt-6 pb-16 lg:pb-32 bg-[#F3F4F6] font-urbanist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Large Rounded Enclosure Card (Mota 00:32 Exact Style) */}
         <div

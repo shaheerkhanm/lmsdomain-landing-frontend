@@ -343,7 +343,7 @@ export function AdvantageScrollMain({ data }: { data?: any }) {
       <div
         ref={mContainerRef}
         style={{ perspective: "1000px" }}
-        className="w-full flex flex-col gap-6 lg:hidden pb-16 overflow-visible"
+        className="w-full flex flex-col gap-6 lg:hidden pb-0 overflow-visible"
       >
         {/* Card 1 */}
         <div

@@ -37,7 +37,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
-    <section className="relative pt-[152px] pb-16 sm:pb-24 overflow-x-clip bg-white font-urbanist">
+    <section className="relative pt-[152px] pb-0 lg:pb-24 mb-16 lg:mb-0 overflow-x-clip bg-white font-urbanist">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col items-center">
         {/* A24: Hero load entrance stagger */}
         <motion.div

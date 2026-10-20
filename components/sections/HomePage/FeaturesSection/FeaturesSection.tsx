@@ -506,7 +506,7 @@ export function FeaturesSection({ data }: { data?: any }) {
   const card3 = featuresContent.cards[2];
 
   return (
-    <section id="features" className="py-12 sm:py-16 lg:py-0 bg-[#F3F4F6] font-urbanist overflow-visible">
+    <section id="features" className="pt-0 pb-0 lg:py-0 bg-[#F3F4F6] font-urbanist overflow-visible mb-16">
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-0">
         {/* Pinned Stage Wrapper (Desktop >= 1024px) */}
         <div
@@ -892,7 +892,7 @@ export function FeaturesSection({ data }: { data?: any }) {
           {/* ======================================================== */}
           {/* Mobile / Tablet View (<1024px): Sticky Stacking Cards */}
           {/* ======================================================== */}
-          <div className="w-full flex flex-col gap-8 lg:hidden pb-16">
+          <div className="w-full flex flex-col gap-8 lg:hidden pb-0">
             {/* Card 01 */}
             <div
               ref={card1MobileRef}

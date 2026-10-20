@@ -561,7 +561,7 @@ export function CustomerSection({ data }: { data?: any }) {
   const cards = testimonialsContent.cards;
 
   return (
-    <section ref={sectionRef} id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible lg:pb-[57px]">
+    <section ref={sectionRef} id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible pt-0 pb-0 lg:pb-[57px] mb-16">
       {/* Pinned Stage Container (Desktop Only >=1024px) */}
       <div
         ref={pinWrapperRef}
@@ -631,12 +631,12 @@ export function CustomerSection({ data }: { data?: any }) {
         </div>
       </div>
 
-      {/* Mobile Sticky 300vh Container (<1024px) */}
+      {/* Mobile Sticky 220vh Container (<1024px) */}
       <div
         ref={mContainerRef}
-        className="relative w-full h-[300vh] lg:hidden overflow-visible -mb-[22vh]"
+        className="relative w-full h-[220vh] lg:hidden overflow-visible"
       >
-        <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden px-4">
+        <div className="sticky top-[calc((100vh-152px)/2)] h-[152px] w-full flex items-center justify-center overflow-visible px-4">
           {/* Headline "Wall of love" fitting ~88% of screen */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0 px-4">
             <h2

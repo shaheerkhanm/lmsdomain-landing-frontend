@@ -464,11 +464,11 @@ export function AiSection() {
     <section
       ref={sectionRef}
       id="extension"
-      className="py-16 sm:py-24 px-3 sm:px-6 lg:px-8 bg-white font-urbanist relative overflow-visible"
+      className="pt-0 pb-0 lg:py-24 px-3 sm:px-6 lg:px-8 bg-white font-urbanist relative overflow-visible mb-16"
     >
       <div
         id="ai-studio"
-        className="max-w-7xl mx-auto rounded-[36px] sm:rounded-[48px] lg:rounded-[56px] bg-[#161616] text-white py-12 sm:py-16 lg:pt-16 lg:pb-20 px-6 sm:px-10 lg:px-14 relative overflow-visible lg:overflow-hidden shadow-2xl border border-white/10"
+        className="max-w-7xl mx-auto rounded-[36px] sm:rounded-[48px] lg:rounded-[56px] bg-[#161616] text-white py-0 lg:pt-16 lg:pb-20 px-4 sm:px-10 lg:px-14 relative overflow-visible lg:overflow-hidden shadow-2xl border border-white/10"
       >
         {/* Soft Accent Glow behind Window */}
         <div
@@ -476,8 +476,8 @@ export function AiSection() {
           aria-hidden="true"
         />
 
-        {/* Section Header: Scrolls normally and leaves screen before pin */}
-        <div className="max-w-3xl mb-12 sm:mb-16 relative z-10">
+        {/* Section Header: Scrolls normally and leaves screen before pin (Desktop >=1024px) */}
+        <div className="max-w-3xl mb-12 sm:mb-16 relative z-10 hidden lg:block">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[#C9CCD1] text-xs font-semibold uppercase tracking-wider mb-4">
             <span className="text-[#7B5CF5]">✦</span>
             <span>{aiSectionContent.badge}</span>
@@ -490,9 +490,23 @@ export function AiSection() {
           </p>
         </div>
 
-        {/* Mobile Sticky 400vh Container (<1024px) */}
-        <div ref={mobileContainerRef} className="relative w-full h-[400vh] lg:hidden">
-          <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center py-4 px-1 max-w-md mx-auto">
+        {/* Mobile Sticky 280vh Container (<1024px: 70vh per step) */}
+        <div ref={mobileContainerRef} className="relative w-full h-[280vh] lg:hidden">
+          <div className="sticky top-[calc((100vh-450px)/2)] h-[450px] w-full flex flex-col justify-between items-center py-2 px-1 max-w-md mx-auto">
+            {/* Mobile Header: Pill, title, and subtitle sit directly above progress bar (24px gap) */}
+            <div className="text-center w-full mb-6">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[#C9CCD1] text-[10px] font-semibold uppercase tracking-wider mb-2">
+                <span className="text-[#7B5CF5]">✦</span>
+                <span>{aiSectionContent.badge}</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-white tracking-tight leading-tight">
+                {aiSectionContent.title}
+              </h2>
+              <p className="mt-1 text-xs text-[#C9CCD1] max-w-xs mx-auto leading-relaxed">
+                {aiSectionContent.subtitle}
+              </p>
+            </div>
+
             {/* Horizontal Progress Bar: 1-4 with 2px lines between filling purple */}
             <div className="w-full flex items-center justify-between px-2 mb-3 select-none">
               <span ref={mNum1Ref} className="text-xs font-mono font-bold text-white transition-colors">1</span>

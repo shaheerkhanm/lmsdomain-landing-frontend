@@ -127,7 +127,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
         );
       });
 
-      // Mobile / Tablet: under 1024px (Cards deal-in stack in 220vh container)
+      // Mobile / Tablet: under 1024px (Cards deal-in stack in 160vh container)
       mm.add("(max-width: 1023px)", () => {
         if (isReduced) {
           gsap.set(
@@ -137,12 +137,12 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
           return;
         }
 
-        // Start: cards stacked on top of each other with small tilts (-3deg, 2deg, -2deg, 3deg),
-        // each offset 10px down, Course builder on top
-        gsap.set(card1MobileRef.current, { x: 0, y: 0, rotateZ: -3, scale: 1, zIndex: 40 });
-        gsap.set(card2MobileRef.current, { x: 0, y: 10, rotateZ: 2, scale: 1, zIndex: 30 });
-        gsap.set(card3MobileRef.current, { x: 0, y: 20, rotateZ: -2, scale: 1, zIndex: 20 });
-        gsap.set(card4MobileRef.current, { x: 0, y: 30, rotateZ: 3, scale: 1, zIndex: 10 });
+        // Start: the 4 cards stacked as a deck, each 10px lower than the one above,
+        // tilts -3deg, 2deg, -2deg, 3deg. Course builder on top.
+        gsap.set(card1MobileRef.current, { x: 0, y: 72, rotateZ: -3, scale: 1, zIndex: 40 });
+        gsap.set(card2MobileRef.current, { x: 0, y: 82, rotateZ: 2, scale: 1, zIndex: 30 });
+        gsap.set(card3MobileRef.current, { x: 0, y: 92, rotateZ: -2, scale: 1, zIndex: 20 });
+        gsap.set(card4MobileRef.current, { x: 0, y: 102, rotateZ: 3, scale: 1, zIndex: 10 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -153,115 +153,94 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
           },
         });
 
-        // 1. Card 1 deals out up & left, shrinks to 0.9, settles as top ledge (24px visible)
+        // 1. Card 1 moves straight up (no sideways movement), scales to 0.92, settles as 24px ledge at y=0
         tl.to(
           card1MobileRef.current,
           {
-            x: -48,
-            y: -50,
-            rotateZ: -7,
-            duration: 0.16,
+            x: 0,
+            y: 0,
+            scale: 0.92,
+            rotateZ: 0,
+            duration: 0.30,
             ease: "power1.out",
           },
           0
         );
         tl.to(
-          card1MobileRef.current,
-          {
-            x: 0,
-            y: -58,
-            scale: 0.9,
-            rotateZ: 0,
-            duration: 0.16,
-            ease: "power1.inOut",
-          },
-          0.16
-        );
-        tl.set(card1MobileRef.current, { zIndex: 10 }, 0.32);
-        tl.to(
           card2MobileRef.current,
           {
-            y: 0,
+            x: 0,
+            y: 72,
             rotateZ: 0,
-            duration: 0.16,
+            duration: 0.28,
             ease: "power1.out",
           },
-          0.16
+          0
         );
+        // Card 2 takes higher z-index so it cleanly covers Card 1 below y=24
+        tl.set(card2MobileRef.current, { zIndex: 40 }, 0.28);
+        tl.set(card1MobileRef.current, { zIndex: 10 }, 0.28);
 
-        // 2. Card 2 deals out up & left, shrinks to 0.9, settles as 2nd ledge
-        tl.to(
-          card2MobileRef.current,
-          {
-            x: -48,
-            y: -40,
-            rotateZ: -6,
-            duration: 0.16,
-            ease: "power1.out",
-          },
-          0.34
-        );
+        // 2. Card 2 moves straight up, scales to 0.92, settles as 2nd 24px ledge at y=24
         tl.to(
           card2MobileRef.current,
           {
             x: 0,
-            y: -34,
-            scale: 0.9,
+            y: 24,
+            scale: 0.92,
             rotateZ: 0,
-            duration: 0.16,
-            ease: "power1.inOut",
+            duration: 0.30,
+            ease: "power1.out",
           },
-          0.50
+          0.33
         );
-        tl.set(card2MobileRef.current, { zIndex: 20 }, 0.66);
         tl.to(
           card3MobileRef.current,
           {
-            y: 0,
+            x: 0,
+            y: 72,
             rotateZ: 0,
-            duration: 0.16,
+            duration: 0.28,
             ease: "power1.out",
           },
-          0.50
+          0.33
         );
+        // Card 3 takes higher z-index so it cleanly covers Card 2 below y=48
+        tl.set(card3MobileRef.current, { zIndex: 40 }, 0.61);
+        tl.set(card2MobileRef.current, { zIndex: 20 }, 0.61);
 
-        // 3. Card 3 deals out up & left, shrinks to 0.9, settles as 3rd ledge
-        tl.to(
-          card3MobileRef.current,
-          {
-            x: -48,
-            y: -30,
-            rotateZ: -5,
-            duration: 0.16,
-            ease: "power1.out",
-          },
-          0.68
-        );
+        // 3. Card 3 moves straight up, scales to 0.92, settles as 3rd 24px ledge at y=48
         tl.to(
           card3MobileRef.current,
           {
             x: 0,
-            y: -10,
-            scale: 0.9,
+            y: 48,
+            scale: 0.92,
             rotateZ: 0,
-            duration: 0.16,
-            ease: "power1.inOut",
+            duration: 0.30,
+            ease: "power1.out",
           },
-          0.84
+          0.66
         );
-        tl.set(card3MobileRef.current, { zIndex: 30 }, 0.98);
+        // Card 4 straightens, stays scale 1 at y=72 fully visible
         tl.to(
           card4MobileRef.current,
           {
-            y: 14,
+            x: 0,
+            y: 72,
             rotateZ: 0,
             scale: 1,
-            duration: 0.16,
+            duration: 0.28,
             ease: "power1.out",
           },
-          0.84
+          0.66
         );
-        tl.set(card4MobileRef.current, { zIndex: 40 }, 0.98);
+        // Card 4 takes top z-index, fully visible under the three 24px ledges
+        tl.set(card4MobileRef.current, { zIndex: 40 }, 0.92);
+        tl.set(card3MobileRef.current, { zIndex: 30 }, 0.92);
+
+        // 4. Brief settle hold before hero unpins immediately
+        tl.to({}, { duration: 0.06 }, 0.94);
       });
     }, containerRef);
 
@@ -612,18 +591,18 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
       {/* Mobile / Tablet View (<1024px): 4 Cards Deal-In Stack in a Sticky Stage */}
       <div
         ref={mobileContainerRef}
-        className="relative w-full h-[220vh] lg:hidden mt-4"
+        className="relative w-full h-[160vh] lg:hidden"
       >
         <div
           ref={mobileStageRef}
-          className="sticky top-[80px] w-full h-[420px] max-w-[390px] mx-auto flex flex-col items-center justify-center overflow-visible"
+          className="sticky top-[calc((100vh-388px)/2)] w-full h-[388px] max-w-[420px] mx-auto overflow-visible px-4"
         >
-          <div className="relative w-full h-[320px]">
+          <div className="relative w-full h-[388px]">
             {/* Card 1: Course builder */}
             <div
               ref={card1MobileRef}
               style={{ zIndex: 40 }}
-              className="absolute inset-0 rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
             >
               <div>
                 <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">
@@ -657,7 +636,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             <div
               ref={card2MobileRef}
               style={{ zIndex: 30 }}
-              className="absolute inset-0 rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
             >
               <div>
                 <div className="flex items-center gap-2">
@@ -698,7 +677,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             <div
               ref={card3MobileRef}
               style={{ zIndex: 20 }}
-              className="absolute inset-0 rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
             >
               <div>
                 <div className="flex items-center justify-between">
@@ -764,7 +743,7 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
             <div
               ref={card4MobileRef}
               style={{ zIndex: 10 }}
-              className="absolute inset-0 rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
+              className="absolute inset-x-0 top-0 h-[316px] rounded-[20px] bg-white p-4 sm:p-5 border border-[#ECEDEF] shadow-[0_12px_32px_-8px_rgba(0,0,0,0.1)] flex flex-col justify-between will-change-transform"
             >
               <div>
                 <h3 className="font-urbanist text-base sm:text-lg font-semibold text-[#161616] tracking-tight">

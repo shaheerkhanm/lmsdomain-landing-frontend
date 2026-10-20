@@ -6,7 +6,54 @@
 
 ---
 
-## 1. Mobile Motion & Interactive Stacking Sequence (<1024px Phone & Tablet)
+## 1. Mobile Spacing Standardization & Hero Motion Polish (<1024px Phone & Tablet)
+
+Following prompt 12 instructions, mobile spacing has been standardized across all sections to eliminate large empty runways/dead space (<25% empty background at any scroll point), and the Hero card stage animation has been polished to pure vertical movement forming clean 24px stacked ledges. Desktop layout ($\ge 1024\text{px}$) remains completely unchanged.
+
+### Standardized Inter-Section Spacing (64px Content-to-Content)
+- **Zero-Dead-Space Architecture:** Sticky elements are sized directly to content height `H` (`h-[H]`) and positioned at `top: calc((100vh - H) / 2)` instead of `h-screen top-0`. This eliminates invisible ~400px bottom runways and guarantees the next section's content enters within **64px** (`mb-16`) of the previous content completing.
+- **Section-by-Section Measured Gaps (iPhone 12 Pro 390×844):**
+
+| Section Transition | Target Spacing | Measured Gap | Status |
+| :--- | :--- | :--- | :--- |
+| **Hero Card Stage $\rightarrow$ Features Section** | 64px | **64px** (`hero_mb: 64px`) | PASS |
+| **Features Card 03 $\rightarrow$ Manifesto Text** | 64px | **64px** (`features_mb: 64px`) | PASS |
+| **Manifesto Section $\rightarrow$ AI Studio** | 64px | **64px** (`manifesto_mb: 64px`) | PASS |
+| **AI Studio $\rightarrow$ Benefits Section** | 64px | **64px** (`extension_mb: 64px`) | PASS |
+| **Benefits Section $\rightarrow$ Wall of Love** | 64px | **64px** (`benefits_mb: 64px`) | PASS |
+| **Wall of Love $\rightarrow$ FAQ Enclosure Card** | 64px | **64px** (`testimonials_mb: 64px`) | PASS |
+| **FAQ Enclosure Card $\rightarrow$ Footer** | 64px | **64px** (`faq_pb: 64px`) | PASS |
+
+### Container Height Adjustments
+
+| Section | Previous Container Height | Standardized Container Height | Spacing & Exit Behavior |
+| :--- | :--- | :--- | :--- |
+| **Hero Cards Stage** | 220vh | **160vh** | Shortened for snappy 4-card sequence; unpins without trailing dead space. |
+| **Features Section** | Auto + `pb-16` | **Auto + `pb-0`** | Card 03 unpins cleanly as soon as settled; zero trailing runway. |
+| **Manifesto Reveal** | 160vh | **130vh** | Reduced runway so AI Studio enters 64px after last word lights up. |
+| **AI Studio** | 400vh | **280vh** (~70vh / step) | Compact header 24px above horizontal 1-4 progress bar; no dead hold after step 4. |
+| **Wall of Love** | 300vh (`-mb-[22vh]`) | **220vh** | Heading and cards unpin cleanly; FAQ card enters at standard 64px spacing. |
+
+### Hero Card Animation Polish (`LmsProductStage.tsx`)
+- **Dimensions & Alignment:** All 4 cards sized to `calc(100vw - 32px)` (max-width `420px`, 16px horizontal margins) and `316px` height, vertically centered below navbar in a `388px` sticky stage.
+- **Initial Deck:** Stack starts with Course builder on top at $y=72\text{px}$ (tilt $-3^\circ$, zIndex 40), Card 2 at $y=82\text{px}$ (tilt $2^\circ$, zIndex 30), Card 3 at $y=92\text{px}$ (tilt $-2^\circ$, zIndex 20), and Card 4 at $y=102\text{px}$ (tilt $3^\circ$, zIndex 10).
+- **Pure Vertical Movement (`x: 0`):** No sideways translations or horizontal overflow clipping.
+- **Ledges Formation:**
+  - Card 1 slides up to $y=0$, scales to $0.92$, settling as the top 24px ledge.
+  - Card 2 raises zIndex to 40, slides to $y=24$, scales to $0.92$, settling under Card 1.
+  - Card 3 raises zIndex to 40, slides to $y=48$, scales to $0.92$, settling under Card 2.
+  - Card 4 takes top zIndex 40, scales to $1.0$ at $y=72$, leaving Certificate issued fully visible below three 24px ledges.
+- **Card Opacity:** Solid `bg-white` opaque backgrounds with subtle borders and shadows prevent bleed-through.
+
+### Verified Mobile Evidence Stills & Video
+- `docs/motion-evidence/01_hero_start.png`: Initial tilted deck at $y=72\text{px}$ with Course builder on top.
+- `docs/motion-evidence/02_hero_halfway.png`: Card 1 docked at $y=0$ (scale 0.92), Card 2 active at $y=33\text{px}$.
+- `docs/motion-evidence/03_hero_end.png`: Three 24px ledges at $y=0, 24, 48$ with Card 4 fully visible at $y=72\text{px}$.
+- `docs/motion-evidence/iphone_12_pro_scroll_walkthrough.mp4`: Complete interactive mobile walkthrough recording on iPhone 12 Pro (390×844) confirming 64px transitions and smooth reverse scroll.
+
+---
+
+## 2. Earlier Mobile Motion Implementation Reference
 
 Following prompt 10 instructions, comprehensive mobile motion has been implemented across all six sections for screens under 1024px (`(max-width: 1023px)`). Desktop layout ($\ge 1024\text{px}$), Hero heading/CTA, FAQ, and footer remain completely untouched.
 

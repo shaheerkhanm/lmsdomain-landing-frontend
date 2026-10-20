@@ -90,7 +90,7 @@ export function ManifestSection() {
     <section
       ref={sectionRef}
       id="manifesto"
-      className="bg-white font-urbanist relative overflow-visible flex items-center justify-center lg:py-24 lg:sm:py-32 lg:min-h-[600px]"
+      className="bg-white font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16"
     >
       {/* Desktop Layout (>=1024px: Pinned Row) */}
       <div
@@ -109,12 +109,12 @@ export function ManifestSection() {
         </p>
       </div>
 
-      {/* Mobile Layout (<1024px: 160vh Sticky Container, Vertically Centred) */}
+      {/* Mobile Layout (<1024px: 130vh Sticky Container, Vertically Centred) */}
       <div
         ref={mobileContainerRef}
-        className="relative w-full h-[160vh] lg:hidden"
+        className="relative w-full h-[130vh] lg:hidden"
       >
-        <div className="sticky top-0 h-screen w-full flex items-center justify-center px-6">
+        <div className="sticky top-[calc((100vh-130px)/2)] h-[130px] w-full flex items-center justify-center px-6">
           <p className="text-2xl sm:text-3xl font-medium leading-[1.35] tracking-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-2.5 gap-y-1.5 select-none text-center max-w-[700px]">
             {STATEMENT_WORDS.map((word, idx) => (
               <span
