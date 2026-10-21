@@ -8,7 +8,7 @@ export function RouteChangeWatcher() {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
       (window as any).ScrollTrigger = ScrollTrigger;
     }
 
