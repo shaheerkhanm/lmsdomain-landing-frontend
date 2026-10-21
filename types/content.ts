@@ -169,6 +169,118 @@ export interface PricingPageData {
   seo?: SeoMetadata;
 }
 
+export type BillingPeriodId = "monthly" | "yearly";
+
+export interface BillingPeriod {
+  id: BillingPeriodId;
+  label: string;
+  note?: string;
+}
+
+export interface CurrencyConfig {
+  code?: string;
+  symbol?: string;
+  position?: "before" | "after";
+}
+
+export interface PlanLimit {
+  label: string;
+  value: string;
+}
+
+export interface PlanCta {
+  label: string;
+  href?: string;
+  action?: "signup" | "demo" | "contact";
+}
+
+export interface Plan {
+  id: string;
+  slug?: string;
+  name: string;
+  tagline?: string;
+  isPopular?: boolean;
+  prices: Record<BillingPeriodId, number | null>;
+  priceSuffix?: string; // e.g. "/month"
+  priceNote?: string;   // e.g. "Custom"
+  limits?: PlanLimit[];
+  features: string[];
+  cta: PlanCta;
+  displayOrder?: number;
+}
+
+export interface ComparisonRow {
+  label: string;
+  tooltip?: string;
+  values: Record<string, boolean | string>;
+}
+
+export interface ComparisonGroup {
+  title: string;
+  rows: ComparisonRow[];
+}
+
+export interface PricingComparison {
+  groups: ComparisonGroup[];
+}
+
+export interface PricingAddOn {
+  name: string;
+  description: string;
+  price: string;
+  unit?: string;
+}
+
+export interface PricingEnterprise {
+  title: string;
+  description: string;
+  cta: {
+    label: string;
+    href?: string;
+    action?: "contact" | "demo";
+  };
+}
+
+export interface PricingEmptyState {
+  title: string;
+  subtitle: string;
+  primaryCta: { label: string; action: "demo" | "modal" };
+  secondaryCta: { label: string; href: string; action: "contact" };
+}
+
+export interface PricingPageModel {
+  seo?: SeoMetadata;
+  hero: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+  };
+  billing: {
+    periods: BillingPeriod[];
+    defaultPeriod: BillingPeriodId;
+    yearlySavingsLabel?: string;
+  };
+  currency: CurrencyConfig;
+  plans: Plan[];
+  emptyState?: PricingEmptyState;
+  comparison?: PricingComparison;
+  addOns?: {
+    title: string;
+    items: PricingAddOn[];
+  };
+  enterprise?: PricingEnterprise;
+  faq?: {
+    title?: string;
+    subtitle?: string;
+    items: FaqItem[];
+  };
+  cta?: {
+    title?: string;
+    subtitle?: string;
+    primaryCta?: { label: string };
+  };
+}
+
 export interface FeatureCategory {
   slug: string;
   title: string;

@@ -11,6 +11,10 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Pricing | Plans | Content | The `pricings` collection has **0 documents**. Enter your real plans in Admin > Pricing. Nothing can be shown until then. |
 | Pricing | Currency | Field | Add `currency` (e.g. `USD`, `INR`, `SAR`) to Pricing, or one site-wide currency setting. Today nothing says what `price` is in. |
 | Pricing | Popular plan | Field | `isPopular: boolean` on Pricing. |
+| Pricing | Yearly pricing / Billing periods | Field | Add `price_yearly: number` or billingPeriods to Pricing model. Today only `price` exists, with no field for annual billing rates or savings. |
+| Pricing | Empty state copy | Content | CMS entry `pricing-empty` (`title`, `subTitle`, `buttonText`, `buttonAction`) for customizing the empty state when 0 plans are published. |
+| Pricing | Hero copy | Content | CMS entry `pricing-hero` (`title`, `subTitle`, `tags` = eyebrow) to customize pricing hero. |
+| Pricing | Enterprise band copy | Content | CMS entry `pricing-enterprise` (`title`, `subTitle`, `buttonText`, `buttonAction`) to customize the enterprise tier card. |
 | Features | Category | Field | Add `category` (one of the 9 from features-catalog.md) and `categoryOrder` to Features, or a separate Feature Category model with `title`, `slug`, `description`, `displayOrder`. *(Current: frontend uses `content/features/catalog.ts` with single-function seam `resolveFeatureCategories()` in `lib/api/content.ts`)* |
 | Features | Premium flag | Field | `isPremium: boolean` on Features. *(Current: typed in `content/features/catalog.ts`)* |
 | Features | Feature list | Content | Enter the 38 features from features-catalog.md in Admin > Features (title = name, subTitle = description). *(Current: stored and validated in `content/features/catalog.ts`)* |

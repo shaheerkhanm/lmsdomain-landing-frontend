@@ -18,6 +18,8 @@ import type {
   SeoMetadata,
   SiteSettings,
   PricingPageData,
+  PricingPageModel,
+  Plan,
   FeaturesPageData,
   AboutPageData,
   ContactPageData,
@@ -27,6 +29,14 @@ import type {
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
 import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
 import { DEFAULT_AI_PAGE_DATA, AI_TOOLS } from "@/content/ai/page";
+import {
+  DEFAULT_PRICING_HERO,
+  DEFAULT_PRICING_EMPTY_STATE,
+  PRICING_COMPARISON_GROUPS,
+  NEUTRAL_FIXTURE_PLANS,
+  PRICING_ADD_ONS,
+  PRICING_ENTERPRISE,
+} from "@/content/pricing/page";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
   doc: T | null | undefined
@@ -113,9 +123,10 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 // Endpoints: /api/cms (slugs: pricing-hero, pricing-faq, pricing-footer-card),
 //            /api/pricing, /api/pricing/faq
 // ----------------------------------------------------------------------------
-export async function getPricingPage(): Promise<PricingPageData> {
-  const [hero, footerCard, plansRes, faqsRes, seo] = await Promise.all([
+export async function getPricingPage(): Promise<PricingPageModel> {
+  const [heroCms, emptyCms, footerCard, plansRes, faqsRes, seo] = await Promise.all([
     fetchCms("pricing-hero", ["cms", "pricing"]),
+    fetchCms("pricing-empty", ["cms", "pricing"]),
     fetchCms("pricing-footer-card", ["cms", "pricing"]),
     fetchApi<{ status?: boolean; data?: PricingPlan[] }>("/api/pricing", {
       method: "POST",
@@ -130,12 +141,108 @@ export async function getPricingPage(): Promise<PricingPageData> {
     fetchSeo("pricing"),
   ]);
 
+  const activePlans = filterActiveDocuments(plansRes?.data);
+  const activeFaqs = filterActiveDocuments(faqsRes?.data);
+  const useFixtures = process.env.CMS_USE_FIXTURES === "true";
+
+  // Currency resolution: read from plan.currency if backend has it; otherwise NO guessed symbol
+  let currencyCode = "";
+  let currencySymbol = "";
+  if (activePlans.length > 0 && activePlans[0].currency) {
+    currencyCode = activePlans[0].currency;
+    currencySymbol = currencyCode === "USD" ? "$" : currencyCode === "INR" ? "₹" : currencyCode;
+  }
+
+  let mappedPlans: Plan[] = [];
+
+  if (activePlans.length > 0) {
+    mappedPlans = activePlans.map((doc, idx) => {
+      const isPopular = Boolean(doc.isPopular || /scale|popular/i.test(doc.title));
+      const monthlyPrice = typeof doc.price === "number" ? doc.price : null;
+      // Do not invent discount percentage or yearly price if backend doesn't have it
+      const yearlyPrice = typeof doc.price_yearly === "number" ? doc.price_yearly : null;
+
+      const limits = [];
+      if (doc.max_users) {
+        limits.push({
+          label: "Active Learners",
+          value: `Up to ${doc.max_users.toLocaleString()}`,
+        });
+      }
+
+      return {
+        id: doc._id || doc.slug || String(idx),
+        slug: doc.slug,
+        name: doc.title,
+        tagline: doc.subTitle,
+        isPopular,
+        prices: {
+          monthly: monthlyPrice,
+          yearly: yearlyPrice,
+        },
+        priceSuffix: monthlyPrice !== null ? "/month" : "",
+        priceNote: monthlyPrice === null ? doc.description || "Custom" : undefined,
+        limits: limits.length > 0 ? limits : undefined,
+        features: Array.isArray(doc.tags) ? doc.tags : [],
+        cta: {
+          label: doc.buttonText || (isPopular ? "Get Started" : "Start Free Trial"),
+          action: doc.buttonAction === "demo" ? "demo" : doc.buttonAction === "contact" ? "contact" : "signup",
+          href: doc.buttonAction?.startsWith("/") ? doc.buttonAction : `/signup?plan=${doc.slug || doc._id}`,
+        },
+        displayOrder: doc.displayOrder || idx + 1,
+      };
+    });
+  } else if (useFixtures) {
+    mappedPlans = NEUTRAL_FIXTURE_PLANS;
+  }
+
+  const hero = {
+    eyebrow: (heroCms?.tags && heroCms.tags[0]) || DEFAULT_PRICING_HERO.eyebrow,
+    title: heroCms?.title || DEFAULT_PRICING_HERO.title,
+    subtitle: heroCms?.subTitle || heroCms?.description || DEFAULT_PRICING_HERO.subtitle,
+  };
+
+  const emptyState = {
+    title: emptyCms?.title || DEFAULT_PRICING_EMPTY_STATE.title,
+    subtitle: emptyCms?.subTitle || emptyCms?.description || DEFAULT_PRICING_EMPTY_STATE.subtitle,
+    primaryCta: {
+      label: emptyCms?.buttonText || DEFAULT_PRICING_EMPTY_STATE.primaryCta.label,
+      action: "demo" as const,
+    },
+    secondaryCta: {
+      label: "Contact sales",
+      href: emptyCms?.buttonAction || DEFAULT_PRICING_EMPTY_STATE.secondaryCta.href,
+      action: "contact" as const,
+    },
+  };
+
   return {
-    hero: hero || undefined,
-    plans: filterActiveDocuments(plansRes?.data),
-    faqs: filterActiveDocuments(faqsRes?.data),
-    footerCard: footerCard || undefined,
     seo: seo || undefined,
+    hero,
+    billing: {
+      periods: [
+        { id: "monthly", label: "Monthly" },
+        { id: "yearly", label: "Yearly", note: "Save 20%" },
+      ],
+      defaultPeriod: "monthly",
+      yearlySavingsLabel: "Save 20%",
+    },
+    currency: {
+      code: currencyCode,
+      symbol: currencySymbol,
+      position: "before",
+    },
+    plans: mappedPlans,
+    emptyState: mappedPlans.length === 0 ? emptyState : undefined,
+    comparison: mappedPlans.length > 0 ? { groups: PRICING_COMPARISON_GROUPS } : undefined,
+    addOns: mappedPlans.length > 0 ? { title: "Flexible Add-Ons", items: PRICING_ADD_ONS } : undefined,
+    enterprise: mappedPlans.length > 0 ? PRICING_ENTERPRISE : undefined,
+    faq: activeFaqs.length > 0 ? { items: activeFaqs } : undefined,
+    cta: {
+      title: footerCard?.title || "Ready to Launch Your Branded Academy?",
+      subtitle: footerCard?.subTitle || "Speak with our team to find the exact configuration for your team.",
+      primaryCta: { label: footerCard?.buttonText || "Request a Demo" },
+    },
   };
 }
 

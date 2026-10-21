@@ -12,14 +12,24 @@ type EnquiryInputs = {
   subject: string;
 };
 
-export function EnquiryForm({ onClose }: { onClose?: () => void }) {
+export function EnquiryForm({
+  onClose,
+  initialSubject,
+}: {
+  onClose?: () => void;
+  initialSubject?: string;
+}) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<EnquiryInputs>();
+  } = useForm<EnquiryInputs>({
+    defaultValues: {
+      subject: initialSubject || "",
+    },
+  });
 
   const onSubmit: SubmitHandler<EnquiryInputs> = async (formData) => {
     try {
