@@ -1,8 +1,4 @@
-import AboutPage from "@/components/modules/AboutPage";
-import FeaturesPage from "@/components/modules/FeaturesPage";
-import PrivacyPolicy from "@/components/modules/PrivacyPolicy";
 import RefundPolicy from "@/components/modules/RefundPolicy";
-import TermsAndConditions from "@/components/modules/TermsAndCondition";
 import { fetchSeo } from "@/utils/api";
 import { Metadata } from "next";
 import React from "react";

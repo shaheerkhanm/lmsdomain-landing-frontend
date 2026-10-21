@@ -11,9 +11,9 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Pricing | Plans | Content | The `pricings` collection has **0 documents**. Enter your real plans in Admin > Pricing. Nothing can be shown until then. |
 | Pricing | Currency | Field | Add `currency` (e.g. `USD`, `INR`, `SAR`) to Pricing, or one site-wide currency setting. Today nothing says what `price` is in. |
 | Pricing | Popular plan | Field | `isPopular: boolean` on Pricing. |
-| Features | Category | Field | Add `category` (one of the 9 from features-catalog.md) and `categoryOrder` to Features, or a separate Feature Category model with `title`, `slug`, `description`, `displayOrder`. |
-| Features | Premium flag | Field | `isPremium: boolean` on Features. |
-| Features | Feature list | Content | Enter the ~37 features from features-catalog.md in Admin > Features (title = name, subTitle = description). |
+| Features | Category | Field | Add `category` (one of the 9 from features-catalog.md) and `categoryOrder` to Features, or a separate Feature Category model with `title`, `slug`, `description`, `displayOrder`. *(Current: frontend uses `content/features/catalog.ts` with single-function seam `resolveFeatureCategories()` in `lib/api/content.ts`)* |
+| Features | Premium flag | Field | `isPremium: boolean` on Features. *(Current: typed in `content/features/catalog.ts`)* |
+| Features | Feature list | Content | Enter the 38 features from features-catalog.md in Admin > Features (title = name, subTitle = description). *(Current: stored and validated in `content/features/catalog.ts`)* |
 | Domie AI page | AI tools | Content | The 4 AI tools are entered as Features with category "AI Tools" and `isPremium: true`, so no new model is needed once the two fields above exist. |
 | Domie AI page | Page copy | Content | New CMS entries: `ai-hero` (title, subTitle, buttonText, buttonAction, tags = command-bar example queries), `ai-availability`, `ai-cta`. |
 | SEO | Missing pages | Content | `seos` has only home, pricing, features, about. Add `ai`, `contact`, `privacy-policy`, `terms`, `refund-policy`, `dpa`. |

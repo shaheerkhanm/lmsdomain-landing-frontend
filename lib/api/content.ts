@@ -11,6 +11,8 @@ import type {
   FaqItem,
   FeatureItem,
   FeatureContent,
+  FeatureCategory,
+  Feature,
   AboutValue,
   AboutLeadership,
   SeoMetadata,
@@ -21,6 +23,7 @@ import type {
   ContactPageData,
   LegalPageData,
 } from "@/types/content";
+import { FEATURE_CATEGORIES } from "@/content/features/catalog";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
   doc: T | null | undefined
@@ -135,29 +138,42 @@ export async function getPricingPage(): Promise<PricingPageData> {
 
 // ----------------------------------------------------------------------------
 // Features Page Content
-// Endpoints: /api/cms (slugs: features-hero, features-content),
-//            /api/features, /api/features/content
+// Endpoints: /api/cms (slugs: features-hero, features-cta),
+//            /api/seo (slug: features), /api/pricing/faq
+// Content source: content/features/catalog.ts (9 categories, 38 features)
 // ----------------------------------------------------------------------------
+
+/**
+ * Resolves the 9 feature categories and 38 features.
+ * Currently sourced from content/features/catalog.ts as the production source of truth.
+ * Seam for future backend migration: once /api/features supports category and isPremium,
+ * this function can transform backend documents into FeatureCategory[] with fallback to the catalog.
+ */
+export async function resolveFeatureCategories(): Promise<FeatureCategory[]> {
+  // Production source of truth until backend adds category and isPremium fields
+  return FEATURE_CATEGORIES;
+}
+
 export async function getFeaturesPage(): Promise<FeaturesPageData> {
-  const [hero, featuresRes, contentsRes, seo] = await Promise.all([
+  const [hero, closingCta, faqsRes, seo, categories] = await Promise.all([
     fetchCms("features-hero", ["cms", "features"]),
-    fetchApi<{ status?: boolean; data?: FeatureItem[] }>("/api/features", {
+    fetchCms("features-cta", ["cms", "features"]),
+    fetchApi<{ status?: boolean; data?: FaqItem[] }>("/api/pricing/faq", {
       method: "POST",
-      tags: ["features"],
-      revalidate: 300,
-    }).catch(() => null),
-    fetchApi<{ status?: boolean; data?: FeatureContent[] }>("/api/features/content", {
-      method: "POST",
-      tags: ["features", "features-content"],
+      tags: ["faqs"],
       revalidate: 300,
     }).catch(() => null),
     fetchSeo("features"),
+    resolveFeatureCategories(),
   ]);
+
+  const activeFaqs = filterActiveDocuments(faqsRes?.data);
 
   return {
     hero: hero || undefined,
-    features: filterActiveDocuments(featuresRes?.data),
-    contents: filterActiveDocuments(contentsRes?.data),
+    closingCta: closingCta || undefined,
+    categories,
+    faqs: activeFaqs.length > 0 ? activeFaqs : undefined,
     seo: seo || undefined,
   };
 }

@@ -1,5 +1,4 @@
 import AboutPage from "@/components/modules/AboutPage";
-import FeaturesPage from "@/components/modules/FeaturesPage";
 import { fetchSeo } from "@/utils/api";
 import { Metadata } from "next";
 import React from "react";

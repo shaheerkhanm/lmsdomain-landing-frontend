@@ -1,5 +1,3 @@
-import AboutPage from "@/components/modules/AboutPage";
-import FeaturesPage from "@/components/modules/FeaturesPage";
 import PrivacyPolicy from "@/components/modules/PrivacyPolicy";
 import { fetchSeo } from "@/utils/api";
 import { Metadata } from "next";

@@ -169,10 +169,30 @@ export interface PricingPageData {
   seo?: SeoMetadata;
 }
 
+export interface FeatureCategory {
+  slug: string;
+  title: string;
+  eyebrow: string;
+  intro: string;
+  isPremium?: boolean;
+  order: number;
+  features: Feature[];
+}
+
+export interface Feature {
+  slug: string;
+  title: string;
+  description: string;
+  isPremium?: boolean;
+  audience?: string;
+  icon?: string;
+}
+
 export interface FeaturesPageData {
   hero?: CmsDocument;
-  features: FeatureItem[];
-  contents: FeatureContent[];
+  categories: FeatureCategory[];
+  faqs?: FaqItem[];
+  closingCta?: CmsDocument;
   seo?: SeoMetadata;
 }
 
