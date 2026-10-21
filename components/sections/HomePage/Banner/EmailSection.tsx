@@ -2,9 +2,6 @@
 
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { apiRoutes } from "@/utils/api/apiRoutes";
-import { BACKEND_URL } from "@/utils/constants/constant";
-import { fetchData } from "@/utils/api";
 import { toast } from "sonner";
 
 type EmailInputs = {
@@ -31,15 +28,23 @@ export function EmailSection({
   const onSubmit: SubmitHandler<EmailInputs> = async (formData) => {
     try {
       setIsSubmitting(true);
-      const url = BACKEND_URL + apiRoutes.getEnquiry;
       const body = {
-        ...formData,
+        email: formData.email.trim(),
+        name: "Hero Waitlist / Subscriber",
+        subject: "Hero Notification Request",
+        organizationName: "Direct Web Subscriber",
         type: 2,
       };
 
-      const response = await fetchData({ url, body });
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
 
-      if (response) {
+      const response = await res.json().catch(() => null);
+
+      if (res.ok && response) {
         toast.success("Thank you! We've received your email and will reach out shortly.", {
           richColors: true,
           duration: 4000,

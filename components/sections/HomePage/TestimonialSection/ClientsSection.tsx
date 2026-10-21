@@ -1,28 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { fetchData } from "@/utils/api";
-import { apiRoutes } from "@/utils/api/apiRoutes";
+import React, { useState } from "react";
 
-export function ClientsSection() {
-  const [data, setData] = useState<any[]>([]);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const location =
-          process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getClients;
-        const response = await fetchData({
-          url: location,
-          body: { slug: "" },
-        });
-        setData(Array.isArray(response) ? response : []);
-      } catch (error) {
-        setData([]);
-      }
-    };
-    getData();
-  }, []);
+export function ClientsSection({ initialData = [] }: { initialData?: any[] }) {
+  const [data] = useState<any[]>(initialData);
 
   if (data.length === 0) return null;
 

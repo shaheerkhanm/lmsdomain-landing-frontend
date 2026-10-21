@@ -3,42 +3,12 @@
 import NumberFlow from '@number-flow/react';
 import React, { useEffect, useState } from 'react'
 import { motion } from 'motion/react';
-import { fetchData } from '@/utils/api';
-import { apiRoutes } from '@/utils/api/apiRoutes';
-
-
-function OurMissionSection() {
-
-    const [data, setData] = useState<any>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [animated, setAnimated] = useState<boolean[]>([]);
-
-    useEffect(() => {
-        const loadData = async () => {
-            try {
-                const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getAllCms
-                const response = await fetchData({
-                    url: location,
-                    body: { slug: "about-mission" },
-
-                })
-
-                setData(response);
-
-                if (response?.counts?.length) {
-                    setAnimated(new Array(response.counts.length).fill(false));
-                }
-
-            } catch (error) {
-                console.error("Failed to fetch mission data:", error);
-                setData(null); // Set to null on error
-            } finally {
-                setLoading(false); // Stop loading in all cases
-            }
-        }
-
-        loadData();
-    }, []); // Empty array means this runs once when the component mounts
+function OurMissionSection({ initialData }: { initialData?: any }) {
+    const [data] = useState<any>(initialData || null);
+    const [loading] = useState<boolean>(false);
+    const [animated, setAnimated] = useState<boolean[]>(
+        initialData?.counts?.length ? new Array(initialData.counts.length).fill(true) : []
+    );
 
 
     const splitCount = (value: string) => {

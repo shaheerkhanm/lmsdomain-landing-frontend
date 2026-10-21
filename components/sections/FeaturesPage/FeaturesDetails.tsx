@@ -14,27 +14,7 @@ const iconBgColorClasses = [
 
 async function FeaturesDetails() {
 
-    // const [data, setData] = useState<any>([])
 
-
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         try {
-    //             const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getFeaturesData
-    //             const response = await fetchData({
-    //                 url: location,
-    //                 body: { slug: "" },
-    //             })
-
-    //             setData(response)
-    //         } catch (error) {
-    //             console.error("Error fetching data:", error)
-    //             setData([])
-    //         }
-    //     }
-
-    //     getData()
-    // }, [])
 
     const getData = async (slug: string) => {
         try {

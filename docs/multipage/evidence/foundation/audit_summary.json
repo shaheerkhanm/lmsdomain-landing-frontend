@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-10-21T05:59:14.357Z",
+  "scrollTriggerAudit": {
+    "initialHomeCount": 9,
+    "pricingCount": 0,
+    "returnHomeCount": 9,
+    "passed": true
+  },
+  "routesTested": [
+    "/",
+    "/features",
+    "/pricing",
+    "/about",
+    "/ai",
+    "/contact",
+    "/login",
+    "/signup"
+  ],
+  "viewportsTested": [
+    1440,
+    1024,
+    390
+  ]
+}

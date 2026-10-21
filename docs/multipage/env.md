@@ -146,3 +146,4 @@ In Step 3, all browser submissions will route to a Next.js App Router Route Hand
 - **Zero client-side environment variable dependencies:** No `NEXT_PUBLIC_BACKEND_URL` needed in browser bundles.
 - **Zero CORS issues:** All browser requests are strictly same-origin (`/api/enquiry`).
 - **Resilient across environments:** Works identically on local dev (`localhost:8080`), staging (`staging.lmsdomain.online`), and production without rebuilding Docker images.
+

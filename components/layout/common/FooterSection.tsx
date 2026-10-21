@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import SocialMediaIcons from "../SocialMediaIcons";
 import CopyrightSection from "../CopyrightSection";
 import { sanitizeHtml } from "@/lib/sanitize";
@@ -37,6 +38,11 @@ const navData = [
 ];
 
 export function FooterSection({ addressData, contentData }: { addressData: any; contentData: any }) {
+  const pathname = usePathname();
+  if (pathname?.startsWith("/login") || pathname?.startsWith("/signup")) {
+    return null;
+  }
+
   const sanitizedContent = sanitizeHtml(contentData?.content);
   const isLorem = /lorem\s*ipsum/i.test(sanitizedContent || "");
 

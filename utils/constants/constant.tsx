@@ -1,1 +1,5 @@
-export const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL || "https://cms.lmsdomain.com"
+// Deprecated: All backend communication is routed through lib/api/client.ts
+// Kept for backward compatibility if dynamically imported.
+import { getBackendBaseUrl } from "@/lib/api/client";
+
+export const BACKEND_URL = getBackendBaseUrl();

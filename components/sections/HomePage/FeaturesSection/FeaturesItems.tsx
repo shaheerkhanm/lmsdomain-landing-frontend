@@ -1,10 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FeaturesCards from "./FeaturesCards";
-import { fetchData } from "@/utils/api";
-import { apiRoutes } from "@/utils/api/apiRoutes";
-import { BACKEND_URL } from "@/utils/constants/constant";
 
 const DEFAULT_TEACH_FEATURES = [
   {
@@ -29,27 +26,8 @@ const DEFAULT_TEACH_FEATURES = [
   },
 ];
 
-export function FeaturesItems() {
-  const [data, setData] = useState<any[]>(DEFAULT_TEACH_FEATURES);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const location = (process.env.NEXT_PUBLIC_BACKEND_URL || BACKEND_URL) + apiRoutes?.getSmartTeach;
-        const response = await fetchData({
-          url: location,
-          body: { slug: "" },
-        });
-        if (Array.isArray(response) && response.length > 0) {
-          setData(response);
-        }
-      } catch (error) {
-        // Retain verified default data
-      }
-    };
-
-    getData();
-  }, []);
+export function FeaturesItems({ items }: { items?: any[] }) {
+  const [data] = useState<any[]>(items && items.length > 0 ? items : DEFAULT_TEACH_FEATURES);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-3">

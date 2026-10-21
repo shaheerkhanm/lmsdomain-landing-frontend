@@ -1,12 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { fetchData } from "@/utils/api";
-import { apiRoutes } from "@/utils/api/apiRoutes";
-import { BACKEND_URL } from "@/utils/constants/constant";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
-import { DialogTitle, DialogDescription } from "@radix-ui/react-dialog";
 
 type EnquiryInputs = {
   name: string;
@@ -16,7 +12,7 @@ type EnquiryInputs = {
   subject: string;
 };
 
-export function EnquiryForm({ onClose }: { onClose: () => void }) {
+export function EnquiryForm({ onClose }: { onClose?: () => void }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
@@ -28,7 +24,6 @@ export function EnquiryForm({ onClose }: { onClose: () => void }) {
   const onSubmit: SubmitHandler<EnquiryInputs> = async (formData) => {
     try {
       setIsSubmitting(true);
-      const url = (process.env.NEXT_PUBLIC_BACKEND_URL || BACKEND_URL) + apiRoutes.getEnquiry;
       const cleanedPhone = formData.phoneNumber.replace(/\D/g, "");
 
       const body = {
@@ -40,15 +35,21 @@ export function EnquiryForm({ onClose }: { onClose: () => void }) {
         type: 1,
       };
 
-      const response = await fetchData({ url, body });
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
 
-      if (response && response.success !== false) {
+      const response = await res.json().catch(() => null);
+
+      if (res.ok && response && response.success !== false) {
         toast.success("Enquiry submitted successfully! Our specialists will contact you shortly.", {
           richColors: true,
           duration: 5000,
         });
         reset();
-        onClose();
+        onClose?.();
       } else {
         toast.error(response?.message || "Unable to submit enquiry. Please try again.", {
           richColors: true,
@@ -66,12 +67,12 @@ export function EnquiryForm({ onClose }: { onClose: () => void }) {
   return (
     <div className="font-inter">
       <div className="pb-4 border-b border-slate-100">
-        <DialogTitle className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
           Request an Academy Demo
-        </DialogTitle>
-        <DialogDescription className="text-sm text-slate-500 mt-1">
+        </h3>
+        <p className="text-sm text-slate-500 mt-1">
           Tell us about your organization and our specialists will schedule a personalized walkthrough.
-        </DialogDescription>
+        </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">

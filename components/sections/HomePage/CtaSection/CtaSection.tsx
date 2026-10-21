@@ -2,9 +2,6 @@
 
 import React, { useState } from "react";
 import { toast } from "sonner";
-import { BACKEND_URL } from "@/utils/constants/constant";
-import { apiRoutes } from "@/utils/api/apiRoutes";
-import { fetchData } from "@/utils/api";
 
 interface TestimonialPanel {
   id: string;
@@ -111,18 +108,23 @@ export function CtaSection({ data }: { data?: any }) {
 
     try {
       setIsSubmitting(true);
-      const url = (process.env.BACKEND_URL || BACKEND_URL) + apiRoutes?.getEnquiry;
       const body = {
         email: trimmed,
         name: "Reference Notification Subscriber",
         subject: "Platform Notification Request",
         organizationName: "Direct Web Subscriber",
-        type: "2",
+        type: 2,
       };
 
-      const response = await fetchData({ url, body });
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
 
-      if (response) {
+      const response = await res.json().catch(() => null);
+
+      if (res.ok && response) {
         setIsSubmitted(true);
         toast.success("Thank you! You have been added to our notification list.", {
           richColors: true,

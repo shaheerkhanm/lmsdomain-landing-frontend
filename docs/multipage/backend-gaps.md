@@ -25,6 +25,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Page | What's missing | Type | Detail |
 |---|---|---|---|
 | Navigation | Menu / Nav links | Field | No menu model in backend. Links are currently configured statically in `content/navigation.ts`. Add a Menu/Navigation model (`title`, `href`, `order`, `location`: `header` \| `footer`) if dynamic menu editing in admin is desired. |
+| Features | Individual Feature Detail Route | Field | No per-feature detail model or slug endpoint in backend (e.g. `/features/[slug]`). All feature info currently resides in the main Features collection. Skipped dynamic slug routes until detail endpoint exists. |
 | FAQ | Which page a question belongs to | Field | `faqs` is used only for pricing. Add `page` (`home`, `pricing`, `ai`, `features`, `contact`) and `displayOrder`, so every page can have its own FAQ. |
 | Homepage FAQ | Questions | Content | The homepage FAQ is hard-coded in `content/home/faq.ts`. Once `page` exists, enter those questions with `page = home`. |
 | Pricing | Plan limits | Field | Only `max_users` exists. If you want more limits on the cards (courses, storage, admins), add `limits: [{ label, value }]`. |

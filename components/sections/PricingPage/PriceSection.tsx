@@ -7,35 +7,10 @@ import BannerDetails from "./BannerDetails";
 import PricingBanner from "./PricingBanner";
 import PriceFAQ from "./PriceFAQ";
 import PriceSliderDevice from "./PriceSliderDevice";
-import { fetchData } from "@/utils/api";
-import { apiRoutes } from "@/utils/api/apiRoutes";
-
-function PriceSection({ data }: any) {
+function PriceSection({ data, plans = [] }: { data?: any; plans?: any[] }) {
   const [isYearly, setIsYearly] = useState(false);
-
-  const [pricingPlans, setData] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        setIsLoading(true); // 👈 start loading
-        const location = process.env.NEXT_PUBLIC_BACKEND_URL + apiRoutes?.getPricing;
-        const response = await fetchData({
-          url: location,
-          body: { slug: "" },
-        });
-        setData(response || []);
-      } catch (error) {
-        console.error("Error fetching pricing data:", error);
-        setData([]);
-      } finally {
-        setIsLoading(false); // 👈 stop loading
-      }
-    };
-
-    getData();
-  }, []);
+  const [pricingPlans] = useState<any[]>(plans);
+  const [isLoading] = useState(false);
 
   return (
     <div className="main-padding relative z-1 xl:pt-[10%] md:pt-[15%] pt-[25%]">
