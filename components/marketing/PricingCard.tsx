@@ -44,6 +44,11 @@ export function PricingCard({
 
     const digits = formattedNumber.split("");
 
+    // Resolve per-period suffix: "/month" for monthly and "/year" for yearly (or CMS-provided)
+    const periodSuffix =
+      plan.priceSuffixes?.[period] ||
+      (period === "yearly" ? "/year" : plan.priceSuffix || "/month");
+
     return (
       <div className="flex items-baseline gap-1" aria-live="polite">
         {currencySymbol && (
@@ -73,9 +78,9 @@ export function PricingCard({
           </AnimatePresence>
         </div>
 
-        {plan.priceSuffix && (
+        {periodSuffix && (
           <span className="text-[14px] sm:text-[15px] font-medium text-[#6B6F76] ml-1">
-            {plan.priceSuffix}
+            {periodSuffix}
           </span>
         )}
       </div>

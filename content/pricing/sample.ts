@@ -18,6 +18,10 @@ export const SAMPLE_PLANS: Plan[] = [
       yearly: 490,
     },
     priceSuffix: "/month",
+    priceSuffixes: {
+      monthly: "/month",
+      yearly: "/year",
+    },
     limits: [
       { label: "Users", value: "Up to 250" },
       { label: "Admins", value: "1 Admin" },
@@ -47,6 +51,10 @@ export const SAMPLE_PLANS: Plan[] = [
       yearly: 990,
     },
     priceSuffix: "/month",
+    priceSuffixes: {
+      monthly: "/month",
+      yearly: "/year",
+    },
     limits: [
       { label: "Users", value: "Up to 1,500" },
       { label: "Admins", value: "5 Admins" },

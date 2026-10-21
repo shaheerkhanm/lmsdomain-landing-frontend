@@ -5,6 +5,8 @@ export interface PageHeroProps {
   eyebrow?: string;
   title: string;
   subtitle?: string;
+  pattern?: "dots" | "none";
+  topStrip?: React.ReactNode;
   primaryCta?: {
     label: string;
     href?: string;
@@ -16,23 +18,43 @@ export interface PageHeroProps {
     onClick?: () => void;
   };
   children?: React.ReactNode;
+  className?: string;
 }
 
 export function PageHero({
   eyebrow,
   title,
   subtitle,
+  pattern = "none",
+  topStrip,
   primaryCta,
   secondaryCta,
   children,
+  className = "",
 }: PageHeroProps) {
   return (
-    <section className="bg-white pt-[128px] lg:pt-[180px] pb-12 lg:pb-16 font-urbanist text-center">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col items-center">
+    <section
+      className={`relative overflow-hidden bg-white pt-[128px] lg:pt-[180px] pb-12 lg:pb-16 font-urbanist text-center ${className}`}
+    >
+      {/* Subtle Dot Grid Hero Pattern (§Prompt 02c) */}
+      {pattern === "dots" && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 hero-dot-pattern"
+        />
+      )}
+
+      <div className="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col items-center">
+        {topStrip && (
+          <div className="mb-6 flex justify-center">
+            {topStrip}
+          </div>
+        )}
+
         {eyebrow && (
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-[#7B5CF5] text-xs font-semibold uppercase tracking-[0.08em] mb-5">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-[#7B5CF5] text-xs font-semibold uppercase tracking-[0.08em] mb-5">
             <span>✦</span>
-            <span>{eyebrow}</span>
+            <span>{eyebrow.replace(/^✦\s*/, "")}</span>
           </div>
         )}
 

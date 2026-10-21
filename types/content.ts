@@ -56,6 +56,8 @@ export interface PricingPlan {
   subTitle?: string;            // Short pitch
   price: number;                // Monthly price in USD/INR
   price_yearly?: number;        // Discounted annual price
+  priceSuffix?: string;         // Optional custom monthly suffix
+  priceSuffixYearly?: string;   // Optional custom annual suffix
   duration_days?: string;
   max_users?: number;           // Learner capacity limit
   discount?: number;            // Percentage discount
@@ -202,6 +204,7 @@ export interface Plan {
   isPopular?: boolean;
   prices: Record<BillingPeriodId, number | null>;
   priceSuffix?: string; // e.g. "/month"
+  priceSuffixes?: Record<BillingPeriodId, string>; // e.g. { monthly: "/month", yearly: "/year" }
   priceNote?: string;   // e.g. "Custom"
   limits?: PlanLimit[];
   features: string[];

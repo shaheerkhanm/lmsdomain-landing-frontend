@@ -409,3 +409,17 @@ input[type="number"]::-webkit-inner-spin-button {
     animation: none !important;
   }
 }
+
+/* Subtle dot grid hero background pattern (§Prompt 02c) */
+.hero-dot-pattern {
+  background-image: radial-gradient(#E5E7EB 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+@media (max-width: 639px) {
+  .hero-dot-pattern {
+    background-size: 20px 20px;
+  }
+}

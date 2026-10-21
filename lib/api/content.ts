@@ -184,6 +184,10 @@ export async function getPricingPage(): Promise<PricingPageModel> {
           yearly: yearlyPrice,
         },
         priceSuffix: monthlyPrice !== null ? "/month" : "",
+        priceSuffixes: {
+          monthly: doc.priceSuffix || "/month",
+          yearly: doc.priceSuffixYearly || "/year",
+        },
         priceNote: monthlyPrice === null ? doc.description || "Custom" : undefined,
         limits: limits.length > 0 ? limits : undefined,
         features: Array.isArray(doc.tags) ? doc.tags : [],

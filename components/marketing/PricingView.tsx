@@ -67,43 +67,32 @@ export function PricingView({ data }: PricingViewProps) {
 
   return (
     <div className="min-h-screen bg-white font-urbanist relative">
-      {/* Sample pricing banner for local preview only */}
-      {data.isSample && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
-          <div className="bg-[#F3CF74] text-[#161616] px-4 py-1.5 rounded-full text-xs font-semibold shadow-md border border-amber-300 flex items-center gap-1.5 pointer-events-auto">
-            <span className="text-amber-800">✦</span>
-            <span>Sample pricing for design preview. Not real plans.</span>
-          </div>
-        </div>
-      )}
-
-      {/* 1. Hero (White, PageHero) */}
-      <section className="bg-white pt-32 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 text-center border-b border-[#ECEDEF]">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-5">
-            <span>✦</span>
-            <span>{data.hero.eyebrow.replace(/^✦\s*/, "")}</span>
-          </div>
-
-          <h1 className="text-[38px] sm:text-[50px] lg:text-[64px] font-bold text-[#161616] tracking-tight leading-[1.08] max-w-4xl mx-auto mb-5">
-            {data.hero.title}
-          </h1>
-
-          <p className="text-[16px] sm:text-[18px] lg:text-[20px] text-[#6B6F76] max-w-2xl mx-auto leading-relaxed">
-            {data.hero.subtitle}
-          </p>
-
-          {/* 2. Billing Toggle (Signature detail, shown when plans exist) */}
-          {hasPlans && (
-            <BillingToggle
-              periods={data.billing.periods}
-              activePeriod={activePeriod}
-              onChange={handlePeriodChange}
-              yearlySavingsLabel={data.billing.yearlySavingsLabel}
-            />
-          )}
-        </div>
-      </section>
+      {/* 1. Hero (White, PageHero with pattern="dots" & normal-flow sample strip) */}
+      <PageHero
+        pattern="dots"
+        eyebrow={data.hero.eyebrow}
+        title={data.hero.title}
+        subtitle={data.hero.subtitle}
+        className="border-b border-[#ECEDEF]"
+        topStrip={
+          data.isSample ? (
+            <div className="bg-[#F3CF74] text-[#161616] px-4 py-1.5 rounded-full text-xs font-semibold shadow-xs border border-amber-300 flex items-center gap-1.5">
+              <span className="text-amber-800">✦</span>
+              <span>Sample pricing for design preview. Not real plans.</span>
+            </div>
+          ) : undefined
+        }
+      >
+        {/* 2. Billing Toggle (Signature detail, shown when plans exist) */}
+        {hasPlans && (
+          <BillingToggle
+            periods={data.billing.periods}
+            activePeriod={activePeriod}
+            onChange={handlePeriodChange}
+            yearlySavingsLabel={data.billing.yearlySavingsLabel}
+          />
+        )}
+      </PageHero>
 
       {/* 3. Empty State (When plans collection has 0 documents) */}
       {!hasPlans && (
