@@ -22,9 +22,11 @@ import type {
   AboutPageData,
   ContactPageData,
   LegalPageData,
+  AiPageData,
 } from "@/types/content";
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
 import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
+import { DEFAULT_AI_PAGE_DATA, AI_TOOLS } from "@/content/ai/page";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
   doc: T | null | undefined
@@ -280,4 +282,63 @@ export async function getHomePage() {
   // Stub for future CMS binding of Home
   const seo = await fetchSeo("home");
   return { seo };
+}
+
+// ----------------------------------------------------------------------------
+// Domie AI Page Content
+// Slugs: ai-hero, ai-availability, ai-cta, seo: ai
+// Fallback: DEFAULT_AI_PAGE_DATA from content/ai/page.ts
+// ----------------------------------------------------------------------------
+export async function getAiPage(): Promise<AiPageData> {
+  const [heroCms, availabilityCms, ctaCms, seo] = await Promise.all([
+    fetchCms("ai-hero", ["cms", "ai"]),
+    fetchCms("ai-availability", ["cms", "ai"]),
+    fetchCms("ai-cta", ["cms", "ai"]),
+    fetchSeo("ai"),
+  ]);
+
+  const base = { ...DEFAULT_AI_PAGE_DATA };
+
+  const hero = {
+    ...base.hero,
+    title: heroCms?.title || base.hero.title,
+    subtitle: heroCms?.subTitle || heroCms?.description || base.hero.subtitle,
+    primaryCta: {
+      ...base.hero.primaryCta,
+      label: heroCms?.buttonText || base.hero.primaryCta.label,
+    },
+  };
+
+  const availability = {
+    ...base.availability,
+    title: availabilityCms?.title || base.availability.title,
+    description:
+      availabilityCms?.description ||
+      availabilityCms?.subTitle ||
+      base.availability.description,
+    cta: {
+      ...base.availability.cta,
+      label: availabilityCms?.buttonText || base.availability.cta.label,
+      href: availabilityCms?.buttonAction || base.availability.cta.href,
+    },
+  };
+
+  const cta = {
+    ...base.cta,
+    title: ctaCms?.title || base.cta.title,
+    subtitle: ctaCms?.subTitle || ctaCms?.description || base.cta.subtitle,
+    primaryCta: {
+      ...base.cta.primaryCta,
+      label: ctaCms?.buttonText || base.cta.primaryCta.label,
+    },
+  };
+
+  return {
+    ...base,
+    hero,
+    tools: AI_TOOLS,
+    availability,
+    cta,
+    seo: seo || undefined,
+  };
 }

@@ -197,6 +197,74 @@ export interface FeaturesPageData {
   media?: Record<string, any>;
 }
 
+export interface CommandBarResult {
+  kind: "page" | "setting" | "answer";
+  title: string;
+  subtitle?: string;
+}
+
+export interface CommandBarExample {
+  query: string;
+  results: CommandBarResult[];
+}
+
+export interface AiTool {
+  id: string;
+  slug: string;
+  name: string;
+  summary: string;
+  bullets?: string[];
+  badge: "Premium";
+  demo: "tutor" | "analytics" | "generator" | "commandbar";
+  audience?: string;
+  icon?: string;
+}
+
+export interface AiPageData {
+  seo?: SeoMetadata;
+  hero: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    primaryCta: { label: string; action: "modal" | "link"; href?: string };
+    secondaryCta: { label: string; href: string };
+    commandBarExamples: CommandBarExample[];
+  };
+  tools: AiTool[];
+  howItWorks?: {
+    title: string;
+    steps: Array<{ stepNumber?: string; title: string; description: string }>;
+  };
+  availability: {
+    title: string;
+    description: string;
+    cta: { label: string; href: string };
+    secondaryCta?: { label: string; action: "modal" | "link"; href?: string };
+  };
+  relatedTools?: {
+    title: string;
+    subtitle: string;
+    items: Array<{
+      title: string;
+      description: string;
+      badge: string;
+      href: string;
+      icon?: string;
+    }>;
+  };
+  faq?: {
+    title: string;
+    subtitle?: string;
+    items: FaqItem[];
+  };
+  cta: {
+    title: string;
+    subtitle: string;
+    primaryCta: { label: string; action: "modal" | "link"; href?: string };
+    secondaryCta?: { label: string; href: string };
+  };
+}
+
 export interface AboutPageData {
   hero?: CmsDocument;
   mission?: CmsDocument;

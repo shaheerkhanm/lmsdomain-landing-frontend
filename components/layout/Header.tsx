@@ -163,17 +163,24 @@ export function Header() {
             <nav className="flex items-center gap-5 lg:gap-6 text-[13px] font-medium text-[#6B6F76]">
               {navigationConfig.marketingNav.map((item) => {
                 const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
+                const isAi = item.href === "/ai" || item.label.toLowerCase().includes("ai");
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`relative py-1 transition-colors ${
+                    className={`relative py-1 transition-colors flex items-center gap-1.5 ${
                       isActive
                         ? "text-[#161616] font-semibold"
                         : "hover:text-[#161616]"
                     }`}
                   >
                     <span>{item.label}</span>
+                    {isAi && (
+                      <span
+                        className="w-1.5 h-1.5 rounded-full bg-[#A78BFA] shrink-0"
+                        aria-hidden="true"
+                      />
+                    )}
                     {isActive && (
                       <span className="size-1 rounded-full bg-[#7B5CF5] absolute -bottom-0.5 left-1/2 -translate-x-1/2" />
                     )}
@@ -260,17 +267,28 @@ export function Header() {
               </div>
 
               <div className="flex flex-col pt-4">
-                {navigationConfig.marketingNav.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setShowSubpageMenu(false)}
-                    className="text-[26px] sm:text-[28px] font-semibold text-[#161616] py-4 border-b border-slate-100 hover:text-[#7B5CF5] transition-colors flex items-center justify-between"
-                  >
-                    <span>{item.label}</span>
-                    <span className="text-slate-300 text-lg">→</span>
-                  </Link>
-                ))}
+                {navigationConfig.marketingNav.map((item) => {
+                  const isAi = item.href === "/ai" || item.label.toLowerCase().includes("ai");
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setShowSubpageMenu(false)}
+                      className="text-[26px] sm:text-[28px] font-semibold text-[#161616] py-4 border-b border-slate-100 hover:text-[#7B5CF5] transition-colors flex items-center justify-between"
+                    >
+                      <span className="inline-flex items-center gap-2">
+                        <span>{item.label}</span>
+                        {isAi && (
+                          <span
+                            className="w-2 h-2 rounded-full bg-[#A78BFA] shrink-0"
+                            aria-hidden="true"
+                          />
+                        )}
+                      </span>
+                      <span className="text-slate-300 text-lg">→</span>
+                    </Link>
+                  );
+                })}
 
                 <Link
                   href="/login"

@@ -13,6 +13,7 @@ const navData = [
     title: "Platform",
     links: [
       { title: "Features & LMS Core", href: "/features" },
+      { title: "Domie AI", href: "/ai" },
       { title: "Plans & Pricing", href: "/pricing" },
       { title: "Product FAQs", href: "/pricing#faqSection" },
       { title: "Request Live Demo", href: "/#cta-enquiry" },
