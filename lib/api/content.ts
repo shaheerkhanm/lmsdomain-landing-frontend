@@ -24,6 +24,7 @@ import type {
   LegalPageData,
 } from "@/types/content";
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
+import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
   doc: T | null | undefined
@@ -155,7 +156,7 @@ export async function resolveFeatureCategories(): Promise<FeatureCategory[]> {
 }
 
 export async function getFeaturesPage(): Promise<FeaturesPageData> {
-  const [hero, closingCta, faqsRes, seo, categories] = await Promise.all([
+  const [hero, closingCta, faqsRes, seo, categories, mediaCms] = await Promise.all([
     fetchCms("features-hero", ["cms", "features"]),
     fetchCms("features-cta", ["cms", "features"]),
     fetchApi<{ status?: boolean; data?: FaqItem[] }>("/api/pricing/faq", {
@@ -165,9 +166,21 @@ export async function getFeaturesPage(): Promise<FeaturesPageData> {
     }).catch(() => null),
     fetchSeo("features"),
     resolveFeatureCategories(),
+    fetchCms("features-media", ["cms", "features"]),
   ]);
 
   const activeFaqs = filterActiveDocuments(faqsRes?.data);
+
+  // Swappable media: start from FEATURES_MEDIA, overlay any CMS slot overrides
+  const resolvedMedia: Record<string, MediaSlot> = { ...FEATURES_MEDIA };
+  const cmsSlots = (mediaCms as any)?.slots || (mediaCms as any)?.data;
+  if (cmsSlots && typeof cmsSlots === "object") {
+    for (const [slotId, value] of Object.entries(cmsSlots)) {
+      if (typeof value === "string" && resolvedMedia[slotId]) {
+        resolvedMedia[slotId] = { ...resolvedMedia[slotId], src: value };
+      }
+    }
+  }
 
   return {
     hero: hero || undefined,
@@ -175,6 +188,7 @@ export async function getFeaturesPage(): Promise<FeaturesPageData> {
     categories,
     faqs: activeFaqs.length > 0 ? activeFaqs : undefined,
     seo: seo || undefined,
+    media: resolvedMedia,
   };
 }
 

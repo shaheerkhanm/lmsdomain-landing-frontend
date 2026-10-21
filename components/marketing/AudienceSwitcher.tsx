@@ -26,7 +26,7 @@ const AUDIENCE_TABS: AudienceTab[] = [
       "Scale cohorts, manage teacher permissions, issue accredited certificates, and white-label your entire school.",
     photo: "/images/features/audience-institutes.webp",
     photoAlt: "Training Institute classroom with educator and learners",
-    photoChip: "Accredited Academy",
+    photoChip: "Training institute",
     photoChipColor: "bg-[#0D9488]",
     features: [
       { title: "Structured Courses", slug: "course-learning", tag: "Curriculums" },
@@ -42,10 +42,10 @@ const AUDIENCE_TABS: AudienceTab[] = [
     label: "Coaches and Creators",
     heading: "Designed for Solo Educators and Course Creators",
     subheading:
-      "Draft courses 10x faster with AI assistance, protect video content, and sell digital courses worldwide.",
+      "Draft courses with AI assistance, protect video content, and sell digital courses worldwide.",
     photo: "/images/features/audience-coaches.webp",
     photoAlt: "Coach and creator recording educational material at studio desk",
-    photoChip: "Creator Studio",
+    photoChip: "Creator studio",
     photoChipColor: "bg-[#7B5CF5]",
     features: [
       { title: "Domie AI Content Generator", slug: "ai-powered-tools", tag: "AI Drafts" },
@@ -64,7 +64,7 @@ const AUDIENCE_TABS: AudienceTab[] = [
       "Automate corporate compliance training, track team progress with analytics, and allocate seat licenses effortlessly.",
     photo: "/images/features/audience-corporate.webp",
     photoAlt: "Corporate team collaborating around laptop in office meeting",
-    photoChip: "Enterprise Teams",
+    photoChip: "Team training",
     photoChipColor: "bg-[#2563EB]",
     features: [
       { title: "Team Training Packages", slug: "live-and-cohort-learning", tag: "Seat Licenses" },
@@ -77,9 +77,10 @@ const AUDIENCE_TABS: AudienceTab[] = [
   },
 ];
 
-export function AudienceSwitcher() {
+export function AudienceSwitcher({ media }: { media?: Record<string, any> }) {
   const [activeTabId, setActiveTabId] = useState("institutes");
   const activeTab = AUDIENCE_TABS.find((t) => t.id === activeTabId) || AUDIENCE_TABS[0];
+  const photoSrc = media?.[`audience-${activeTab.id}`]?.src || activeTab.photo;
 
   const scrollToSection = (slug: string) => {
     const el = document.getElementById(slug);
@@ -151,7 +152,7 @@ export function AudienceSwitcher() {
             <div className="w-full lg:col-span-5 order-1">
               <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-xl group">
                 <Image
-                  src={activeTab.photo}
+                  src={photoSrc}
                   alt={activeTab.photoAlt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 480px"

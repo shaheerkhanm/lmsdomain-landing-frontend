@@ -6,9 +6,10 @@ import { ArrowRight, Bot, Sparkles, LineChart, Command, Search } from "lucide-re
 
 interface AiSpotlightSectionProps {
   features: Feature[];
+  media?: Record<string, any>;
 }
 
-export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
+export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps) {
   const tutor = features.find((f) => f.slug === "helpdesk-ai-tutor");
   const generator = features.find((f) => f.slug === "domie-ai-content-generator");
   const analytics = features.find((f) => f.slug === "ai-prescriptive-analytics");
@@ -81,15 +82,15 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
               {/* Photo with overlapping corner chip */}
               <div className="relative h-[160px] sm:h-[180px] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
                 <Image
-                  src="/images/features/learner-studying-ai.webp"
-                  alt="Student asking HelpDesk AI questions while studying on laptop"
+                  src={media?.["learner-studying-ai"]?.src || "/images/features/learner-studying-ai.webp"}
+                  alt={media?.["learner-studying-ai"]?.alt || "Student asking HelpDesk AI questions while studying on laptop"}
                   fill
                   sizes="(max-width: 1024px) 100vw, 540px"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-xs font-semibold text-white flex items-center gap-2 border border-white/15 shadow-md">
                   <span className="w-2 h-2 rounded-full bg-[#7B5CF5] animate-pulse" />
-                  <span>✦ Asking HelpDesk AI Tutor</span>
+                  <span>HelpDesk AI Tutor</span>
                 </div>
               </div>
 
@@ -180,7 +181,7 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
               </div>
 
               <div className="flex items-center justify-between px-2 text-xs text-[#6B6F76]">
-                <span>Generated in seconds</span>
+                <span className="font-semibold text-[#161616]">Draft Ready</span>
                 <span className="font-semibold text-[#161616]">Insert into Course →</span>
               </div>
             </div>
@@ -218,7 +219,7 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
             >
               <div className="flex items-center justify-between text-xs pb-1 border-b border-[#ECEDEF]">
                 <span className="font-semibold text-[#161616]">Attention Alerts</span>
-                <span className="text-[#8F94A0]">3 priority items</span>
+                <span className="text-[#8F94A0]">Priority items</span>
               </div>
 
               <div className="space-y-2">
@@ -226,7 +227,7 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
                   <span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] mt-1 shrink-0" />
                   <div>
                     <p className="text-xs font-semibold text-[#161616]">Declining Enrolments</p>
-                    <p className="text-[11px] text-[#6B6F76]">Enrollment pace slowed 14% on Backend Engineering</p>
+                    <p className="text-[11px] text-[#6B6F76]">Enrolments are down on one course this month</p>
                   </div>
                 </div>
 
@@ -234,7 +235,7 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
                   <span className="w-2.5 h-2.5 rounded-full bg-[#F59E0B] mt-1 shrink-0" />
                   <div>
                     <p className="text-xs font-semibold text-[#161616]">Expiring Promotional Coupon</p>
-                    <p className="text-[11px] text-[#6B6F76]">Code 'EARLYBIRD' expires in 48 hours with 24 uses left</p>
+                    <p className="text-[11px] text-[#6B6F76]">Code 'EARLYBIRD' expires soon with remaining uses</p>
                   </div>
                 </div>
 

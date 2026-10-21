@@ -57,10 +57,10 @@ export default async function FeaturesPage() {
       <CategoryOverviewNav categories={categories} />
 
       {/* 3. Built for How You Teach: Audience Switcher (Institutes, Coaches, Corporate) */}
-      <AudienceSwitcher />
+      <AudienceSwitcher media={data.media} />
 
       {/* 4. AI Spotlight Section (Domie AI tools with real student study photo) */}
-      <AiSpotlightSection features={aiCategory?.features || []} />
+      <AiSpotlightSection features={aiCategory?.features || []} media={data.media} />
 
       {/* 5. Mid-page CTA: See Domie AI in action */}
       <AiMidPageCta />
@@ -69,7 +69,7 @@ export default async function FeaturesPage() {
       <JourneyStrip />
 
       {/* 7. Category Sections (8 alternating sections with real photos, video loop & interactive simulations) */}
-      <CategorySections categories={categories} />
+      <CategorySections categories={categories} media={data.media} />
 
       {/* 8. Closing CTA Band */}
       <section className="bg-white py-16 sm:py-20 lg:py-24">

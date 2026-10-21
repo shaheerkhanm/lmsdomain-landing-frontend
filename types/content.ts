@@ -194,6 +194,7 @@ export interface FeaturesPageData {
   faqs?: FaqItem[];
   closingCta?: CmsDocument;
   seo?: SeoMetadata;
+  media?: Record<string, any>;
 }
 
 export interface AboutPageData {

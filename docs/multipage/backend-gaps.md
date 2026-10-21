@@ -36,6 +36,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Legal pages | Legal text in the admin | Field | Privacy, Terms, Refund and DPA are hard-coded components today. Keep them as they are for now (same text, same URLs, new layout). Move them into a `legal` model (`slug`, `title`, `lastUpdated`, `content`) later if you want to edit them in the admin. |
 | Images | Alt text | Field | Most models have `altImage`; `cms` image1–3 have `altImage1–3`. Pricing has none (fine, no images). |
 | Features | Product Tour Video URL | Field | CMS field `features-hero.videoUrl` for optional "Watch a product tour" modal button in the hero. Currently omitted until a real tour video URL is configured in the admin. |
+| Features | Media Slots | Field | Add `features-media` CMS slug with slot upload fields (one entry per slot) so marketing photos and demo video loops can be updated from Admin without code changes. |
 
 ## Data to check before it shows anywhere
 

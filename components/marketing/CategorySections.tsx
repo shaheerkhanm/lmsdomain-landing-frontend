@@ -26,9 +26,10 @@ import {
 
 interface CategorySectionsProps {
   categories: FeatureCategory[];
+  media?: Record<string, any>;
 }
 
-export function CategorySections({ categories }: CategorySectionsProps) {
+export function CategorySections({ categories, media }: CategorySectionsProps) {
   // Exclude AI-Powered Tools from the sequence (Category 4 is spotlighted separately)
   const sequenceCategories = categories.filter((c) => c.slug !== "ai-powered-tools");
 
@@ -74,7 +75,7 @@ export function CategorySections({ categories }: CategorySectionsProps) {
               </div>
 
               {/* Category-Specific Varied Composition */}
-              {renderCategoryBody(category)}
+              {renderCategoryBody(category, media)}
             </div>
           </section>
         );
@@ -106,7 +107,7 @@ function getCategoryHeading(slug: string, fallback: string): string {
   }
 }
 
-function renderCategoryBody(category: FeatureCategory) {
+function renderCategoryBody(category: FeatureCategory, media?: Record<string, any>) {
   const { slug, features } = category;
 
   switch (slug) {
@@ -135,8 +136,8 @@ function renderCategoryBody(category: FeatureCategory) {
                   {/* Photo 1: Instructor recording (Top Right, rounded-[20px] frame) */}
                   <div className="absolute right-2 sm:right-4 top-4 w-[240px] sm:w-[280px] h-[150px] sm:h-[175px] rounded-[20px] overflow-hidden bg-slate-900 border border-slate-800 shadow-xl z-10 group">
                     <Image
-                      src="/assets/img/home/features/instructor_lesson.jpg"
-                      alt="Instructor recording video course lesson at studio desk"
+                      src={media?.["course-learning-instructor"]?.src || "/assets/img/home/features/instructor_lesson.jpg"}
+                      alt={media?.["course-learning-instructor"]?.alt || "Instructor recording video course lesson at studio desk"}
                       fill
                       sizes="(max-width: 640px) 240px, 280px"
                       className="object-cover opacity-90 group-hover:scale-105 transition-transform duration-500"
@@ -150,8 +151,8 @@ function renderCategoryBody(category: FeatureCategory) {
                   {/* Photo 2: Learner on laptop (Bottom Left, rounded-[20px] frame) */}
                   <div className="absolute left-2 sm:left-4 bottom-4 w-[220px] sm:w-[260px] h-[140px] sm:h-[165px] rounded-[20px] overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-2xl z-20 group">
                     <Image
-                      src="/assets/img/home/features/learner_laptop.jpg"
-                      alt="Student engaged in structured online lesson on laptop"
+                      src={media?.["course-learning-student"]?.src || "/assets/img/home/features/learner_laptop.jpg"}
+                      alt={media?.["course-learning-student"]?.alt || "Student engaged in structured online lesson on laptop"}
                       fill
                       sizes="(max-width: 640px) 220px, 260px"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -162,7 +163,7 @@ function renderCategoryBody(category: FeatureCategory) {
                   <div className="absolute right-4 bottom-6 z-30">
                     <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white text-[#161616] border border-[#ECEDEF] shadow-lg">
                       <span className="w-2 h-2 rounded-full bg-amber-500" />
-                      Scheduled: Module 2 Unlocks Monday
+                      Scheduled Content Release
                     </span>
                   </div>
                 </div>
@@ -180,7 +181,7 @@ function renderCategoryBody(category: FeatureCategory) {
                   {lead.description}
                 </p>
                 <div className="pt-2 flex flex-wrap gap-2 text-xs font-semibold text-[#161616]">
-                  <span className="px-3 py-1 rounded-full bg-[#F3F4F6]">Video & Audio</span>
+                  <span className="px-3 py-1 rounded-full bg-[#F3F4F6]">Video & Text</span>
                   <span className="px-3 py-1 rounded-full bg-[#F3F4F6]">PDFs & Docs</span>
                   <span className="px-3 py-1 rounded-full bg-[#F3F4F6]">Drip Scheduling</span>
                 </div>
@@ -222,15 +223,15 @@ function renderCategoryBody(category: FeatureCategory) {
                     {isQuiz && (
                       <div className="relative aspect-[16/10] rounded-[20px] overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-md group">
                         <Image
-                          src="/assets/img/home/features/learner_quiz.jpg"
-                          alt="Learner taking interactive graded quiz on computer"
+                          src={media?.["assessment-learner-quiz"]?.src || "/assets/img/home/features/learner_quiz.jpg"}
+                          alt={media?.["assessment-learner-quiz"]?.alt || "Learner taking interactive graded quiz on computer"}
                           fill
                           sizes="(max-width: 768px) 100vw, 360px"
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-xs text-[11px] font-semibold text-emerald-300 flex items-center gap-1.5 border border-white/10 shadow-sm">
                           <span>✓</span>
-                          Quiz Score: 98%
+                          Graded quiz
                         </div>
                       </div>
                     )}
@@ -238,15 +239,15 @@ function renderCategoryBody(category: FeatureCategory) {
                     {isAssignment && (
                       <div className="relative aspect-[16/10] rounded-[20px] overflow-hidden bg-slate-100 border border-[#ECEDEF] shadow-md group">
                         <Image
-                          src="/images/features/instructor-grading-review.webp"
-                          alt="Instructor grading assignment and drafting feedback"
+                          src={media?.["instructor-grading-review"]?.src || "/images/features/instructor-grading-review.webp"}
+                          alt={media?.["instructor-grading-review"]?.alt || "Instructor grading assignment and drafting feedback"}
                           fill
                           sizes="(max-width: 768px) 100vw, 360px"
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-xs text-[11px] font-semibold text-white flex items-center gap-1.5 border border-white/10 shadow-sm">
                           <CheckCircle2 className="w-3.5 h-3.5 text-[#0D9488]" />
-                          Grade: 96/100 • Feedback Sent
+                          Assignment review
                         </div>
                       </div>
                     )}
@@ -394,25 +395,25 @@ function renderCategoryBody(category: FeatureCategory) {
                 <div className="mb-6">
                   {feature.slug === "live-classes-with-zoom" && (
                     <FeatureVideoLoop
-                      src="/videos/features/live_class_loop.mp4"
-                      poster="/videos/features/live_class_poster.webp"
-                      label="Live Class Session"
-                      alt="Real classroom and online learning session demonstration"
+                      src={media?.["live-class-loop"]?.src || "/videos/features/live_class_loop.mp4"}
+                      poster={media?.["live-class-loop"]?.poster || "/videos/features/live_class_poster.webp"}
+                      label="Live class"
+                      alt={media?.["live-class-loop"]?.alt || "Real classroom and online learning session demonstration"}
                     />
                   )}
 
                   {feature.slug === "cohort-based-bootcamps" && (
                     <div className="relative aspect-video rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
                       <Image
-                        src="/images/features/cohort-workshop.webp"
-                        alt="Cohort bootcamp workshop collaboration in conference room"
+                        src={media?.["cohort-workshop"]?.src || "/images/features/cohort-workshop.webp"}
+                        alt={media?.["cohort-workshop"]?.alt || "Cohort bootcamp workshop collaboration in conference room"}
                         fill
                         sizes="(max-width: 768px) 100vw, 520px"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-xs text-[11px] font-semibold text-white flex items-center gap-1.5 border border-white/10 shadow-sm">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#0D9488]" />
-                        Cohort 04 • Live Session
+                        Cohort live class
                       </div>
                     </div>
                   )}
@@ -420,15 +421,15 @@ function renderCategoryBody(category: FeatureCategory) {
                   {feature.slug === "one-to-one-tutor-booking" && (
                     <div className="relative aspect-video rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
                       <Image
-                        src="/images/features/one-to-one-tutor.webp"
-                        alt="One-to-one tutoring session with student and instructor"
+                        src={media?.["one-to-one-tutor"]?.src || "/images/features/one-to-one-tutor.webp"}
+                        alt={media?.["one-to-one-tutor"]?.alt || "One-to-one tutoring session with student and instructor"}
                         fill
                         sizes="(max-width: 768px) 100vw, 520px"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-xs text-[11px] font-semibold text-white flex items-center gap-1.5 border border-white/10 shadow-sm">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#7B5CF5]" />
-                        1:1 Mentoring Slot
+                        One-to-one tutoring
                       </div>
                     </div>
                   )}
@@ -436,15 +437,15 @@ function renderCategoryBody(category: FeatureCategory) {
                   {feature.slug === "team-training-packages" && (
                     <div className="relative aspect-video rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
                       <Image
-                        src="/images/features/team-training-office.webp"
-                        alt="Corporate team training session in conference room"
+                        src={media?.["team-training-office"]?.src || "/images/features/team-training-office.webp"}
+                        alt={media?.["team-training-office"]?.alt || "Corporate team training session in conference room"}
                         fill
                         sizes="(max-width: 768px) 100vw, 520px"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-xs text-[11px] font-semibold text-white flex items-center gap-1.5 border border-white/10 shadow-sm">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" />
-                        Enterprise Team Seats
+                        Team training
                       </div>
                     </div>
                   )}
@@ -498,15 +499,15 @@ function renderCategoryBody(category: FeatureCategory) {
                 {/* Real Photo with Corner Chip */}
                 <div className="relative h-[200px] sm:h-[230px] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
                   <Image
-                    src="/images/features/course-checkout-browsing.webp"
-                    alt="Learner discovering online courses on tablet and completing checkout"
+                    src={media?.["course-checkout-browsing"]?.src || "/images/features/course-checkout-browsing.webp"}
+                    alt={media?.["course-checkout-browsing"]?.alt || "Learner discovering online courses on tablet and completing checkout"}
                     fill
                     sizes="(max-width: 1024px) 100vw, 520px"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-xs text-[11px] font-semibold text-white flex items-center gap-1.5 border border-white/10 shadow-sm">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    Instant Global Enrollment
+                    Catalogue and cart
                   </div>
                 </div>
 
@@ -653,15 +654,15 @@ function renderCategoryBody(category: FeatureCategory) {
               <div className="w-full lg:col-span-6 lg:order-2 order-1 space-y-4">
                 <div className="relative h-[180px] sm:h-[210px] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
                   <Image
-                    src="/images/features/branding-institute-desk.webp"
-                    alt="Workstation laptop displaying custom academy domain"
+                    src={media?.["branding-institute-desk"]?.src || "/images/features/branding-institute-desk.webp"}
+                    alt={media?.["branding-institute-desk"]?.alt || "Workstation laptop displaying custom academy domain"}
                     fill
                     sizes="(max-width: 1024px) 100vw, 520px"
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute bottom-2.5 left-2.5 px-3 py-1 rounded-full bg-black/75 backdrop-blur-xs text-[11px] font-semibold text-white flex items-center gap-1.5 border border-white/10 shadow-sm">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
-                    academy.yourdomain.com • SSL Valid
+                    Custom domain with SSL
                   </div>
                 </div>
 
