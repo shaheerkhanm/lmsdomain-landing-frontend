@@ -249,6 +249,7 @@ export interface PricingEmptyState {
 }
 
 export interface PricingPageModel {
+  isSample?: boolean;
   seo?: SeoMetadata;
   hero: {
     eyebrow: string;

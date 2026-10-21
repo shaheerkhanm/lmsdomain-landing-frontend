@@ -66,7 +66,17 @@ export function PricingView({ data }: PricingViewProps) {
   const displayPlans = sortedPlansForDisplay();
 
   return (
-    <div className="min-h-screen bg-white font-urbanist">
+    <div className="min-h-screen bg-white font-urbanist relative">
+      {/* Sample pricing banner for local preview only */}
+      {data.isSample && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+          <div className="bg-[#F3CF74] text-[#161616] px-4 py-1.5 rounded-full text-xs font-semibold shadow-md border border-amber-300 flex items-center gap-1.5 pointer-events-auto">
+            <span className="text-amber-800">✦</span>
+            <span>Sample pricing for design preview. Not real plans.</span>
+          </div>
+        </div>
+      )}
+
       {/* 1. Hero (White, PageHero) */}
       <section className="bg-white pt-32 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 text-center border-b border-[#ECEDEF]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6">

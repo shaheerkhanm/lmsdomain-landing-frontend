@@ -9,6 +9,8 @@ export async function generateMetadata(): Promise<Metadata> {
     getPricingPage().catch(() => null),
   ]);
 
+  const isSample = Boolean(pageData?.isSample || process.env.CMS_USE_FIXTURES === "true");
+
   const title =
     seo?.metatitle ||
     (pageData?.hero?.title ? `${pageData.hero.title} | LMS Domain` : "Pricing | LMS Domain");
@@ -27,19 +29,27 @@ export async function generateMetadata(): Promise<Metadata> {
       "Online Course Pricing",
       "Training Institute Plans",
     ],
+    ...(isSample
+      ? {
+          robots: {
+            index: false,
+            follow: false,
+          },
+        }
+      : {}),
   };
 }
 
 export default async function PricingPage() {
   const data = await getPricingPage();
 
-  // Generate JSON-LD Product & Offer schemas for plans with numeric prices
+  // Generate JSON-LD Product & Offer schemas for plans with numeric prices (production only)
   const numericPlans = data.plans.filter(
     (plan) => plan.prices.monthly !== null || plan.prices.yearly !== null
   );
 
   const jsonLd =
-    numericPlans.length > 0
+    !data.isSample && numericPlans.length > 0
       ? {
           "@context": "https://schema.org",
           "@type": "Product",

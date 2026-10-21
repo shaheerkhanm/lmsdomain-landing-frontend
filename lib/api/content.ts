@@ -20,6 +20,9 @@ import type {
   PricingPageData,
   PricingPageModel,
   Plan,
+  PricingComparison,
+  PricingAddOn,
+  PricingEnterprise,
   FeaturesPageData,
   AboutPageData,
   ContactPageData,
@@ -32,10 +35,6 @@ import { DEFAULT_AI_PAGE_DATA, AI_TOOLS } from "@/content/ai/page";
 import {
   DEFAULT_PRICING_HERO,
   DEFAULT_PRICING_EMPTY_STATE,
-  PRICING_COMPARISON_GROUPS,
-  NEUTRAL_FIXTURE_PLANS,
-  PRICING_ADD_ONS,
-  PRICING_ENTERPRISE,
 } from "@/content/pricing/page";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
@@ -143,19 +142,23 @@ export async function getPricingPage(): Promise<PricingPageModel> {
 
   const activePlans = filterActiveDocuments(plansRes?.data);
   const activeFaqs = filterActiveDocuments(faqsRes?.data);
-  const useFixtures = process.env.CMS_USE_FIXTURES === "true";
 
-  // Currency resolution: read from plan.currency if backend has it; otherwise NO guessed symbol
+  let isSample = false;
   let currencyCode = "";
   let currencySymbol = "";
-  if (activePlans.length > 0 && activePlans[0].currency) {
-    currencyCode = activePlans[0].currency;
-    currencySymbol = currencyCode === "USD" ? "$" : currencyCode === "INR" ? "₹" : currencyCode;
-  }
-
+  let yearlySavingsLabel: string | undefined = undefined;
   let mappedPlans: Plan[] = [];
+  let comparison: PricingComparison | undefined = undefined;
+  let addOns: { title: string; items: PricingAddOn[] } | undefined = undefined;
+  let enterprise: PricingEnterprise | undefined = undefined;
+  let faq = activeFaqs.length > 0 ? { items: activeFaqs } : undefined;
 
   if (activePlans.length > 0) {
+    if (activePlans[0].currency) {
+      currencyCode = activePlans[0].currency;
+      currencySymbol = currencyCode === "USD" ? "$" : currencyCode === "INR" ? "₹" : currencyCode;
+    }
+
     mappedPlans = activePlans.map((doc, idx) => {
       const isPopular = Boolean(doc.isPopular || /scale|popular/i.test(doc.title));
       const monthlyPrice = typeof doc.price === "number" ? doc.price : null;
@@ -192,8 +195,18 @@ export async function getPricingPage(): Promise<PricingPageModel> {
         displayOrder: doc.displayOrder || idx + 1,
       };
     });
-  } else if (useFixtures) {
-    mappedPlans = NEUTRAL_FIXTURE_PLANS;
+  } else if (process.env.CMS_USE_FIXTURES === "true") {
+    // Dynamic import ONLY when CMS_USE_FIXTURES === "true". Never statically imported.
+    const sample = await import("@/content/pricing/sample");
+    mappedPlans = sample.SAMPLE_PLANS;
+    comparison = sample.SAMPLE_COMPARISON;
+    addOns = { title: "Flexible Add-Ons", items: sample.SAMPLE_ADD_ONS };
+    enterprise = sample.SAMPLE_ENTERPRISE;
+    faq = sample.SAMPLE_FAQ;
+    currencyCode = "USD";
+    currencySymbol = "$";
+    yearlySavingsLabel = "Sample: 2 months free";
+    isSample = true;
   }
 
   const hero = {
@@ -217,15 +230,16 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   };
 
   return {
+    isSample,
     seo: seo || undefined,
     hero,
     billing: {
       periods: [
         { id: "monthly", label: "Monthly" },
-        { id: "yearly", label: "Yearly", note: "Save 20%" },
+        { id: "yearly", label: "Yearly", note: yearlySavingsLabel },
       ],
       defaultPeriod: "monthly",
-      yearlySavingsLabel: "Save 20%",
+      yearlySavingsLabel,
     },
     currency: {
       code: currencyCode,
@@ -234,10 +248,10 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     },
     plans: mappedPlans,
     emptyState: mappedPlans.length === 0 ? emptyState : undefined,
-    comparison: mappedPlans.length > 0 ? { groups: PRICING_COMPARISON_GROUPS } : undefined,
-    addOns: mappedPlans.length > 0 ? { title: "Flexible Add-Ons", items: PRICING_ADD_ONS } : undefined,
-    enterprise: mappedPlans.length > 0 ? PRICING_ENTERPRISE : undefined,
-    faq: activeFaqs.length > 0 ? { items: activeFaqs } : undefined,
+    comparison,
+    addOns,
+    enterprise,
+    faq,
     cta: {
       title: footerCard?.title || "Ready to Launch Your Branded Academy?",
       subtitle: footerCard?.subTitle || "Speak with our team to find the exact configuration for your team.",
