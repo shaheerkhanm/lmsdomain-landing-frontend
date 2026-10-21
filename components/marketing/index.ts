@@ -13,3 +13,8 @@ export * from "./CategoryOverviewNav";
 export * from "./AiSpotlightSection";
 export * from "./CategorySections";
 export * from "./FeaturesHero";
+export * from "./AudienceSwitcher";
+export * from "./JourneyStrip";
+export * from "./InteractiveIllustrations";
+export * from "./AiMidPageCta";
+export * from "./FeatureVideoLoop";

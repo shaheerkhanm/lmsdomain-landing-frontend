@@ -1,14 +1,14 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Feature } from "@/types/content";
-import { ArrowRight, Bot, Sparkles, LineChart, Command, Search, ShieldCheck } from "lucide-react";
+import { ArrowRight, Bot, Sparkles, LineChart, Command, Search } from "lucide-react";
 
 interface AiSpotlightSectionProps {
   features: Feature[];
 }
 
 export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
-  // Map features by slug
   const tutor = features.find((f) => f.slug === "helpdesk-ai-tutor");
   const generator = features.find((f) => f.slug === "domie-ai-content-generator");
   const analytics = features.find((f) => f.slug === "ai-prescriptive-analytics");
@@ -51,8 +51,11 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
 
         {/* 2x2 Grid of Large AI Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Card 1: HelpDesk AI Tutor */}
-          <div className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]">
+          {/* Card 1: HelpDesk AI Tutor (with real learner photo + chat mockup) */}
+          <div
+            data-feature-slug="helpdesk-ai-tutor"
+            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
+          >
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#F3F4F6] text-[#161616]">
@@ -73,41 +76,62 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
               </p>
             </div>
 
-            {/* Illustrative Visual */}
-            <div
-              aria-label="Illustration of the AI tutor"
-              className="bg-[#F8FAFC] rounded-[24px] p-4 sm:p-5 border border-[#ECEDEF] space-y-3"
-            >
-              <div className="flex items-center justify-between pb-2 border-b border-[#ECEDEF] text-xs text-[#6B6F76]">
-                <span className="font-medium text-[#161616]">Course: Modern Architecture</span>
-                <span className="px-2 py-0.5 rounded-full bg-[#E8F8F5] text-[#0D9488] font-semibold">Active Chat</span>
-              </div>
-
-              <div className="bg-white p-3 rounded-xl border border-[#ECEDEF] shadow-2xs">
-                <p className="text-xs font-semibold text-[#161616] mb-1">Learner question</p>
-                <p className="text-xs text-[#6B6F76]">
-                  "What is the difference between a quiz and an assignment in this module?"
-                </p>
-              </div>
-
-              <div className="bg-[#F3F4F6] p-3 rounded-xl border border-transparent">
-                <div className="flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-1">
-                  <Bot className="w-3.5 h-3.5" />
-                  <span>Domie AI response</span>
+            {/* Visual Area: Real photo in 20px-radius frame + UI chat mockup */}
+            <div className="space-y-4">
+              {/* Photo with overlapping corner chip */}
+              <div className="relative h-[160px] sm:h-[180px] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
+                <Image
+                  src="/images/features/learner-studying-ai.webp"
+                  alt="Student asking HelpDesk AI questions while studying on laptop"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 540px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-xs font-semibold text-white flex items-center gap-2 border border-white/15 shadow-md">
+                  <span className="w-2 h-2 rounded-full bg-[#7B5CF5] animate-pulse" />
+                  <span>✦ Asking HelpDesk AI Tutor</span>
                 </div>
-                <p className="text-xs text-[#161616] leading-relaxed">
-                  "Quizzes are auto-graded for immediate comprehension checks, whereas assignments require learner file submissions and instructor review."
-                </p>
-                <div className="mt-2 flex items-center gap-2 text-[10px] text-[#8F94A0]">
-                  <span className="px-1.5 py-0.5 rounded bg-white border border-[#ECEDEF]">Grounded in Module 2 Syllabus</span>
-                  <span>• Chat saved</span>
+              </div>
+
+              {/* Chat Illustration */}
+              <div
+                aria-label="Illustration of the AI tutor"
+                className="bg-[#F8FAFC] rounded-[24px] p-4 sm:p-5 border border-[#ECEDEF] space-y-3"
+              >
+                <div className="flex items-center justify-between pb-2 border-b border-[#ECEDEF] text-xs text-[#6B6F76]">
+                  <span className="font-medium text-[#161616]">Course: Modern Architecture</span>
+                  <span className="px-2 py-0.5 rounded-full bg-[#E8F8F5] text-[#0D9488] font-semibold">Active Chat</span>
+                </div>
+
+                <div className="bg-white p-3 rounded-xl border border-[#ECEDEF] shadow-2xs">
+                  <p className="text-xs font-semibold text-[#161616] mb-1">Learner question</p>
+                  <p className="text-xs text-[#6B6F76]">
+                    "What is the difference between a quiz and an assignment in this module?"
+                  </p>
+                </div>
+
+                <div className="bg-[#F3F4F6] p-3 rounded-xl border border-transparent">
+                  <div className="flex items-center gap-1.5 text-xs font-semibold text-[#7B5CF5] mb-1">
+                    <Bot className="w-3.5 h-3.5" />
+                    <span>Domie AI response</span>
+                  </div>
+                  <p className="text-xs text-[#161616] leading-relaxed">
+                    "Quizzes are auto-graded for immediate comprehension checks, whereas assignments require learner file submissions and instructor review."
+                  </p>
+                  <div className="mt-2 flex items-center gap-2 text-[10px] text-[#8F94A0]">
+                    <span className="px-1.5 py-0.5 rounded bg-white border border-[#ECEDEF]">Grounded in Module 2 Syllabus</span>
+                    <span>• Chat saved</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Card 2: Domie AI Content Generator */}
-          <div className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]">
+          <div
+            data-feature-slug="domie-ai-content-generator"
+            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
+          >
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#F3F4F6] text-[#161616]">
@@ -163,7 +187,10 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
           </div>
 
           {/* Card 3: AI Prescriptive Analytics */}
-          <div className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]">
+          <div
+            data-feature-slug="ai-prescriptive-analytics"
+            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
+          >
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#F3F4F6] text-[#161616]">
@@ -223,7 +250,10 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
           </div>
 
           {/* Card 4: AI Command Bar */}
-          <div className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]">
+          <div
+            data-feature-slug="ai-command-bar"
+            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
+          >
             <div>
               <div className="flex items-center justify-between mb-4">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-[#F3F4F6] text-[#161616]">
@@ -277,4 +307,3 @@ export function AiSpotlightSection({ features }: AiSpotlightSectionProps) {
 }
 
 export default AiSpotlightSection;
-

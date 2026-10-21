@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { FeatureCategory } from "@/types/content";
 import { FeatureIcon } from "./FeatureIcon";
 import { ScrollTrigger } from "@/lib/gsap";
+import { Search, X, Sparkles, ArrowRight } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import EnquiryForm from "@/components/layout/common/EnquiryForm";
 
 interface CategoryOverviewNavProps {
   categories: FeatureCategory[];
@@ -39,6 +42,38 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
   const [isStickyVisible, setIsStickyVisible] = useState(false);
   const overviewRef = useRef<HTMLDivElement>(null);
 
+  // Feature Finder state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isPremiumOnly, setIsPremiumOnly] = useState(false);
+  const [showDemoModal, setShowDemoModal] = useState(false);
+
+  // Flattened features list with category association
+  const allFeatures = useMemo(() => {
+    return categories.flatMap((cat) =>
+      cat.features.map((feat) => ({
+        ...feat,
+        categorySlug: cat.slug,
+        categoryTitle: cat.title,
+      }))
+    );
+  }, [categories]);
+
+  // Filtered results
+  const filteredFeatures = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    if (!q && !isPremiumOnly) return [];
+
+    return allFeatures.filter((f) => {
+      const matchesText =
+        !q ||
+        f.title.toLowerCase().includes(q) ||
+        f.description.toLowerCase().includes(q) ||
+        f.categoryTitle.toLowerCase().includes(q);
+      const matchesPremium = !isPremiumOnly || f.isPremium;
+      return matchesText && matchesPremium;
+    });
+  }, [allFeatures, searchQuery, isPremiumOnly]);
+
   const scrollToCategory = (slug: string) => {
     const target = document.getElementById(slug);
     if (!target) return;
@@ -50,6 +85,22 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
       window.scrollTo({ top: y, behavior: "smooth" });
     }
     setActiveSlug(slug);
+  };
+
+  const handleSelectFeature = (feat: typeof allFeatures[0]) => {
+    scrollToCategory(feat.categorySlug);
+
+    setTimeout(() => {
+      const targetCard = document.querySelector(`[data-feature-slug="${feat.slug}"]`);
+      if (targetCard) {
+        targetCard.classList.add("ring-4", "ring-[#7B5CF5]/50", "transition-all", "duration-500");
+        setTimeout(() => {
+          targetCard.classList.remove("ring-4", "ring-[#7B5CF5]/50");
+        }, 1500);
+      }
+    }, 400);
+
+    setSearchQuery("");
   };
 
   useEffect(() => {
@@ -98,15 +149,17 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
     };
   }, [categories]);
 
+  const isSearching = searchQuery.trim().length > 0 || isPremiumOnly;
+
   return (
     <>
       {/* 3x3 Overview Grid (directly under the Hero) */}
       <section
         ref={overviewRef}
         aria-label="Category Overview"
-        className="bg-white pb-16 lg:pb-24 pt-4 font-urbanist"
+        className="bg-white pb-14 lg:pb-20 pt-4 font-urbanist"
       >
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-10">
           <div className="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {categories.map((cat) => {
               const iconName = CATEGORY_ICONS[cat.slug] || "Sparkles";
@@ -161,6 +214,109 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
               );
             })}
           </div>
+
+          {/* Feature Finder (Interactive Search & Filter Bar) */}
+          <div className="pt-4 border-t border-[#F3F4F6]">
+            <div className="bg-[#F8FAFC] rounded-[24px] sm:rounded-[28px] border border-[#ECEDEF] p-4 sm:p-6 shadow-2xs relative">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                {/* Search Input */}
+                <div className="relative flex-1">
+                  <Search className="w-4 h-4 text-[#8F94A0] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Find a feature across all 9 categories..."
+                    aria-label="Find a feature search input"
+                    className="w-full bg-white rounded-full pl-10 pr-9 py-2.5 text-xs sm:text-sm text-[#161616] border border-[#ECEDEF] focus:border-[#7B5CF5] focus:outline-none transition-colors shadow-2xs"
+                  />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      aria-label="Clear feature search"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8F94A0] hover:text-[#161616] cursor-pointer"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Premium Only Toggle */}
+                <div className="flex items-center gap-3 shrink-0 self-end sm:self-auto">
+                  <button
+                    type="button"
+                    onClick={() => setIsPremiumOnly(!isPremiumOnly)}
+                    aria-pressed={isPremiumOnly}
+                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer border ${
+                      isPremiumOnly
+                        ? "bg-[#EEE9FF] border-[#7B5CF5] text-[#7B5CF5]"
+                        : "bg-white border-[#ECEDEF] text-[#6B6F76] hover:text-[#161616]"
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Premium Only</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Live Accessibility Feedback */}
+              <div className="sr-only" aria-live="polite">
+                {isSearching
+                  ? `${filteredFeatures.length} features found matching ${searchQuery}`
+                  : ""}
+              </div>
+
+              {/* Render Search Results ONLY when actively searching (query > 0 or premium filter) */}
+              {isSearching && (
+                <div className="mt-4 pt-4 border-t border-[#ECEDEF] space-y-2 max-h-[360px] overflow-y-auto">
+                  {filteredFeatures.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                      {filteredFeatures.map((feat) => (
+                        <button
+                          key={feat.slug}
+                          type="button"
+                          onClick={() => handleSelectFeature(feat)}
+                          className="p-3 rounded-xl bg-white border border-[#ECEDEF] hover:border-[#7B5CF5] hover:shadow-xs text-left transition-all flex flex-col justify-between cursor-pointer group"
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-[10px] font-semibold uppercase tracking-wider text-[#8F94A0]">
+                              {feat.categoryTitle}
+                            </span>
+                            {feat.isPremium && (
+                              <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EEE9FF] text-[#7B5CF5] font-semibold">
+                                Premium
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs font-semibold text-[#161616] group-hover:text-[#7B5CF5] transition-colors truncate">
+                            {feat.title}
+                          </p>
+                          <span className="text-[11px] text-[#8F94A0] group-hover:text-[#161616] mt-1 flex items-center gap-1">
+                            Jump to section <ArrowRight className="w-3 h-3" />
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    /* Empty State */
+                    <div className="py-6 text-center space-y-3">
+                      <p className="text-sm text-[#6B6F76]">
+                        No features match your query. Try another keyword or ask us during a live demo.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setShowDemoModal(true)}
+                        className="px-5 py-2 rounded-full bg-[#161616] hover:bg-black text-white text-xs font-semibold transition-all cursor-pointer"
+                      >
+                        Book a Live Demo
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -212,9 +368,15 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Demo Modal Dialog */}
+      <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
+        <DialogContent className="max-w-[560px] p-6 sm:p-8 bg-white rounded-2xl shadow-xl border border-slate-200">
+          <EnquiryForm onClose={() => setShowDemoModal(false)} />
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
 
 export default CategoryOverviewNav;
-
