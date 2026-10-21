@@ -158,29 +158,7 @@ export const DEFAULT_AI_PAGE_DATA: AiPageData = {
     commandBarExamples: DEFAULT_COMMAND_BAR_EXAMPLES,
   },
   tools: AI_TOOLS,
-  howItWorks: {
-    title: "How Domie AI Operates Inside Your Platform",
-    steps: [
-      {
-        stepNumber: "01",
-        title: "Grounded in Your Material",
-        description:
-          "Domie AI indexes your uploaded lessons, syllabuses, and course notes so answers stay faithful to what you teach.",
-      },
-      {
-        stepNumber: "02",
-        title: "Available Where Needed",
-        description:
-          "Learners interact with the tutor inside active lessons, while administrators access alerts and search across the management console.",
-      },
-      {
-        stepNumber: "03",
-        title: "Full Administrator Control",
-        description:
-          "Keep complete governance over AI features with course-level toggles, clear source citations, and human-in-the-loop workflows.",
-      },
-    ],
-  },
+  howItWorks: undefined,
   availability: {
     title: "Premium AI Add-Ons for Growing Academies",
     description:
@@ -224,32 +202,7 @@ export const DEFAULT_AI_PAGE_DATA: AiPageData = {
       },
     ],
   },
-  faq: {
-    title: "Frequently Asked Questions About Domie AI",
-    subtitle: "Everything you need to know about course grounding, privacy, and add-on availability.",
-    items: [
-      {
-        question: "How does HelpDesk AI Tutor ground its responses?",
-        answer:
-          "HelpDesk AI Tutor generates answers grounded exclusively in the curriculum, notes, and lessons uploaded to that course, citing the specific lesson source so learners can verify.",
-      },
-      {
-        question: "Are Domie AI features included in base plans or sold as add-ons?",
-        answer:
-          "Domie AI capabilities are premium add-ons designed to scale with your institution. You can review plan options on our pricing page or contact our team for a tailored demo.",
-      },
-      {
-        question: "Can I enable AI for some courses and disable it for others?",
-        answer:
-          "Yes. Academy administrators have granular control to enable or disable HelpDesk AI Tutor and other AI tools on a per-course or academy-wide basis.",
-      },
-      {
-        question: "What operations can the AI Command Bar perform?",
-        answer:
-          "The AI Command Bar provides a quick ⌘K search interface across administrative pages, platform settings, and instant answers to operational how-to questions.",
-      },
-    ],
-  },
+  faq: undefined,
   cta: {
     title: "Ready to Supercharge Your Academy with AI?",
     subtitle:
@@ -264,3 +217,4 @@ export const DEFAULT_AI_PAGE_DATA: AiPageData = {
     },
   },
 };
+

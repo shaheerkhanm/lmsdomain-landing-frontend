@@ -84,7 +84,12 @@ const TESTIMONIAL_PANELS: TestimonialPanel[] = [
   },
 ];
 
-export function CtaSection({ data }: { data?: any }) {
+export interface CtaSectionProps {
+  data?: any;
+  showTestimonials?: boolean;
+}
+
+export function CtaSection({ data, showTestimonials = true }: CtaSectionProps = {}) {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -156,57 +161,60 @@ export function CtaSection({ data }: { data?: any }) {
             {/* Upper Interactive Stage: Floating Blue Sphere & Testimonials */}
             <div className="relative w-full max-w-5xl h-[330px] sm:h-[400px] lg:h-[450px] flex items-center justify-center">
               {/* Floating Semi-Transparent Testimonial Panels Distributed Around Sphere */}
-              {TESTIMONIAL_PANELS.map((panel) => (
-                <div
-                  key={panel.id}
-                  className={`absolute ${panel.positionClass} ${panel.delayClass} transition-transform duration-700 ease-out`}
-                >
-                  {panel.type === "pill" ? (
-                    <div className="bg-white/45 backdrop-blur-md rounded-2xl border border-white/55 px-3.5 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs text-slate-800 shadow-2xs flex items-center gap-2.5 select-none hover:bg-white/60 transition-colors">
-                      <img
-                        src={panel.avatar}
-                        alt="User"
-                        className="size-6 sm:size-7 rounded-full object-cover shrink-0 ring-1 ring-white/60"
-                      />
-                      <p className="leading-snug line-clamp-2">{panel.text}</p>
-                    </div>
-                  ) : (
-                    <div className="bg-white/50 backdrop-blur-md rounded-2xl border border-white/65 p-3.5 sm:p-4 text-[11px] sm:text-xs text-slate-800 shadow-2xs space-y-2 select-none hover:bg-white/65 transition-colors">
-                      <p className="leading-relaxed line-clamp-3">{panel.text}</p>
-                      <div className="flex items-center gap-2 pt-1 border-t border-white/30">
+              {showTestimonials &&
+                TESTIMONIAL_PANELS.map((panel) => (
+                  <div
+                    key={panel.id}
+                    className={`absolute ${panel.positionClass} ${panel.delayClass} transition-transform duration-700 ease-out`}
+                  >
+                    {panel.type === "pill" ? (
+                      <div className="bg-white/45 backdrop-blur-md rounded-2xl border border-white/55 px-3.5 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs text-slate-800 shadow-2xs flex items-center gap-2.5 select-none hover:bg-white/60 transition-colors">
                         <img
                           src={panel.avatar}
-                          alt={panel.author || "User"}
+                          alt="User"
                           className="size-6 sm:size-7 rounded-full object-cover shrink-0 ring-1 ring-white/60"
                         />
-                        <div className="min-w-0">
-                          <span className="font-bold text-slate-900 block truncate text-[11px] sm:text-xs">
-                            {panel.author}
-                          </span>
-                          <span className="text-[10px] text-slate-600 block truncate">
-                            {panel.role}
-                          </span>
+                        <p className="leading-snug line-clamp-2">{panel.text}</p>
+                      </div>
+                    ) : (
+                      <div className="bg-white/50 backdrop-blur-md rounded-2xl border border-white/65 p-3.5 sm:p-4 text-[11px] sm:text-xs text-slate-800 shadow-2xs space-y-2 select-none hover:bg-white/65 transition-colors">
+                        <p className="leading-relaxed line-clamp-3">{panel.text}</p>
+                        <div className="flex items-center gap-2 pt-1 border-t border-white/30">
+                          <img
+                            src={panel.avatar}
+                            alt={panel.author || "User"}
+                            className="size-6 sm:size-7 rounded-full object-cover shrink-0 ring-1 ring-white/60"
+                          />
+                          <div className="min-w-0">
+                            <span className="font-bold text-slate-900 block truncate text-[11px] sm:text-xs">
+                              {panel.author}
+                            </span>
+                            <span className="text-[10px] text-slate-600 block truncate">
+                              {panel.role}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                ))}
 
               {/* Mobile-Optimized Testimonial Pill for Small Screens */}
-              <div className="md:hidden absolute bottom-1 left-1/2 -translate-x-1/2 w-full max-w-xs z-10 px-2">
-                <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/60 p-3 text-[11px] text-slate-800 shadow-2xs flex items-center gap-2.5">
-                  <img
-                    src="/assets/img/reference/avatar-mid-left.png"
-                    alt="User"
-                    className="size-7 rounded-full object-cover shrink-0 ring-1 ring-white/60"
-                  />
-                  <div>
-                    <span className="font-bold text-slate-900 block text-xs">Darius Salehipour</span>
-                    <p className="text-[10px] text-slate-600 leading-tight">Head of Product • Thousands of active cohorts</p>
+              {showTestimonials && (
+                <div className="md:hidden absolute bottom-1 left-1/2 -translate-x-1/2 w-full max-w-xs z-10 px-2">
+                  <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/60 p-3 text-[11px] text-slate-800 shadow-2xs flex items-center gap-2.5">
+                    <img
+                      src="/assets/img/reference/avatar-mid-left.png"
+                      alt="User"
+                      className="size-7 rounded-full object-cover shrink-0 ring-1 ring-white/60"
+                    />
+                    <div>
+                      <span className="font-bold text-slate-900 block text-xs">Darius Salehipour</span>
+                      <p className="text-[10px] text-slate-600 leading-tight">Head of Product • Thousands of active cohorts</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
 
               {/* Central Translucent Glossy Blue 3D Sphere (Exact Reference Focal Point) */}
               <div className="relative z-20 flex items-center justify-center animate-sphere-float pointer-events-none select-none">

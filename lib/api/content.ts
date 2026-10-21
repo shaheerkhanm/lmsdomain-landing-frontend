@@ -290,10 +290,11 @@ export async function getHomePage() {
 // Fallback: DEFAULT_AI_PAGE_DATA from content/ai/page.ts
 // ----------------------------------------------------------------------------
 export async function getAiPage(): Promise<AiPageData> {
-  const [heroCms, availabilityCms, ctaCms, seo] = await Promise.all([
+  const [heroCms, availabilityCms, ctaCms, howItWorksCms, seo] = await Promise.all([
     fetchCms("ai-hero", ["cms", "ai"]),
     fetchCms("ai-availability", ["cms", "ai"]),
     fetchCms("ai-cta", ["cms", "ai"]),
+    fetchCms("ai-how-it-works", ["cms", "ai"]),
     fetchSeo("ai"),
   ]);
 
@@ -333,11 +334,27 @@ export async function getAiPage(): Promise<AiPageData> {
     },
   };
 
+  // Section appears ONLY when provided by CMS slug 'ai-how-it-works'
+  const howItWorks = howItWorksCms?.title
+    ? {
+        title: howItWorksCms.title,
+        steps: Array.isArray(howItWorksCms.counts)
+          ? howItWorksCms.counts.map((c, i) => ({
+              stepNumber: String(i + 1).padStart(2, "0"),
+              title: c.title,
+              description: c.count,
+            }))
+          : [],
+      }
+    : undefined;
+
   return {
     ...base,
     hero,
     tools: AI_TOOLS,
+    howItWorks,
     availability,
+    faq: undefined, // Hidden until real FAQ items exist in backend
     cta,
     seo: seo || undefined,
   };

@@ -15,7 +15,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Features | Premium flag | Field | `isPremium: boolean` on Features. *(Current: typed in `content/features/catalog.ts`)* |
 | Features | Feature list | Content | Enter the 38 features from features-catalog.md in Admin > Features (title = name, subTitle = description). *(Current: stored and validated in `content/features/catalog.ts`)* |
 | Domie AI page | AI tools | Content | The 4 AI tools are entered as Features with category "AI Tools" and `isPremium: true`, so no new model is needed once the two fields above exist. |
-| Domie AI page | Page copy | Content | New CMS entries: `ai-hero` (title, subTitle, buttonText, buttonAction, tags = command-bar example queries), `ai-availability`, `ai-cta`. |
+| Domie AI page | Page copy | Content | New CMS entries: `ai-hero` (title, subTitle, buttonText, buttonAction, tags = command-bar example queries), `ai-availability`, `ai-cta`, `ai-how-it-works` (title, counts = steps with title and description). |
 | SEO | Missing pages | Content | `seos` has only home, pricing, features, about. Add `ai`, `contact`, `privacy-policy`, `terms`, `refund-policy`, `dpa`. |
 | SEO | Share image | Field | `ogImage` (image) on Seo. Until it exists, pages share without a picture. |
 | Contact page | Page copy | Content | New CMS entry `contact-hero` (title, subTitle) and `contact-form` (buttonText, success title and message). Email, phone and address already come from `address`. |

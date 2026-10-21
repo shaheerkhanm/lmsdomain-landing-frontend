@@ -8,8 +8,8 @@ import {
   AiMidPageCta,
   JourneyStrip,
   CategorySections,
-  CTABand,
 } from "@/components/marketing";
+import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -71,16 +71,8 @@ export default async function FeaturesPage() {
       {/* 7. Category Sections (8 alternating sections with real photos, video loop & interactive simulations) */}
       <CategorySections categories={categories} media={data.media} />
 
-      {/* 8. Closing CTA Band */}
-      <section className="bg-white py-16 sm:py-20 lg:py-24">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
-          <CTABand
-            title="Ready to Build a Better Learning Experience?"
-            subtitle="Discover how LMS Domain can bring your courses, learners, and academy operations together."
-            buttonText="Request a Demo"
-          />
-        </div>
-      </section>
+      {/* 8. Closing CTA Band (landing final CTA with testimonials hidden pending real customer signoff) */}
+      <CtaSection showTestimonials={false} />
     </div>
   );
 }

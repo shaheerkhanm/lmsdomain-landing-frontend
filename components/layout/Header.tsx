@@ -177,7 +177,7 @@ export function Header() {
                     <span>{item.label}</span>
                     {isAi && (
                       <span
-                        className="w-1.5 h-1.5 rounded-full bg-[#A78BFA] shrink-0"
+                        className="w-1.5 h-1.5 rounded-full bg-[#8E7CF8] shrink-0"
                         aria-hidden="true"
                       />
                     )}
@@ -280,7 +280,7 @@ export function Header() {
                         <span>{item.label}</span>
                         {isAi && (
                           <span
-                            className="w-2 h-2 rounded-full bg-[#A78BFA] shrink-0"
+                            className="w-2 h-2 rounded-full bg-[#8E7CF8] shrink-0"
                             aria-hidden="true"
                           />
                         )}

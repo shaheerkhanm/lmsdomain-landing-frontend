@@ -91,8 +91,8 @@ export default async function AiPage() {
         />
       )}
 
-      {/* 7. CTA Band (Landing final CTA with floating sphere and enquiry) */}
-      <CtaSection />
+      {/* 7. CTA Band (Landing final CTA with floating sphere and enquiry, testimonials hidden pending real customer signoff) */}
+      <CtaSection showTestimonials={false} />
     </div>
   );
 }
