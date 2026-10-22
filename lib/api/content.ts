@@ -34,6 +34,11 @@ import type {
   AboutTeam,
   AboutStats,
   AboutCareers,
+  ContactPageModel,
+  ContactHero,
+  ContactChannel,
+  ContactTopic,
+  ContactFormConfig,
   ContactPageData,
   LegalPageData,
   AiPageData,
@@ -46,6 +51,11 @@ import {
   DEFAULT_PRICING_EMPTY_STATE,
 } from "@/content/pricing/page";
 import { ABOUT_HERO_IMAGE_APPROVED } from "@/content/about/page";
+import {
+  DEFAULT_CONTACT_HERO,
+  DEFAULT_CONTACT_FORM_CONFIG,
+  DEFAULT_CONTACT_TOPICS,
+} from "@/content/contact/page";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
   doc: T | null | undefined
@@ -503,17 +513,69 @@ export async function getAboutPage(): Promise<AboutPageModel> {
 // Contact Page Content
 // Endpoints: /api/cms (slugs: contact-hero, address), /api/seo
 // ----------------------------------------------------------------------------
-export async function getContactPage(): Promise<ContactPageData> {
-  const [hero, settings, seo] = await Promise.all([
+export async function getContactPage(): Promise<ContactPageModel> {
+  const [heroCms, formCms, settingsCms, seo] = await Promise.all([
     fetchCms("contact-hero", ["cms", "contact"]),
+    fetchCms("contact-form", ["cms", "contact"]),
     fetchCms("address", ["cms", "settings"]),
     fetchSeo("contact"),
   ]);
 
+  const hero: ContactHero = {
+    eyebrow: (heroCms?.tags && heroCms.tags[0]) || DEFAULT_CONTACT_HERO.eyebrow,
+    title: heroCms?.title || DEFAULT_CONTACT_HERO.title,
+    subtitle:
+      heroCms?.subTitle ||
+      heroCms?.description ||
+      DEFAULT_CONTACT_HERO.subtitle,
+  };
+
+  const form: ContactFormConfig = {
+    submitLabel: formCms?.buttonText || DEFAULT_CONTACT_FORM_CONFIG.submitLabel,
+    successTitle: formCms?.title || DEFAULT_CONTACT_FORM_CONFIG.successTitle,
+    successMessage:
+      formCms?.content ||
+      formCms?.subTitle ||
+      DEFAULT_CONTACT_FORM_CONFIG.successMessage,
+    privacyNote: DEFAULT_CONTACT_FORM_CONFIG.privacyNote,
+  };
+
+  const channels: ContactChannel[] = [];
+  if (settingsCms?.email) {
+    channels.push({
+      type: "email",
+      title: "Email",
+      description: "Our specialists respond within 2-4 business hours",
+      value: settingsCms.email,
+      href: `mailto:${settingsCms.email}`,
+    });
+  }
+  if (settingsCms?.phone) {
+    channels.push({
+      type: "phone",
+      title: "Direct Line",
+      description: "Monday through Friday, 9:00 AM – 6:00 PM",
+      value: settingsCms.phone,
+      href: `tel:${settingsCms.phone}`,
+    });
+  }
+  if (settingsCms?.address) {
+    channels.push({
+      type: "address",
+      title: "Headquarters",
+      description: "Global delivery and support offices",
+      value: settingsCms.address,
+    });
+  }
+
   return {
-    hero: hero || undefined,
-    settings: settings || undefined,
     seo: seo || undefined,
+    hero,
+    form,
+    topics: DEFAULT_CONTACT_TOPICS,
+    channels,
+    faq: undefined,
+    cta: undefined,
   };
 }
 

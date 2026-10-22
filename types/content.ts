@@ -483,6 +483,50 @@ export interface AboutPageData {
   seo?: SeoMetadata;
 }
 
+export interface ContactChannel {
+  type: "email" | "phone" | "whatsapp" | "address";
+  title: string;
+  description?: string;
+  value: string;
+  href?: string;
+}
+
+export interface ContactTopic {
+  id: string;
+  label: string;
+}
+
+export interface ContactFormConfig {
+  submitLabel: string;
+  successTitle: string;
+  successMessage: string;
+  privacyNote?: string;
+}
+
+export interface ContactHero {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+}
+
+export interface ContactPageModel {
+  seo?: SeoMetadata;
+  hero: ContactHero;
+  form: ContactFormConfig;
+  topics: ContactTopic[];
+  channels: ContactChannel[];
+  faq?: {
+    title?: string;
+    subtitle?: string;
+    items: FaqItem[];
+  };
+  cta?: {
+    title?: string;
+    subtitle?: string;
+    primaryCta?: { label: string; href?: string };
+  };
+}
+
 export interface ContactPageData {
   hero?: CmsDocument;
   settings?: CmsDocument;

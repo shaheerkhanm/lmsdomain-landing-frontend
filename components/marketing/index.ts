@@ -39,3 +39,6 @@ export * from "./AboutTeam";
 export * from "./AboutStats";
 export * from "./AboutCareers";
 export * from "./AboutView";
+export * from "./DemoForm";
+export * from "./ContactChannels";
+export * from "./ContactView";

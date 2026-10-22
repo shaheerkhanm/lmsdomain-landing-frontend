@@ -1,26 +1,43 @@
-import React from "react";
-import PageHero from "@/components/marketing/PageHero";
-import { EnquiryForm } from "@/components/layout/common/EnquiryForm";
-import { Metadata } from "next";
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { getContactPage, fetchSeo } from "@/lib/api/content";
+import { ContactView } from "@/components/marketing";
 
-export const metadata: Metadata = {
-  title: "Contact Us | LMS Domain",
-  description: "Get in touch with our learning technology specialists.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const [seo, pageData] = await Promise.all([
+    fetchSeo("contact").catch(() => null),
+    getContactPage().catch(() => null),
+  ]);
 
-export default function ContactPage() {
+  const title =
+    seo?.metatitle ||
+    (pageData?.hero?.title
+      ? `${pageData.hero.title} | LMS Domain`
+      : "Contact & Platform Demonstration | LMS Domain");
+
+  const description =
+    seo?.metadescription ||
+    pageData?.hero?.subtitle ||
+    "Schedule a live platform walkthrough, discuss custom enterprise deployments, or evaluate pedagogy workflows tailored to your academy.";
+
+  return {
+    title,
+    description,
+    keywords: seo?.metakeyword || [
+      "Contact LMS Domain",
+      "Request LMS Demo",
+      "Learning Management Walkthrough",
+      "Enterprise Academy Consultation",
+    ],
+  };
+}
+
+export default async function ContactPage() {
+  const data = await getContactPage();
+
   return (
-    <div className="font-urbanist pb-24">
-      <PageHero
-        eyebrow="Get In Touch"
-        title="Contact Us"
-        subtitle="Speak with our team about deploying your custom branded learning platform."
-      />
-      <div className="max-w-[560px] mx-auto px-4">
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-md">
-          <EnquiryForm />
-        </div>
-      </div>
-    </div>
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <ContactView data={data} />
+    </Suspense>
   );
 }

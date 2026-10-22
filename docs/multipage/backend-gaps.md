@@ -38,6 +38,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Pricing | Add-ons (e.g. AI as a premium add-on) | Field | No model. Needed only if AI is sold as an add-on, not inside a plan. |
 | Features | Icon | Field | Features has `image` but no small icon. Add `icon` (image) or reuse `image`. |
 | About | Timeline, stats | Field | Not in the backend; those sections stay hidden. |
+| Contact | Dedicated Contact Fields | Field | The Enquiry backend currently receives name, email, phoneNumber, organizationName, subject, type (1). Form topic and pricing plan are bundled into `subject`. Add dedicated topic / plan fields to Enquiry model if separate column indexing is desired. |
 | Legal pages | Legal text in the admin | Field | Privacy, Terms, Refund and DPA are hard-coded components today. Keep them as they are for now (same text, same URLs, new layout). Move them into a `legal` model (`slug`, `title`, `lastUpdated`, `content`) later if you want to edit them in the admin. |
 | Images | Alt text | Field | Most models have `altImage`; `cms` image1–3 have `altImage1–3`. Pricing has none (fine, no images). |
 | Features | Product Tour Video URL | Field | CMS field `features-hero.videoUrl` for optional "Watch a product tour" modal button in the hero. Currently omitted until a real tour video URL is configured in the admin. |
