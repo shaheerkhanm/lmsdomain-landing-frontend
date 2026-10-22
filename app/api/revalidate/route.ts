@@ -1,12 +1,26 @@
 import { NextResponse } from "next/server";
 import { revalidateTag } from "next/cache";
+import { timingSafeEqual } from "node:crypto";
+
+function secretMatches(provided: unknown, expected: string): boolean {
+  if (typeof provided !== "string") return false;
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
 
 export async function POST(request: Request) {
+  // No fallback: without a configured secret the endpoint is disabled.
+  const expectedSecret = process.env.CMS_REVALIDATE_SECRET;
+  if (!expectedSecret) {
+    console.error("[api/revalidate] CMS_REVALIDATE_SECRET is not set; revalidation is disabled.");
+    return NextResponse.json({ message: "Revalidation is not configured" }, { status: 503 });
+  }
+
   try {
     const { secret, tag } = await request.json();
-    const expectedSecret = process.env.CMS_REVALIDATE_SECRET || "lmsdomain_secret_revalidate_2026";
 
-    if (secret !== expectedSecret) {
+    if (!secretMatches(secret, expectedSecret)) {
       return NextResponse.json({ message: "Invalid revalidation secret" }, { status: 401 });
     }
 

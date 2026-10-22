@@ -22,6 +22,7 @@ The Next.js 15 App Router application reads and utilizes the following environme
 | `APP_LOGIN_URL` | **Server-side (Runtime)** | `undefined` | `lib/api/content.ts` (`getAppAuthUrls`) → `/login` → `AuthLoginForm` prop | Fallback for the LMS app login link. Admin Settings `appLoginUrl` wins when the backend has it. Unset everywhere → disabled button. |
 | `APP_SIGNUP_URL` | **Server-side (Runtime)** | `undefined` | `lib/api/content.ts` (`getAppAuthUrls`) → `/signup` → `AuthSignupForm` prop | Fallback for the LMS app signup link. Admin Settings `appSignupUrl` wins when the backend has it. |
 | `APP_FORGOT_PASSWORD_URL` | **Server-side (Runtime)** | `undefined` | `lib/api/content.ts` (`getAppAuthUrls`) → `/login` → `AuthLoginForm` prop | Fallback for the password reset link. Admin Settings `appForgotPasswordUrl` wins when the backend has it. Unset → link hidden. |
+| `CMS_REVALIDATE_SECRET` | **Server-side (Runtime)** | none (required) | `app/api/revalidate/route.ts` | Shared secret for `POST /api/revalidate` (`docs/multipage/cms-webhook.md`). Unset → the endpoint returns `503` and revalidates nothing. Use a different long random value on staging and production. |
 
 ### 1.1 Local Host Development (`.env.development.local`)
 When running Next.js directly on a host machine outside Docker (e.g. `npm run dev -- -p 3002` on macOS), the default `.env` specifies `BACKEND_URL=http://backend:3000`, which is unresolvable outside Docker's network bridge.

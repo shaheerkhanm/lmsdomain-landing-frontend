@@ -6,6 +6,7 @@
 ## Authentication & Headers
 - `Content-Type: application/json`
 - `secret`: Shared secret configured in frontend environment as `CMS_REVALIDATE_SECRET`.
+- `CMS_REVALIDATE_SECRET` is required. There is no default: if it is unset, the endpoint answers `503` and revalidates nothing. Use a long random value per environment (e.g. `openssl rand -hex 32`); staging and production must differ.
 
 ## Payload
 ```json
