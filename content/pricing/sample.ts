@@ -21,7 +21,7 @@ export const SAMPLE_PLANS: Omit<Plan, "currency">[] = [
     priceSuffix: "/month",
     priceSuffixes: {
       monthly: "/month",
-      yearly: "/year",
+      yearly: "/year, billed annually",
     },
     limits: [
       { label: "Users", value: "Up to 250" },
@@ -54,7 +54,7 @@ export const SAMPLE_PLANS: Omit<Plan, "currency">[] = [
     priceSuffix: "/month",
     priceSuffixes: {
       monthly: "/month",
-      yearly: "/year",
+      yearly: "/year, billed annually",
     },
     limits: [
       { label: "Users", value: "Up to 1,500" },

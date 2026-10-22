@@ -60,7 +60,7 @@ export interface PricingPlan {
   priceSuffixYearly?: string;   // Optional custom annual suffix
   duration_days?: string;
   max_users?: number;           // Learner capacity limit
-  discount?: number;            // Percentage discount
+  discount?: number;            // Yearly discount %: yearly = price × 12 × (1 − discount/100), as on the live site
   tags: string[];               // Bullet points / feature list
   buttonText?: string;          // e.g., "Start Free Trial" or "Request Demo"
   buttonAction?: string;        // Checkout link or modal trigger
@@ -219,6 +219,10 @@ export interface Plan {
   // Shows "Custom" instead of a price; set only when the backend marks the plan
   isCustom?: boolean;
   prices: Record<BillingPeriodId, number | null>;
+  // Yearly price before the plan discount (monthly × 12) and the discount %;
+  // shown as a struck-through price and "Save X%" when the discount is > 0
+  yearlyFullPrice?: number | null;
+  discountPercent?: number;
   currency: PlanCurrency;
   priceSuffix?: string; // e.g. "/month"
   priceSuffixes?: Record<BillingPeriodId, string>; // e.g. { monthly: "/month", yearly: "/year" }

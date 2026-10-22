@@ -52,6 +52,8 @@ import {
   DEFAULT_PRICING_CURRENCY,
   localeForCurrency,
   normalizeCurrencyCode,
+  normalizeDiscount,
+  yearlyFromMonthly,
 } from "@/lib/pricing";
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
 import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
@@ -241,8 +243,10 @@ export async function getPricingPage(): Promise<PricingPageModel> {
       // "Custom" only when the backend marks the plan, never because a price is missing
       const isCustom = doc.isCustom === true || doc.buttonAction === "contact";
       const monthlyPrice = typeof doc.price === "number" ? doc.price : null;
-      // Do not invent discount percentage or yearly price if backend doesn't have it
-      const yearlyPrice = typeof doc.price_yearly === "number" ? doc.price_yearly : null;
+      // Yearly is derived exactly like the live site: monthly × 12 less the plan's
+      // `discount` %. (`price_yearly` exists in the model but the live site ignores it.)
+      const discountPercent = normalizeDiscount(doc.discount);
+      const yearly = monthlyPrice !== null ? yearlyFromMonthly(monthlyPrice, discountPercent) : null;
 
       const limits = [];
       if (doc.max_users) {
@@ -261,13 +265,15 @@ export async function getPricingPage(): Promise<PricingPageModel> {
         isCustom,
         prices: {
           monthly: monthlyPrice,
-          yearly: yearlyPrice,
+          yearly: yearly ? yearly.discounted : null,
         },
+        yearlyFullPrice: yearly ? yearly.full : null,
+        discountPercent,
         currency: resolvePlanCurrency(doc),
         priceSuffix: monthlyPrice !== null ? "/month" : "",
         priceSuffixes: {
           monthly: doc.priceSuffix || "/month",
-          yearly: doc.priceSuffixYearly || "/year",
+          yearly: doc.priceSuffixYearly || "/year, billed annually",
         },
         priceNote: isCustom ? "Custom" : undefined,
         limits: limits.length > 0 ? limits : undefined,
@@ -324,7 +330,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     seo: seo || undefined,
     hero,
     billing: {
-      // Yearly is offered only when at least one priced plan has a yearly price
+      // Yearly is offered when a priced plan has a yearly price (derived from its monthly price)
       periods: hasYearlyPrices
         ? [
             { id: "monthly", label: "Monthly" },

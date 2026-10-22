@@ -67,7 +67,7 @@ export function PricingCard({
     let digitIndex = 0;
 
     return (
-      <div className="flex items-baseline gap-1" aria-live="polite">
+      <div className="flex flex-wrap items-baseline gap-x-1" aria-live="polite">
         <span className="sr-only">{fullPrice}</span>
 
         {prefix.map((part, i) => (
@@ -77,7 +77,7 @@ export function PricingCard({
         ))}
 
         <div
-          className="flex overflow-hidden h-[64px] items-baseline font-semibold text-[46px] sm:text-[56px] text-[#161616] tracking-[-0.02em] tabular-nums"
+          className="flex shrink-0 overflow-hidden h-[64px] items-baseline font-semibold text-[46px] sm:text-[56px] text-[#161616] tracking-[-0.02em] tabular-nums"
           aria-hidden="true"
         >
           <AnimatePresence mode="popLayout" initial={false}>
@@ -115,13 +115,23 @@ export function PricingCard({
         ))}
 
         {periodSuffix && (
-          <span className="text-[14px] sm:text-[15px] font-medium text-[#6B6F76] ml-1">
+          <span className="text-[14px] sm:text-[15px] font-medium text-[#6B6F76] ml-1 whitespace-nowrap">
             {periodSuffix}
           </span>
         )}
       </div>
     );
   };
+
+  // Yearly saving as on the live site: monthly × 12 struck through, plus "Save X%";
+  // nothing extra when the plan has no discount.
+  const showYearlySaving =
+    !isCustomPrice &&
+    shownPeriod === "yearly" &&
+    typeof plan.yearlyFullPrice === "number" &&
+    (plan.discountPercent ?? 0) > 0;
+  const formatAmount = (amount: number) =>
+    formatPriceParts(amount, plan.currency).map((part) => part.value).join("");
 
   const handleCtaClick = (e: React.MouseEvent) => {
     if (plan.cta.action === "demo") {
@@ -174,6 +184,14 @@ export function PricingCard({
           {renderPriceDisplay()}
           {billedNote && !isCustomPrice && (
             <span className="text-[12px] font-medium text-[#6B6F76] mt-0.5">{billedNote}</span>
+          )}
+          {showYearlySaving && (
+            <span className="text-[13px] font-medium text-[#6B6F76] mt-0.5 flex items-center gap-2">
+              <s className="text-[#8F94A0]">{formatAmount(plan.yearlyFullPrice as number)}</s>
+              <span className="px-2 py-0.5 rounded-full bg-[#F3CF74]/40 text-amber-900 text-[11px] font-bold">
+                Save {plan.discountPercent}%
+              </span>
+            </span>
           )}
         </div>
 

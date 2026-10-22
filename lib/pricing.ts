@@ -43,3 +43,15 @@ export function formatPriceParts(amount: number, currency: PlanCurrency): Intl.N
     maximumFractionDigits: Number.isInteger(amount) ? 0 : 2,
   }).formatToParts(amount);
 }
+
+// Yearly price as on the live site (main, PriceCard.tsx): monthly × 12 minus the
+// plan's discount %. Rounded to whole units (the live site shows e.g. 64,789.2).
+export function yearlyFromMonthly(monthly: number, discountPercent: number) {
+  const full = monthly * 12;
+  return { full, discounted: Math.round(full * (1 - discountPercent / 100)) };
+}
+
+// Plan discount % from the backend; anything outside 0–100 counts as no discount.
+export function normalizeDiscount(value: unknown): number {
+  return typeof value === "number" && Number.isFinite(value) && value > 0 && value < 100 ? value : 0;
+}
