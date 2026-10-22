@@ -1,32 +1,27 @@
-import React from "react";
-import Link from "next/link";
+import React, { Suspense } from "react";
 import { Metadata } from "next";
+import { getAuthCopy } from "@/lib/api/content";
+import { AuthSignupForm } from "@/components/marketing/AuthSignupForm";
 
 export const metadata: Metadata = {
-  title: "Sign up | LMS Domain",
+  title: "Sign Up | LMS Domain",
+  description: "Start your LMS Domain academy platform.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
-export default function SignupPage() {
+export default async function SignupPage() {
+  const authCopy = await getAuthCopy();
+
   return (
-    <div className="text-center space-y-4">
-      <h1 className="text-2xl font-bold tracking-tight text-[#161616]">Sign Up</h1>
-      <p className="text-sm text-[#6B6F76]">
-        Create your account to start building your branded academy.
-      </p>
-      <div className="pt-4">
-        <Link
-          href="https://app.lmsdomain.com/signup"
-          className="inline-flex w-full items-center justify-center py-3.5 px-4 rounded-xl bg-[#161616] text-white font-medium text-sm hover:bg-black transition-colors"
-        >
-          Create Free Account
-        </Link>
-      </div>
-      <div className="pt-2 text-xs text-[#6B6F76]">
-        Already have an account?{" "}
-        <Link href="/login" className="text-[#7B5CF5] font-semibold hover:underline">
-          Log in
-        </Link>
-      </div>
-    </div>
+    <Suspense
+      fallback={
+        <div className="w-full h-48 animate-pulse rounded-2xl bg-slate-50" />
+      }
+    >
+      <AuthSignupForm copy={authCopy.signup} />
+    </Suspense>
   );
 }

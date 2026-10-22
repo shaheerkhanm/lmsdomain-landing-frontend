@@ -675,3 +675,36 @@ export interface TestimonialsContent {
 export interface FooterContent {
   description: string;
 }
+
+// ----------------------------------------------------------------------------
+// Auth Pages Copy Model
+// ----------------------------------------------------------------------------
+export interface AuthLoginCopy {
+  title: string;
+  subtitle: string;
+  submitLabel: string;
+  signupPrompt: string;
+  signupLinkLabel: string;
+  forgotLabel?: string;
+}
+
+export interface AuthSignupCopy {
+  title: string;
+  subtitle: string;
+  submitLabel: string;
+  loginPrompt: string;
+  loginLinkLabel: string;
+  termsNote?: string;
+}
+
+export interface AuthSidePanelCopy {
+  title: string;
+  subtitle: string;
+  bullets?: string[];
+}
+
+export interface AuthCopy {
+  login: AuthLoginCopy;
+  signup: AuthSignupCopy;
+  sidePanel: AuthSidePanelCopy;
+}

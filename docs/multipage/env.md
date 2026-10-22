@@ -18,6 +18,9 @@ The Next.js 15 App Router application reads and utilizes the following environme
 | `PORT` | **Container Runtime** | `8080` (defined in `Dockerfile` runner stage) | Next.js server entrypoint (`server.js`) | Defines port on which standalone Node process listens. |
 | `HOSTNAME` | **Container Runtime** | `0.0.0.0` (defined in `Dockerfile` runner stage) | Next.js server entrypoint (`server.js`) | Binds to all network interfaces inside container. |
 | `NODE_ENV` | **Build & Runtime** | `production` | Dockerfile & Next.js runtime | Enables production optimizations, caching, and tree shaking. |
+| `NEXT_PUBLIC_APP_LOGIN_URL` | **Client-side (Build-time baked)** | `undefined` | `components/marketing/AuthLoginForm.tsx` | Mode A redirect URL for LMS application login. |
+| `NEXT_PUBLIC_APP_SIGNUP_URL` | **Client-side (Build-time baked)** | `undefined` | `components/marketing/AuthSignupForm.tsx` | Mode A redirect URL for LMS application signup. |
+| `NEXT_PUBLIC_APP_FORGOT_PASSWORD_URL` | **Client-side (Build-time baked)** | `undefined` | `components/marketing/AuthLoginForm.tsx` | Mode A password reset URL. |
 
 ### 1.1 Local Host Development (`.env.development.local`)
 When running Next.js directly on a host machine outside Docker (e.g. `npm run dev -- -p 3002` on macOS), the default `.env` specifies `BACKEND_URL=http://backend:3000`, which is unresolvable outside Docker's network bridge.

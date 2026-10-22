@@ -43,6 +43,7 @@ import type {
   ContactPageData,
   LegalPageData,
   AiPageData,
+  AuthCopy,
 } from "@/types/content";
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
 import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
@@ -57,6 +58,7 @@ import {
   DEFAULT_CONTACT_FORM_CONFIG,
   DEFAULT_CONTACT_TOPICS,
 } from "@/content/contact/page";
+import { DEFAULT_AUTH_COPY } from "@/content/auth/page";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
   doc: T | null | undefined
@@ -605,12 +607,40 @@ export async function getLegalPages(): Promise<string[]> {
 }
 
 // ----------------------------------------------------------------------------
-// Auth Pages Copy & Home Stub
+// Auth Pages Copy
 // ----------------------------------------------------------------------------
-export async function getAuthCopy() {
+export async function getAuthCopy(): Promise<AuthCopy> {
+  const authCms = await fetchCms("auth-copy", ["cms", "auth"]);
+
+  if (!authCms) {
+    return DEFAULT_AUTH_COPY;
+  }
+
   return {
-    loginTitle: "Log in to your LMS",
-    signupTitle: "Create your LMS account",
+    login: {
+      title: authCms.title || DEFAULT_AUTH_COPY.login.title,
+      subtitle: authCms.subTitle || DEFAULT_AUTH_COPY.login.subtitle,
+      submitLabel: authCms.buttonText || DEFAULT_AUTH_COPY.login.submitLabel,
+      signupPrompt: DEFAULT_AUTH_COPY.login.signupPrompt,
+      signupLinkLabel: DEFAULT_AUTH_COPY.login.signupLinkLabel,
+      forgotLabel: DEFAULT_AUTH_COPY.login.forgotLabel,
+    },
+    signup: {
+      title: authCms.heading || DEFAULT_AUTH_COPY.signup.title,
+      subtitle: authCms.description || DEFAULT_AUTH_COPY.signup.subtitle,
+      submitLabel: authCms.buttonAction || DEFAULT_AUTH_COPY.signup.submitLabel,
+      loginPrompt: DEFAULT_AUTH_COPY.signup.loginPrompt,
+      loginLinkLabel: DEFAULT_AUTH_COPY.signup.loginLinkLabel,
+      termsNote: DEFAULT_AUTH_COPY.signup.termsNote,
+    },
+    sidePanel: {
+      title: authCms.description1 || DEFAULT_AUTH_COPY.sidePanel.title,
+      subtitle: DEFAULT_AUTH_COPY.sidePanel.subtitle,
+      bullets:
+        authCms.tags && authCms.tags.length > 0
+          ? authCms.tags
+          : DEFAULT_AUTH_COPY.sidePanel.bullets,
+    },
   };
 }
 

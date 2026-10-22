@@ -42,3 +42,6 @@ export * from "./AboutView";
 export * from "./DemoForm";
 export * from "./ContactChannels";
 export * from "./ContactView";
+export * from "./AuthVisualPanel";
+export * from "./AuthLoginForm";
+export * from "./AuthSignupForm";
