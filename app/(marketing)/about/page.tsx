@@ -29,6 +29,14 @@ export async function generateMetadata(): Promise<Metadata> {
       "Education Technology",
       "Academy Architecture",
     ],
+    ...(pageData?.isSample
+      ? {
+          robots: {
+            index: false,
+            follow: false,
+          },
+        }
+      : {}),
   };
 }
 

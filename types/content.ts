@@ -466,6 +466,7 @@ export interface AboutPageModel {
   team?: AboutTeam;
   stats?: AboutStats;
   careers?: AboutCareers;
+  isSample?: boolean;
   cta?: {
     title?: string;
     subtitle?: string;

@@ -91,7 +91,7 @@ export function ManifestSection({
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [statement]);
 
   return (
     <section

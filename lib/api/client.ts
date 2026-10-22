@@ -20,7 +20,17 @@ export class ApiError extends Error {
 let hasLoggedMissingBackendUrl = false;
 
 export function getBackendBaseUrl(): string {
-  const url = process.env.BACKEND_URL || process.env.BACKEND_INTERNAL_URL;
+  let url = process.env.BACKEND_URL || process.env.BACKEND_INTERNAL_URL;
+
+  // When developing on host machine (outside Docker), 'backend:3000' is the Docker-internal
+  // container address which cannot resolve. Map to host port 5201 if on macOS or Windows host.
+  if (
+    url &&
+    (url.includes("://backend:3000") || url === "http://backend:3000") &&
+    (process.platform === "darwin" || process.platform === "win32")
+  ) {
+    url = "http://127.0.0.1:5201";
+  }
 
   if (!url) {
     if (!hasLoggedMissingBackendUrl && typeof window === "undefined") {

@@ -30,7 +30,10 @@ import type {
   AboutMission,
   AboutStory,
   AboutValues,
+  AboutTimeline,
   AboutTeam,
+  AboutStats,
+  AboutCareers,
   ContactPageData,
   LegalPageData,
   AiPageData,
@@ -42,6 +45,7 @@ import {
   DEFAULT_PRICING_HERO,
   DEFAULT_PRICING_EMPTY_STATE,
 } from "@/content/pricing/page";
+import { ABOUT_HERO_IMAGE_APPROVED } from "@/content/about/page";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
   doc: T | null | undefined
@@ -361,22 +365,23 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     fetchSeo("about"),
   ]);
 
-  const heroImage =
-    heroCms?.image && heroCms.image !== "/path"
+  // Guard hero image: current CMS entry contains an unlicensed Unsplash+ preview (/uploads/upload1759252684970.jpeg)
+  const approvedHeroImage =
+    ABOUT_HERO_IMAGE_APPROVED && heroCms?.image && heroCms.image !== "/path"
       ? heroCms.image
-      : "/assets/img/about-img.jpg";
+      : undefined;
 
-  const hero: AboutHero = {
+  let hero: AboutHero = {
     eyebrow: (heroCms?.tags && heroCms.tags[0]) || "✦ ABOUT US",
     title: heroCms?.title || "Empowering Education Through Innovation",
     subtitle:
       heroCms?.subTitle ||
       heroCms?.description ||
       "We're dedicated to revolutionizing online learning by providing educators and institutions with powerful, intuitive tools to create engaging educational experiences that inspire growth and success.",
-    image: heroImage,
+    image: approvedHeroImage,
   };
 
-  const mission: AboutMission | undefined = missionCms?.content
+  let mission: AboutMission | undefined = missionCms?.content
     ? {
         title: missionCms.title,
         statement: missionCms.content,
@@ -388,7 +393,7 @@ export async function getAboutPage(): Promise<AboutPageModel> {
       ? storyCms.image
       : "/assets/img/our-story-img.jpg";
 
-  const story: AboutStory | undefined = storyCms?.content
+  let story: AboutStory | undefined = storyCms?.content
     ? {
         title: storyCms.title || "Our Story",
         body: storyCms.content,
@@ -397,7 +402,7 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     : undefined;
 
   const activeValues = filterActiveDocuments(valuesRes?.data);
-  const values: AboutValues | undefined =
+  let values: AboutValues | undefined =
     activeValues.length > 0
       ? {
           title: valuesCms?.title || "Our Core Values",
@@ -409,8 +414,10 @@ export async function getAboutPage(): Promise<AboutPageModel> {
         }
       : undefined;
 
+  let timeline: AboutTimeline | undefined = undefined;
+
   const activeLeaders = filterActiveDocuments(leadershipRes?.data);
-  const team: AboutTeam | undefined =
+  let team: AboutTeam | undefined =
     activeLeaders.length > 0
       ? {
           title: leadershipCms?.title || "Meet Our Leadership",
@@ -422,6 +429,49 @@ export async function getAboutPage(): Promise<AboutPageModel> {
           })),
         }
       : undefined;
+
+  let stats: AboutStats | undefined = undefined;
+  let careers: AboutCareers | undefined = undefined;
+  let isSample = false;
+
+  // Local-only sample data: dynamic import ONLY when CMS_USE_FIXTURES === "true". Never statically imported.
+  // Real CMS data always wins; sample only fills sections the CMS leaves empty.
+  if (process.env.CMS_USE_FIXTURES === "true") {
+    const sample = await import("@/content/about/sample");
+
+    if (!hero.image) {
+      hero = { ...hero, image: sample.SAMPLE_ABOUT_HERO_IMAGE };
+      isSample = true;
+    }
+    if (!mission) {
+      mission = sample.SAMPLE_ABOUT_MISSION;
+      isSample = true;
+    }
+    if (!story) {
+      story = sample.SAMPLE_ABOUT_STORY;
+      isSample = true;
+    }
+    if (!values) {
+      values = sample.SAMPLE_ABOUT_VALUES;
+      isSample = true;
+    }
+    if (!timeline) {
+      timeline = sample.SAMPLE_ABOUT_TIMELINE;
+      isSample = true;
+    }
+    if (!team) {
+      team = sample.SAMPLE_ABOUT_TEAM;
+      isSample = true;
+    }
+    if (!stats) {
+      stats = sample.SAMPLE_ABOUT_STATS;
+      isSample = true;
+    }
+    if (!careers) {
+      careers = sample.SAMPLE_ABOUT_CAREERS;
+      isSample = true;
+    }
+  }
 
   const cta = {
     title: missionCardCms?.title || "Ready to Transform Your Learning Architecture?",
@@ -440,10 +490,11 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     mission,
     story,
     values,
-    timeline: undefined, // Hidden: not present in backend
+    timeline,
     team,
-    stats: undefined,    // Hidden: not present in backend
-    careers: undefined,  // Hidden: not present in backend
+    stats,
+    careers,
+    isSample,
     cta,
   };
 }
