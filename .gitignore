@@ -40,5 +40,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# QA screenshots (regenerate with npm run qa:screens)
-docs/multipage/evidence/qa/
+# Screenshot evidence stays local (QA: regenerate with npm run qa:screens).
+# Ignore the contents, not the folder, so the exception below can apply.
+docs/multipage/evidence/*
+!docs/multipage/evidence/pricing/
+docs/multipage/evidence/pricing/*
+!docs/multipage/evidence/pricing/cms-response.json
