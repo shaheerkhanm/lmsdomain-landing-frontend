@@ -55,7 +55,7 @@ export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps)
           {/* Card 1: HelpDesk AI Tutor (with real learner photo + chat mockup) */}
           <div
             data-feature-slug="helpdesk-ai-tutor"
-            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
+            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between lg:grid lg:grid-rows-subgrid lg:row-span-2 lg:gap-y-0 shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -131,7 +131,7 @@ export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps)
           {/* Card 2: Domie AI Content Generator */}
           <div
             data-feature-slug="domie-ai-content-generator"
-            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
+            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between lg:grid lg:grid-rows-subgrid lg:row-span-2 lg:gap-y-0 shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -153,7 +153,22 @@ export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps)
               </p>
             </div>
 
-            {/* Illustrative Visual */}
+            {/* Visual Area: photo in the same frame as the tutor card + draft illustration */}
+            <div className="space-y-4">
+              <div className="relative h-[160px] sm:h-[180px] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
+                <Image
+                  src={media?.["ai-content-generator"]?.src || "/images/features/ai-content-generator.webp"}
+                  alt={media?.["ai-content-generator"]?.alt || "Course creators planning course content together on a laptop"}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 540px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute bottom-3 left-3 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-xs font-semibold text-white flex items-center gap-2 border border-white/15 shadow-md">
+                  <span className="w-2 h-2 rounded-full bg-[#7B5CF5] animate-pulse" />
+                  <span>Domie AI Content Generator</span>
+                </div>
+              </div>
+
             <div
               aria-label="Illustration of the AI content generator"
               className="bg-[#F8FAFC] rounded-[24px] p-4 sm:p-5 border border-[#ECEDEF] space-y-3"
@@ -185,12 +200,13 @@ export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps)
                 <span className="font-semibold text-[#161616]">Insert into Course →</span>
               </div>
             </div>
+            </div>
           </div>
 
           {/* Card 3: AI Prescriptive Analytics */}
           <div
             data-feature-slug="ai-prescriptive-analytics"
-            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
+            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between lg:grid lg:grid-rows-subgrid lg:row-span-2 lg:gap-y-0 shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
           >
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -253,7 +269,7 @@ export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps)
           {/* Card 4: AI Command Bar */}
           <div
             data-feature-slug="ai-command-bar"
-            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
+            className="bg-white rounded-[32px] sm:rounded-[40px] border border-[#ECEDEF] p-7 sm:p-9 flex flex-col justify-between lg:grid lg:grid-rows-subgrid lg:row-span-2 lg:gap-y-0 shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
           >
             <div>
               <div className="flex items-center justify-between mb-4">

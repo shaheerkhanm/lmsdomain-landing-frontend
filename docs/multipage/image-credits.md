@@ -17,6 +17,7 @@ All photography and video assets on `/features` follow standard free commercial 
 | `course-checkout-browsing` | `course-checkout-browsing.webp` | Student browsing course catalogue on modern laptop | [Vitaly Gariev](https://www.pexels.com/@vitaly-gariev/) | [Pexels #23496958](https://www.pexels.com/photo/a-man-in-glasses-and-a-suit-is-sitting-at-a-table-with-a-laptop-23496958/) | Free Commercial License | 23.8 KB |
 | `branding-institute-desk` | `branding-institute-desk.webp` | Academy administrator clean workspace with laptop and notebook | [Kaboompics.com](https://www.pexels.com/@kaboompics/) | [Pexels #8092461](https://www.pexels.com/photo/laptop-and-notebook-on-brown-wooden-table-8092461/) | Free Commercial License | 9.5 KB |
 | `instructor-grading-review` | `instructor-grading-review.webp` | Instructor reviewing and grading course assignment submission | [Andy Barbour](https://www.pexels.com/@andy-barbour/) | [Pexels #6684360](https://www.pexels.com/photo/a-person-holding-a-marker-6684360/) | Free Commercial License | 37.2 KB |
+| `ai-content-generator` | `ai-content-generator.webp` | Two people planning course content together on a laptop (converted from in-repo `public/assets/img/home/features/course_preview.jpg`, 800×533) | Not recorded | [Unsplash `photo-1516321318423-f06f85e504b3`](https://images.unsplash.com/photo-1516321318423-f06f85e504b3) (verified: same image) | Unsplash License (free commercial use, no attribution required) | 19.7 KB |
 
 ## Video Loops
 
@@ -32,3 +33,7 @@ All photography and video assets on `/features` follow standard free commercial 
 | `course-learning-instructor` | `instructor_lesson.jpg` | Instructor recording video lecture at desk | `public/assets/img/home/features/instructor_lesson.jpg` | LMS Domain Brand Asset |
 | `course-learning-student` | `learner_laptop.jpg` | Learner watching course module on laptop | `public/assets/img/home/features/learner_laptop.jpg` | LMS Domain Brand Asset |
 | `assessment-learner-quiz` | `learner_quiz.jpg` | Learner completing interactive assessment quiz | `public/assets/img/home/features/learner_quiz.jpg` | LMS Domain Brand Asset |
+
+## Credit to correct
+
+- `docs/assets-credits.md` lists `learner_quiz.jpg` and `course_preview.jpg` with the same Unsplash ID (`photo-1516321318423-f06f85e504b3`). That ID is verified to be `course_preview.jpg`; `learner_quiz.jpg` is a different photo whose source is not recorded.

@@ -132,6 +132,18 @@ export const FEATURES_MEDIA: Record<string, MediaSlot> = {
       license: "Free Commercial License",
     },
   },
+  "ai-content-generator": {
+    id: "ai-content-generator",
+    kind: "photo",
+    src: "/images/features/ai-content-generator.webp",
+    alt: "Course creators planning course content together on a laptop",
+    credit: {
+      photographer: "Not recorded (Unsplash)",
+      pageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3",
+      sourceName: "Unsplash",
+      license: "Unsplash License",
+    },
+  },
   "course-checkout-browsing": {
     id: "course-checkout-browsing",
     kind: "photo",
