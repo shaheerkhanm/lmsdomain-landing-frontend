@@ -125,7 +125,7 @@ export function ManifestSection({
       {/* Mobile Layout (<1024px: In-flow text reveal, no sticky runway) */}
       <div
         ref={mobileContainerRef}
-        className="w-full px-6 py-12 lg:hidden flex flex-col items-center justify-center"
+        className={`w-full px-6 py-12 lg:hidden flex ${eyebrow ? "flex-col" : ""} items-center justify-center`}
       >
         {eyebrow && (
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-4">

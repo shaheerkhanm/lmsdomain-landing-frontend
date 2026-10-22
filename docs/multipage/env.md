@@ -19,6 +19,14 @@ The Next.js 15 App Router application reads and utilizes the following environme
 | `HOSTNAME` | **Container Runtime** | `0.0.0.0` (defined in `Dockerfile` runner stage) | Next.js server entrypoint (`server.js`) | Binds to all network interfaces inside container. |
 | `NODE_ENV` | **Build & Runtime** | `production` | Dockerfile & Next.js runtime | Enables production optimizations, caching, and tree shaking. |
 
+### 1.1 Local Host Development (`.env.development.local`)
+When running Next.js directly on a host machine outside Docker (e.g. `npm run dev -- -p 3002` on macOS), the default `.env` specifies `BACKEND_URL=http://backend:3000`, which is unresolvable outside Docker's network bridge.
+Developers running on the host create `.env.development.local` (gitignored, never committed):
+```env
+BACKEND_URL=http://127.0.0.1:5201
+```
+Next.js automatically gives `.env.development.local` highest precedence during `next dev`, pointing server-side fetches directly to the local backend container exposed at port 5201, while production and staging containers continue reading `http://backend:3000` from their runtime environments. Real production code does not rewrite URLs at runtime.
+
 ---
 
 ## 2. Server-Side vs. Client-Side Mechanics
