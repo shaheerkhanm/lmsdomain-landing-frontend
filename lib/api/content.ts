@@ -243,9 +243,18 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   let faq = activeFaqs.length > 0 ? { ...faqHeading, items: activeFaqs } : undefined;
 
   if (activePlans.length > 0) {
+    // "Most popular": the backend isPopular flag wins. Until the backend has it,
+    // server env PRICING_POPULAR_PLAN names the plan (title or slug, any case).
+    const backendHasPopular = activePlans.some((doc) => doc.isPopular === true);
+    const envPopular = process.env.PRICING_POPULAR_PLAN?.trim().toLowerCase();
+    const isEnvPopular = (doc: PricingPlan) =>
+      !backendHasPopular &&
+      !!envPopular &&
+      (doc.title?.trim().toLowerCase() === envPopular || doc.slug?.trim().toLowerCase() === envPopular);
+
     mappedPlans = activePlans.map((doc, idx) => {
-      // Highlight only when the backend says so (no guessing from the title)
-      const isPopular = doc.isPopular === true;
+      // Highlight only when the backend (or the env fallback) says so; no guessing from the title
+      const isPopular = doc.isPopular === true || isEnvPopular(doc);
       // "Custom" only when the backend marks the plan, never because a price is missing
       const isCustom = doc.isCustom === true || doc.buttonAction === "contact";
       const monthlyPrice = typeof doc.price === "number" ? doc.price : null;
