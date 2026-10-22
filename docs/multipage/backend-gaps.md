@@ -4,14 +4,25 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 
 **Type:** **Field** means a backend developer adds a field or model. **Content** means someone enters it in the admin; no code needed.
 
+> **CMS entries cannot be created in the admin.** Admin > CMS only edits entries that already exist (`controllers/admin/cms.ts` updates by slug, no create/upsert). New entries come from the backend seed (`seeder/cms.ts`, `$setOnInsert`, safe to re-run on its own). The public `POST /api/cms` accepts any slug present in the `cms` collection with `isActive: true` and `isDeleted ≠ true`; other slugs return 422 "Slug is not valid" and the frontend falls back.
+>
+> Seeded today: `home-hero`, `home-graph-section`, `home-teach-smarter`, `customers`, `features`, `results`, `testimonials`, `cta`, `pricing-hero`, `pricing-faq`, `pricing-footer-card`, `features-hero`, `features-content`, `about-hero`, `about-mission`, `about-values`, `about-story`, `about-leadership`, `about-mission-card`, `mail-options`, `address`, `footer`.
+>
+> **Requested by the frontend but not seeded** (a backend developer must add them to the seed before anyone can fill them in): `pricing-empty`, `contact-hero`, `contact-form`, `ai-hero`, `ai-availability`, `ai-cta`, `ai-how-it-works`, `auth-copy`, `features-cta`, `features-media`, `privacy-policy`, `terms`, `refund-policy`, `dpa`. Rows below that say "CMS entry … in Admin > CMS" for these slugs need that seed entry first.
+>
+> **Do not run the full `npm run seed` on a live server:** `displayOrderSetup` resets every pricing plan's and feature's `displayOrder` to creation order, and the `seo` / `template` seeds `insertMany` without checks (duplicates). Run only the CMS seed.
+>
+> **Security:** `seeder/cms.ts` (`mail-options`) contains an SMTP / SendGrid API key in the backend repository. Rotate that key and load it from env instead.
+
 ## Must have before the page can go live
 
 | Page | What's missing | Type | Detail |
 |---|---|---|---|
 | Pricing | Plans | Content | The `pricings` collection has **0 documents**. Enter your real plans in Admin > Pricing. Nothing can be shown until then. |
 | Pricing | Currency per plan | Field | **Must have before selling in more than one currency.** Add `currency` (ISO 4217 code, e.g. `INR`, `USD`) to each Pricing plan, optionally `locale` (e.g. `en-IN`). Until then every plan uses server env `PRICING_CURRENCY`, else `INR`, formatted with `Intl.NumberFormat` (`en-IN` for INR, `en-US` otherwise). |
-| Pricing | Popular plan | Field | `isPopular: boolean` on Pricing. |
-| Pricing | Yearly pricing / Billing periods | Field | Add `price_yearly: number` or billingPeriods to Pricing model. Today only `price` exists, with no field for annual billing rates or savings. |
+| Pricing | Popular plan | Field | `isPopular: boolean` on Pricing. Only this field highlights a plan ("Most popular"); without it, no plan is highlighted. |
+| Pricing | Custom / contact plan | Field | `isCustom: boolean` on Pricing. A plan shows "Custom" instead of a price only when `isCustom` is true or `buttonAction` is `contact`; a missing price never turns into "Custom". |
+| Pricing | Yearly pricing / Billing periods | Field | Add `price_yearly: number` or billingPeriods to Pricing model. Today only `price` exists, with no field for annual billing rates or savings. | The Monthly/Yearly toggle is hidden (and `?billing=yearly` ignored) until at least one priced plan has `price_yearly`; plans without it show their monthly price with "Billed monthly".
 | Pricing | Empty state copy | Content | CMS entry `pricing-empty` (`title`, `subTitle`, `buttonText`, `buttonAction`) for customizing the empty state when 0 plans are published. |
 | Pricing | Hero copy | Content | CMS entry `pricing-hero` (`title`, `subTitle`, `tags` = eyebrow) to customize pricing hero. |
 | Pricing | Enterprise band copy | Content | CMS entry `pricing-enterprise` (`title`, `subTitle`, `buttonText`, `buttonAction`) to customize the enterprise tier card. |

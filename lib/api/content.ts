@@ -236,7 +236,10 @@ export async function getPricingPage(): Promise<PricingPageModel> {
 
   if (activePlans.length > 0) {
     mappedPlans = activePlans.map((doc, idx) => {
-      const isPopular = Boolean(doc.isPopular || /scale|popular/i.test(doc.title));
+      // Highlight only when the backend says so (no guessing from the title)
+      const isPopular = doc.isPopular === true;
+      // "Custom" only when the backend marks the plan, never because a price is missing
+      const isCustom = doc.isCustom === true || doc.buttonAction === "contact";
       const monthlyPrice = typeof doc.price === "number" ? doc.price : null;
       // Do not invent discount percentage or yearly price if backend doesn't have it
       const yearlyPrice = typeof doc.price_yearly === "number" ? doc.price_yearly : null;
@@ -255,6 +258,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
         name: doc.title,
         tagline: doc.subTitle,
         isPopular,
+        isCustom,
         prices: {
           monthly: monthlyPrice,
           yearly: yearlyPrice,
@@ -265,7 +269,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
           monthly: doc.priceSuffix || "/month",
           yearly: doc.priceSuffixYearly || "/year",
         },
-        priceNote: monthlyPrice === null ? doc.description || "Custom" : undefined,
+        priceNote: isCustom ? "Custom" : undefined,
         limits: limits.length > 0 ? limits : undefined,
         features: Array.isArray(doc.tags) ? doc.tags : [],
         cta: {
@@ -287,6 +291,8 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     yearlySavingsLabel = "Sample: 2 months free";
     isSample = true;
   }
+
+  const hasYearlyPrices = mappedPlans.some((plan) => !plan.isCustom && plan.prices.yearly !== null);
 
   // Page-level currency mirrors the first plan (plans carry their own currency).
   if (mappedPlans.length > 0) {
@@ -318,10 +324,13 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     seo: seo || undefined,
     hero,
     billing: {
-      periods: [
-        { id: "monthly", label: "Monthly" },
-        { id: "yearly", label: "Yearly", note: yearlySavingsLabel },
-      ],
+      // Yearly is offered only when at least one priced plan has a yearly price
+      periods: hasYearlyPrices
+        ? [
+            { id: "monthly", label: "Monthly" },
+            { id: "yearly", label: "Yearly", note: yearlySavingsLabel },
+          ]
+        : [{ id: "monthly", label: "Monthly" }],
       defaultPeriod: "monthly",
       yearlySavingsLabel,
     },

@@ -65,7 +65,7 @@ export default async function PricingPage() {
 
   // Generate JSON-LD Product & Offer schemas for plans with numeric prices (production only)
   const numericPlans = data.plans.filter(
-    (plan) => plan.prices.monthly !== null || plan.prices.yearly !== null
+    (plan) => !plan.isCustom && (plan.prices.monthly !== null || plan.prices.yearly !== null)
   );
 
   const jsonLd =
@@ -79,7 +79,7 @@ export default async function PricingPage() {
             "@type": "Offer",
             name: plan.name,
             description: plan.tagline || plan.name,
-            price: plan.prices.monthly || 0,
+            price: plan.prices.monthly ?? plan.prices.yearly,
             priceCurrency: plan.currency.code,
             availability: "https://schema.org/InStock",
             ...(siteUrl ? { url: `${siteUrl}/pricing` } : {}),

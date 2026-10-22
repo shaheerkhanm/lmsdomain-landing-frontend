@@ -27,6 +27,8 @@ export function PricingComparisonTable({
 
   const activeMobilePlan = plans.find((p) => p.id === selectedMobilePlan) || plans[0];
 
+  const headerCellClass = "py-4 px-4 bg-white shadow-[inset_0_-1px_0_#ECEDEF]";
+
   const renderCellValue = (val: boolean | string | undefined) => {
     if (val === true) {
       return (
@@ -60,18 +62,20 @@ export function PricingComparisonTable({
         {/* ==================================================================== */}
         {/* DESKTOP TABLE (>= 768px): Real <table>, sticky header */}
         {/* ==================================================================== */}
-        <div className="hidden md:block overflow-x-auto">
+        {/* No overflow wrapper: a scrolling ancestor would stop the header from sticking to the page */}
+        <div className="hidden md:block">
           <table className="w-full border-collapse text-left">
             <caption className="sr-only">Detailed feature comparison by plan</caption>
 
-            {/* Sticky Header Row */}
-            <thead className="sticky top-20 bg-white/95 backdrop-blur-md z-20 shadow-xs border-b border-[#ECEDEF]">
-              <tr>
-                <th scope="col" className="py-4 px-4 text-xs font-bold uppercase tracking-wider text-[#8F94A0] w-1/3">
+            {/* Sticky Header Row: solid white across the full width, bottom rule drawn
+                as an inset shadow (collapsed borders do not stick), above the rows */}
+            <thead className="sticky top-0 lg:top-20 z-30 bg-white">
+              <tr className="bg-white">
+                <th scope="col" className={`${headerCellClass} text-xs font-bold uppercase tracking-wider text-[#8F94A0] w-1/3`}>
                   Features & Quotas
                 </th>
                 {plans.map((plan) => (
-                  <th key={plan.id} scope="col" className="py-4 px-4 text-center">
+                  <th key={plan.id} scope="col" className={`${headerCellClass} text-center`}>
                     <span className="text-sm sm:text-base font-bold text-[#161616] block mb-1">
                       {plan.name}
                     </span>

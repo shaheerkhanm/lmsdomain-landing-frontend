@@ -23,11 +23,15 @@ export function PricingView({ data }: PricingViewProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  // Yearly exists only when a plan has a yearly price; otherwise ?billing=yearly is ignored
+  const yearlyAvailable = data.billing.periods.some((p) => p.id === "yearly");
+
   // Read initial billing period from URL query (?billing=yearly)
   const initialPeriod = (searchParams.get("billing") as BillingPeriodId) || data.billing.defaultPeriod;
-  const [activePeriod, setActivePeriod] = useState<BillingPeriodId>(
+  const [selectedPeriod, setActivePeriod] = useState<BillingPeriodId>(
     initialPeriod === "yearly" ? "yearly" : "monthly"
   );
+  const activePeriod: BillingPeriodId = yearlyAvailable ? selectedPeriod : "monthly";
 
   const [selectedPlanForDemo, setSelectedPlanForDemo] = useState<string>("");
   const [showDemoModal, setShowDemoModal] = useState<boolean>(false);
@@ -84,7 +88,7 @@ export function PricingView({ data }: PricingViewProps) {
         }
       >
         {/* 2. Billing Toggle (Signature detail, shown when plans exist) */}
-        {hasPlans && (
+        {hasPlans && yearlyAvailable && (
           <BillingToggle
             periods={data.billing.periods}
             activePeriod={activePeriod}

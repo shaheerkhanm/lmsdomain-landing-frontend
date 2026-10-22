@@ -82,6 +82,7 @@ export const SAMPLE_PLANS: Omit<Plan, "currency">[] = [
     slug: "sample-enterprise",
     name: "Sample Enterprise",
     tagline: "For enterprise training academies requiring unlimited scale, custom SLA, and full AI access.",
+    isCustom: true,
     isPopular: false,
     prices: {
       monthly: null,

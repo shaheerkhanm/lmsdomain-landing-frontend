@@ -72,6 +72,8 @@ export interface PricingPlan {
   locale?: string;
   // TODO(backend): isPopular field missing in DB.
   isPopular?: boolean;
+  // TODO(backend): not in the DB yet. Marks a "Custom" / contact-sales plan.
+  isCustom?: boolean;
   isActive: boolean;
   isDeleted: boolean;
 }
@@ -214,6 +216,8 @@ export interface Plan {
   name: string;
   tagline?: string;
   isPopular?: boolean;
+  // Shows "Custom" instead of a price; set only when the backend marks the plan
+  isCustom?: boolean;
   prices: Record<BillingPeriodId, number | null>;
   currency: PlanCurrency;
   priceSuffix?: string; // e.g. "/month"

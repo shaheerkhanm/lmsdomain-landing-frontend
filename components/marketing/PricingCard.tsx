@@ -20,19 +20,36 @@ export function PricingCard({
   onRequestDemo,
   index,
 }: PricingCardProps) {
-  const rawPrice = plan.prices[period];
-  const isCustomPrice = rawPrice === null;
+  // "Custom" only when the backend marks the plan. A missing price for the
+  // selected period falls back to the other period, labelled "Billed …".
+  const isCustomPrice = Boolean(plan.isCustom);
+  const shownPeriod: BillingPeriodId | null =
+    plan.prices[period] !== null
+      ? period
+      : plan.prices.monthly !== null
+      ? "monthly"
+      : plan.prices.yearly !== null
+      ? "yearly"
+      : null;
+  const rawPrice = shownPeriod ? plan.prices[shownPeriod] : null;
+  const billedNote =
+    shownPeriod && shownPeriod !== period
+      ? shownPeriod === "monthly"
+        ? "Billed monthly"
+        : "Billed yearly"
+      : null;
 
   // Per-digit animated price: currency symbol and separators are static
   // characters; only the digits animate.
   const renderPriceDisplay = () => {
-    if (isCustomPrice || typeof rawPrice !== "number") {
+    if (isCustomPrice) {
       return (
         <span className="text-[34px] sm:text-[40px] font-semibold text-[#161616] tracking-tight">
           {plan.priceNote || "Custom"}
         </span>
       );
     }
+    if (typeof rawPrice !== "number" || !shownPeriod) return null;
 
     const parts = formatPriceParts(rawPrice, plan.currency);
     const fullPrice = parts.map((part) => part.value).join("");
@@ -43,8 +60,8 @@ export function PricingCard({
 
     // Resolve per-period suffix: "/month" for monthly and "/year" for yearly (or CMS-provided)
     const periodSuffix =
-      plan.priceSuffixes?.[period] ||
-      (period === "yearly" ? "/year" : plan.priceSuffix || "/month");
+      plan.priceSuffixes?.[shownPeriod] ||
+      (shownPeriod === "yearly" ? "/year" : plan.priceSuffix || "/month");
 
     const symbolClass = "text-2xl sm:text-3xl font-semibold text-[#161616] self-start mt-2";
     let digitIndex = 0;
@@ -66,13 +83,13 @@ export function PricingCard({
           <AnimatePresence mode="popLayout" initial={false}>
             {numberParts.flatMap((part, partIdx) => {
               if (part.type !== "integer" && part.type !== "fraction") {
-                return [<span key={`${period}-sep-${partIdx}`}>{part.value}</span>];
+                return [<span key={`${shownPeriod}-sep-${partIdx}`}>{part.value}</span>];
               }
               return part.value.split("").map((digit) => {
                 const i = digitIndex++;
                 return (
                   <motion.span
-                    key={`${period}-${i}-${digit}`}
+                    key={`${shownPeriod}-${i}-${digit}`}
                     initial={{ y: 24, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -24, opacity: 0 }}
@@ -118,7 +135,7 @@ export function PricingCard({
       ? "#"
       : plan.cta.action === "contact"
       ? `/contact?topic=sales&plan=${encodeURIComponent(plan.name)}`
-      : `/signup?plan=${encodeURIComponent(plan.slug || plan.id)}&billing=${period}`;
+      : `/signup?plan=${encodeURIComponent(plan.slug || plan.id)}&billing=${shownPeriod || period}`;
 
   return (
     <motion.div
@@ -153,8 +170,11 @@ export function PricingCard({
         </div>
 
         {/* Price Display */}
-        <div className="mb-6 h-[72px] flex items-center justify-start text-left">
+        <div className="mb-6 min-h-[72px] flex flex-col items-start justify-center text-left">
           {renderPriceDisplay()}
+          {billedNote && !isCustomPrice && (
+            <span className="text-[12px] font-medium text-[#6B6F76] mt-0.5">{billedNote}</span>
+          )}
         </div>
 
         {/* CTA Button */}
