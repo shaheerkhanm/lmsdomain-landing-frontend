@@ -82,6 +82,21 @@ export function AudienceSwitcher({ media }: { media?: Record<string, any> }) {
   const activeTab = AUDIENCE_TABS.find((t) => t.id === activeTabId) || AUDIENCE_TABS[0];
   const photoSrc = media?.[`audience-${activeTab.id}`]?.src || activeTab.photo;
 
+  // Arrow keys move between tabs (with wrap-around); Home / End jump to the ends
+  const handleTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    const ids = AUDIENCE_TABS.map((t) => t.id);
+    const current = ids.indexOf(activeTabId);
+    let next = current;
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (current + 1) % ids.length;
+    else if (e.key === "ArrowLeft" || e.key === "ArrowUp") next = (current - 1 + ids.length) % ids.length;
+    else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = ids.length - 1;
+    else return;
+    e.preventDefault();
+    setActiveTabId(ids[next]);
+    document.getElementById(`audience-tab-${ids[next]}`)?.focus();
+  };
+
   const scrollToSection = (slug: string) => {
     const el = document.getElementById(slug);
     if (!el) return;
@@ -119,12 +134,17 @@ export function AudienceSwitcher({ media }: { media?: Record<string, any> }) {
               return (
                 <button
                   key={tab.id}
+                  id={`audience-tab-${tab.id}`}
+                  type="button"
                   role="tab"
                   aria-selected={isActive}
                   aria-controls={`audience-panel-${tab.id}`}
+                  tabIndex={isActive ? 0 : -1}
                   onClick={() => setActiveTabId(tab.id)}
-                  className={`relative px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
-                    isActive ? "text-white" : "text-[#6B6F76] hover:text-[#161616]"
+                  onKeyDown={handleTabKeyDown}
+                  // isolate keeps the dark pill (-z-10) inside the button, above the tab list's background
+                  className={`relative isolate px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7B5CF5] focus-visible:ring-offset-2 ${
+                    isActive ? "text-white" : "text-[#5A5E66] hover:text-[#161616] hover:bg-white"
                   }`}
                 >
                   {isActive && (
@@ -145,6 +165,7 @@ export function AudienceSwitcher({ media }: { media?: Record<string, any> }) {
         <div
           id={`audience-panel-${activeTab.id}`}
           role="tabpanel"
+          aria-labelledby={`audience-tab-${activeTab.id}`}
           className="bg-[#F8FAFC] rounded-[32px] border border-[#ECEDEF] p-6 sm:p-10 lg:p-12 shadow-[0_1px_3px_rgba(0,0,0,0.03),_0_12px_40px_rgba(0,0,0,0.04)]"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
