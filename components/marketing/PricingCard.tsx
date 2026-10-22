@@ -117,6 +117,8 @@ export function PricingCard({
         {periodSuffix && (
           <span className="text-[14px] sm:text-[15px] font-medium text-[#6B6F76] ml-1 whitespace-nowrap">
             {periodSuffix}
+            {/* As on the live site: prices exclude tax */}
+            <span className="ml-1.5 text-[12px] font-normal">+ taxes</span>
           </span>
         )}
       </div>

@@ -206,10 +206,12 @@ function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): P
 }
 
 export async function getPricingPage(): Promise<PricingPageModel> {
-  const [heroCms, emptyCms, footerCard, plansRes, faqsRes, seo] = await Promise.all([
+  const [heroCms, emptyCms, footerCard, faqCms, plansRes, faqsRes, seo] = await Promise.all([
     fetchCms("pricing-hero", ["cms", "pricing"]),
     fetchCms("pricing-empty", ["cms", "pricing"]),
     fetchCms("pricing-footer-card", ["cms", "pricing"]),
+    // FAQ heading (title / subTitle), as on the live site
+    fetchCms("pricing-faq", ["cms", "pricing"]),
     fetchApi<{ status?: boolean; data?: PricingPlan[] }>("/api/pricing", {
       method: "POST",
       tags: ["pricing", "plans"],
@@ -234,7 +236,11 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   let comparison: PricingComparison | undefined = undefined;
   let addOns: { title: string; items: PricingAddOn[] } | undefined = undefined;
   let enterprise: PricingEnterprise | undefined = undefined;
-  let faq = activeFaqs.length > 0 ? { items: activeFaqs } : undefined;
+  const faqHeading = {
+    title: faqCms?.title || undefined,
+    subtitle: faqCms?.subTitle || faqCms?.description || undefined,
+  };
+  let faq = activeFaqs.length > 0 ? { ...faqHeading, items: activeFaqs } : undefined;
 
   if (activePlans.length > 0) {
     mappedPlans = activePlans.map((doc, idx) => {
@@ -293,7 +299,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     comparison = sample.SAMPLE_COMPARISON;
     addOns = { title: "Flexible Add-Ons", items: sample.SAMPLE_ADD_ONS };
     enterprise = sample.SAMPLE_ENTERPRISE;
-    faq = sample.SAMPLE_FAQ;
+    faq = { ...sample.SAMPLE_FAQ, ...(faqHeading.title ? faqHeading : {}) };
     yearlySavingsLabel = "Sample: 2 months free";
     isSample = true;
   }

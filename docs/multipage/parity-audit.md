@@ -14,8 +14,8 @@ The live code contains many components that are never rendered (for example `Tes
 | # | Area | Live | Staging | Severity |
 | :--- | :--- | :--- | :--- | :--- |
 | G1 | Features page content | `/features` lists the backend **Features** collection (`/api/features`: `title`, `subTitle`, `content`, `image`, `altImage`, `tags`) and the **Features content** section (`/api/features/content` + CMS `features-content`) | Features come from the code catalog `content/features/catalog.ts` (38 items, 9 categories). `/api/features`, `/api/features/content` and `features-content` are not read. Admin edits to Features / Features content do not appear on staging. | High if the admin is used for features; by design otherwise (see `backend-gaps.md`: category / isPremium fields) |
-| G2 | Price card "+ Taxes" | `PriceCard.tsx:54` shows "+ Taxes" next to every price | Not shown | Medium (price presentation / legal) |
-| G3 | Pricing FAQ heading | CMS `pricing-faq` `title` is the FAQ heading (`PriceFAQ.tsx`, `FaqAccordion.tsx`) | Heading is fixed copy in code; `pricing-faq` not read | Low |
+| G2 | Price card "+ Taxes" | `PriceCard.tsx:54` shows "+ Taxes" next to every price | **Fixed:** "+ taxes" next to every price (monthly and yearly) in `PricingCard.tsx` | Fixed |
+| G3 | Pricing FAQ heading | CMS `pricing-faq` `title` is the FAQ heading (`PriceFAQ.tsx`, `FaqAccordion.tsx`) | **Fixed:** heading (and subtitle) read from CMS `pricing-faq`, current text as fallback | Fixed |
 | G4 | Pricing CTA testimonials | `/pricing` renders `CtaSection` with hard-coded floating testimonial cards (Darius Salehipour, Melanie Jackson) | Removed on purpose (demo content); cards appear only when real testimonials exist | Intentional |
 | G5 | Price per period wording | "(Per Month)" / "(Billed Annually)" and "-X% Discount" | "/month" / "/year, billed annually" and "Save X%" (only when discount > 0) | Intentional, same data |
 | — | Yearly prices | `price × 12 − discount%` (`PriceCard.tsx:19-21`), unrounded (₹64,789.2) | **Restored in `8ee4885`**, same formula, rounded to whole rupees | Fixed |
@@ -40,9 +40,9 @@ Nothing else the live site renders from the backend was dropped. Home sections, 
 | `buttonAction` | not used | `demo` / `contact` / signup |
 | `max_users` | not used | shown as "Active Learners" limit |
 | `isPopular`, `isCustom`, `currency` | not used | read, but **not in the backend Pricing model** (Mongoose drops them); see `backend-gaps.md` |
-| "+ Taxes" | `PriceCard.tsx:54` | **missing (G2)** |
+| "+ Taxes" | `PriceCard.tsx:54` | yes ("+ taxes", fixed) |
 | CMS `pricing-hero` (`title`, `subTitle`) | `PricingPage.tsx:29` → `BannerDetails.tsx` | yes, `content.ts` hero |
-| CMS `pricing-faq` (`title`) | `PricingPage.tsx:30` | **not read (G3)** |
+| CMS `pricing-faq` (`title`) | `PricingPage.tsx:30` | yes, FAQ heading (fixed) |
 | CMS `pricing-footer-card` | `PricingPage.tsx:31` → `CtaSection` (props unused there) | yes, closing CTA `title`, `subTitle`, `buttonText` |
 | `POST /api/pricing/FAQ` (`question`, `answer`) | `PriceFAQ.tsx:39` | yes, `/api/pricing/faq` (Express routes are case-insensitive) |
 | SEO `pricing` | `app/pricing/page.tsx:8` | yes |
