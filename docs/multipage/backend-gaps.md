@@ -23,6 +23,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | SEO | Missing pages | Content | `seos` has only home, pricing, features, about. Add `ai`, `contact`, `privacy-policy`, `terms`, `refund-policy`, `dpa`. |
 | SEO | Share image | Field | `ogImage` (image) on Seo. Until it exists, pages share without a picture. |
 | Contact page | Page copy | Content | New CMS entry `contact-hero` (title, subTitle) and `contact-form` (buttonText, success title and message). Email, phone and address already come from `address`. |
+| Contact | Real phone number | Content | The CMS entry `address` currently contains placeholder phone `1234567890`. The frontend filters out placeholder phone numbers. Enter the real contact phone number in Admin > Settings > Address. |
 | About | Licensed Hero Photo | Content | The CMS entry `about-hero` currently contains an unlicensed Unsplash+ watermarked preview (`/uploads/upload1759252684970.jpeg`). Replace with a licensed high-res photograph in Admin > CMS. Frontend guards with `ABOUT_HERO_IMAGE_APPROVED = false` in `content/about/page.ts` until replaced. |
 
 ## Can wait (the page works without it; that part is hidden)

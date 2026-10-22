@@ -5,6 +5,7 @@
 // ============================================================================
 
 import { fetchApi } from "./client";
+import { isPlaceholderPhone } from "@/lib/utils";
 import type {
   CmsDocument,
   PricingPlan,
@@ -91,8 +92,10 @@ export async function fetchCms(slug: string, tags?: string[]): Promise<CmsDocume
       return doc as CmsDocument;
     }
     return null;
-  } catch (error) {
-    console.warn(`[content] Failed to fetch CMS slug "${slug}":`, error);
+  } catch (error: any) {
+    if (error?.status !== 404 && error?.status !== 422) {
+      console.warn(`[content] Failed to fetch CMS slug "${slug}":`, error);
+    }
     return null;
   }
 }
@@ -115,8 +118,10 @@ export async function fetchSeo(slug: string): Promise<SeoMetadata | null> {
       return data;
     }
     return null;
-  } catch (error) {
-    console.warn(`[content] Failed to fetch SEO slug "${slug}":`, error);
+  } catch (error: any) {
+    if (error?.status !== 404 && error?.status !== 422) {
+      console.warn(`[content] Failed to fetch SEO slug "${slug}":`, error);
+    }
     return null;
   }
 }
@@ -545,16 +550,14 @@ export async function getContactPage(): Promise<ContactPageModel> {
     channels.push({
       type: "email",
       title: "Email",
-      description: "Our specialists respond within 2-4 business hours",
       value: settingsCms.email,
       href: `mailto:${settingsCms.email}`,
     });
   }
-  if (settingsCms?.phone) {
+  if (settingsCms?.phone && !isPlaceholderPhone(settingsCms.phone)) {
     channels.push({
       type: "phone",
       title: "Direct Line",
-      description: "Monday through Friday, 9:00 AM – 6:00 PM",
       value: settingsCms.phone,
       href: `tel:${settingsCms.phone}`,
     });
@@ -563,7 +566,6 @@ export async function getContactPage(): Promise<ContactPageModel> {
     channels.push({
       type: "address",
       title: "Headquarters",
-      description: "Global delivery and support offices",
       value: settingsCms.address,
     });
   }

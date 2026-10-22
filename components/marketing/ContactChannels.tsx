@@ -11,8 +11,8 @@ interface ContactChannelsProps {
 }
 
 export function ContactChannels({
-  title = "Let's talk about your academy.",
-  subtitle = "Whether you are evaluating platform architecture, transitioning from legacy systems, or launching cohort bootcamps, our instructional specialists are ready to guide you.",
+  title = "Get in touch",
+  subtitle = "Have questions about LMS Domain or need help getting started? We're here to help.",
   channels,
   className = "",
 }: ContactChannelsProps) {
@@ -79,18 +79,6 @@ export function ContactChannels({
             ))}
           </div>
         )}
-      </div>
-
-      {/* Assurance Card */}
-      <div className="mt-10 pt-6 border-t border-slate-100">
-        <div className="rounded-2xl bg-[#F9FAFB] border border-[#ECEDEF] p-5">
-          <p className="text-xs font-semibold uppercase tracking-wider text-[#7B5CF5] mb-1">
-            ✦ Enterprise Response Promise
-          </p>
-          <p className="text-xs text-[#6B6F76] leading-relaxed">
-            All institutional and academy evaluation enquiries receive personalized technical review within one business day.
-          </p>
-        </div>
       </div>
     </div>
   );

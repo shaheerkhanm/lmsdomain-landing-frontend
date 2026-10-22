@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Icons } from './common/Icons';
+import { isPlaceholderPhone } from '@/lib/utils';
 
 export function CopyrightSection({ data }: { data: any }) {
   const currentYear = new Date().getFullYear();
@@ -22,7 +23,7 @@ export function CopyrightSection({ data }: { data: any }) {
           </Link>
         )}
 
-        {data?.phone && (
+        {data?.phone && !isPlaceholderPhone(data.phone) && (
           <Link
             href={`tel:${data.phone}`}
             className="flex items-center gap-1.5 text-slate-600 hover:text-MainColor transition-colors"

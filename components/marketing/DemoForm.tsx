@@ -38,14 +38,16 @@ export function DemoForm({
   initialSubject,
   initialTopic,
   initialPlan,
-  submitLabel = "Schedule Platform Walkthrough",
-  successTitle = "Demo Request Received",
-  successMessage = "Thank you for reaching out to LMS Domain. Our learning architecture specialists will review your requirements and get in touch within 24 hours to schedule your walkthrough.",
-  privacyNote = "We treat institutional data with absolute discretion. No spam or unsolicited disclosures.",
+  submitLabel,
+  successTitle = "Message received",
+  successMessage = "Thank you for reaching out. We will review your message and get back to you soon.",
+  privacyNote,
   topics = DEFAULT_CONTACT_TOPICS,
   variant = "page",
   className = "",
 }: DemoFormProps) {
+  const defaultSubmitLabel = variant === "modal" ? "Schedule My Demo" : "Send message";
+  const effectiveSubmitLabel = submitLabel || defaultSubmitLabel;
   const searchParams = useSearchParams();
   const urlTopic = searchParams?.get("topic") || undefined;
   const urlPlan = searchParams?.get("plan") || undefined;
@@ -120,9 +122,13 @@ export function DemoForm({
 
       // Bundle topic, plan, and message into the subject payload for the Enquiry backend
       const subjectParts = [
-        formData.topic ? `Topic: ${formData.topic}` : null,
+        variant !== "modal" && formData.topic ? `Topic: ${formData.topic}` : null,
         activePlan ? `Plan: ${activePlan}` : null,
-        formData.subject.trim() ? `Notes: ${formData.subject.trim()}` : null,
+        formData.subject.trim()
+          ? variant === "modal"
+            ? formData.subject.trim()
+            : `Notes: ${formData.subject.trim()}`
+          : null,
       ].filter(Boolean);
 
       const compositeSubject =
@@ -150,8 +156,12 @@ export function DemoForm({
           richColors: true,
           duration: 5000,
         });
-        setIsSubmitted(true);
         reset();
+        if (variant === "modal" && onClose) {
+          onClose();
+        } else {
+          setIsSubmitted(true);
+        }
       } else {
         const errorMsg =
           response?.message || "Unable to submit enquiry. Please verify your details and retry.";
@@ -418,32 +428,34 @@ export function DemoForm({
               </div>
             </div>
 
-            {/* Row 3: Discussion Topic */}
-            <div className="space-y-1.5">
-              <label
-                htmlFor="field-topic"
-                className="block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider"
-              >
-                Inquiry Topic
-              </label>
-              <div className="relative">
-                <select
-                  id="field-topic"
-                  aria-describedby="field-topic-description"
-                  className="w-full h-[48px] px-3.5 pr-10 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all appearance-none cursor-pointer"
-                  {...register("topic")}
+            {/* Row 3: Discussion Topic (page variant only) */}
+            {variant !== "modal" && (
+              <div className="space-y-1.5">
+                <label
+                  htmlFor="field-topic"
+                  className="block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider"
                 >
-                  {topics.map((t) => (
-                    <option key={t.id} value={t.label}>
-                      {t.label}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#6B6F76]">
-                  <ChevronDown className="size-4" />
+                  Inquiry Topic
+                </label>
+                <div className="relative">
+                  <select
+                    id="field-topic"
+                    aria-describedby="field-topic-description"
+                    className="w-full h-[48px] px-3.5 pr-10 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all appearance-none cursor-pointer"
+                    {...register("topic")}
+                  >
+                    {topics.map((t) => (
+                      <option key={t.id} value={t.label}>
+                        {t.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#6B6F76]">
+                    <ChevronDown className="size-4" />
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Row 4: Scope or Project Details */}
             <div className="space-y-1.5">
@@ -458,7 +470,7 @@ export function DemoForm({
                 rows={3}
                 aria-describedby="field-subject-description"
                 className="w-full min-h-[96px] p-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all resize-none"
-                placeholder="Share estimated learner volume, timeline, or DRM requirements..."
+                placeholder="Tell us about your academy and what you need"
                 {...register("subject")}
               />
             </div>
@@ -476,7 +488,7 @@ export function DemoForm({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="px-5 py-2.5 text-sm font-semibold text-[#6B6F76] hover:text-[#161616] transition cursor-pointer"
+                  className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -484,7 +496,11 @@ export function DemoForm({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto h-[48px] px-8 rounded-xl bg-[#161616] hover:bg-black text-white text-sm font-semibold shadow-xs hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
+                className={
+                  variant === "modal"
+                    ? "px-6 py-2.5 text-sm font-semibold text-white bg-MainColor hover:bg-[#5A3DE6] rounded-lg shadow-sm hover:shadow-[0_0_20px_-3px_rgba(108,75,255,0.35)] transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
+                    : "w-full sm:w-auto h-[48px] px-8 rounded-xl bg-[#161616] hover:bg-black text-white text-sm font-semibold shadow-xs hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
+                }
               >
                 {isSubmitting ? (
                   <>
@@ -492,7 +508,7 @@ export function DemoForm({
                     <span>Submitting...</span>
                   </>
                 ) : (
-                  <span>{submitLabel}</span>
+                  <span>{effectiveSubmitLabel}</span>
                 )}
               </button>
             </div>
