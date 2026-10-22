@@ -59,7 +59,7 @@ export function FooterSection({
     if (section.title === "Legal & Compliance") {
       const legalLinks = section.links.filter((link) => {
         const slug = link.href.replace(/^\//, "");
-        return publishedLegalSlugs?.includes(slug);
+        return publishedLegalSlugs ? publishedLegalSlugs.includes(slug) : true;
       });
       return { ...section, links: legalLinks };
     }

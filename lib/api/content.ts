@@ -58,6 +58,7 @@ import {
   DEFAULT_CONTACT_FORM_CONFIG,
   DEFAULT_CONTACT_TOPICS,
 } from "@/content/contact/page";
+import { DEFAULT_LEGAL_PAGES } from "@/content/legal";
 import { DEFAULT_AUTH_COPY } from "@/content/auth/page";
 
 function isValidDocument<T extends { isActive?: boolean; isDeleted?: boolean }>(
@@ -585,6 +586,8 @@ export async function getContactPage(): Promise<ContactPageModel> {
 
 // ----------------------------------------------------------------------------
 // Legal Pages Content
+// Slugs: privacy-policy, terms, refund-policy, dpa
+// Priority: CMS document with content wins; falls back to DEFAULT_LEGAL_PAGES (repo original text).
 // ----------------------------------------------------------------------------
 export async function getLegalPage(slug: string): Promise<LegalPageData | null> {
   const [cmsDoc, seo] = await Promise.all([
@@ -592,30 +595,32 @@ export async function getLegalPage(slug: string): Promise<LegalPageData | null> 
     fetchSeo(slug),
   ]);
 
-  // "The legal text itself must come from the CMS word for word; never write or paraphrase legal text.
-  // If a legal page has no CMS text, don't publish an empty or placeholder page: return notFound() for it"
-  if (!cmsDoc || !cmsDoc.content || cmsDoc.content.trim().length === 0) {
-    return null;
+  const defaultPage = DEFAULT_LEGAL_PAGES[slug];
+
+  // Try CMS first: if CMS has published content, CMS wins
+  if (cmsDoc && cmsDoc.content && cmsDoc.content.trim().length > 0) {
+    const title = cmsDoc.title || cmsDoc.heading || defaultPage?.title || slug;
+    const lastUpdated = cmsDoc.updatedAt || cmsDoc.createdAt || defaultPage?.lastUpdated;
+
+    return {
+      slug,
+      title,
+      lastUpdated,
+      body: cmsDoc.content,
+      content: cmsDoc.content,
+      seo: seo || defaultPage?.seo,
+    };
   }
 
-  const titleMap: Record<string, string> = {
-    "privacy-policy": "Privacy Policy",
-    terms: "Terms of Service",
-    "refund-policy": "Refund & Cancellation Policy",
-    dpa: "Data Processing Agreement (DPA)",
-  };
+  // Fallback to repo legal content
+  if (defaultPage) {
+    return {
+      ...defaultPage,
+      seo: seo || defaultPage.seo,
+    };
+  }
 
-  const title = cmsDoc.title || cmsDoc.heading || titleMap[slug] || slug;
-  const lastUpdated = cmsDoc.updatedAt || cmsDoc.createdAt;
-
-  return {
-    slug,
-    title,
-    lastUpdated,
-    body: cmsDoc.content,
-    content: cmsDoc.content,
-    seo: seo || undefined,
-  };
+  return null;
 }
 
 export async function getLegalPages(): Promise<string[]> {

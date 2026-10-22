@@ -25,12 +25,12 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Contact page | Page copy | Content | New CMS entry `contact-hero` (title, subTitle) and `contact-form` (buttonText, success title and message). Email, phone and address already come from `address`. |
 | Contact | Real phone number | Content | The CMS entry `address` currently contains placeholder phone `1234567890`. The frontend filters out placeholder phone numbers. Enter the real contact phone number in Admin > Settings > Address. |
 | About | Licensed Hero Photo | Content | The CMS entry `about-hero` currently contains an unlicensed Unsplash+ watermarked preview (`/uploads/upload1759252684970.jpeg`). Replace with a licensed high-res photograph in Admin > CMS. Frontend guards with `ABOUT_HERO_IMAGE_APPROVED = false` in `content/about/page.ts` until replaced. |
-| Legal pages | Approved Legal Text | Content | Legal documents for `privacy-policy`, `terms`, `refund-policy`, and `dpa` currently have 0 documents in the CMS. Per Prompt 06, no placeholder or paraphrased legal text is published. Until Shaheer enters the approved legal text word for word in Admin > CMS (with slug, title, and rich HTML content), these routes return 404 and their footer links remain hidden. |
 
 ## Can wait (the page works without it; that part is hidden)
 
 | Page | What's missing | Type | Detail |
 |---|---|---|---|
+| Legal pages | CMS Legal Content Model | Content | The four legal pages (`/privacy-policy`, `/terms`, `/refund-policy`, `/dpa`) use approved, word-for-word legal text stored in `content/legal/`. If entries for these slugs are created in Admin > CMS with rich content, `getLegalPage` will use the CMS content; until then, the repo's original text serves as the production source of truth. |
 | Navigation | Menu / Nav links | Field | No menu model in backend. Links are currently configured statically in `content/navigation.ts`. Add a Menu/Navigation model (`title`, `href`, `order`, `location`: `header` \| `footer`) if dynamic menu editing in admin is desired. |
 | Features | Individual Feature Detail Route | Field | No per-feature detail model or slug endpoint in backend (e.g. `/features/[slug]`). All feature info currently resides in the main Features collection. Skipped dynamic slug routes until detail endpoint exists. |
 | FAQ | Which page a question belongs to | Field | `faqs` is used only for pricing. Add `page` (`home`, `pricing`, `ai`, `features`, `contact`) and `displayOrder`, so every page can have its own FAQ. |

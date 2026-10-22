@@ -44,13 +44,24 @@ function processHtmlAndExtractHeadings(html: string): {
 }
 
 export function LegalView({ page }: LegalViewProps) {
-  const formattedDate = page.lastUpdated
-    ? new Intl.DateTimeFormat("en-US", {
+  let formattedDate: string | undefined = undefined;
+  if (page.lastUpdated) {
+    const dmyMatch = page.lastUpdated.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+    const dateObj = dmyMatch
+      ? new Date(Date.UTC(Number(dmyMatch[3]), Number(dmyMatch[2]) - 1, Number(dmyMatch[1])))
+      : new Date(page.lastUpdated.includes("T") ? page.lastUpdated : `${page.lastUpdated}T00:00:00Z`);
+
+    if (!isNaN(dateObj.getTime())) {
+      formattedDate = new Intl.DateTimeFormat("en-US", {
         month: "long",
         day: "numeric",
         year: "numeric",
-      }).format(new Date(page.lastUpdated))
-    : undefined;
+        timeZone: "UTC",
+      }).format(dateObj);
+    } else {
+      formattedDate = page.lastUpdated;
+    }
+  }
 
   const subtitle = formattedDate ? `Last updated ${formattedDate}` : undefined;
 
@@ -86,3 +97,4 @@ export function LegalView({ page }: LegalViewProps) {
 }
 
 export default LegalView;
+
