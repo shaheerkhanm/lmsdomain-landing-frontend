@@ -27,7 +27,8 @@ export async function generateMetadata({
     };
   }
 
-  const title = page.seo?.metatitle || `${page.title} | LMS Domain`;
+  const rawTitle = page.seo?.metatitle || page.title;
+  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
   const description =
     page.seo?.metadescription || `Official ${page.title} documentation for LMS Domain.`;
 
@@ -41,7 +42,15 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
+      url: `/${page.slug}`,
       type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
     },
   };
 }

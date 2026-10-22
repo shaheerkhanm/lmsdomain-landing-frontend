@@ -257,7 +257,7 @@ export function Header() {
                 <button
                   type="button"
                   onClick={() => setShowSubpageMenu(false)}
-                  className="p-2 text-slate-600 hover:text-black rounded-lg"
+                  className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 text-slate-600 hover:text-black rounded-lg cursor-pointer"
                   aria-label="Close menu"
                 >
                   <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

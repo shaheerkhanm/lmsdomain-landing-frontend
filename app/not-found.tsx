@@ -4,7 +4,8 @@ import { getSiteSettings } from "@/lib/api/content";
 import { NotFoundVisual } from "@/components/marketing/NotFoundVisual";
 
 export const metadata = {
-  title: "Page Not Found | LMS Domain",
+  title: "Page Not Found",
+  description: "The requested page could not be found.",
   robots: { index: false, follow: false },
 };
 

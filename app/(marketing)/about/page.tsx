@@ -9,11 +9,12 @@ export async function generateMetadata(): Promise<Metadata> {
     getAboutPage().catch(() => null),
   ]);
 
-  const title =
+  const rawTitle =
     seo?.metatitle ||
     (pageData?.hero?.title
-      ? `${pageData.hero.title} | LMS Domain`
-      : "About Us | LMS Domain");
+      ? pageData.hero.title
+      : "About Us & Our Story");
+  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
 
   const description =
     seo?.metadescription ||
@@ -29,6 +30,22 @@ export async function generateMetadata(): Promise<Metadata> {
       "Education Technology",
       "Academy Architecture",
     ],
+    alternates: {
+      canonical: "/about",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/about",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
+    },
     ...(pageData?.isSample
       ? {
           robots: {

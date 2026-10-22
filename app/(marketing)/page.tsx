@@ -1,16 +1,42 @@
 import { HomePage } from "@/components/modules/HomePage";
-import { fetchSeo } from "@/utils/api";
+import { fetchSeo } from "@/lib/api/content";
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const data = await fetchSeo({ slug: "home" });
-  const { metatitle, metadescription, metakeyword, othermetatags } = data;
+  const seo = await fetchSeo("home").catch(() => null);
+
+  const title =
+    seo?.metatitle || "LMS Domain | Modern AI-Powered Learning Platform";
+  const description =
+    seo?.metadescription ||
+    "Scale your academy with courses, live classes, assessments, payments, and Domie AI tutor in one flexible learning platform.";
 
   return {
-    title: metatitle || "LMS Domain",
-    description: metadescription || "LMS Domain Learning Management",
-    keywords: metakeyword || ["MCDC Corporate"],
-    other: othermetatags,
+    title: {
+      absolute: title,
+    },
+    description,
+    keywords: seo?.metakeyword || [
+      "LMS Domain",
+      "AI LMS",
+      "Online Academy Platform",
+    ],
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
+    },
   };
 }
 

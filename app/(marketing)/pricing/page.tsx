@@ -11,9 +11,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
   const isSample = Boolean(pageData?.isSample || process.env.CMS_USE_FIXTURES === "true");
 
-  const title =
+  const rawTitle =
     seo?.metatitle ||
-    (pageData?.hero?.title ? `${pageData.hero.title} | LMS Domain` : "Pricing | LMS Domain");
+    (pageData?.hero?.title ? pageData.hero.title : "Plans & Pricing");
+  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
 
   const description =
     seo?.metadescription ||
@@ -29,6 +30,22 @@ export async function generateMetadata(): Promise<Metadata> {
       "Online Course Pricing",
       "Training Institute Plans",
     ],
+    alternates: {
+      canonical: "/pricing",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/pricing",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
+    },
     ...(isSample
       ? {
           robots: {

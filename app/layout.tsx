@@ -27,9 +27,28 @@ const manrope = Manrope({
 })
 
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://lmsdomain.com";
+
 export const metadata: Metadata = {
-  title: "LMS Domain",
-  description: "LMS Domain Learning Management",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "LMS Domain | Modern AI-Powered Learning Platform",
+    template: "%s | LMS Domain",
+  },
+  description: "Scale your academy with courses, live classes, assessments, payments, and Domie AI tutor in one flexible learning platform.",
+  openGraph: {
+    title: "LMS Domain | Modern AI-Powered Learning Platform",
+    description: "Scale your academy with courses, live classes, assessments, payments, and Domie AI tutor in one flexible learning platform.",
+    url: siteUrl,
+    siteName: "LMS Domain",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "LMS Domain | Modern AI-Powered Learning Platform",
+    description: "Scale your academy with courses, live classes, assessments, payments, and Domie AI tutor in one flexible learning platform.",
+  },
 };
 
 export default function RootLayout({

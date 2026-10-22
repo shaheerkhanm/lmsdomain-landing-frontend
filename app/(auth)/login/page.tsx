@@ -4,7 +4,7 @@ import { getAuthCopy } from "@/lib/api/content";
 import { AuthLoginForm } from "@/components/marketing/AuthLoginForm";
 
 export const metadata: Metadata = {
-  title: "Log In | LMS Domain",
+  title: "Log In",
   description: "Log in to your LMS Domain academy platform.",
   robots: {
     index: false,

@@ -16,9 +16,10 @@ export async function generateMetadata(): Promise<Metadata> {
     getAiPage().catch(() => null),
   ]);
 
-  const title =
+  const rawTitle =
     seo?.metatitle ||
-    (pageData?.hero?.title ? `${pageData.hero.title} | LMS Domain` : "Domie AI | LMS Domain");
+    (pageData?.hero?.title ? pageData.hero.title : "Domie AI");
+  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
 
   const description =
     seo?.metadescription ||
@@ -36,6 +37,22 @@ export async function generateMetadata(): Promise<Metadata> {
       "AI Command Bar",
       "Education AI",
     ],
+    alternates: {
+      canonical: "/ai",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/ai",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
+    },
   };
 }
 

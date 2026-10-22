@@ -17,10 +17,12 @@ export async function generateMetadata(): Promise<Metadata> {
     getFeaturesPage().catch(() => null),
   ]);
 
-  const title =
+  const rawTitle =
     seo?.metatitle ||
     pageData?.hero?.title ||
-    "Features | LMS Domain";
+    "Features & LMS Core";
+  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
+
   const description =
     seo?.metadescription ||
     pageData?.hero?.subTitle ||
@@ -36,6 +38,22 @@ export async function generateMetadata(): Promise<Metadata> {
       "AI LMS",
       "Education Platform",
     ],
+    alternates: {
+      canonical: "/features",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/features",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
+    },
   };
 }
 

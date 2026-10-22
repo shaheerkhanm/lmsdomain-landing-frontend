@@ -9,11 +9,12 @@ export async function generateMetadata(): Promise<Metadata> {
     getContactPage().catch(() => null),
   ]);
 
-  const title =
+  const rawTitle =
     seo?.metatitle ||
     (pageData?.hero?.title
-      ? `${pageData.hero.title} | LMS Domain`
-      : "Contact & Platform Demonstration | LMS Domain");
+      ? pageData.hero.title
+      : "Contact & Platform Demonstration");
+  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
 
   const description =
     seo?.metadescription ||
@@ -29,6 +30,22 @@ export async function generateMetadata(): Promise<Metadata> {
       "Learning Management Walkthrough",
       "Enterprise Academy Consultation",
     ],
+    alternates: {
+      canonical: "/contact",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/contact",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
+    },
   };
 }
 
