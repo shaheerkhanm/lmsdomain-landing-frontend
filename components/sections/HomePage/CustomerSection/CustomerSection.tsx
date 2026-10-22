@@ -71,6 +71,20 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    // Card slots without a testimonial are not rendered; skip their animation steps.
+    type Vars = gsap.TweenVars;
+    const place = (el: HTMLDivElement | null, vars: Vars) => {
+      if (el) gsap.set(el, vars);
+    };
+    const step = (
+      timeline: gsap.core.Timeline,
+      el: HTMLDivElement | null,
+      vars: Vars,
+      position: number
+    ) => {
+      if (el) timeline.to(el, vars, position);
+    };
+
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
 
@@ -85,7 +99,7 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
               card3Ref.current,
               card4Ref.current,
               card5Ref.current,
-            ],
+            ].filter(Boolean),
             { clearProps: "all" }
           );
           return;
@@ -104,11 +118,11 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         // Card 3: -2deg, y: 60px, x: -6px (under Card 2)
         // Card 4: +4deg, y: 60px, x: 6px, opacity: 0 (hidden under Card 3)
         // Card 5: -3deg, y: 60px, x: -4px, opacity: 0 (hidden under Card 4)
-        gsap.set(card1Ref.current, { rotateZ: -4, x: 0, y: 0, opacity: 1 });
-        gsap.set(card2Ref.current, { rotateZ: 3, x: 8, y: 30, opacity: 1 });
-        gsap.set(card3Ref.current, { rotateZ: -2, x: -6, y: 60, opacity: 1 });
-        gsap.set(card4Ref.current, { rotateZ: 4, x: 6, y: 60, opacity: 0 });
-        gsap.set(card5Ref.current, { rotateZ: -3, x: -4, y: 60, opacity: 0 });
+        place(card1Ref.current, { rotateZ: -4, x: 0, y: 0, opacity: 1 });
+        place(card2Ref.current, { rotateZ: 3, x: 8, y: 30, opacity: 1 });
+        place(card3Ref.current, { rotateZ: -2, x: -6, y: 60, opacity: 1 });
+        place(card4Ref.current, { rotateZ: 4, x: 6, y: 60, opacity: 0 });
+        place(card5Ref.current, { rotateZ: -3, x: -4, y: 60, opacity: 0 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -149,7 +163,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         // ----------------------------------------------------
         // Stage 2 (0.15 -> 0.27): Card 1 flies up; Card 2 takes top spot; Card 3 takes 2nd; Card 4 appears in 3rd
         // ----------------------------------------------------
-        tl.to(
+        step(
+          tl,
           card1Ref.current,
           {
             y: "-120vh",
@@ -160,7 +175,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.15
         );
-        tl.to(
+        step(
+          tl,
           card2Ref.current,
           {
             y: 0,
@@ -171,7 +187,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.15
         );
-        tl.to(
+        step(
+          tl,
           card3Ref.current,
           {
             y: 30,
@@ -182,7 +199,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.15
         );
-        tl.to(
+        step(
+          tl,
           card4Ref.current,
           {
             opacity: 1,
@@ -198,7 +216,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         // ----------------------------------------------------
         // Stage 3 (0.30 -> 0.42): Card 2 flies up; Card 3 takes top spot; Card 4 takes 2nd; Card 5 appears in 3rd
         // ----------------------------------------------------
-        tl.to(
+        step(
+          tl,
           card2Ref.current,
           {
             y: "-120vh",
@@ -209,7 +228,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.30
         );
-        tl.to(
+        step(
+          tl,
           card3Ref.current,
           {
             y: 0,
@@ -220,7 +240,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.30
         );
-        tl.to(
+        step(
+          tl,
           card4Ref.current,
           {
             y: 30,
@@ -231,7 +252,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.30
         );
-        tl.to(
+        step(
+          tl,
           card5Ref.current,
           {
             opacity: 1,
@@ -247,7 +269,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         // ----------------------------------------------------
         // Stage 4 (0.45 -> 0.57): Card 3 flies up; Card 4 takes top spot; Card 5 takes 2nd
         // ----------------------------------------------------
-        tl.to(
+        step(
+          tl,
           card3Ref.current,
           {
             y: "-120vh",
@@ -258,7 +281,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.45
         );
-        tl.to(
+        step(
+          tl,
           card4Ref.current,
           {
             y: 0,
@@ -269,7 +293,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.45
         );
-        tl.to(
+        step(
+          tl,
           card5Ref.current,
           {
             y: 30,
@@ -284,7 +309,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         // ----------------------------------------------------
         // Stage 5 (0.60 -> 0.72): Card 4 flies up; Card 5 takes top spot and settles flat at 0deg
         // ----------------------------------------------------
-        tl.to(
+        step(
+          tl,
           card4Ref.current,
           {
             y: "-120vh",
@@ -295,7 +321,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.60
         );
-        tl.to(
+        step(
+          tl,
           card5Ref.current,
           {
             y: 0,
@@ -310,7 +337,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         // ----------------------------------------------------
         // Stage 6 (0.75 -> 0.86): Card 5 flies up and out past top
         // ----------------------------------------------------
-        tl.to(
+        step(
+          tl,
           card5Ref.current,
           {
             y: "-120vh",
@@ -320,7 +348,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.75
         );
-        tl.to(
+        step(
+          tl,
           card5Ref.current,
           {
             opacity: 0,
@@ -348,7 +377,7 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
               mCard3Ref.current,
               mCard4Ref.current,
               mCard5Ref.current,
-            ],
+            ].filter(Boolean),
             { clearProps: "all" }
           );
           return;
@@ -358,11 +387,11 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         gsap.set(mWallTextRef.current, { scale: 0.85, color: "#9CA3AF" });
         gsap.set(mDeckWrapperRef.current, { y: "40vh", opacity: 0 });
 
-        gsap.set(mCard1Ref.current, { rotateZ: -4, x: 0, y: 0, opacity: 1 });
-        gsap.set(mCard2Ref.current, { rotateZ: 3, x: 6, y: 20, opacity: 1 });
-        gsap.set(mCard3Ref.current, { rotateZ: -2, x: -5, y: 40, opacity: 1 });
-        gsap.set(mCard4Ref.current, { rotateZ: 4, x: 5, y: 40, opacity: 1 });
-        gsap.set(mCard5Ref.current, { rotateZ: -3, x: -4, y: 40, opacity: 1 });
+        place(mCard1Ref.current, { rotateZ: -4, x: 0, y: 0, opacity: 1 });
+        place(mCard2Ref.current, { rotateZ: 3, x: 6, y: 20, opacity: 1 });
+        place(mCard3Ref.current, { rotateZ: -2, x: -5, y: 40, opacity: 1 });
+        place(mCard4Ref.current, { rotateZ: 4, x: 5, y: 40, opacity: 1 });
+        place(mCard5Ref.current, { rotateZ: -3, x: -4, y: 40, opacity: 1 });
 
         const mtl = gsap.timeline({
           scrollTrigger: {
@@ -397,7 +426,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         );
 
         // Stage 2 (0.14 -> 0.27): Card 1 flies up; Card 2 takes top; Card 3 takes 2nd; Card 4 appears
-        mtl.to(
+        step(
+          mtl,
           mCard1Ref.current,
           {
             y: "-120vh",
@@ -408,7 +438,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.14
         );
-        mtl.to(
+        step(
+          mtl,
           mCard2Ref.current,
           {
             y: 0,
@@ -419,7 +450,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.14
         );
-        mtl.to(
+        step(
+          mtl,
           mCard3Ref.current,
           {
             y: 20,
@@ -430,7 +462,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.14
         );
-        mtl.to(
+        step(
+          mtl,
           mCard4Ref.current,
           {
             opacity: 1,
@@ -444,7 +477,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         );
 
         // Stage 3 (0.29 -> 0.42): Card 2 flies up; Card 3 takes top; Card 4 takes 2nd; Card 5 appears
-        mtl.to(
+        step(
+          mtl,
           mCard2Ref.current,
           {
             y: "-120vh",
@@ -455,7 +489,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.29
         );
-        mtl.to(
+        step(
+          mtl,
           mCard3Ref.current,
           {
             y: 0,
@@ -466,7 +501,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.29
         );
-        mtl.to(
+        step(
+          mtl,
           mCard4Ref.current,
           {
             y: 20,
@@ -477,7 +513,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.29
         );
-        mtl.to(
+        step(
+          mtl,
           mCard5Ref.current,
           {
             opacity: 1,
@@ -491,7 +528,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         );
 
         // Stage 4 (0.44 -> 0.57): Card 3 flies up; Card 4 takes top; Card 5 takes 2nd
-        mtl.to(
+        step(
+          mtl,
           mCard3Ref.current,
           {
             y: "-120vh",
@@ -502,7 +540,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.44
         );
-        mtl.to(
+        step(
+          mtl,
           mCard4Ref.current,
           {
             y: 0,
@@ -513,7 +552,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.44
         );
-        mtl.to(
+        step(
+          mtl,
           mCard5Ref.current,
           {
             y: 20,
@@ -526,7 +566,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         );
 
         // Stage 5 (0.59 -> 0.72): Card 4 flies up; Card 5 takes top and settles flat at 0deg
-        mtl.to(
+        step(
+          mtl,
           mCard4Ref.current,
           {
             y: "-120vh",
@@ -537,7 +578,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
           },
           0.59
         );
-        mtl.to(
+        step(
+          mtl,
           mCard5Ref.current,
           {
             y: 0,
@@ -550,7 +592,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         );
 
         // Stage 6 (0.74 -> 0.85): Card 5 flies up like cards 1-4
-        mtl.to(
+        step(
+          mtl,
           mCard5Ref.current,
           {
             y: "-120vh",
@@ -570,8 +613,8 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
     return () => ctx.revert();
   }, []);
 
-  // The animation is built around 5 card slots; with fewer testimonials, cycle them.
-  const deck = Array.from({ length: 5 }, (_, i) => cards[i % cards.length]);
+  // The animation has 5 card slots; slots without a testimonial stay empty.
+  const deck = Array.from({ length: 5 }, (_, i) => cards[i]);
 
   return (
     <section ref={sectionRef} id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible pt-0 pb-0 lg:pt-0 lg:pb-[57px] mb-16 lg:mb-0">
@@ -602,44 +645,54 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
         >
           <div className="relative w-[30vw] max-w-[440px] h-[215px] pointer-events-auto">
             {/* Card 1 (Top of stack, z-50, tilt -4deg) */}
-            <div
-              ref={card1Ref}
-              className="absolute inset-0 z-50 will-change-transform"
-            >
-              <TestimonialCard item={deck[0]} />
-            </div>
+            {deck[0] && (
+              <div
+                ref={card1Ref}
+                className="absolute inset-0 z-50 will-change-transform"
+              >
+                <TestimonialCard item={deck[0]} />
+              </div>
+            )}
 
             {/* Card 2 (z-40, tilt +3deg, +30px offset) */}
-            <div
-              ref={card2Ref}
-              className="absolute inset-0 z-40 will-change-transform"
-            >
-              <TestimonialCard item={deck[1]} />
-            </div>
+            {deck[1] && (
+              <div
+                ref={card2Ref}
+                className="absolute inset-0 z-40 will-change-transform"
+              >
+                <TestimonialCard item={deck[1]} />
+              </div>
+            )}
 
             {/* Card 3 (z-30, tilt -2deg, +60px offset) */}
-            <div
-              ref={card3Ref}
-              className="absolute inset-0 z-30 will-change-transform"
-            >
-              <TestimonialCard item={deck[2]} />
-            </div>
+            {deck[2] && (
+              <div
+                ref={card3Ref}
+                className="absolute inset-0 z-30 will-change-transform"
+              >
+                <TestimonialCard item={deck[2]} />
+              </div>
+            )}
 
             {/* Card 4 (z-20, tilt +4deg) */}
-            <div
-              ref={card4Ref}
-              className="absolute inset-0 z-20 will-change-transform"
-            >
-              <TestimonialCard item={deck[3]} />
-            </div>
+            {deck[3] && (
+              <div
+                ref={card4Ref}
+                className="absolute inset-0 z-20 will-change-transform"
+              >
+                <TestimonialCard item={deck[3]} />
+              </div>
+            )}
 
             {/* Card 5 (Bottom of stack, stays settled at 0deg, z-10, tilt -3deg) */}
-            <div
-              ref={card5Ref}
-              className="absolute inset-0 z-10 will-change-transform"
-            >
-              <TestimonialCard item={deck[4]} />
-            </div>
+            {deck[4] && (
+              <div
+                ref={card5Ref}
+                className="absolute inset-0 z-10 will-change-transform"
+              >
+                <TestimonialCard item={deck[4]} />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -667,44 +720,54 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
             className="mt-6 relative w-[300px] max-w-[86vw] h-[190px] z-20 will-change-transform pointer-events-auto"
           >
             {/* Card 1 */}
-            <div
-              ref={mCard1Ref}
-              className="absolute inset-0 z-50 will-change-transform"
-            >
-              <TestimonialCard item={deck[0]} />
-            </div>
+            {deck[0] && (
+              <div
+                ref={mCard1Ref}
+                className="absolute inset-0 z-50 will-change-transform"
+              >
+                <TestimonialCard item={deck[0]} />
+              </div>
+            )}
 
             {/* Card 2 */}
-            <div
-              ref={mCard2Ref}
-              className="absolute inset-0 z-40 will-change-transform"
-            >
-              <TestimonialCard item={deck[1]} />
-            </div>
+            {deck[1] && (
+              <div
+                ref={mCard2Ref}
+                className="absolute inset-0 z-40 will-change-transform"
+              >
+                <TestimonialCard item={deck[1]} />
+              </div>
+            )}
 
             {/* Card 3 */}
-            <div
-              ref={mCard3Ref}
-              className="absolute inset-0 z-30 will-change-transform"
-            >
-              <TestimonialCard item={deck[2]} />
-            </div>
+            {deck[2] && (
+              <div
+                ref={mCard3Ref}
+                className="absolute inset-0 z-30 will-change-transform"
+              >
+                <TestimonialCard item={deck[2]} />
+              </div>
+            )}
 
             {/* Card 4 */}
-            <div
-              ref={mCard4Ref}
-              className="absolute inset-0 z-20 will-change-transform"
-            >
-              <TestimonialCard item={deck[3]} />
-            </div>
+            {deck[3] && (
+              <div
+                ref={mCard4Ref}
+                className="absolute inset-0 z-20 will-change-transform"
+              >
+                <TestimonialCard item={deck[3]} />
+              </div>
+            )}
 
             {/* Card 5 */}
-            <div
-              ref={mCard5Ref}
-              className="absolute inset-0 z-10 will-change-transform"
-            >
-              <TestimonialCard item={deck[4]} />
-            </div>
+            {deck[4] && (
+              <div
+                ref={mCard5Ref}
+                className="absolute inset-0 z-10 will-change-transform"
+              >
+                <TestimonialCard item={deck[4]} />
+              </div>
+            )}
           </div>
         </div>
       </div>
