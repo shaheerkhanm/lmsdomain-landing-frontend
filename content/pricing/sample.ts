@@ -6,7 +6,8 @@ import type {
   FaqItem,
 } from "@/types/content";
 
-export const SAMPLE_PLANS: Plan[] = [
+// Currency is resolved on the server (PRICING_CURRENCY → INR), like real plans.
+export const SAMPLE_PLANS: Omit<Plan, "currency">[] = [
   {
     id: "sample-starter",
     slug: "sample-starter",
@@ -14,8 +15,8 @@ export const SAMPLE_PLANS: Plan[] = [
     tagline: "For individual educators and coaches launching their initial academy.",
     isPopular: false,
     prices: {
-      monthly: 49,
-      yearly: 490,
+      monthly: 3699,
+      yearly: 36990,
     },
     priceSuffix: "/month",
     priceSuffixes: {
@@ -47,8 +48,8 @@ export const SAMPLE_PLANS: Plan[] = [
     tagline: "For scaling institutions delivering cohort bootcamps and interactive courses.",
     isPopular: true,
     prices: {
-      monthly: 99,
-      yearly: 990,
+      monthly: 8999,
+      yearly: 89990,
     },
     priceSuffix: "/month",
     priceSuffixes: {

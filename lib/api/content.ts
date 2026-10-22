@@ -46,7 +46,13 @@ import type {
   AuthCopy,
   HomeTestimonials,
   TestimonialItem,
+  PlanCurrency,
 } from "@/types/content";
+import {
+  DEFAULT_PRICING_CURRENCY,
+  localeForCurrency,
+  normalizeCurrencyCode,
+} from "@/lib/pricing";
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
 import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
 import { DEFAULT_AI_PAGE_DATA, AI_TOOLS } from "@/content/ai/page";
@@ -186,6 +192,17 @@ export async function getAppAuthUrls(): Promise<AppAuthUrls> {
 // Endpoints: /api/cms (slugs: pricing-hero, pricing-faq, pricing-footer-card),
 //            /api/pricing, /api/pricing/faq
 // ----------------------------------------------------------------------------
+// Currency for one plan: the plan's own ISO code from the backend, then the
+// site-wide PRICING_CURRENCY env, then INR. A later per-region price list
+// (e.g. plan.prices by currency) would pick the visitor's currency here.
+function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): PlanCurrency {
+  const code =
+    normalizeCurrencyCode(plan?.currency) ||
+    normalizeCurrencyCode(process.env.PRICING_CURRENCY) ||
+    DEFAULT_PRICING_CURRENCY;
+  return { code, locale: localeForCurrency(code, plan?.locale) };
+}
+
 export async function getPricingPage(): Promise<PricingPageModel> {
   const [heroCms, emptyCms, footerCard, plansRes, faqsRes, seo] = await Promise.all([
     fetchCms("pricing-hero", ["cms", "pricing"]),
@@ -209,7 +226,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
 
   let isSample = false;
   let currencyCode = "";
-  let currencySymbol = "";
+  const currencySymbol = "";
   let yearlySavingsLabel: string | undefined = undefined;
   let mappedPlans: Plan[] = [];
   let comparison: PricingComparison | undefined = undefined;
@@ -218,11 +235,6 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   let faq = activeFaqs.length > 0 ? { items: activeFaqs } : undefined;
 
   if (activePlans.length > 0) {
-    if (activePlans[0].currency) {
-      currencyCode = activePlans[0].currency;
-      currencySymbol = currencyCode === "USD" ? "$" : currencyCode === "INR" ? "₹" : currencyCode;
-    }
-
     mappedPlans = activePlans.map((doc, idx) => {
       const isPopular = Boolean(doc.isPopular || /scale|popular/i.test(doc.title));
       const monthlyPrice = typeof doc.price === "number" ? doc.price : null;
@@ -247,6 +259,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
           monthly: monthlyPrice,
           yearly: yearlyPrice,
         },
+        currency: resolvePlanCurrency(doc),
         priceSuffix: monthlyPrice !== null ? "/month" : "",
         priceSuffixes: {
           monthly: doc.priceSuffix || "/month",
@@ -266,15 +279,18 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   } else if (process.env.CMS_USE_FIXTURES === "true") {
     // Dynamic import ONLY when CMS_USE_FIXTURES === "true". Never statically imported.
     const sample = await import("@/content/pricing/sample");
-    mappedPlans = sample.SAMPLE_PLANS;
+    mappedPlans = sample.SAMPLE_PLANS.map((plan) => ({ ...plan, currency: resolvePlanCurrency() }));
     comparison = sample.SAMPLE_COMPARISON;
     addOns = { title: "Flexible Add-Ons", items: sample.SAMPLE_ADD_ONS };
     enterprise = sample.SAMPLE_ENTERPRISE;
     faq = sample.SAMPLE_FAQ;
-    currencyCode = "USD";
-    currencySymbol = "$";
     yearlySavingsLabel = "Sample: 2 months free";
     isSample = true;
+  }
+
+  // Page-level currency mirrors the first plan (plans carry their own currency).
+  if (mappedPlans.length > 0) {
+    currencyCode = mappedPlans[0].currency.code;
   }
 
   const hero = {

@@ -66,8 +66,10 @@ export interface PricingPlan {
   buttonAction?: string;        // Checkout link or modal trigger
   description?: string;         // Detailed plan notes (rich text/plain)
   displayOrder?: number;
-  // TODO(backend): currency field missing in DB. Defaults to USD.
+  // TODO(backend): not in the DB yet. ISO 4217 code (e.g. "INR", "USD").
   currency?: string;
+  // TODO(backend): optional display locale (e.g. "en-IN"); defaults per currency.
+  locale?: string;
   // TODO(backend): isPopular field missing in DB.
   isPopular?: boolean;
   isActive: boolean;
@@ -183,6 +185,12 @@ export interface BillingPeriod {
   note?: string;
 }
 
+// Resolved per plan on the server: plan.currency → PRICING_CURRENCY → "INR"
+export interface PlanCurrency {
+  code: string;   // ISO 4217
+  locale: string; // Intl locale used for grouping, e.g. "en-IN"
+}
+
 export interface CurrencyConfig {
   code?: string;
   symbol?: string;
@@ -207,6 +215,7 @@ export interface Plan {
   tagline?: string;
   isPopular?: boolean;
   prices: Record<BillingPeriodId, number | null>;
+  currency: PlanCurrency;
   priceSuffix?: string; // e.g. "/month"
   priceSuffixes?: Record<BillingPeriodId, string>; // e.g. { monthly: "/month", yearly: "/year" }
   priceNote?: string;   // e.g. "Custom"

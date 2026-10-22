@@ -4,12 +4,12 @@ import React from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
 import { Check, ArrowRight } from "lucide-react";
-import type { Plan, BillingPeriodId, CurrencyConfig } from "@/types/content";
+import type { Plan, BillingPeriodId } from "@/types/content";
+import { formatPriceParts } from "@/lib/pricing";
 
 interface PricingCardProps {
   plan: Plan;
   period: BillingPeriodId;
-  currency: CurrencyConfig;
   onRequestDemo: (planName: string) => void;
   index: number;
 }
@@ -17,24 +17,16 @@ interface PricingCardProps {
 export function PricingCard({
   plan,
   period,
-  currency,
   onRequestDemo,
   index,
 }: PricingCardProps) {
   const rawPrice = plan.prices[period];
   const isCustomPrice = rawPrice === null;
 
-  // Format price string with Intl.NumberFormat if numeric
-  let formattedNumber = "";
-  if (!isCustomPrice && typeof rawPrice === "number") {
-    formattedNumber = new Intl.NumberFormat("en-US").format(rawPrice);
-  }
-
-  const currencySymbol = currency.symbol || "";
-
-  // Render per-digit animated price string
+  // Per-digit animated price: currency symbol and separators are static
+  // characters; only the digits animate.
   const renderPriceDisplay = () => {
-    if (isCustomPrice) {
+    if (isCustomPrice || typeof rawPrice !== "number") {
       return (
         <span className="text-[34px] sm:text-[40px] font-semibold text-[#161616] tracking-tight">
           {plan.priceNote || "Custom"}
@@ -42,41 +34,68 @@ export function PricingCard({
       );
     }
 
-    const digits = formattedNumber.split("");
+    const parts = formatPriceParts(rawPrice, plan.currency);
+    const fullPrice = parts.map((part) => part.value).join("");
+    const firstNumeric = parts.findIndex((part) => part.type === "integer");
+    const prefix = parts.slice(0, firstNumeric).filter((part) => part.type === "currency");
+    const suffix = parts.slice(firstNumeric).filter((part) => part.type === "currency");
+    const numberParts = parts.filter((part) => part.type !== "currency" && part.type !== "literal");
 
     // Resolve per-period suffix: "/month" for monthly and "/year" for yearly (or CMS-provided)
     const periodSuffix =
       plan.priceSuffixes?.[period] ||
       (period === "yearly" ? "/year" : plan.priceSuffix || "/month");
 
+    const symbolClass = "text-2xl sm:text-3xl font-semibold text-[#161616] self-start mt-2";
+    let digitIndex = 0;
+
     return (
       <div className="flex items-baseline gap-1" aria-live="polite">
-        {currencySymbol && (
-          <span className="text-2xl sm:text-3xl font-semibold text-[#161616] self-start mt-2">
-            {currencySymbol}
-          </span>
-        )}
+        <span className="sr-only">{fullPrice}</span>
 
-        <div className="flex overflow-hidden h-[64px] items-baseline font-mono font-semibold text-[46px] sm:text-[56px] text-[#161616] tracking-[-0.02em] tabular-nums">
+        {prefix.map((part, i) => (
+          <span key={`pre-${i}`} className={symbolClass} aria-hidden="true">
+            {part.value}
+          </span>
+        ))}
+
+        <div
+          className="flex overflow-hidden h-[64px] items-baseline font-semibold text-[46px] sm:text-[56px] text-[#161616] tracking-[-0.02em] tabular-nums"
+          aria-hidden="true"
+        >
           <AnimatePresence mode="popLayout" initial={false}>
-            {digits.map((digit, i) => (
-              <motion.span
-                key={`${period}-${i}-${digit}`}
-                initial={{ y: 24, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -24, opacity: 0 }}
-                transition={{
-                  duration: 0.35,
-                  delay: i * 0.02,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="inline-block"
-              >
-                {digit}
-              </motion.span>
-            ))}
+            {numberParts.flatMap((part, partIdx) => {
+              if (part.type !== "integer" && part.type !== "fraction") {
+                return [<span key={`${period}-sep-${partIdx}`}>{part.value}</span>];
+              }
+              return part.value.split("").map((digit) => {
+                const i = digitIndex++;
+                return (
+                  <motion.span
+                    key={`${period}-${i}-${digit}`}
+                    initial={{ y: 24, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -24, opacity: 0 }}
+                    transition={{
+                      duration: 0.35,
+                      delay: i * 0.02,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    className="inline-block"
+                  >
+                    {digit}
+                  </motion.span>
+                );
+              });
+            })}
           </AnimatePresence>
         </div>
+
+        {suffix.map((part, i) => (
+          <span key={`suf-${i}`} className={symbolClass} aria-hidden="true">
+            {part.value}
+          </span>
+        ))}
 
         {periodSuffix && (
           <span className="text-[14px] sm:text-[15px] font-medium text-[#6B6F76] ml-1">
@@ -107,13 +126,12 @@ export function PricingCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay: index * 0.08, ease: "easeOut" }}
-      className={`rounded-[32px] bg-white p-7 sm:p-8 flex flex-col justify-between relative transition-all duration-300 font-urbanist ${
+      className={`rounded-[32px] bg-white p-7 sm:p-8 flex flex-col md:grid md:grid-rows-subgrid md:row-span-4 md:gap-y-0 relative transition-all duration-300 font-urbanist ${
         plan.isPopular
           ? "border-2 border-[#161616] lg:-translate-y-3 shadow-xl z-10"
           : "border border-[#ECEDEF] shadow-sm hover:shadow-md z-0"
       }`}
     >
-      <div>
         {/* Popular Pill */}
         {plan.isPopular && (
           <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#161616] text-white text-[11px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1.5">
@@ -128,7 +146,7 @@ export function PricingCard({
             {plan.name}
           </h3>
           {plan.tagline && (
-            <p className="text-[14px] text-[#6B6F76] leading-relaxed line-clamp-2">
+            <p className="text-[14px] text-[#6B6F76] leading-relaxed">
               {plan.tagline}
             </p>
           )}
@@ -169,8 +187,9 @@ export function PricingCard({
           )}
         </div>
 
+        <div>
         {/* 1px Divider */}
-        <div className="h-[1px] bg-[#ECEDEF] my-6" />
+        <div className="h-[1px] bg-[#ECEDEF] mb-6" />
 
         {/* Limits Rows */}
         {plan.limits && plan.limits.length > 0 && (

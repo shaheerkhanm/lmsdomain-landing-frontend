@@ -15,7 +15,8 @@ export function BillingToggle({
   periods,
   activePeriod,
   onChange,
-  yearlySavingsLabel = "Save 20%",
+  // Shown only when the backend provides it; no invented discount.
+  yearlySavingsLabel,
 }: BillingToggleProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 

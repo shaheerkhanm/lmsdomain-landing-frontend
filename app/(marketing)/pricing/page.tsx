@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getPricingPage, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
-import { fullTitle, getMetadataBase } from "@/lib/site";
+import { fullTitle, getMetadataBase, getSiteUrl } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -61,6 +61,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function PricingPage() {
   const data = await getPricingPage();
+  const siteUrl = getSiteUrl();
 
   // Generate JSON-LD Product & Offer schemas for plans with numeric prices (production only)
   const numericPlans = data.plans.filter(
@@ -79,9 +80,9 @@ export default async function PricingPage() {
             name: plan.name,
             description: plan.tagline || plan.name,
             price: plan.prices.monthly || 0,
-            priceCurrency: data.currency.code || "USD",
+            priceCurrency: plan.currency.code,
             availability: "https://schema.org/InStock",
-            url: "https://lmsdomain.online/pricing",
+            ...(siteUrl ? { url: `${siteUrl}/pricing` } : {}),
           })),
         }
       : null;

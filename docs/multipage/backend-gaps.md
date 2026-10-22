@@ -9,7 +9,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Page | What's missing | Type | Detail |
 |---|---|---|---|
 | Pricing | Plans | Content | The `pricings` collection has **0 documents**. Enter your real plans in Admin > Pricing. Nothing can be shown until then. |
-| Pricing | Currency | Field | Add `currency` (e.g. `USD`, `INR`, `SAR`) to Pricing, or one site-wide currency setting. Today nothing says what `price` is in. |
+| Pricing | Currency per plan | Field | **Must have before selling in more than one currency.** Add `currency` (ISO 4217 code, e.g. `INR`, `USD`) to each Pricing plan, optionally `locale` (e.g. `en-IN`). Until then every plan uses server env `PRICING_CURRENCY`, else `INR`, formatted with `Intl.NumberFormat` (`en-IN` for INR, `en-US` otherwise). |
 | Pricing | Popular plan | Field | `isPopular: boolean` on Pricing. |
 | Pricing | Yearly pricing / Billing periods | Field | Add `price_yearly: number` or billingPeriods to Pricing model. Today only `price` exists, with no field for annual billing rates or savings. |
 | Pricing | Empty state copy | Content | CMS entry `pricing-empty` (`title`, `subTitle`, `buttonText`, `buttonAction`) for customizing the empty state when 0 plans are published. |
@@ -37,6 +37,8 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | FAQ | Which page a question belongs to | Field | `faqs` is used only for pricing. Add `page` (`home`, `pricing`, `ai`, `features`, `contact`) and `displayOrder`, so every page can have its own FAQ. |
 | Homepage FAQ | Questions | Content | The homepage FAQ is hard-coded in `content/home/faq.ts`. Once `page` exists, enter those questions with `page = home`. |
 | Pricing | Plan limits | Field | Only `max_users` exists. If you want more limits on the cards (courses, storage, admins), add `limits: [{ label, value }]`. |
+| Pricing | Per-currency prices | Field | Optional, for regional pricing: a price per currency on each plan (e.g. `prices: [{ currency, monthly, yearly }]`). The frontend resolves currency in one place (`resolvePlanCurrency` in `lib/api/content.ts`), ready to pick the visitor's currency once this exists. |
+| Pricing | Yearly savings label | Field | The "Save 20%" pill was hard-coded and is now hidden. Add a field for it (e.g. on a pricing settings entry) if you want it shown; the existing per-plan `discount` is not used. |
 | Pricing | Comparison table | Field | No model. Either a `pricing-comparison` model (`group`, `label`, one value per plan) or skip the table. |
 | Pricing | Add-ons (e.g. AI as a premium add-on) | Field | No model. Needed only if AI is sold as an add-on, not inside a plan. |
 | Features | Icon | Field | Features has `image` but no small icon. Add `icon` (image) or reuse `image`. |
@@ -48,6 +50,8 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 
 ## Data to check before it shows anywhere
 
+- **Footer / `address` settings** (Admin > Settings > Address; feeds the footer email, phone and social icons on every page): `fb`, `instagram` and `linkedin` are `https://facebook/lmsdomain`, `https://instagram/lmsdomain`, `https://linkedin/lmsdomain`. These have no `.com`, so the footer icons link to dead addresses. Enter full profile URLs (e.g. `https://www.facebook.com/<page>`). `twitter` = `@LMSDOMAIN` works (it becomes `https://x.com/LMSDOMAIN`). `phone` = `1234567890` is a placeholder and stays hidden until replaced. `email` = `Info@lmsdomain.com.sa` is shown; confirm it is the right address.
+- **`footer` CMS entry** `content` is Lorem ipsum. The footer detects it and shows the built-in description instead; replace it in Admin > CMS if you want custom text.
 - **`pricing-hero`** subtitle is **Lorem ipsum** ("Lorem ipsum dolor sit amet consectetur…") and is live on `/pricing` at every width (seen in the QA screenshots). Replace it in Admin > CMS.
 - **SEO titles** are placeholders: `home` = `lms-domain`, `pricing` = `lms-domain-pricing`, `about` = `lms-domain-about`, `features` = `lms-domain-features`, with placeholder descriptions (`lms domain description`). These become the browser tab and search titles. Enter real titles in Admin > SEO.
 - **`about` mission statement** claims "helped over 10,000 educators reach millions of learners worldwide" and "10K+". Confirm these are true before launch, or edit the CMS entry.

@@ -114,14 +114,14 @@ export function PricingView({ data }: PricingViewProps) {
               {displayPlans.map((plan, idx) => (
                 <div
                   key={plan.id}
-                  className={`h-full flex flex-col ${
+                  // Subgrid rows (header / price / CTA / details) line cards up across a row
+                  className={`h-full flex flex-col md:grid md:grid-rows-subgrid md:row-span-4 md:gap-y-0 ${
                     plan.isPopular ? "order-first md:order-none" : ""
                   }`}
                 >
                   <PricingCard
                     plan={plan}
                     period={activePeriod}
-                    currency={data.currency}
                     onRequestDemo={handleOpenDemoModal}
                     index={idx}
                   />

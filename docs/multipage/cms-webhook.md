@@ -19,6 +19,7 @@
 ## Supported Tags
 - `cms`: Revalidates all CMS documents.
 - `cms:<slug>`: Revalidates specific CMS document (e.g. `cms:address`, `cms:pricing-hero`, `cms:about-hero`).
+- `cms:address` / `cms:footer`: the footer (email, phone, social links, description) on every page. Also covered by `cms`.
 - `pricing`: Revalidates pricing plans and FAQ data.
 - `features`: Revalidates features and feature content collections.
 - `about`: Revalidates values and leadership collections.
