@@ -7,6 +7,14 @@ export const size = {
 };
 export const contentType = "image/png";
 
+function Sparkle({ size, color }: { size: number; color: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+      <path d="M12 0c.6 6.4 5.6 11.4 12 12-6.4.6-11.4 5.6-12 12-.6-6.4-5.6-11.4-12-12C6.4 11.4 11.4 6.4 12 0z" />
+    </svg>
+  );
+}
+
 export default function Image() {
   return new ImageResponse(
     (
@@ -38,7 +46,7 @@ export default function Image() {
               fontWeight: "bold",
             }}
           >
-            ✦
+            <Sparkle size={22} color="white" />
           </div>
           <span style={{ color: "#E2E8F0", fontSize: "28px", fontWeight: 700, letterSpacing: "1px" }}>
             LMS DOMAIN
@@ -81,9 +89,13 @@ export default function Image() {
               color: "#C4B5FD",
               fontSize: "18px",
               fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
             }}
           >
-            ✦ Domie AI
+            <Sparkle size={16} color="#C4B5FD" />
+            Domie AI
           </div>
           <div
             style={{

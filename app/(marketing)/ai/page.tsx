@@ -9,6 +9,7 @@ import {
   MarketingFaq,
 } from "@/components/marketing";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
+import { fullTitle, getMetadataBase } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const rawTitle =
     seo?.metatitle ||
     (pageData?.hero?.title ? pageData.hero.title : "Domie AI");
-  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
+  const title = fullTitle(rawTitle);
 
   const description =
     seo?.metadescription ||
@@ -27,6 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
     "Assist learners with course-grounded answers, help creators draft content faster, and surface key operational alerts for administrators.";
 
   return {
+    metadataBase: getMetadataBase(),
     title,
     description,
     keywords: seo?.metakeyword || [

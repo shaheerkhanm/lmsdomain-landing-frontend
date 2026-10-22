@@ -1,20 +1,20 @@
 import { HomePage } from "@/components/modules/HomePage";
 import { fetchSeo } from "@/lib/api/content";
 import { Metadata } from "next";
+import { SITE_NAME, getMetadataBase } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await fetchSeo("home").catch(() => null);
 
-  const title =
-    seo?.metatitle || "LMS Domain | Modern AI-Powered Learning Platform";
+  // Same title as before the multipage work: CMS metatitle, else "LMS Domain"
+  const title = seo?.metatitle || SITE_NAME;
   const description =
     seo?.metadescription ||
     "Scale your academy with courses, live classes, assessments, payments, and Domie AI tutor in one flexible learning platform.";
 
   return {
-    title: {
-      absolute: title,
-    },
+    metadataBase: getMetadataBase(),
+    title,
     description,
     keywords: seo?.metakeyword || [
       "LMS Domain",

@@ -39,7 +39,7 @@ export function AdvantageSection({ data }: { data?: any }) {
   }, []);
 
   return (
-    <section id="benefits" className="pt-0 pb-0 lg:py-36 bg-[#F3F4F6] font-urbanist relative overflow-visible mb-16 lg:mb-0">
+    <section id="benefits" className="pt-0 pb-0 lg:py-36 bg-[#F3F4F6] font-urbanist relative overflow-visible max-lg:overflow-x-clip mb-16 lg:mb-0">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header (Mota 2-Line H2 per spec §5.7) */}
         <div className="text-center max-w-2xl mx-auto mb-8 lg:mb-20">

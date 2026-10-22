@@ -31,7 +31,9 @@ export function ManifestSection({
       const desktopWords = gsap.utils.toArray<HTMLElement>(".manifesto-word", paragraphBlockRef.current);
 
       if (isReduced) {
-        gsap.set(desktopWords, { color: "#161616" });
+        // Final state for both layouts (the mobile matchMedia branch never runs here)
+        const mobileWords = gsap.utils.toArray<HTMLElement>(".manifesto-word-mobile", mobileContainerRef.current);
+        gsap.set([...desktopWords, ...mobileWords], { color: "#161616" });
         return;
       }
 

@@ -678,12 +678,12 @@ function renderCategoryBody(category: FeatureCategory, media?: Record<string, an
                       <span className="w-2 h-2 rounded-full bg-[#10B981]" />
                     </div>
 
-                    <div className="flex-1 bg-[#F3F4F6] rounded-lg px-2.5 py-1 flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-1.5 text-[#161616]">
-                        <Lock className="w-3.5 h-3.5 text-[#0D9488]" />
-                        <span className="font-mono font-medium text-[11px]">https://academy.yourdomain.com</span>
+                    <div className="flex-1 min-w-0 bg-[#F3F4F6] rounded-lg px-2.5 py-1 flex items-center justify-between gap-2 text-xs">
+                      <div className="flex items-center gap-1.5 text-[#161616] min-w-0">
+                        <Lock className="w-3.5 h-3.5 text-[#0D9488] shrink-0" />
+                        <span className="font-mono font-medium text-[11px] truncate">https://academy.yourdomain.com</span>
                       </div>
-                      <span className="text-[9px] text-[#0D9488] font-bold uppercase tracking-wider">SSL Valid</span>
+                      <span className="text-[9px] text-[#0D9488] font-bold uppercase tracking-wider shrink-0">SSL Valid</span>
                     </div>
                   </div>
 

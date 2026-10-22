@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getLegalPage, getLegalPages } from "@/lib/api/content";
 import { LegalView } from "@/components/marketing/LegalView";
+import { fullTitle, getMetadataBase } from "@/lib/site";
 
 interface LegalPageProps {
   params: Promise<{
@@ -28,11 +29,12 @@ export async function generateMetadata({
   }
 
   const rawTitle = page.seo?.metatitle || page.title;
-  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
+  const title = fullTitle(rawTitle);
   const description =
     page.seo?.metadescription || `Official ${page.title} documentation for LMS Domain.`;
 
   return {
+    metadataBase: getMetadataBase(),
     title,
     description,
     keywords: page.seo?.metakeyword?.join(", "),

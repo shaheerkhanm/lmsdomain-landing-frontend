@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getPricingPage, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
+import { fullTitle, getMetadataBase } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -14,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const rawTitle =
     seo?.metatitle ||
     (pageData?.hero?.title ? pageData.hero.title : "Plans & Pricing");
-  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
+  const title = fullTitle(rawTitle);
 
   const description =
     seo?.metadescription ||
@@ -22,6 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     "Transparent, scalable plans for every stage. Choose the right tier to launch and scale your academy.";
 
   return {
+    metadataBase: getMetadataBase(),
     title,
     description,
     keywords: seo?.metakeyword || [

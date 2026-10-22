@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getAboutPage, fetchSeo } from "@/lib/api/content";
 import { AboutView } from "@/components/marketing";
+import { fullTitle, getMetadataBase } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -14,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     (pageData?.hero?.title
       ? pageData.hero.title
       : "About Us & Our Story");
-  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
+  const title = fullTitle(rawTitle);
 
   const description =
     seo?.metadescription ||
@@ -22,6 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
     "Empowering education through innovation. Discover our mission, instructional philosophy, and learning architecture.";
 
   return {
+    metadataBase: getMetadataBase(),
     title,
     description,
     keywords: seo?.metakeyword || [

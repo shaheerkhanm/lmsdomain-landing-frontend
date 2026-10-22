@@ -48,6 +48,9 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 
 ## Data to check before it shows anywhere
 
+- **`pricing-hero`** subtitle is **Lorem ipsum** ("Lorem ipsum dolor sit amet consectetur…") and is live on `/pricing` at every width (seen in the QA screenshots). Replace it in Admin > CMS.
+- **SEO titles** are placeholders: `home` = `lms-domain`, `pricing` = `lms-domain-pricing`, `about` = `lms-domain-about`, `features` = `lms-domain-features`, with placeholder descriptions (`lms domain description`). These become the browser tab and search titles. Enter real titles in Admin > SEO.
+- **`about` mission statement** claims "helped over 10,000 educators reach millions of learners worldwide" and "10K+". Confirm these are true before launch, or edit the CMS entry.
 - **`home-graph-section`** says "10+" and "25+ countries served". The homepage ignores it today. Don't use these numbers on any page unless they're true.
 - **`smartteaches`** has 2 test entries (`SmartTechTest`, `Smart Automation`). Delete or replace them before anything reads that list.
 - **`customers`, `homefeatures`, `clients`, `testimonials`** are empty. The homepage Wall of Love reads `/api/home/testimonials` (`customerName`, `customerProfession`, `comment`, `image`) and is hidden until at least one active testimonial exists. Demo cards (`content/home/sample-testimonials.ts`) appear only with `CMS_USE_FIXTURES=true` in local preview.

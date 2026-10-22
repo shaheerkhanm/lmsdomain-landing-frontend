@@ -1,7 +1,18 @@
 import { MetadataRoute } from "next";
+import { getSiteUrl, isIndexableSite } from "@/lib/site";
+
+// Read SITE_URL per request so one image serves staging and production correctly.
+export const dynamic = "force-dynamic";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://lmsdomain.com";
+  const siteUrl = getSiteUrl();
+
+  // Staging, local, or SITE_URL unset: never indexed.
+  if (!siteUrl || !isIndexableSite()) {
+    return {
+      rules: [{ userAgent: "*", disallow: "/" }],
+    };
+  }
 
   return {
     rules: [
@@ -11,7 +22,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/login", "/signup", "/api/"],
       },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${siteUrl}/sitemap.xml`,
   };
 }
-

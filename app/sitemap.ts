@@ -1,8 +1,14 @@
 import { MetadataRoute } from "next";
 import { getLegalPages } from "@/lib/api/content";
+import { getSiteUrl } from "@/lib/site";
+
+// Read SITE_URL per request so one image serves staging and production correctly.
+export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://lmsdomain.com";
+  const baseUrl = getSiteUrl();
+  // Absolute URLs are required; without SITE_URL there is nothing valid to list.
+  if (!baseUrl) return [];
 
   let legalSlugs = ["privacy-policy", "terms", "refund-policy", "dpa"];
   try {

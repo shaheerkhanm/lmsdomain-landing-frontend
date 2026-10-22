@@ -10,6 +10,7 @@ import {
   CategorySections,
 } from "@/components/marketing";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
+import { fullTitle, getMetadataBase } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -21,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
     seo?.metatitle ||
     pageData?.hero?.title ||
     "Features & LMS Core";
-  const title = rawTitle.replace(/\s*\|\s*LMS Domain$/i, "");
+  const title = fullTitle(rawTitle);
 
   const description =
     seo?.metadescription ||
@@ -29,6 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
     "Bring courses, assessments, live learning, AI-powered tools, payments, and academy management together in one flexible learning platform.";
 
   return {
+    metadataBase: getMetadataBase(),
     title,
     description,
     keywords: seo?.metakeyword || [

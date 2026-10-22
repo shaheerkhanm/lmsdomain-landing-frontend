@@ -2,9 +2,11 @@ import React from "react";
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/api/content";
 import { NotFoundVisual } from "@/components/marketing/NotFoundVisual";
+import { getMetadataBase } from "@/lib/site";
 
 export const metadata = {
-  title: "Page Not Found",
+  metadataBase: getMetadataBase(),
+  title: "Page Not Found | LMS Domain",
   description: "The requested page could not be found.",
   robots: { index: false, follow: false },
 };
