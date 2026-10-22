@@ -536,8 +536,9 @@ export interface ContactPageData {
 export interface LegalPageData {
   slug: string;
   title: string;
-  content?: string;
   lastUpdated?: string;
+  body?: string;
+  content?: string;
   seo?: SeoMetadata;
 }
 

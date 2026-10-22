@@ -45,3 +45,7 @@ export * from "./ContactView";
 export * from "./AuthVisualPanel";
 export * from "./AuthLoginForm";
 export * from "./AuthSignupForm";
+export * from "./RichText";
+export * from "./LegalToc";
+export * from "./LegalView";
+export * from "./NotFoundVisual";

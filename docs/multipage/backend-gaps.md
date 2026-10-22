@@ -25,6 +25,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Contact page | Page copy | Content | New CMS entry `contact-hero` (title, subTitle) and `contact-form` (buttonText, success title and message). Email, phone and address already come from `address`. |
 | Contact | Real phone number | Content | The CMS entry `address` currently contains placeholder phone `1234567890`. The frontend filters out placeholder phone numbers. Enter the real contact phone number in Admin > Settings > Address. |
 | About | Licensed Hero Photo | Content | The CMS entry `about-hero` currently contains an unlicensed Unsplash+ watermarked preview (`/uploads/upload1759252684970.jpeg`). Replace with a licensed high-res photograph in Admin > CMS. Frontend guards with `ABOUT_HERO_IMAGE_APPROVED = false` in `content/about/page.ts` until replaced. |
+| Legal pages | Approved Legal Text | Content | Legal documents for `privacy-policy`, `terms`, `refund-policy`, and `dpa` currently have 0 documents in the CMS. Per Prompt 06, no placeholder or paraphrased legal text is published. Until Shaheer enters the approved legal text word for word in Admin > CMS (with slug, title, and rich HTML content), these routes return 404 and their footer links remain hidden. |
 
 ## Can wait (the page works without it; that part is hidden)
 
@@ -40,7 +41,6 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Features | Icon | Field | Features has `image` but no small icon. Add `icon` (image) or reuse `image`. |
 | About | Timeline, stats | Field | Not in the backend; those sections stay hidden. |
 | Contact | Dedicated Contact Fields | Field | The Enquiry backend currently receives name, email, phoneNumber, organizationName, subject, type (1). Form topic and pricing plan are bundled into `subject`. Add dedicated topic / plan fields to Enquiry model if separate column indexing is desired. |
-| Legal pages | Legal text in the admin | Field | Privacy, Terms, Refund and DPA are hard-coded components today. Keep them as they are for now (same text, same URLs, new layout). Move them into a `legal` model (`slug`, `title`, `lastUpdated`, `content`) later if you want to edit them in the admin. |
 | Images | Alt text | Field | Most models have `altImage`; `cms` image1–3 have `altImage1–3`. Pricing has none (fine, no images). |
 | Features | Product Tour Video URL | Field | CMS field `features-hero.videoUrl` for optional "Watch a product tour" modal button in the hero. Currently omitted until a real tour video URL is configured in the admin. |
 | Features | Media Slots | Field | Add `features-media` CMS slug with slot upload fields (one entry per slot) so marketing photos and demo video loops can be updated from Admin without code changes. |

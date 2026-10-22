@@ -8,7 +8,7 @@ import CopyrightSection from "../CopyrightSection";
 import { sanitizeHtml } from "@/lib/sanitize";
 import { footerContent } from "@/content/home/footer";
 
-const navData = [
+const DEFAULT_FOOTER_COLUMNS = [
   {
     title: "Platform",
     links: [
@@ -38,7 +38,15 @@ const navData = [
   },
 ];
 
-export function FooterSection({ addressData, contentData }: { addressData: any; contentData: any }) {
+export function FooterSection({
+  addressData,
+  contentData,
+  publishedLegalSlugs,
+}: {
+  addressData: any;
+  contentData: any;
+  publishedLegalSlugs?: string[];
+}) {
   const pathname = usePathname();
   if (pathname?.startsWith("/login") || pathname?.startsWith("/signup")) {
     return null;
@@ -46,6 +54,17 @@ export function FooterSection({ addressData, contentData }: { addressData: any; 
 
   const sanitizedContent = sanitizeHtml(contentData?.content);
   const isLorem = /lorem\s*ipsum/i.test(sanitizedContent || "");
+
+  const columns = DEFAULT_FOOTER_COLUMNS.map((section) => {
+    if (section.title === "Legal & Compliance") {
+      const legalLinks = section.links.filter((link) => {
+        const slug = link.href.replace(/^\//, "");
+        return publishedLegalSlugs?.includes(slug);
+      });
+      return { ...section, links: legalLinks };
+    }
+    return section;
+  }).filter((section) => section.links.length > 0);
 
   return (
     <footer className="bg-slate-50 border-t border-slate-200 text-slate-800 font-inter pt-16 pb-12">
@@ -79,7 +98,7 @@ export function FooterSection({ addressData, contentData }: { addressData: any; 
 
           {/* Navigation Links Columns */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {navData.map((section, idx) => (
+            {columns.map((section, idx) => (
               <div key={idx} className="space-y-4">
                 <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
                   {section.title}

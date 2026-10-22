@@ -584,10 +584,20 @@ export async function getContactPage(): Promise<ContactPageModel> {
 }
 
 // ----------------------------------------------------------------------------
-// Legal Pages Content & Stubs
+// Legal Pages Content
 // ----------------------------------------------------------------------------
-export async function getLegalPage(slug: string): Promise<LegalPageData> {
-  const seo = await fetchSeo(slug);
+export async function getLegalPage(slug: string): Promise<LegalPageData | null> {
+  const [cmsDoc, seo] = await Promise.all([
+    fetchCms(slug, ["cms", "legal", slug]),
+    fetchSeo(slug),
+  ]);
+
+  // "The legal text itself must come from the CMS word for word; never write or paraphrase legal text.
+  // If a legal page has no CMS text, don't publish an empty or placeholder page: return notFound() for it"
+  if (!cmsDoc || !cmsDoc.content || cmsDoc.content.trim().length === 0) {
+    return null;
+  }
+
   const titleMap: Record<string, string> = {
     "privacy-policy": "Privacy Policy",
     terms: "Terms of Service",
@@ -595,15 +605,31 @@ export async function getLegalPage(slug: string): Promise<LegalPageData> {
     dpa: "Data Processing Agreement (DPA)",
   };
 
+  const title = cmsDoc.title || cmsDoc.heading || titleMap[slug] || slug;
+  const lastUpdated = cmsDoc.updatedAt || cmsDoc.createdAt;
+
   return {
     slug,
-    title: titleMap[slug] || "Legal",
+    title,
+    lastUpdated,
+    body: cmsDoc.content,
+    content: cmsDoc.content,
     seo: seo || undefined,
   };
 }
 
 export async function getLegalPages(): Promise<string[]> {
-  return ["privacy-policy", "terms", "refund-policy", "dpa"];
+  const potentialSlugs = ["privacy-policy", "terms", "refund-policy", "dpa"];
+  const pagesWithContent: string[] = [];
+
+  for (const slug of potentialSlugs) {
+    const page = await getLegalPage(slug);
+    if (page && page.body) {
+      pagesWithContent.push(slug);
+    }
+  }
+
+  return pagesWithContent;
 }
 
 // ----------------------------------------------------------------------------
