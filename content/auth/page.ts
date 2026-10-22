@@ -28,3 +28,4 @@ export const DEFAULT_AUTH_COPY: AuthCopy = {
     ],
   },
 };
+

@@ -42,6 +42,7 @@ Next.js automatically gives `.env.development.local` highest precedence during `
 ### 2.2 Client Components (`'use client'`)
 - Variables prefixed with `NEXT_PUBLIC_` are **baked into the JavaScript bundle at build time** (`npm run build`).
 - They cannot be changed at container startup time unless the application is recompiled.
+- **Docker Build Args Required:** Because `NEXT_PUBLIC_APP_LOGIN_URL`, `NEXT_PUBLIC_APP_SIGNUP_URL`, and `NEXT_PUBLIC_APP_FORGOT_PASSWORD_URL` are client-side variables, they must be supplied during image creation (e.g. `docker build --build-arg NEXT_PUBLIC_APP_LOGIN_URL=...`) for staging and production deployments. In development, they can be set in `.env.local` or `.env.development.local`. If left unset in dev, the buttons render in an explicit disabled state with a red dashed indicator.
 - **The Localhost Trap:** If `npm run build` is executed inside a container or developer machine where `NEXT_PUBLIC_BACKEND_URL=http://localhost:5201`, any user visiting the site on the internet will have their browser attempt to query their *own* local machine (`127.0.0.1:5201`), triggering immediate `ERR_CONNECTION_REFUSED`.
 
 ---

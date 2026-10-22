@@ -178,8 +178,36 @@ export function DemoForm({
     }
   };
 
+  const isModal = variant === "modal";
+
+  const labelClass = isModal
+    ? "text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+    : "block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider";
+
+  const getInputClass = (hasError: boolean) =>
+    isModal
+      ? `w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition ${
+          hasError
+            ? "border-red-500 focus:ring-2 focus:ring-red-100"
+            : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+        }`
+      : `w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
+          hasError ? "border-red-500 ring-2 ring-red-100" : ""
+        }`;
+
+  const getTextareaClass = (hasError: boolean) =>
+    isModal
+      ? `w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition resize-none ${
+          hasError
+            ? "border-red-500 focus:ring-2 focus:ring-red-100"
+            : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+        }`
+      : `w-full min-h-[96px] p-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all resize-none ${
+          hasError ? "border-red-500 ring-2 ring-red-100" : ""
+        }`;
+
   return (
-    <div className={`w-full font-urbanist ${className}`}>
+    <div className={`w-full ${isModal ? "font-inter" : "font-urbanist"} ${className}`}>
       <AnimatePresence mode="wait">
         {isSubmitted ? (
           <motion.div
@@ -242,7 +270,7 @@ export function DemoForm({
             transition={{ duration: 0.4 }}
             onSubmit={handleSubmit(onSubmit, onError)}
             noValidate
-            className="space-y-5 text-left"
+            className={isModal ? "space-y-4 text-left" : "space-y-5 text-left"}
           >
             {/* Active Plan Indicator Badge (if ?plan= is present) */}
             {activePlan && (
@@ -279,12 +307,12 @@ export function DemoForm({
             {/* Row 1: Full Name & Work Email */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Full Name */}
-              <div className="space-y-1.5">
+              <div className={isModal ? "space-y-1" : "space-y-1.5"}>
                 <label
                   htmlFor="field-name"
-                  className="block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider"
+                  className={labelClass}
                 >
-                  Full Name <span className="text-red-500">*</span>
+                  Full Name {isModal ? "*" : <span className="text-red-500">*</span>}
                 </label>
                 <input
                   id="field-name"
@@ -292,9 +320,7 @@ export function DemoForm({
                   autoComplete="name"
                   aria-invalid={errors.name ? "true" : "false"}
                   aria-describedby={errors.name ? "field-name-error" : undefined}
-                  className={`w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
-                    errors.name ? "border-red-500 ring-2 ring-red-100" : ""
-                  }`}
+                  className={getInputClass(!!errors.name)}
                   placeholder="e.g. Sarah Jenkins"
                   {...register("name", {
                     required: "Full name is required",
@@ -313,12 +339,12 @@ export function DemoForm({
               </div>
 
               {/* Work Email */}
-              <div className="space-y-1.5">
+              <div className={isModal ? "space-y-1" : "space-y-1.5"}>
                 <label
                   htmlFor="field-email"
-                  className="block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider"
+                  className={labelClass}
                 >
-                  Work Email <span className="text-red-500">*</span>
+                  Work Email {isModal ? "*" : <span className="text-red-500">*</span>}
                 </label>
                 <input
                   id="field-email"
@@ -326,9 +352,7 @@ export function DemoForm({
                   autoComplete="email"
                   aria-invalid={errors.email ? "true" : "false"}
                   aria-describedby={errors.email ? "field-email-error" : undefined}
-                  className={`w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
-                    errors.email ? "border-red-500 ring-2 ring-red-100" : ""
-                  }`}
+                  className={getInputClass(!!errors.email)}
                   placeholder="sarah@institution.com"
                   {...register("email", {
                     required: "Work email is required",
@@ -353,12 +377,12 @@ export function DemoForm({
             {/* Row 2: Phone Number & Organization */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Phone Number */}
-              <div className="space-y-1.5">
+              <div className={isModal ? "space-y-1" : "space-y-1.5"}>
                 <label
                   htmlFor="field-phoneNumber"
-                  className="block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider"
+                  className={labelClass}
                 >
-                  Phone Number <span className="text-red-500">*</span>
+                  Phone Number {isModal ? "*" : <span className="text-red-500">*</span>}
                 </label>
                 <input
                   id="field-phoneNumber"
@@ -366,17 +390,15 @@ export function DemoForm({
                   autoComplete="tel"
                   aria-invalid={errors.phoneNumber ? "true" : "false"}
                   aria-describedby={errors.phoneNumber ? "field-phoneNumber-error" : undefined}
-                  className={`w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
-                    errors.phoneNumber ? "border-red-500 ring-2 ring-red-100" : ""
-                  }`}
-                  placeholder="e.g. +1 415 555 2671"
+                  className={getInputClass(!!errors.phoneNumber)}
+                  placeholder={isModal ? "e.g. 14155552671" : "e.g. +1 415 555 2671"}
                   {...register("phoneNumber", {
                     required: "Phone number is required",
                     validate: (val) => {
                       const digits = val.replace(/\D/g, "");
                       return (
                         (digits.length >= 7 && digits.length <= 15) ||
-                        "Please enter 7 to 15 digits"
+                        (isModal ? "Enter 7-15 digits" : "Please enter 7 to 15 digits")
                       );
                     },
                   })}
@@ -393,12 +415,12 @@ export function DemoForm({
               </div>
 
               {/* Organization Name */}
-              <div className="space-y-1.5">
+              <div className={isModal ? "space-y-1" : "space-y-1.5"}>
                 <label
                   htmlFor="field-organizationName"
-                  className="block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider"
+                  className={labelClass}
                 >
-                  Organization / Academy <span className="text-red-500">*</span>
+                  {isModal ? "Organization / Institute *" : <>Organization / Academy <span className="text-red-500">*</span></>}
                 </label>
                 <input
                   id="field-organizationName"
@@ -408,12 +430,10 @@ export function DemoForm({
                   aria-describedby={
                     errors.organizationName ? "field-organizationName-error" : undefined
                   }
-                  className={`w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
-                    errors.organizationName ? "border-red-500 ring-2 ring-red-100" : ""
-                  }`}
+                  className={getInputClass(!!errors.organizationName)}
                   placeholder="e.g. Apex Coding Academy"
                   {...register("organizationName", {
-                    required: "Organization or academy name is required",
+                    required: isModal ? "Organization name is required" : "Organization or academy name is required",
                   })}
                 />
                 {errors.organizationName?.message && (
@@ -429,11 +449,11 @@ export function DemoForm({
             </div>
 
             {/* Row 3: Discussion Topic (page variant only) */}
-            {variant !== "modal" && (
+            {!isModal && (
               <div className="space-y-1.5">
                 <label
                   htmlFor="field-topic"
-                  className="block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider"
+                  className={labelClass}
                 >
                   Inquiry Topic
                 </label>
@@ -458,21 +478,32 @@ export function DemoForm({
             )}
 
             {/* Row 4: Scope or Project Details */}
-            <div className="space-y-1.5">
+            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
               <label
                 htmlFor="field-subject"
-                className="block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider"
+                className={labelClass}
               >
-                Project Scope or Questions
+                Project Scope or Questions {isModal ? "*" : ""}
               </label>
               <textarea
                 id="field-subject"
                 rows={3}
                 aria-describedby="field-subject-description"
-                className="w-full min-h-[96px] p-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all resize-none"
+                className={getTextareaClass(!!errors.subject)}
                 placeholder="Tell us about your academy and what you need"
-                {...register("subject")}
+                {...register("subject", {
+                  required: isModal ? "Project scope or message is required" : false,
+                })}
               />
+              {errors.subject?.message && (
+                <span
+                  id="field-subject-error"
+                  role="alert"
+                  className="text-xs text-red-600 block mt-1 font-medium"
+                >
+                  {errors.subject.message}
+                </span>
+              )}
             </div>
 
             {/* Privacy Note */}
@@ -483,8 +514,8 @@ export function DemoForm({
             )}
 
             {/* Action Bar */}
-            <div className="pt-2 flex items-center justify-end gap-3">
-              {variant === "modal" && onClose && (
+            <div className={isModal ? "flex items-center justify-end gap-3 pt-3" : "pt-2 flex items-center justify-end gap-3"}>
+              {isModal && onClose && (
                 <button
                   type="button"
                   onClick={onClose}
@@ -497,7 +528,7 @@ export function DemoForm({
                 type="submit"
                 disabled={isSubmitting}
                 className={
-                  variant === "modal"
+                  isModal
                     ? "px-6 py-2.5 text-sm font-semibold text-white bg-MainColor hover:bg-[#5A3DE6] rounded-lg shadow-sm hover:shadow-[0_0_20px_-3px_rgba(108,75,255,0.35)] transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
                     : "w-full sm:w-auto h-[48px] px-8 rounded-xl bg-[#161616] hover:bg-black text-white text-sm font-semibold shadow-xs hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
                 }

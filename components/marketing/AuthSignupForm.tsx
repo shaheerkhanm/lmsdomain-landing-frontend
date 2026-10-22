@@ -141,3 +141,4 @@ export function AuthSignupForm({ copy }: AuthSignupFormProps) {
 }
 
 export default AuthSignupForm;
+
