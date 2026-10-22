@@ -8,44 +8,46 @@ import type { AuthLoginCopy } from "@/types/content";
 
 interface AuthLoginFormProps {
   copy: AuthLoginCopy;
+  /** Resolved server-side: from admin site settings → APP_LOGIN_URL env → undefined */
+  loginUrl?: string;
+  /** Resolved server-side: from admin site settings → APP_FORGOT_PASSWORD_URL env → undefined */
+  forgotUrl?: string;
 }
 
-export function AuthLoginForm({ copy }: AuthLoginFormProps) {
+export function AuthLoginForm({ copy, loginUrl, forgotUrl }: AuthLoginFormProps) {
   const searchParams = useSearchParams();
   const shouldReduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
 
-  const envLoginUrl = process.env.NEXT_PUBLIC_APP_LOGIN_URL;
-  const envForgotUrl = process.env.NEXT_PUBLIC_APP_FORGOT_PASSWORD_URL;
   const isDev = process.env.NODE_ENV !== "production";
-  const isMissingEnv = !envLoginUrl;
+  const isMissingEnv = !loginUrl;
 
   useEffect(() => {
     setMounted(true);
     if (isMissingEnv) {
       console.error(
-        "[auth/login] NEXT_PUBLIC_APP_LOGIN_URL environment variable is not defined."
+        "[auth/login] No login URL configured. Set APP_LOGIN_URL server env or configure appLoginUrl in admin site settings."
       );
     }
   }, [isMissingEnv]);
 
   // Build the target login redirect URL, forwarding ?redirect= if present
   const getTargetUrl = () => {
-    if (!envLoginUrl) return "#";
+    if (!loginUrl) return "#";
     const redirect = searchParams?.get("redirect");
-    if (!redirect) return envLoginUrl;
+    if (!redirect) return loginUrl;
 
     try {
-      const url = new URL(envLoginUrl, typeof window !== "undefined" ? window.location.origin : "https://app.lmsdomain.com");
+      const url = new URL(loginUrl, typeof window !== "undefined" ? window.location.origin : "https://app.lmsdomain.com");
       url.searchParams.set("redirect", redirect);
       return url.toString();
     } catch {
-      const sep = envLoginUrl.includes("?") ? "&" : "?";
-      return `${envLoginUrl}${sep}redirect=${encodeURIComponent(redirect)}`;
+      const sep = loginUrl.includes("?") ? "&" : "?";
+      return `${loginUrl}${sep}redirect=${encodeURIComponent(redirect)}`;
     }
   };
 
-  const targetUrl = mounted ? getTargetUrl() : envLoginUrl || "#";
+  const targetUrl = mounted ? getTargetUrl() : loginUrl || "#";
 
   return (
     <motion.div
@@ -77,7 +79,7 @@ export function AuthLoginForm({ copy }: AuthLoginFormProps) {
             </button>
             {isDev && (
               <span className="text-xs text-red-600 block font-mono">
-                Missing NEXT_PUBLIC_APP_LOGIN_URL
+                Missing APP_LOGIN_URL (server env) or admin appLoginUrl setting
               </span>
             )}
           </div>
@@ -91,10 +93,10 @@ export function AuthLoginForm({ copy }: AuthLoginFormProps) {
         )}
 
         {/* Forgot Password Link */}
-        {copy.forgotLabel && envForgotUrl && (
+        {copy.forgotLabel && forgotUrl && (
           <div className="text-center pt-1">
             <a
-              href={envForgotUrl}
+              href={forgotUrl}
               className="text-xs text-[#6B6F76] hover:text-[#161616] font-medium transition-colors"
             >
               {copy.forgotLabel}
@@ -120,4 +122,3 @@ export function AuthLoginForm({ copy }: AuthLoginFormProps) {
 }
 
 export default AuthLoginForm;
-

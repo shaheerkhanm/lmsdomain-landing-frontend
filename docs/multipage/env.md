@@ -18,9 +18,9 @@ The Next.js 15 App Router application reads and utilizes the following environme
 | `PORT` | **Container Runtime** | `8080` (defined in `Dockerfile` runner stage) | Next.js server entrypoint (`server.js`) | Defines port on which standalone Node process listens. |
 | `HOSTNAME` | **Container Runtime** | `0.0.0.0` (defined in `Dockerfile` runner stage) | Next.js server entrypoint (`server.js`) | Binds to all network interfaces inside container. |
 | `NODE_ENV` | **Build & Runtime** | `production` | Dockerfile & Next.js runtime | Enables production optimizations, caching, and tree shaking. |
-| `NEXT_PUBLIC_APP_LOGIN_URL` | **Client-side (Build-time baked)** | `undefined` | `components/marketing/AuthLoginForm.tsx` | Mode A redirect URL for LMS application login. |
-| `NEXT_PUBLIC_APP_SIGNUP_URL` | **Client-side (Build-time baked)** | `undefined` | `components/marketing/AuthSignupForm.tsx` | Mode A redirect URL for LMS application signup. |
-| `NEXT_PUBLIC_APP_FORGOT_PASSWORD_URL` | **Client-side (Build-time baked)** | `undefined` | `components/marketing/AuthLoginForm.tsx` | Mode A password reset URL. |
+| `APP_LOGIN_URL` | **Server-side (Runtime)** | `undefined` | `lib/api/content.ts` (`getAppAuthUrls`) → `/login` → `AuthLoginForm` prop | Fallback for the LMS app login link. Admin Settings `appLoginUrl` wins when the backend has it. Unset everywhere → disabled button. |
+| `APP_SIGNUP_URL` | **Server-side (Runtime)** | `undefined` | `lib/api/content.ts` (`getAppAuthUrls`) → `/signup` → `AuthSignupForm` prop | Fallback for the LMS app signup link. Admin Settings `appSignupUrl` wins when the backend has it. |
+| `APP_FORGOT_PASSWORD_URL` | **Server-side (Runtime)** | `undefined` | `lib/api/content.ts` (`getAppAuthUrls`) → `/login` → `AuthLoginForm` prop | Fallback for the password reset link. Admin Settings `appForgotPasswordUrl` wins when the backend has it. Unset → link hidden. |
 
 ### 1.1 Local Host Development (`.env.development.local`)
 When running Next.js directly on a host machine outside Docker (e.g. `npm run dev -- -p 3002` on macOS), the default `.env` specifies `BACKEND_URL=http://backend:3000`, which is unresolvable outside Docker's network bridge.
@@ -42,7 +42,7 @@ Next.js automatically gives `.env.development.local` highest precedence during `
 ### 2.2 Client Components (`'use client'`)
 - Variables prefixed with `NEXT_PUBLIC_` are **baked into the JavaScript bundle at build time** (`npm run build`).
 - They cannot be changed at container startup time unless the application is recompiled.
-- **Docker Build Args Required:** Because `NEXT_PUBLIC_APP_LOGIN_URL`, `NEXT_PUBLIC_APP_SIGNUP_URL`, and `NEXT_PUBLIC_APP_FORGOT_PASSWORD_URL` are client-side variables, they must be supplied during image creation (e.g. `docker build --build-arg NEXT_PUBLIC_APP_LOGIN_URL=...`) for staging and production deployments. In development, they can be set in `.env.local` or `.env.development.local`. If left unset in dev, the buttons render in an explicit disabled state with a red dashed indicator.
+- **App auth links are not `NEXT_PUBLIC_`:** The login, signup and forgot-password links are resolved on the server by `getAppAuthUrls()` (admin Settings first, then `APP_LOGIN_URL` / `APP_SIGNUP_URL` / `APP_FORGOT_PASSWORD_URL`) and passed to the client components as props. No build args are needed; set them as container env (`docker run -e APP_LOGIN_URL=...`). The `/login` and `/signup` pages revalidate with the CMS fetch (300 s), so a changed env value or admin setting shows up after that window or a redeploy. If nothing is set, the buttons render in an explicit disabled state (with a red dev-only hint).
 - **The Localhost Trap:** If `npm run build` is executed inside a container or developer machine where `NEXT_PUBLIC_BACKEND_URL=http://localhost:5201`, any user visiting the site on the internet will have their browser attempt to query their *own* local machine (`127.0.0.1:5201`), triggering immediate `ERR_CONNECTION_REFUSED`.
 
 ---

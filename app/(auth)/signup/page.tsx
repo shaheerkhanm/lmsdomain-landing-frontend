@@ -1,10 +1,10 @@
 import React, { Suspense } from "react";
 import { Metadata } from "next";
-import { getAuthCopy } from "@/lib/api/content";
+import { getAuthCopy, getAppAuthUrls } from "@/lib/api/content";
 import { AuthSignupForm } from "@/components/marketing/AuthSignupForm";
 
 export const metadata: Metadata = {
-  title: "Sign Up",
+  title: "Sign Up | LMS Domain",
   description: "Start your LMS Domain academy platform.",
   robots: {
     index: false,
@@ -13,7 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default async function SignupPage() {
-  const authCopy = await getAuthCopy();
+  const [authCopy, authUrls] = await Promise.all([
+    getAuthCopy(),
+    getAppAuthUrls(),
+  ]);
 
   return (
     <Suspense
@@ -21,7 +24,10 @@ export default async function SignupPage() {
         <div className="w-full h-48 animate-pulse rounded-2xl bg-slate-50" />
       }
     >
-      <AuthSignupForm copy={authCopy.signup} />
+      <AuthSignupForm
+        copy={authCopy.signup}
+        signupUrl={authUrls.signupUrl}
+      />
     </Suspense>
   );
 }

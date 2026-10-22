@@ -142,6 +142,40 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   return {
     address: address || undefined,
     footer: footer || undefined,
+    appLoginUrl: readSettingUrl(address, "appLoginUrl"),
+    appSignupUrl: readSettingUrl(address, "appSignupUrl"),
+    appForgotPasswordUrl: readSettingUrl(address, "appForgotPasswordUrl"),
+  };
+}
+
+// The admin Settings document does not define these fields yet (see
+// docs/multipage/backend-gaps.md); read them defensively so they start
+// working as soon as the backend adds them.
+function readSettingUrl(doc: CmsDocument | null, key: string): string | undefined {
+  const value = (doc as Record<string, unknown> | null)?.[key];
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
+}
+
+// ----------------------------------------------------------------------------
+// App Auth URLs (server-side only — never NEXT_PUBLIC_)
+// Priority: admin site settings (appLoginUrl / appSignupUrl / appForgotPasswordUrl)
+//           → server env APP_LOGIN_URL / APP_SIGNUP_URL / APP_FORGOT_PASSWORD_URL
+//           → undefined (the auth components render their disabled state)
+// ----------------------------------------------------------------------------
+export interface AppAuthUrls {
+  loginUrl?: string;
+  signupUrl?: string;
+  forgotPasswordUrl?: string;
+}
+
+export async function getAppAuthUrls(): Promise<AppAuthUrls> {
+  const settings = await getSiteSettings();
+
+  return {
+    loginUrl: settings.appLoginUrl || process.env.APP_LOGIN_URL || undefined,
+    signupUrl: settings.appSignupUrl || process.env.APP_SIGNUP_URL || undefined,
+    forgotPasswordUrl:
+      settings.appForgotPasswordUrl || process.env.APP_FORGOT_PASSWORD_URL || undefined,
   };
 }
 

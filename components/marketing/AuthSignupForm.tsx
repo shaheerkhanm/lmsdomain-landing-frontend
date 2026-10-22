@@ -8,16 +8,17 @@ import type { AuthSignupCopy } from "@/types/content";
 
 interface AuthSignupFormProps {
   copy: AuthSignupCopy;
+  /** Resolved server-side: from admin site settings → APP_SIGNUP_URL env → undefined */
+  signupUrl?: string;
 }
 
-export function AuthSignupForm({ copy }: AuthSignupFormProps) {
+export function AuthSignupForm({ copy, signupUrl }: AuthSignupFormProps) {
   const searchParams = useSearchParams();
   const shouldReduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
 
-  const envSignupUrl = process.env.NEXT_PUBLIC_APP_SIGNUP_URL;
   const isDev = process.env.NODE_ENV !== "production";
-  const isMissingEnv = !envSignupUrl;
+  const isMissingEnv = !signupUrl;
 
   const selectedPlan = searchParams?.get("plan");
   const selectedBilling = searchParams?.get("billing");
@@ -26,16 +27,16 @@ export function AuthSignupForm({ copy }: AuthSignupFormProps) {
     setMounted(true);
     if (isMissingEnv) {
       console.error(
-        "[auth/signup] NEXT_PUBLIC_APP_SIGNUP_URL environment variable is not defined."
+        "[auth/signup] No signup URL configured. Set APP_SIGNUP_URL server env or configure appSignupUrl in admin site settings."
       );
     }
   }, [isMissingEnv]);
 
   // Build the target signup redirect URL, forwarding ?plan= and ?billing= if present
   const getTargetUrl = () => {
-    if (!envSignupUrl) return "#";
+    if (!signupUrl) return "#";
     try {
-      const url = new URL(envSignupUrl, typeof window !== "undefined" ? window.location.origin : "https://app.lmsdomain.com");
+      const url = new URL(signupUrl, typeof window !== "undefined" ? window.location.origin : "https://app.lmsdomain.com");
       if (selectedPlan) url.searchParams.set("plan", selectedPlan);
       if (selectedBilling) url.searchParams.set("billing", selectedBilling);
       return url.toString();
@@ -45,14 +46,14 @@ export function AuthSignupForm({ copy }: AuthSignupFormProps) {
       if (selectedBilling) params.set("billing", selectedBilling);
       const qs = params.toString();
       if (qs) {
-        const sep = envSignupUrl.includes("?") ? "&" : "?";
-        return `${envSignupUrl}${sep}${qs}`;
+        const sep = signupUrl.includes("?") ? "&" : "?";
+        return `${signupUrl}${sep}${qs}`;
       }
-      return envSignupUrl;
+      return signupUrl;
     }
   };
 
-  const targetUrl = mounted ? getTargetUrl() : envSignupUrl || "#";
+  const targetUrl = mounted ? getTargetUrl() : signupUrl || "#";
 
   return (
     <motion.div
@@ -95,7 +96,7 @@ export function AuthSignupForm({ copy }: AuthSignupFormProps) {
             </button>
             {isDev && (
               <span className="text-xs text-red-600 block font-mono">
-                Missing NEXT_PUBLIC_APP_SIGNUP_URL
+                Missing APP_SIGNUP_URL (server env) or admin appSignupUrl setting
               </span>
             )}
           </div>
@@ -141,4 +142,3 @@ export function AuthSignupForm({ copy }: AuthSignupFormProps) {
 }
 
 export default AuthSignupForm;
-

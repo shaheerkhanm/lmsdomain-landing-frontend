@@ -161,6 +161,10 @@ export interface EnquiryPayload {
 export interface SiteSettings {
   address?: CmsDocument;
   footer?: CmsDocument;
+  /** App auth links from admin Settings (not yet in the backend model) */
+  appLoginUrl?: string;
+  appSignupUrl?: string;
+  appForgotPasswordUrl?: string;
 }
 
 export interface PricingPageData {
