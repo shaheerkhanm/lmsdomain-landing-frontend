@@ -25,6 +25,12 @@ import type {
   PricingEnterprise,
   FeaturesPageData,
   AboutPageData,
+  AboutPageModel,
+  AboutHero,
+  AboutMission,
+  AboutStory,
+  AboutValues,
+  AboutTeam,
   ContactPageData,
   LegalPageData,
   AiPageData,
@@ -324,31 +330,121 @@ export async function getFeaturesPage(): Promise<FeaturesPageData> {
 // Endpoints: /api/cms (slugs: about-hero, about-mission, about-story, about-leadership, about-mission-card),
 //            /api/about/values, /api/about/leadership
 // ----------------------------------------------------------------------------
-export async function getAboutPage(): Promise<AboutPageData> {
-  const [hero, mission, valuesRes, story, leadershipRes, seo] = await Promise.all([
+export async function getAboutPage(): Promise<AboutPageModel> {
+  const [
+    heroCms,
+    missionCms,
+    valuesCms,
+    valuesRes,
+    storyCms,
+    leadershipCms,
+    leadershipRes,
+    missionCardCms,
+    seo,
+  ] = await Promise.all([
     fetchCms("about-hero", ["cms", "about"]),
     fetchCms("about-mission", ["cms", "about"]),
+    fetchCms("about-values", ["cms", "about"]),
     fetchApi<{ status?: boolean; data?: AboutValue[] }>("/api/about/values", {
       method: "POST",
       tags: ["about", "about-values"],
       revalidate: 300,
     }).catch(() => null),
     fetchCms("about-story", ["cms", "about"]),
+    fetchCms("about-leadership", ["cms", "about"]),
     fetchApi<{ status?: boolean; data?: AboutLeadership[] }>("/api/about/leadership", {
       method: "POST",
       tags: ["about", "about-leadership"],
       revalidate: 300,
     }).catch(() => null),
+    fetchCms("about-mission-card", ["cms", "about"]),
     fetchSeo("about"),
   ]);
 
+  const heroImage =
+    heroCms?.image && heroCms.image !== "/path"
+      ? heroCms.image
+      : "/assets/img/about-img.jpg";
+
+  const hero: AboutHero = {
+    eyebrow: (heroCms?.tags && heroCms.tags[0]) || "✦ ABOUT US",
+    title: heroCms?.title || "Empowering Education Through Innovation",
+    subtitle:
+      heroCms?.subTitle ||
+      heroCms?.description ||
+      "We're dedicated to revolutionizing online learning by providing educators and institutions with powerful, intuitive tools to create engaging educational experiences that inspire growth and success.",
+    image: heroImage,
+  };
+
+  const mission: AboutMission | undefined = missionCms?.content
+    ? {
+        title: missionCms.title,
+        statement: missionCms.content,
+      }
+    : undefined;
+
+  const storyImage =
+    storyCms?.image && storyCms.image !== "/path"
+      ? storyCms.image
+      : "/assets/img/our-story-img.jpg";
+
+  const story: AboutStory | undefined = storyCms?.content
+    ? {
+        title: storyCms.title || "Our Story",
+        body: storyCms.content,
+        image: storyImage,
+      }
+    : undefined;
+
+  const activeValues = filterActiveDocuments(valuesRes?.data);
+  const values: AboutValues | undefined =
+    activeValues.length > 0
+      ? {
+          title: valuesCms?.title || "Our Core Values",
+          subtitle: valuesCms?.subTitle,
+          items: activeValues.map((v) => ({
+            title: v.title,
+            description: v.content,
+          })),
+        }
+      : undefined;
+
+  const activeLeaders = filterActiveDocuments(leadershipRes?.data);
+  const team: AboutTeam | undefined =
+    activeLeaders.length > 0
+      ? {
+          title: leadershipCms?.title || "Meet Our Leadership",
+          subtitle: leadershipCms?.subTitle,
+          members: activeLeaders.map((l) => ({
+            name: l.name,
+            role: l.profession || l.description || "Leadership",
+            photo: l.image || "/assets/img/reference/avatar-1.png",
+          })),
+        }
+      : undefined;
+
+  const cta = {
+    title: missionCardCms?.title || "Ready to Transform Your Learning Architecture?",
+    subtitle:
+      missionCardCms?.subTitle ||
+      "Partner with LMS Domain to deliver structured, verifiable, and engaging academy experiences.",
+    primaryCta: {
+      label: missionCardCms?.buttonText || "Request a Demo",
+      href: missionCardCms?.buttonAction || "#",
+    },
+  };
+
   return {
-    hero: hero || undefined,
-    mission: mission || undefined,
-    values: filterActiveDocuments(valuesRes?.data),
-    story: story || undefined,
-    leadership: filterActiveDocuments(leadershipRes?.data),
     seo: seo || undefined,
+    hero,
+    mission,
+    story,
+    values,
+    timeline: undefined, // Hidden: not present in backend
+    team,
+    stats: undefined,    // Hidden: not present in backend
+    careers: undefined,  // Hidden: not present in backend
+    cta,
   };
 }
 

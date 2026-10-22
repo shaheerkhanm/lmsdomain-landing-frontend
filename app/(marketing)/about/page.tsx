@@ -1,25 +1,43 @@
-import AboutPage from "@/components/modules/AboutPage";
-import { fetchSeo } from "@/utils/api";
-import { Metadata } from "next";
-import React from "react";
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import { getAboutPage, fetchSeo } from "@/lib/api/content";
+import { AboutView } from "@/components/marketing";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const [seo, pageData] = await Promise.all([
+    fetchSeo("about").catch(() => null),
+    getAboutPage().catch(() => null),
+  ]);
 
-    const data = await fetchSeo({ slug: "about" });
-    const { metatitle, metadescription, metakeyword, othermetatags } = data;
+  const title =
+    seo?.metatitle ||
+    (pageData?.hero?.title
+      ? `${pageData.hero.title} | LMS Domain`
+      : "About Us | LMS Domain");
 
-    return {
-        title: metatitle || "LMS Domain",
-        description: metadescription || "LMS Domain Learning Management",
-        keywords: metakeyword || ["MCDC Corporate"],
-        other: othermetatags
-    };
+  const description =
+    seo?.metadescription ||
+    pageData?.hero?.subtitle ||
+    "Empowering education through innovation. Discover our mission, instructional philosophy, and learning architecture.";
+
+  return {
+    title,
+    description,
+    keywords: seo?.metakeyword || [
+      "About LMS Domain",
+      "Learning Management Mission",
+      "Education Technology",
+      "Academy Architecture",
+    ],
+  };
 }
 
-function page() {
-    return (
-        <AboutPage />
-    );
-}
+export default async function AboutPage() {
+  const data = await getAboutPage();
 
-export default page;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white" />}>
+      <AboutView data={data} />
+    </Suspense>
+  );
+}

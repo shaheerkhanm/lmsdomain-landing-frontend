@@ -5,9 +5,20 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 import { manifestoContent } from "@/content/home/manifesto";
 
-const STATEMENT_WORDS = manifestoContent.text.split(" ");
+export interface ManifestSectionProps {
+  statement?: string;
+  id?: string;
+  bgClassName?: string;
+  eyebrow?: string;
+}
 
-export function ManifestSection() {
+export function ManifestSection({
+  statement,
+  id = "manifesto",
+  bgClassName = "bg-[#F3F4F6] lg:bg-white",
+  eyebrow,
+}: ManifestSectionProps = {}) {
+  const words = (statement || manifestoContent.text).trim().split(/\s+/);
   const sectionRef = useRef<HTMLElement>(null);
   const paragraphBlockRef = useRef<HTMLDivElement>(null);
   const mobileContainerRef = useRef<HTMLDivElement>(null);
@@ -85,16 +96,22 @@ export function ManifestSection() {
   return (
     <section
       ref={sectionRef}
-      id="manifesto"
-      className="bg-[#F3F4F6] lg:bg-white font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16 lg:mb-0"
+      id={id}
+      className={`${bgClassName} font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16 lg:mb-0`}
     >
       {/* Desktop Layout (>=1024px: Pinned Row) */}
       <div
         ref={paragraphBlockRef}
         className="hidden lg:block max-w-[820px] mx-auto px-4 sm:px-6 text-center will-change-transform"
       >
+        {eyebrow && (
+          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-6">
+            <span>✦</span>
+            <span>{eyebrow.replace(/^✦\s*/, "")}</span>
+          </div>
+        )}
         <p className="text-3xl sm:text-4xl lg:text-[44px] font-medium leading-[1.3] tracking-tight flex flex-wrap justify-center gap-x-2.5 sm:gap-x-3 gap-y-1.5 sm:gap-y-2 select-none">
-          {STATEMENT_WORDS.map((word, idx) => (
+          {words.map((word, idx) => (
             <span
               key={idx}
               className="manifesto-word text-[#C9CCD1] will-change-[color]"
@@ -108,13 +125,19 @@ export function ManifestSection() {
       {/* Mobile Layout (<1024px: In-flow text reveal, no sticky runway) */}
       <div
         ref={mobileContainerRef}
-        className="w-full px-6 py-12 lg:hidden flex items-center justify-center"
+        className="w-full px-6 py-12 lg:hidden flex flex-col items-center justify-center"
       >
+        {eyebrow && (
+          <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-4">
+            <span>✦</span>
+            <span>{eyebrow.replace(/^✦\s*/, "")}</span>
+          </div>
+        )}
         <p
           ref={mobileTextRef}
           className="text-2xl sm:text-3xl font-medium leading-[1.35] tracking-tight flex flex-wrap justify-center gap-x-2 sm:gap-x-2.5 gap-y-1.5 select-none text-center max-w-[700px]"
         >
-          {STATEMENT_WORDS.map((word, idx) => (
+          {words.map((word, idx) => (
             <span
               key={idx}
               className="manifesto-word-mobile text-[#C9CCD1] will-change-[color]"

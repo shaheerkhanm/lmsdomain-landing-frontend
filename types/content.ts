@@ -381,6 +381,98 @@ export interface AiPageData {
   };
 }
 
+export interface AboutHero {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  image?: string;
+}
+
+export interface AboutMission {
+  title?: string;
+  statement: string;
+}
+
+export interface AboutStory {
+  title: string;
+  body: string;
+  image?: string;
+}
+
+export interface AboutValueItem {
+  title: string;
+  description: string;
+  icon?: string;
+}
+
+export interface AboutValues {
+  title: string;
+  subtitle?: string;
+  items: AboutValueItem[];
+}
+
+export interface AboutTimelineItem {
+  date: string;
+  title: string;
+  description: string;
+}
+
+export interface AboutTimeline {
+  title: string;
+  subtitle?: string;
+  items: AboutTimelineItem[];
+}
+
+export interface AboutTeamMember {
+  name: string;
+  role: string;
+  photo: string;
+  linkedinUrl?: string;
+}
+
+export interface AboutTeam {
+  title: string;
+  subtitle?: string;
+  members: AboutTeamMember[];
+}
+
+export interface AboutStatItem {
+  value: string;
+  label: string;
+  source?: string;
+}
+
+export interface AboutStats {
+  title?: string;
+  items: AboutStatItem[];
+}
+
+export interface AboutCareers {
+  title: string;
+  description: string;
+  cta: {
+    label: string;
+    href?: string;
+  };
+}
+
+export interface AboutPageModel {
+  seo?: SeoMetadata;
+  hero: AboutHero;
+  mission?: AboutMission;
+  story?: AboutStory;
+  values?: AboutValues;
+  timeline?: AboutTimeline;
+  team?: AboutTeam;
+  stats?: AboutStats;
+  careers?: AboutCareers;
+  cta?: {
+    title?: string;
+    subtitle?: string;
+    primaryCta?: { label: string; href?: string };
+  };
+}
+
 export interface AboutPageData {
   hero?: CmsDocument;
   mission?: CmsDocument;
