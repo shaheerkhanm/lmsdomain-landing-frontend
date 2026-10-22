@@ -11,6 +11,8 @@ import {
 } from "@/components/marketing";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase } from "@/lib/site";
+import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
+import { INTEGRATIONS, INTEGRATIONS_HEADING, INTEGRATIONS_SUBTITLE } from "@/content/features/integrations";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -91,7 +93,14 @@ export default async function FeaturesPage() {
       {/* 7. Category Sections (8 alternating sections with real photos, video loop & interactive simulations) */}
       <CategorySections categories={categories} media={data.media} />
 
-      {/* 8. Closing CTA Band (landing final CTA with testimonials hidden pending real customer signoff) */}
+      {/* 8. Seamless Integrations (same 12 tools as the live site) */}
+      <IntegrationsHub
+        heading={INTEGRATIONS_HEADING}
+        subtitle={INTEGRATIONS_SUBTITLE}
+        integrations={INTEGRATIONS}
+      />
+
+      {/* 9. Closing CTA Band (landing final CTA with testimonials hidden pending real customer signoff) */}
       <CtaSection showTestimonials={false} />
     </div>
   );
