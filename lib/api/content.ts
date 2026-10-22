@@ -44,6 +44,8 @@ import type {
   LegalPageData,
   AiPageData,
   AuthCopy,
+  HomeTestimonials,
+  TestimonialItem,
 } from "@/types/content";
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
 import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
@@ -789,4 +791,71 @@ export async function getAiPage(): Promise<AiPageData> {
     cta,
     seo: seo || undefined,
   };
+}
+
+// ----------------------------------------------------------------------------
+// Homepage Testimonials (Wall of Love + CtaSection floating cards)
+// Endpoint: POST /api/home/testimonials
+// Published backend testimonials win. Otherwise the local sample, loaded with a
+// dynamic import ONLY when CMS_USE_FIXTURES === "true". Otherwise empty, and the
+// sections hide.
+// ----------------------------------------------------------------------------
+interface BackendTestimonial {
+  _id?: string;
+  customerName?: string;
+  customerProfession?: string;
+  comment?: string;
+  image?: string;
+  isActive?: boolean;
+  isDeleted?: boolean;
+}
+
+export async function getHomeTestimonials(): Promise<HomeTestimonials> {
+  const res = await fetchApi<{ status?: boolean; data?: BackendTestimonial[] }>(
+    "/api/home/testimonials",
+    {
+      method: "POST",
+      body: { slug: "" },
+      tags: ["home", "testimonials"],
+      revalidate: 300,
+    }
+  ).catch(() => null);
+
+  const published = filterActiveDocuments(res?.data).filter(
+    (t) => t.customerName?.trim() && t.comment?.trim()
+  );
+
+  if (published.length > 0) {
+    const cards: TestimonialItem[] = published.map((t, idx) => ({
+      id: t._id || `testimonial-${idx + 1}`,
+      name: t.customerName!.trim(),
+      role: t.customerProfession?.trim() || "",
+      avatar: t.image || undefined,
+      quote: t.comment!.trim(),
+      placeholder: false,
+    }));
+
+    return {
+      cards,
+      cta: cards.map((c) => ({
+        id: c.id,
+        avatar: c.avatar,
+        text: c.quote!,
+        author: c.name,
+        role: c.role || undefined,
+      })),
+      isSample: false,
+    };
+  }
+
+  if (process.env.CMS_USE_FIXTURES === "true") {
+    const sample = await import("@/content/home/sample-testimonials");
+    return {
+      cards: sample.SAMPLE_TESTIMONIAL_CARDS,
+      cta: sample.SAMPLE_CTA_TESTIMONIALS,
+      isSample: true,
+    };
+  }
+
+  return { cards: [], cta: [], isSample: false };
 }

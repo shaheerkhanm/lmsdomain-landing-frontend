@@ -50,6 +50,6 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 
 - **`home-graph-section`** says "10+" and "25+ countries served". The homepage ignores it today. Don't use these numbers on any page unless they're true.
 - **`smartteaches`** has 2 test entries (`SmartTechTest`, `Smart Automation`). Delete or replace them before anything reads that list.
-- **`customers`, `homefeatures`, `clients`, `testimonials`** are empty, so the homepage Wall of Love is still placeholder cards from `content/home/testimonials.ts`.
+- **`customers`, `homefeatures`, `clients`, `testimonials`** are empty. The homepage Wall of Love reads `/api/home/testimonials` (`customerName`, `customerProfession`, `comment`, `image`) and is hidden until at least one active testimonial exists. Demo cards (`content/home/sample-testimonials.ts`) appear only with `CMS_USE_FIXTURES=true` in local preview.
 - **Enquiry:** empty name and phone in the admin are expected for type 2 (the email-only CTA form). Type 1 (Request Demo) saves name, organization, phone, email and subject. Not a bug.
 

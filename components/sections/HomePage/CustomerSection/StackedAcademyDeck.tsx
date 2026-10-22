@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import { testimonialsContent } from "@/content/home/testimonials";
 import { TestimonialItem } from "@/types/content";
 
 export function TestimonialCard({
@@ -74,10 +73,10 @@ export function TestimonialCard({
   );
 }
 
-export function StackedAcademyDeck() {
+export function StackedAcademyDeck({ cards }: { cards: TestimonialItem[] }) {
   return (
     <div className="relative w-full max-w-md flex flex-col items-center gap-3.5">
-      {testimonialsContent.cards.map((card) => (
+      {cards.map((card) => (
         <TestimonialCard key={card.id} item={card} />
       ))}
     </div>

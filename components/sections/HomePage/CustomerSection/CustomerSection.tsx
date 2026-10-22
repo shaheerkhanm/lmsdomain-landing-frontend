@@ -3,9 +3,21 @@
 import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { testimonialsContent } from "@/content/home/testimonials";
+import type { TestimonialItem } from "@/types/content";
 import { TestimonialCard } from "./StackedAcademyDeck";
 
-export function CustomerSection({ data }: { data?: any }) {
+interface CustomerSectionProps {
+  data?: any;
+  cards?: TestimonialItem[];
+}
+
+// The Wall of Love renders only when there are testimonials to show.
+export function CustomerSection({ cards = [] }: CustomerSectionProps) {
+  if (cards.length === 0) return null;
+  return <WallOfLove cards={cards} />;
+}
+
+function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const textWrapperRef = useRef<HTMLDivElement>(null);
@@ -558,7 +570,8 @@ export function CustomerSection({ data }: { data?: any }) {
     return () => ctx.revert();
   }, []);
 
-  const cards = testimonialsContent.cards;
+  // The animation is built around 5 card slots; with fewer testimonials, cycle them.
+  const deck = Array.from({ length: 5 }, (_, i) => cards[i % cards.length]);
 
   return (
     <section ref={sectionRef} id="testimonials" className="bg-[#F3F4F6] font-urbanist relative overflow-visible pt-0 pb-0 lg:pt-0 lg:pb-[57px] mb-16 lg:mb-0">
@@ -593,7 +606,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={card1Ref}
               className="absolute inset-0 z-50 will-change-transform"
             >
-              <TestimonialCard item={cards[0]} />
+              <TestimonialCard item={deck[0]} />
             </div>
 
             {/* Card 2 (z-40, tilt +3deg, +30px offset) */}
@@ -601,7 +614,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={card2Ref}
               className="absolute inset-0 z-40 will-change-transform"
             >
-              <TestimonialCard item={cards[1]} />
+              <TestimonialCard item={deck[1]} />
             </div>
 
             {/* Card 3 (z-30, tilt -2deg, +60px offset) */}
@@ -609,7 +622,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={card3Ref}
               className="absolute inset-0 z-30 will-change-transform"
             >
-              <TestimonialCard item={cards[2]} />
+              <TestimonialCard item={deck[2]} />
             </div>
 
             {/* Card 4 (z-20, tilt +4deg) */}
@@ -617,7 +630,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={card4Ref}
               className="absolute inset-0 z-20 will-change-transform"
             >
-              <TestimonialCard item={cards[3]} />
+              <TestimonialCard item={deck[3]} />
             </div>
 
             {/* Card 5 (Bottom of stack, stays settled at 0deg, z-10, tilt -3deg) */}
@@ -625,7 +638,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={card5Ref}
               className="absolute inset-0 z-10 will-change-transform"
             >
-              <TestimonialCard item={cards[4]} />
+              <TestimonialCard item={deck[4]} />
             </div>
           </div>
         </div>
@@ -658,7 +671,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={mCard1Ref}
               className="absolute inset-0 z-50 will-change-transform"
             >
-              <TestimonialCard item={cards[0]} />
+              <TestimonialCard item={deck[0]} />
             </div>
 
             {/* Card 2 */}
@@ -666,7 +679,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={mCard2Ref}
               className="absolute inset-0 z-40 will-change-transform"
             >
-              <TestimonialCard item={cards[1]} />
+              <TestimonialCard item={deck[1]} />
             </div>
 
             {/* Card 3 */}
@@ -674,7 +687,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={mCard3Ref}
               className="absolute inset-0 z-30 will-change-transform"
             >
-              <TestimonialCard item={cards[2]} />
+              <TestimonialCard item={deck[2]} />
             </div>
 
             {/* Card 4 */}
@@ -682,7 +695,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={mCard4Ref}
               className="absolute inset-0 z-20 will-change-transform"
             >
-              <TestimonialCard item={cards[3]} />
+              <TestimonialCard item={deck[3]} />
             </div>
 
             {/* Card 5 */}
@@ -690,7 +703,7 @@ export function CustomerSection({ data }: { data?: any }) {
               ref={mCard5Ref}
               className="absolute inset-0 z-10 will-change-transform"
             >
-              <TestimonialCard item={cards[4]} />
+              <TestimonialCard item={deck[4]} />
             </div>
           </div>
         </div>

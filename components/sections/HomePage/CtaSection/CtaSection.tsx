@@ -2,24 +2,20 @@
 
 import React, { useState } from "react";
 import { toast } from "sonner";
+import type { CtaTestimonial } from "@/types/content";
 
-interface TestimonialPanel {
+interface TestimonialSlot {
   id: string;
-  avatar: string;
-  text: string;
-  author?: string;
-  role?: string;
   type: "pill" | "card";
   positionClass: string;
   delayClass: string;
 }
 
-const TESTIMONIAL_PANELS: TestimonialPanel[] = [
+// Layout only. Content comes from the `testimonials` prop, filled slot by slot.
+const TESTIMONIAL_SLOTS: TestimonialSlot[] = [
   // 1. Top Center (Pill, sitting right above top of sphere)
   {
     id: "panel-top",
-    avatar: "/assets/img/reference/avatar-top.png",
-    text: "At our firm, we heavily rely on LMS Domain to effectively communicate with countless cohorts on a weekly basis.",
     type: "pill",
     positionClass: "top-3 sm:top-5 lg:top-7 left-1/2 -translate-x-1/2 z-30 max-w-xs sm:max-w-md",
     delayClass: "animate-float-1",
@@ -27,8 +23,6 @@ const TESTIMONIAL_PANELS: TestimonialPanel[] = [
   // 2. Upper Left (Pill)
   {
     id: "panel-top-left",
-    avatar: "/assets/img/reference/avatar-top-left.png",
-    text: "Each week, we connect with many cohorts through LMS Domain, boosting our outreach.",
     type: "pill",
     positionClass: "top-16 sm:top-20 lg:top-22 left-3 sm:left-8 lg:left-14 z-10 max-w-[240px] sm:max-w-[280px] lg:max-w-[310px] hidden sm:flex",
     delayClass: "animate-float-2",
@@ -36,30 +30,20 @@ const TESTIMONIAL_PANELS: TestimonialPanel[] = [
   // 3. Upper Right (Pill)
   {
     id: "panel-top-right",
-    avatar: "/assets/img/reference/avatar-top-right.png",
-    text: "We depend on LMS Domain to send messages to a large number of students each week.",
     type: "pill",
     positionClass: "top-16 sm:top-20 lg:top-22 right-3 sm:right-8 lg:right-14 z-10 max-w-[240px] sm:max-w-[280px] lg:max-w-[310px] hidden sm:flex",
     delayClass: "animate-float-3",
   },
-  // 4. Middle Left (Full Card: Darius Salehipour)
+  // 4. Middle Left (Full Card)
   {
     id: "panel-mid-left",
-    avatar: "/assets/img/reference/avatar-mid-left.png",
-    text: "My company uses LMS Domain – to text with thousands of learners every week. We run a technical academy and the effort of administration is zero.",
-    author: "Darius Salehipour",
-    role: "Head of Product",
     type: "card",
     positionClass: "top-36 sm:top-40 lg:top-44 left-1 sm:left-4 lg:left-8 z-10 max-w-[240px] sm:max-w-[280px] lg:max-w-[310px] hidden md:block",
     delayClass: "animate-float-1",
   },
-  // 5. Middle Right (Full Card: Melanie Jackson)
+  // 5. Middle Right (Full Card)
   {
     id: "panel-mid-right",
-    avatar: "/assets/img/reference/avatar-mid-right.png",
-    text: "In our thriving academy business, we utilize LMS Domain to efficiently handle a multitude of inquiries from prospective students each week.",
-    author: "Melanie Jackson",
-    role: "Project Manager",
     type: "card",
     positionClass: "top-36 sm:top-40 lg:top-44 right-1 sm:right-4 lg:right-8 z-10 max-w-[240px] sm:max-w-[280px] lg:max-w-[310px] hidden md:block",
     delayClass: "animate-float-2",
@@ -67,8 +51,6 @@ const TESTIMONIAL_PANELS: TestimonialPanel[] = [
   // 6. Lower Left (Subtle background pill)
   {
     id: "panel-bot-left",
-    avatar: "/assets/img/reference/avatar-bot-left.png",
-    text: "We use LMS Domain to coordinate multi-faculty batches on a weekly basis.",
     type: "pill",
     positionClass: "bottom-3 lg:bottom-5 left-4 sm:left-10 lg:left-16 z-0 opacity-60 max-w-[240px] lg:max-w-[290px] hidden lg:flex",
     delayClass: "animate-float-3",
@@ -76,8 +58,6 @@ const TESTIMONIAL_PANELS: TestimonialPanel[] = [
   // 7. Lower Right (Subtle background pill)
   {
     id: "panel-bot-right",
-    avatar: "/assets/img/reference/avatar-bot-right.png",
-    text: "Our company leverages LMS Domain to deliver structured courses with watermarked video lessons.",
     type: "pill",
     positionClass: "bottom-3 lg:bottom-5 right-4 sm:right-10 lg:right-16 z-0 opacity-60 max-w-[240px] lg:max-w-[290px] hidden lg:flex",
     delayClass: "animate-float-1",
@@ -87,9 +67,23 @@ const TESTIMONIAL_PANELS: TestimonialPanel[] = [
 export interface CtaSectionProps {
   data?: any;
   showTestimonials?: boolean;
+  testimonials?: CtaTestimonial[];
 }
 
-export function CtaSection({ data, showTestimonials = true }: CtaSectionProps = {}) {
+export function CtaSection({
+  data,
+  showTestimonials = true,
+  testimonials = [],
+}: CtaSectionProps = {}) {
+  const panels = showTestimonials
+    ? TESTIMONIAL_SLOTS.slice(0, testimonials.length).map((slot, i) => ({
+        ...slot,
+        ...testimonials[i],
+        key: slot.id,
+      }))
+    : [];
+  const mobileItem = showTestimonials ? testimonials[3] ?? testimonials[0] : undefined;
+
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -161,56 +155,45 @@ export function CtaSection({ data, showTestimonials = true }: CtaSectionProps = 
             {/* Upper Interactive Stage: Floating Blue Sphere & Testimonials */}
             <div className="relative w-full max-w-5xl h-[330px] sm:h-[400px] lg:h-[450px] flex items-center justify-center">
               {/* Floating Semi-Transparent Testimonial Panels Distributed Around Sphere */}
-              {showTestimonials &&
-                TESTIMONIAL_PANELS.map((panel) => (
-                  <div
-                    key={panel.id}
-                    className={`absolute ${panel.positionClass} ${panel.delayClass} transition-transform duration-700 ease-out`}
-                  >
-                    {panel.type === "pill" ? (
-                      <div className="bg-white/45 backdrop-blur-md rounded-2xl border border-white/55 px-3.5 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs text-slate-800 shadow-2xs flex items-center gap-2.5 select-none hover:bg-white/60 transition-colors">
-                        <img
-                          src={panel.avatar}
-                          alt="User"
-                          className="size-6 sm:size-7 rounded-full object-cover shrink-0 ring-1 ring-white/60"
-                        />
-                        <p className="leading-snug line-clamp-2">{panel.text}</p>
-                      </div>
-                    ) : (
-                      <div className="bg-white/50 backdrop-blur-md rounded-2xl border border-white/65 p-3.5 sm:p-4 text-[11px] sm:text-xs text-slate-800 shadow-2xs space-y-2 select-none hover:bg-white/65 transition-colors">
-                        <p className="leading-relaxed line-clamp-3">{panel.text}</p>
-                        <div className="flex items-center gap-2 pt-1 border-t border-white/30">
-                          <img
-                            src={panel.avatar}
-                            alt={panel.author || "User"}
-                            className="size-6 sm:size-7 rounded-full object-cover shrink-0 ring-1 ring-white/60"
-                          />
-                          <div className="min-w-0">
-                            <span className="font-bold text-slate-900 block truncate text-[11px] sm:text-xs">
-                              {panel.author}
-                            </span>
-                            <span className="text-[10px] text-slate-600 block truncate">
-                              {panel.role}
-                            </span>
-                          </div>
+              {panels.map((panel) => (
+                <div
+                  key={panel.key}
+                  className={`absolute ${panel.positionClass} ${panel.delayClass} transition-transform duration-700 ease-out`}
+                >
+                  {panel.type === "pill" ? (
+                    <div className="bg-white/45 backdrop-blur-md rounded-2xl border border-white/55 px-3.5 sm:px-4 py-2 sm:py-2.5 text-[11px] sm:text-xs text-slate-800 shadow-2xs flex items-center gap-2.5 select-none hover:bg-white/60 transition-colors">
+                      <PanelAvatar src={panel.avatar} alt="User" />
+                      <p className="leading-snug line-clamp-2">{panel.text}</p>
+                    </div>
+                  ) : (
+                    <div className="bg-white/50 backdrop-blur-md rounded-2xl border border-white/65 p-3.5 sm:p-4 text-[11px] sm:text-xs text-slate-800 shadow-2xs space-y-2 select-none hover:bg-white/65 transition-colors">
+                      <p className="leading-relaxed line-clamp-3">{panel.text}</p>
+                      <div className="flex items-center gap-2 pt-1 border-t border-white/30">
+                        <PanelAvatar src={panel.avatar} alt={panel.author || "User"} />
+                        <div className="min-w-0">
+                          <span className="font-bold text-slate-900 block truncate text-[11px] sm:text-xs">
+                            {panel.author}
+                          </span>
+                          <span className="text-[10px] text-slate-600 block truncate">
+                            {panel.role}
+                          </span>
                         </div>
                       </div>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  )}
+                </div>
+              ))}
 
               {/* Mobile-Optimized Testimonial Pill for Small Screens */}
-              {showTestimonials && (
+              {mobileItem && (
                 <div className="md:hidden absolute bottom-1 left-1/2 -translate-x-1/2 w-full max-w-xs z-10 px-2">
                   <div className="bg-white/55 backdrop-blur-md rounded-2xl border border-white/60 p-3 text-[11px] text-slate-800 shadow-2xs flex items-center gap-2.5">
-                    <img
-                      src="/assets/img/reference/avatar-mid-left.png"
-                      alt="User"
-                      className="size-7 rounded-full object-cover shrink-0 ring-1 ring-white/60"
-                    />
+                    <PanelAvatar src={mobileItem.avatar} alt="User" className="size-7" />
                     <div>
-                      <span className="font-bold text-slate-900 block text-xs">Darius Salehipour</span>
-                      <p className="text-[10px] text-slate-600 leading-tight">Head of Product • Thousands of active cohorts</p>
+                      <span className="font-bold text-slate-900 block text-xs">{mobileItem.author}</span>
+                      <p className="text-[10px] text-slate-600 leading-tight">
+                        {[mobileItem.role, mobileItem.highlight].filter(Boolean).join(" • ")}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -278,6 +261,27 @@ export function CtaSection({ data, showTestimonials = true }: CtaSectionProps = 
         </div>
       </div>
     </section>
+  );
+}
+
+function PanelAvatar({
+  src,
+  alt,
+  className = "size-6 sm:size-7",
+}: {
+  src?: string;
+  alt: string;
+  className?: string;
+}) {
+  if (!src) {
+    return <div className={`${className} rounded-full bg-white/70 shrink-0 ring-1 ring-white/60`} />;
+  }
+  return (
+    <img
+      src={src}
+      alt={alt}
+      className={`${className} rounded-full object-cover shrink-0 ring-1 ring-white/60`}
+    />
   );
 }
 

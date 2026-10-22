@@ -6,7 +6,7 @@ import AiSection from "@/components/sections/HomePage/AiSection/AiSection";
 import AdvantageSection from "@/components/sections/HomePage/AdvantageSection/AdvantageSection";
 import CustomerSection from "@/components/sections/HomePage/CustomerSection/CustomerSection";
 import FaqSection from "@/components/sections/HomePage/FaqSection";
-import { fetchCms } from "@/lib/api/content";
+import { fetchCms, getHomeTestimonials } from "@/lib/api/content";
 
 export async function HomePage() {
   // Fetch section data in parallel through server content client
@@ -16,12 +16,14 @@ export async function HomePage() {
     teachSmarterData,
     customerData,
     benefitsData,
+    testimonials,
   ] = await Promise.all([
     fetchCms("home-hero"),
     fetchCms("home-graph-section"),
     fetchCms("home-teach-smarter"),
     fetchCms("customers"),
     fetchCms("results"),
+    getHomeTestimonials(),
   ]);
 
   return (
@@ -31,7 +33,7 @@ export async function HomePage() {
       <ManifestSection />
       <AiSection />
       <AdvantageSection data={benefitsData || {}} />
-      <CustomerSection data={customerData || {}} />
+      <CustomerSection data={customerData || {}} cards={testimonials.cards} />
       <FaqSection />
     </div>
   );

@@ -677,6 +677,22 @@ export interface TestimonialsContent {
   cards: TestimonialItem[];
 }
 
+// Floating testimonial around the CtaSection sphere
+export interface CtaTestimonial {
+  id: string;
+  avatar?: string;
+  text: string;
+  author?: string;
+  role?: string;
+  highlight?: string; // extra line on the mobile pill
+}
+
+export interface HomeTestimonials {
+  cards: TestimonialItem[];
+  cta: CtaTestimonial[];
+  isSample: boolean;
+}
+
 export interface FooterContent {
   description: string;
 }
