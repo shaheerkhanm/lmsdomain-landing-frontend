@@ -154,7 +154,7 @@ export interface SectionResult<T> {
 
 export async function getSection<S extends SectionSlug>(slug: S): Promise<SectionResult<SectionContent<S>>> {
   const def = SECTIONS[slug] as SectionDef<SectionContent<S>>;
-  const doc = await fetchCms(slug, ["cms", `cms:${slug}`, def.page]);
+  const doc = await fetchCms(def.slug, ["cms", `cms:${def.slug}`, def.page]);
   if (!doc) return { content: def.defaults, source: "code" };
 
   const data = (doc as any).data;
@@ -201,12 +201,12 @@ export async function fetchSeo(slug: string): Promise<SeoMetadata | null> {
 
 // ----------------------------------------------------------------------------
 // Site Settings (Header, Footer, Contact info)
-// Slugs: "address", "footer"
+// Slugs: "address", "site-footer" (the live site still reads "footer")
 // ----------------------------------------------------------------------------
 export async function getSiteSettings(): Promise<SiteSettings> {
   const [address, footer, appLinks] = await Promise.all([
     fetchCms("address", ["cms", "settings", "address"]),
-    fetchCms("footer", ["cms", "settings", "footer"]),
+    fetchCms(SECTIONS.footer.slug, ["cms", "settings", SECTIONS.footer.slug]),
     // Settings > App links (appLoginUrl, appSignupUrl, appForgotPasswordUrl)
     fetchCms("app-links", ["cms", "settings", "app-links"]),
   ]);
@@ -253,7 +253,7 @@ export async function getAppAuthUrls(): Promise<AppAuthUrls> {
 
 // ----------------------------------------------------------------------------
 // Pricing Page Content
-// Endpoints: /api/cms (slugs: pricing-hero, pricing-faq, pricing-footer-card),
+// Endpoints: /api/cms (slugs: pricing-hero, site-pricing-faq, site-pricing-footer-card),
 //            /api/pricing, /api/pricing/faq
 // ----------------------------------------------------------------------------
 // Currency for one plan: the plan's own ISO code from the backend, then the
@@ -465,7 +465,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
 
 // ----------------------------------------------------------------------------
 // Features Page Content
-// Endpoints: /api/cms (slugs: features-hero, features-cta),
+// Endpoints: /api/cms (slugs: site-features-hero, features-cta),
 //            /api/seo (slug: features), /api/pricing/faq
 // Content source: content/features/catalog.ts (9 categories, 38 features)
 // ----------------------------------------------------------------------------
@@ -642,7 +642,7 @@ export async function getFeaturesPage(): Promise<FeaturesPageData> {
 
 // ----------------------------------------------------------------------------
 // About Page Content
-// Endpoints: /api/cms (slugs: about-hero, about-mission, about-story, about-leadership, about-mission-card),
+// Endpoints: /api/cms (slugs: about-hero, about-mission, about-story, about-leadership, site-about-mission-card),
 //            /api/about/values, /api/about/leadership
 // ----------------------------------------------------------------------------
 export async function getAboutPage(): Promise<AboutPageModel> {
@@ -784,7 +784,7 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     }
   }
 
-  // Closing band: About > Cms > "closing call to action" (about-mission-card)
+  // Closing band: About > Cms > "closing call to action (new site)" (site-about-mission-card)
   const cta = {
     title: band.content.title,
     subtitle: band.content.subtitle || "",

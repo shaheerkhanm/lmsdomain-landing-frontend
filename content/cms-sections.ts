@@ -29,6 +29,8 @@ import { INTEGRATIONS_HEADING, INTEGRATIONS_SUBTITLE } from "@/content/features/
 export type CmsField = "title" | "subTitle" | "buttonText" | "buttonAction" | "description" | "content" | "heading";
 
 export interface SectionDef<T = any> {
+  // CMS entry slug. "site-<old slug>": the live site (old frontend) still reads the
+  // old entry until launch, so the new site has its own copy (docs/multipage/launch-cleanup.md)
   slug: string;
   page: "home" | "features" | "ai" | "contact" | "pricing" | "about" | "settings" | "auth";
   label: string; // admin list title (cmsTitle)
@@ -85,16 +87,16 @@ const { hero: AI_HERO, availability: AI_AVAILABILITY, relatedTools: AI_RELATED }
 export const SECTIONS = {
   // ---------------------------------------------------------------- Home
   "home-hero": {
-    slug: "home-hero",
+    slug: "site-home-hero",
     page: "home",
-    label: "Home: hero",
+    label: "Home: hero (new site)",
     defaults: { ...heroContent, connector: "to" },
     fields: { title: "titlePrefix", subTitle: "subtitle", buttonText: "ctaText" },
   },
   "home-teach-smarter": {
-    slug: "home-teach-smarter",
+    slug: "site-home-teach-smarter",
     page: "home",
-    label: "Home: everything you need to teach online",
+    label: "Home: everything you need to teach online (new site)",
     defaults: { eyebrow: "CORE CAPABILITIES", ...featuresContent },
     fields: { title: "sectionTitle" },
   },
@@ -138,9 +140,9 @@ export const SECTIONS = {
 
   // ---------------------------------------------------------------- Features
   "features-hero": {
-    slug: "features-hero",
+    slug: "site-features-hero",
     page: "features",
-    label: "Features: hero",
+    label: "Features: hero (new site)",
     defaults: FEATURES_HERO_DEFAULTS,
     fields: { title: "title", subTitle: "subtitle", buttonText: "ctaText" },
   },
@@ -342,9 +344,9 @@ export const SECTIONS = {
     fields: { title: "title", subTitle: "subtitle" },
   },
   "pricing-faq": {
-    slug: "pricing-faq",
+    slug: "site-pricing-faq",
     page: "pricing",
-    label: "Pricing: FAQ heading",
+    label: "Pricing: FAQ heading (new site)",
     defaults: {
       eyebrow: "FAQS",
       title: "Frequently Asked Questions",
@@ -354,27 +356,27 @@ export const SECTIONS = {
     fields: { title: "title", subTitle: "subtitle" },
   },
   "pricing-footer-card": {
-    slug: "pricing-footer-card",
+    slug: "site-pricing-footer-card",
     page: "pricing",
-    label: "Pricing: closing call to action",
+    label: "Pricing: closing call to action (new site)",
     defaults: CLOSING_BAND_DEFAULTS,
     fields: BAND_FIELDS,
   },
 
   // ---------------------------------------------------------------- About
   "about-mission-card": {
-    slug: "about-mission-card",
+    slug: "site-about-mission-card",
     page: "about",
-    label: "About: closing call to action",
+    label: "About: closing call to action (new site)",
     defaults: CLOSING_BAND_DEFAULTS,
     fields: BAND_FIELDS,
   },
 
   // ---------------------------------------------------------------- Settings / auth
   footer: {
-    slug: "footer",
+    slug: "site-footer",
     page: "settings",
-    label: "Footer content",
+    label: "Footer content (new site)",
     defaults: { description: footerContent.description },
     fields: { content: "description" },
   },

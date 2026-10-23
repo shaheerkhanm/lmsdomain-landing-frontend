@@ -2,11 +2,12 @@ import React from 'react';
 import FooterSection from './common/FooterSection';
 import { fetchCms, getLegalPages } from '@/lib/api/content';
 import { ContentSource } from '@/components/content/ContentSource';
+import { SECTIONS } from '@/content/cms-sections';
 
 async function Footer() {
   const [addressData, contentData, publishedLegalSlugs] = await Promise.all([
     fetchCms("address"),
-    fetchCms("footer"),
+    fetchCms(SECTIONS.footer.slug), // site-footer: the live site still reads "footer"
     getLegalPages(),
   ]);
 
