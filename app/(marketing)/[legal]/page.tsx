@@ -18,7 +18,7 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: LegalPageProps): Promise<Metadata> {
   const { legal } = await props.params;
   // Share image and noindex from Admin > SEO
-  return applySeo(await baseMetadata(props), await fetchSeo(legal).catch(() => null));
+  return applySeo(await baseMetadata(props), await fetchSeo(legal).catch(() => null), { page: legal });
 }
 
 async function baseMetadata({
@@ -52,13 +52,11 @@ async function baseMetadata({
       description,
       url: `/${page.slug}`,
       type: "website",
-      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/opengraph-image"],
     },
   };
 }

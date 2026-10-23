@@ -16,7 +16,7 @@ import { ContentSource, type ContentSourceKind } from "@/components/content/Cont
 
 export async function generateMetadata(): Promise<Metadata> {
   // Share image and noindex from Admin > SEO
-  return applySeo(await baseMetadata(), await fetchSeo("features").catch(() => null));
+  return applySeo(await baseMetadata(), await fetchSeo("features").catch(() => null), { page: "features" });
 }
 
 async function baseMetadata(): Promise<Metadata> {
@@ -55,13 +55,11 @@ async function baseMetadata(): Promise<Metadata> {
       description,
       url: "/features",
       type: "website",
-      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/opengraph-image"],
     },
   };
 }

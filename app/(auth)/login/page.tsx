@@ -16,15 +16,11 @@ const BASE_METADATA: Metadata = {
     index: false,
     follow: false,
   },
-  // Explicit so it resolves against this page's metadataBase, like the marketing pages
-  openGraph: {
-    images: ["/opengraph-image"],
-  },
 };
 
 // Title, description, share image and noindex from Admin > SEO (noindex by default)
 export async function generateMetadata(): Promise<Metadata> {
-  return applySeo({ ...BASE_METADATA, metadataBase: getMetadataBase() }, await fetchSeo("login").catch(() => null), { overrideText: true });
+  return applySeo({ ...BASE_METADATA, metadataBase: getMetadataBase() }, await fetchSeo("login").catch(() => null), { overrideText: true, page: "login" });
 }
 
 export default async function LoginPage() {

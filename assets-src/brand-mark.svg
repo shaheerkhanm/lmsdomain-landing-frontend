@@ -1,0 +1,7 @@
+<!-- LMS Domain brand mark: the "D" from the logo (path copied from public/assets/img/logo/mark-square.svg).
+     Source for scripts/generate-icons.mjs. 48 x 48 grid, the D alone (colour = currentColor). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <g transform="translate(13.6, 11.9) scale(0.14)">
+    <path d="M609.59 84.81C609.59 128.57 583.4 173.06 522.83 173.06H500.72C494.04 173.06 490.25 165.41 494.29 160.09L535.44 106.03C538.13 102.5 543.17 101.8 546.72 104.47L546.88 104.59C552.61 108.9 560.7 104.16 559.74 97.05L554.98 61.84C554.38 57.42 550.31 54.32 545.89 54.92L510.61 59.71C503.48 60.68 501.08 69.78 506.8 74.14C510.35 76.84 511.04 81.91 508.33 85.46L476.26 127.58C471.58 133.73 461.76 130.42 461.76 122.69V20.2C461.76 9.05 470.8 0 481.96 0H522.83C581.41 0 609.59 42.03 609.59 84.81Z" transform="translate(-461.76, 0)" fill="currentColor"/>
+  </g>
+</svg>

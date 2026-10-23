@@ -6,7 +6,7 @@ import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
   // Share image and noindex from Admin > SEO
-  return applySeo(await baseMetadata(), await fetchSeo("contact").catch(() => null));
+  return applySeo(await baseMetadata(), await fetchSeo("contact").catch(() => null), { page: "contact" });
 }
 
 async function baseMetadata(): Promise<Metadata> {
@@ -45,13 +45,11 @@ async function baseMetadata(): Promise<Metadata> {
       description,
       url: "/contact",
       type: "website",
-      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: ["/opengraph-image"],
     },
   };
 }
