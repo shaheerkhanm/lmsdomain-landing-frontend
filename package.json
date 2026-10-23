@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start -p 8080",
     "lint": "next lint",
-    "qa:screens": "node scripts/qa-screens.mjs"
+    "qa:screens": "node scripts/qa-screens.mjs",
+    "check:parity": "node scripts/check-admin-parity.mjs"
   },
   "dependencies": {
     "@number-flow/react": "^0.5.10",
