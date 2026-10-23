@@ -14,6 +14,8 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 >
 > **Security:** `seeder/cms.ts` (`mail-options`) contains an SMTP / SendGrid API key in the backend repository. Rotate that key and load it from env instead.
 
+> **Phase A done (backend `12759fa`, `38dec8e`; frontend `be65072`):** the pricing comparison table (Admin > Pricing > Comparison), the /features catalog (Admin > Features > Categories and Items (new site)), the "Built for How You Teach" tabs (Features > Audiences) and Seamless Integrations (Features > Integrations) are edited in the admin. The frontend falls back to the code data (`content/features/*.ts`) when the API is empty or unreachable. The live site's Features list (`/api/features`) is a separate collection and is unchanged. Rows below about feature categories, premium flags and the feature list are covered by this for the new site.
+
 ## Must have before the page can go live
 
 | Page | What's missing | Type | Detail |
