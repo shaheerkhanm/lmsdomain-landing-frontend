@@ -72,7 +72,7 @@ export function PricingComparisonTable({
             <thead className="sticky top-0 lg:top-20 z-30 bg-white">
               <tr className="bg-white">
                 <th scope="col" className={`${headerCellClass} text-xs font-bold uppercase tracking-wider text-[#8F94A0] w-1/3`}>
-                  Features & Quotas
+                  Compare plans
                 </th>
                 {plans.map((plan) => (
                   <th key={plan.id} scope="col" className={`${headerCellClass} text-center`}>

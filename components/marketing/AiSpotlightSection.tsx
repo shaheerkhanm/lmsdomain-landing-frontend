@@ -82,8 +82,8 @@ export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps)
               {/* Photo with overlapping corner chip */}
               <div className="relative h-[160px] sm:h-[180px] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
                 <Image
-                  src={media?.["learner-studying-ai"]?.src || "/images/features/learner-studying-ai.webp"}
-                  alt={media?.["learner-studying-ai"]?.alt || "Student asking HelpDesk AI questions while studying on laptop"}
+                  src={tutor?.image || media?.["learner-studying-ai"]?.src || "/images/features/learner-studying-ai.webp"}
+                  alt={tutor?.imageAlt || media?.["learner-studying-ai"]?.alt || "Student asking HelpDesk AI questions while studying on laptop"}
                   fill
                   sizes="(max-width: 1024px) 100vw, 540px"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -157,8 +157,8 @@ export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps)
             <div className="space-y-4">
               <div className="relative h-[160px] sm:h-[180px] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-md group">
                 <Image
-                  src={media?.["ai-content-generator"]?.src || "/images/features/ai-content-generator.webp"}
-                  alt={media?.["ai-content-generator"]?.alt || "Course creators planning course content together on a laptop"}
+                  src={generator?.image || media?.["ai-content-generator"]?.src || "/images/features/ai-content-generator.webp"}
+                  alt={generator?.imageAlt || media?.["ai-content-generator"]?.alt || "Course creators planning course content together on a laptop"}
                   fill
                   sizes="(max-width: 1024px) 100vw, 540px"
                   className="object-cover group-hover:scale-105 transition-transform duration-500"

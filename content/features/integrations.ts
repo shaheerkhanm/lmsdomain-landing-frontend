@@ -9,9 +9,10 @@
 export interface Integration {
   name: string;
   logo: string;
-  // Intrinsic logo size in px (the files are small PNGs; never shown larger)
-  logoSize: number;
-  category?: "Payments" | "Live classes" | "Automation" | "Marketing" | "Communication" | "Analytics";
+  // Intrinsic logo size in px (the files are small PNGs; never shown larger).
+  // Logos from the admin have no known size and are fitted to the circle.
+  logoSize?: number;
+  category?: string; // e.g. "Payments", "Live classes"
 }
 
 export const INTEGRATIONS_HEADING = "Seamless Integrations";

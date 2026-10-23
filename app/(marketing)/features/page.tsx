@@ -12,7 +12,7 @@ import {
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
-import { INTEGRATIONS, INTEGRATIONS_HEADING, INTEGRATIONS_SUBTITLE } from "@/content/features/integrations";
+import { INTEGRATIONS_HEADING, INTEGRATIONS_SUBTITLE } from "@/content/features/integrations";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -79,7 +79,7 @@ export default async function FeaturesPage() {
       <CategoryOverviewNav categories={categories} />
 
       {/* 3. Built for How You Teach: Audience Switcher (Institutes, Coaches, Corporate) */}
-      <AudienceSwitcher media={data.media} />
+      <AudienceSwitcher media={data.media} tabs={data.audiences} />
 
       {/* 4. AI Spotlight Section (Domie AI tools with real student study photo) */}
       <AiSpotlightSection features={aiCategory?.features || []} media={data.media} />
@@ -97,7 +97,7 @@ export default async function FeaturesPage() {
       <IntegrationsHub
         heading={INTEGRATIONS_HEADING}
         subtitle={INTEGRATIONS_SUBTITLE}
-        integrations={INTEGRATIONS}
+        integrations={data.integrations}
       />
 
       {/* 9. Closing CTA Band (landing final CTA with testimonials hidden pending real customer signoff) */}

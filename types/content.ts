@@ -3,6 +3,9 @@
 // Derived from MongoDB audit and Backend routes
 // ============================================================================
 
+import type { AudienceTab } from "@/content/features/audiences";
+import type { Integration } from "@/content/features/integrations";
+
 export interface CmsDocument {
   _id: string;
   slug: string;
@@ -323,11 +326,19 @@ export interface Feature {
   isPremium?: boolean;
   audience?: string;
   icon?: string;
+  // From the admin (Features > Items); all optional, the code catalog has none
+  summary?: string;
+  image?: string;
+  imageAlt?: string;
+  video?: string;
+  badges?: string[];
 }
 
 export interface FeaturesPageData {
   hero?: CmsDocument;
   categories: FeatureCategory[];
+  audiences: AudienceTab[];
+  integrations: Integration[];
   faqs?: FaqItem[];
   closingCta?: CmsDocument;
   seo?: SeoMetadata;

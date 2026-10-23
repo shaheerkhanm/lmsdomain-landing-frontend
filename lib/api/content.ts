@@ -56,6 +56,8 @@ import {
   yearlyFromMonthly,
 } from "@/lib/pricing";
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
+import { AUDIENCE_TABS, type AudienceTab } from "@/content/features/audiences";
+import { INTEGRATIONS, type Integration } from "@/content/features/integrations";
 import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
 import { DEFAULT_AI_PAGE_DATA, AI_TOOLS } from "@/content/ai/page";
 import {
@@ -224,6 +226,10 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     }).catch(() => null),
     fetchSeo("pricing"),
   ]);
+  // Admin > Pricing > Comparison (rows with one value per plan)
+  const comparisonRes = await fetchApi<{
+    data?: { group: string; label: string; tooltip?: string; values?: { plan: string; value?: string }[] }[];
+  }>("/api/pricing/comparison", { method: "POST", tags: ["pricing"], revalidate: 300 }).catch(() => null);
 
   const activePlans = filterActiveDocuments(plansRes?.data);
   const activeFaqs = filterActiveDocuments(faqsRes?.data);
@@ -313,6 +319,27 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     isSample = true;
   }
 
+  // Comparison table from the admin: "yes" is a check, "no" or empty a dash, anything else text
+  const comparisonRows = comparisonRes?.data || [];
+  if (activePlans.length > 0 && comparisonRows.length > 0) {
+    const groups: PricingComparison["groups"] = [];
+    for (const row of comparisonRows) {
+      if (!row.group || !row.label) continue;
+      let group = groups.find((g) => g.title === row.group);
+      if (!group) {
+        group = { title: row.group, rows: [] };
+        groups.push(group);
+      }
+      const values: Record<string, boolean | string> = {};
+      for (const cell of row.values || []) {
+        const v = (cell.value || "").trim();
+        values[String(cell.plan)] = /^yes$/i.test(v) ? true : /^no$/i.test(v) || v === "" ? false : v;
+      }
+      group.rows.push({ label: row.label, tooltip: row.tooltip || undefined, values });
+    }
+    comparison = groups.length > 0 ? { groups } : undefined;
+  }
+
   const hasYearlyPrices = mappedPlans.some((plan) => !plan.isCustom && plan.prices.yearly !== null);
 
   // Page-level currency mirrors the first plan (plans carry their own currency).
@@ -387,13 +414,112 @@ export async function getPricingPage(): Promise<PricingPageModel> {
  * Seam for future backend migration: once /api/features supports category and isPremium,
  * this function can transform backend documents into FeatureCategory[] with fallback to the catalog.
  */
+// Admin > Features (Categories + Items) via POST /api/features/catalog.
+// The code catalog is the fallback when the API is empty or unreachable.
+interface ApiFeatureItem {
+  slug: string;
+  title: string;
+  summary?: string;
+  description?: string;
+  audienceLabel?: string;
+  icon?: string;
+  image?: string;
+  imageAlt?: string;
+  video?: string;
+  badges?: string[];
+  isPremium?: boolean;
+}
+interface ApiFeatureCategory {
+  slug: string;
+  title: string;
+  eyebrow?: string;
+  intro?: string;
+  isPremium?: boolean;
+  order?: number;
+  features?: ApiFeatureItem[];
+}
+
 export async function resolveFeatureCategories(): Promise<FeatureCategory[]> {
-  // Production source of truth until backend adds category and isPremium fields
-  return FEATURE_CATEGORIES;
+  const res = await fetchApi<{ data?: ApiFeatureCategory[] }>("/api/features/catalog", {
+    method: "POST",
+    tags: ["features"],
+    revalidate: 300,
+  }).catch(() => null);
+
+  const categories = (res?.data || [])
+    .map((c, idx) => ({
+      slug: c.slug,
+      title: c.title,
+      eyebrow: c.eyebrow || c.title,
+      intro: c.intro || "",
+      isPremium: !!c.isPremium,
+      order: c.order ?? idx + 1,
+      features: (c.features || []).map((f) => ({
+        slug: f.slug,
+        title: f.title,
+        description: f.description || f.summary || "",
+        summary: f.summary || undefined,
+        isPremium: !!f.isPremium,
+        audience: f.audienceLabel || undefined,
+        icon: f.icon || undefined,
+        image: f.image || undefined,
+        imageAlt: f.imageAlt || undefined,
+        video: f.video || undefined,
+        badges: f.badges?.length ? f.badges : undefined,
+      })),
+    }))
+    .filter((c) => c.slug && c.title && c.features.length > 0);
+
+  return categories.length > 0 ? categories : FEATURE_CATEGORIES;
+}
+
+// Admin > Features > Audiences via POST /api/features/audiences
+async function getFeatureAudiences(): Promise<AudienceTab[]> {
+  const res = await fetchApi<{
+    data?: {
+      slug: string;
+      label: string;
+      heading?: string;
+      subheading?: string;
+      image?: string;
+      imageAlt?: string;
+      chip?: string;
+      chipColor?: string;
+      links?: { title: string; slug: string; tag?: string }[];
+    }[];
+  }>("/api/features/audiences", { method: "POST", tags: ["features"], revalidate: 300 }).catch(() => null);
+
+  const tabs = (res?.data || [])
+    .filter((a) => a.slug && a.label)
+    .map((a) => ({
+      id: a.slug,
+      label: a.label,
+      heading: a.heading || a.label,
+      subheading: a.subheading || "",
+      photo: a.image || "",
+      photoAlt: a.imageAlt || a.label,
+      photoChip: a.chip || a.label,
+      photoChipColor: a.chipColor || undefined,
+      features: (a.links || []).filter((l) => l.title).map((l) => ({ title: l.title, slug: l.slug, tag: l.tag || "" })),
+    }));
+  return tabs.length > 0 ? tabs : AUDIENCE_TABS;
+}
+
+// Admin > Features > Integrations via POST /api/integrations
+export async function getIntegrations(): Promise<Integration[]> {
+  const res = await fetchApi<{ data?: { name: string; logo?: string; category?: string }[] }>("/api/integrations", {
+    method: "POST",
+    tags: ["features"],
+    revalidate: 300,
+  }).catch(() => null);
+  const items = (res?.data || [])
+    .filter((i) => i.name && i.logo)
+    .map((i) => ({ name: i.name, logo: i.logo as string, category: i.category || undefined }));
+  return items.length > 0 ? items : INTEGRATIONS;
 }
 
 export async function getFeaturesPage(): Promise<FeaturesPageData> {
-  const [hero, closingCta, faqsRes, seo, categories, mediaCms] = await Promise.all([
+  const [hero, closingCta, faqsRes, seo, categories, mediaCms, audiences, integrations] = await Promise.all([
     fetchCms("features-hero", ["cms", "features"]),
     fetchCms("features-cta", ["cms", "features"]),
     fetchApi<{ status?: boolean; data?: FaqItem[] }>("/api/pricing/faq", {
@@ -404,6 +530,8 @@ export async function getFeaturesPage(): Promise<FeaturesPageData> {
     fetchSeo("features"),
     resolveFeatureCategories(),
     fetchCms("features-media", ["cms", "features"]),
+    getFeatureAudiences(),
+    getIntegrations(),
   ]);
 
   const activeFaqs = filterActiveDocuments(faqsRes?.data);
@@ -423,6 +551,8 @@ export async function getFeaturesPage(): Promise<FeaturesPageData> {
     hero: hero || undefined,
     closingCta: closingCta || undefined,
     categories,
+    audiences,
+    integrations,
     faqs: activeFaqs.length > 0 ? activeFaqs : undefined,
     seo: seo || undefined,
     media: resolvedMedia,
@@ -769,13 +899,15 @@ export async function getHomePage() {
 // Fallback: DEFAULT_AI_PAGE_DATA from content/ai/page.ts
 // ----------------------------------------------------------------------------
 export async function getAiPage(): Promise<AiPageData> {
-  const [heroCms, availabilityCms, ctaCms, howItWorksCms, seo] = await Promise.all([
+  const [heroCms, availabilityCms, ctaCms, howItWorksCms, seo, categories] = await Promise.all([
     fetchCms("ai-hero", ["cms", "ai"]),
     fetchCms("ai-availability", ["cms", "ai"]),
     fetchCms("ai-cta", ["cms", "ai"]),
     fetchCms("ai-how-it-works", ["cms", "ai"]),
     fetchSeo("ai"),
+    resolveFeatureCategories(),
   ]);
+  const aiFeatures = categories.find((c) => c.slug === "ai-powered-tools")?.features || [];
 
   const base = { ...DEFAULT_AI_PAGE_DATA };
 
@@ -830,7 +962,13 @@ export async function getAiPage(): Promise<AiPageData> {
   return {
     ...base,
     hero,
-    tools: AI_TOOLS,
+    // Name, audience and summary of each tool from the admin catalog (by slug)
+    tools: AI_TOOLS.map((tool) => {
+      const feature = aiFeatures.find((f) => f.slug === tool.slug);
+      return feature
+        ? { ...tool, name: feature.title, audience: feature.audience || tool.audience, summary: feature.description || tool.summary }
+        : tool;
+    }),
     howItWorks,
     availability,
     faq: undefined, // Hidden until real FAQ items exist in backend

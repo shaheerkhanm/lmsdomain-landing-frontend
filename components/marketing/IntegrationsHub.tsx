@@ -217,8 +217,8 @@ export function IntegrationsHub({ heading, subtitle, integrations }: Integration
                             <img
                               src={p.logo}
                               alt={p.name}
-                              width={Math.min(p.logoSize, logoBox * 0.56)}
-                              height={Math.min(p.logoSize, logoBox * 0.56)}
+                              width={Math.min((p.logoSize ?? logoBox), logoBox * 0.56)}
+                              height={Math.min((p.logoSize ?? logoBox), logoBox * 0.56)}
                               className="object-contain"
                               style={{ maxWidth: logoBox * 0.56, maxHeight: logoBox * 0.56 }}
                             />
@@ -257,8 +257,8 @@ export function IntegrationsHub({ heading, subtitle, integrations }: Integration
                   <img
                     src={item.logo}
                     alt={item.name}
-                    width={Math.min(item.logoSize, 36)}
-                    height={Math.min(item.logoSize, 36)}
+                    width={Math.min((item.logoSize ?? 36), 36)}
+                    height={Math.min((item.logoSize ?? 36), 36)}
                     className="object-contain"
                     style={{ maxWidth: 36, maxHeight: 36 }}
                   />

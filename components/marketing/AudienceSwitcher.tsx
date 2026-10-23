@@ -4,87 +4,23 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { AUDIENCE_TABS, type AudienceTab } from "@/content/features/audiences";
 
-interface AudienceTab {
-  id: string;
-  label: string;
-  heading: string;
-  subheading: string;
-  photo: string;
-  photoAlt: string;
-  photoChip: string;
-  photoChipColor?: string;
-  features: { title: string; slug: string; tag: string }[];
-}
-
-const AUDIENCE_TABS: AudienceTab[] = [
-  {
-    id: "institutes",
-    label: "Training Institutes",
-    heading: "Built for Professional Academies and Institutes",
-    subheading:
-      "Scale cohorts, manage teacher permissions, issue accredited certificates, and white-label your entire school.",
-    photo: "/images/features/audience-institutes.webp",
-    photoAlt: "Training Institute classroom with educator and learners",
-    photoChip: "Training institute",
-    photoChipColor: "bg-[#0D9488]",
-    features: [
-      { title: "Structured Courses", slug: "course-learning", tag: "Curriculums" },
-      { title: "Graded Quizzes", slug: "assessment-and-evaluation", tag: "Testing" },
-      { title: "Course Certificates", slug: "course-learning", tag: "Verifiable" },
-      { title: "Role-Based Access Control", slug: "administration-and-communication", tag: "Admin" },
-      { title: "Custom Domain with SSL", slug: "branding-website-and-reach", tag: "Branding" },
-      { title: "Per-School Branding", slug: "branding-website-and-reach", tag: "White-Label" },
-    ],
-  },
-  {
-    id: "coaches",
-    label: "Coaches and Creators",
-    heading: "Designed for Solo Educators and Course Creators",
-    subheading:
-      "Draft courses with AI assistance, protect video content, and sell digital courses worldwide.",
-    photo: "/images/features/audience-coaches.webp",
-    photoAlt: "Coach and creator recording educational material at studio desk",
-    photoChip: "Creator studio",
-    photoChipColor: "bg-[#7B5CF5]",
-    features: [
-      { title: "Domie AI Content Generator", slug: "ai-powered-tools", tag: "AI Drafts" },
-      { title: "HelpDesk AI Tutor", slug: "ai-powered-tools", tag: "24/7 Support" },
-      { title: "Course Catalogue, Cart, and Wishlist", slug: "course-sales-and-payments", tag: "Storefront" },
-      { title: "Coupons and Discounts", slug: "course-sales-and-payments", tag: "Marketing" },
-      { title: "Video Watermarking", slug: "course-learning", tag: "DRM Protection" },
-      { title: "One-to-One Tutor Booking", slug: "live-and-cohort-learning", tag: "1:1 Sessions" },
-    ],
-  },
-  {
-    id: "corporate",
-    label: "Corporate Teams",
-    heading: "Engineered for Enterprise Employee Onboarding and Training",
-    subheading:
-      "Automate corporate compliance training, track team progress with analytics, and allocate seat licenses effortlessly.",
-    photo: "/images/features/audience-corporate.webp",
-    photoAlt: "Corporate team collaborating around laptop in office meeting",
-    photoChip: "Team training",
-    photoChipColor: "bg-[#2563EB]",
-    features: [
-      { title: "Team Training Packages", slug: "live-and-cohort-learning", tag: "Seat Licenses" },
-      { title: "Learner Device Limits", slug: "course-learning", tag: "Compliance" },
-      { title: "Leaderboards and Points", slug: "learner-engagement", tag: "Gamification" },
-      { title: "AI Prescriptive Analytics", slug: "ai-powered-tools", tag: "Risk Alerts" },
-      { title: "Scheduled Content Release", slug: "course-learning", tag: "Drip Pacing" },
-      { title: "Instructor Payouts and Revenue Reports", slug: "course-sales-and-payments", tag: "Reporting" },
-    ],
-  },
-];
-
-export function AudienceSwitcher({ media }: { media?: Record<string, any> }) {
-  const [activeTabId, setActiveTabId] = useState("institutes");
-  const activeTab = AUDIENCE_TABS.find((t) => t.id === activeTabId) || AUDIENCE_TABS[0];
-  const photoSrc = media?.[`audience-${activeTab.id}`]?.src || activeTab.photo;
+export function AudienceSwitcher({
+  media,
+  tabs = AUDIENCE_TABS,
+}: {
+  media?: Record<string, any>;
+  tabs?: AudienceTab[];
+}) {
+  const [activeTabId, setActiveTabId] = useState(tabs[0]?.id || "");
+  const activeTab = tabs.find((t) => t.id === activeTabId) || tabs[0];
+  // The tab's own image (admin) wins; the media map is the fallback
+  const photoSrc = activeTab?.photo || media?.[`audience-${activeTab?.id}`]?.src || "";
 
   // Arrow keys move between tabs (with wrap-around); Home / End jump to the ends
   const handleTabKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    const ids = AUDIENCE_TABS.map((t) => t.id);
+    const ids = tabs.map((t) => t.id);
     const current = ids.indexOf(activeTabId);
     let next = current;
     if (e.key === "ArrowRight" || e.key === "ArrowDown") next = (current + 1) % ids.length;
@@ -129,7 +65,7 @@ export function AudienceSwitcher({ media }: { media?: Record<string, any> }) {
             aria-label="Target audiences"
             className="inline-flex p-1.5 rounded-full bg-[#F3F4F6] border border-[#ECEDEF] self-start"
           >
-            {AUDIENCE_TABS.map((tab) => {
+            {tabs.map((tab) => {
               const isActive = tab.id === activeTabId;
               return (
                 <button
