@@ -140,6 +140,10 @@ export function DemoForm({
         phoneNumber: cleanedPhone,
         organizationName: formData.organizationName.trim(),
         subject: compositeSubject,
+        // Also sent separately for the notification email (backend stores them when filled in)
+        topic: variant !== "modal" && formData.topic ? formData.topic : activePlan ? `Plan: ${activePlan}` : "",
+        message: formData.subject.trim(),
+        page: typeof window !== "undefined" ? window.location.pathname : "",
         type: 1, // 1 = Request Demo / Contact enquiry
       };
 

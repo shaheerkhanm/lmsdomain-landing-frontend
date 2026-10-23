@@ -132,6 +132,7 @@ export function CtaSection({
         name: "Reference Notification Subscriber",
         subject: "Platform Notification Request",
         organizationName: "Direct Web Subscriber",
+        page: typeof window !== "undefined" ? window.location.pathname : "",
         type: 2,
       };
 

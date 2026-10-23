@@ -13,7 +13,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    // Forward exact payload to backend: name, organizationName, phoneNumber, email, subject, type
+    // Forward exact payload to backend: name, organizationName, phoneNumber, email, subject, type (+ optional topic, message, page)
     const backendRes = await fetch(`${baseUrl}/api/enquiry`, {
       method: "POST",
       headers: {
