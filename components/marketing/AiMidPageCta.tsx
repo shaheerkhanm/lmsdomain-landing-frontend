@@ -6,7 +6,16 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 
-export function AiMidPageCta() {
+const DEFAULT_MID_CTA = {
+  eyebrow: "See Domie AI in Action",
+  title: "Accelerate Learning and Content Creation with Built-in AI",
+  subtitle:
+    "Test Domie AI tutors grounded in your curriculum or request a guided walkthrough of our administrative analytics.",
+  primaryCtaText: "Request a Demo",
+  secondaryCtaText: "Explore Domie AI",
+};
+
+export function AiMidPageCta({ content = DEFAULT_MID_CTA }: { content?: typeof DEFAULT_MID_CTA }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -17,13 +26,13 @@ export function AiMidPageCta() {
             <div className="max-w-xl text-center md:text-left">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>See Domie AI in Action</span>
+                <span>{content.eyebrow}</span>
               </div>
               <h3 className="text-[22px] sm:text-[26px] font-semibold text-[#161616] tracking-tight mb-2">
-                Accelerate Learning and Content Creation with Built-in AI
+                {content.title}
               </h3>
               <p className="text-[14px] sm:text-[15px] text-[#6B6F76] leading-relaxed">
-                Test Domie AI tutors grounded in your curriculum or request a guided walkthrough of our administrative analytics.
+                {content.subtitle}
               </p>
             </div>
 
@@ -33,14 +42,14 @@ export function AiMidPageCta() {
                 onClick={() => setShowModal(true)}
                 className="px-6 py-3 rounded-full bg-[#161616] hover:bg-black text-white text-xs sm:text-sm font-semibold transition-all shadow-xs active:scale-95 cursor-pointer"
               >
-                Request a Demo
+                {content.primaryCtaText}
               </button>
 
               <Link
                 href="/ai"
                 className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full border border-[#ECEDEF] hover:border-[#161616] text-[#161616] text-xs sm:text-sm font-semibold transition-colors group cursor-pointer"
               >
-                <span>Explore Domie AI</span>
+                <span>{content.secondaryCtaText}</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>

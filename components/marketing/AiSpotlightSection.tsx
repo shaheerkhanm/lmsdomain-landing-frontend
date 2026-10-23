@@ -4,12 +4,30 @@ import Image from "next/image";
 import { Feature } from "@/types/content";
 import { ArrowRight, Bot, Sparkles, LineChart, Command, Search } from "lucide-react";
 
+interface AiSpotlightHeading {
+  eyebrow: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  linkText: string;
+}
+
+const DEFAULT_HEADING: AiSpotlightHeading = {
+  eyebrow: "DOMIE AI",
+  badge: "Premium",
+  title: "AI-Powered Tools That Work Inside Your Academy",
+  subtitle:
+    "Built directly into the learning workflow to tutor students, assist course creators, and surface actionable insights for academy admins.",
+  linkText: "Explore Domie AI",
+};
+
 interface AiSpotlightSectionProps {
   features: Feature[];
   media?: Record<string, any>;
+  heading?: AiSpotlightHeading;
 }
 
-export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps) {
+export function AiSpotlightSection({ features, media, heading = DEFAULT_HEADING }: AiSpotlightSectionProps) {
   const tutor = features.find((f) => f.slug === "helpdesk-ai-tutor");
   const generator = features.find((f) => f.slug === "domie-ai-content-generator");
   const analytics = features.find((f) => f.slug === "ai-prescriptive-analytics");
@@ -26,26 +44,26 @@ export function AiSpotlightSection({ features, media }: AiSpotlightSectionProps)
           <div className="flex items-center gap-2 mb-3.5">
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5]">
               <span>✦</span>
-              <span>DOMIE AI</span>
+              <span>{heading.eyebrow}</span>
             </span>
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-[#EEE9FF] text-[#7B5CF5]">
-              Premium
+              {heading.badge}
             </span>
           </div>
 
           <h2 className="text-[30px] sm:text-[38px] lg:text-[46px] font-semibold leading-[1.12] tracking-tight text-[#161616] mb-4">
-            AI-Powered Tools That Work Inside Your Academy
+            {heading.title}
           </h2>
 
           <p className="text-[16px] lg:text-[18px] text-[#6B6F76] leading-relaxed mb-4">
-            Built directly into the learning workflow to tutor students, assist course creators, and surface actionable insights for academy admins.
+            {heading.subtitle}
           </p>
 
           <Link
             href="/ai"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#161616] hover:text-[#7B5CF5] transition-colors group cursor-pointer"
           >
-            <span>Explore Domie AI</span>
+            <span>{heading.linkText}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>

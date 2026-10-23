@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { aiSectionContent } from "@/content/home/ai";
+import { aiSectionContent as defaultAiSectionContent } from "@/content/home/ai";
+import { useSectionContent } from "@/components/content/PageContent";
 
 export function AiSection() {
+  const aiSectionContent = useSectionContent("home-ai", defaultAiSectionContent);
   const [activeTab, setActiveTab] = useState<0 | 1 | 2 | 3>(0);
   const [typedChars, setTypedChars] = useState(0);
 

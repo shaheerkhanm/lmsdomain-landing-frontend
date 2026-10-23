@@ -3,9 +3,11 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { featuresContent } from "@/content/home/features";
+import { featuresContent as defaultFeaturesContent } from "@/content/home/features";
+import { useSectionContent } from "@/components/content/PageContent";
 
 export function FeaturesSection({ data }: { data?: any }) {
+  const featuresContent = useSectionContent("home-teach-smarter", { eyebrow: "CORE CAPABILITIES", ...defaultFeaturesContent });
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const titleBlockRef = useRef<HTMLDivElement>(null);
   const cardStackWrapperRef = useRef<HTMLDivElement>(null);
@@ -518,7 +520,7 @@ export function FeaturesSection({ data }: { data?: any }) {
           >
             <div className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#7B5CF5] mb-[12px]">
               <span>✦</span>
-              <span className="uppercase tracking-widest text-[12px]">CORE CAPABILITIES</span>
+              <span className="uppercase tracking-widest text-[12px]">{featuresContent.eyebrow}</span>
             </div>
             <h2 className="text-[32px] lg:text-[56px] font-semibold text-[#161616] tracking-tight leading-[1.1] max-w-3xl mx-auto">
               {featuresContent.sectionTitle}

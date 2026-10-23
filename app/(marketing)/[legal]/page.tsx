@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getLegalPage, getLegalPages } from "@/lib/api/content";
+import { getLegalPage, getLegalPages, fetchSeo } from "@/lib/api/content";
 import { LegalView } from "@/components/marketing/LegalView";
-import { fullTitle, getMetadataBase } from "@/lib/site";
+import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 
 interface LegalPageProps {
   params: Promise<{
@@ -15,7 +15,13 @@ export async function generateStaticParams() {
   return slugs.map((legal) => ({ legal }));
 }
 
-export async function generateMetadata({
+export async function generateMetadata(props: LegalPageProps): Promise<Metadata> {
+  const { legal } = await props.params;
+  // Share image and noindex from Admin > SEO
+  return applySeo(await baseMetadata(props), await fetchSeo(legal).catch(() => null));
+}
+
+async function baseMetadata({
   params,
 }: LegalPageProps): Promise<Metadata> {
   const { legal } = await params;

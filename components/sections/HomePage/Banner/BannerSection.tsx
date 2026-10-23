@@ -31,9 +31,11 @@ const heroItemVariants: Variants = {
   },
 };
 
-import { heroContent } from "@/content/home/hero";
+import { heroContent as defaultHeroContent } from "@/content/home/hero";
+import { useSectionContent } from "@/components/content/PageContent";
 
 export function BannerSection({ data, graphData }: { data: any; graphData: any }) {
+  const heroContent = useSectionContent("home-hero", defaultHeroContent);
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (

@@ -7,6 +7,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 
 interface PricingEmptyStateProps {
+  eyebrow?: string;
   title?: string;
   subtitle?: string;
   primaryCta?: { label: string; action?: "demo" | "modal" };
@@ -14,6 +15,7 @@ interface PricingEmptyStateProps {
 }
 
 export function PricingEmptyState({
+  eyebrow = "Plans In Finalization",
   title = "Academy Plans & Custom Pricing",
   subtitle = "We are tailoring our pricing tiers to offer flexible configurations for training institutes, creator studios, and enterprise academies. Speak with our team to explore tailored plans or request a guided platform walkthrough.",
   primaryCta = { label: "Request a Demo", action: "demo" },
@@ -34,7 +36,7 @@ export function PricingEmptyState({
           <div className="relative z-10 flex flex-col items-center">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-5">
               <span>✦</span>
-              <span>Plans In Finalization</span>
+              <span>{eyebrow}</span>
             </div>
 
             <h2 className="text-[26px] sm:text-[34px] font-bold text-[#161616] tracking-tight leading-tight mb-4">

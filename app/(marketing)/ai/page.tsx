@@ -9,9 +9,15 @@ import {
   MarketingFaq,
 } from "@/components/marketing";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
-import { fullTitle, getMetadataBase } from "@/lib/site";
+import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
+import { ContentSource } from "@/components/content/ContentSource";
 
 export async function generateMetadata(): Promise<Metadata> {
+  // Share image and noindex from Admin > SEO
+  return applySeo(await baseMetadata(), await fetchSeo("ai").catch(() => null));
+}
+
+async function baseMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
     fetchSeo("ai").catch(() => null),
     getAiPage().catch(() => null),
@@ -60,48 +66,65 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function AiPage() {
   const pageData = await getAiPage();
+  const sources = pageData.sources!;
 
   return (
     <div className="min-h-screen bg-white font-urbanist">
       {/* 1. Hero (Eyebrow, H1, Subtitle, CTAs + AI Command Bar visual) */}
-      <AiHero
-        eyebrow={pageData.hero.eyebrow}
-        title={pageData.hero.title}
-        subtitle={pageData.hero.subtitle}
-        primaryCta={pageData.hero.primaryCta}
-        secondaryCta={pageData.hero.secondaryCta}
-        commandBarExamples={pageData.hero.commandBarExamples}
-      />
+      <ContentSource id="ai-hero" source={sources.hero}>
+        <AiHero
+          eyebrow={pageData.hero.eyebrow}
+          title={pageData.hero.title}
+          subtitle={pageData.hero.subtitle}
+          primaryCta={pageData.hero.primaryCta}
+          secondaryCta={pageData.hero.secondaryCta}
+          commandBarExamples={pageData.hero.commandBarExamples}
+          badge={pageData.hero.badge}
+          suggestionsLabel={pageData.hero.suggestionsLabel}
+          keyboardLabel={pageData.hero.keyboardLabel}
+        />
+      </ContentSource>
 
-      {/* 2. Four AI Tools Pinned Showcase (Signature moment on gray #F3F4F6) */}
-      <AiShowcase tools={pageData.tools} />
+      {/* 2. Four AI Tools Pinned Showcase (tool demos are illustrations in code) */}
+      <ContentSource id="ai-tools" source={sources.tools}>
+        <AiShowcase tools={pageData.tools} />
+      </ContentSource>
 
-      {/* 3. How It Works (White, 3 large-number step cards) */}
+      {/* 3. How It Works (only when the CMS entry exists) */}
       {pageData.howItWorks && (
-        <AiHowItWorks
-          title={pageData.howItWorks.title}
-          steps={pageData.howItWorks.steps}
-        />
+        <ContentSource id="ai-how-it-works" source="api">
+          <AiHowItWorks
+            title={pageData.howItWorks.title}
+            steps={pageData.howItWorks.steps}
+          />
+        </ContentSource>
       )}
 
-      {/* 4. Availability Card (White, 40px radius card with CTAs) */}
-      <AiAvailability
-        title={pageData.availability.title}
-        description={pageData.availability.description}
-        cta={pageData.availability.cta}
-        secondaryCta={pageData.availability.secondaryCta}
-      />
+      {/* 4. Availability Card */}
+      <ContentSource id="ai-availability" source={sources.availability}>
+        <AiAvailability
+          eyebrow={pageData.availability.eyebrow}
+          title={pageData.availability.title}
+          description={pageData.availability.description}
+          cta={pageData.availability.cta}
+          secondaryCta={pageData.availability.secondaryCta}
+        />
+      </ContentSource>
 
-      {/* 5. Related Premium Tools (Gray #F3F4F6, 3 small cards) */}
+      {/* 5. Related Premium Tools */}
       {pageData.relatedTools && (
-        <AiRelatedTools
-          title={pageData.relatedTools.title}
-          subtitle={pageData.relatedTools.subtitle}
-          items={pageData.relatedTools.items}
-        />
+        <ContentSource id="ai-related-tools" source={sources.relatedTools}>
+          <AiRelatedTools
+            eyebrow={pageData.relatedTools.eyebrow}
+            linkText={pageData.relatedTools.linkText}
+            title={pageData.relatedTools.title}
+            subtitle={pageData.relatedTools.subtitle}
+            items={pageData.relatedTools.items}
+          />
+        </ContentSource>
       )}
 
-      {/* 6. FAQ (White, landing FAQ card enclosure) */}
+      {/* 6. FAQ (hidden until real FAQ items exist) */}
       {pageData.faq && (
         <MarketingFaq
           title={pageData.faq.title}
@@ -110,8 +133,10 @@ export default async function AiPage() {
         />
       )}
 
-      {/* 7. CTA Band (Landing final CTA with floating sphere and enquiry, testimonials hidden pending real customer signoff) */}
-      <CtaSection showTestimonials={false} />
+      {/* 7. Closing CTA band */}
+      <ContentSource id="ai-cta" source={sources.band}>
+        <CtaSection showTestimonials={false} content={pageData.band} />
+      </ContentSource>
     </div>
   );
 }

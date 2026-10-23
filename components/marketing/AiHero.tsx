@@ -15,6 +15,9 @@ interface AiHeroProps {
   primaryCta?: { label: string; action?: string; href?: string };
   secondaryCta?: { label: string; href: string };
   commandBarExamples?: CommandBarExample[];
+  badge?: string;
+  suggestionsLabel?: string;
+  keyboardLabel?: string;
 }
 
 export function AiHero({
@@ -24,6 +27,9 @@ export function AiHero({
   primaryCta = { label: "Request Demo", action: "modal" },
   secondaryCta = { label: "View Pricing", href: "/pricing" },
   commandBarExamples = [],
+  badge = "Premium",
+  suggestionsLabel = "Suggestions",
+  keyboardLabel = "Keyboard Nav Available",
 }: AiHeroProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
@@ -105,7 +111,7 @@ export function AiHero({
             <span>{eyebrow.replace(/^✦\s*/, "")}</span>
           </span>
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#EEE9FF] text-[#161616]">
-            Premium
+            {badge}
           </span>
         </div>
 
@@ -178,8 +184,8 @@ export function AiHero({
               className="mt-3.5 rounded-[20px] bg-white border border-[#ECEDEF] p-3 sm:p-4 shadow-[0_12px_40px_rgba(0,0,0,0.05)] space-y-2"
             >
               <div className="flex items-center justify-between px-2 pt-1 pb-1 text-[11px] font-semibold text-[#8F94A0] uppercase tracking-wider border-b border-[#F3F4F6]">
-                <span>Suggestions</span>
-                <span>Keyboard Nav Available</span>
+                <span>{suggestionsLabel}</span>
+                <span>{keyboardLabel}</span>
               </div>
 
               {currentExample.results.map((res, i) => (

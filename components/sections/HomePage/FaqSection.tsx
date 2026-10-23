@@ -6,11 +6,13 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-import { faqContent } from "@/content/home/faq";
+import { faqContent as defaultFaqContent } from "@/content/home/faq";
+import { useSectionContent } from "@/components/content/PageContent";
 
-const FAQS = faqContent.items;
 
 export function FaqSection() {
+  const faqContent = useSectionContent("home-faq", { ...defaultFaqContent, kicker: "You ask – we answer.", ctaText: "Request a Demo" });
+  const FAQS = faqContent.items;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [showDemoModal, setShowDemoModal] = useState(false);
 
@@ -113,7 +115,7 @@ export function FaqSection() {
                 ref={headingRef}
                 className="text-[32px] sm:text-4xl lg:text-5xl font-semibold text-[#161616] tracking-tight leading-tight"
               >
-                You ask – we answer.
+                {faqContent.kicker}
               </h2>
               <p className="text-sm sm:text-base text-slate-500 leading-relaxed font-normal">
                 {faqContent.subtitle}
@@ -124,7 +126,7 @@ export function FaqSection() {
                   onClick={() => setShowDemoModal(true)}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold hover:bg-black transition-all active:scale-95 cursor-pointer shadow-sm"
                 >
-                  Request a Demo
+                  {faqContent.ctaText}
                   <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>

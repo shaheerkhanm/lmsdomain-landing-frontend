@@ -12,6 +12,7 @@ import AboutStats from "./AboutStats";
 import AboutCareers from "./AboutCareers";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import type { AboutPageModel } from "@/types/content";
+import { ContentSource } from "@/components/content/ContentSource";
 
 interface AboutViewProps {
   data: AboutPageModel;
@@ -21,6 +22,7 @@ export function AboutView({ data }: AboutViewProps) {
   return (
     <div className="min-h-screen bg-white font-urbanist">
       {/* 1. Hero (White, PageHero) */}
+      <ContentSource id="about-hero" source={data.sources?.hero || "code"}>
       <PageHero
         eyebrow={data.hero.eyebrow}
         title={data.hero.title}
@@ -34,6 +36,7 @@ export function AboutView({ data }: AboutViewProps) {
           ) : undefined
         }
       />
+      </ContentSource>
 
       {/* Hero Image Card (radius 40px, desktop GSAP scrub from 0.94 to 1) */}
       {data.hero.image && (
@@ -83,7 +86,9 @@ export function AboutView({ data }: AboutViewProps) {
       {data.careers && <AboutCareers data={data.careers} />}
 
       {/* 9. Final CTA Band (Landing CTA with floating testimonials hidden) */}
-      <CtaSection showTestimonials={false} />
+      <ContentSource id="about-mission-card" source={data.sources?.band || "code"}>
+        <CtaSection showTestimonials={false} content={data.band} />
+      </ContentSource>
     </div>
   );
 }

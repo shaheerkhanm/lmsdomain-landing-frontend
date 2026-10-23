@@ -11,6 +11,7 @@ interface AiAvailabilityProps {
   description?: string;
   cta?: { label: string; href: string };
   secondaryCta?: { label: string; action?: string };
+  eyebrow?: string;
 }
 
 export function AiAvailability({
@@ -18,6 +19,7 @@ export function AiAvailability({
   description = "Domie AI tools are available as premium add-ons to enhance your teaching and administration workflows. Explore our plans or speak with our team to add AI capabilities to your academy.",
   cta = { label: "View Plans & Pricing", href: "/pricing" },
   secondaryCta = { label: "Request Demo", action: "modal" },
+  eyebrow = "Availability & Plans",
 }: AiAvailabilityProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
 
@@ -35,7 +37,7 @@ export function AiAvailability({
           <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-5">
               <span>✦</span>
-              <span>Availability & Plans</span>
+              <span>{eyebrow}</span>
             </div>
 
             <h2 className="text-[28px] sm:text-[38px] lg:text-[44px] font-bold text-[#161616] tracking-tight leading-[1.15] mb-4">

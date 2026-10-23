@@ -3,7 +3,8 @@
 import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 
-import { manifestoContent } from "@/content/home/manifesto";
+import { manifestoContent as defaultManifestoContent } from "@/content/home/manifesto";
+import { useSectionContent } from "@/components/content/PageContent";
 
 export interface ManifestSectionProps {
   statement?: string;
@@ -18,6 +19,7 @@ export function ManifestSection({
   bgClassName = "bg-[#F3F4F6] lg:bg-white",
   eyebrow,
 }: ManifestSectionProps = {}) {
+  const manifestoContent = useSectionContent("home-manifesto", defaultManifestoContent);
   const words = (statement || manifestoContent.text).trim().split(/\s+/);
   const sectionRef = useRef<HTMLElement>(null);
   const paragraphBlockRef = useRef<HTMLDivElement>(null);

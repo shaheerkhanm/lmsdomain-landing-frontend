@@ -6,36 +6,61 @@ import AiSection from "@/components/sections/HomePage/AiSection/AiSection";
 import AdvantageSection from "@/components/sections/HomePage/AdvantageSection/AdvantageSection";
 import CustomerSection from "@/components/sections/HomePage/CustomerSection/CustomerSection";
 import FaqSection from "@/components/sections/HomePage/FaqSection";
-import { fetchCms, getHomeTestimonials } from "@/lib/api/content";
+import { getSection, getHomeTestimonials } from "@/lib/api/content";
+import { ContentSource } from "@/components/content/ContentSource";
+import { PageContentProvider } from "@/components/content/PageContent";
 
 export async function HomePage() {
-  // Fetch section data in parallel through server content client
-  const [
-    homeHeroData,
-    homeGraphdata,
-    teachSmarterData,
-    customerData,
-    benefitsData,
-    testimonials,
-  ] = await Promise.all([
-    fetchCms("home-hero"),
-    fetchCms("home-graph-section"),
-    fetchCms("home-teach-smarter"),
-    fetchCms("customers"),
-    fetchCms("results"),
+  // Every section's copy comes from the admin (Home > Cms), with the built-in
+  // content as fallback; testimonials come from Home > Testimonials.
+  const [hero, teachSmarter, manifesto, ai, benefits, wallTitle, faq, testimonials] = await Promise.all([
+    getSection("home-hero"),
+    getSection("home-teach-smarter"),
+    getSection("home-manifesto"),
+    getSection("home-ai"),
+    getSection("home-benefits"),
+    getSection("testimonials"),
+    getSection("home-faq"),
     getHomeTestimonials(),
   ]);
 
+  const content = {
+    "home-hero": hero.content,
+    "home-teach-smarter": teachSmarter.content,
+    "home-manifesto": manifesto.content,
+    "home-ai": ai.content,
+    "home-benefits": benefits.content,
+    testimonials: wallTitle.content,
+    "home-faq": faq.content,
+  };
+
   return (
-    <div className="relative font-urbanist selection:bg-[#161616] selection:text-white">
-      <BannerSection data={homeHeroData || {}} graphData={homeGraphdata || {}} />
-      <FeaturesSection data={teachSmarterData || {}} />
-      <ManifestSection />
-      <AiSection />
-      <AdvantageSection data={benefitsData || {}} />
-      <CustomerSection data={customerData || {}} cards={testimonials.cards} />
-      <FaqSection />
-    </div>
+    <PageContentProvider value={content}>
+      <div className="relative font-urbanist selection:bg-[#161616] selection:text-white">
+        <ContentSource id="home-hero" source={hero.source}>
+          <BannerSection data={{}} graphData={{}} />
+        </ContentSource>
+        <ContentSource id="home-teach-smarter" source={teachSmarter.source}>
+          <FeaturesSection />
+        </ContentSource>
+        <ContentSource id="home-manifesto" source={manifesto.source}>
+          <ManifestSection />
+        </ContentSource>
+        <ContentSource id="home-ai" source={ai.source}>
+          <AiSection />
+        </ContentSource>
+        <ContentSource id="home-benefits" source={benefits.source}>
+          <AdvantageSection />
+        </ContentSource>
+        {/* Cards come from Home > Testimonials; hidden when there are none */}
+        <ContentSource id="testimonials" source={testimonials.cards.length ? wallTitle.source : "api"}>
+          <CustomerSection cards={testimonials.cards} />
+        </ContentSource>
+        <ContentSource id="home-faq" source={faq.source}>
+          <FaqSection />
+        </ContentSource>
+      </div>
+    </PageContentProvider>
   );
 }
 

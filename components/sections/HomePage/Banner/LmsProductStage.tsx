@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { heroContent } from "@/content/home/hero";
+import { heroContent as defaultHeroContent } from "@/content/home/hero";
+import { useSectionContent } from "@/components/content/PageContent";
 import {
   HeroCourseBuilderCard,
   HeroTutorCard,
@@ -15,6 +16,7 @@ interface LmsProductStageProps {
 }
 
 export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
+  const heroContent = useSectionContent("home-hero", defaultHeroContent);
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);

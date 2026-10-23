@@ -2,30 +2,23 @@
 
 import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { benefitsContent } from "@/content/home/benefits";
+import { benefitsContent as defaultBenefitsContent } from "@/content/home/benefits";
+import { useSectionContent } from "@/components/content/PageContent";
 
-const BENEFIT_CARDS = [
-  {
-    id: benefitsContent.cards[0].id,
-    title: benefitsContent.cards[0].title,
-    description: benefitsContent.cards[0].summary,
-    imageSrc: "/assets/img/home/benefits/benefit_sell_anywhere.png",
-  },
-  {
-    id: benefitsContent.cards[1].id,
-    title: benefitsContent.cards[1].title,
-    description: benefitsContent.cards[1].summary,
-    imageSrc: "/assets/img/home/benefits/benefit_your_brand.png",
-  },
-  {
-    id: benefitsContent.cards[2].id,
-    title: benefitsContent.cards[2].title,
-    description: benefitsContent.cards[2].summary,
-    imageSrc: "/assets/img/home/benefits/benefit_keep_learners.png",
-  },
-];
+const DEFAULT_BENEFIT_IMAGES = ["/assets/img/home/benefits/benefit_sell_anywhere.png", "/assets/img/home/benefits/benefit_your_brand.png", "/assets/img/home/benefits/benefit_keep_learners.png"];
 
 export function AdvantageScrollMain({ data }: { data?: any }) {
+  const benefitsContent = useSectionContent("home-benefits", defaultBenefitsContent);
+  // The animation is built for three cards; missing ones fall back to the built-in content
+  const BENEFIT_CARDS = [0, 1, 2].map((i) => {
+    const card: any = benefitsContent.cards[i] || defaultBenefitsContent.cards[i];
+    return {
+      id: card.id,
+      title: card.title,
+      description: card.summary,
+      imageSrc: card.image || DEFAULT_BENEFIT_IMAGES[i],
+    };
+  });
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
   const card1Ref = useRef<HTMLDivElement>(null);

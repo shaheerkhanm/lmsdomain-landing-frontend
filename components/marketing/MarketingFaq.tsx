@@ -10,9 +10,13 @@ interface MarketingFaqProps {
   title?: string;
   subtitle?: string;
   items?: FaqItem[];
+  eyebrow?: string;
+  ctaText?: string;
 }
 
 export function MarketingFaq({
+  eyebrow = "FAQS",
+  ctaText = "Request a Demo",
   title = "You ask – we answer.",
   subtitle = "Everything you need to know about course grounding, privacy, and add-on availability.",
   items = [],
@@ -36,7 +40,7 @@ export function MarketingFaq({
             <div className="lg:col-span-5 space-y-4 text-left">
               <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5]">
                 <span>✦</span>
-                <span>FAQS</span>
+                <span>{eyebrow}</span>
               </div>
 
               <h2 className="text-[32px] sm:text-4xl lg:text-5xl font-semibold text-[#161616] tracking-tight leading-tight">
@@ -53,7 +57,7 @@ export function MarketingFaq({
                   onClick={() => setShowDemoModal(true)}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold hover:bg-black transition-all active:scale-95 cursor-pointer shadow-sm"
                 >
-                  Request a Demo
+                  {ctaText}
                   <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>

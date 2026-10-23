@@ -58,6 +58,8 @@ import {
 import { FEATURE_CATEGORIES } from "@/content/features/catalog";
 import { AUDIENCE_TABS, type AudienceTab } from "@/content/features/audiences";
 import { INTEGRATIONS, type Integration } from "@/content/features/integrations";
+import { SECTIONS, type SectionSlug, type SectionContent, type SectionDef } from "@/content/cms-sections";
+import type { ContentSourceKind } from "@/components/content/ContentSource";
 import { FEATURES_MEDIA, MediaSlot } from "@/content/features/media";
 import { DEFAULT_AI_PAGE_DATA, AI_TOOLS } from "@/content/ai/page";
 import {
@@ -116,6 +118,62 @@ export async function fetchCms(slug: string, tags?: string[]): Promise<CmsDocume
 }
 
 // ----------------------------------------------------------------------------
+// Admin-editable sections (content/cms-sections.ts)
+// Content = built-in defaults, overlaid by the entry's `data` (lists replace,
+// objects merge, admin values win even when empty), then by its normal fields
+// (title, subTitle, ...) when they are filled in.
+// ----------------------------------------------------------------------------
+const isPlainObject = (v: unknown): v is Record<string, unknown> =>
+  !!v && typeof v === "object" && !Array.isArray(v);
+
+function mergeContent<T>(base: T, over: unknown): T {
+  if (over === undefined || over === null) return base;
+  if (Array.isArray(over)) return over as T;
+  if (isPlainObject(base) && isPlainObject(over)) {
+    const out: Record<string, unknown> = { ...base };
+    for (const [key, value] of Object.entries(over)) out[key] = mergeContent((base as any)[key], value);
+    return out as T;
+  }
+  return (typeof over === typeof base || base === undefined ? over : base) as T;
+}
+
+function setContentPath(target: any, path: string, value: unknown) {
+  const parts = path.split(".");
+  let cur = target;
+  parts.slice(0, -1).forEach((part) => {
+    cur[part] = isPlainObject(cur[part]) ? { ...cur[part] } : {};
+    cur = cur[part];
+  });
+  cur[parts[parts.length - 1]] = value;
+}
+
+export interface SectionResult<T> {
+  content: T;
+  source: ContentSourceKind;
+}
+
+export async function getSection<S extends SectionSlug>(slug: S): Promise<SectionResult<SectionContent<S>>> {
+  const def = SECTIONS[slug] as SectionDef<SectionContent<S>>;
+  const doc = await fetchCms(slug, ["cms", `cms:${slug}`, def.page]);
+  if (!doc) return { content: def.defaults, source: "code" };
+
+  const data = (doc as any).data;
+  const content = mergeContent(def.defaults, isPlainObject(data) ? data : undefined) as any;
+  const contentCopy = isPlainObject(content) ? { ...content } : content;
+  for (const [field, path] of Object.entries(def.fields || {})) {
+    const value = (doc as any)[field];
+    if (typeof value === "string" && value.trim() !== "" && !/lorem ipsum/i.test(value)) setContentPath(contentCopy, path as string, value);
+  }
+
+  // Entry exists but its structured part is still missing (keys outside the normal fields)
+  const mapped = new Set(Object.values(def.fields || {}).map((p) => String(p).split(".")[0]));
+  const needsData = isPlainObject(def.defaults) && Object.keys(def.defaults).some((k) => !mapped.has(k));
+  const hasData = isPlainObject(data) && Object.keys(data).length > 0;
+  const loremOnly = Object.keys(def.fields || {}).some((f) => /lorem ipsum/i.test(String((doc as any)[f] || "")));
+  return { content: contentCopy, source: (needsData && !hasData) || loremOnly ? "partial" : "api" };
+}
+
+// ----------------------------------------------------------------------------
 // SEO Metadata Fetcher
 // Endpoint: POST /api/seo { slug }
 // ----------------------------------------------------------------------------
@@ -146,17 +204,19 @@ export async function fetchSeo(slug: string): Promise<SeoMetadata | null> {
 // Slugs: "address", "footer"
 // ----------------------------------------------------------------------------
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const [address, footer] = await Promise.all([
+  const [address, footer, appLinks] = await Promise.all([
     fetchCms("address", ["cms", "settings", "address"]),
     fetchCms("footer", ["cms", "settings", "footer"]),
+    // Settings > App links (appLoginUrl, appSignupUrl, appForgotPasswordUrl)
+    fetchCms("app-links", ["cms", "settings", "app-links"]),
   ]);
 
   return {
     address: address || undefined,
     footer: footer || undefined,
-    appLoginUrl: readSettingUrl(address, "appLoginUrl"),
-    appSignupUrl: readSettingUrl(address, "appSignupUrl"),
-    appForgotPasswordUrl: readSettingUrl(address, "appForgotPasswordUrl"),
+    appLoginUrl: readSettingUrl(appLinks, "appLoginUrl") || readSettingUrl(address, "appLoginUrl"),
+    appSignupUrl: readSettingUrl(appLinks, "appSignupUrl") || readSettingUrl(address, "appSignupUrl"),
+    appForgotPasswordUrl: readSettingUrl(appLinks, "appForgotPasswordUrl") || readSettingUrl(address, "appForgotPasswordUrl"),
   };
 }
 
@@ -208,12 +268,13 @@ function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): P
 }
 
 export async function getPricingPage(): Promise<PricingPageModel> {
-  const [heroCms, emptyCms, footerCard, faqCms, plansRes, faqsRes, seo] = await Promise.all([
+  const [heroCms, empty, band, faqSection, comparisonHeading, plansRes, faqsRes, seo] = await Promise.all([
     fetchCms("pricing-hero", ["cms", "pricing"]),
-    fetchCms("pricing-empty", ["cms", "pricing"]),
-    fetchCms("pricing-footer-card", ["cms", "pricing"]),
+    getSection("pricing-empty"),
+    getSection("pricing-footer-card"),
     // FAQ heading (title / subTitle), as on the live site
-    fetchCms("pricing-faq", ["cms", "pricing"]),
+    getSection("pricing-faq"),
+    getSection("pricing-comparison"),
     fetchApi<{ status?: boolean; data?: PricingPlan[] }>("/api/pricing", {
       method: "POST",
       tags: ["pricing", "plans"],
@@ -242,10 +303,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   let comparison: PricingComparison | undefined = undefined;
   let addOns: { title: string; items: PricingAddOn[] } | undefined = undefined;
   let enterprise: PricingEnterprise | undefined = undefined;
-  const faqHeading = {
-    title: faqCms?.title || undefined,
-    subtitle: faqCms?.subTitle || faqCms?.description || undefined,
-  };
+  const faqHeading = faqSection.content;
   let faq = activeFaqs.length > 0 ? { ...faqHeading, items: activeFaqs } : undefined;
 
   if (activePlans.length > 0) {
@@ -314,7 +372,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     comparison = sample.SAMPLE_COMPARISON;
     addOns = { title: "Flexible Add-Ons", items: sample.SAMPLE_ADD_ONS };
     enterprise = sample.SAMPLE_ENTERPRISE;
-    faq = { ...sample.SAMPLE_FAQ, ...(faqHeading.title ? faqHeading : {}) };
+    faq = { ...faqHeading, items: sample.SAMPLE_FAQ.items };
     yearlySavingsLabel = "Sample: 2 months free";
     isSample = true;
   }
@@ -354,17 +412,11 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   };
 
   const emptyState = {
-    title: emptyCms?.title || DEFAULT_PRICING_EMPTY_STATE.title,
-    subtitle: emptyCms?.subTitle || emptyCms?.description || DEFAULT_PRICING_EMPTY_STATE.subtitle,
-    primaryCta: {
-      label: emptyCms?.buttonText || DEFAULT_PRICING_EMPTY_STATE.primaryCta.label,
-      action: "demo" as const,
-    },
-    secondaryCta: {
-      label: "Contact sales",
-      href: emptyCms?.buttonAction || DEFAULT_PRICING_EMPTY_STATE.secondaryCta.href,
-      action: "contact" as const,
-    },
+    eyebrow: empty.content.eyebrow,
+    title: empty.content.title,
+    subtitle: empty.content.subtitle,
+    primaryCta: { label: empty.content.primaryCta.label, action: "demo" as const },
+    secondaryCta: { label: empty.content.secondaryCta.label, href: empty.content.secondaryCta.href, action: "contact" as const },
   };
 
   return {
@@ -394,9 +446,19 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     enterprise,
     faq,
     cta: {
-      title: footerCard?.title || "Ready to Launch Your Branded Academy?",
-      subtitle: footerCard?.subTitle || "Speak with our team to find the exact configuration for your team.",
-      primaryCta: { label: footerCard?.buttonText || "Request a Demo" },
+      title: band.content.title,
+      subtitle: band.content.subtitle,
+      primaryCta: { label: band.content.buttonText },
+    },
+    band: band.content,
+    comparisonHeading: comparisonHeading.content,
+    sources: {
+      hero: heroCms ? "api" : "code",
+      plans: activePlans.length > 0 ? "api" : "code",
+      empty: empty.source,
+      comparison: comparisonHeading.source,
+      faq: faqSection.source,
+      band: band.source,
     },
   };
 }
@@ -440,6 +502,10 @@ interface ApiFeatureCategory {
 }
 
 export async function resolveFeatureCategories(): Promise<FeatureCategory[]> {
+  return (await resolveFeatureCategoriesWithSource()).categories;
+}
+
+export async function resolveFeatureCategoriesWithSource(): Promise<{ categories: FeatureCategory[]; source: ContentSourceKind }> {
   const res = await fetchApi<{ data?: ApiFeatureCategory[] }>("/api/features/catalog", {
     method: "POST",
     tags: ["features"],
@@ -470,11 +536,13 @@ export async function resolveFeatureCategories(): Promise<FeatureCategory[]> {
     }))
     .filter((c) => c.slug && c.title && c.features.length > 0);
 
-  return categories.length > 0 ? categories : FEATURE_CATEGORIES;
+  return categories.length > 0
+    ? { categories, source: "api" }
+    : { categories: FEATURE_CATEGORIES, source: "code" };
 }
 
 // Admin > Features > Audiences via POST /api/features/audiences
-async function getFeatureAudiences(): Promise<AudienceTab[]> {
+async function getFeatureAudiences(): Promise<{ tabs: AudienceTab[]; source: ContentSourceKind }> {
   const res = await fetchApi<{
     data?: {
       slug: string;
@@ -502,11 +570,15 @@ async function getFeatureAudiences(): Promise<AudienceTab[]> {
       photoChipColor: a.chipColor || undefined,
       features: (a.links || []).filter((l) => l.title).map((l) => ({ title: l.title, slug: l.slug, tag: l.tag || "" })),
     }));
-  return tabs.length > 0 ? tabs : AUDIENCE_TABS;
+  return tabs.length > 0 ? { tabs, source: "api" } : { tabs: AUDIENCE_TABS, source: "code" };
 }
 
 // Admin > Features > Integrations via POST /api/integrations
 export async function getIntegrations(): Promise<Integration[]> {
+  return (await getIntegrationsWithSource()).items;
+}
+
+async function getIntegrationsWithSource(): Promise<{ items: Integration[]; source: ContentSourceKind }> {
   const res = await fetchApi<{ data?: { name: string; logo?: string; category?: string }[] }>("/api/integrations", {
     method: "POST",
     tags: ["features"],
@@ -515,47 +587,56 @@ export async function getIntegrations(): Promise<Integration[]> {
   const items = (res?.data || [])
     .filter((i) => i.name && i.logo)
     .map((i) => ({ name: i.name, logo: i.logo as string, category: i.category || undefined }));
-  return items.length > 0 ? items : INTEGRATIONS;
+  return items.length > 0 ? { items, source: "api" } : { items: INTEGRATIONS, source: "code" };
 }
 
 export async function getFeaturesPage(): Promise<FeaturesPageData> {
-  const [hero, closingCta, faqsRes, seo, categories, mediaCms, audiences, integrations] = await Promise.all([
-    fetchCms("features-hero", ["cms", "features"]),
-    fetchCms("features-cta", ["cms", "features"]),
+  const [hero, faqsRes, seo, catalog, media, audiences, integrations] = await Promise.all([
+    getSection("features-hero"),
     fetchApi<{ status?: boolean; data?: FaqItem[] }>("/api/pricing/faq", {
       method: "POST",
       tags: ["faqs"],
       revalidate: 300,
     }).catch(() => null),
     fetchSeo("features"),
-    resolveFeatureCategories(),
-    fetchCms("features-media", ["cms", "features"]),
+    resolveFeatureCategoriesWithSource(),
+    getSection("features-media"),
     getFeatureAudiences(),
-    getIntegrations(),
+    getIntegrationsWithSource(),
   ]);
 
   const activeFaqs = filterActiveDocuments(faqsRes?.data);
 
-  // Swappable media: start from FEATURES_MEDIA, overlay any CMS slot overrides
+  // Photos and videos: Features > Cms > "photos and videos" (slots), built-in map as fallback
   const resolvedMedia: Record<string, MediaSlot> = { ...FEATURES_MEDIA };
-  const cmsSlots = (mediaCms as any)?.slots || (mediaCms as any)?.data;
-  if (cmsSlots && typeof cmsSlots === "object") {
-    for (const [slotId, value] of Object.entries(cmsSlots)) {
-      if (typeof value === "string" && resolvedMedia[slotId]) {
-        resolvedMedia[slotId] = { ...resolvedMedia[slotId], src: value };
-      }
-    }
+  const slots = (media.content as { slots?: Record<string, { src?: string; poster?: string; alt?: string } | string> }).slots || {};
+  for (const [slotId, value] of Object.entries(slots)) {
+    const base = resolvedMedia[slotId] || { id: slotId, kind: "photo" as const, src: "", alt: "" };
+    const slot = typeof value === "string" ? { src: value } : value || {};
+    resolvedMedia[slotId] = {
+      ...base,
+      src: slot.src || base.src,
+      ...(slot.poster ? { poster: slot.poster } : {}),
+      alt: slot.alt ?? base.alt,
+      kind: /\.(mp4|webm|m4v)(\?|$)/i.test(slot.src || base.src) ? "video" : base.kind,
+    };
   }
 
   return {
-    hero: hero || undefined,
-    closingCta: closingCta || undefined,
-    categories,
-    audiences,
-    integrations,
+    hero: hero.content,
+    categories: catalog.categories,
+    audiences: audiences.tabs,
+    integrations: integrations.items,
     faqs: activeFaqs.length > 0 ? activeFaqs : undefined,
     seo: seo || undefined,
     media: resolvedMedia,
+    sources: {
+      hero: hero.source,
+      catalog: catalog.source,
+      audiences: audiences.source,
+      integrations: integrations.source,
+      media: media.source,
+    },
   };
 }
 
@@ -573,7 +654,7 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     storyCms,
     leadershipCms,
     leadershipRes,
-    missionCardCms,
+    band,
     seo,
   ] = await Promise.all([
     fetchCms("about-hero", ["cms", "about"]),
@@ -591,7 +672,7 @@ export async function getAboutPage(): Promise<AboutPageModel> {
       tags: ["about", "about-leadership"],
       revalidate: 300,
     }).catch(() => null),
-    fetchCms("about-mission-card", ["cms", "about"]),
+    getSection("about-mission-card"),
     fetchSeo("about"),
   ]);
 
@@ -703,16 +784,13 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     }
   }
 
+  // Closing band: About > Cms > "closing call to action" (about-mission-card)
   const cta = {
-    title: missionCardCms?.title || "Ready to Transform Your Learning Architecture?",
-    subtitle:
-      missionCardCms?.subTitle ||
-      "Partner with LMS Domain to deliver structured, verifiable, and engaging academy experiences.",
-    primaryCta: {
-      label: missionCardCms?.buttonText || "Request a Demo",
-      href: missionCardCms?.buttonAction || "#",
-    },
+    title: band.content.title,
+    subtitle: band.content.subtitle || "",
+    primaryCta: { label: band.content.buttonText, href: "#" },
   };
+
 
   return {
     seo: seo || undefined,
@@ -726,6 +804,8 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     careers,
     isSample,
     cta,
+    band: band.content,
+    sources: { hero: heroCms ? "api" : "code", band: band.source },
   };
 }
 
@@ -734,37 +814,21 @@ export async function getAboutPage(): Promise<AboutPageModel> {
 // Endpoints: /api/cms (slugs: contact-hero, address), /api/seo
 // ----------------------------------------------------------------------------
 export async function getContactPage(): Promise<ContactPageModel> {
-  const [heroCms, formCms, settingsCms, seo] = await Promise.all([
-    fetchCms("contact-hero", ["cms", "contact"]),
-    fetchCms("contact-form", ["cms", "contact"]),
+  const [hero, channelsSection, form, settingsCms, seo] = await Promise.all([
+    getSection("contact-hero"),
+    getSection("contact-channels"),
+    getSection("contact-form"),
     fetchCms("address", ["cms", "settings"]),
     fetchSeo("contact"),
   ]);
+  const labels = channelsSection.content;
 
-  const hero: ContactHero = {
-    eyebrow: (heroCms?.tags && heroCms.tags[0]) || DEFAULT_CONTACT_HERO.eyebrow,
-    title: heroCms?.title || DEFAULT_CONTACT_HERO.title,
-    subtitle:
-      heroCms?.subTitle ||
-      heroCms?.description ||
-      DEFAULT_CONTACT_HERO.subtitle,
-  };
-
-  const form: ContactFormConfig = {
-    submitLabel: formCms?.buttonText || DEFAULT_CONTACT_FORM_CONFIG.submitLabel,
-    successTitle: formCms?.title || DEFAULT_CONTACT_FORM_CONFIG.successTitle,
-    successMessage:
-      formCms?.content ||
-      formCms?.subTitle ||
-      DEFAULT_CONTACT_FORM_CONFIG.successMessage,
-    privacyNote: DEFAULT_CONTACT_FORM_CONFIG.privacyNote,
-  };
-
+  // Email, phone and address come from Settings > Address; labels from Contact > Cms
   const channels: ContactChannel[] = [];
   if (settingsCms?.email) {
     channels.push({
       type: "email",
-      title: "Email",
+      title: labels.emailLabel,
       value: settingsCms.email,
       href: `mailto:${settingsCms.email}`,
     });
@@ -772,7 +836,7 @@ export async function getContactPage(): Promise<ContactPageModel> {
   if (settingsCms?.phone && !isPlaceholderPhone(settingsCms.phone)) {
     channels.push({
       type: "phone",
-      title: "Direct Line",
+      title: labels.phoneLabel,
       value: settingsCms.phone,
       href: `tel:${settingsCms.phone}`,
     });
@@ -780,19 +844,22 @@ export async function getContactPage(): Promise<ContactPageModel> {
   if (settingsCms?.address) {
     channels.push({
       type: "address",
-      title: "Headquarters",
+      title: labels.addressLabel,
       value: settingsCms.address,
     });
   }
 
+  const { topics, ...formConfig } = form.content;
   return {
     seo: seo || undefined,
-    hero,
-    form,
-    topics: DEFAULT_CONTACT_TOPICS,
+    hero: hero.content,
+    form: { ...formConfig, privacyNote: formConfig.privacyNote || undefined },
+    topics,
     channels,
+    channelsHeading: { title: labels.title, subtitle: labels.subtitle },
     faq: undefined,
     cta: undefined,
+    sources: { hero: hero.source, channels: channelsSection.source, form: form.source },
   };
 }
 
@@ -853,38 +920,13 @@ export async function getLegalPages(): Promise<string[]> {
 // Auth Pages Copy
 // ----------------------------------------------------------------------------
 export async function getAuthCopy(): Promise<AuthCopy> {
-  const authCms = await fetchCms("auth-copy", ["cms", "auth"]);
+  return (await getAuthCopyWithSource()).copy;
+}
 
-  if (!authCms) {
-    return DEFAULT_AUTH_COPY;
-  }
-
-  return {
-    login: {
-      title: authCms.title || DEFAULT_AUTH_COPY.login.title,
-      subtitle: authCms.subTitle || DEFAULT_AUTH_COPY.login.subtitle,
-      submitLabel: authCms.buttonText || DEFAULT_AUTH_COPY.login.submitLabel,
-      signupPrompt: DEFAULT_AUTH_COPY.login.signupPrompt,
-      signupLinkLabel: DEFAULT_AUTH_COPY.login.signupLinkLabel,
-      forgotLabel: DEFAULT_AUTH_COPY.login.forgotLabel,
-    },
-    signup: {
-      title: authCms.heading || DEFAULT_AUTH_COPY.signup.title,
-      subtitle: authCms.description || DEFAULT_AUTH_COPY.signup.subtitle,
-      submitLabel: authCms.buttonAction || DEFAULT_AUTH_COPY.signup.submitLabel,
-      loginPrompt: DEFAULT_AUTH_COPY.signup.loginPrompt,
-      loginLinkLabel: DEFAULT_AUTH_COPY.signup.loginLinkLabel,
-      termsNote: DEFAULT_AUTH_COPY.signup.termsNote,
-    },
-    sidePanel: {
-      title: authCms.description1 || DEFAULT_AUTH_COPY.sidePanel.title,
-      subtitle: DEFAULT_AUTH_COPY.sidePanel.subtitle,
-      bullets:
-        authCms.tags && authCms.tags.length > 0
-          ? authCms.tags
-          : DEFAULT_AUTH_COPY.sidePanel.bullets,
-    },
-  };
+// Login & signup pages: Admin > Login & signup > Cms (auth-copy)
+export async function getAuthCopyWithSource(): Promise<{ copy: AuthCopy; source: ContentSourceKind }> {
+  const section = await getSection("auth-copy");
+  return { copy: section.content as AuthCopy, source: section.source };
 }
 
 export async function getHomePage() {
@@ -899,51 +941,18 @@ export async function getHomePage() {
 // Fallback: DEFAULT_AI_PAGE_DATA from content/ai/page.ts
 // ----------------------------------------------------------------------------
 export async function getAiPage(): Promise<AiPageData> {
-  const [heroCms, availabilityCms, ctaCms, howItWorksCms, seo, categories] = await Promise.all([
-    fetchCms("ai-hero", ["cms", "ai"]),
-    fetchCms("ai-availability", ["cms", "ai"]),
-    fetchCms("ai-cta", ["cms", "ai"]),
+  const [hero, tools, availability, related, band, howItWorksCms, seo, catalog] = await Promise.all([
+    getSection("ai-hero"),
+    getSection("ai-tools"),
+    getSection("ai-availability"),
+    getSection("ai-related-tools"),
+    getSection("ai-cta"),
     fetchCms("ai-how-it-works", ["cms", "ai"]),
     fetchSeo("ai"),
-    resolveFeatureCategories(),
+    resolveFeatureCategoriesWithSource(),
   ]);
-  const aiFeatures = categories.find((c) => c.slug === "ai-powered-tools")?.features || [];
-
-  const base = { ...DEFAULT_AI_PAGE_DATA };
-
-  const hero = {
-    ...base.hero,
-    title: heroCms?.title || base.hero.title,
-    subtitle: heroCms?.subTitle || heroCms?.description || base.hero.subtitle,
-    primaryCta: {
-      ...base.hero.primaryCta,
-      label: heroCms?.buttonText || base.hero.primaryCta.label,
-    },
-  };
-
-  const availability = {
-    ...base.availability,
-    title: availabilityCms?.title || base.availability.title,
-    description:
-      availabilityCms?.description ||
-      availabilityCms?.subTitle ||
-      base.availability.description,
-    cta: {
-      ...base.availability.cta,
-      label: availabilityCms?.buttonText || base.availability.cta.label,
-      href: availabilityCms?.buttonAction || base.availability.cta.href,
-    },
-  };
-
-  const cta = {
-    ...base.cta,
-    title: ctaCms?.title || base.cta.title,
-    subtitle: ctaCms?.subTitle || ctaCms?.description || base.cta.subtitle,
-    primaryCta: {
-      ...base.cta.primaryCta,
-      label: ctaCms?.buttonText || base.cta.primaryCta.label,
-    },
-  };
+  const aiFeatures = catalog.categories.find((c) => c.slug === "ai-powered-tools")?.features || [];
+  const bulletsBySlug = new Map((tools.content.tools || []).map((t) => [t.slug, t.bullets]));
 
   // Section appears ONLY when provided by CMS slug 'ai-how-it-works'
   const howItWorks = howItWorksCms?.title
@@ -959,21 +968,42 @@ export async function getAiPage(): Promise<AiPageData> {
       }
     : undefined;
 
+  const worst = (...kinds: ContentSourceKind[]): ContentSourceKind =>
+    kinds.includes("code") ? "code" : kinds.includes("partial") ? "partial" : "api";
+
   return {
-    ...base,
-    hero,
-    // Name, audience and summary of each tool from the admin catalog (by slug)
+    ...DEFAULT_AI_PAGE_DATA,
+    hero: {
+      ...DEFAULT_AI_PAGE_DATA.hero,
+      ...hero.content,
+      primaryCta: { ...DEFAULT_AI_PAGE_DATA.hero.primaryCta, ...hero.content.primaryCta },
+      secondaryCta: { ...DEFAULT_AI_PAGE_DATA.hero.secondaryCta, ...hero.content.secondaryCta },
+    },
+    // Name, audience and summary from Features > Items; bullets from Domie AI > Cms
     tools: AI_TOOLS.map((tool) => {
       const feature = aiFeatures.find((f) => f.slug === tool.slug);
-      return feature
-        ? { ...tool, name: feature.title, audience: feature.audience || tool.audience, summary: feature.description || tool.summary }
-        : tool;
+      return {
+        ...tool,
+        ...(feature ? { name: feature.title, audience: feature.audience || tool.audience, summary: feature.description || tool.summary } : {}),
+        bullets: bulletsBySlug.get(tool.slug) || tool.bullets,
+      };
     }),
     howItWorks,
-    availability,
+    availability: {
+      ...availability.content,
+      secondaryCta: { action: "modal" as const, ...availability.content.secondaryCta },
+    },
+    relatedTools: related.content.items.length ? related.content : undefined,
     faq: undefined, // Hidden until real FAQ items exist in backend
-    cta,
+    band: band.content,
     seo: seo || undefined,
+    sources: {
+      hero: hero.source,
+      tools: worst(tools.source, catalog.source),
+      availability: availability.source,
+      relatedTools: related.source,
+      band: band.source,
+    },
   };
 }
 

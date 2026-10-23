@@ -1,9 +1,14 @@
 import { HomePage } from "@/components/modules/HomePage";
 import { fetchSeo } from "@/lib/api/content";
 import { Metadata } from "next";
-import { SITE_NAME, getMetadataBase } from "@/lib/site";
+import { SITE_NAME, getMetadataBase, applySeo } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
+  // Share image and noindex from Admin > SEO
+  return applySeo(await baseMetadata(), await fetchSeo("home").catch(() => null));
+}
+
+async function baseMetadata(): Promise<Metadata> {
   const seo = await fetchSeo("home").catch(() => null);
 
   // Same title as before the multipage work: CMS metatitle, else "LMS Domain"

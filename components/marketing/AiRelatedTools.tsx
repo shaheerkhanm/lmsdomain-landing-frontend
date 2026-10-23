@@ -14,9 +14,13 @@ interface AiRelatedToolsProps {
   title?: string;
   subtitle?: string;
   items?: RelatedToolItem[];
+  eyebrow?: string;
+  linkText?: string;
 }
 
 export function AiRelatedTools({
+  eyebrow = "COMPLEMENTARY ADD-ONS",
+  linkText = "Explore in catalog",
   title = "Related Premium Capabilities",
   subtitle = "Interactive engagement and verification tools that complement Domie AI.",
   items = [
@@ -54,7 +58,7 @@ export function AiRelatedTools({
         <div className="text-left max-w-2xl mb-12 lg:mb-16">
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-3.5">
             <span>✦</span>
-            <span>COMPLEMENTARY ADD-ONS</span>
+            <span>{eyebrow}</span>
           </span>
           <h2 className="text-[30px] sm:text-[40px] lg:text-[46px] font-semibold leading-[1.15] tracking-tight text-[#161616] mb-3">
             {title}
@@ -94,7 +98,7 @@ export function AiRelatedTools({
               </div>
 
               <div className="pt-4 border-t border-[#F3F4F6] flex items-center justify-between text-xs font-semibold text-[#161616]">
-                <span>Explore in catalog</span>
+                <span>{linkText}</span>
                 <ArrowRight className="w-4 h-4 text-[#8F94A0] group-hover:text-[#7B5CF5] group-hover:translate-x-1 transition-all" />
               </div>
             </Link>

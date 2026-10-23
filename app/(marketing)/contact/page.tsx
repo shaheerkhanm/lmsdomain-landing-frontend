@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getContactPage, fetchSeo } from "@/lib/api/content";
 import { ContactView } from "@/components/marketing";
-import { fullTitle, getMetadataBase } from "@/lib/site";
+import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
+  // Share image and noindex from Admin > SEO
+  return applySeo(await baseMetadata(), await fetchSeo("contact").catch(() => null));
+}
+
+async function baseMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
     fetchSeo("contact").catch(() => null),
     getContactPage().catch(() => null),

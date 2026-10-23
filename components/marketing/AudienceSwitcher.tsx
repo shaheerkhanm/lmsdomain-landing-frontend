@@ -9,9 +9,11 @@ import { AUDIENCE_TABS, type AudienceTab } from "@/content/features/audiences";
 export function AudienceSwitcher({
   media,
   tabs = AUDIENCE_TABS,
+  heading = { eyebrow: "TAILORED SOLUTIONS", title: "Built for How You Teach", listTitle: "Essential Features for this Role" },
 }: {
   media?: Record<string, any>;
   tabs?: AudienceTab[];
+  heading?: { eyebrow: string; title: string; listTitle: string };
 }) {
   const [activeTabId, setActiveTabId] = useState(tabs[0]?.id || "");
   const activeTab = tabs.find((t) => t.id === activeTabId) || tabs[0];
@@ -52,10 +54,10 @@ export function AudienceSwitcher({
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-2.5">
               <span>✦</span>
-              <span>TAILORED SOLUTIONS</span>
+              <span>{heading.eyebrow}</span>
             </div>
             <h2 className="text-[26px] sm:text-[34px] font-semibold text-[#161616] tracking-tight">
-              Built for How You Teach
+              {heading.title}
             </h2>
           </div>
 
@@ -141,7 +143,7 @@ export function AudienceSwitcher({
               {/* Chips picked strictly from the 38 catalog features */}
               <div>
                 <span className="text-xs uppercase font-bold text-[#8F94A0] tracking-wider block mb-3">
-                  Essential Features for this Role
+                  {heading.listTitle}
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {activeTab.features.map((feat) => (

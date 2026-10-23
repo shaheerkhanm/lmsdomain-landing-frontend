@@ -64,14 +64,34 @@ const TESTIMONIAL_SLOTS: TestimonialSlot[] = [
   },
 ];
 
+export interface CtaBandContent {
+  title: string; // a new line starts the second line
+  subtitle?: string;
+  buttonText: string;
+  placeholder: string;
+  sendingText: string;
+  successMessage: string;
+}
+
+const DEFAULT_BAND: CtaBandContent = {
+  title: "Join forward-thinking\nAI leaders",
+  subtitle: "",
+  buttonText: "Notify",
+  placeholder: "Your email address",
+  sendingText: "Sending...",
+  successMessage: "✓ You are on the priority access list. We will notify you shortly.",
+};
+
 export interface CtaSectionProps {
   data?: any;
   showTestimonials?: boolean;
   testimonials?: CtaTestimonial[];
+  content?: CtaBandContent;
 }
 
 export function CtaSection({
   data,
+  content = DEFAULT_BAND,
   showTestimonials = true,
   testimonials = [],
 }: CtaSectionProps = {}) {
@@ -213,9 +233,15 @@ export function CtaSection({
             <div className="relative z-30 w-full max-w-2xl mx-auto text-center space-y-5 sm:space-y-6 mt-3 sm:mt-6">
               {/* Exact 2-Line Headline from Reference Video */}
               <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light text-slate-900 tracking-tight leading-[1.08] font-manrope">
-                <span>Join forward-thinking</span>
-                <span className="block mt-1 sm:mt-2">AI leaders</span>
+                {content.title.split("\n").map((line, i) => (
+                  <span key={i} className={i === 0 ? undefined : "block mt-1 sm:mt-2"}>
+                    {line}
+                  </span>
+                ))}
               </h2>
+              {content.subtitle && (
+                <p className="text-base sm:text-lg text-slate-700 max-w-xl mx-auto">{content.subtitle}</p>
+              )}
 
               {/* Unified Email Form Pill: Light Cream Container with Inset Black Button */}
               <div className="w-full max-w-sm sm:max-w-md mx-auto pt-2">
@@ -225,7 +251,7 @@ export function CtaSection({
                 >
                   <input
                     type="email"
-                    placeholder="Your email address"
+                    placeholder={content.placeholder}
                     disabled={isSubmitting}
                     value={email}
                     onChange={(e) => {
@@ -240,7 +266,7 @@ export function CtaSection({
                     disabled={isSubmitting}
                     className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#15171A] hover:bg-black text-white text-xs font-semibold shadow-xs transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0"
                   >
-                    {isSubmitting ? "Sending..." : "Notify"}
+                    {isSubmitting ? content.sendingText : content.buttonText}
                   </button>
                 </form>
 
@@ -252,7 +278,7 @@ export function CtaSection({
 
                 {isSubmitted && (
                   <p className="text-xs text-emerald-800 font-semibold mt-2.5 text-center animate-in fade-in">
-                    ✓ You are on the priority access list. We will notify you shortly.
+                    {content.successMessage}
                   </p>
                 )}
               </div>

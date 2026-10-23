@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
-import { getAuthCopy } from "@/lib/api/content";
+import { getAuthCopyWithSource } from "@/lib/api/content";
+import { ContentSource } from "@/components/content/ContentSource";
 import { AuthVisualPanel } from "@/components/marketing/AuthVisualPanel";
 
 export default async function AuthLayout({
@@ -8,9 +9,10 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const authCopy = await getAuthCopy();
+  const { copy: authCopy, source } = await getAuthCopyWithSource();
 
   return (
+    <ContentSource id="auth-copy" source={source}>
     <div className="min-h-screen w-full bg-white font-urbanist flex flex-col lg:flex-row antialiased">
       {/* Left 45% Column */}
       <div className="w-full lg:w-[45%] flex flex-col justify-between p-6 sm:p-10 lg:p-12 xl:p-14 min-h-screen bg-white">
@@ -56,5 +58,6 @@ export default async function AuthLayout({
         <AuthVisualPanel sidePanel={authCopy.sidePanel} />
       </aside>
     </div>
+    </ContentSource>
   );
 }

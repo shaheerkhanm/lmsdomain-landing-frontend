@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getPricingPage, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
-import { fullTitle, getMetadataBase, getSiteUrl } from "@/lib/site";
+import { fullTitle, getMetadataBase, getSiteUrl, applySeo } from "@/lib/site";
 
 export async function generateMetadata(): Promise<Metadata> {
+  // Share image and noindex from Admin > SEO
+  return applySeo(await baseMetadata(), await fetchSeo("pricing").catch(() => null));
+}
+
+async function baseMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
     fetchSeo("pricing").catch(() => null),
     getPricingPage().catch(() => null),

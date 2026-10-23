@@ -9,13 +9,22 @@ interface PricingComparisonTableProps {
   comparison: PricingComparison;
   period: BillingPeriodId;
   onRequestDemo: (planName: string) => void;
+  heading?: { eyebrow: string; title: string; subtitle: string; cornerLabel: string };
 }
+
+const DEFAULT_HEADING = {
+  eyebrow: "DETAILED COMPARISON",
+  title: "Compare Plans & Capabilities",
+  subtitle: "See exactly what features, quotas, and premium add-ons are included in each academy tier.",
+  cornerLabel: "Compare plans",
+};
 
 export function PricingComparisonTable({
   plans,
   comparison,
   period,
   onRequestDemo,
+  heading = DEFAULT_HEADING,
 }: PricingComparisonTableProps) {
   const [selectedMobilePlan, setSelectedMobilePlan] = useState<string>(
     plans[0]?.id || "starter"
@@ -49,13 +58,13 @@ export function PricingComparisonTable({
         <div className="text-left max-w-2xl mb-12 lg:mb-16">
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-3.5">
             <span>✦</span>
-            <span>DETAILED COMPARISON</span>
+            <span>{heading.eyebrow}</span>
           </span>
           <h2 className="text-[30px] sm:text-[40px] lg:text-[46px] font-semibold leading-[1.15] tracking-tight text-[#161616] mb-3">
-            Compare Plans & Capabilities
+            {heading.title}
           </h2>
           <p className="text-[15px] sm:text-[17px] text-[#6B6F76] leading-relaxed">
-            See exactly what features, quotas, and premium add-ons are included in each academy tier.
+            {heading.subtitle}
           </p>
         </div>
 
@@ -72,7 +81,7 @@ export function PricingComparisonTable({
             <thead className="sticky top-0 lg:top-20 z-30 bg-white">
               <tr className="bg-white">
                 <th scope="col" className={`${headerCellClass} text-xs font-bold uppercase tracking-wider text-[#8F94A0] w-1/3`}>
-                  Compare plans
+                  {heading.cornerLabel}
                 </th>
                 {plans.map((plan) => (
                   <th key={plan.id} scope="col" className={`${headerCellClass} text-center`}>

@@ -4,9 +4,11 @@ import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import AdvantageScrollMain from "./AdvantageScrollMain";
 
-import { benefitsContent } from "@/content/home/benefits";
+import { benefitsContent as defaultBenefitsContent } from "@/content/home/benefits";
+import { useSectionContent } from "@/components/content/PageContent";
 
 export function AdvantageSection({ data }: { data?: any }) {
+  const benefitsContent = useSectionContent("home-benefits", defaultBenefitsContent);
   const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {

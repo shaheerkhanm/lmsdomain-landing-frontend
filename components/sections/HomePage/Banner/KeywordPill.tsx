@@ -8,11 +8,12 @@ interface WordItem {
   bg: string;
 }
 
-import { heroContent } from "@/content/home/hero";
+import { heroContent as defaultHeroContent } from "@/content/home/hero";
+import { useSectionContent } from "@/components/content/PageContent";
 
-const WORDS = heroContent.rotatingWords;
 
 export function KeywordPill() {
+  const WORDS = useSectionContent("home-hero", defaultHeroContent).rotatingWords;
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);

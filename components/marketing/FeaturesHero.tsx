@@ -11,12 +11,16 @@ interface FeaturesHeroProps {
   title?: string;
   subtitle?: string;
   ctaText?: string;
+  eyebrow?: string;
+  secondaryCtaText?: string;
 }
 
 export function FeaturesHero({
   title = "Everything You Need to Build, Manage, and Grow Your Online Academy",
   subtitle = "Bring courses, assessments, live learning, AI-powered tools, payments, and academy management together in one flexible learning platform.",
   ctaText = "Request a Demo",
+  eyebrow = "FEATURES",
+  secondaryCtaText = "See pricing",
 }: FeaturesHeroProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
 
@@ -55,7 +59,7 @@ export function FeaturesHero({
           <motion.div variants={itemVariants} className="mb-4">
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#F3F4F6] text-[#7B5CF5] text-xs font-semibold uppercase tracking-[0.08em]">
               <span>✦</span>
-              <span>FEATURES</span>
+              <span>{eyebrow}</span>
             </div>
           </motion.div>
 
@@ -92,7 +96,7 @@ export function FeaturesHero({
               href="/pricing"
               className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#161616] hover:text-[#7B5CF5] transition-colors group cursor-pointer py-2"
             >
-              <span>See pricing</span>
+              <span>{secondaryCtaText}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </motion.div>

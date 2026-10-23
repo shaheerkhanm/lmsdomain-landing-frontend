@@ -6,6 +6,7 @@ import DemoForm from "./DemoForm";
 import ContactChannels from "./ContactChannels";
 import MarketingFaq from "./MarketingFaq";
 import type { ContactPageModel } from "@/types/content";
+import { ContentSource } from "@/components/content/ContentSource";
 
 interface ContactViewProps {
   data: ContactPageModel;
@@ -15,11 +16,13 @@ export function ContactView({ data }: ContactViewProps) {
   return (
     <div className="min-h-screen bg-white font-urbanist">
       {/* 1. HERO (White): PageHero, H1, Subtitle, No buttons */}
-      <PageHero
-        eyebrow={data.hero.eyebrow}
-        title={data.hero.title}
-        subtitle={data.hero.subtitle}
-      />
+      <ContentSource id="contact-hero" source={data.sources?.hero || "code"}>
+        <PageHero
+          eyebrow={data.hero.eyebrow}
+          title={data.hero.title}
+          subtitle={data.hero.subtitle}
+        />
+      </ContentSource>
 
       {/* 2. FORM + CHANNELS (Gray #F3F4F6): One large white Card, 2 columns */}
       <section className="bg-[#F3F4F6] py-16 lg:py-24 font-urbanist border-y border-[#ECEDEF]/60">
@@ -28,19 +31,23 @@ export function ContactView({ data }: ContactViewProps) {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
               {/* Left Column (40% desktop, Order 2 mobile): Channels */}
               <div className="lg:col-span-5 order-2 lg:order-1">
-                <ContactChannels channels={data.channels} />
+                <ContentSource id="contact-channels" source={data.sources?.channels || "code"}>
+                  <ContactChannels channels={data.channels} title={data.channelsHeading?.title} subtitle={data.channelsHeading?.subtitle} />
+                </ContentSource>
               </div>
 
               {/* Right Column (60% desktop, Order 1 mobile): Form first */}
               <div className="lg:col-span-7 order-1 lg:order-2">
-                <DemoForm
-                  submitLabel={data.form.submitLabel}
-                  successTitle={data.form.successTitle}
-                  successMessage={data.form.successMessage}
-                  privacyNote={data.form.privacyNote}
-                  topics={data.topics}
-                  variant="page"
-                />
+                <ContentSource id="contact-form" source={data.sources?.form || "code"}>
+                  <DemoForm
+                    submitLabel={data.form.submitLabel}
+                    successTitle={data.form.successTitle}
+                    successMessage={data.form.successMessage}
+                    privacyNote={data.form.privacyNote}
+                    topics={data.topics}
+                    variant="page"
+                  />
+                </ContentSource>
               </div>
             </div>
           </div>

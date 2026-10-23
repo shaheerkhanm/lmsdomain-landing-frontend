@@ -9,8 +9,20 @@ import { Search, X, Sparkles, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 
+const DEFAULT_LABELS = {
+  premiumLabel: "Premium",
+  featuresLabel: "features",
+  exploreLabel: "Explore ↓",
+  searchPlaceholder: "Find a feature across all 9 categories...",
+  premiumOnlyLabel: "Premium Only",
+  jumpLabel: "Jump to section",
+  emptyMessage: "No features match your query. Try another keyword or ask us during a live demo.",
+  emptyCtaText: "Book a Live Demo",
+};
+
 interface CategoryOverviewNavProps {
   categories: FeatureCategory[];
+  labels?: typeof DEFAULT_LABELS;
 }
 
 const SHORT_TAB_LABELS: Record<string, string> = {
@@ -37,7 +49,7 @@ const CATEGORY_ICONS: Record<string, string> = {
   "branding-website-and-reach": "Globe2",
 };
 
-export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
+export function CategoryOverviewNav({ categories, labels = DEFAULT_LABELS }: CategoryOverviewNavProps) {
   const [activeSlug, setActiveSlug] = useState<string>(categories[0]?.slug || "");
   const [isStickyVisible, setIsStickyVisible] = useState(false);
   const overviewRef = useRef<HTMLDivElement>(null);
@@ -190,7 +202,7 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
 
                       {cat.isPremium && (
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#EEE9FF] text-[#7B5CF5] tracking-wide">
-                          Premium
+                          {labels.premiumLabel}
                         </span>
                       )}
                     </div>
@@ -205,9 +217,9 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
                   </div>
 
                   <div className="flex items-center justify-between pt-3 border-t border-[#F3F4F6] text-xs font-medium text-[#8F94A0]">
-                    <span>{count} features</span>
+                    <span>{count} {labels.featuresLabel}</span>
                     <span className="text-[#161616] group-hover:translate-x-0.5 transition-transform">
-                      Explore ↓
+                      {labels.exploreLabel}
                     </span>
                   </div>
                 </button>
@@ -226,7 +238,7 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Find a feature across all 9 categories..."
+                    placeholder={labels.searchPlaceholder}
                     aria-label="Find a feature search input"
                     className="w-full bg-white rounded-full pl-10 pr-9 py-2.5 text-xs sm:text-sm text-[#161616] border border-[#ECEDEF] focus:border-[#7B5CF5] focus:outline-none transition-colors shadow-2xs"
                   />
@@ -255,7 +267,7 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
                     }`}
                   >
                     <Sparkles className="w-3.5 h-3.5" />
-                    <span>Premium Only</span>
+                    <span>{labels.premiumOnlyLabel}</span>
                   </button>
                 </div>
               </div>
@@ -285,7 +297,7 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
                             </span>
                             {feat.isPremium && (
                               <span className="text-[10px] px-1.5 py-0.2 rounded bg-[#EEE9FF] text-[#7B5CF5] font-semibold">
-                                Premium
+                                {labels.premiumLabel}
                               </span>
                             )}
                           </div>
@@ -293,7 +305,7 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
                             {feat.title}
                           </p>
                           <span className="text-[11px] text-[#8F94A0] group-hover:text-[#161616] mt-1 flex items-center gap-1">
-                            Jump to section <ArrowRight className="w-3 h-3" />
+                            {labels.jumpLabel} <ArrowRight className="w-3 h-3" />
                           </span>
                         </button>
                       ))}
@@ -302,14 +314,14 @@ export function CategoryOverviewNav({ categories }: CategoryOverviewNavProps) {
                     /* Empty State */
                     <div className="py-6 text-center space-y-3">
                       <p className="text-sm text-[#6B6F76]">
-                        No features match your query. Try another keyword or ask us during a live demo.
+                        {labels.emptyMessage}
                       </p>
                       <button
                         type="button"
                         onClick={() => setShowDemoModal(true)}
                         className="px-5 py-2 rounded-full bg-[#161616] hover:bg-black text-white text-xs font-semibold transition-all cursor-pointer"
                       >
-                        Book a Live Demo
+                        {labels.emptyCtaText}
                       </button>
                     </div>
                   )}

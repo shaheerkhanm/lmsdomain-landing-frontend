@@ -5,6 +5,7 @@ import { gsap } from "@/lib/gsap";
 import type { Integration } from "@/content/features/integrations";
 
 interface IntegrationsHubProps {
+  eyebrow?: string;
   heading: string;
   subtitle: string;
   integrations: Integration[];
@@ -54,7 +55,7 @@ function HubMark({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function IntegrationsHub({ heading, subtitle, integrations }: IntegrationsHubProps) {
+export function IntegrationsHub({ eyebrow = "Integrations", heading, subtitle, integrations }: IntegrationsHubProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState<string | null>(null);
   const placed = placeOnRings(integrations);
@@ -156,7 +157,7 @@ export function IntegrationsHub({ heading, subtitle, integrations }: Integration
         <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-3.5">
             <span>✦</span>
-            <span>Integrations</span>
+            <span>{eyebrow}</span>
           </span>
           <h2 className="text-[30px] sm:text-[38px] lg:text-[46px] font-semibold leading-[1.12] tracking-tight text-[#161616] mb-4">
             {heading}

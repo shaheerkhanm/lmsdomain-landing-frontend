@@ -14,6 +14,7 @@ import PricingEnterprise from "./PricingEnterprise";
 import MarketingFaq from "./MarketingFaq";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import type { PricingPageModel, BillingPeriodId, Plan } from "@/types/content";
+import { ContentSource } from "@/components/content/ContentSource";
 
 interface PricingViewProps {
   data: PricingPageModel;
@@ -72,6 +73,7 @@ export function PricingView({ data }: PricingViewProps) {
   return (
     <div className="min-h-screen bg-white font-urbanist relative">
       {/* 1. Hero (White, PageHero with pattern="dots" & normal-flow sample strip) */}
+      <ContentSource id="pricing-hero" source={data.sources?.hero || "code"}>
       <PageHero
         pattern="dots"
         eyebrow={data.hero.eyebrow}
@@ -97,15 +99,19 @@ export function PricingView({ data }: PricingViewProps) {
           />
         )}
       </PageHero>
+      </ContentSource>
 
       {/* 3. Empty State (When plans collection has 0 documents) */}
       {!hasPlans && (
+        <ContentSource id="pricing-empty" source={data.sources?.empty || "code"}>
         <PricingEmptyState
+          eyebrow={data.emptyState?.eyebrow}
           title={data.emptyState?.title}
           subtitle={data.emptyState?.subtitle}
           primaryCta={data.emptyState?.primaryCta}
           secondaryCta={data.emptyState?.secondaryCta}
         />
+        </ContentSource>
       )}
 
       {/* 4. Plan Cards (Gray #F3F4F6 section, cards overlap top by 80px on desktop) */}
@@ -138,12 +144,15 @@ export function PricingView({ data }: PricingViewProps) {
 
       {/* 5. Comparison Table (White, only if present) */}
       {hasPlans && data.comparison && (
-        <PricingComparisonTable
-          plans={data.plans}
-          comparison={data.comparison}
-          period={activePeriod}
-          onRequestDemo={handleOpenDemoModal}
-        />
+        <ContentSource id="pricing-comparison" source={data.sources?.comparison || "code"}>
+          <PricingComparisonTable
+            plans={data.plans}
+            comparison={data.comparison}
+            period={activePeriod}
+            onRequestDemo={handleOpenDemoModal}
+            heading={data.comparisonHeading}
+          />
+        </ContentSource>
       )}
 
       {/* 6. Add-Ons (Gray #F3F4F6, only if present) */}
@@ -161,15 +170,21 @@ export function PricingView({ data }: PricingViewProps) {
 
       {/* 8. FAQ (Gray / White, fed by pricing FAQ items from CMS) */}
       {data.faq && data.faq.items && data.faq.items.length > 0 && (
-        <MarketingFaq
-          title={data.faq.title || "Frequently Asked Questions"}
-          subtitle={data.faq.subtitle || "Answers to common questions about plans, seats, and billing cycles."}
-          items={data.faq.items}
-        />
+        <ContentSource id="pricing-faq" source={data.sources?.faq || "code"}>
+          <MarketingFaq
+            eyebrow={data.faq.eyebrow}
+            title={data.faq.title || "Frequently Asked Questions"}
+            subtitle={data.faq.subtitle || "Answers to common questions about plans, seats, and billing cycles."}
+            ctaText={data.faq.ctaText}
+            items={data.faq.items}
+          />
+        </ContentSource>
       )}
 
       {/* 9. Final CTA Band (Landing CTA with testimonials hidden) */}
-      <CtaSection showTestimonials={false} />
+      <ContentSource id="pricing-footer-card" source={data.sources?.band || "code"}>
+        <CtaSection showTestimonials={false} content={data.band} />
+      </ContentSource>
 
       {/* Demo Enquiry Modal with preselected plan */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>

@@ -8,6 +8,10 @@ import type { Integration } from "@/content/features/integrations";
 
 export interface CmsDocument {
   _id: string;
+  data?: Record<string, any>; // structured section content (admin form)
+  appLoginUrl?: string;
+  appSignupUrl?: string;
+  appForgotPasswordUrl?: string;
   slug: string;
   pageSlug?: string;
   cmsTitle?: string;
@@ -150,8 +154,8 @@ export interface SeoMetadata {
   metakeyword?: string[];
   other_tag?: string;
   author?: string;
-  // TODO(backend): ogImage missing in DB.
-  ogImage?: string;
+  ogImage?: string; // Admin > SEO share image
+  noindex?: boolean; // Admin > SEO "hide from search engines"
   isActive?: boolean;
 }
 
@@ -269,6 +273,7 @@ export interface PricingEnterprise {
 }
 
 export interface PricingEmptyState {
+  eyebrow?: string;
   title: string;
   subtitle: string;
   primaryCta: { label: string; action: "demo" | "modal" };
@@ -276,6 +281,16 @@ export interface PricingEmptyState {
 }
 
 export interface PricingPageModel {
+  band?: {
+    title: string;
+    subtitle?: string;
+    buttonText: string;
+    placeholder: string;
+    sendingText: string;
+    successMessage: string;
+  };
+  comparisonHeading?: { eyebrow: string; title: string; subtitle: string; cornerLabel: string };
+  sources?: Record<"hero" | "plans" | "empty" | "comparison" | "faq" | "band", "api" | "partial" | "code">;
   isSample?: boolean;
   seo?: SeoMetadata;
   hero: {
@@ -298,8 +313,10 @@ export interface PricingPageModel {
   };
   enterprise?: PricingEnterprise;
   faq?: {
+    eyebrow?: string;
     title?: string;
     subtitle?: string;
+    ctaText?: string;
     items: FaqItem[];
   };
   cta?: {
@@ -335,12 +352,18 @@ export interface Feature {
 }
 
 export interface FeaturesPageData {
-  hero?: CmsDocument;
+  hero: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    ctaText: string;
+    secondaryCtaText: string;
+  };
   categories: FeatureCategory[];
   audiences: AudienceTab[];
   integrations: Integration[];
+  sources: Record<"hero" | "catalog" | "audiences" | "integrations" | "media", "api" | "partial" | "code">;
   faqs?: FaqItem[];
-  closingCta?: CmsDocument;
   seo?: SeoMetadata;
   media?: Record<string, any>;
 }
@@ -377,19 +400,34 @@ export interface AiPageData {
     primaryCta: { label: string; action: "modal" | "link"; href?: string };
     secondaryCta: { label: string; href: string };
     commandBarExamples: CommandBarExample[];
+    badge?: string;
+    suggestionsLabel?: string;
+    keyboardLabel?: string;
   };
+  band?: {
+    title: string;
+    subtitle?: string;
+    buttonText: string;
+    placeholder: string;
+    sendingText: string;
+    successMessage: string;
+  };
+  sources?: Record<"hero" | "tools" | "availability" | "relatedTools" | "band", "api" | "partial" | "code">;
   tools: AiTool[];
   howItWorks?: {
     title: string;
     steps: Array<{ stepNumber?: string; title: string; description: string }>;
   };
   availability: {
+    eyebrow?: string;
     title: string;
     description: string;
     cta: { label: string; href: string };
     secondaryCta?: { label: string; action: "modal" | "link"; href?: string };
   };
   relatedTools?: {
+    eyebrow?: string;
+    linkText?: string;
     title: string;
     subtitle: string;
     items: Array<{
@@ -489,6 +527,15 @@ export interface AboutCareers {
 }
 
 export interface AboutPageModel {
+  band?: {
+    title: string;
+    subtitle?: string;
+    buttonText: string;
+    placeholder: string;
+    sendingText: string;
+    successMessage: string;
+  };
+  sources?: Record<"hero" | "band", "api" | "partial" | "code">;
   seo?: SeoMetadata;
   hero: AboutHero;
   mission?: AboutMission;
@@ -542,6 +589,8 @@ export interface ContactHero {
 }
 
 export interface ContactPageModel {
+  channelsHeading?: { title: string; subtitle: string };
+  sources?: Record<"hero" | "channels" | "form", "api" | "partial" | "code">;
   seo?: SeoMetadata;
   hero: ContactHero;
   form: ContactFormConfig;

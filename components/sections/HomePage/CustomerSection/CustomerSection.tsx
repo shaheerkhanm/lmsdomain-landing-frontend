@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { testimonialsContent } from "@/content/home/testimonials";
+import { testimonialsContent as defaultTestimonialsContent } from "@/content/home/testimonials";
+import { useSectionContent } from "@/components/content/PageContent";
 import type { TestimonialItem } from "@/types/content";
 import { TestimonialCard } from "./StackedAcademyDeck";
 
@@ -18,6 +19,11 @@ export function CustomerSection({ cards = [] }: CustomerSectionProps) {
 }
 
 function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
+  const testimonialsContent = useSectionContent("testimonials", defaultTestimonialsContent);
+  // Mobile heading: last word on its own line ("Wall of" / "love")
+  const titleWords = testimonialsContent.sectionTitle.trim().split(/\s+/);
+  const mobileTitleStart = titleWords.slice(0, -1).join(" ");
+  const mobileTitleEnd = titleWords[titleWords.length - 1];
   const sectionRef = useRef<HTMLElement>(null);
   const pinWrapperRef = useRef<HTMLDivElement>(null);
   const textWrapperRef = useRef<HTMLDivElement>(null);
@@ -710,7 +716,9 @@ function WallOfLove({ cards }: { cards: TestimonialItem[] }) {
               className="font-semibold tracking-[-0.03em] leading-[0.95] text-center will-change-transform max-w-[88vw] text-[68px] min-[375px]:text-[74px] min-[390px]:text-[80px] sm:text-[96px]"
               style={{ fontWeight: 600, color: "#9CA3AF" }}
             >
-              Wall of<br />love
+              {mobileTitleStart}
+              {mobileTitleStart && <br />}
+              {mobileTitleEnd}
             </h2>
           </div>
 
