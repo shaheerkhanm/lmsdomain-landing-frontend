@@ -12,6 +12,8 @@ export interface CmsDocument {
   appLoginUrl?: string;
   appSignupUrl?: string;
   appForgotPasswordUrl?: string;
+  quote?: string; // About > story
+  author?: string;
   slug: string;
   pageSlug?: string;
   cmsTitle?: string;
@@ -467,6 +469,8 @@ export interface AboutStory {
   title: string;
   body: string;
   image?: string;
+  quote?: string;
+  author?: string;
 }
 
 export interface AboutValueItem {
@@ -496,7 +500,7 @@ export interface AboutTimeline {
 export interface AboutTeamMember {
   name: string;
   role: string;
-  photo: string;
+  photo?: string; // no photo: initials tile
   linkedinUrl?: string;
 }
 

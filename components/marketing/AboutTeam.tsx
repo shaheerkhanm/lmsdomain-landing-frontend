@@ -17,10 +17,7 @@ export function AboutTeam({ data }: AboutTeamProps) {
         <SectionHeader
           eyebrow="Leadership"
           title={data.title || "Meet Our Leadership"}
-          subtitle={
-            data.subtitle ||
-            "Experienced leaders in instructional architecture, distributed engineering, and student success."
-          }
+          subtitle={data.subtitle}
           align="center"
         />
 
@@ -30,12 +27,19 @@ export function AboutTeam({ data }: AboutTeamProps) {
             <div key={idx} className="group flex flex-col">
               {/* Photo: Square, radius 20px, natural color */}
               <div className="relative aspect-square w-full rounded-[20px] overflow-hidden bg-slate-100 border border-[#ECEDEF] mb-4">
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
-                  loading="lazy"
-                />
+                {member.photo ? (
+                  <img
+                    src={member.photo}
+                    alt={member.name}
+                    className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+                    loading="lazy"
+                  />
+                ) : (
+                  // No photo uploaded: initials instead of a stock avatar
+                  <div className="w-full h-full flex items-center justify-center bg-[#F5F3FF] text-[#7B5CF5] text-4xl font-semibold" aria-hidden="true">
+                    {member.name.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0]?.toUpperCase()).join("")}
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center justify-between">
@@ -43,9 +47,11 @@ export function AboutTeam({ data }: AboutTeamProps) {
                   <h4 className="text-[17px] font-semibold text-[#161616] tracking-tight">
                     {member.name}
                   </h4>
-                  <p className="text-[14px] text-[#6B6F76]">
-                    {member.role}
-                  </p>
+                  {member.role && (
+                    <p className="text-[14px] text-[#6B6F76]">
+                      {member.role}
+                    </p>
+                  )}
                 </div>
 
                 {member.linkedinUrl && (

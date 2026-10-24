@@ -4,12 +4,16 @@ interface AboutStoryProps {
   title?: string;
   body?: string;
   image?: string;
+  quote?: string;
+  author?: string;
 }
 
 export function AboutStory({
   title = "Our Story",
   body,
-  image = "/assets/img/our-story-img.jpg",
+  image,
+  quote,
+  author,
 }: AboutStoryProps) {
   if (!body && !title) return null;
 
@@ -42,6 +46,13 @@ export function AboutStory({
                   <p>{body}</p>
                 )}
               </div>
+
+              {quote && (
+                <figure className="mt-8 border-l-2 border-[#7B5CF5] pl-5">
+                  <blockquote className="text-[17px] sm:text-[19px] font-medium text-[#161616] leading-relaxed">&ldquo;{quote}&rdquo;</blockquote>
+                  {author && <figcaption className="mt-2 text-sm font-semibold text-[#7B5CF5]">{author}</figcaption>}
+                </figure>
+              )}
             </div>
 
             {/* Right Column: Story Image (radius 20px) */}

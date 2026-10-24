@@ -68,7 +68,7 @@ import {
   DEFAULT_PRICING_HERO,
   DEFAULT_PRICING_EMPTY_STATE,
 } from "@/content/pricing/page";
-import { ABOUT_HERO_IMAGE_APPROVED } from "@/content/about/page";
+import { UNLICENSED_ABOUT_IMAGES } from "@/content/about/page";
 import {
   DEFAULT_CONTACT_HERO,
   DEFAULT_CONTACT_FORM_CONFIG,
@@ -678,11 +678,10 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     fetchSeo("about"),
   ]);
 
-  // Guard hero image: current CMS entry contains an unlicensed Unsplash+ preview (/uploads/upload1759252684970.jpeg)
-  const approvedHeroImage =
-    ABOUT_HERO_IMAGE_APPROVED && heroCms?.image && heroCms.image !== "/path"
-      ? heroCms.image
-      : undefined;
+  // Images: anything uploaded in the admin, except the known unlicensed Unsplash+
+  // previews from the old seed (content/about/page.ts)
+  const aboutImage = (v?: string) => (v && v !== "/path" && isImagePath(v) && !UNLICENSED_ABOUT_IMAGES.includes(v) ? v : undefined);
+  const approvedHeroImage = aboutImage(heroCms?.image);
 
   let hero: AboutHero = {
     eyebrow: (heroCms?.tags && heroCms.tags[0]) || "✦ ABOUT US",
@@ -694,23 +693,23 @@ export async function getAboutPage(): Promise<AboutPageModel> {
     image: approvedHeroImage,
   };
 
-  let mission: AboutMission | undefined = missionCms?.content
+  const missionText = htmlToText(missionCms?.content);
+  let mission: AboutMission | undefined = missionText
     ? {
-        title: missionCms.title,
-        statement: missionCms.content,
+        title: missionCms?.title,
+        statement: missionText,
       }
     : undefined;
 
-  const storyImage =
-    storyCms?.image && storyCms.image !== "/path"
-      ? storyCms.image
-      : "/assets/img/our-story-img.jpg";
-
-  let story: AboutStory | undefined = storyCms?.content
+  // Story: shown once it has text; image, quote and author only when filled in
+  const storyText = htmlToText(storyCms?.content);
+  let story: AboutStory | undefined = storyText
     ? {
-        title: storyCms.title || "Our Story",
-        body: storyCms.content,
-        image: storyImage,
+        title: storyCms?.title || "Our Story",
+        body: storyText,
+        image: aboutImage(storyCms?.image),
+        quote: htmlToText(storyCms?.quote) || undefined,
+        author: text(storyCms?.author) || undefined,
       }
     : undefined;
 
@@ -720,10 +719,9 @@ export async function getAboutPage(): Promise<AboutPageModel> {
       ? {
           title: valuesCms?.title || "Our Core Values",
           subtitle: valuesCms?.subTitle,
-          items: activeValues.map((v) => ({
-            title: v.title,
-            description: v.content,
-          })),
+          items: activeValues
+            .map((v) => ({ title: text(v.title), description: htmlToText(v.content) }))
+            .filter((v) => v.title),
         }
       : undefined;
 
@@ -735,11 +733,13 @@ export async function getAboutPage(): Promise<AboutPageModel> {
       ? {
           title: leadershipCms?.title || "Meet Our Leadership",
           subtitle: leadershipCms?.subTitle,
-          members: activeLeaders.map((l) => ({
-            name: l.name,
-            role: l.profession || l.description || "Leadership",
-            photo: l.image || "/assets/img/reference/avatar-1.png",
-          })),
+          members: activeLeaders
+            .filter((l) => text(l.name))
+            .map((l) => ({
+              name: text(l.name),
+              role: text(l.profession) || htmlToText(l.description),
+              photo: aboutImage(l.image),
+            })),
         }
       : undefined;
 

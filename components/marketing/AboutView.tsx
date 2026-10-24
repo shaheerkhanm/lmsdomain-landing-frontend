@@ -59,6 +59,8 @@ export function AboutView({ data }: AboutViewProps) {
           title={data.story.title}
           body={data.story.body}
           image={data.story.image}
+          quote={data.story.quote}
+          author={data.story.author}
         />
       )}
 
