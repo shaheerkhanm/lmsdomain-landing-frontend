@@ -446,3 +446,45 @@ input[type="number"]::-webkit-inner-spin-button {
     color: #000000 !important;
   }
 }
+
+/* ------------------------------------------------------------------
+   Client logo marquee (components/sections/HomePage/ClientLogosSection)
+   Each track holds the logos twice; moving by -50% loops seamlessly.
+   ------------------------------------------------------------------ */
+@keyframes logo-marquee-left {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes logo-marquee-right {
+  from { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+.logo-marquee {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+.logo-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: logo-marquee-left var(--marquee-duration, 40s) linear infinite;
+  will-change: transform;
+}
+.logo-marquee-track[data-direction="right"] {
+  animation-name: logo-marquee-right;
+}
+/* Paused until the band is on screen (MarqueeInView sets data-active) */
+.logo-marquee-track { animation-play-state: paused; }
+[data-active] .logo-marquee-track { animation-play-state: running; }
+[data-active] .logo-marquee:hover .logo-marquee-track,
+[data-active] .logo-marquee:focus-within .logo-marquee-track,
+.logo-marquee:hover .logo-marquee-track,
+.logo-marquee:focus-within .logo-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee-track { animation: none; }
+}
+
+/* Mobile app carousel: horizontal scroll without a visible scrollbar */
+.app-carousel { scrollbar-width: none; }
+.app-carousel::-webkit-scrollbar { display: none; }

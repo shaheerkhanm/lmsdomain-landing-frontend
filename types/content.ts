@@ -806,3 +806,39 @@ export interface AuthCopy {
   signup: AuthSignupCopy;
   sidePanel: AuthSidePanelCopy;
 }
+
+// ----------------------------------------------------------------------------
+// Home: mobile app section (CMS "site-home-mobile-app") and client logos
+// (CMS "site-home-clients" heading + /api/home/clients records)
+// ----------------------------------------------------------------------------
+export interface HomeMobileAppHighlight {
+  icon: string; // lucide name from the admin's fixed set
+  title: string;
+  text: string;
+}
+
+export interface HomeMobileApp {
+  eyebrow: string;
+  title: string;
+  description: string;
+  highlights: HomeMobileAppHighlight[];
+  screenshots: { image: string; alt: string }[];
+  appStoreUrl?: string;
+  playStoreUrl?: string;
+  qrImage?: string;
+}
+
+export interface HomeClientLogo {
+  id: string;
+  name: string;
+  logo: string;
+  url?: string;
+}
+
+export interface HomeClients {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  logos: HomeClientLogo[];
+}
+

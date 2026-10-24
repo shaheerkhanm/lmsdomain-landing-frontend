@@ -47,6 +47,8 @@ import type {
   HomeTestimonials,
   TestimonialItem,
   PlanCurrency,
+  HomeMobileApp,
+  HomeClients,
 } from "@/types/content";
 import {
   DEFAULT_PRICING_CURRENCY,
@@ -1022,6 +1024,91 @@ interface BackendTestimonial {
   image?: string;
   isActive?: boolean;
   isDeleted?: boolean;
+}
+
+// ----------------------------------------------------------------------------
+// Home: mobile app section (Home > Cms > "mobile app (new site)") and client
+// logos (heading: Home > Cms > "client logos (new site)"; logos: Home > Client
+// logos, /api/home/clients). Each returns null when unpublished or empty, and
+// the section is not shown. Refresh tags: home.
+// ----------------------------------------------------------------------------
+const text = (v: unknown) => (typeof v === "string" ? v.trim() : "");
+const isImagePath = (v: string) => /^(\/uploads\/|https:\/\/|\/assets\/)/.test(v);
+const isHttpUrl = (v: string) => /^https?:\/\/\S+$/i.test(v);
+type Loose = Record<string, unknown>;
+const list = (v: unknown): Loose[] => (Array.isArray(v) ? v.filter((x): x is Loose => !!x && typeof x === "object") : []);
+// Client logo records (Home > Client logos, /api/home/clients)
+interface BackendClient {
+  _id?: string;
+  slug?: string;
+  title?: string;
+  logo?: string;
+  altImage?: string;
+  url?: string;
+  isActive?: boolean;
+  isDeleted?: boolean;
+}
+
+export async function getHomeMobileApp(): Promise<HomeMobileApp | null> {
+  const doc = await fetchCms("site-home-mobile-app", ["cms", "home", "cms:site-home-mobile-app"]);
+  const data: Loose = doc?.data || {};
+  const app: HomeMobileApp = {
+    eyebrow: text(data.eyebrow),
+    title: text(data.title),
+    description: text(data.description),
+    highlights: list(data.highlights)
+      .map((h) => ({ icon: text(h.icon), title: text(h.title), text: text(h.text) }))
+      .filter((h) => h.title),
+    screenshots: list(data.screenshots)
+      .map((sc) => ({ image: text(sc.image), alt: text(sc.alt) }))
+      .filter((sc) => isImagePath(sc.image)),
+    appStoreUrl: isHttpUrl(text(data.appStoreUrl)) ? text(data.appStoreUrl) : undefined,
+    playStoreUrl: isHttpUrl(text(data.playStoreUrl)) ? text(data.playStoreUrl) : undefined,
+    qrImage: isImagePath(text(data.qrImage)) ? text(data.qrImage) : undefined,
+  };
+  if (!doc || !app.title || (!app.description && !app.highlights.length && !app.screenshots.length)) return null;
+  return app;
+}
+
+export async function getHomeClients(): Promise<HomeClients | null> {
+  const [doc, res] = await Promise.all([
+    fetchCms("site-home-clients", ["cms", "home", "cms:site-home-clients"]),
+    fetchApi<{ status?: boolean; data?: BackendClient[] }>("/api/home/clients", {
+      method: "POST",
+      body: { slug: "" },
+      tags: ["home", "clients"],
+      revalidate: 300,
+    }).catch(() => null),
+  ]);
+  if (!doc) return null;
+  const data: Loose = doc.data || {};
+  const logos = filterActiveDocuments(res?.data)
+    .map((c, idx) => ({
+      id: String(c._id || c.slug || idx),
+      name: text(c.altImage) || text(c.title),
+      logo: text(c.logo),
+      url: isHttpUrl(text(c.url)) ? text(c.url) : undefined,
+    }))
+    .filter((c) => c.name && isImagePath(c.logo));
+  if (!logos.length) return null;
+  return { eyebrow: text(data.eyebrow), title: text(data.title), subtitle: text(data.subtitle), logos };
+}
+
+// Rich text from the admin editor ("<p>..</p>") as plain paragraphs (blank line between)
+export function htmlToText(value: unknown): string {
+  return String(value ?? "")
+    .replace(/<\s*br\s*\/?>/gi, "\n")
+    .replace(/<\/\s*(p|div|li|h[1-6])\s*>/gi, "\n\n")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 export async function getHomeTestimonials(): Promise<HomeTestimonials> {
