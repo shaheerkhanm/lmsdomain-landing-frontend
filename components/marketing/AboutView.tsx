@@ -19,6 +19,8 @@ interface AboutViewProps {
 }
 
 export function AboutView({ data }: AboutViewProps) {
+  const hasHeroImage = Boolean(data.hero.image);
+
   return (
     <div className="min-h-screen bg-white font-urbanist">
       {/* 1. Hero (White, PageHero) */}
@@ -27,6 +29,7 @@ export function AboutView({ data }: AboutViewProps) {
         eyebrow={data.hero.eyebrow}
         title={data.hero.title}
         subtitle={data.hero.subtitle}
+        className={!hasHeroImage ? "pb-4 lg:pb-6" : undefined}
         topStrip={
           data.isSample ? (
             <div className="bg-[#F3CF74] text-[#161616] px-4 py-1.5 rounded-full text-xs font-semibold shadow-xs border border-amber-300 flex items-center gap-1.5">
@@ -50,6 +53,7 @@ export function AboutView({ data }: AboutViewProps) {
           statement={data.mission.statement}
           bgClassName="bg-white"
           eyebrow="Mission Statement"
+          className={!hasHeroImage ? "pt-2 pb-12 lg:pt-4 lg:pb-16 lg:min-h-[380px] mb-8 lg:mb-0" : undefined}
         />
       )}
 

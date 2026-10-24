@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 export interface PageHeroProps {
   eyebrow?: string;
@@ -34,7 +35,7 @@ export function PageHero({
 }: PageHeroProps) {
   return (
     <section
-      className={`relative overflow-hidden bg-white pt-[128px] lg:pt-[180px] pb-12 lg:pb-16 font-urbanist text-center ${className}`}
+      className={cn("relative overflow-hidden bg-white pt-[128px] lg:pt-[180px] pb-12 lg:pb-16 font-urbanist text-center", className)}
     >
       {/* Subtle Dot Grid Hero Pattern (§Prompt 02c) */}
       {pattern === "dots" && (

@@ -5,12 +5,14 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 
 import { manifestoContent as defaultManifestoContent } from "@/content/home/manifesto";
 import { useSectionContent } from "@/components/content/PageContent";
+import { cn } from "@/lib/utils";
 
 export interface ManifestSectionProps {
   statement?: string;
   id?: string;
   bgClassName?: string;
   eyebrow?: string;
+  className?: string;
 }
 
 export function ManifestSection({
@@ -18,6 +20,7 @@ export function ManifestSection({
   id = "manifesto",
   bgClassName = "bg-[#F3F4F6] lg:bg-white",
   eyebrow,
+  className,
 }: ManifestSectionProps = {}) {
   const manifestoContent = useSectionContent("home-manifesto", defaultManifestoContent);
   const words = (statement || manifestoContent.text).trim().split(/\s+/);
@@ -101,7 +104,7 @@ export function ManifestSection({
     <section
       ref={sectionRef}
       id={id}
-      className={`${bgClassName} font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16 lg:mb-0`}
+      className={cn(`${bgClassName} font-urbanist relative overflow-visible flex items-center justify-center pt-0 pb-0 lg:py-24 lg:sm:py-32 lg:min-h-[600px] mb-16 lg:mb-0`, className)}
     >
       {/* Desktop Layout (>=1024px: Pinned Row) */}
       <div
