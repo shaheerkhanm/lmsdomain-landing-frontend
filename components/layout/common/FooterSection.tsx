@@ -76,7 +76,9 @@ export function FooterSection({
               <img
                 src="/assets/img/logo/logo.svg"
                 alt="LMS Domain Logo"
-                className="h-8 md:h-9 w-auto object-contain"
+                width={208}
+                height={36}
+                className="h-8 md:h-9 w-auto max-w-[210px] object-contain"
               />
             </Link>
 
