@@ -1,0 +1,2909 @@
+{
+  "timestamp": "2026-10-24T16:07:38.494Z",
+  "routesChecked": 13,
+  "viewportsChecked": 3,
+  "shotsDir": "/Users/shaheerkhan/Documents/Docker/lms-frontend/lmsdomain-landing-frontend/docs/prelaunch/shots",
+  "linkReport": {
+    "totalChecked": 330,
+    "validLinks": 330,
+    "hashLinks": [],
+    "deadLinks": []
+  },
+  "routes": [
+    {
+      "slug": "home",
+      "path": "/",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "home-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "home-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "home-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Modern AI-Powered Learning Platform | LMS Domain",
+        "description": "Scale your academy with courses, live classes, assessments, payments, and Domie AI tutor in one flexible learning platform.",
+        "canonical": "https://lmsdomain.com",
+        "ogTitle": "Modern AI-Powered Learning Platform | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/home",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Meet all-in-one platform\nto \ncertify\nscale"
+          ],
+          "h2Count": 10,
+          "h3Count": 19
+        },
+        "totalImages": 62,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 62
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "features",
+      "path": "/features",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "features-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "features-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "features-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Everything You Need to Build, Manage, and Grow Your Online Academy | LMS Domain",
+        "description": "Bring courses, assessments, live learning, AI-powered tools, payments, and academy management together in one flexible learning platform.",
+        "canonical": "https://lmsdomain.com/features",
+        "ogTitle": "Everything You Need to Build, Manage, and Grow Your Online Academy | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/features",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Everything You Need to Build, Manage, and Grow Your Online Academy"
+          ],
+          "h2Count": 13,
+          "h3Count": 28
+        },
+        "totalImages": 42,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 42
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "See pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Explore Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Explore Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "ai",
+      "path": "/ai",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "ai-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "ai-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "ai-390px.png"
+        }
+      },
+      "seo": {
+        "title": "AI Grounded in Your Courses, Built for Your Entire Academy | LMS Domain",
+        "description": "Assist learners with course-grounded answers, help creators draft content faster, and surface key operational alerts for administrators.",
+        "canonical": "https://lmsdomain.com/ai",
+        "ogTitle": "AI Grounded in Your Courses, Built for Your Entire Academy | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/ai",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "AI Grounded in Your Courses, Built for Your Entire Academy"
+          ],
+          "h2Count": 4,
+          "h3Count": 8
+        },
+        "totalImages": 4,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 4
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "View Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "View Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Premium\nIn-Video Checkpoint Quizzes\n\nInsert questions at specific points in a video. Playback pauses until learners answer the checkpoint question and continue.\n\nExplore in catalog",
+          "href": "/features#assessment-and-evaluation",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Premium\nLeaderboards and Points\n\nShow rankings based on learner progress and points to encourage participation and healthy competition.\n\nExplore in catalog",
+          "href": "/features#learner-engagement",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Premium\nWatch-Percentage Completion\n\nMark a video lesson as complete after the learner watches the configured percentage of its duration.\n\nExplore in catalog",
+          "href": "/features#learner-engagement",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "pricing",
+      "path": "/pricing",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "pricing-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "pricing-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "pricing-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Simple, Transparent Pricing | LMS Domain",
+        "description": "Choose the right plan for your academy and get everything you need to create courses, engage learners, manage your training business, and grow—all from one powerful learning platform.",
+        "canonical": "https://lmsdomain.com/pricing",
+        "ogTitle": "Simple, Transparent Pricing | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/pricing",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Simple, Transparent Pricing"
+          ],
+          "h2Count": 2,
+          "h3Count": 3
+        },
+        "totalImages": 4,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 4
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Choose Plan",
+          "href": "/signup?plan=basic&billing=monthly",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Choose Plan",
+          "href": "/signup?plan=standard&billing=monthly",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Choose Plan",
+          "href": "/signup?plan=premium&billing=monthly",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "about",
+      "path": "/about",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "about-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "about-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "about-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Empowering Education Through Innovation | LMS Domain",
+        "description": "We're dedicated to revolutionizing online learning by providing educators and institutions with powerful, intuitive tools to create engaging educational experiences that inspire growth and success.",
+        "canonical": "https://lmsdomain.com/about",
+        "ogTitle": "Empowering Education Through Innovation | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/about",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Empowering Education Through Innovation"
+          ],
+          "h2Count": 1,
+          "h3Count": 0
+        },
+        "totalImages": 4,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 4
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "contact",
+      "path": "/contact",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "contact-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "contact-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "contact-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Talk to the LMS Domain team",
+        "description": "Get in touch with our team about learning platforms, pricing plans, or technical questions.",
+        "canonical": "https://lmsdomain.com/contact",
+        "ogTitle": "Talk to the LMS Domain team",
+        "ogImage": "https://lmsdomain.com/og/contact",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Talk to the LMS Domain team"
+          ],
+          "h2Count": 1,
+          "h3Count": 0
+        },
+        "totalImages": 3,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 3
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "login",
+      "path": "/login",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "[auth/login] No login URL configured. Set APP_LOGIN_URL server env or configure appLoginUrl in admin site settings."
+          ],
+          "screenshot": "login-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "[auth/login] No login URL configured. Set APP_LOGIN_URL server env or configure appLoginUrl in admin site settings."
+          ],
+          "screenshot": "login-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "[auth/login] No login URL configured. Set APP_LOGIN_URL server env or configure appLoginUrl in admin site settings."
+          ],
+          "screenshot": "login-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Log In | LMS Domain",
+        "description": "Log in to your LMS Domain academy platform.",
+        "canonical": "",
+        "ogTitle": "Log In | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/login",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Log in to your academy"
+          ],
+          "h2Count": 1,
+          "h3Count": 0
+        },
+        "totalImages": 1,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 1
+      },
+      "links": [
+        {
+          "text": "LMS Domain",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "←\nBack to site",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Sign up",
+          "href": "/signup",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "signup",
+      "path": "/signup",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "[auth/signup] No signup URL configured. Set APP_SIGNUP_URL server env or configure appSignupUrl in admin site settings."
+          ],
+          "screenshot": "signup-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "[auth/signup] No signup URL configured. Set APP_SIGNUP_URL server env or configure appSignupUrl in admin site settings."
+          ],
+          "screenshot": "signup-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "[auth/signup] No signup URL configured. Set APP_SIGNUP_URL server env or configure appSignupUrl in admin site settings."
+          ],
+          "screenshot": "signup-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Sign Up | LMS Domain",
+        "description": "Start your LMS Domain academy platform.",
+        "canonical": "",
+        "ogTitle": "Sign Up | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/signup",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Start your academy"
+          ],
+          "h2Count": 1,
+          "h3Count": 0
+        },
+        "totalImages": 1,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 1
+      },
+      "links": [
+        {
+          "text": "LMS Domain",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "←\nBack to site",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "privacy-policy",
+      "path": "/privacy-policy",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "privacy-policy-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "privacy-policy-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "privacy-policy-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Privacy Policy | LMS Domain",
+        "description": "Official Privacy Policy documentation for LMS Domain.",
+        "canonical": "https://lmsdomain.com/privacy-policy",
+        "ogTitle": "Privacy Policy | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/privacy-policy",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Privacy Policy"
+          ],
+          "h2Count": 15,
+          "h3Count": 3
+        },
+        "totalImages": 3,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 3
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "support@lmsdomain.com",
+          "href": "mailto:support@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "support@lmsdomain.com",
+          "href": "mailto:support@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "https://lmsdomain.com",
+          "href": "https://lmsdomain.com",
+          "target": "_blank",
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "terms",
+      "path": "/terms",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "terms-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "terms-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "terms-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Terms of Service | LMS Domain",
+        "description": "Official Terms of Service documentation for LMS Domain.",
+        "canonical": "https://lmsdomain.com/terms",
+        "ogTitle": "Terms of Service | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/terms",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Terms of Service"
+          ],
+          "h2Count": 16,
+          "h3Count": 4
+        },
+        "totalImages": 3,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 3
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "support@lmsdomain.com",
+          "href": "mailto:support@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "https://lmsdomain.com",
+          "href": "https://lmsdomain.com",
+          "target": "_blank",
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "refund-policy",
+      "path": "/refund-policy",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "refund-policy-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "refund-policy-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "refund-policy-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Refund & Cancellation Policy | LMS Domain",
+        "description": "Official Refund & Cancellation Policy documentation for LMS Domain.",
+        "canonical": "https://lmsdomain.com/refund-policy",
+        "ogTitle": "Refund & Cancellation Policy | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/refund-policy",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Refund & Cancellation Policy"
+          ],
+          "h2Count": 9,
+          "h3Count": 9
+        },
+        "totalImages": 3,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 3
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "support@lmsdomain.com",
+          "href": "mailto:support@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "support@lmsdomain.com",
+          "href": "mailto:support@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "https://lmsdomain.com",
+          "href": "https://lmsdomain.com",
+          "target": "_blank",
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "dpa",
+      "path": "/dpa",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "dpa-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "dpa-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 200,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [],
+          "screenshot": "dpa-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Data Processing Agreement (DPA) | LMS Domain",
+        "description": "Official Data Processing Agreement (DPA) documentation for LMS Domain.",
+        "canonical": "https://lmsdomain.com/dpa",
+        "ogTitle": "Data Processing Agreement (DPA) | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/dpa",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Data Processing Agreement (DPA)"
+          ],
+          "h2Count": 14,
+          "h3Count": 6
+        },
+        "totalImages": 3,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 3
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "support@lmsdomain.com",
+          "href": "mailto:support@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "https://lmsdomain.com",
+          "href": "https://lmsdomain.com",
+          "target": "_blank",
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    },
+    {
+      "slug": "404",
+      "path": "/this-url-does-not-exist",
+      "viewports": {
+        "desktop": {
+          "width": 1440,
+          "height": 900,
+          "status": 404,
+          "overflow": {
+            "scrollWidth": 1440,
+            "innerWidth": 1440,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 404 (Not Found)"
+          ],
+          "screenshot": "404-1440px.png"
+        },
+        "tablet": {
+          "width": 768,
+          "height": 1024,
+          "status": 404,
+          "overflow": {
+            "scrollWidth": 768,
+            "innerWidth": 768,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 404 (Not Found)"
+          ],
+          "screenshot": "404-768px.png"
+        },
+        "mobile": {
+          "width": 390,
+          "height": 844,
+          "status": 404,
+          "overflow": {
+            "scrollWidth": 390,
+            "innerWidth": 390,
+            "hasOverflow": false
+          },
+          "pageErrors": [],
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 404 (Not Found)"
+          ],
+          "screenshot": "404-390px.png"
+        }
+      },
+      "seo": {
+        "title": "Page Not Found | LMS Domain",
+        "description": "LMS Domain Learning Management",
+        "canonical": "",
+        "ogTitle": "Page Not Found | LMS Domain",
+        "ogImage": "https://lmsdomain.com/og/home",
+        "twCard": "summary_large_image"
+      },
+      "accessibility": {
+        "headings": {
+          "h1Count": 1,
+          "h1Text": [
+            "Page not found"
+          ],
+          "h2Count": 0,
+          "h3Count": 0
+        },
+        "totalImages": 4,
+        "imagesMissingAlt": 0,
+        "imagesWithAlt": 4
+      },
+      "links": [
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Features",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Log in",
+          "href": "/login",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": "LMS Domain Home"
+        },
+        {
+          "text": "Back to home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Contact us",
+          "href": "/contact",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "",
+          "href": "https://x.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "X (formerly Twitter)"
+        },
+        {
+          "text": "",
+          "href": "https://instagram.com/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "Instagram"
+        },
+        {
+          "text": "",
+          "href": "https://youtube.com/lmsdomain",
+          "target": "_blank",
+          "ariaLabel": "YouTube"
+        },
+        {
+          "text": "",
+          "href": "https://linkedin.com/company/LMSDOMAIN",
+          "target": "_blank",
+          "ariaLabel": "LinkedIn"
+        },
+        {
+          "text": "Features & LMS Core",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Domie AI",
+          "href": "/ai",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Plans & Pricing",
+          "href": "/pricing",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Product FAQs",
+          "href": "/pricing#faqSection",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Request Live Demo",
+          "href": "/#cta-enquiry",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Home",
+          "href": "/",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "About Our Story",
+          "href": "/about",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Core Architecture",
+          "href": "/features",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Privacy Policy",
+          "href": "/privacy-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Terms of Service",
+          "href": "/terms",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Refund & Cancellation",
+          "href": "/refund-policy",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "Data Processing (DPA)",
+          "href": "/dpa",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "info@lmsdomain.com",
+          "href": "mailto:info@lmsdomain.com",
+          "target": null,
+          "ariaLabel": null
+        },
+        {
+          "text": "+91980980779",
+          "href": "tel:+91980980779",
+          "target": null,
+          "ariaLabel": null
+        }
+      ],
+      "placeholders": []
+    }
+  ]
+}
