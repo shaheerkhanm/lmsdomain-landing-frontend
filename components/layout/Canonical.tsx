@@ -1,29 +1,8 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-
-function Canonical() {
-
-    const [canonicalLink, setcanonicalLink] = useState("")
-    const path = usePathname()
-
-    useEffect(() => {
-        setcanonicalLink(window?.location?.href)
-    }, [path])
-
-
-    if (!canonicalLink) return null
-
-    return (
-
-        <link
-            rel="canonical"
-            href={canonicalLink}
-            key="canonical"
-        />
-    )
-
+// Next.js App Router renders <link rel="canonical"> in <head> server-side
+// via metadata.alternates.canonical using getMetadataBase() (SITE_URL, never localhost or staging).
+// This component returns null to avoid duplicate or client-overwritten canonical tags.
+export default function Canonical() {
+  return null;
 }
-
-export default Canonical

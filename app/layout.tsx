@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { getSiteIdentity, iconUrls, DEFAULT_THEME_LIGHT, DEFAULT_THEME_DARK } from "@/lib/siteIdentity";
+import { getMetadataBase } from "@/lib/site";
 import { Urbanist, Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -33,6 +34,7 @@ const manrope = Manrope({
 export async function generateMetadata(): Promise<Metadata> {
   const icons = iconUrls(await getSiteIdentity());
   return {
+    metadataBase: getMetadataBase(),
     title: "LMS Domain",
     description: "LMS Domain Learning Management",
     applicationName: "LMS Domain",

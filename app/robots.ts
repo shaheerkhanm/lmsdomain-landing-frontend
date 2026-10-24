@@ -7,8 +7,8 @@ export const dynamic = "force-dynamic";
 export default function robots(): MetadataRoute.Robots {
   const siteUrl = getSiteUrl();
 
-  // Staging, local, or SITE_URL unset: never indexed.
-  if (!siteUrl || !isIndexableSite()) {
+  // Staging, local, or SITE_URL unset / not production: never indexed.
+  if (!siteUrl || !isIndexableSite() || siteUrl.includes("staging")) {
     return {
       rules: [{ userAgent: "*", disallow: "/" }],
     };

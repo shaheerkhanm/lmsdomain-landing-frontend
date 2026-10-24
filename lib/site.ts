@@ -8,9 +8,10 @@ import { getSiteIdentity } from "@/lib/siteIdentity";
 import { shareImageUrl } from "@/lib/og";
 
 export const SITE_NAME = "LMS Domain";
+export const PRODUCTION_ORIGIN = "https://lmsdomain.com";
 
 // Only this origin may be indexed; every other SITE_URL (or none) is blocked.
-const INDEXABLE_ORIGIN = "https://lmsdomain.com";
+const INDEXABLE_ORIGIN = PRODUCTION_ORIGIN;
 
 export function getSiteUrl(): string | undefined {
   const raw = process.env.SITE_URL?.trim();
@@ -26,15 +27,22 @@ export function isIndexableSite(): boolean {
   return getSiteUrl() === INDEXABLE_ORIGIN;
 }
 
-export function getMetadataBase(): URL | undefined {
+// Canonical URL must use SITE_URL, never localhost or staging
+export function getMetadataBase(): URL {
   const siteUrl = getSiteUrl();
-  return siteUrl ? new URL(siteUrl) : undefined;
+  if (siteUrl && !siteUrl.includes("staging") && !siteUrl.includes("localhost") && !siteUrl.includes("127.0.0.1")) {
+    return new URL(siteUrl);
+  }
+  return new URL(PRODUCTION_ORIGIN);
 }
 
 // "Privacy Policy" → "Privacy Policy | LMS Domain" (never doubled)
 export function fullTitle(title: string): string {
-  const base = title.replace(/\s*\|\s*LMS Domain$/i, "").trim();
-  return `${base} | ${SITE_NAME}`;
+  const trimmed = (title || "").trim();
+  if (!trimmed) return SITE_NAME;
+  // If "LMS Domain" is already in the title anywhere, keep it as is
+  if (/lms\s*domain/i.test(trimmed)) return trimmed;
+  return `${trimmed} | ${SITE_NAME}`;
 }
 
 // Apply a page's SEO entry (Admin > SEO): share image and noindex. Title and
