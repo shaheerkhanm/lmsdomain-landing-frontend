@@ -10,7 +10,13 @@ import Script from "next/script";
 import { motion, useReducedMotion } from "motion/react";
 import { Loader2 } from "lucide-react";
 import type { AuthForgotCopy } from "@/types/content";
-import { centralErrorMessage, forgotPassword, serviceUnavailable, type CentralLoginError } from "@/lib/auth/central-login";
+import {
+  centralErrorMessage,
+  forgotPassword,
+  RESET_ERROR_TEXT,
+  serviceUnavailable,
+  type CentralLoginError,
+} from "@/lib/auth/central-login";
 import { useRecaptcha } from "./useRecaptcha";
 
 const FALLBACK: Required<AuthForgotCopy> = {
@@ -53,7 +59,7 @@ export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: Forgo
   const errorRef = useRef<HTMLDivElement>(null);
   const sentRef = useRef<HTMLParagraphElement>(null);
 
-  const recaptcha = useRecaptcha(recaptchaSiteKey, () => setError(serviceUnavailable()));
+  const recaptcha = useRecaptcha(recaptchaSiteKey, () => setError(serviceUnavailable(RESET_ERROR_TEXT)));
 
   useEffect(() => {
     if (errorSeq > 0) errorRef.current?.focus();

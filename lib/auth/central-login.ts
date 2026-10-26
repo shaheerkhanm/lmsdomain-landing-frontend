@@ -97,12 +97,20 @@ function isErrorCode(value: unknown): value is CentralErrorCode {
   return typeof value === "string" && Object.prototype.hasOwnProperty.call(ERROR_TEXT, value);
 }
 
-export function centralErrorMessage(code: CentralErrorCode): string {
-  return ERROR_TEXT[code];
+/** Per-page overrides for the fallback texts (used only when the API sends no message). */
+export type ErrorText = Partial<Record<CentralErrorCode, string>>;
+
+// /forgot-password: "sign you in" doesn't fit a reset link
+export const RESET_ERROR_TEXT: ErrorText = {
+  service_unavailable: "We can't send the reset link right now. Please try again shortly.",
+};
+
+export function centralErrorMessage(code: CentralErrorCode, text: ErrorText = {}): string {
+  return text[code] ?? ERROR_TEXT[code];
 }
 
-export function serviceUnavailable(): CentralLoginError {
-  return { code: "service_unavailable", message: ERROR_TEXT.service_unavailable };
+export function serviceUnavailable(text: ErrorText = {}): CentralLoginError {
+  return { code: "service_unavailable", message: centralErrorMessage("service_unavailable", text) };
 }
 
 export function retryAfterMinutes(seconds: number): number {
@@ -121,15 +129,15 @@ function readFieldErrors(value: unknown): Record<string, string[]> | undefined {
 }
 
 /** Turns an error body into a CentralLoginError. Unknown or malformed → service_unavailable. */
-export function toCentralError(body: unknown): CentralLoginError {
+export function toCentralError(body: unknown, text: ErrorText = {}): CentralLoginError {
   if (!isRecord(body) || body.status !== "error" || !isErrorCode(body.code)) {
-    return serviceUnavailable();
+    return serviceUnavailable(text);
   }
 
   const code = body.code;
   const error: CentralLoginError = {
     code,
-    message: isString(body.message) ? body.message : ERROR_TEXT[code],
+    message: isString(body.message) ? body.message : centralErrorMessage(code, text),
   };
 
   if (code === "validation_failed") {
@@ -198,7 +206,12 @@ function isSentResponse(body: Record<string, unknown>): boolean {
 // Requests
 // ----------------------------------------------------------------------------
 
-export async function post(centralUrl: string, path: string, body: unknown): Promise<CentralResult<Record<string, unknown>>> {
+export async function post(
+  centralUrl: string,
+  path: string,
+  body: unknown,
+  text: ErrorText = {},
+): Promise<CentralResult<Record<string, unknown>>> {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
@@ -216,25 +229,29 @@ export async function post(centralUrl: string, path: string, body: unknown): Pro
     try {
       data = await res.json();
     } catch {
-      return { ok: false, error: serviceUnavailable() };
+      return { ok: false, error: serviceUnavailable(text) };
     }
 
     if (!res.ok || !isRecord(data) || data.status === "error") {
-      return { ok: false, error: toCentralError(data) };
+      return { ok: false, error: toCentralError(data, text) };
     }
 
     return { ok: true, data };
   } catch {
     // Network failure, CORS refusal or timeout (abort)
-    return { ok: false, error: serviceUnavailable() };
+    return { ok: false, error: serviceUnavailable(text) };
   } finally {
     clearTimeout(timer);
   }
 }
 
-function checked<T>(result: CentralResult<Record<string, unknown>>, valid: (body: Record<string, unknown>) => boolean): CentralResult<T> {
+function checked<T>(
+  result: CentralResult<Record<string, unknown>>,
+  valid: (body: Record<string, unknown>) => boolean,
+  text: ErrorText = {},
+): CentralResult<T> {
   if (!result.ok) return result;
-  return valid(result.data) ? { ok: true, data: result.data as unknown as T } : { ok: false, error: serviceUnavailable() };
+  return valid(result.data) ? { ok: true, data: result.data as unknown as T } : { ok: false, error: serviceUnavailable(text) };
 }
 
 export async function login(
@@ -265,11 +282,13 @@ export async function forgotPassword(
   centralUrl: string,
   { email, recaptchaToken }: { email: string; recaptchaToken: string },
 ): Promise<CentralResult<CentralForgotPasswordResponse>> {
-  const result = await post(centralUrl, "/api/central-login/forgot-password", {
-    email: email.trim(),
-    recaptcha_token: recaptchaToken,
-  });
-  return checked(result, isSentResponse);
+  const result = await post(
+    centralUrl,
+    "/api/central-login/forgot-password",
+    { email: email.trim(), recaptcha_token: recaptchaToken },
+    RESET_ERROR_TEXT,
+  );
+  return checked(result, isSentResponse, RESET_ERROR_TEXT);
 }
 
 // ----------------------------------------------------------------------------
