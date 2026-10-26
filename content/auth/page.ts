@@ -9,6 +9,7 @@ export const DEFAULT_AUTH_COPY: AuthCopy = {
     signupLinkLabel: "Sign up",
     forgotLabel: "Forgot password?",
     adminNote: "Not an admin? Log in on your academy's site.",
+    centralSubmitLabel: "Sign in",
   },
   signup: {
     title: "Start your academy",
@@ -17,6 +18,13 @@ export const DEFAULT_AUTH_COPY: AuthCopy = {
     loginPrompt: "Already have an account?",
     loginLinkLabel: "Log in",
     termsNote: "By continuing, you agree to our Terms of Service and Privacy Policy.",
+  },
+  forgot: {
+    title: "Reset your password",
+    subtitle:
+      "Each academy has its own password. If your email is an admin, we'll email a reset link for each of your academies.",
+    submitLabel: "Send reset link",
+    backLabel: "Back to log in",
   },
   sidePanel: {
     title: "Your complete academy platform",

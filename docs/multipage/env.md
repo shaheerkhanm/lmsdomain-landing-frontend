@@ -57,6 +57,7 @@ Fake accounts (any password works, except `wrong`):
 | `suspended@test.dev` | `403 academy_suspended` |
 | `locked@test.dev` | `429 too_many_attempts`, `retry_after: 900` |
 | `down@test.dev` | `503 service_unavailable` (login and forgot password) |
+| `locked@test.dev` on forgot password | `429 too_many_attempts`, `retry_after: 900` (not in the contract, which answers `sent` over its limits; only here so the form's rate-limit message can be tested) |
 | password `wrong` | `422 invalid_credentials` |
 | any other email | `422 invalid_credentials` |
 | empty `recaptcha_token` | `422 recaptcha_failed` |
@@ -202,3 +203,38 @@ In Step 3, all browser submissions will route to a Next.js App Router Route Hand
 - **Zero CORS issues:** All browser requests are strictly same-origin (`/api/enquiry`).
 - **Resilient across environments:** Works identically on local dev (`localhost:8080`), staging (`staging.lmsdomain.online`), and production without rebuilding Docker images.
 
+---
+
+## 6. Central admin login
+
+The `/login` form signs academy admins in through the central domain's API (`docs/central-login-api.md`) and `/forgot-password` sends reset links. Both are off until these two **server** settings are present; they are read per request (not `NEXT_PUBLIC_`), so set them on the container with `docker run -e ...` and restart, no rebuild:
+
+| Setting | Value |
+|---|---|
+| `LMS_CENTRAL_URL` | The central domain, `https://` and no path, e.g. `https://app.lmsdomain.com` (production). Staging: from the Laravel team. |
+| `RECAPTCHA_SITE_KEY` | The central reCAPTCHA v2 checkbox **site** key from the Laravel team (public; the secret key stays on the Laravel side). |
+
+Either missing or invalid → `/login` shows the old button to the app login URL and `/forgot-password` redirects to `/login`.
+
+Origins sent to the Laravel team for `CENTRAL_LOGIN_ALLOWED_ORIGINS` (CORS):
+
+| Environment | Origins |
+|---|---|
+| Production | `https://lmsdomain.com`, `https://www.lmsdomain.com` |
+| Staging | `https://staging.lmsdomain.online` |
+| Local only (never on production) | `http://localhost:3001`, `http://127.0.0.1:3001` |
+
+Local testing without the Laravel API: see section 1.1 (fake API, `CENTRAL_LOGIN_MOCK=true`, dev server only).
+
+Staging test accounts (from `docs/central-login-api.md`; the Laravel team provides one for each case):
+
+| Account | Expect |
+|---|---|
+| Admin of one academy | `redirect`, then that academy's dashboard (or its login-code page) |
+| Admin of two academies, same password | `choose` with both |
+| Admin of two academies, different passwords | `redirect` to the one whose password was typed |
+| Instructor or student | `invalid_credentials` |
+| Admin of a suspended academy | `academy_suspended` |
+| Admin of an academy with a custom domain | `redirect.url` on the custom domain |
+| Wrong password 6 times | `too_many_attempts` |
+| Wait 61 seconds before submitting the form | The academy's login page with "link expired" |

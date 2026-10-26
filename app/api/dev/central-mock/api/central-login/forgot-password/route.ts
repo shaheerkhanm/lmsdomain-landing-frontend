@@ -17,7 +17,11 @@ export async function POST(request: Request) {
   if (!body || emailError) return errors.validation(request, { email: emailError ?? ["Enter your email address."] });
 
   if (!hasRecaptcha(body)) return errors.recaptcha(request);
-  if ((body.email as string).trim().toLowerCase() === "down@test.dev") return errors.unavailable(request);
+  const email = (body.email as string).trim().toLowerCase();
+  if (email === "down@test.dev") return errors.unavailable(request);
+  // Not in the contract (it answers "sent" over its limits): this 429 exists only
+  // so the form's too_many_attempts handling can be seen and tested.
+  if (email === "locked@test.dev") return errors.tooMany(request);
 
   // Always "sent", whether or not the email exists (contract, "Forgot password")
   return json(request, {

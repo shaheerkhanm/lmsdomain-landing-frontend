@@ -48,7 +48,7 @@ export function FooterSection({
   publishedLegalSlugs?: string[];
 }) {
   const pathname = usePathname();
-  if (pathname?.startsWith("/login") || pathname?.startsWith("/signup")) {
+  if (pathname?.startsWith("/login") || pathname?.startsWith("/signup") || pathname?.startsWith("/forgot-password")) {
     return null;
   }
 

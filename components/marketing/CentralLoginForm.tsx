@@ -24,26 +24,10 @@ import {
   type CentralRedirect,
   type CentralRedirectResponse,
 } from "@/lib/auth/central-login";
+import { useRecaptcha } from "./useRecaptcha";
 
-const RECAPTCHA_SRC = "https://www.google.com/recaptcha/api.js?render=explicit";
-const RECAPTCHA_READY_TIMEOUT_MS = 15_000;
 const DEFAULT_ADMIN_NOTE = "Not an admin? Log in on your academy's site.";
-
-interface Grecaptcha {
-  ready(callback: () => void): void;
-  render(
-    container: HTMLElement,
-    params: { sitekey: string; callback?: () => void; "expired-callback"?: () => void; "error-callback"?: () => void },
-  ): number;
-  reset(widgetId?: number): void;
-  getResponse(widgetId?: number): string;
-}
-
-declare global {
-  interface Window {
-    grecaptcha?: Grecaptcha;
-  }
-}
+const DEFAULT_SUBMIT_LABEL = "Sign in";
 
 interface CentralLoginFormProps {
   copy: AuthLoginCopy;
@@ -113,48 +97,14 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
   const [choosingId, setChoosingId] = useState<string | null>(null);
   const [error, setError] = useState<CentralLoginError | null>(null);
   const [errorSeq, setErrorSeq] = useState(0);
-  const [recaptchaState, setRecaptchaState] = useState<"loading" | "ready" | "error">("loading");
 
   // Synchronous guard: state updates are too slow to stop a fast double click.
   const inFlight = useRef(false);
-  const widgetId = useRef<number | null>(null);
-  const recaptchaRef = useRef<HTMLDivElement>(null);
   const errorRef = useRef<HTMLDivElement>(null);
   const academyButtons = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // ---------------------------------------------------------------- reCAPTCHA
-
-  const resetRecaptcha = useCallback(() => {
-    if (widgetId.current !== null) window.grecaptcha?.reset(widgetId.current);
-  }, []);
-
-  const recaptchaFailed = useCallback(() => {
-    setRecaptchaState("error");
-    setError(serviceUnavailable());
-  }, []);
-
-  const onRecaptchaScript = useCallback(() => {
-    const grecaptcha = window.grecaptcha;
-    if (!grecaptcha?.ready) return recaptchaFailed();
-    grecaptcha.ready(() => {
-      if (widgetId.current !== null || !recaptchaRef.current) {
-        setRecaptchaState("ready");
-        return;
-      }
-      try {
-        widgetId.current = grecaptcha.render(recaptchaRef.current, { sitekey: recaptchaSiteKey });
-        setRecaptchaState("ready");
-      } catch {
-        recaptchaFailed();
-      }
-    });
-  }, [recaptchaSiteKey, recaptchaFailed]);
-
-  useEffect(() => {
-    if (recaptchaState !== "loading") return;
-    const timer = setTimeout(recaptchaFailed, RECAPTCHA_READY_TIMEOUT_MS);
-    return () => clearTimeout(timer);
-  }, [recaptchaState, recaptchaFailed]);
+  const recaptcha = useRecaptcha(recaptchaSiteKey, () => setError(serviceUnavailable()));
+  const resetRecaptcha = recaptcha.reset;
 
   // ------------------------------------------------------------------ helpers
 
@@ -208,10 +158,11 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (inFlight.current || recaptchaState !== "ready" || widgetId.current === null) return;
+    if (inFlight.current || recaptcha.state !== "ready") return;
 
-    const recaptchaToken = window.grecaptcha?.getResponse(widgetId.current) ?? "";
+    const recaptchaToken = recaptcha.getToken();
     if (!recaptchaToken) {
+      // Checked here before any request; same text as the API's recaptcha_failed
       fail({ code: "recaptcha_failed", message: centralErrorMessage("recaptcha_failed") });
       return;
     }
@@ -302,7 +253,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
   const otherFieldMessages = Object.entries(fieldErrors)
     .filter(([field]) => field !== "email" && field !== "password")
     .flatMap(([, messages]) => messages);
-  const submitDisabled = submitting || recaptchaState !== "ready";
+  const submitDisabled = submitting || recaptcha.state !== "ready";
 
   return (
     <motion.div
@@ -311,7 +262,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="space-y-6 text-left"
     >
-      <Script src={RECAPTCHA_SRC} strategy="afterInteractive" onReady={onRecaptchaScript} onError={recaptchaFailed} />
+      <Script {...recaptcha.scriptProps} />
 
       {/* Title & Subtitle */}
       <div className="space-y-2">
@@ -400,7 +351,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
           Remember me
         </label>
 
-        <div ref={recaptchaRef} className="min-h-[78px]" />
+        <div ref={recaptcha.containerRef} className="min-h-[78px]" />
 
         {error && (
           <div
@@ -426,7 +377,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
           className={`w-full h-[48px] rounded-xl bg-[#161616] hover:bg-black text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-xs hover:shadow-md cursor-pointer disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:cursor-not-allowed disabled:active:scale-100 ${focusRing}`}
         >
           {submitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
-          {submitting ? "Signing in…" : copy.submitLabel}
+          {submitting ? "Signing in…" : copy.centralSubmitLabel || DEFAULT_SUBMIT_LABEL}
         </button>
 
         <p className="text-xs text-[#8F94A0] text-center">{copy.adminNote || DEFAULT_ADMIN_NOTE}</p>

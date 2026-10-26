@@ -9,7 +9,7 @@ import { navigationConfig } from "@/content/navigation";
 
 export function Header() {
   const pathname = usePathname();
-  const isAuth = pathname?.startsWith("/login") || pathname?.startsWith("/signup");
+  const isAuth = pathname?.startsWith("/login") || pathname?.startsWith("/signup") || pathname?.startsWith("/forgot-password");
 
   const [showSubpageMenu, setShowSubpageMenu] = useState(false);
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);

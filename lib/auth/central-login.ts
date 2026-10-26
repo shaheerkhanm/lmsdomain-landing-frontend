@@ -307,20 +307,25 @@ export function goToAcademy(centralUrl: string, redirect: { url: string; token: 
     return serviceUnavailable();
   }
 
-  const form = document.createElement("form");
-  form.method = "POST";
-  form.action = redirect.url;
-  form.setAttribute(HANDOFF_FORM_ATTR, "");
+  try {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = redirect.url;
+    form.setAttribute(HANDOFF_FORM_ATTR, "");
 
-  const input = document.createElement("input");
-  input.type = "hidden";
-  input.name = "token";
-  input.value = redirect.token;
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "token";
+    input.value = redirect.token;
 
-  form.appendChild(input);
-  document.body.appendChild(form);
-  form.submit();
-  return null;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+    return null;
+  } catch {
+    clearHandoffForms();
+    return serviceUnavailable();
+  }
 }
 
 /** Removes handoff forms (and their tokens) left in the DOM, e.g. after a back-forward cache restore. */

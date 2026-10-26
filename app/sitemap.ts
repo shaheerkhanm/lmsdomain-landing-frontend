@@ -64,7 +64,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  // Marketing routes only: explicitly excludes /login and /signup per spec
+  // Marketing routes only: explicitly excludes /login, /signup and /forgot-password per spec
   return [...staticMarketingRoutes, ...legalRoutes];
 }
 

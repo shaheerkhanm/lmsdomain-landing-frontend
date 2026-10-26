@@ -790,6 +790,16 @@ export interface AuthLoginCopy {
   forgotLabel?: string;
   /** Central admin login only: note under the form for instructors and students. */
   adminNote?: string;
+  /** Central admin login only: submit button (the redirect button keeps submitLabel). */
+  centralSubmitLabel?: string;
+}
+
+/** /forgot-password (central admin login only). */
+export interface AuthForgotCopy {
+  title?: string;
+  subtitle?: string;
+  submitLabel?: string;
+  backLabel?: string;
 }
 
 export interface AuthSignupCopy {
@@ -810,6 +820,7 @@ export interface AuthSidePanelCopy {
 export interface AuthCopy {
   login: AuthLoginCopy;
   signup: AuthSignupCopy;
+  forgot?: AuthForgotCopy;
   sidePanel: AuthSidePanelCopy;
 }
 
