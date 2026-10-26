@@ -26,8 +26,45 @@ The Next.js 15 App Router application reads and utilizes the following environme
 | `PRICING_POPULAR_PLAN` | **Server-side (Build + Runtime)** | `undefined` | `lib/api/content.ts` (`getPricingPage`) | Plan to highlight as "Most popular" (its title or slug, any case, e.g. `Standard Plan`) **only while no plan has `isPopular` in the backend**; the backend flag always wins. `/pricing` is prerendered, so set it at build time too, or refresh with the `pricing` tag. Remove it once the admin "Most popular" checkbox is live. |
 | `CMS_REVALIDATE_SECRET` | **Server-side (Runtime)** | none (required) | `app/api/revalidate/route.ts` | Shared secret for `POST /api/revalidate` (`docs/multipage/cms-webhook.md`). Unset → the endpoint returns `503` and revalidates nothing. Use a different long random value on staging and production. |
 | `OG_IMAGE_SECRET` | **Server-side (Runtime)** | `CMS_REVALIDATE_SECRET` | `lib/og.ts` | Signs the page title in default share-image URLs (`/og/<page>?t=…&s=…`) so the image route only draws titles the site produced. Optional: falls back to `CMS_REVALIDATE_SECRET`; with neither, share images show the page name. |
+| `LMS_CENTRAL_URL` | **Server-side (Runtime)** | `undefined` (feature off) | `lib/auth/central-config.ts` (`getCentralLoginConfig`) | Central domain for the admin login API (`docs/central-login-api.md`), e.g. `https://app.lmsdomain.com`. Must be `https:` (`http:` only for `localhost` / `127.0.0.1`), origin only; trailing slashes are stripped. The only path accepted is `/api/dev/central-mock` on a local host (the fake API below). Anything else, or unset → central login off and `/login` keeps the plain button to the app login URL. Not `NEXT_PUBLIC_`: set it with `docker run -e LMS_CENTRAL_URL=...`, no rebuild needed. |
+| `RECAPTCHA_SITE_KEY` | **Server-side (Runtime)** | `undefined` (feature off) | `lib/auth/central-config.ts` (`getCentralLoginConfig`) | Public reCAPTCHA v2 checkbox site key for the central login (from the Laravel team, separate from academies' own keys). Passed to the browser as a prop. Missing → central login off, since the API rejects every request without a token. Set with `docker run -e RECAPTCHA_SITE_KEY=...`, no rebuild needed. |
+| `CENTRAL_LOGIN_MOCK` | **Server-side (Runtime), dev only** | `undefined` | `app/api/dev/central-mock/_lib/mock.ts` | `true` turns on the local fake central login API under `/api/dev/central-mock`, **only** under `next dev`. In a production build (`npm start`, Docker) the fake routes always return `404`, whatever this is set to. Never set it on staging or production. |
 
-### 1.1 Local Host Development (`.env.development.local`)
+### 1.1 Local testing: central admin login
+
+The fake API copies `docs/central-login-api.md` so the `/login` form can be built and screenshotted without the Laravel backend. Put these in `.env.local` (gitignored) and run `npm run dev -- -p 3001`:
+
+```env
+LMS_CENTRAL_URL=http://127.0.0.1:3001/api/dev/central-mock
+# Google's published reCAPTCHA v2 test site key (always passes; reCAPTCHA FAQ)
+RECAPTCHA_SITE_KEY=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+CENTRAL_LOGIN_MOCK=true
+```
+
+Endpoints (each answers after 400 ms, with CORS for `http://localhost:3001` and `http://127.0.0.1:3001`, including `OPTIONS`):
+
+- `POST /api/dev/central-mock/api/central-login`
+- `POST /api/dev/central-mock/api/central-login/select`
+- `POST /api/dev/central-mock/api/central-login/forgot-password`
+- `POST /api/dev/central-mock/handoff`: fake academy; shows "Fake academy: handoff received" and the token's length (never the token)
+
+Fake accounts (any password works, except `wrong`):
+
+| Input | Result |
+|---|---|
+| `one@test.dev` | `200 redirect` to the fake handoff |
+| `two@test.dev` | `200 choose` with Acme Academy (logo) and Globex IELTS (`logo_url: null`) |
+| `suspended@test.dev` | `403 academy_suspended` |
+| `locked@test.dev` | `429 too_many_attempts`, `retry_after: 900` |
+| `down@test.dev` | `503 service_unavailable` (login and forgot password) |
+| password `wrong` | `422 invalid_credentials` |
+| any other email | `422 invalid_credentials` |
+| empty `recaptcha_token` | `422 recaptcha_failed` |
+| missing / invalid email or password | `422 validation_failed` with `errors` |
+| selection older than **20 seconds** (short on purpose), or reused | `422 selection_expired` |
+| `academy_id` not in the list | `422 invalid_selection` |
+
+### 1.2 Local Host Development (`.env.development.local`)
 When running Next.js directly on a host machine outside Docker (e.g. `npm run dev -- -p 3002` on macOS), the default `.env` specifies `BACKEND_URL=http://backend:3000`, which is unresolvable outside Docker's network bridge.
 Developers running on the host create `.env.development.local` (gitignored, never committed):
 ```env
