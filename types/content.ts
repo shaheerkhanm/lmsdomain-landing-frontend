@@ -788,6 +788,8 @@ export interface AuthLoginCopy {
   signupPrompt: string;
   signupLinkLabel: string;
   forgotLabel?: string;
+  /** Central admin login only: note under the form for instructors and students. */
+  adminNote?: string;
 }
 
 export interface AuthSignupCopy {

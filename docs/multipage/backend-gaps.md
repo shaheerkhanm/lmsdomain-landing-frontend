@@ -41,6 +41,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Contact | Real phone number | Content | The CMS entry `address` currently contains placeholder phone `1234567890`. The frontend filters out placeholder phone numbers. Enter the real contact phone number in Admin > Settings > Address. |
 | About | Licensed Hero Photo | Content | The CMS entry `about-hero` currently contains an unlicensed Unsplash+ watermarked preview (`/uploads/upload1759252684970.jpeg`). Replace with a licensed high-res photograph in Admin > CMS. Frontend guards with `ABOUT_HERO_IMAGE_APPROVED = false` in `content/about/page.ts` until replaced. |
 | Login / Signup | App auth links | Field | Add `appLoginUrl`, `appSignupUrl`, `appForgotPasswordUrl` to admin Settings (the `address` settings document read by `getSiteSettings()`). Until then `getAppAuthUrls()` falls back to server env `APP_LOGIN_URL` / `APP_SIGNUP_URL` / `APP_FORGOT_PASSWORD_URL`; with neither set, the buttons are disabled. |
+| Login | Central login note | Content (optional) | `auth-copy` → `login.adminNote` (string): the small note under the central admin login form. Optional; without it the form shows "Not an admin? Log in on your academy's site." The form's submit button uses the existing `login.submitLabel` and the "Forgot password?" link the existing `login.forgotLabel`. |
 
 ## Can wait (the page works without it; that part is hidden)
 

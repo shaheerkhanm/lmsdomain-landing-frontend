@@ -4,6 +4,18 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Sign-in pages must never be framed (clickjacking). No site-wide CSP exists;
+  // this one only sets frame-ancestors.
+  async headers() {
+    const noFraming = [
+      { key: "X-Frame-Options", value: "DENY" },
+      { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
+    ];
+    return [
+      { source: "/login", headers: noFraming },
+      { source: "/forgot-password", headers: noFraming },
+    ];
+  },
   async rewrites() {
     return [
       {

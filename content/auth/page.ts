@@ -8,6 +8,7 @@ export const DEFAULT_AUTH_COPY: AuthCopy = {
     signupPrompt: "Don't have an academy account?",
     signupLinkLabel: "Sign up",
     forgotLabel: "Forgot password?",
+    adminNote: "Not an admin? Log in on your academy's site.",
   },
   signup: {
     title: "Start your academy",

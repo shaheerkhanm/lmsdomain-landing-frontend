@@ -28,7 +28,8 @@ export interface CentralAcademy extends CentralRedirectAcademy {
 export interface CentralRedirectResponse {
   status: "redirect";
   redirect: CentralRedirect;
-  academy: CentralRedirectAcademy;
+  /** Always sent per the contract; optional so a missing one still hands off ("your academy"). */
+  academy?: CentralRedirectAcademy;
 }
 
 export interface CentralChooseResponse {
@@ -94,6 +95,10 @@ function isString(value: unknown): value is string {
 
 function isErrorCode(value: unknown): value is CentralErrorCode {
   return typeof value === "string" && Object.prototype.hasOwnProperty.call(ERROR_TEXT, value);
+}
+
+export function centralErrorMessage(code: CentralErrorCode): string {
+  return ERROR_TEXT[code];
 }
 
 export function serviceUnavailable(): CentralLoginError {
@@ -167,7 +172,11 @@ function isAcademy(value: unknown): value is CentralAcademy {
 }
 
 function isRedirectResponse(body: Record<string, unknown>): boolean {
-  return body.status === "redirect" && isRedirect(body.redirect) && isRedirectAcademy(body.academy);
+  return (
+    body.status === "redirect" &&
+    isRedirect(body.redirect) &&
+    (body.academy === undefined || body.academy === null || isRedirectAcademy(body.academy))
+  );
 }
 
 function isChooseResponse(body: Record<string, unknown>): boolean {
@@ -268,6 +277,7 @@ export async function forgotPassword(
 // ----------------------------------------------------------------------------
 
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1"]);
+const HANDOFF_FORM_ATTR = "data-central-handoff";
 
 /** https: always; http: only while the central URL itself is local. */
 export function isAllowedRedirectUrl(redirectUrl: string, centralUrl: string): boolean {
@@ -300,6 +310,7 @@ export function goToAcademy(centralUrl: string, redirect: { url: string; token: 
   const form = document.createElement("form");
   form.method = "POST";
   form.action = redirect.url;
+  form.setAttribute(HANDOFF_FORM_ATTR, "");
 
   const input = document.createElement("input");
   input.type = "hidden";
@@ -310,4 +321,9 @@ export function goToAcademy(centralUrl: string, redirect: { url: string; token: 
   document.body.appendChild(form);
   form.submit();
   return null;
+}
+
+/** Removes handoff forms (and their tokens) left in the DOM, e.g. after a back-forward cache restore. */
+export function clearHandoffForms(): void {
+  document.querySelectorAll(`form[${HANDOFF_FORM_ATTR}]`).forEach((form) => form.remove());
 }
