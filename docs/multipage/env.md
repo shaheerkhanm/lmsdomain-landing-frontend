@@ -26,8 +26,9 @@ The Next.js 15 App Router application reads and utilizes the following environme
 | `PRICING_POPULAR_PLAN` | **Server-side (Build + Runtime)** | `undefined` | `lib/api/content.ts` (`getPricingPage`) | Plan to highlight as "Most popular" (its title or slug, any case, e.g. `Standard Plan`) **only while no plan has `isPopular` in the backend**; the backend flag always wins. `/pricing` is prerendered, so set it at build time too, or refresh with the `pricing` tag. Remove it once the admin "Most popular" checkbox is live. |
 | `CMS_REVALIDATE_SECRET` | **Server-side (Runtime)** | none (required) | `app/api/revalidate/route.ts` | Shared secret for `POST /api/revalidate` (`docs/multipage/cms-webhook.md`). Unset → the endpoint returns `503` and revalidates nothing. Use a different long random value on staging and production. |
 | `OG_IMAGE_SECRET` | **Server-side (Runtime)** | `CMS_REVALIDATE_SECRET` | `lib/og.ts` | Signs the page title in default share-image URLs (`/og/<page>?t=…&s=…`) so the image route only draws titles the site produced. Optional: falls back to `CMS_REVALIDATE_SECRET`; with neither, share images show the page name. |
-| `LMS_CENTRAL_URL` | **Server-side (Runtime)** | `undefined` (feature off) | `lib/auth/central-config.ts` (`getCentralLoginConfig`) | Central domain for the admin login API (`docs/central-login-api.md`), e.g. `https://app.lmsdomain.com`. Must be `https:` (`http:` only for `localhost` / `127.0.0.1`), origin only; trailing slashes are stripped. The only path accepted is `/api/dev/central-mock` on a local host (the fake API below). Anything else, or unset → central login off and `/login` keeps the plain button to the app login URL. Not `NEXT_PUBLIC_`: set it with `docker run -e LMS_CENTRAL_URL=...`, no rebuild needed. |
-| `RECAPTCHA_SITE_KEY` | **Server-side (Runtime)** | `undefined` (feature off) | `lib/auth/central-config.ts` (`getCentralLoginConfig`) | Public reCAPTCHA v2 checkbox site key for the central login (from the Laravel team, separate from academies' own keys). Passed to the browser as a prop. Missing → central login off, since the API rejects every request without a token. Set with `docker run -e RECAPTCHA_SITE_KEY=...`, no rebuild needed. |
+| `LMS_CENTRAL_URL` | **Server-side (Runtime)** | `undefined` (feature off) | `lib/auth/central-config.ts` (`getCentralLoginConfig`) | Central domain for the admin login API (`docs/central-login-api.md`), e.g. `https://app.lmsdomain.com`. Fallback for Admin > Settings > App links "Central login address" (see section 6). Must be `https:`, origin only (trailing slashes stripped), and its host on `CENTRAL_LOGIN_ALLOWED_DOMAINS`. `http://localhost` / `http://127.0.0.1` and the path `/api/dev/central-mock` (the fake API below) are accepted only under `next dev`. Not `NEXT_PUBLIC_`: set it with `docker run -e LMS_CENTRAL_URL=...`, no rebuild needed. |
+| `RECAPTCHA_SITE_KEY` | **Server-side (Runtime)** | `undefined` (feature off) | `lib/auth/central-config.ts` (`getCentralLoginConfig`) | Public reCAPTCHA v2 checkbox site key for the central login (from the Laravel team, separate from academies' own keys). Passed to the browser as a prop. Fallback for Admin > Settings > App links "reCAPTCHA site key". No key from either → central login off, since the API rejects every request without a token. Set with `docker run -e RECAPTCHA_SITE_KEY=...`, no rebuild needed. |
+| `CENTRAL_LOGIN_ALLOWED_DOMAINS` | **Server-side (Runtime)** | `lmsdomain.com,lmsdomain.online` | `lib/auth/central-config.ts` (`isAllowedHost`) | Comma-separated domains the central login address may be on: the domain itself or any subdomain (`app.lmsdomain.com`, `staging.lmsdomain.online`). Applies to the admin setting **and** to `LMS_CENTRAL_URL`; any other host is ignored. Never editable from the admin: adding a domain is a deliberate server change (`docker run -e CENTRAL_LOGIN_ALLOWED_DOMAINS=...`). |
 | `CENTRAL_LOGIN_MOCK` | **Server-side (Runtime), dev only** | `undefined` | `app/api/dev/central-mock/_lib/mock.ts` | `true` turns on the local fake central login API under `/api/dev/central-mock`, **only** under `next dev`. In a production build (`npm start`, Docker) the fake routes always return `404`, whatever this is set to. Never set it on staging or production. |
 
 ### 1.1 Local testing: central admin login
@@ -207,14 +208,24 @@ In Step 3, all browser submissions will route to a Next.js App Router Route Hand
 
 ## 6. Central admin login
 
-The `/login` form signs academy admins in through the central domain's API (`docs/central-login-api.md`) and `/forgot-password` sends reset links. Both are off until these two **server** settings are present; they are read per request (not `NEXT_PUBLIC_`), so set them on the container with `docker run -e ...` and restart, no rebuild:
+The `/login` form signs academy admins in through the central domain's API (`docs/central-login-api.md`) and `/forgot-password` sends reset links. They are configured in **Admin > Settings > App links** (switch, "Central login address", "reCAPTCHA site key"), with two **server** settings as the fallback. Everything is read per request (not `NEXT_PUBLIC_`): an admin save reaches the site through the revalidate webhook, and server settings need only a container restart (`docker run -e ...`), no rebuild.
 
 | Setting | Value |
 |---|---|
 | `LMS_CENTRAL_URL` | The central domain, `https://` and no path, e.g. `https://app.lmsdomain.com` (production). Staging: from the Laravel team. |
 | `RECAPTCHA_SITE_KEY` | The central reCAPTCHA v2 checkbox **site** key from the Laravel team (public; the secret key stays on the Laravel side). |
+| `CENTRAL_LOGIN_ALLOWED_DOMAINS` | Optional. Domains the central address may be on (itself or subdomains), comma-separated. Default `lmsdomain.com,lmsdomain.online`. |
 
-Either missing or invalid → `/login` shows the old button to the app login URL and `/forgot-password` redirects to `/login`.
+How `getCentralLoginConfig()` decides, on every request to `/login` and `/forgot-password`:
+
+1. **Admin switch off** (`centralLoginEnabled` false) → off, whatever the server settings say. This is the off switch.
+2. **Address:** the admin's "Central login address" if it is set, `https://` with no path **and** its host is on the allow-list; otherwise `LMS_CENTRAL_URL` (same checks). A rejected admin value is never used: the server logs one warning per host (`[central-login] Admin setting lmsCentralUrl rejected (host: …)`), with the host only.
+3. **Site key:** the admin's "reCAPTCHA site key" if it is set and well-formed (20–80 letters, digits, `-`, `_`); otherwise `RECAPTCHA_SITE_KEY`.
+4. **On** only when the admin switch is on (or, while the backend has no switch at all, when `LMS_CENTRAL_URL` is set) **and** an address and a key resolved. Otherwise off.
+
+Off → `/login` shows the old button to the app login URL and `/forgot-password` redirects to `/login`.
+
+The admin fields win over the server settings, **except the allow-list**: it lives only in server env (or the code default), so someone with admin access can't point the form, and the admin passwords typed into it, at their own server. `localhost` / `127.0.0.1` pass only under `next dev` (the fake API).
 
 Origins sent to the Laravel team for `CENTRAL_LOGIN_ALLOWED_ORIGINS` (CORS):
 

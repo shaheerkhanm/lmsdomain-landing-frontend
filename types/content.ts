@@ -178,6 +178,10 @@ export interface SiteSettings {
   appLoginUrl?: string;
   appSignupUrl?: string;
   appForgotPasswordUrl?: string;
+  /** Central admin login (Settings > App links); undefined = the backend has no such field */
+  centralLoginEnabled?: boolean;
+  lmsCentralUrl?: string;
+  recaptchaSiteKey?: string;
 }
 
 export interface PricingPageData {

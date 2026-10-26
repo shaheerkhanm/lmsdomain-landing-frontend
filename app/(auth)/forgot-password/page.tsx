@@ -20,7 +20,7 @@ export function generateMetadata(): Metadata {
 
 export default async function ForgotPasswordPage() {
   // Only part of the central admin login; without it /login links elsewhere.
-  const central = getCentralLoginConfig();
+  const central = await getCentralLoginConfig();
   if (!central) redirect("/login");
 
   const authCopy = await getAuthCopy();

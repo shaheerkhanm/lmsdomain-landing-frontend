@@ -209,7 +209,8 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   const [address, footer, appLinks] = await Promise.all([
     fetchCms("address", ["cms", "settings", "address"]),
     fetchCms(SECTIONS.footer.slug, ["cms", "settings", SECTIONS.footer.slug]),
-    // Settings > App links (appLoginUrl, appSignupUrl, appForgotPasswordUrl)
+    // Settings > App links (appLoginUrl, appSignupUrl, appForgotPasswordUrl,
+    // centralLoginEnabled, lmsCentralUrl, recaptchaSiteKey)
     fetchCms("app-links", ["cms", "settings", "app-links"]),
   ]);
 
@@ -219,7 +220,16 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     appLoginUrl: readSettingUrl(appLinks, "appLoginUrl") || readSettingUrl(address, "appLoginUrl"),
     appSignupUrl: readSettingUrl(appLinks, "appSignupUrl") || readSettingUrl(address, "appSignupUrl"),
     appForgotPasswordUrl: readSettingUrl(appLinks, "appForgotPasswordUrl") || readSettingUrl(address, "appForgotPasswordUrl"),
+    // Checked (format + domain allow-list) by getCentralLoginConfig(), never used as is
+    centralLoginEnabled: readSettingBoolean(appLinks, "centralLoginEnabled"),
+    lmsCentralUrl: readSettingUrl(appLinks, "lmsCentralUrl"),
+    recaptchaSiteKey: readSettingUrl(appLinks, "recaptchaSiteKey"),
   };
+}
+
+function readSettingBoolean(doc: CmsDocument | null, key: string): boolean | undefined {
+  const value = (doc as Record<string, unknown> | null)?.[key];
+  return typeof value === "boolean" ? value : undefined;
 }
 
 // The admin Settings document does not define these fields yet (see

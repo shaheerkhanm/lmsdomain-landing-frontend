@@ -27,12 +27,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function LoginPage() {
-  const [authCopy, authUrls] = await Promise.all([
+  // central: null = central login off, keep the button to the app login URL
+  const [authCopy, authUrls, central] = await Promise.all([
     getAuthCopy(),
     getAppAuthUrls(),
+    getCentralLoginConfig(),
   ]);
-  // null = central login off: keep the button to the app login URL
-  const central = getCentralLoginConfig();
 
   return (
     <Suspense
