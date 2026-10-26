@@ -1,13 +1,14 @@
 // ============================================================================
 // QA screenshots + overflow / console audit (Playwright)
 //
-//   npm run build
 //   npm run qa:screens
 //
 // Uses the production server at QA_BASE_URL (default http://localhost:3001).
-// If nothing answers there, it starts `next start -p 3001` itself with
-// BACKEND_URL=http://127.0.0.1:5201 (override with BACKEND_URL) and stops it
-// when done.
+// If nothing answers there, it runs `next build`, copies public/ and
+// .next/static/ into .next/standalone/ and starts `node server.js` on that
+// port, the way the Dockerfile does (`next start` does not work with
+// `output: "standalone"`), with BACKEND_URL=http://127.0.0.1:5201 (override
+// with BACKEND_URL), and stops it when done.
 //
 // Output:
 //   docs/multipage/evidence/qa/<route>/<width>.png          full-page screenshots
@@ -18,7 +19,7 @@
 
 import { chromium } from "playwright";
 import { spawn } from "node:child_process";
-import { mkdir, writeFile } from "node:fs/promises";
+import { cp, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const BASE_URL = (process.env.QA_BASE_URL || "http://localhost:3001").replace(/\/$/, "");
@@ -54,13 +55,33 @@ async function isUp(url) {
   }
 }
 
+function run(command, args, options = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, { stdio: ["ignore", "inherit", "inherit"], ...options });
+    child.on("error", reject);
+    child.on("exit", (code) => (code === 0 ? resolve() : reject(new Error(`${command} ${args.join(" ")} exited with ${code}`))));
+  });
+}
+
 async function ensureServer() {
   if (await isUp(BASE_URL)) return null;
 
-  const port = new URL(BASE_URL).port || "3001";
-  console.log(`[qa] starting next start -p ${port}`);
-  const server = spawn("npx", ["next", "start", "-p", port], {
-    env: { ...process.env, BACKEND_URL: process.env.BACKEND_URL || "http://127.0.0.1:5201" },
+  const { hostname, port: urlPort } = new URL(BASE_URL);
+  const port = urlPort || "3001";
+  const backendUrl = process.env.BACKEND_URL || "http://127.0.0.1:5201";
+
+  console.log("[qa] building");
+  await run("npx", ["next", "build"], { env: { ...process.env, BACKEND_URL: backendUrl } });
+
+  // Same layout as the Dockerfile runner stage: without these the pages have no CSS or images.
+  const standalone = path.resolve(".next/standalone");
+  await cp(path.resolve("public"), path.join(standalone, "public"), { recursive: true });
+  await cp(path.resolve(".next/static"), path.join(standalone, ".next/static"), { recursive: true });
+
+  console.log(`[qa] starting node .next/standalone/server.js on port ${port}`);
+  const server = spawn("node", ["server.js"], {
+    cwd: standalone,
+    env: { ...process.env, BACKEND_URL: backendUrl, PORT: port, HOSTNAME: hostname },
     stdio: ["ignore", "inherit", "inherit"],
   });
 

@@ -16,7 +16,7 @@ npm run build
 npm run qa:screens        # scripts/qa-screens.mjs
 ```
 
-`qa:screens` uses the production server at `http://localhost:3001`. If nothing answers there, it starts `next start -p 3001` itself with `BACKEND_URL=http://127.0.0.1:5201` and stops it afterwards. It opens 13 routes at 375, 414, 768, 1024, 1280, 1440 and 1920 px, plus 390 and 1440 px with `reducedMotion: "reduce"` (117 captures), and writes:
+`qa:screens` uses the production server at `http://localhost:3001`. If nothing answers there, it runs `next build`, copies `public/` and `.next/static/` into `.next/standalone/` and starts `node server.js` on port 3001 with `BACKEND_URL=http://127.0.0.1:5201`, the way the Dockerfile does (`next start` does not work with `output: "standalone"`), and stops it afterwards. It opens 13 routes at 375, 414, 768, 1024, 1280, 1440 and 1920 px, plus 390 and 1440 px with `reducedMotion: "reduce"` (117 captures), and writes:
 
 - `docs/multipage/evidence/qa/<route>/<width>.png` and `<width>-reduced.png`: full-page screenshots (`home` = `/`)
 - `docs/multipage/evidence/qa/results.json`: per capture: HTTP status, `scrollWidth` vs `innerWidth` as shipped **and** with the `html, body { overflow-x: clip }` rule lifted, the elements that extend past the viewport, console errors, failed same-origin requests; plus homepage scroll/pin checks
