@@ -1032,6 +1032,9 @@ interface BackendTestimonial {
   customerProfession?: string;
   comment?: string;
   image?: string;
+  photo?: string;
+  imageAlt?: string;
+  photoAlt?: string;
   isActive?: boolean;
   isDeleted?: boolean;
 }
@@ -1137,14 +1140,23 @@ export async function getHomeTestimonials(): Promise<HomeTestimonials> {
   );
 
   if (published.length > 0) {
-    const cards: TestimonialItem[] = published.map((t, idx) => ({
-      id: t._id || `testimonial-${idx + 1}`,
-      name: t.customerName!.trim(),
-      role: t.customerProfession?.trim() || "",
-      avatar: t.image || undefined,
-      quote: t.comment!.trim(),
-      placeholder: false,
-    }));
+    const cards: TestimonialItem[] = published.map((t, idx) => {
+      const rawPhoto = (t.photo || t.image || "").trim();
+      let photoUrl: string | undefined = undefined;
+      if (rawPhoto) {
+        photoUrl = isHttpUrl(rawPhoto) || rawPhoto.startsWith("/") ? rawPhoto : `/${rawPhoto}`;
+      }
+      return {
+        id: t._id || `testimonial-${idx + 1}`,
+        name: t.customerName!.trim(),
+        role: t.customerProfession?.trim() || "",
+        avatar: photoUrl,
+        photo: photoUrl,
+        image: photoUrl,
+        quote: t.comment!.trim(),
+        placeholder: false,
+      };
+    });
 
     return {
       cards,

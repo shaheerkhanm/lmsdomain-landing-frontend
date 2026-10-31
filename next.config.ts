@@ -3,6 +3,13 @@ const nextConfig = {
   output: "standalone",
   images: {
     unoptimized: true,
+    remotePatterns: [
+      { protocol: "https", hostname: "lmsdomain.com" },
+      { protocol: "https", hostname: "**.lmsdomain.com" },
+      { protocol: "http", hostname: "localhost" },
+      { protocol: "http", hostname: "127.0.0.1" },
+      { protocol: "http", hostname: "backend" },
+    ],
   },
   // Sign-in pages must never be framed (clickjacking). No site-wide CSP exists;
   // this one only sets frame-ancestors.

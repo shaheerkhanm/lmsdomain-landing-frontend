@@ -1,8 +1,35 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { TestimonialItem } from "@/types/content";
+
+export const TESTIMONIAL_INITIAL_PALETTES = [
+  { bg: "#EDE9FE", text: "#5B21B6" }, // Soft purple (brand purple tint)
+  { bg: "#E0F2FE", text: "#0369A1" }, // Soft sky (brand blue tint)
+  { bg: "#D1FAE5", text: "#065F46" }, // Soft mint (brand emerald tint)
+  { bg: "#FEF3C7", text: "#92400E" }, // Soft amber (brand yellow tint)
+  { bg: "#F1F5F9", text: "#334155" }, // Soft slate (brand neutral tint)
+] as const;
+
+export function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "";
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  const first = parts[0].charAt(0).toUpperCase();
+  const last = parts[parts.length - 1].charAt(0).toUpperCase();
+  return `${first}${last}`;
+}
+
+export function getTestimonialColor(name: string): { bg: string; text: string } {
+  const str = name.trim().toLowerCase();
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+  }
+  const index = Math.abs(h) % TESTIMONIAL_INITIAL_PALETTES.length;
+  return TESTIMONIAL_INITIAL_PALETTES[index];
+}
 
 export function TestimonialCard({
   item,
@@ -11,6 +38,13 @@ export function TestimonialCard({
   item: TestimonialItem;
   className?: string;
 }) {
+  const photoUrl = item.photo || item.image || item.avatar;
+  const [failedSrc, setFailedSrc] = useState<string | null>(null);
+  const showPhoto = Boolean(photoUrl && failedSrc !== photoUrl);
+
+  const initials = getInitials(item.name);
+  const color = getTestimonialColor(item.name);
+
   return (
     <div
       className={`w-full h-full rounded-[16px] lg:rounded-[20px] bg-white border border-[#ECEDEF] p-4 lg:p-[28px] flex flex-col justify-between shadow-[0_16px_36px_-10px_rgba(0,0,0,0.08),0_2px_6px_rgba(0,0,0,0.02)] lg:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.12),0_4px_12px_rgba(0,0,0,0.04)] select-none ${className}`}
@@ -18,17 +52,30 @@ export function TestimonialCard({
       {/* Top row: avatar (36px mobile, 44px desktop), name, role, social icon (14px mobile, 18px desktop) */}
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3 lg:gap-3.5">
-          {item.avatar ? (
+          {showPhoto && photoUrl ? (
             <div className="relative size-9 lg:size-[44px] rounded-full overflow-hidden shrink-0 border border-slate-200">
               <Image
-                src={item.avatar}
+                src={photoUrl}
                 alt={item.name}
-                fill
-                className="object-cover"
+                width={44}
+                height={44}
+                loading="lazy"
+                className="size-full object-cover rounded-full"
+                onError={() => setFailedSrc(photoUrl)}
               />
             </div>
           ) : (
-            <div className="size-9 lg:size-[44px] rounded-full bg-[#E5E7EB] shrink-0" />
+            <div
+              className="size-9 lg:size-[44px] rounded-full shrink-0 flex items-center justify-center select-none text-[13px] lg:text-[15px] font-semibold leading-none tracking-tight border border-black/5"
+              style={{
+                backgroundColor: color.bg,
+                color: color.text,
+                fontWeight: 600,
+              }}
+              aria-label={item.name}
+            >
+              {initials}
+            </div>
           )}
           <div className="min-w-0">
             <h4 className="text-[14px] lg:text-[15px] font-bold text-[#161616] leading-tight truncate">

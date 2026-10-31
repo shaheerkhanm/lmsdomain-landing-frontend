@@ -751,6 +751,10 @@ export interface TestimonialItem {
   name: string;
   role: string;
   avatar?: string;
+  photo?: string;
+  image?: string;
+  photoAlt?: string;
+  imageAlt?: string;
   quote?: string;
   date?: string;
   social?: "twitter" | "linkedin";
