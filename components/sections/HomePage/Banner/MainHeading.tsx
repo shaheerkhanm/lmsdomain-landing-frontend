@@ -12,7 +12,7 @@ export function MainHeading({ data }: { data?: any }) {
       <h1 className="text-[32px] sm:text-5xl lg:text-[56px] font-semibold tracking-tight text-[#161616] leading-[1.12]">
         <span className="block">{heroContent.titlePrefix}</span>
         <span className="block mt-1 sm:mt-1.5">
-          {(heroContent as { connector?: string }).connector ?? "to"} <KeywordPill />
+          <span data-hero-connector>{(heroContent as { connector?: string }).connector ?? "to"}</span> <KeywordPill />
         </span>
       </h1>
     </div>
