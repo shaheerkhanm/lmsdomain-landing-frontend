@@ -321,6 +321,7 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
                           </label>
                           <input
                             type="text"
+                            name="name"
                             value={name}
                             onChange={(e) => {
                               setName(e.target.value);
@@ -341,6 +342,7 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
                           </label>
                           <input
                             type="email"
+                            name="email"
                             value={email}
                             onChange={(e) => {
                               setEmail(e.target.value);
@@ -363,6 +365,7 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
                           </label>
                           <input
                             type="tel"
+                            name="phoneNumber"
                             value={phoneNumber}
                             onChange={(e) => {
                               setPhoneNumber(e.target.value);
@@ -383,6 +386,7 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
                           </label>
                           <input
                             type="text"
+                            name="organizationName"
                             value={organizationName}
                             onChange={(e) => {
                               setOrganizationName(e.target.value);
