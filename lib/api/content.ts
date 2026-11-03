@@ -50,7 +50,11 @@ import type {
   PlanCurrency,
   HomeMobileApp,
   HomeClients,
+  CustomPlanPageData,
+  HomeCustomPlanBand,
+  SiteNavigation,
 } from "@/types/content";
+import { DEFAULT_CUSTOM_PLAN_PAGE_DATA } from "@/content/custom-plan/page";
 import {
   DEFAULT_PRICING_CURRENCY,
   localeForCurrency,
@@ -1202,4 +1206,112 @@ export async function getHomeTestimonials(): Promise<HomeTestimonials> {
   }
 
   return { cards: [], cta: [], isSample: false };
+}
+
+// ----------------------------------------------------------------------------
+// Custom Plan (/custom-lms) Page Content
+// Tags: ["custom-plan"]
+// ----------------------------------------------------------------------------
+export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
+  const [
+    seoDoc,
+    heroDoc,
+    audiencesDoc,
+    deliverablesDoc,
+    timelineDoc,
+    comparisonDoc,
+    mobileAppsDoc,
+    servicesDoc,
+    pricingNoteDoc,
+    formDoc,
+    faqDoc,
+    ctaDoc,
+  ] = await Promise.all([
+    fetchCms("site-custom-seo", ["cms", "custom-plan"]),
+    fetchCms("site-custom-hero", ["cms", "custom-plan"]),
+    fetchCms("site-custom-audiences", ["cms", "custom-plan"]),
+    fetchCms("site-custom-deliverables", ["cms", "custom-plan"]),
+    fetchCms("site-custom-timeline", ["cms", "custom-plan"]),
+    fetchCms("site-custom-comparison", ["cms", "custom-plan"]),
+    fetchCms("site-custom-mobile-apps", ["cms", "custom-plan"]),
+    fetchCms("site-custom-services", ["cms", "custom-plan"]),
+    fetchCms("site-custom-pricing-note", ["cms", "custom-plan"]),
+    fetchCms("site-custom-form", ["cms", "custom-plan"]),
+    fetchCms("site-custom-faq", ["cms", "custom-plan"]),
+    fetchCms("site-custom-cta", ["cms", "custom-plan"]),
+  ]);
+
+  const fallback = DEFAULT_CUSTOM_PLAN_PAGE_DATA;
+
+  const getData = <T>(doc: any, def: T): T => {
+    if (!doc || doc.isActive === false || doc.isDeleted === true) return def;
+    if (doc.data && typeof doc.data === "object") {
+      return { ...def, ...doc.data };
+    }
+    return def;
+  };
+
+  const seo = seoDoc?.data?.title
+    ? {
+        title: seoDoc.data.title,
+        description: seoDoc.data.description,
+        shareImage: seoDoc.data.shareImage || "",
+      }
+    : fallback.seo;
+
+  const hero = getData(heroDoc, fallback.hero);
+  const audiences = audiencesDoc?.isActive !== false ? getData(audiencesDoc, fallback.audiences) : undefined;
+  const deliverables = deliverablesDoc?.isActive !== false ? getData(deliverablesDoc, fallback.deliverables) : undefined;
+  const timeline = timelineDoc?.isActive !== false ? getData(timelineDoc, fallback.timeline) : undefined;
+  const comparison = comparisonDoc?.isActive !== false ? getData(comparisonDoc, fallback.comparison) : undefined;
+  const mobileApps = mobileAppsDoc?.isActive !== false ? getData(mobileAppsDoc, fallback.mobileApps) : undefined;
+  const services = servicesDoc?.isActive !== false ? getData(servicesDoc, fallback.services) : undefined;
+  const pricingNote = pricingNoteDoc?.isActive !== false ? getData(pricingNoteDoc, fallback.pricingNote) : undefined;
+  const form = getData(formDoc, fallback.form);
+  const faq = faqDoc?.isActive !== false ? getData(faqDoc, fallback.faq) : undefined;
+  const cta = ctaDoc?.isActive !== false ? getData(ctaDoc, fallback.cta) : undefined;
+
+  return {
+    seo,
+    hero,
+    audiences,
+    deliverables,
+    timeline,
+    comparison,
+    mobileApps,
+    services,
+    pricingNote,
+    form,
+    faq,
+    cta,
+  };
+}
+
+export async function getHomeCustomPlanBand(): Promise<HomeCustomPlanBand | null> {
+  try {
+    const doc = await fetchCms("site-home-custom-plan", ["cms", "home", "custom-plan"]);
+    if (!doc || doc.isActive === false || doc.isDeleted === true) return null;
+    const data = doc.data as any;
+    if (!data || !data.title) return null;
+    return {
+      eyebrow: data.eyebrow || "CUSTOM PLAN",
+      title: data.title,
+      text: data.text || "",
+      ctaLabel: data.ctaLabel || "See how it works",
+      ctaHref: data.ctaHref || "/custom-lms",
+      image: data.image || "",
+    };
+  } catch (e) {
+    return null;
+  }
+}
+
+export async function getSiteNavigation(): Promise<SiteNavigation | null> {
+  try {
+    const doc = await fetchCms("site-navigation", ["cms", "settings", "navigation"]);
+    if (!doc || doc.isActive === false || doc.isDeleted === true) return null;
+    return (doc.data as SiteNavigation) || null;
+  } catch (e) {
+    return null;
+  }
 }

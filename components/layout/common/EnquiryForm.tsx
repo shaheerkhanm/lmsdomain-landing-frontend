@@ -7,9 +7,11 @@ import { DemoForm } from "@/components/marketing/DemoForm";
 export function EnquiryForm({
   onClose,
   initialSubject,
+  initialTopic,
 }: {
   onClose?: () => void;
   initialSubject?: string;
+  initialTopic?: string;
 }) {
   return (
     <div className="font-inter">
@@ -26,6 +28,7 @@ export function EnquiryForm({
         <DemoForm
           onClose={onClose}
           initialSubject={initialSubject}
+          initialTopic={initialTopic}
           variant="modal"
           submitLabel="Schedule My Demo"
         />

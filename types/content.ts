@@ -878,3 +878,180 @@ export interface HomeClients {
   logos: HomeClientLogo[];
 }
 
+// ----------------------------------------------------------------------------
+// Custom Plan (/custom-lms) Page & Entry Points
+// ----------------------------------------------------------------------------
+export interface CustomPlanBrandPreview {
+  nameLabel?: string;
+  namePlaceholder?: string;
+  colourLabel?: string;
+  colours?: string[];
+}
+
+export interface CustomPlanHero {
+  eyebrow?: string;
+  title: string;
+  highlightedWords?: string;
+  subtitle?: string;
+  primaryCta?: { label: string; href?: string };
+  secondaryCta?: { label: string; action?: string; href?: string };
+  proofChips?: string[];
+  brandPreview?: CustomPlanBrandPreview;
+  image?: string;
+}
+
+export interface CustomPlanAudienceItem {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+export interface CustomPlanAudiences {
+  title?: string;
+  items: CustomPlanAudienceItem[];
+}
+
+export interface CustomPlanDeliverableItem {
+  icon: string;
+  title: string;
+  text: string;
+  tag: string;
+}
+
+export interface CustomPlanDeliverables {
+  title?: string;
+  subtitle?: string;
+  items: CustomPlanDeliverableItem[];
+}
+
+export interface CustomPlanTimelineStep {
+  when: string;
+  title: string;
+  text: string;
+}
+
+export interface CustomPlanTimeline {
+  title?: string;
+  subtitle?: string;
+  steps: CustomPlanTimelineStep[];
+  footnote?: string;
+}
+
+export interface CustomPlanComparisonRow {
+  topic: string;
+  left: string;
+  right: string;
+}
+
+export interface CustomPlanComparison {
+  title?: string;
+  leftLabel?: string;
+  rightLabel?: string;
+  rows: CustomPlanComparisonRow[];
+}
+
+export interface CustomPlanMobileApps {
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  bullets?: string[];
+  note?: string;
+  screenshots?: { image: string; alt: string }[];
+  appIcon?: string;
+}
+
+export interface CustomPlanServiceItem {
+  icon: string;
+  title: string;
+  text: string;
+}
+
+export interface CustomPlanServices {
+  title?: string;
+  items: CustomPlanServiceItem[];
+}
+
+export interface CustomPlanPricingNote {
+  title?: string;
+  text?: string;
+  ctaLabel?: string;
+  startingFrom?: {
+    amount?: number | string;
+    currency?: string;
+    suffix?: string;
+  };
+}
+
+export interface CustomPlanFormConfig {
+  title?: string;
+  subtitle?: string;
+  organisationTypes?: string[];
+  learnerBands?: string[];
+  needs?: string[];
+  launchTimings?: string[];
+  submitLabel?: string;
+  successMessage?: string;
+  consentText?: string;
+}
+
+export interface CustomPlanFaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface CustomPlanFaq {
+  title?: string;
+  items: CustomPlanFaqItem[];
+}
+
+export interface CustomPlanCta {
+  title?: string;
+  text?: string;
+  primaryLabel?: string;
+  primaryHref?: string;
+  secondaryLabel?: string;
+  secondaryHref?: string;
+}
+
+export interface CustomPlanSeo {
+  title?: string;
+  description?: string;
+  shareImage?: string;
+}
+
+export interface CustomPlanPageData {
+  seo?: CustomPlanSeo;
+  hero: CustomPlanHero;
+  audiences?: CustomPlanAudiences;
+  deliverables?: CustomPlanDeliverables;
+  timeline?: CustomPlanTimeline;
+  comparison?: CustomPlanComparison;
+  mobileApps?: CustomPlanMobileApps;
+  services?: CustomPlanServices;
+  pricingNote?: CustomPlanPricingNote;
+  form: CustomPlanFormConfig;
+  faq?: CustomPlanFaq;
+  cta?: CustomPlanCta;
+}
+
+export interface HomeCustomPlanBand {
+  eyebrow?: string;
+  title: string;
+  text: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  image?: string;
+}
+
+export interface SiteNavigationItem {
+  label: string;
+  href: string;
+  badge?: string;
+  section?: string;
+}
+
+export interface SiteNavigation {
+  marketingNav?: SiteNavigationItem[];
+  footerLinks?: SiteNavigationItem[];
+}
+

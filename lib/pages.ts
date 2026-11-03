@@ -16,6 +16,7 @@ export const SITE_PAGES: readonly PageDefinition[] = [
   { slug: "features", path: "/features" },
   { slug: "ai", path: "/ai" },
   { slug: "pricing", path: "/pricing" },
+  { slug: "custom-lms", path: "/custom-lms" },
   { slug: "about", path: "/about" },
   { slug: "contact", path: "/contact" },
   { slug: "login", path: "/login" },
