@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import { usePageVisibility } from "@/lib/pages-context";
 
 const DEFAULT_MID_CTA = {
   eyebrow: "See Domie AI in Action",
@@ -17,6 +18,7 @@ const DEFAULT_MID_CTA = {
 
 export function AiMidPageCta({ content = DEFAULT_MID_CTA }: { content?: typeof DEFAULT_MID_CTA }) {
   const [showModal, setShowModal] = useState(false);
+  const { isPathVisible } = usePageVisibility();
 
   return (
     <>
@@ -45,13 +47,15 @@ export function AiMidPageCta({ content = DEFAULT_MID_CTA }: { content?: typeof D
                 {content.primaryCtaText}
               </button>
 
-              <Link
-                href="/ai"
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full border border-[#ECEDEF] hover:border-[#161616] text-[#161616] text-xs sm:text-sm font-semibold transition-colors group cursor-pointer"
-              >
-                <span>{content.secondaryCtaText}</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              {isPathVisible("/ai") && (
+                <Link
+                  href="/ai"
+                  className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full border border-[#ECEDEF] hover:border-[#161616] text-[#161616] text-xs sm:text-sm font-semibold transition-colors group cursor-pointer"
+                >
+                  <span>{content.secondaryCtaText}</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              )}
             </div>
           </div>
         </div>

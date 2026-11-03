@@ -3,8 +3,11 @@ import { Suspense } from "react";
 import { getPricingPage, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, getSiteUrl, applySeo } from "@/lib/site";
+import { guardPage, guardMetadata } from "@/lib/pages";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const hiddenMeta = await guardMetadata("pricing");
+  if (hiddenMeta) return hiddenMeta;
   // Share image and noindex from Admin > SEO
   return applySeo(await baseMetadata(), await fetchSeo("pricing").catch(() => null), { page: "pricing" });
 }
@@ -63,6 +66,7 @@ async function baseMetadata(): Promise<Metadata> {
 }
 
 export default async function PricingPage() {
+  await guardPage("pricing");
   const data = await getPricingPage();
   const siteUrl = getSiteUrl();
 

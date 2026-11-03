@@ -7,6 +7,7 @@ import LogoMark from "./LogoMark";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import type { PricingEnterprise as PricingEnterpriseType } from "@/types/content";
+import { usePageVisibility } from "@/lib/pages-context";
 
 interface PricingEnterpriseProps {
   data?: PricingEnterpriseType;
@@ -14,8 +15,12 @@ interface PricingEnterpriseProps {
 
 export function PricingEnterprise({ data }: PricingEnterpriseProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
+  const { isPathVisible } = usePageVisibility();
 
   if (!data) return null;
+
+  const contactHref = data.cta.href || "/contact?topic=enterprise";
+  const shouldShowLink = data.cta.action !== "demo" && isPathVisible(contactHref);
 
   return (
     <section className="bg-white py-16 sm:py-24 font-urbanist border-b border-[#ECEDEF]">
@@ -44,7 +49,15 @@ export function PricingEnterprise({ data }: PricingEnterpriseProps) {
 
           {/* Right: Black CTA Button */}
           <div className="shrink-0 w-full sm:w-auto">
-            {data.cta.action === "demo" ? (
+            {shouldShowLink ? (
+              <Link
+                href={contactHref}
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#161616] hover:bg-black text-white text-sm font-semibold transition-all shadow-md active:scale-95 cursor-pointer inline-flex items-center justify-center gap-2"
+              >
+                <span>{data.cta.label}</span>
+                <ArrowRight className="w-4 h-4 text-white/80" />
+              </Link>
+            ) : (
               <button
                 type="button"
                 onClick={() => setShowDemoModal(true)}
@@ -53,14 +66,6 @@ export function PricingEnterprise({ data }: PricingEnterpriseProps) {
                 <span>{data.cta.label}</span>
                 <ArrowRight className="w-4 h-4 text-white/80" />
               </button>
-            ) : (
-              <Link
-                href={data.cta.href || "/contact?topic=enterprise"}
-                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#161616] hover:bg-black text-white text-sm font-semibold transition-all shadow-md active:scale-95 cursor-pointer inline-flex items-center justify-center gap-2"
-              >
-                <span>{data.cta.label}</span>
-                <ArrowRight className="w-4 h-4 text-white/80" />
-              </Link>
             )}
           </div>
         </div>

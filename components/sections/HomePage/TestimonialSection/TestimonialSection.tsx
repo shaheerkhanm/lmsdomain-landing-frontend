@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { usePageVisibility } from "@/lib/pages-context";
 
 const INTEGRATIONS = [
   { name: "Zoom Video", category: "Live Classrooms", badge: "Live Interactive" },
@@ -13,6 +14,7 @@ const INTEGRATIONS = [
 ];
 
 export function TestimonialSection({ data }: { data: any }) {
+  const { isPathVisible } = usePageVisibility();
   return (
     <section id="security-integrations" className="py-24 bg-slate-50/70 border-t border-slate-200/80 font-inter">
       <div className="main-padding space-y-16">
@@ -79,12 +81,14 @@ export function TestimonialSection({ data }: { data: any }) {
                 Plug in your existing tools with zero custom code or webhook friction.
               </p>
             </div>
-            <Link
-              href="/features"
-              className="text-xs font-semibold text-MainColor hover:underline shrink-0"
-            >
-              Explore Integration Specs →
-            </Link>
+            {isPathVisible("/features") && (
+              <Link
+                href="/features"
+                className="text-xs font-semibold text-MainColor hover:underline shrink-0"
+              >
+                Explore Integration Specs →
+              </Link>
+            )}
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">

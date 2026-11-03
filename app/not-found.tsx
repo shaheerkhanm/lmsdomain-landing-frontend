@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { getSiteSettings } from "@/lib/api/content";
 import { NotFoundVisual } from "@/components/marketing/NotFoundVisual";
+import { NotFoundActions } from "@/components/marketing/NotFoundActions";
 import { getMetadataBase } from "@/lib/site";
 
 export const metadata = {
@@ -47,20 +48,7 @@ export default async function NotFound() {
         </p>
 
         {/* Two Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-          <Link
-            href="/"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#161616] text-white text-sm font-semibold hover:bg-black transition-all shadow-xs hover:shadow-md active:scale-95 cursor-pointer"
-          >
-            Back to home
-          </Link>
-          <Link
-            href="/contact"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-white text-[#161616] border border-[#ECEDEF] text-sm font-semibold hover:bg-[#F3F4F6] transition-all shadow-2xs active:scale-95 cursor-pointer"
-          >
-            Contact us
-          </Link>
-        </div>
+        <NotFoundActions />
       </div>
     </div>
   );

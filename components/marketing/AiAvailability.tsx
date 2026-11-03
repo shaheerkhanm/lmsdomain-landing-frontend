@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import { usePageVisibility } from "@/lib/pages-context";
 
 interface AiAvailabilityProps {
   title?: string;
@@ -22,6 +23,7 @@ export function AiAvailability({
   eyebrow = "Availability & Plans",
 }: AiAvailabilityProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
+  const { isPathVisible } = usePageVisibility();
 
   return (
     <section className="bg-white py-20 lg:py-28 font-urbanist border-b border-[#ECEDEF]">
@@ -49,13 +51,15 @@ export function AiAvailability({
             </p>
 
             <div className="flex flex-wrap items-center justify-center gap-3.5">
-              <Link
-                href={cta.href || "/pricing"}
-                className="px-7 py-3.5 rounded-full bg-[#161616] hover:bg-black text-white text-sm font-semibold shadow-md active:scale-95 transition-all cursor-pointer inline-flex items-center gap-2"
-              >
-                <span>{cta.label}</span>
-                <ArrowRight className="w-4 h-4 text-white/80" />
-              </Link>
+              {isPathVisible(cta.href || "/pricing") && (
+                <Link
+                  href={cta.href || "/pricing"}
+                  className="px-7 py-3.5 rounded-full bg-[#161616] hover:bg-black text-white text-sm font-semibold shadow-md active:scale-95 transition-all cursor-pointer inline-flex items-center gap-2"
+                >
+                  <span>{cta.label}</span>
+                  <ArrowRight className="w-4 h-4 text-white/80" />
+                </Link>
+              )}
 
               <button
                 type="button"

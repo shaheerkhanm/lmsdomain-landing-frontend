@@ -18,6 +18,7 @@ import {
   type CentralLoginError,
 } from "@/lib/auth/central-login";
 import { useRecaptcha } from "./useRecaptcha";
+import { usePageVisibility } from "@/lib/pages-context";
 
 const FALLBACK: Required<AuthForgotCopy> = {
   title: "Reset your password",
@@ -41,6 +42,7 @@ const inputClass = (hasError: boolean) =>
 const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7B5CF5] focus-visible:ring-offset-2";
 
 export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: ForgotPasswordFormProps) {
+  const { isPathVisible } = usePageVisibility();
   const shouldReduceMotion = useReducedMotion();
   const text = {
     title: copy?.title || FALLBACK.title,
@@ -105,7 +107,7 @@ export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: Forgo
     .filter(([field]) => field !== "email")
     .flatMap(([, messages]) => messages);
 
-  const backLink = (
+  const backLink = isPathVisible("/login") ? (
     <Link
       href="/login"
       className={`inline-flex items-center gap-1.5 text-sm text-[#7B5CF5] font-semibold hover:underline cursor-pointer rounded ${focusRing}`}
@@ -113,7 +115,7 @@ export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: Forgo
       <span aria-hidden="true">←</span>
       {text.backLabel}
     </Link>
-  );
+  ) : null;
 
   return (
     <motion.div

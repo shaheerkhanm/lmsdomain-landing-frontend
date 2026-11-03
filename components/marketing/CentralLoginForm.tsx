@@ -25,6 +25,7 @@ import {
   type CentralRedirectResponse,
 } from "@/lib/auth/central-login";
 import { useRecaptcha } from "./useRecaptcha";
+import { usePageVisibility } from "@/lib/pages-context";
 
 const DEFAULT_ADMIN_NOTE = "Not an admin? Log in on your academy's site.";
 const DEFAULT_SUBMIT_LABEL = "Sign in";
@@ -86,6 +87,7 @@ function AcademyAvatar({ academy }: { academy: CentralAcademy }) {
 }
 
 export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: CentralLoginFormProps) {
+  const { isPathVisible } = usePageVisibility();
   const shouldReduceMotion = useReducedMotion();
 
   const [view, setView] = useState<View>({ name: "form" });
@@ -442,7 +444,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
       </div>
 
       {/* Switch to Signup Prompt */}
-      {view.name === "form" && (
+      {view.name === "form" && isPathVisible("/signup") && (
         <div className="pt-6 border-t border-slate-100 text-center">
           <p className="text-sm text-[#6B6F76]">
             {copy.signupPrompt}{" "}

@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { getAuthCopy, getAppAuthUrls, fetchSeo } from "@/lib/api/content";
 import { AuthSignupForm } from "@/components/marketing/AuthSignupForm";
 import { getMetadataBase, applySeo } from "@/lib/site";
+import { guardPage, guardMetadata } from "@/lib/pages";
 
 // Render per request: the app links come from admin settings / server env at
 // runtime, so a prerendered page would ship a disabled button until revalidation.
@@ -20,10 +21,13 @@ const BASE_METADATA: Metadata = {
 
 // Title, description, share image and noindex from Admin > SEO (noindex by default)
 export async function generateMetadata(): Promise<Metadata> {
+  const hiddenMeta = await guardMetadata("signup");
+  if (hiddenMeta) return hiddenMeta;
   return applySeo({ ...BASE_METADATA, metadataBase: getMetadataBase() }, await fetchSeo("signup").catch(() => null), { overrideText: true, page: "signup" });
 }
 
 export default async function SignupPage() {
+  await guardPage("signup");
   const [authCopy, authUrls] = await Promise.all([
     getAuthCopy(),
     getAppAuthUrls(),

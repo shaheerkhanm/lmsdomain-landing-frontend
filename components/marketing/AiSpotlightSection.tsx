@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Feature } from "@/types/content";
 import { ArrowRight, Bot, Sparkles, LineChart, Command, Search } from "lucide-react";
+import SiteLink from "@/components/common/SiteLink";
 
 interface AiSpotlightHeading {
   eyebrow: string;
@@ -59,13 +60,13 @@ export function AiSpotlightSection({ features, media, heading = DEFAULT_HEADING 
             {heading.subtitle}
           </p>
 
-          <Link
+          <SiteLink
             href="/ai"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#161616] hover:text-[#7B5CF5] transition-colors group cursor-pointer"
           >
             <span>{heading.linkText}</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </SiteLink>
         </div>
 
         {/* 2x2 Grid of Large AI Cards */}

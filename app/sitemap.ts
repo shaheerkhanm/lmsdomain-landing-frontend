@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getLegalPages } from "@/lib/api/content";
 import { getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
+import { getPageVisibility, isPathVisibleWithMap } from "@/lib/pages";
 
 // Read SITE_URL per request so one image serves staging and production correctly.
 export const dynamic = "force-dynamic";
@@ -65,6 +66,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // Marketing routes only: explicitly excludes /login, /signup and /forgot-password per spec
-  return [...staticMarketingRoutes, ...legalRoutes];
+  const visibility = await getPageVisibility();
+  return [...staticMarketingRoutes, ...legalRoutes].filter((route) =>
+    isPathVisibleWithMap(route.url, visibility)
+  );
 }
 

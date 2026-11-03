@@ -7,6 +7,7 @@ import { Sparkles, ArrowRight, Command, FileText, Sliders, Bot } from "lucide-re
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import type { CommandBarExample } from "@/types/content";
+import { usePageVisibility } from "@/lib/pages-context";
 
 interface AiHeroProps {
   eyebrow?: string;
@@ -32,6 +33,7 @@ export function AiHero({
   keyboardLabel = "Keyboard Nav Available",
 }: AiHeroProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
+  const { isPathVisible } = usePageVisibility();
   const [activeIdx, setActiveIdx] = useState(0);
   const [charCount, setCharCount] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -135,13 +137,15 @@ export function AiHero({
             {primaryCta.label}
           </button>
 
-          <Link
-            href={secondaryCta.href || "/pricing"}
-            className="inline-flex items-center gap-1.5 px-6 py-3.5 rounded-full bg-white hover:bg-[#F3F4F6] text-[#161616] text-sm font-semibold border border-[#ECEDEF] transition-all cursor-pointer group"
-          >
-            <span>{secondaryCta.label}</span>
-            <ArrowRight className="w-4 h-4 text-[#8F94A0] group-hover:text-[#161616] group-hover:translate-x-0.5 transition-all" />
-          </Link>
+          {isPathVisible(secondaryCta.href || "/pricing") && (
+            <Link
+              href={secondaryCta.href || "/pricing"}
+              className="inline-flex items-center gap-1.5 px-6 py-3.5 rounded-full bg-white hover:bg-[#F3F4F6] text-[#161616] text-sm font-semibold border border-[#ECEDEF] transition-all cursor-pointer group"
+            >
+              <span>{secondaryCta.label}</span>
+              <ArrowRight className="w-4 h-4 text-[#8F94A0] group-hover:text-[#161616] group-hover:translate-x-0.5 transition-all" />
+            </Link>
+          )}
         </div>
 
         {/* AI COMMAND BAR (Hero Visual) */}

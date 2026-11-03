@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion, useReducedMotion } from "motion/react";
 import type { AuthSignupCopy } from "@/types/content";
+import { usePageVisibility } from "@/lib/pages-context";
 
 interface AuthSignupFormProps {
   copy: AuthSignupCopy;
@@ -13,6 +14,7 @@ interface AuthSignupFormProps {
 }
 
 export function AuthSignupForm({ copy, signupUrl }: AuthSignupFormProps) {
+  const { isPathVisible } = usePageVisibility();
   const searchParams = useSearchParams();
   const shouldReduceMotion = useReducedMotion();
   const [mounted, setMounted] = useState(false);
@@ -126,17 +128,19 @@ export function AuthSignupForm({ copy, signupUrl }: AuthSignupFormProps) {
       </div>
 
       {/* Switch to Login Prompt */}
-      <div className="pt-6 border-t border-slate-100 text-center">
-        <p className="text-sm text-[#6B6F76]">
-          {copy.loginPrompt}{" "}
-          <Link
-            href="/login"
-            className="text-[#7B5CF5] font-semibold hover:underline cursor-pointer"
-          >
-            {copy.loginLinkLabel}
-          </Link>
-        </p>
-      </div>
+      {isPathVisible("/login") && (
+        <div className="pt-6 border-t border-slate-100 text-center">
+          <p className="text-sm text-[#6B6F76]">
+            {copy.loginPrompt}{" "}
+            <Link
+              href="/login"
+              className="text-[#7B5CF5] font-semibold hover:underline cursor-pointer"
+            >
+              {copy.loginLinkLabel}
+            </Link>
+          </p>
+        </div>
+      )}
     </motion.div>
   );
 }

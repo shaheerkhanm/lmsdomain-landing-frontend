@@ -5,6 +5,7 @@ import { AuthLoginForm } from "@/components/marketing/AuthLoginForm";
 import { CentralLoginForm } from "@/components/marketing/CentralLoginForm";
 import { getCentralLoginConfig } from "@/lib/auth/central-config";
 import { getMetadataBase, applySeo } from "@/lib/site";
+import { guardPage, guardMetadata } from "@/lib/pages";
 
 // Render per request: the app links and the central login config come from
 // admin settings / server env at runtime, so a prerendered page would ship
@@ -23,10 +24,13 @@ const BASE_METADATA: Metadata = {
 
 // Title, description, share image and noindex from Admin > SEO (noindex by default)
 export async function generateMetadata(): Promise<Metadata> {
+  const hiddenMeta = await guardMetadata("login");
+  if (hiddenMeta) return hiddenMeta;
   return applySeo({ ...BASE_METADATA, metadataBase: getMetadataBase() }, await fetchSeo("login").catch(() => null), { overrideText: true, page: "login" });
 }
 
 export default async function LoginPage() {
+  await guardPage("login");
   // central: null = central login off, keep the button to the app login URL
   const [authCopy, authUrls, central] = await Promise.all([
     getAuthCopy(),

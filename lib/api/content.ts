@@ -18,6 +18,7 @@ import type {
   AboutLeadership,
   SeoMetadata,
   SiteSettings,
+  PageVisibilitySetting,
   PricingPageData,
   PricingPageModel,
   Plan,
@@ -206,12 +207,15 @@ export async function fetchSeo(slug: string): Promise<SeoMetadata | null> {
 // Slugs: "address", "site-footer" (the live site still reads "footer")
 // ----------------------------------------------------------------------------
 export async function getSiteSettings(): Promise<SiteSettings> {
-  const [address, footer, appLinks] = await Promise.all([
+  const [address, footer, appLinks, pagesDoc, sitePagesDoc] = await Promise.all([
     fetchCms("address", ["cms", "settings", "address"]),
     fetchCms(SECTIONS.footer.slug, ["cms", "settings", SECTIONS.footer.slug]),
     // Settings > App links (appLoginUrl, appSignupUrl, appForgotPasswordUrl,
     // centralLoginEnabled, lmsCentralUrl, recaptchaSiteKey)
     fetchCms("app-links", ["cms", "settings", "app-links"]),
+    // Settings > Pages (page visibility list)
+    fetchCms("pages", ["cms", "settings", "pages"]).catch(() => null),
+    fetchCms("site-pages", ["cms", "settings", "site-pages", "pages"]).catch(() => null),
   ]);
 
   return {
@@ -224,7 +228,24 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     centralLoginEnabled: readSettingBoolean(appLinks, "centralLoginEnabled"),
     lmsCentralUrl: readSettingUrl(appLinks, "lmsCentralUrl"),
     recaptchaSiteKey: readSettingUrl(appLinks, "recaptchaSiteKey"),
+    pages: extractPages(pagesDoc, sitePagesDoc, address, footer, appLinks),
   };
+}
+
+function extractPages(...docs: (CmsDocument | null | undefined)[]): PageVisibilitySetting[] | undefined {
+  for (const doc of docs) {
+    if (!doc) continue;
+    const raw = (doc as any).pages ?? (doc as any).data?.pages ?? (Array.isArray((doc as any).data) ? (doc as any).data : undefined);
+    if (Array.isArray(raw) && raw.length > 0) {
+      return raw.map((item: any) => ({
+        slug: String(item.slug || "").trim(),
+        path: String(item.path || "").trim(),
+        visible: item.visible !== false,
+        whenHidden: item.whenHidden === "404" ? ("404" as const) : ("home" as const),
+      }));
+    }
+  }
+  return undefined;
 }
 
 function readSettingBoolean(doc: CmsDocument | null, key: string): boolean | undefined {

@@ -6,10 +6,15 @@ import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "../ui/dialog";
 import EnquiryForm from "./common/EnquiryForm";
 import { navigationConfig } from "@/content/navigation";
+import { usePageVisibility } from "@/lib/pages-context";
 
 export function Header() {
+  const { isPathVisible } = usePageVisibility();
   const pathname = usePathname();
   const isAuth = pathname?.startsWith("/login") || pathname?.startsWith("/signup") || pathname?.startsWith("/forgot-password");
+
+  const visibleNav = navigationConfig.marketingNav.filter((item) => isPathVisible(item.href));
+  const showLogin = isPathVisible("/login");
 
   const [showSubpageMenu, setShowSubpageMenu] = useState(false);
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);
@@ -68,7 +73,7 @@ export function Header() {
 
             {/* Subpage Nav Links */}
             <nav className="flex items-center gap-5 lg:gap-6 text-[13px] font-medium text-[#6B6F76]">
-              {navigationConfig.marketingNav.map((item) => {
+              {visibleNav.map((item) => {
                 const isActive = pathname === item.href || pathname?.startsWith(`${item.href}/`);
                 const isAi = item.href === "/ai" || item.label.toLowerCase().includes("ai");
                 return (
@@ -95,12 +100,14 @@ export function Header() {
                 );
               })}
 
-              <Link
-                href="/login"
-                className="py-1 text-[#6B6F76] hover:text-[#161616] transition-colors"
-              >
-                Log in
-              </Link>
+              {showLogin && (
+                <Link
+                  href="/login"
+                  className="py-1 text-[#6B6F76] hover:text-[#161616] transition-colors"
+                >
+                  Log in
+                </Link>
+              )}
             </nav>
 
             {/* Request Demo Button */}
@@ -174,7 +181,7 @@ export function Header() {
               </div>
 
               <div className="flex flex-col pt-4">
-                {navigationConfig.marketingNav.map((item) => {
+                {visibleNav.map((item) => {
                   const isAi = item.href === "/ai" || item.label.toLowerCase().includes("ai");
                   return (
                     <Link
@@ -197,13 +204,15 @@ export function Header() {
                   );
                 })}
 
-                <Link
-                  href="/login"
-                  onClick={() => setShowSubpageMenu(false)}
-                  className="text-[22px] font-medium text-slate-600 py-4 border-b border-slate-100 hover:text-black transition-colors"
-                >
-                  Log in
-                </Link>
+                {showLogin && (
+                  <Link
+                    href="/login"
+                    onClick={() => setShowSubpageMenu(false)}
+                    className="text-[22px] font-medium text-slate-600 py-4 border-b border-slate-100 hover:text-black transition-colors"
+                  >
+                    Log in
+                  </Link>
+                )}
               </div>
             </div>
 

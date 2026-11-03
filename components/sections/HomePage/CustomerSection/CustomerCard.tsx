@@ -1,7 +1,11 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { usePageVisibility } from "@/lib/pages-context";
 
 export function CustomerCard({ item }: { item: any }) {
+  const { isPathVisible } = usePageVisibility();
   const tags: string[] = Array.isArray(item?.tags) ? item.tags : [];
 
   return (
@@ -47,15 +51,17 @@ export function CustomerCard({ item }: { item: any }) {
         )}
       </div>
 
-      <div className="pt-6 border-t border-slate-100 mt-4">
-        <Link
-          href="/pricing"
-          className="text-xs font-semibold text-MainColor hover:underline inline-flex items-center gap-1"
-        >
-          <span>Explore Academy Configuration</span>
-          <span>→</span>
-        </Link>
-      </div>
+      {isPathVisible("/pricing") && (
+        <div className="pt-6 border-t border-slate-100 mt-4">
+          <Link
+            href="/pricing"
+            className="text-xs font-semibold text-MainColor hover:underline inline-flex items-center gap-1"
+          >
+            <span>Explore Academy Configuration</span>
+            <span>→</span>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

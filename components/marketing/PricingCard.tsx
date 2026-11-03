@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Check, ArrowRight } from "lucide-react";
 import type { Plan, BillingPeriodId } from "@/types/content";
 import { formatPriceParts } from "@/lib/pricing";
+import { usePageVisibility } from "@/lib/pages-context";
 
 interface PricingCardProps {
   plan: Plan;
@@ -135,15 +136,24 @@ export function PricingCard({
   const formatAmount = (amount: number) =>
     formatPriceParts(amount, plan.currency).map((part) => part.value).join("");
 
+  const { isPathVisible } = usePageVisibility();
+  const isContactVisible = isPathVisible("/contact");
+  const isSignupVisible = isPathVisible("/signup");
+
+  const shouldOpenDemo =
+    plan.cta.action === "demo" ||
+    (plan.cta.action === "contact" && !isContactVisible) ||
+    (plan.cta.action !== "contact" && !isSignupVisible);
+
   const handleCtaClick = (e: React.MouseEvent) => {
-    if (plan.cta.action === "demo") {
+    if (shouldOpenDemo) {
       e.preventDefault();
       onRequestDemo(plan.name);
     }
   };
 
   const ctaHref =
-    plan.cta.action === "demo"
+    shouldOpenDemo
       ? "#"
       : plan.cta.action === "contact"
       ? `/contact?topic=sales&plan=${encodeURIComponent(plan.name)}`

@@ -3,8 +3,11 @@ import { Suspense } from "react";
 import { getAboutPage, fetchSeo } from "@/lib/api/content";
 import { AboutView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
+import { guardPage, guardMetadata } from "@/lib/pages";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const hiddenMeta = await guardMetadata("about");
+  if (hiddenMeta) return hiddenMeta;
   // Share image and noindex from Admin > SEO
   return applySeo(await baseMetadata(), await fetchSeo("about").catch(() => null), { page: "about" });
 }
@@ -63,6 +66,7 @@ async function baseMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
+  await guardPage("about");
   const data = await getAboutPage();
 
   return (

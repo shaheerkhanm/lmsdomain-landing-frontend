@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import { usePageVisibility } from "@/lib/pages-context";
 import { ArrowRight } from "lucide-react";
 
 interface FeaturesHeroProps {
@@ -23,6 +24,7 @@ export function FeaturesHero({
   secondaryCtaText = "See pricing",
 }: FeaturesHeroProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
+  const { isPathVisible } = usePageVisibility();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -92,13 +94,15 @@ export function FeaturesHero({
               {ctaText}
             </button>
 
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#161616] hover:text-[#7B5CF5] transition-colors group cursor-pointer py-2"
-            >
-              <span>{secondaryCtaText}</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            {isPathVisible("/pricing") && (
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#161616] hover:text-[#7B5CF5] transition-colors group cursor-pointer py-2"
+              >
+                <span>{secondaryCtaText}</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            )}
           </motion.div>
         </motion.div>
       </section>

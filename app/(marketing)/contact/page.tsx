@@ -3,8 +3,11 @@ import { Suspense } from "react";
 import { getContactPage, fetchSeo } from "@/lib/api/content";
 import { ContactView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
+import { guardPage, guardMetadata } from "@/lib/pages";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const hiddenMeta = await guardMetadata("contact");
+  if (hiddenMeta) return hiddenMeta;
   // Share image and noindex from Admin > SEO
   return applySeo(await baseMetadata(), await fetchSeo("contact").catch(() => null), { page: "contact" });
 }
@@ -55,6 +58,7 @@ async function baseMetadata(): Promise<Metadata> {
 }
 
 export default async function ContactPage() {
+  await guardPage("contact");
   const data = await getContactPage();
 
   return (

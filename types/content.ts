@@ -170,6 +170,13 @@ export interface EnquiryPayload {
   type: 1 | 2;                  // 1 = General/Demo Enquiry, 2 = Newsletter/CTA
 }
 
+export interface PageVisibilitySetting {
+  slug: string;
+  path: string;
+  visible: boolean;
+  whenHidden: "home" | "404";
+}
+
 // Page Data Containers (passed from Server Components down to views)
 export interface SiteSettings {
   address?: CmsDocument;
@@ -182,6 +189,8 @@ export interface SiteSettings {
   centralLoginEnabled?: boolean;
   lmsCentralUrl?: string;
   recaptchaSiteKey?: string;
+  /** Page visibility configurations from Admin > Settings > Pages */
+  pages?: PageVisibilitySetting[];
 }
 
 export interface PricingPageData {

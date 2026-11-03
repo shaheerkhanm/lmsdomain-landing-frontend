@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Check, Minus, Info } from "lucide-react";
 import type { Plan, PricingComparison, BillingPeriodId } from "@/types/content";
+import { usePageVisibility } from "@/lib/pages-context";
 
 interface PricingComparisonTableProps {
   plans: Plan[];
@@ -26,6 +27,8 @@ export function PricingComparisonTable({
   onRequestDemo,
   heading = DEFAULT_HEADING,
 }: PricingComparisonTableProps) {
+  const { isPathVisible } = usePageVisibility();
+  const isSignupVisible = isPathVisible("/signup");
   const [selectedMobilePlan, setSelectedMobilePlan] = useState<string>(
     plans[0]?.id || "starter"
   );
@@ -91,7 +94,7 @@ export function PricingComparisonTable({
                     <button
                       type="button"
                       onClick={() =>
-                        plan.cta.action === "demo"
+                        plan.cta.action === "demo" || !isSignupVisible
                           ? onRequestDemo(plan.name)
                           : (window.location.href = `/signup?plan=${plan.slug || plan.id}&billing=${period}`)
                       }

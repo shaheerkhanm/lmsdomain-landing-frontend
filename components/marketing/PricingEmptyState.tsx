@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles, PhoneCall } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import { usePageVisibility } from "@/lib/pages-context";
 
 interface PricingEmptyStateProps {
   eyebrow?: string;
@@ -22,6 +23,9 @@ export function PricingEmptyState({
   secondaryCta = { label: "Contact sales", href: "/contact?topic=sales", action: "contact" },
 }: PricingEmptyStateProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
+  const { isPathVisible } = usePageVisibility();
+  const contactHref = secondaryCta.href || "/contact?topic=sales";
+  const isContactVisible = isPathVisible(contactHref);
 
   return (
     <section className="bg-[#F3F4F6] py-16 sm:py-24 font-urbanist border-b border-[#ECEDEF]">
@@ -57,13 +61,24 @@ export function PricingEmptyState({
                 <ArrowRight className="w-4 h-4 text-white/80" />
               </button>
 
-              <Link
-                href={secondaryCta.href || "/contact?topic=sales"}
-                className="px-6 py-3.5 rounded-full bg-white hover:bg-[#F3F4F6] text-[#161616] text-sm font-semibold border border-[#ECEDEF] transition-all cursor-pointer inline-flex items-center gap-2"
-              >
-                <PhoneCall className="w-3.5 h-3.5 text-[#8F94A0]" />
-                <span>{secondaryCta.label}</span>
-              </Link>
+              {isContactVisible ? (
+                <Link
+                  href={contactHref}
+                  className="px-6 py-3.5 rounded-full bg-white hover:bg-[#F3F4F6] text-[#161616] text-sm font-semibold border border-[#ECEDEF] transition-all cursor-pointer inline-flex items-center gap-2"
+                >
+                  <PhoneCall className="w-3.5 h-3.5 text-[#8F94A0]" />
+                  <span>{secondaryCta.label}</span>
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setShowDemoModal(true)}
+                  className="px-6 py-3.5 rounded-full bg-white hover:bg-[#F3F4F6] text-[#161616] text-sm font-semibold border border-[#ECEDEF] transition-all cursor-pointer inline-flex items-center gap-2"
+                >
+                  <PhoneCall className="w-3.5 h-3.5 text-[#8F94A0]" />
+                  <span>{secondaryCta.label}</span>
+                </button>
+              )}
             </div>
           </div>
         </div>

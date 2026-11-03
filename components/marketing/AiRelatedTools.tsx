@@ -1,6 +1,9 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { ArrowRight, PlayCircle, Trophy, Timer } from "lucide-react";
+import { usePageVisibility } from "@/lib/pages-context";
 
 interface RelatedToolItem {
   title: string;
@@ -50,7 +53,10 @@ export function AiRelatedTools({
     },
   ],
 }: AiRelatedToolsProps) {
-  if (!items || items.length === 0) return null;
+  const { isPathVisible } = usePageVisibility();
+  const visibleItems = items.filter((item) => isPathVisible(item.href));
+
+  if (!visibleItems || visibleItems.length === 0) return null;
 
   return (
     <section className="bg-[#F3F4F6] py-20 lg:py-28 font-urbanist border-b border-[#ECEDEF]">
@@ -70,7 +76,7 @@ export function AiRelatedTools({
 
         {/* 3 Small Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {items.map((tool, idx) => (
+          {visibleItems.map((tool, idx) => (
             <Link
               key={idx}
               href={tool.href}

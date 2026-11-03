@@ -7,6 +7,7 @@ import SocialMediaIcons from "../SocialMediaIcons";
 import CopyrightSection from "../CopyrightSection";
 import { sanitizeHtml } from "@/lib/sanitize";
 import { footerContent } from "@/content/home/footer";
+import { usePageVisibility } from "@/lib/pages-context";
 
 const DEFAULT_FOOTER_COLUMNS = [
   {
@@ -48,6 +49,8 @@ export function FooterSection({
   publishedLegalSlugs?: string[];
 }) {
   const pathname = usePathname();
+  const { isPathVisible } = usePageVisibility();
+
   if (pathname?.startsWith("/login") || pathname?.startsWith("/signup") || pathname?.startsWith("/forgot-password")) {
     return null;
   }
@@ -56,15 +59,22 @@ export function FooterSection({
   const isLorem = /lorem\s*ipsum/i.test(sanitizedContent || "");
 
   const columns = DEFAULT_FOOTER_COLUMNS.map((section) => {
-    if (section.title === "Legal & Compliance") {
-      const legalLinks = section.links.filter((link) => {
+    let links = section.links.filter((link) => isPathVisible(link.href));
+    if (section.title === "Legal & Compliance" && publishedLegalSlugs) {
+      links = links.filter((link) => {
         const slug = link.href.replace(/^\//, "");
-        return publishedLegalSlugs ? publishedLegalSlugs.includes(slug) : true;
+        return publishedLegalSlugs.includes(slug);
       });
-      return { ...section, links: legalLinks };
     }
-    return section;
+    return { ...section, links };
   }).filter((section) => section.links.length > 0);
+
+  const gridColsClass =
+    columns.length === 3
+      ? "grid-cols-1 sm:grid-cols-3"
+      : columns.length === 2
+      ? "grid-cols-1 sm:grid-cols-2"
+      : "grid-cols-1";
 
   return (
     <footer className="bg-slate-50 border-t border-slate-200 text-slate-800 font-inter pt-16 pb-12">
@@ -99,27 +109,29 @@ export function FooterSection({
           </div>
 
           {/* Navigation Links Columns */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-8">
-            {columns.map((section, idx) => (
-              <div key={idx} className="space-y-4">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
-                  {section.title}
-                </h4>
-                <ul className="space-y-2.5">
-                  {section.links.map((link, i) => (
-                    <li key={i}>
-                      <Link
-                        href={link.href}
-                        className="text-sm text-slate-600 hover:text-MainColor transition-colors"
-                      >
-                        {link.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+          {columns.length > 0 && (
+            <div className={`lg:col-span-7 grid ${gridColsClass} gap-8`}>
+              {columns.map((section, idx) => (
+                <div key={idx} className="space-y-4">
+                  <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
+                    {section.title}
+                  </h4>
+                  <ul className="space-y-2.5">
+                    {section.links.map((link, i) => (
+                      <li key={i}>
+                        <Link
+                          href={link.href}
+                          className="text-sm text-slate-600 hover:text-MainColor transition-colors"
+                        >
+                          {link.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Copyright & Meta Links */}

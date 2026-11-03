@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getLegalPage, getLegalPages, fetchSeo } from "@/lib/api/content";
 import { LegalView } from "@/components/marketing/LegalView";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
+import { guardPage, guardMetadata } from "@/lib/pages";
 
 interface LegalPageProps {
   params: Promise<{
@@ -17,6 +18,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: LegalPageProps): Promise<Metadata> {
   const { legal } = await props.params;
+  const hiddenMeta = await guardMetadata(legal);
+  if (hiddenMeta) return hiddenMeta;
   // Share image and noindex from Admin > SEO
   return applySeo(await baseMetadata(props), await fetchSeo(legal).catch(() => null), { page: legal });
 }
@@ -63,6 +66,7 @@ async function baseMetadata({
 
 export default async function LegalPage({ params }: LegalPageProps) {
   const { legal } = await params;
+  await guardPage(legal);
   const page = await getLegalPage(legal);
 
   if (!page || !page.body) {

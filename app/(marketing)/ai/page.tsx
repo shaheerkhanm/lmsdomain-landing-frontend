@@ -11,8 +11,11 @@ import {
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { ContentSource } from "@/components/content/ContentSource";
+import { guardPage, guardMetadata } from "@/lib/pages";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const hiddenMeta = await guardMetadata("ai");
+  if (hiddenMeta) return hiddenMeta;
   // Share image and noindex from Admin > SEO
   return applySeo(await baseMetadata(), await fetchSeo("ai").catch(() => null), { page: "ai" });
 }
@@ -63,6 +66,7 @@ async function baseMetadata(): Promise<Metadata> {
 }
 
 export default async function AiPage() {
+  await guardPage("ai");
   const pageData = await getAiPage();
   const sources = pageData.sources!;
 

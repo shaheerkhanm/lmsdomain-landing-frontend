@@ -8,6 +8,8 @@ import Footer from "@/components/layout/Footer";
 import SmoothScroll from "@/components/SmoothScroll"
 import Canonical from "@/components/layout/Canonical";
 import { Toaster } from "@/components/ui/sonner";
+import { getPageVisibility } from "@/lib/pages";
+import { PageVisibilityProvider } from "@/lib/pages-context";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -62,21 +64,25 @@ export async function generateViewport(): Promise<Viewport> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const visibility = await getPageVisibility();
+
   return (
     <html lang="en">
       <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} font-urbanist bg-[#F3F4F6] lg:bg-white text-[#161616] antialiased !mr-0`}>
-        <Canonical />
-        <Header />
-        <SmoothScroll>
-          {children}
-        </SmoothScroll>
-        <Toaster position="bottom-right" />
-        <Footer />
+        <PageVisibilityProvider visibility={visibility}>
+          <Canonical />
+          <Header />
+          <SmoothScroll>
+            {children}
+          </SmoothScroll>
+          <Toaster position="bottom-right" />
+          <Footer />
+        </PageVisibilityProvider>
       </body>
     </html>
   );

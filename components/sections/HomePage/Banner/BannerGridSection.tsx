@@ -4,8 +4,10 @@ import React from "react";
 import Link from "next/link";
 import { Icons } from "@/components/layout/common/Icons";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { usePageVisibility } from "@/lib/pages-context";
 
 export function BannerGridSection({ data, graphData }: { data: any; graphData: any }) {
+  const { isPathVisible } = usePageVisibility();
   const sanitizedGraphContent = sanitizeHtml(graphData?.content);
 
   return (
@@ -107,13 +109,15 @@ export function BannerGridSection({ data, graphData }: { data: any; graphData: a
             )}
           </div>
 
-          <Link
-            href="/features"
-            className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors shadow-xs"
-          >
-            <Icons.globe_icon className="size-3.5 text-white" />
-            <span>{graphData?.buttonText || "Explore Core APIs"}</span>
-          </Link>
+          {isPathVisible("/features") && (
+            <Link
+              href="/features"
+              className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold rounded-lg transition-colors shadow-xs"
+            >
+              <Icons.globe_icon className="size-3.5 text-white" />
+              <span>{graphData?.buttonText || "Explore Core APIs"}</span>
+            </Link>
+          )}
         </div>
       </div>
     </div>

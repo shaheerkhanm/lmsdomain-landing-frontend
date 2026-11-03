@@ -13,8 +13,11 @@ import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
 import { ContentSource, type ContentSourceKind } from "@/components/content/ContentSource";
+import { guardPage, guardMetadata } from "@/lib/pages";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const hiddenMeta = await guardMetadata("features");
+  if (hiddenMeta) return hiddenMeta;
   // Share image and noindex from Admin > SEO
   return applySeo(await baseMetadata(), await fetchSeo("features").catch(() => null), { page: "features" });
 }
@@ -65,6 +68,7 @@ async function baseMetadata(): Promise<Metadata> {
 }
 
 export default async function FeaturesPage() {
+  await guardPage("features");
   const [data, overview, audiencesHeading, spotlight, midCta, journey, integrationsHeading, band] = await Promise.all([
     getFeaturesPage(),
     getSection("features-overview"),
