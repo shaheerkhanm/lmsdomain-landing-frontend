@@ -8,7 +8,8 @@ import CustomerSection from "@/components/sections/HomePage/CustomerSection/Cust
 import FaqSection from "@/components/sections/HomePage/FaqSection";
 import MobileAppSection from "@/components/sections/HomePage/MobileAppSection";
 import ClientLogosSection from "@/components/sections/HomePage/ClientLogosSection";
-import { getSection, getHomeTestimonials, getHomeMobileApp, getHomeClients } from "@/lib/api/content";
+import CustomPlanBand from "@/components/sections/HomePage/CustomPlanBand";
+import { getSection, getHomeTestimonials, getHomeMobileApp, getHomeClients, getHomeCustomPlanBand } from "@/lib/api/content";
 import { ContentSource } from "@/components/content/ContentSource";
 import { PageContentProvider } from "@/components/content/PageContent";
 
@@ -17,7 +18,7 @@ export async function HomePage() {
   // content as fallback; testimonials come from Home > Testimonials.
   // Mobile app and client logos come only from the admin and are hidden while
   // unpublished or empty (no built-in fallback).
-  const [hero, teachSmarter, manifesto, ai, benefits, wallTitle, faq, testimonials, mobileApp, clients] = await Promise.all([
+  const [hero, teachSmarter, manifesto, ai, benefits, wallTitle, faq, testimonials, mobileApp, clients, customPlan] = await Promise.all([
     getSection("home-hero"),
     getSection("home-teach-smarter"),
     getSection("home-manifesto"),
@@ -28,6 +29,7 @@ export async function HomePage() {
     getHomeTestimonials(),
     getHomeMobileApp(),
     getHomeClients(),
+    getHomeCustomPlanBand(),
   ]);
 
   const content = {
@@ -74,6 +76,12 @@ export async function HomePage() {
         <ContentSource id="testimonials" source={testimonials.cards.length ? wallTitle.source : "api"}>
           <CustomerSection cards={testimonials.cards} />
         </ContentSource>
+        {/* Custom Plan Band: between Wall of Love and FAQ */}
+        {customPlan && (
+          <ContentSource id="site-home-custom-plan" source="api">
+            <CustomPlanBand data={customPlan} />
+          </ContentSource>
+        )}
         <ContentSource id="home-faq" source={faq.source}>
           <FaqSection />
         </ContentSource>

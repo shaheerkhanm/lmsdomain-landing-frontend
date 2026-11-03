@@ -5,15 +5,16 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Dialog, DialogContent } from "../ui/dialog";
 import EnquiryForm from "./common/EnquiryForm";
-import { navigationConfig } from "@/content/navigation";
+import { navigationConfig, type NavItem } from "@/content/navigation";
 import { usePageVisibility } from "@/lib/pages-context";
 
-export function Header() {
+export function Header({ siteNav }: { siteNav?: NavItem[] }) {
   const { isPathVisible } = usePageVisibility();
   const pathname = usePathname();
   const isAuth = pathname?.startsWith("/login") || pathname?.startsWith("/signup") || pathname?.startsWith("/forgot-password");
 
-  const visibleNav = navigationConfig.marketingNav.filter((item) => isPathVisible(item.href));
+  const baseNav = siteNav && siteNav.length > 0 ? siteNav : navigationConfig.marketingNav;
+  const visibleNav = baseNav.filter((item) => isPathVisible(item.href));
   const showLogin = isPathVisible("/login");
 
   const [showSubpageMenu, setShowSubpageMenu] = useState(false);
@@ -87,6 +88,11 @@ export function Header() {
                     }`}
                   >
                     <span>{item.label}</span>
+                    {item.badge && (
+                      <span className="bg-[#F3F4F6] text-[#7B5CF5] font-medium text-[11px] leading-none px-2 py-0.5 rounded-full border border-[#7B5CF5]/20">
+                        {item.badge}
+                      </span>
+                    )}
                     {isAi && (
                       <span
                         className="w-1.5 h-1.5 rounded-full bg-[#8E7CF8] shrink-0"
@@ -190,8 +196,13 @@ export function Header() {
                       onClick={() => setShowSubpageMenu(false)}
                       className="text-[26px] sm:text-[28px] font-semibold text-[#161616] py-4 border-b border-slate-100 hover:text-[#7B5CF5] transition-colors flex items-center justify-between"
                     >
-                      <span className="inline-flex items-center gap-2">
+                      <span className="inline-flex items-center gap-2.5">
                         <span>{item.label}</span>
+                        {item.badge && (
+                          <span className="bg-[#EEE9FF] text-[#7B5CF5] font-semibold text-xs leading-none px-2.5 py-1 rounded-full border border-[#7B5CF5]/20">
+                            {item.badge}
+                          </span>
+                        )}
                         {isAi && (
                           <span
                             className="w-2 h-2 rounded-full bg-[#8E7CF8] shrink-0"

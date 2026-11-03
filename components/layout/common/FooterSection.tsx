@@ -16,6 +16,7 @@ const DEFAULT_FOOTER_COLUMNS = [
       { title: "Features & LMS Core", href: "/features" },
       { title: "Domie AI", href: "/ai" },
       { title: "Plans & Pricing", href: "/pricing" },
+      { title: "Custom LMS", href: "/custom-lms" },
       { title: "Product FAQs", href: "/pricing#faqSection" },
       { title: "Request Live Demo", href: "/#cta-enquiry" },
     ],

@@ -283,7 +283,7 @@ export interface PricingEnterprise {
   cta: {
     label: string;
     href?: string;
-    action?: "contact" | "demo";
+    action?: "contact" | "demo" | "link";
   };
 }
 

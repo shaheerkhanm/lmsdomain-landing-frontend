@@ -19,8 +19,8 @@ export function PricingEnterprise({ data }: PricingEnterpriseProps) {
 
   if (!data) return null;
 
-  const contactHref = data.cta.href || "/contact?topic=enterprise";
-  const shouldShowLink = data.cta.action !== "demo" && isPathVisible(contactHref);
+  const contactHref = data.cta?.href || "/custom-lms";
+  const shouldShowLink = isPathVisible(contactHref);
 
   return (
     <section className="bg-white py-16 sm:py-24 font-urbanist border-b border-[#ECEDEF]">

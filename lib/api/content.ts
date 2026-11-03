@@ -305,7 +305,7 @@ function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): P
 }
 
 export async function getPricingPage(): Promise<PricingPageModel> {
-  const [heroCms, empty, band, faqSection, comparisonHeading, plansRes, faqsRes, seo] = await Promise.all([
+  const [heroCms, empty, band, faqSection, comparisonHeading, plansRes, faqsRes, seo, enterpriseDoc] = await Promise.all([
     fetchCms("pricing-hero", ["cms", "pricing"]),
     getSection("pricing-empty"),
     getSection("pricing-footer-card"),
@@ -323,6 +323,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
       revalidate: 300,
     }).catch(() => null),
     fetchSeo("pricing"),
+    fetchCms("site-pricing-enterprise", ["cms", "pricing", "custom-plan"]),
   ]);
   // Admin > Pricing > Comparison (rows with one value per plan)
   const comparisonRes = await fetchApi<{
@@ -402,6 +403,22 @@ export async function getPricingPage(): Promise<PricingPageModel> {
         displayOrder: doc.displayOrder || idx + 1,
       };
     });
+  }
+
+  // Enterprise band from CMS site-pricing-enterprise (Prompt 37a/37b)
+  if (enterpriseDoc && enterpriseDoc.isActive !== false && !enterpriseDoc.isDeleted && enterpriseDoc.data) {
+    const entData = enterpriseDoc.data as any;
+    enterprise = {
+      title: entData.title || "Need your own branded LMS and apps?",
+      description:
+        entData.description ||
+        "Get a Custom Plan: your academy, Android and iOS apps, set up by our team in days.",
+      cta: {
+        label: entData.cta?.label || "Build your custom plan",
+        href: entData.cta?.href || "/custom-lms",
+        action: "link",
+      },
+    };
   } else if (process.env.CMS_USE_FIXTURES === "true") {
     // Dynamic import ONLY when CMS_USE_FIXTURES === "true". Never statically imported.
     const sample = await import("@/content/pricing/sample");
@@ -412,6 +429,18 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     faq = { ...faqHeading, items: sample.SAMPLE_FAQ.items };
     yearlySavingsLabel = "Sample: 2 months free";
     isSample = true;
+  }
+
+  if (!enterprise && (activePlans.length > 0 || process.env.CMS_USE_FIXTURES === "true")) {
+    enterprise = {
+      title: "Need your own branded LMS and apps?",
+      description: "Get a Custom Plan: your academy, Android and iOS apps, set up by our team in days.",
+      cta: {
+        label: "Build your custom plan",
+        href: "/custom-lms",
+        action: "link",
+      },
+    };
   }
 
   // Comparison table from the admin: "yes" is a check, "no" or empty a dash, anything else text

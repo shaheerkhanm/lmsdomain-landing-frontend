@@ -1,6 +1,7 @@
 export interface NavItem {
   label: string;
   href: string;
+  badge?: string;
   isExternal?: boolean;
 }
 
@@ -23,6 +24,7 @@ export const navigationConfig: NavigationConfig = {
     { label: "Features", href: "/features" },
     { label: "Domie AI", href: "/ai" },
     { label: "Pricing", href: "/pricing" },
+    { label: "Custom Plan", href: "/custom-lms", badge: "New" },
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ],

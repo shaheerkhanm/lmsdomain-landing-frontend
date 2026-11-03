@@ -10,6 +10,7 @@ import Canonical from "@/components/layout/Canonical";
 import { Toaster } from "@/components/ui/sonner";
 import { getPageVisibility } from "@/lib/pages";
 import { PageVisibilityProvider } from "@/lib/pages-context";
+import { getSiteNavigation } from "@/lib/api/content";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -69,14 +70,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const visibility = await getPageVisibility();
+  const [visibility, siteNav] = await Promise.all([
+    getPageVisibility(),
+    getSiteNavigation().catch(() => null),
+  ]);
 
   return (
     <html lang="en">
       <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} font-urbanist bg-[#F3F4F6] lg:bg-white text-[#161616] antialiased !mr-0`}>
         <PageVisibilityProvider visibility={visibility}>
           <Canonical />
-          <Header />
+          <Header siteNav={siteNav?.marketingNav} />
           <SmoothScroll>
             {children}
           </SmoothScroll>

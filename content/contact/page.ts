@@ -18,6 +18,7 @@ export const DEFAULT_CONTACT_FORM_CONFIG: ContactFormConfig = {
 export const DEFAULT_CONTACT_TOPICS: ContactTopic[] = [
   { id: "demo", label: "Request a demo" },
   { id: "pricing", label: "Pricing and plans" },
+  { id: "custom-plan", label: "Custom plan" },
   { id: "support", label: "Support" },
   { id: "partnership", label: "Partnership" },
   { id: "other", label: "Something else" },
