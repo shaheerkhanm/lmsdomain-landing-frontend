@@ -1,14 +1,20 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
-import { aiSectionContent as defaultAiSectionContent } from "@/content/home/ai";
+import { aiSectionContent as defaultAiSectionContent, DOMIE_STRINGS } from "@/content/home/ai";
 import { useSectionContent } from "@/components/content/PageContent";
+import DomieOrb from "@/components/ai/DomieOrb";
 
 export function AiSection() {
+  const shouldReduceMotion = useReducedMotion();
   const aiSectionContent = useSectionContent("home-ai", defaultAiSectionContent);
   const [activeTab, setActiveTab] = useState<0 | 1 | 2 | 3>(0);
   const [typedChars, setTypedChars] = useState(0);
+  const [generatorFinished, setGeneratorFinished] = useState(false);
+  const [cmdTypedChars, setCmdTypedChars] = useState(0);
+  const cmdQuery = "How do I configure custom certificates?";
 
   const sectionRef = useRef<HTMLElement>(null);
   const pinnedRowRef = useRef<HTMLDivElement>(null);
@@ -59,6 +65,34 @@ export function AiSection() {
           return prev + 3;
         });
       }, 25);
+      return () => clearInterval(interval);
+    }
+  }, [activeTab]);
+
+  // Content generator typing/writing state simulation for Tab 1
+  useEffect(() => {
+    if (activeTab === 1) {
+      setGeneratorFinished(false);
+      const timer = setTimeout(() => {
+        setGeneratorFinished(true);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTab]);
+
+  // Command bar query typing simulation for Tab 3
+  useEffect(() => {
+    if (activeTab === 3) {
+      setCmdTypedChars(0);
+      const interval = setInterval(() => {
+        setCmdTypedChars((prev) => {
+          if (prev >= cmdQuery.length) {
+            clearInterval(interval);
+            return cmdQuery.length;
+          }
+          return prev + 2;
+        });
+      }, 35);
       return () => clearInterval(interval);
     }
   }, [activeTab]);
@@ -304,10 +338,15 @@ export function AiSection() {
             </div>
           </div>
 
-          <div className="flex items-start gap-2">
-            <div className="size-6 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
-              AI
-            </div>
+          <div className="flex items-start gap-2.5">
+            <DomieOrb
+              size={32}
+              variant="sm"
+              surface="light"
+              label="Domie AI"
+              thinking={typedChars < tutorFullResponse.length}
+              className="mt-0.5"
+            />
             <div className="max-w-[90%] rounded-2xl rounded-tl-xs bg-white/5 border border-white/10 p-3 text-xs text-[#C9CCD1] space-y-1.5">
               <p className="leading-relaxed">
                 {tutorFullResponse.slice(0, typedChars)}
@@ -335,6 +374,31 @@ export function AiSection() {
       {/* 2. Domie AI content generator */}
       {activeTab === 1 && (
         <div className="space-y-2.5 animate-in fade-in duration-200">
+          <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 min-w-0">
+              <DomieOrb
+                size={24}
+                variant="sm"
+                surface="light"
+                label="Domie AI"
+                thinking={!generatorFinished}
+              />
+              <span
+                className={`text-[11px] font-medium text-[#A78BFA] transition-opacity duration-500 truncate ${
+                  generatorFinished ? "opacity-0" : "opacity-100 animate-pulse"
+                }`}
+              >
+                {aiSectionContent.writingLabel || DOMIE_STRINGS.writing}
+              </span>
+            </div>
+            <button
+              type="button"
+              className="px-2.5 py-1 rounded-lg bg-[#7B5CF5] hover:bg-[#6D4AE8] text-white text-[10px] font-semibold shadow-sm transition-all cursor-pointer shrink-0"
+            >
+              Generate
+            </button>
+          </div>
+
           <div className="space-y-2">
             <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 space-y-0.5">
               <span className="text-[9px] uppercase font-bold text-[#A78BFA] tracking-wider block">
@@ -416,10 +480,12 @@ export function AiSection() {
             </span>
           </div>
 
-          <div className="p-2 rounded-xl bg-white/5 border border-white/10 space-y-0.5">
-            <div className="flex items-center gap-1.5 text-[10px] font-bold text-[#A78BFA]">
-              <span>✦</span>
-              <span>Prescriptive Recommendation</span>
+          <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 space-y-1">
+            <div className="flex items-center gap-2">
+              <DomieOrb size={24} variant="sm" surface="light" label="Domie AI" />
+              <span className="text-xs font-bold text-white">
+                {aiSectionContent.summaryHeading || DOMIE_STRINGS.summaryHeading}
+              </span>
             </div>
             <p className="text-[10px] text-[#C9CCD1] leading-relaxed line-clamp-2">
               Review Module 4 checkpoint tasks and launch a reminder email for expiring promotions.
@@ -432,10 +498,19 @@ export function AiSection() {
       {activeTab === 3 && (
         <div className="space-y-2 animate-in fade-in duration-200">
           <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 border border-white/15 text-xs text-white">
-            <svg className="size-3 text-[#A78BFA] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <span className="font-medium text-white truncate text-[10px]">Search or ask anything…</span>
+            <DomieOrb
+              size={22}
+              variant="sm"
+              surface="light"
+              thinking={cmdTypedChars < cmdQuery.length}
+              label="Domie AI"
+            />
+            <span className="font-medium text-white truncate text-[10px]">
+              {cmdQuery.slice(0, cmdTypedChars)}
+              {cmdTypedChars < cmdQuery.length && (
+                <span className="inline-block w-1.5 h-3 bg-[#7B5CF5] ml-0.5 animate-pulse align-middle" />
+              )}
+            </span>
             <span className="ml-auto text-[9px] font-mono text-[#C9CCD1] bg-white/10 border border-white/15 px-1 py-0.5 rounded">
               ⌘K
             </span>
@@ -495,33 +570,82 @@ export function AiSection() {
 
         {/* Section Header: Scrolls normally and leaves screen before pin (Desktop >=1024px) */}
         <div className="max-w-3xl mb-12 sm:mb-16 relative z-10 hidden lg:block">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[#C9CCD1] text-xs font-semibold uppercase tracking-wider mb-4">
-            <span className="text-[#7B5CF5]">✦</span>
-            <span>{aiSectionContent.badge}</span>
+          {/* Large DomieOrb, surface "dark", 160px desktop, centred above pill */}
+          <motion.div
+            initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="relative mb-6 inline-flex items-center justify-center"
+          >
+            {/* Soft Glow: round div 1.6x the orb size (160 * 1.6 = 256px), radial-gradient(circle, #7B5CF5 0, transparent 65%), opacity 0.35, blur 20px */}
+            <div
+              className="absolute pointer-events-none rounded-full"
+              style={{
+                width: 256,
+                height: 256,
+                background: "radial-gradient(circle, #7B5CF5 0%, transparent 65%)",
+                opacity: 0.35,
+                filter: "blur(20px)",
+              }}
+              aria-hidden="true"
+            />
+            <DomieOrb size={160} variant="lg" surface="dark" />
+          </motion.div>
+
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[#C9CCD1] text-xs font-semibold uppercase tracking-wider mb-4">
+              <span className="text-[#7B5CF5]">✦</span>
+              <span>{aiSectionContent.badge}</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight">
+              {aiSectionContent.title}
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-[#C9CCD1] max-w-2xl leading-relaxed">
+              {aiSectionContent.subtitle}
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight leading-tight">
-            {aiSectionContent.title}
-          </h2>
-          <p className="mt-4 text-base sm:text-lg text-[#C9CCD1] max-w-2xl leading-relaxed">
-            {aiSectionContent.subtitle}
-          </p>
         </div>
 
         {/* Mobile Sticky 280vh Container (<1024px: 70vh per step) */}
         <div ref={mobileContainerRef} className="relative w-full h-[280vh] lg:hidden">
-          <div className="sticky top-[calc((100vh-590px)/2)] h-[590px] w-full flex flex-col justify-between items-center py-2 px-1 max-w-md mx-auto">
+          <div className="sticky top-[calc((100vh-670px)/2)] h-[670px] w-full flex flex-col justify-between items-center py-2 px-1 max-w-md mx-auto">
             {/* Mobile Header: Pill, title (restored to 32px), and subtitle sit directly above progress bar (24px gap) */}
-            <div className="text-center w-full mb-4">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[#C9CCD1] text-[10px] font-semibold uppercase tracking-wider mb-2">
-                <span className="text-[#7B5CF5]">✦</span>
-                <span>{aiSectionContent.badge}</span>
+            <div className="text-center w-full mb-3">
+              {/* 112px orb below 1024px: 112 * 1.6 = 179px glow */}
+              <motion.div
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                className="relative mb-2 inline-flex items-center justify-center"
+              >
+                <div
+                  className="absolute pointer-events-none rounded-full"
+                  style={{
+                    width: 179,
+                    height: 179,
+                    background: "radial-gradient(circle, #7B5CF5 0%, transparent 65%)",
+                    opacity: 0.35,
+                    filter: "blur(20px)",
+                  }}
+                  aria-hidden="true"
+                />
+                <DomieOrb size={112} variant="lg" surface="dark" />
+              </motion.div>
+
+              <div>
+                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/10 border border-white/15 text-[#C9CCD1] text-[10px] font-semibold uppercase tracking-wider mb-1.5">
+                  <span className="text-[#7B5CF5]">✦</span>
+                  <span>{aiSectionContent.badge}</span>
+                </div>
+                <h2 className="text-[28px] sm:text-[32px] font-semibold text-white tracking-tight leading-tight max-w-sm mx-auto">
+                  {aiSectionContent.title}
+                </h2>
+                <p className="mt-1 text-xs text-[#C9CCD1] max-w-xs mx-auto leading-relaxed">
+                  {aiSectionContent.subtitle}
+                </p>
               </div>
-              <h2 className="text-[32px] font-semibold text-white tracking-tight leading-tight max-w-sm mx-auto">
-                {aiSectionContent.title}
-              </h2>
-              <p className="mt-1 text-xs text-[#C9CCD1] max-w-xs mx-auto leading-relaxed">
-                {aiSectionContent.subtitle}
-              </p>
             </div>
 
             {/* Horizontal Progress Bar: 1-4 with 2px lines between filling purple */}

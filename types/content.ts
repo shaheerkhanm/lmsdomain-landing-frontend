@@ -727,6 +727,8 @@ export interface AiSectionContent {
   title: string;
   subtitle: string;
   tabs: AiToolTab[];
+  writingLabel?: string;
+  summaryHeading?: string;
 }
 
 export interface BenefitCardItem {

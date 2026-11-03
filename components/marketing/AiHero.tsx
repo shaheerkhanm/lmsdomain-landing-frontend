@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "motion/react";
-import { Sparkles, ArrowRight, Command, FileText, Sliders, Bot } from "lucide-react";
+import { ArrowRight, Command, FileText, Sliders, Bot } from "lucide-react";
+import DomieOrb from "@/components/ai/DomieOrb";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import type { CommandBarExample } from "@/types/content";
@@ -106,6 +107,16 @@ export function AiHero({
       />
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10 text-center">
+        {/* Large DomieOrb, surface "light", 180px desktop, 120px below 640px */}
+        <div className="flex justify-center mb-6">
+          <div className="hidden sm:block">
+            <DomieOrb size={180} variant="lg" surface="light" eager />
+          </div>
+          <div className="block sm:hidden">
+            <DomieOrb size={120} variant="lg" surface="light" eager />
+          </div>
+        </div>
+
         {/* Eyebrow & Premium Pill */}
         <div className="inline-flex items-center gap-2 mb-6">
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5]">
@@ -156,9 +167,13 @@ export function AiHero({
             className="w-full h-16 rounded-[20px] bg-white border border-[#ECEDEF] shadow-[0_8px_30px_rgba(0,0,0,0.06)] px-4 sm:px-6 flex items-center justify-between gap-3 relative transition-all"
           >
             <div className="flex items-center gap-3 flex-1 min-w-0">
-              <div className="size-8 rounded-lg bg-[#EEE9FF] text-[#7B5CF5] flex items-center justify-center shrink-0">
-                <Sparkles className="w-4 h-4" />
-              </div>
+              <DomieOrb
+                size={22}
+                variant="sm"
+                surface="light"
+                thinking={!isReduced && !isDeleting && charCount < fullText.length}
+                label="Domie AI"
+              />
               <div className="flex-1 min-w-0 flex items-center">
                 <span className="text-sm sm:text-base font-medium text-[#161616] truncate">
                   {displayedText}

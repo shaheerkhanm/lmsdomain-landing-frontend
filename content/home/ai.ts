@@ -4,6 +4,8 @@ export const aiSectionContent: AiSectionContent = {
   badge: "Premium add-on",
   title: "AI that works inside your academy",
   subtitle: "Four premium tools that save your team hours and keep learners moving.",
+  writingLabel: "Domie is writing…",
+  summaryHeading: "Domie's summary",
   tabs: [
     {
       id: "tutor",
@@ -43,3 +45,11 @@ export const aiSectionContent: AiSectionContent = {
     },
   ],
 };
+
+export const DOMIE_STRINGS = {
+  writing: "Domie is writing…",
+  summaryHeading: "Domie's summary",
+  avatarLabel: "Domie AI",
+} as const;
+
+export default aiSectionContent;

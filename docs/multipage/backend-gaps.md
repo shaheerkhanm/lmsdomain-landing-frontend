@@ -65,6 +65,7 @@ Written from `results/00/00-audit.md` (commit `ea7ee08`) by comparing what the b
 | Images | Alt text | Field | Most models have `altImage`; `cms` image1–3 have `altImage1–3`. Pricing has none (fine, no images). |
 | Features | Product Tour Video URL | Field | CMS field `features-hero.videoUrl` for optional "Watch a product tour" modal button in the hero. Currently omitted until a real tour video URL is configured in the admin. |
 | Features | Media Slots | Field | Add `features-media` CMS slug with slot upload fields (one entry per slot) so marketing photos and demo video loops can be updated from Admin without code changes. |
+| Domie AI | ai-mascot (uploads: webm, mp4, poster for large and small) | Field | Add `ai-mascot` CMS / Settings entry for custom uploads of Domie bot webm, mp4 and poster frame for large and small variants, so the admin can swap the mascot later without code changes. |
 
 ## Data to check before it shows anywhere
 
