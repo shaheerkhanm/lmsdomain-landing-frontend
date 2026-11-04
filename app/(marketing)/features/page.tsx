@@ -13,6 +13,7 @@ import { HeroAssembly } from "@/components/marketing/features/HeroAssembly";
 import { FeatureMarquee } from "@/components/marketing/features/FeatureMarquee";
 import { BentoOverview } from "@/components/marketing/features/BentoOverview";
 import { AiDarkChapter } from "@/components/marketing/features/AiDarkChapter";
+import { HorizontalJourney } from "@/components/marketing/features/HorizontalJourney";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
@@ -120,9 +121,9 @@ export default async function FeaturesPage() {
         <AiDarkChapter heading={spotlight.content} />
       </ContentSource>
 
-      {/* 6. Your Academy Start to Finish: Interactive Journey Strip */}
+      {/* 6. Horizontal Journey (Pinned horizontal scroll track on desktop, vertical timeline on mobile) */}
       <ContentSource id="features-journey" source={journey.source}>
-        <JourneyStrip content={journey.content} />
+        <HorizontalJourney content={journey.content} />
       </ContentSource>
 
       {/* 7. Category Sections (catalog + photos/videos; simulations are illustrations in code) */}
