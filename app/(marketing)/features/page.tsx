@@ -1,14 +1,6 @@
 import type { Metadata } from "next";
 import { getSection, getFeaturesPage, fetchSeo } from "@/lib/api/content";
-import {
-  FeaturesHero,
-  CategoryOverviewNav,
-  AudienceSwitcher,
-  AiSpotlightSection,
-  AiMidPageCta,
-  JourneyStrip,
-  CategorySections,
-} from "@/components/marketing";
+import { AudienceSwitcher } from "@/components/marketing/AudienceSwitcher";
 import { HeroAssembly } from "@/components/marketing/features/HeroAssembly";
 import { FeatureMarquee } from "@/components/marketing/features/FeatureMarquee";
 import { BentoOverview } from "@/components/marketing/features/BentoOverview";
@@ -17,7 +9,7 @@ import { HorizontalJourney } from "@/components/marketing/features/HorizontalJou
 import { StickyCategoryChapters } from "@/components/marketing/features/StickyCategoryChapters";
 import { BrandingPlayground } from "@/components/marketing/features/BrandingPlayground";
 import { CommandPalette } from "@/components/marketing/features/CommandPalette";
-import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
+import { FinalCtaCard } from "@/components/marketing/features/FinalCtaCard";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
 import { ContentSource, type ContentSourceKind } from "@/components/content/ContentSource";
@@ -150,9 +142,9 @@ export default async function FeaturesPage() {
         />
       </ContentSource>
 
-      {/* 9. Closing CTA band */}
+      {/* 9. Final CTA on Dark Card (Sweeping accent beam & magnetic button) */}
       <ContentSource id="features-cta" source={band.source}>
-        <CtaSection showTestimonials={false} content={band.content} />
+        <FinalCtaCard content={band.content} />
       </ContentSource>
     </div>
   );
