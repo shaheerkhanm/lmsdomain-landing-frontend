@@ -20,7 +20,7 @@ export function BrandingPlayground() {
   const initial = academyName.trim().charAt(0).toUpperCase() || "A";
 
   return (
-    <section className="bg-white py-16 sm:py-20 lg:py-24 font-urbanist border-b border-[#F0F1F3] relative overflow-hidden">
+    <section id="branding-playground" className="bg-white py-16 sm:py-20 lg:py-24 font-urbanist border-b border-[#F0F1F3] relative overflow-hidden">
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">

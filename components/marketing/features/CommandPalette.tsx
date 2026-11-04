@@ -147,6 +147,7 @@ export function CommandPalette() {
           <button
             ref={triggerRef}
             type="button"
+            id="open-command-palette"
             onClick={() => setIsOpen(true)}
             className="w-full sm:w-auto px-4 py-2.5 rounded-full bg-white hover:bg-[#FAFAFA] border border-[#E5E7EB] hover:border-[#7B5CF5]/40 text-xs font-semibold text-[#6B6F76] flex items-center justify-between sm:justify-start gap-4 transition-all shadow-2xs cursor-pointer group"
           >
