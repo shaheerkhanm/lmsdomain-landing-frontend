@@ -5,14 +5,48 @@
 // ============================================================================
 
 import { ImageResponse } from "next/og";
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { OG_PAGES, verifiedTitle } from "@/lib/og";
+import { getSiteIdentity } from "@/lib/siteIdentity";
+import { getBackendBaseUrl } from "@/lib/api/client";
 
 export const runtime = "nodejs";
 
-// The D of the logo, from the generated icon (public/ ships with the standalone build)
-const MARK_PATH = readFileSync(path.join(process.cwd(), "public", "icons", "icon.svg"), "utf8").match(/<path d="([^"]+)"/)?.[1] || "";
+function getDefaultWordmarkDataUrl(): string {
+  try {
+    const p = path.join(process.cwd(), "public", "brand", "logo-wordmark.png");
+    if (existsSync(p)) {
+      const buf = readFileSync(p);
+      return `data:image/png;base64,${buf.toString("base64")}`;
+    }
+  } catch (e) {
+    console.warn("[og] failed to read default wordmark:", e);
+  }
+  return "";
+}
+
+async function getWordmarkDataUrl(): Promise<string> {
+  try {
+    const identity = await getSiteIdentity().catch(() => ({} as import("@/lib/siteIdentity").SiteIdentity));
+    if (identity.logoLight) {
+      const src = identity.logoLight.startsWith("/")
+        ? `${getBackendBaseUrl()}${identity.logoLight}`
+        : identity.logoLight;
+      const res = await fetch(src, {
+        next: { revalidate: 300, tags: ["site-identity"] },
+      });
+      if (res.ok) {
+        const ct = res.headers.get("content-type") || "image/png";
+        const buf = Buffer.from(await res.arrayBuffer());
+        return `data:${ct};base64,${buf.toString("base64")}`;
+      }
+    }
+  } catch (err) {
+    console.warn("[og] failed to load custom logoLight, using default:", err);
+  }
+  return getDefaultWordmarkDataUrl();
+}
 
 export async function GET(request: Request, context: { params: Promise<{ page: string }> }) {
   const { page } = await context.params;
@@ -20,6 +54,8 @@ export async function GET(request: Request, context: { params: Promise<{ page: s
   const url = new URL(request.url);
   const title = verifiedTitle(page, url.searchParams.get("t"), url.searchParams.get("s"));
   const fontSize = title.length > 60 ? 56 : title.length > 34 ? 66 : 80;
+
+  const logoDataUrl = await getWordmarkDataUrl();
 
   return new ImageResponse(
     (
@@ -35,14 +71,17 @@ export async function GET(request: Request, context: { params: Promise<{ page: s
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          <svg width="72" height="72" viewBox="0 0 48 48">
-            <rect width="48" height="48" rx="14" fill="#161616" />
-            <g transform="translate(13.6, 11.9) scale(0.14)">
-              <path d={MARK_PATH} transform="translate(-461.76, 0)" fill="#FFFFFF" />
-            </g>
-          </svg>
-          <div style={{ display: "flex", fontSize: "36px", fontWeight: 700, color: "#13112D", letterSpacing: "-0.5px" }}>LMS Domain</div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          {logoDataUrl ? (
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={logoDataUrl}
+              height="48"
+              style={{ height: "48px", objectFit: "contain" }}
+            />
+          ) : (
+            <div style={{ fontSize: "36px", fontWeight: 700, color: "#161616" }}>LMS Domain</div>
+          )}
         </div>
         <div style={{ display: "flex", fontSize: `${fontSize}px`, fontWeight: 700, color: "#161616", lineHeight: 1.12, letterSpacing: "-1.5px", maxWidth: "1000px" }}>
           {title}

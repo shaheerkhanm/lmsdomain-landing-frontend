@@ -8,6 +8,7 @@ import CopyrightSection from "../CopyrightSection";
 import { sanitizeHtml } from "@/lib/sanitize";
 import { footerContent } from "@/content/home/footer";
 import { usePageVisibility } from "@/lib/pages-context";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 const DEFAULT_FOOTER_COLUMNS = [
   {
@@ -83,14 +84,8 @@ export function FooterSection({
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 pb-12">
           {/* Brand Column */}
           <div className="lg:col-span-5 space-y-5">
-            <Link href="/" className="inline-block">
-              <img
-                src="/assets/img/logo/logo.svg"
-                alt="LMS Domain Logo"
-                width={208}
-                height={36}
-                className="h-8 md:h-9 w-auto max-w-[210px] object-contain"
-              />
+            <Link href="/" aria-label="LMS Domain home" className="inline-block">
+              <BrandLogo variant="wordmark" tone="light" height={32} />
             </Link>
 
             {sanitizedContent && !isLorem ? (

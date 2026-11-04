@@ -1,15 +1,14 @@
 // ============================================================================
 // Site icons from one source: node scripts/generate-icons.mjs
 //
-// Source: assets-src/brand-mark.svg (the "D" of the LMS Domain logo, as in the nav).
+// Source: assets-src/brand-v2/logo-mark.svg (preferred) or logo-mark.png.
 // Writes:
 //   public/favicon.ico                 16, 32, 48 px (PNG entries)
-//   public/icons/icon.svg              dark tile, white D; light tile in dark mode
-//   public/icons/icon-192.png          rounded tile (manifest "any")
-//   public/icons/icon-512.png          rounded tile (manifest "any")
-//   public/icons/icon-maskable-512.png full-bleed tile, D inside the safe zone
-//   public/icons/apple-touch-icon.png  180 px, solid background (iOS rounds it)
-// The site links to these through app/layout.tsx (metadata) and app/manifest.ts.
+//   public/icons/icon-192.png          192 px transparent (manifest "any")
+//   public/icons/icon-512.png          512 px transparent (manifest "any")
+//   public/icons/icon-maskable-512.png 512 px on white #FFFFFF with safe-zone padding
+//   public/icons/apple-touch-icon.png  180 px on white #FFFFFF with safe-zone padding
+//   public/icons/icon.svg              (only if SVG source is present)
 // ============================================================================
 
 import fs from "node:fs";
@@ -20,51 +19,111 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..")
 const OUT = path.join(ROOT, "public", "icons");
 fs.mkdirSync(OUT, { recursive: true });
 
-const INK = "#161616"; // tile colour of the nav mark
-const PAPER = "#FFFFFF";
+const WHITE = "#FFFFFF";
 
-const source = fs.readFileSync(path.join(ROOT, "assets-src", "brand-mark.svg"), "utf8");
-const markGroup = source.match(/<g[\s\S]*<\/g>/)[0]; // the D, 48 x 48 grid
+// Locate source file: SVG preferred, PNG fallback
+const candidates = [
+  path.join(ROOT, "assets-src", "brand-v2", "logo-mark.svg"),
+  path.join(ROOT, "assets-src", "brand-v2", "logo-mark.png"),
+  path.join(ROOT, "assets-src", "logo-mark.svg"),
+  path.join(ROOT, "assets-src", "logo-mark.png"),
+];
 
-// tile: "rounded" (rx 14 on 48, like the nav), or "full" (square, for iOS / maskable)
-// scale: size of the D relative to the nav mark (1 = same proportions)
-const tileSvg = ({ tile = "rounded", scale = 1, bg = INK, fg = PAPER, size = 512 }) => {
-  const rect = tile === "rounded" ? `<rect width="48" height="48" rx="14" fill="${bg}"/>` : `<rect width="48" height="48" fill="${bg}"/>`;
-  const t = (1 - scale) * 24; // keep the D centred when scaling
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 48 48">${rect}<g transform="translate(${t} ${t}) scale(${scale})" color="${fg}" fill="${fg}">${markGroup.replace(/currentColor/g, fg)}</g></svg>`;
-};
+const sourcePath = candidates.find((p) => fs.existsSync(p));
+if (!sourcePath) {
+  console.error("No logo-mark source found in assets-src/brand-v2/!");
+  process.exit(1);
+}
 
-const png = (svg, size) => sharp(Buffer.from(svg), { density: 72 * (size / 48) * 2 }).resize(size, size).png({ compressionLevel: 9 }).toBuffer();
+const isSourceSvg = sourcePath.endsWith(".svg");
+console.log(`Using source mark: ${path.relative(ROOT, sourcePath)}`);
 
 const write = async (name, buffer) => {
   fs.writeFileSync(path.join(OUT, name), buffer);
   const meta = await sharp(buffer).metadata();
-  console.log(`${("icons/" + name).padEnd(28)} ${meta.width}x${meta.height}  ${meta.hasAlpha ? "alpha" : "opaque"}  ${(buffer.length / 1024).toFixed(1)} KB`);
+  console.log(
+    `${("icons/" + name).padEnd(28)} ${meta.width}x${meta.height}  ${
+      meta.hasAlpha ? "alpha" : "opaque"
+    }  ${(buffer.length / 1024).toFixed(1)} KB`
+  );
 };
 
-// SVG icon with a dark-mode variant (a dark tile disappears on dark tab bars)
-const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
-<style>.tile{fill:${INK}}.mark{fill:${PAPER}}@media (prefers-color-scheme: dark){.tile{fill:${PAPER}}.mark{fill:${INK}}}</style>
-<rect class="tile" width="48" height="48" rx="14"/>
-${markGroup.replace(/fill="currentColor"/g, 'class="mark"')}
-</svg>
-`;
-fs.writeFileSync(path.join(OUT, "icon.svg"), svgIcon);
-console.log(`${"icons/icon.svg".padEnd(28)} vector  ${(svgIcon.length / 1024).toFixed(1)} KB`);
+// 1. Transparent PNG icons for web manifest
+const icon192 = await sharp(sourcePath)
+  .resize(192, 192, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  .png({ compressionLevel: 9 })
+  .toBuffer();
+await write("icon-192.png", icon192);
 
-await write("icon-192.png", await png(tileSvg({ size: 192 }), 192));
-await write("icon-512.png", await png(tileSvg({ size: 512 }), 512));
-// Maskable: launchers crop to a circle/squircle covering the middle 80 %, so the D is drawn smaller
-await write("icon-maskable-512.png", await sharp(await png(tileSvg({ tile: "full", scale: 0.8, size: 512 }), 512)).flatten({ background: INK }).png().toBuffer());
-await write("apple-touch-icon.png", await sharp(await png(tileSvg({ tile: "full", scale: 0.95, size: 180 }), 180)).flatten({ background: INK }).png().toBuffer());
+const icon512 = await sharp(sourcePath)
+  .resize(512, 512, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  .png({ compressionLevel: 9 })
+  .toBuffer();
+await write("icon-512.png", icon512);
 
-// favicon.ico: 16, 32, 48 as PNG entries (supported by every current browser)
+// 2. Maskable 512 icon: mark centered at 80% safe zone over white #FFFFFF
+const maskableInnerSize = Math.round(512 * 0.8); // 410px
+const maskableMark = await sharp(sourcePath)
+  .resize(maskableInnerSize, maskableInnerSize, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  .toBuffer();
+
+const iconMaskable512 = await sharp({
+  create: {
+    width: 512,
+    height: 512,
+    channels: 4,
+    background: WHITE,
+  },
+})
+  .composite([{ input: maskableMark, gravity: "centre" }])
+  .png({ compressionLevel: 9 })
+  .toBuffer();
+await write("icon-maskable-512.png", iconMaskable512);
+
+// 3. Apple Touch Icon: 180px with safe padding on white #FFFFFF
+const appleInnerSize = Math.round(180 * 0.9); // 162px
+const appleMark = await sharp(sourcePath)
+  .resize(appleInnerSize, appleInnerSize, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  .toBuffer();
+
+const appleTouchIcon = await sharp({
+  create: {
+    width: 180,
+    height: 180,
+    channels: 4,
+    background: WHITE,
+  },
+})
+  .composite([{ input: appleMark, gravity: "centre" }])
+  .png({ compressionLevel: 9 })
+  .toBuffer();
+await write("apple-touch-icon.png", appleTouchIcon);
+
+// 4. SVG icon: copy if source is SVG, else remove old SVG if exists
+const svgOut = path.join(OUT, "icon.svg");
+if (isSourceSvg) {
+  fs.copyFileSync(sourcePath, svgOut);
+  console.log(`${"icons/icon.svg".padEnd(28)} vector  ${(fs.statSync(svgOut).size / 1024).toFixed(1)} KB`);
+} else if (fs.existsSync(svgOut)) {
+  fs.unlinkSync(svgOut);
+}
+
+// 5. favicon.ico: 16, 32, 48 px PNG entries
 const sizes = [16, 32, 48];
-const images = await Promise.all(sizes.map((s) => png(tileSvg({ size: s }), s)));
+const images = await Promise.all(
+  sizes.map((s) =>
+    sharp(sourcePath)
+      .resize(s, s, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+      .png()
+      .toBuffer()
+  )
+);
+
 const header = Buffer.alloc(6);
 header.writeUInt16LE(0, 0);
 header.writeUInt16LE(1, 2); // type: icon
 header.writeUInt16LE(sizes.length, 4);
+
 let offset = 6 + 16 * sizes.length;
 const entries = sizes.map((s, i) => {
   const e = Buffer.alloc(16);
@@ -79,6 +138,7 @@ const entries = sizes.map((s, i) => {
   offset += images[i].length;
   return e;
 });
+
 const ico = Buffer.concat([header, ...entries, ...images]);
 fs.writeFileSync(path.join(ROOT, "public", "favicon.ico"), ico);
 console.log(`${"favicon.ico".padEnd(28)} ${sizes.join(", ")} px  ${(ico.length / 1024).toFixed(1)} KB`);

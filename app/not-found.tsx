@@ -4,6 +4,7 @@ import { getSiteSettings } from "@/lib/api/content";
 import { NotFoundVisual } from "@/components/marketing/NotFoundVisual";
 import { NotFoundActions } from "@/components/marketing/NotFoundActions";
 import { getMetadataBase } from "@/lib/site";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 export const metadata = {
   metadataBase: getMetadataBase(),
@@ -22,13 +23,9 @@ export default async function NotFound() {
       <NotFoundVisual />
 
       <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center">
-        {/* Black 64px LogoMark */}
-        <div className="size-16 rounded-2xl bg-[#161616] flex items-center justify-center mb-6 shadow-md">
-          <img
-            src="/assets/img/logo/mark-square.svg"
-            alt="LMS Domain"
-            className="size-9 object-contain"
-          />
+        {/* Brand Wordmark */}
+        <div className="mb-6 flex justify-center">
+          <BrandLogo variant="wordmark" tone="light" height={34} />
         </div>
 
         {/* Eyebrow Badge */}

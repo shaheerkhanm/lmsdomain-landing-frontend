@@ -3,6 +3,7 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import type { Integration } from "@/content/features/integrations";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 interface IntegrationsHubProps {
   eyebrow?: string;
@@ -49,7 +50,7 @@ function HubMark({ compact = false }: { compact?: boolean }) {
         compact ? "size-24" : "size-[118px] lg:size-[132px]"
       }`}
     >
-      <img src="/assets/img/logo/mark-square.svg" alt="" className={compact ? "size-8" : "size-10"} />
+      <BrandLogo variant="mark" height={compact ? 32 : 40} className={compact ? "size-8" : "size-10"} />
       <span className="text-[10px] font-bold tracking-[0.16em]">LMS DOMAIN</span>
     </div>
   );

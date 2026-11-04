@@ -7,6 +7,7 @@ import { Dialog, DialogContent } from "../ui/dialog";
 import EnquiryForm from "./common/EnquiryForm";
 import { navigationConfig, type NavItem } from "@/content/navigation";
 import { usePageVisibility } from "@/lib/pages-context";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 export function Header({ siteNav }: { siteNav?: NavItem[] }) {
   const { isPathVisible } = usePageVisibility();
@@ -63,13 +64,14 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
         {/* Desktop State-B Persistent Pill Navigation (>=1024px) */}
         <header className="fixed top-4 inset-x-0 z-50 justify-center font-urbanist hidden lg:flex">
           <div className="inline-flex items-center gap-6 sm:gap-7 bg-white/95 backdrop-blur-md px-6 py-2.5 rounded-full border border-slate-200/80 shadow-[0_10px_30px_-5px_rgba(0,0,0,0.08)]">
-            {/* Small Brand Mark inside Subpage Pill */}
-            <Link href="/" aria-label="LMS Domain Home" className="flex items-center shrink-0">
-              <img
-                src="/assets/img/logo/mark-square.svg"
-                alt="LMS Domain Mark"
-                className="size-8 rounded-lg object-contain shadow-xs hover:scale-105 transition-transform"
-              />
+            {/* Brand Logo in Desktop Pill */}
+            <Link href="/" aria-label="LMS Domain home" className="flex items-center shrink-0">
+              <span className="hidden min-[1180px]:inline-flex items-center">
+                <BrandLogo variant="wordmark" tone="light" />
+              </span>
+              <span className="inline-flex min-[1180px]:hidden items-center">
+                <BrandLogo variant="mark" height={26} />
+              </span>
             </Link>
 
             {/* Subpage Nav Links */}
@@ -129,12 +131,13 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
 
         {/* Mobile / Tablet Header (<1024px) */}
         <header className="w-full absolute top-0 inset-x-0 z-40 font-urbanist flex lg:hidden items-center justify-between px-4 sm:px-6 h-20">
-          <Link href="/" aria-label="LMS Domain Home" className="min-w-[44px] min-h-[44px] flex items-center justify-center">
-            <img
-              src="/assets/img/logo/mark-square.svg"
-              alt="LMS Domain Mark"
-              className="size-10 rounded-xl object-contain shadow-xs"
-            />
+          <Link href="/" aria-label="LMS Domain home" className="min-w-[44px] min-h-[44px] flex items-center shrink-0">
+            <span className="hidden min-[360px]:inline-flex items-center">
+              <BrandLogo variant="wordmark" tone="light" height={24} />
+            </span>
+            <span className="inline-flex min-[360px]:hidden items-center">
+              <BrandLogo variant="mark" height={24} />
+            </span>
           </Link>
 
           <div className="flex items-center gap-2.5">
@@ -165,14 +168,16 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
               <div className="flex items-center justify-between pb-6 border-b border-slate-100">
                 <Link
                   href="/"
+                  aria-label="LMS Domain home"
                   onClick={() => setShowSubpageMenu(false)}
-                  className="flex items-center"
+                  className="min-w-[44px] min-h-[44px] flex items-center shrink-0"
                 >
-                  <img
-                    src="/assets/img/logo/mark-square.svg"
-                    alt="LMS Domain"
-                    className="size-10 rounded-xl"
-                  />
+                  <span className="hidden min-[360px]:inline-flex items-center">
+                    <BrandLogo variant="wordmark" tone="light" height={24} />
+                  </span>
+                  <span className="inline-flex min-[360px]:hidden items-center">
+                    <BrandLogo variant="mark" height={24} />
+                  </span>
                 </Link>
                 <button
                   type="button"

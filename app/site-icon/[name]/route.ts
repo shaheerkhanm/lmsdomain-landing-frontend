@@ -22,10 +22,13 @@ const STATIC_FOR: Record<IconVariant, string> = {
 };
 
 // The generated file from public/ (next to the server in the standalone build)
-const generated = async (variant: IconVariant) =>
-  new NextResponse(new Uint8Array(await readFile(path.join(process.cwd(), "public", STATIC_FOR[variant]))), {
+const generated = async (variant: IconVariant) => {
+  const rel = STATIC_FOR[variant];
+  if (!rel) return new NextResponse("Not found", { status: 404 });
+  return new NextResponse(new Uint8Array(await readFile(path.join(process.cwd(), "public", rel))), {
     headers: { "Content-Type": variant.endsWith(".svg") ? "image/svg+xml" : "image/png", "Cache-Control": "public, max-age=3600" },
   });
+};
 
 export async function GET(_request: Request, context: { params: Promise<{ name: string }> }) {
   const { name } = await context.params;
@@ -59,7 +62,7 @@ export async function GET(_request: Request, context: { params: Promise<{ name: 
       // Solid background; maskable keeps the image inside the middle 80 % (safe zone)
       const inner = Math.round(size * (kind === "maskable" ? 0.7 : 0.86));
       const art = await raster.resize(inner, inner, { fit: "contain", background: { r: 0, g: 0, b: 0, alpha: 0 } }).png().toBuffer();
-      png = await sharp({ create: { width: size, height: size, channels: 3, background: themeColor || DEFAULT_THEME_DARK } })
+      png = await sharp({ create: { width: size, height: size, channels: 3, background: themeColor || "#FFFFFF" } })
         .composite([{ input: art, gravity: "center" }])
         .removeAlpha() // iOS and maskable icons must be opaque
         .png()

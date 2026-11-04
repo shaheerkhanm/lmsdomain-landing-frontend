@@ -8,6 +8,7 @@ import { Loader2, AlertCircle, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { DEFAULT_CONTACT_TOPICS } from "@/content/contact/page";
 import type { ContactTopic } from "@/types/content";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 export interface DemoFormInputs {
   name: string;
@@ -224,13 +225,9 @@ export function DemoForm({
             role="status"
             aria-live="polite"
           >
-            {/* Black Logo Square */}
-            <div className="size-14 rounded-2xl bg-[#161616] flex items-center justify-center mb-6 shadow-sm">
-              <img
-                src="/assets/img/logo/mark-square.svg"
-                alt="LMS Domain"
-                className="size-8 object-contain"
-              />
+            {/* Success Brand Header */}
+            <div className="mb-6 flex justify-center">
+              <BrandLogo variant="wordmark" tone="light" height={28} />
             </div>
 
             <h3

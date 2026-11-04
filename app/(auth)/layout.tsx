@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getAuthCopyWithSource } from "@/lib/api/content";
 import { ContentSource } from "@/components/content/ContentSource";
 import { AuthVisualPanel } from "@/components/marketing/AuthVisualPanel";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 export default async function AuthLayout({
   children,
@@ -20,17 +21,10 @@ export default async function AuthLayout({
         <header className="w-full flex items-center justify-between">
           <Link
             href="/"
-            aria-label="LMS Domain Home"
-            className="flex items-center gap-2.5 group cursor-pointer"
+            aria-label="LMS Domain home"
+            className="flex items-center group cursor-pointer transition-transform hover:scale-[1.02]"
           >
-            <img
-              src="/assets/img/logo/mark-square.svg"
-              alt="LMS Domain"
-              className="size-8 rounded-lg object-contain shadow-xs transition-transform group-hover:scale-105"
-            />
-            <span className="font-urbanist font-bold text-[18px] text-[#161616] tracking-tight">
-              LMS Domain
-            </span>
+            <BrandLogo variant="wordmark" tone="light" height={28} />
           </Link>
 
           <Link

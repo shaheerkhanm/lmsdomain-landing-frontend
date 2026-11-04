@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { AlertCircle, RotateCcw } from "lucide-react";
+import BrandLogo from "@/components/brand/BrandLogo";
 
 export default function MarketingError({
   error,
@@ -19,13 +20,9 @@ export default function MarketingError({
   return (
     <div className="min-h-[75vh] flex flex-col items-center justify-center text-center px-4 font-urbanist pt-32 pb-24 relative overflow-hidden bg-white">
       <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center">
-        {/* Brand Icon Container */}
-        <div className="size-16 rounded-2xl bg-[#161616] flex items-center justify-center mb-6 shadow-md">
-          <img
-            src="/assets/img/logo/mark-square.svg"
-            alt="LMS Domain"
-            className="size-9 object-contain"
-          />
+        {/* Brand Wordmark */}
+        <div className="mb-6 flex justify-center">
+          <BrandLogo variant="wordmark" tone="light" height={34} />
         </div>
 
         {/* Eyebrow Badge */}

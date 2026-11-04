@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { getSiteIdentity, iconUrls, DEFAULT_THEME_LIGHT, DEFAULT_THEME_DARK } from "@/lib/siteIdentity";
+import { getSiteIdentity, getBrand, iconUrls, DEFAULT_THEME_LIGHT, DEFAULT_THEME_DARK } from "@/lib/siteIdentity";
+import { BrandProvider } from "@/lib/brand-context";
 import { getMetadataBase } from "@/lib/site";
 import { Urbanist, Inter, Manrope } from "next/font/google";
 import "./globals.css";
@@ -54,13 +55,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export async function generateViewport(): Promise<Viewport> {
-  const { themeColor } = await getSiteIdentity();
+  const identity = await getSiteIdentity().catch(() => ({} as import("@/lib/siteIdentity").SiteIdentity));
   return {
     width: "device-width",
     initialScale: 1,
     themeColor: [
-      { media: "(prefers-color-scheme: light)", color: themeColor || DEFAULT_THEME_LIGHT },
-      { media: "(prefers-color-scheme: dark)", color: DEFAULT_THEME_DARK },
+      { media: "(prefers-color-scheme: light)", color: identity.themeColor || DEFAULT_THEME_LIGHT },
+      { media: "(prefers-color-scheme: dark)", color: identity.themeColorDark || DEFAULT_THEME_DARK },
     ],
   };
 }
@@ -70,23 +71,26 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [visibility, siteNav] = await Promise.all([
+  const [visibility, siteNav, brand] = await Promise.all([
     getPageVisibility(),
     getSiteNavigation().catch(() => null),
+    getBrand(),
   ]);
 
   return (
     <html lang="en">
       <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} font-urbanist bg-[#F3F4F6] lg:bg-white text-[#161616] antialiased !mr-0`}>
-        <PageVisibilityProvider visibility={visibility}>
-          <Canonical />
-          <Header siteNav={siteNav?.marketingNav} />
-          <SmoothScroll>
-            {children}
-          </SmoothScroll>
-          <Toaster position="bottom-right" />
-          <Footer />
-        </PageVisibilityProvider>
+        <BrandProvider brand={brand}>
+          <PageVisibilityProvider visibility={visibility}>
+            <Canonical />
+            <Header siteNav={siteNav?.marketingNav} />
+            <SmoothScroll>
+              {children}
+            </SmoothScroll>
+            <Toaster position="bottom-right" />
+            <Footer />
+          </PageVisibilityProvider>
+        </BrandProvider>
       </body>
     </html>
   );
