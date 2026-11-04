@@ -15,6 +15,8 @@ import { BentoOverview } from "@/components/marketing/features/BentoOverview";
 import { AiDarkChapter } from "@/components/marketing/features/AiDarkChapter";
 import { HorizontalJourney } from "@/components/marketing/features/HorizontalJourney";
 import { StickyCategoryChapters } from "@/components/marketing/features/StickyCategoryChapters";
+import { BrandingPlayground } from "@/components/marketing/features/BrandingPlayground";
+import { CommandPalette } from "@/components/marketing/features/CommandPalette";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
@@ -131,6 +133,12 @@ export default async function FeaturesPage() {
       <ContentSource id="features-categories" source={worst(sources.catalog, sources.media)}>
         <StickyCategoryChapters categories={categories} media={data.media} />
       </ContentSource>
+
+      {/* 7b. "Make It Yours" Branding Playground */}
+      <BrandingPlayground />
+
+      {/* 7c. Feature Finder Command Palette (⌘K) */}
+      <CommandPalette />
 
       {/* 8. Seamless Integrations */}
       <ContentSource id="features-integrations" source={worst(integrationsHeading.source, sources.integrations)}>
