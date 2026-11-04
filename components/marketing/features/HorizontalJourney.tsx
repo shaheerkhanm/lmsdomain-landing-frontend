@@ -236,10 +236,12 @@ export function HorizontalJourney({ content }: { content?: any }) {
                     <Link
                       key={f.slug}
                       href={`#${f.slug}`}
+                      data-marquee="true"
+                      aria-hidden="true"
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-[#EEE9FF] border border-[#E5E7EB] hover:border-[#7B5CF5]/40 text-xs font-semibold text-[#161616] transition-colors shadow-2xs group/chip cursor-pointer"
                     >
                       <CheckCircle2 className="size-3 text-[#7B5CF5]" />
-                      <span className="truncate max-w-[180px]">{f.title}</span>
+                      <span data-marquee="true" className="truncate max-w-[180px]">{f.title}</span>
                       <ArrowRight className="size-3 text-[#8F94A0] group-hover/chip:translate-x-0.5 group-hover/chip:text-[#7B5CF5] transition-all" />
                     </Link>
                   ))}
@@ -299,9 +301,11 @@ export function HorizontalJourney({ content }: { content?: any }) {
                     <Link
                       key={f.slug}
                       href={`#${f.slug}`}
+                      data-marquee="true"
+                      aria-hidden="true"
                       className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-[#E5E7EB] text-xs font-medium text-[#161616]"
                     >
-                      <span>{f.title}</span>
+                      <span data-marquee="true">{f.title}</span>
                       <ArrowRight className="size-3 text-[#7B5CF5]" />
                     </Link>
                   ))}

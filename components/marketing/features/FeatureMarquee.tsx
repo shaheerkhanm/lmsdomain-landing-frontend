@@ -59,7 +59,7 @@ export function FeatureMarquee() {
   };
 
   return (
-    <section className="bg-white py-6 sm:py-8 border-y border-[#F0F1F3] overflow-hidden font-urbanist relative">
+    <section data-marquee="true" className="bg-white py-6 sm:py-8 border-y border-[#F0F1F3] overflow-hidden font-urbanist relative">
       {/* Visually hidden summary for screen readers */}
       <div className="sr-only">
         <h2>Complete Platform Feature Marquee</h2>

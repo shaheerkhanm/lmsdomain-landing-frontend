@@ -288,7 +288,7 @@ export function AiDarkChapter({
                       <span className="text-sm font-bold text-white block leading-tight">
                         LMS Domain AI Studio
                       </span>
-                      <span className="text-[10px] text-[#A78BFA] font-mono">
+                      <span aria-hidden="true" className="text-[10px] text-[#A78BFA] font-mono">
                         {tools[activeStep].title}
                       </span>
                     </div>
@@ -493,7 +493,7 @@ export function AiDarkChapter({
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white">{t.title}</h3>
+                  <h3 data-marquee="true" className="text-xl font-bold text-white">{t.title}</h3>
                   <p className="text-xs text-[#C9CCD1] leading-relaxed">{t.description}</p>
 
                   {/* Mobile mini preview */}

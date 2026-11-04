@@ -40,3 +40,4 @@
 4. **Accessibility & Reduced Motion:**
    - Full keyboard navigation (`⌘K` dialog with trap focus, radio groups for colors, tab keys).
    - `prefers-reduced-motion: reduce`: Eliminates pinned scrubbing, parallax, marquee loops, and animated beams, rendering stable, accessible final visual states.
+

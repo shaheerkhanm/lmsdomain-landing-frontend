@@ -617,3 +617,4 @@ export function BrandingScene({ size = "sm", isActive = true }: MiniSceneProps) 
     </div>
   );
 }
+

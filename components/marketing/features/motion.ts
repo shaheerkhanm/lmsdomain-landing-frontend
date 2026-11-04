@@ -29,3 +29,4 @@ export const FEATURES_COLORS = {
     mint: "#A6E3D3",
   },
 } as const;
+

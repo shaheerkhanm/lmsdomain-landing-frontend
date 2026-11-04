@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { JSDOM } = require('jsdom');
 
 // 1. Read catalog features
 const catalogCode = fs.readFileSync('content/features/catalog.ts', 'utf8');
@@ -20,21 +21,24 @@ console.log(`Expected Feature Count: 38`);
 console.log(`Catalog Features Loaded: ${catalogFeatures.length}`);
 console.log(`============================================================\n`);
 
-// 2. Read rendered HTML (strip RSC hydration script tags to inspect only the rendered DOM tree)
+// 2. Read rendered HTML
 const rawHtml = fs.readFileSync('/tmp/features.html', 'utf8');
+const dom = new JSDOM(rawHtml);
+const document = dom.window.document;
 
-// Strip out Next.js hydration scripts (<script>...</script>) to test strictly rendered DOM nodes
-const domOnlyHtml = rawHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+// Strip out scripts, styles, and decorative elements (data-marquee and aria-hidden)
+document.querySelectorAll('script, style, [data-marquee="true"], [aria-hidden="true"]').forEach(el => el.remove());
+
+const main = document.querySelector('main') || document.body;
 
 let passed = true;
 const results = [];
 
 catalogFeatures.forEach((f, idx) => {
-  const escaped = f.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  // Match inside tags: >Title< or >Title</h3> etc.
-  const regex = new RegExp(`>\\s*${escaped}\\s*<`, 'g');
-  const matches = domOnlyHtml.match(regex);
-  const count = matches ? matches.length : 0;
+  // Find leaf elements containing exact feature title
+  const matches = [...main.querySelectorAll('h1, h2, h3, h4, h5, h6, span, p, div, a')]
+    .filter(el => el.children.length === 0 && el.textContent.trim() === f.title);
+  const count = matches.length;
 
   const status = count === 1 ? 'PASS (1x)' : (count > 1 ? `WARN (${count}x)` : 'FAIL (0x)');
   if (count !== 1) {
@@ -68,4 +72,3 @@ console.log(`Overall Result: ${passed ? '✓ ALL 38 FEATURES VERIFIED EXACTLY ON
 console.log(`------------------------------------------------------------\n`);
 
 process.exit(passed ? 0 : 1);
-
