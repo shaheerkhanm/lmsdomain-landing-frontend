@@ -12,6 +12,7 @@ import {
 import { HeroAssembly } from "@/components/marketing/features/HeroAssembly";
 import { FeatureMarquee } from "@/components/marketing/features/FeatureMarquee";
 import { BentoOverview } from "@/components/marketing/features/BentoOverview";
+import { AiDarkChapter } from "@/components/marketing/features/AiDarkChapter";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
@@ -114,14 +115,9 @@ export default async function FeaturesPage() {
         <AudienceSwitcher media={data.media} tabs={data.audiences} heading={audiencesHeading.content} />
       </ContentSource>
 
-      {/* 4. AI Spotlight Section */}
+      {/* 4. AI Dark Chapter (Full-bleed #161616, Domie Bot & Pinned 4-step Scrollytelling) */}
       <ContentSource id="features-ai-spotlight" source={worst(spotlight.source, sources.catalog)}>
-        <AiSpotlightSection features={aiCategory?.features || []} media={data.media} heading={spotlight.content} />
-      </ContentSource>
-
-      {/* 5. Mid-page CTA: See Domie AI in action */}
-      <ContentSource id="features-mid-cta" source={midCta.source}>
-        <AiMidPageCta content={midCta.content} />
+        <AiDarkChapter heading={spotlight.content} />
       </ContentSource>
 
       {/* 6. Your Academy Start to Finish: Interactive Journey Strip */}
