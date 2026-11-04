@@ -9,6 +9,8 @@ import {
   JourneyStrip,
   CategorySections,
 } from "@/components/marketing";
+import { HeroAssembly } from "@/components/marketing/features/HeroAssembly";
+import { FeatureMarquee } from "@/components/marketing/features/FeatureMarquee";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
@@ -87,9 +89,9 @@ export default async function FeaturesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* 1. Hero (LCP protected) */}
+      {/* 1. Hero Assembly (LCP protected, interactive fragments) */}
       <ContentSource id="features-hero" source={sources.hero}>
-        <FeaturesHero
+        <HeroAssembly
           eyebrow={hero.eyebrow}
           title={hero.title}
           subtitle={hero.subtitle}
@@ -97,6 +99,9 @@ export default async function FeaturesPage() {
           secondaryCtaText={hero.secondaryCtaText}
         />
       </ContentSource>
+
+      {/* 1b. Feature Marquee (all 38 features sliding) */}
+      <FeatureMarquee />
 
       {/* 2. Category Overview Grid + Feature Finder + Desktop Sticky Pill Bar */}
       <ContentSource id="features-overview" source={worst(overview.source, sources.catalog)}>
