@@ -11,6 +11,7 @@ import {
 } from "@/components/marketing";
 import { HeroAssembly } from "@/components/marketing/features/HeroAssembly";
 import { FeatureMarquee } from "@/components/marketing/features/FeatureMarquee";
+import { BentoOverview } from "@/components/marketing/features/BentoOverview";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
@@ -103,9 +104,9 @@ export default async function FeaturesPage() {
       {/* 1b. Feature Marquee (all 38 features sliding) */}
       <FeatureMarquee />
 
-      {/* 2. Category Overview Grid + Feature Finder + Desktop Sticky Pill Bar */}
+      {/* 2. Bento Overview Grid (12-column live bento with looping moments) */}
       <ContentSource id="features-overview" source={worst(overview.source, sources.catalog)}>
-        <CategoryOverviewNav categories={categories} labels={overview.content} />
+        <BentoOverview categories={categories} labels={overview.content} />
       </ContentSource>
 
       {/* 3. Built for How You Teach: Audience Switcher */}

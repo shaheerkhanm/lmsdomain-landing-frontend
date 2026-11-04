@@ -109,24 +109,33 @@ export function AudienceSwitcher({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Real Photo in 20px-radius frame with overlapping chip */}
             <div className="w-full lg:col-span-5 order-1">
-              <div className="relative aspect-[4/3] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-xl group">
-                <Image
-                  src={photoSrc}
-                  alt={activeTab.photoAlt}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 480px"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-                {/* Floating Corner UI Chip */}
-                <div className="absolute bottom-3 left-3 px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-xs font-semibold text-white flex items-center gap-2 border border-white/15 shadow-md">
-                  <span
-                    className={`w-2 h-2 rounded-full ${
-                      activeTab.photoChipColor || "bg-[#0D9488]"
-                    } animate-pulse`}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab.id}
+                  initial={{ opacity: 0, clipPath: "inset(0 100% 0 0 round 20px)" }}
+                  animate={{ opacity: 1, clipPath: "inset(0 0% 0 0 round 20px)" }}
+                  exit={{ opacity: 0, clipPath: "inset(0 0% 0 100% round 20px)" }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                  className="relative aspect-[4/3] rounded-[20px] overflow-hidden bg-slate-900 border border-[#ECEDEF] shadow-xl group"
+                >
+                  <Image
+                    src={photoSrc}
+                    alt={activeTab.photoAlt}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 480px"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <span>{activeTab.photoChip}</span>
-                </div>
-              </div>
+                  {/* Floating Corner UI Chip */}
+                  <div className="absolute bottom-3 left-3 px-3.5 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-xs font-semibold text-white flex items-center gap-2 border border-white/15 shadow-md">
+                    <span
+                      className={`w-2 h-2 rounded-full ${
+                        activeTab.photoChipColor || "bg-[#0D9488]"
+                      } animate-pulse`}
+                    />
+                    <span>{activeTab.photoChip}</span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Right Column: Heading, Subtitle & Interactive Feature Chips */}
@@ -145,26 +154,38 @@ export function AudienceSwitcher({
                 <span className="text-xs uppercase font-bold text-[#8F94A0] tracking-wider block mb-3">
                   {heading.listTitle}
                 </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {activeTab.features.map((feat) => (
-                    <button
-                      key={feat.title}
-                      type="button"
-                      onClick={() => scrollToSection(feat.slug)}
-                      className="group/chip bg-white hover:bg-[#EEE9FF] rounded-xl p-3 border border-[#ECEDEF] hover:border-[#C4B5FD] text-left transition-all duration-200 flex items-center justify-between cursor-pointer shadow-2xs hover:shadow-xs active:scale-98"
-                    >
-                      <div className="min-w-0 pr-2">
-                        <span className="text-[10px] font-semibold uppercase tracking-wider text-[#7B5CF5] block">
-                          {feat.tag}
-                        </span>
-                        <span className="text-xs sm:text-sm font-semibold text-[#161616] truncate block group-hover/chip:text-[#7B5CF5]">
-                          {`${feat.title} →`}
-                        </span>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-[#8F94A0] group-hover/chip:text-[#7B5CF5] group-hover/chip:translate-x-0.5 transition-all shrink-0" />
-                    </button>
-                  ))}
-                </div>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="grid grid-cols-1 sm:grid-cols-2 gap-2.5"
+                  >
+                    {activeTab.features.map((feat, idx) => (
+                      <motion.button
+                        key={feat.title}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3, delay: idx * 0.04 }}
+                        type="button"
+                        onClick={() => scrollToSection(feat.slug)}
+                        className="group/chip bg-white hover:bg-[#EEE9FF] rounded-xl p-3 border border-[#ECEDEF] hover:border-[#C4B5FD] text-left transition-all duration-200 flex items-center justify-between cursor-pointer shadow-2xs hover:shadow-xs active:scale-98"
+                      >
+                        <div className="min-w-0 pr-2">
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#7B5CF5] block">
+                            {feat.tag}
+                          </span>
+                          <span className="text-xs sm:text-sm font-semibold text-[#161616] truncate block group-hover/chip:text-[#7B5CF5]">
+                            {`${feat.title} →`}
+                          </span>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-[#8F94A0] group-hover/chip:text-[#7B5CF5] group-hover/chip:translate-x-0.5 transition-all shrink-0" />
+                      </motion.button>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
           </div>
