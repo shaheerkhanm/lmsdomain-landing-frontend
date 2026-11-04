@@ -107,13 +107,13 @@ export function AiHero({
       />
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10 text-center">
-        {/* Large DomieOrb, surface "light", 180px desktop, 120px below 640px */}
+        {/* Large DomieOrb, 180px desktop, 120px below 640px */}
         <div className="flex justify-center mb-6">
           <div className="hidden sm:block">
-            <DomieOrb size={180} variant="lg" surface="light" eager />
+            <DomieOrb size={180} variant="lg" eager />
           </div>
           <div className="block sm:hidden">
-            <DomieOrb size={120} variant="lg" surface="light" eager />
+            <DomieOrb size={120} variant="lg" eager />
           </div>
         </div>
 
@@ -170,7 +170,6 @@ export function AiHero({
               <DomieOrb
                 size={22}
                 variant="sm"
-                surface="light"
                 thinking={!isReduced && !isDeleting && charCount < fullText.length}
                 label="Domie AI"
               />

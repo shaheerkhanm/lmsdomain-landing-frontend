@@ -200,7 +200,6 @@ export function AiShowcase({ tools }: AiShowcaseProps) {
               <DomieOrb
                 size={32}
                 variant="sm"
-                surface="light"
                 label="Domie AI"
                 thinking={typedChars < tutorAnswer.length}
                 className="mt-0.5 shrink-0"
@@ -243,7 +242,7 @@ export function AiShowcase({ tools }: AiShowcaseProps) {
             <div className="bg-[#F8FAFC] p-3 rounded-xl border border-[#ECEDEF] text-left space-y-1.5">
               <div className="flex items-center justify-between pb-1.5 border-b border-[#ECEDEF] text-xs">
                 <div className="flex items-center gap-2">
-                  <DomieOrb size={24} variant="sm" surface="light" label="Domie AI" />
+                  <DomieOrb size={24} variant="sm" label="Domie AI" />
                   <span className="font-bold text-[#161616]">
                     {DOMIE_STRINGS.summaryHeading}
                   </span>
@@ -352,7 +351,6 @@ export function AiShowcase({ tools }: AiShowcaseProps) {
                 <DomieOrb
                   size={24}
                   variant="sm"
-                  surface="light"
                   label="Domie AI"
                   thinking={!generatorFinished}
                 />
@@ -454,7 +452,6 @@ export function AiShowcase({ tools }: AiShowcaseProps) {
                 <DomieOrb
                   size={22}
                   variant="sm"
-                  surface="light"
                   thinking={cmdTypedChars < cmdQuery.length}
                   label="Domie AI"
                 />

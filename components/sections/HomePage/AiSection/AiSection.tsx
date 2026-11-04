@@ -342,7 +342,6 @@ export function AiSection() {
             <DomieOrb
               size={32}
               variant="sm"
-              surface="light"
               label="Domie AI"
               thinking={typedChars < tutorFullResponse.length}
               className="mt-0.5"
@@ -379,7 +378,6 @@ export function AiSection() {
               <DomieOrb
                 size={24}
                 variant="sm"
-                surface="light"
                 label="Domie AI"
                 thinking={!generatorFinished}
               />
@@ -482,7 +480,7 @@ export function AiSection() {
 
           <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 space-y-1">
             <div className="flex items-center gap-2">
-              <DomieOrb size={24} variant="sm" surface="light" label="Domie AI" />
+              <DomieOrb size={24} variant="sm" label="Domie AI" />
               <span className="text-xs font-bold text-white">
                 {aiSectionContent.summaryHeading || DOMIE_STRINGS.summaryHeading}
               </span>
@@ -501,7 +499,6 @@ export function AiSection() {
             <DomieOrb
               size={22}
               variant="sm"
-              surface="light"
               thinking={cmdTypedChars < cmdQuery.length}
               label="Domie AI"
             />
@@ -570,27 +567,15 @@ export function AiSection() {
 
         {/* Section Header: Scrolls normally and leaves screen before pin (Desktop >=1024px) */}
         <div className="max-w-3xl mb-12 sm:mb-16 relative z-10 hidden lg:block">
-          {/* Large DomieOrb, surface "dark", 160px desktop, centred above pill */}
+          {/* Large DomieOrb, 160px desktop, centred above pill */}
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="relative mb-6 inline-flex items-center justify-center"
+            className="mb-6 inline-flex items-center justify-center"
           >
-            {/* Soft Glow: round div 1.6x the orb size (160 * 1.6 = 256px), radial-gradient(circle, #7B5CF5 0, transparent 65%), opacity 0.35, blur 20px */}
-            <div
-              className="absolute pointer-events-none rounded-full"
-              style={{
-                width: 256,
-                height: 256,
-                background: "radial-gradient(circle, #7B5CF5 0%, transparent 65%)",
-                opacity: 0.35,
-                filter: "blur(20px)",
-              }}
-              aria-hidden="true"
-            />
-            <DomieOrb size={160} variant="lg" surface="dark" />
+            <DomieOrb size={160} variant="lg" />
           </motion.div>
 
           <div>
@@ -612,26 +597,15 @@ export function AiSection() {
           <div className="sticky top-[calc((100vh-670px)/2)] h-[670px] w-full flex flex-col justify-between items-center py-2 px-1 max-w-md mx-auto">
             {/* Mobile Header: Pill, title (restored to 32px), and subtitle sit directly above progress bar (24px gap) */}
             <div className="text-center w-full mb-3">
-              {/* 112px orb below 1024px: 112 * 1.6 = 179px glow */}
+              {/* 112px orb below 1024px */}
               <motion.div
                 initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="relative mb-2 inline-flex items-center justify-center"
+                className="mb-2 inline-flex items-center justify-center"
               >
-                <div
-                  className="absolute pointer-events-none rounded-full"
-                  style={{
-                    width: 179,
-                    height: 179,
-                    background: "radial-gradient(circle, #7B5CF5 0%, transparent 65%)",
-                    opacity: 0.35,
-                    filter: "blur(20px)",
-                  }}
-                  aria-hidden="true"
-                />
-                <DomieOrb size={112} variant="lg" surface="dark" />
+                <DomieOrb size={112} variant="lg" />
               </motion.div>
 
               <div>
@@ -892,199 +866,7 @@ export function AiSection() {
               </div>
 
               {/* Window Content: 4 Distinct AI Tool Views */}
-              <div className="min-h-[260px] flex flex-col justify-center">
-                {/* 1. HelpDesk AI tutor */}
-                {activeTab === 0 && (
-                  <div className="space-y-3.5 animate-in fade-in duration-200">
-                    <div className="flex items-start gap-2.5 justify-end">
-                      <div className="max-w-[85%] rounded-2xl rounded-tr-xs bg-white/10 border border-white/10 px-3.5 py-2.5 text-xs text-white">
-                        <p className="font-medium">
-                          What&apos;s the difference between a quiz and an assignment?
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-start gap-2.5">
-                      <div className="size-7 rounded-full bg-[#7B5CF5] text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
-                        AI
-                      </div>
-                      <div className="max-w-[90%] rounded-2xl rounded-tl-xs bg-white/5 border border-white/10 p-3.5 text-xs text-[#C9CCD1] space-y-2">
-                        <p className="leading-relaxed">
-                          {tutorFullResponse.slice(0, typedChars)}
-                          {typedChars < tutorFullResponse.length && (
-                            <span className="inline-block w-1.5 h-3 bg-[#7B5CF5] ml-1 animate-pulse align-middle" />
-                          )}
-                        </p>
-
-                        <div className="pt-0.5">
-                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#7B5CF5]/20 border border-[#7B5CF5]/30 text-[#A78BFA] text-[10px] font-semibold">
-                            <span>✦</span>
-                            From your course: Module 2
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-[#C9CCD1]">
-                      <span>Course History Saved</span>
-                      <span className="text-[#A78BFA] font-medium">Context-Aware AI Tutor</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* 2. Domie AI content generator */}
-                {activeTab === 1 && (
-                  <div className="space-y-3 animate-in fade-in duration-200">
-                    <div className="space-y-2.5">
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-0.5">
-                        <span className="text-[9px] uppercase font-bold text-[#A78BFA] tracking-wider block">
-                          DRAFTED COURSE TITLE
-                        </span>
-                        <p className="text-xs sm:text-sm font-bold text-white">
-                          Python Basics for Beginners
-                        </p>
-                        <p className="text-[11px] text-[#C9CCD1] leading-relaxed">
-                          Build programming fundamentals, write real scripts, and automate daily tasks with Python.
-                        </p>
-                      </div>
-
-                      <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1.5">
-                        <span className="text-[9px] uppercase font-bold text-[#A78BFA] tracking-wider block">
-                          3 LEARNING OUTCOMES
-                        </span>
-                        <ul className="text-[11px] text-[#C9CCD1] space-y-1 leading-snug">
-                          <li className="flex items-center gap-1.5">
-                            <span className="text-emerald-400 font-bold">✓</span>
-                            <span>Write and execute clean Python syntax and functions</span>
-                          </li>
-                          <li className="flex items-center gap-1.5">
-                            <span className="text-emerald-400 font-bold">✓</span>
-                            <span>Manipulate data structures, files, and external APIs</span>
-                          </li>
-                          <li className="flex items-center gap-1.5">
-                            <span className="text-emerald-400 font-bold">✓</span>
-                            <span>Construct practical automation scripts from scratch</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="pt-1.5 border-t border-white/10 flex items-center justify-between">
-                      <span className="text-[11px] text-[#C9CCD1]">
-                        Draft titles, descriptions & outcomes
-                      </span>
-                      <button
-                        type="button"
-                        className="px-3.5 py-1.5 rounded-lg bg-[#7B5CF5] hover:bg-[#6D4AE8] text-white text-[11px] font-semibold shadow-sm transition-all cursor-pointer"
-                      >
-                        Edit & Publish
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* 3. AI prescriptive analytics */}
-                {activeTab === 2 && (
-                  <div className="space-y-2.5 animate-in fade-in duration-200">
-                    <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-[11px]">
-                      <div className="flex items-center gap-2 text-white">
-                        <span className="size-1.5 rounded-full bg-amber-400" />
-                        <span className="font-medium">Enrolments falling in Python Basics</span>
-                      </div>
-                      <span className="text-[9px] font-semibold text-amber-300 bg-amber-500/20 px-1.5 py-0.5 rounded">
-                        Attention
-                      </span>
-                    </div>
-
-                    <div className="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-between text-[11px]">
-                      <div className="flex items-center gap-2 text-white">
-                        <span className="size-1.5 rounded-full bg-[#7B5CF5]" />
-                        <span className="font-medium">2 coupons expire this week</span>
-                      </div>
-                      <span className="text-[9px] font-semibold text-purple-300 bg-purple-500/20 px-1.5 py-0.5 rounded">
-                        Action
-                      </span>
-                    </div>
-
-                    <div className="p-2.5 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-between text-[11px]">
-                      <div className="flex items-center gap-2 text-white">
-                        <span className="size-1.5 rounded-full bg-rose-400" />
-                        <span className="font-medium">Low engagement in Module 4</span>
-                      </div>
-                      <span className="text-[9px] font-semibold text-rose-300 bg-rose-500/20 px-1.5 py-0.5 rounded">
-                        Drop-off
-                      </span>
-                    </div>
-
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/10 space-y-1">
-                      <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#A78BFA]">
-                        <span>✦</span>
-                        <span>Prescriptive Recommendation</span>
-                      </div>
-                      <p className="text-[11px] text-[#C9CCD1] leading-relaxed">
-                        Review Module 4 checkpoint tasks and launch a reminder email for expiring promotions.
-                      </p>
-                    </div>
-
-                    <div className="pt-1.5 border-t border-white/10 flex items-center justify-between text-[11px] text-[#C9CCD1]">
-                      <span>Continuous Academy Monitoring</span>
-                      <span className="text-amber-400 font-medium">3 Suggested Actions</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* 4. AI command bar */}
-                {activeTab === 3 && (
-                  <div className="space-y-3 animate-in fade-in duration-200">
-                    <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/15 text-xs text-white">
-                      <svg className="size-3.5 text-[#A78BFA] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      </svg>
-                      <span className="font-medium text-white truncate text-[11px]">Search or ask anything…</span>
-                      <span className="ml-auto text-[9px] font-mono text-[#C9CCD1] bg-white/10 border border-white/15 px-1.5 py-0.5 rounded">
-                        ⌘K
-                      </span>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <div className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-between text-[11px] transition-colors cursor-pointer">
-                        <div className="flex items-center gap-2 text-white">
-                          <span className="text-xs">⚙️</span>
-                          <span className="font-medium">Settings / Custom Domain & SSL</span>
-                        </div>
-                        <span className="text-[9px] font-mono text-[#A78BFA] bg-purple-500/20 px-1.5 py-0.5 rounded">
-                          Admin page
-                        </span>
-                      </div>
-
-                      <div className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-between text-[11px] transition-colors cursor-pointer">
-                        <div className="flex items-center gap-2 text-white">
-                          <span className="text-xs">📚</span>
-                          <span className="font-medium">Python Basics for Beginners</span>
-                        </div>
-                        <span className="text-[9px] font-mono text-[#A78BFA] bg-purple-500/20 px-1.5 py-0.5 rounded">
-                          Course
-                        </span>
-                      </div>
-
-                      <div className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-between text-[11px] transition-colors cursor-pointer">
-                        <div className="flex items-center gap-2 text-white">
-                          <span className="text-xs">💬</span>
-                          <span className="font-medium">How do I schedule recurring live classes with Zoom?</span>
-                        </div>
-                        <span className="text-[9px] font-mono text-emerald-400 bg-emerald-500/20 px-1.5 py-0.5 rounded">
-                          Platform question
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="pt-1.5 border-t border-white/10 flex items-center justify-between text-[11px] text-[#C9CCD1]">
-                      <span>One search box for admin and answers</span>
-                      <span className="text-[#A78BFA] font-medium">Instant Access</span>
-                    </div>
-                  </div>
-                )}
-              </div>
+              {renderWindowViews(false)}
             </div>
           </div>
         </div>
