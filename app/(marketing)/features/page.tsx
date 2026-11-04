@@ -14,6 +14,7 @@ import { FeatureMarquee } from "@/components/marketing/features/FeatureMarquee";
 import { BentoOverview } from "@/components/marketing/features/BentoOverview";
 import { AiDarkChapter } from "@/components/marketing/features/AiDarkChapter";
 import { HorizontalJourney } from "@/components/marketing/features/HorizontalJourney";
+import { StickyCategoryChapters } from "@/components/marketing/features/StickyCategoryChapters";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { IntegrationsHub } from "@/components/marketing/IntegrationsHub";
@@ -126,9 +127,9 @@ export default async function FeaturesPage() {
         <HorizontalJourney content={journey.content} />
       </ContentSource>
 
-      {/* 7. Category Sections (catalog + photos/videos; simulations are illustrations in code) */}
+      {/* 7. Sticky Category Chapters (40/60 sticky split with active scene reaction) */}
       <ContentSource id="features-categories" source={worst(sources.catalog, sources.media)}>
-        <CategorySections categories={categories} media={data.media} />
+        <StickyCategoryChapters categories={categories} media={data.media} />
       </ContentSource>
 
       {/* 8. Seamless Integrations */}
