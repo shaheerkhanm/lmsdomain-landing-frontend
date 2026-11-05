@@ -1,18 +1,17 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { Check, ArrowRight } from "lucide-react";
 import type { Plan, BillingPeriodId } from "@/types/content";
 import { formatPriceParts } from "@/lib/pricing";
-import { usePageVisibility } from "@/lib/pages-context";
 
 interface PricingCardProps {
   plan: Plan;
   period: BillingPeriodId;
-  onRequestDemo: (planName: string) => void;
+  onRequestDemo: (planName: string, planSlug?: string) => void;
   index: number;
+  taxLabel?: string;
 }
 
 export function PricingCard({
@@ -20,7 +19,10 @@ export function PricingCard({
   period,
   onRequestDemo,
   index,
+  taxLabel = "+ GST",
 }: PricingCardProps) {
+  const shouldReduceMotion = useReducedMotion();
+
   // "Custom" only when the backend marks the plan. A missing price for the
   // selected period falls back to the other period, labelled "Billed …".
   const isCustomPrice = Boolean(plan.isCustom);
@@ -40,8 +42,8 @@ export function PricingCard({
         : "Billed yearly"
       : null;
 
-  // Per-digit animated price: currency symbol and separators are static
-  // characters; only the digits animate.
+  // Plain-text static price: static numbers rendered as a block, with an
+  // optional <=200ms whole-price opacity crossfade on monthly/yearly toggle.
   const renderPriceDisplay = () => {
     if (isCustomPrice) {
       return (
@@ -58,6 +60,7 @@ export function PricingCard({
     const prefix = parts.slice(0, firstNumeric).filter((part) => part.type === "currency");
     const suffix = parts.slice(firstNumeric).filter((part) => part.type === "currency");
     const numberParts = parts.filter((part) => part.type !== "currency" && part.type !== "literal");
+    const numberString = numberParts.map((p) => p.value).join("");
 
     // Resolve per-period suffix: "/month" for monthly and "/year" for yearly (or CMS-provided)
     const periodSuffix =
@@ -65,7 +68,6 @@ export function PricingCard({
       (shownPeriod === "yearly" ? "/year" : plan.priceSuffix || "/month");
 
     const symbolClass = "text-2xl sm:text-3xl font-semibold text-[#161616] self-start mt-2";
-    let digitIndex = 0;
 
     return (
       <div className="flex flex-wrap items-baseline gap-x-1" aria-live="polite">
@@ -77,37 +79,18 @@ export function PricingCard({
           </span>
         ))}
 
-        <div
-          className="flex shrink-0 overflow-hidden h-[64px] items-baseline font-semibold text-[46px] sm:text-[56px] text-[#161616] tracking-[-0.02em] tabular-nums"
-          aria-hidden="true"
-        >
-          <AnimatePresence mode="popLayout" initial={false}>
-            {numberParts.flatMap((part, partIdx) => {
-              if (part.type !== "integer" && part.type !== "fraction") {
-                return [<span key={`${shownPeriod}-sep-${partIdx}`}>{part.value}</span>];
-              }
-              return part.value.split("").map((digit) => {
-                const i = digitIndex++;
-                return (
-                  <motion.span
-                    key={`${shownPeriod}-${i}-${digit}`}
-                    initial={{ y: 24, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -24, opacity: 0 }}
-                    transition={{
-                      duration: 0.35,
-                      delay: i * 0.02,
-                      ease: [0.16, 1, 0.3, 1],
-                    }}
-                    className="inline-block"
-                  >
-                    {digit}
-                  </motion.span>
-                );
-              });
-            })}
-          </AnimatePresence>
-        </div>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={shownPeriod}
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={shouldReduceMotion ? undefined : { opacity: 0 }}
+            transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: "easeInOut" }}
+            className="flex items-baseline font-semibold text-[46px] sm:text-[56px] text-[#161616] tracking-[-0.02em] tabular-nums"
+          >
+            {numberString}
+          </motion.div>
+        </AnimatePresence>
 
         {suffix.map((part, i) => (
           <span key={`suf-${i}`} className={symbolClass} aria-hidden="true">
@@ -115,13 +98,10 @@ export function PricingCard({
           </span>
         ))}
 
-        {periodSuffix && (
-          <span className="text-[14px] sm:text-[15px] font-medium text-[#6B6F76] ml-1 whitespace-nowrap">
-            {periodSuffix}
-            {/* As on the live site: prices exclude tax */}
-            <span className="ml-1.5 text-[12px] font-normal">+ taxes</span>
-          </span>
-        )}
+        <span className="text-[14px] sm:text-[15px] font-medium text-[#6B6F76] ml-1 whitespace-nowrap">
+          {periodSuffix || ""}
+          <span className="ml-1.5 text-[12px] font-normal">{taxLabel}</span>
+        </span>
       </div>
     );
   };
@@ -136,28 +116,12 @@ export function PricingCard({
   const formatAmount = (amount: number) =>
     formatPriceParts(amount, plan.currency).map((part) => part.value).join("");
 
-  const { isPathVisible } = usePageVisibility();
-  const isContactVisible = isPathVisible("/contact");
-  const isSignupVisible = isPathVisible("/signup");
-
-  const shouldOpenDemo =
-    plan.cta.action === "demo" ||
-    (plan.cta.action === "contact" && !isContactVisible) ||
-    (plan.cta.action !== "contact" && !isSignupVisible);
+  const planSlug = plan.slug || plan.id || plan.name.toLowerCase().replace(/\s+/g, "-");
 
   const handleCtaClick = (e: React.MouseEvent) => {
-    if (shouldOpenDemo) {
-      e.preventDefault();
-      onRequestDemo(plan.name);
-    }
+    e.preventDefault();
+    onRequestDemo(plan.name, planSlug);
   };
-
-  const ctaHref =
-    shouldOpenDemo
-      ? "#"
-      : plan.cta.action === "contact"
-      ? `/contact?topic=sales&plan=${encodeURIComponent(plan.name)}`
-      : `/signup?plan=${encodeURIComponent(plan.slug || plan.id)}&billing=${shownPeriod || period}`;
 
   return (
     <motion.div
@@ -209,32 +173,18 @@ export function PricingCard({
 
         {/* CTA Button */}
         <div className="mb-6">
-          {plan.cta.action === "demo" ? (
-            <button
-              type="button"
-              onClick={handleCtaClick}
-              className={`w-full py-3.5 px-5 rounded-full text-sm font-semibold transition-all cursor-pointer shadow-xs active:scale-[0.98] ${
-                plan.isPopular
-                  ? "bg-[#161616] hover:bg-black text-white"
-                  : "bg-white hover:bg-[#F3F4F6] text-[#161616] border border-[#ECEDEF]"
-              }`}
-            >
-              {plan.cta.label}
-            </button>
-          ) : (
-            <Link
-              href={ctaHref}
-              onClick={handleCtaClick}
-              className={`w-full py-3.5 px-5 rounded-full text-sm font-semibold transition-all cursor-pointer shadow-xs active:scale-[0.98] inline-flex items-center justify-center gap-1.5 ${
-                plan.isPopular
-                  ? "bg-[#161616] hover:bg-black text-white"
-                  : "bg-white hover:bg-[#F3F4F6] text-[#161616] border border-[#ECEDEF]"
-              }`}
-            >
-              <span>{plan.cta.label}</span>
-              <ArrowRight className="w-4 h-4 opacity-70" />
-            </Link>
-          )}
+          <button
+            type="button"
+            onClick={handleCtaClick}
+            className={`w-full py-3.5 px-5 rounded-full text-sm font-semibold transition-all cursor-pointer shadow-xs active:scale-[0.98] inline-flex items-center justify-center gap-1.5 ${
+              plan.isPopular
+                ? "bg-[#161616] hover:bg-black text-white"
+                : "bg-white hover:bg-[#F3F4F6] text-[#161616] border border-[#ECEDEF]"
+            }`}
+          >
+            <span>{plan.cta.label || "Choose Plan"}</span>
+            <ArrowRight className="w-4 h-4 opacity-70" />
+          </button>
         </div>
 
         <div>

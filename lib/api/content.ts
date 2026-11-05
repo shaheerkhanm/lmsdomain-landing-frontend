@@ -7,6 +7,8 @@
 import { fetchApi } from "./client";
 import { isPlaceholderPhone } from "@/lib/utils";
 import { liveOr, keepLive } from "@/lib/claims";
+import { PRICING_CONFIG } from "@/config/pricing";
+import { DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
 import type {
   CmsDocument,
   PricingPlan,
@@ -341,7 +343,67 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   const faqHeading = faqSection.content;
   let faq = activeFaqs.length > 0 ? { ...faqHeading, items: activeFaqs } : undefined;
 
-  if (activePlans.length > 0) {
+  if (PRICING_CONFIG.plans.length > 0) {
+    const months = PRICING_CONFIG.annualRule?.months ?? 2;
+    mappedPlans = PRICING_CONFIG.plans.map((cfg, idx) => {
+      const isCustom = Boolean(cfg.isCustom);
+      const monthly = typeof cfg.monthly === "number" ? cfg.monthly : null;
+      const yearly = monthly !== null ? monthly * (12 - months) : null;
+      const yearlyFull = monthly !== null ? monthly * 12 : null;
+      const discountPercent = Math.round((months / 12) * 100);
+
+      const limits = [];
+      if (cfg.limits?.activeLearners) {
+        limits.push({
+          label: "Active Learners",
+          value:
+            typeof cfg.limits.activeLearners === "number"
+              ? `Up to ${cfg.limits.activeLearners.toLocaleString()}`
+              : String(cfg.limits.activeLearners),
+        });
+      }
+      if (cfg.limits?.adminSeats) {
+        limits.push({ label: "Admin Seats", value: String(cfg.limits.adminSeats) });
+      }
+      if (cfg.limits?.storageGb) {
+        limits.push({ label: "Storage", value: `${cfg.limits.storageGb} GB` });
+      }
+      if (cfg.limits?.bandwidthGbPerMonth) {
+        limits.push({ label: "Bandwidth", value: `${cfg.limits.bandwidthGbPerMonth} GB/mo` });
+      }
+
+      return {
+        id: cfg.id,
+        slug: cfg.slug || cfg.id,
+        name: cfg.name,
+        tagline: cfg.tagline,
+        isPopular: Boolean(cfg.isPopular),
+        isCustom,
+        prices: {
+          monthly,
+          yearly,
+        },
+        yearlyFullPrice: yearlyFull,
+        discountPercent,
+        currency: resolvePlanCurrency({ currency: PRICING_CONFIG.currency }),
+        priceSuffix: monthly !== null ? "/month" : "",
+        priceSuffixes: {
+          monthly: "/month",
+          yearly: "/year, billed annually",
+        },
+        priceNote: isCustom ? "Custom" : undefined,
+        limits: limits.length > 0 ? limits : undefined,
+        features: keepLive(cfg.features, (f) => f),
+        cta: {
+          label: cfg.isPopular ? "Get Started" : isCustom ? "Contact Us" : "Choose Plan",
+          action: "demo",
+          href: "#",
+        },
+        displayOrder: idx + 1,
+      };
+    });
+    yearlySavingsLabel = `${months} months free`;
+  } else if (activePlans.length > 0) {
     // "Most popular": the backend isPopular flag wins. Until the backend has it,
     // server env PRICING_POPULAR_PLAN names the plan (title or slug, any case).
     const backendHasPopular = activePlans.some((doc) => doc.isPopular === true);
@@ -486,6 +548,15 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     primaryCta: { label: empty.content.primaryCta.label, action: "demo" as const },
     secondaryCta: { label: empty.content.secondaryCta.label, href: empty.content.secondaryCta.href, action: "contact" as const },
   };
+
+  if (!faq || !faq.items || faq.items.length === 0) {
+    faq = {
+      ...faqHeading,
+      title: faqHeading?.title || "Frequently Asked Questions",
+      subtitle: faqHeading?.subtitle || "Answers to common questions about plans, seats, and billing cycles.",
+      items: DEFAULT_PRICING_FAQS,
+    };
+  }
 
   return {
     isSample,

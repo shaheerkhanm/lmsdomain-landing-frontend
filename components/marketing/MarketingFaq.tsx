@@ -7,6 +7,7 @@ import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import type { FaqItem } from "@/types/content";
 
 interface MarketingFaqProps {
+  id?: string;
   title?: string;
   subtitle?: string;
   items?: FaqItem[];
@@ -15,6 +16,7 @@ interface MarketingFaqProps {
 }
 
 export function MarketingFaq({
+  id,
   eyebrow = "FAQS",
   ctaText = "Request a Demo",
   title = "You ask – we answer.",
@@ -31,7 +33,7 @@ export function MarketingFaq({
   };
 
   return (
-    <section className="bg-white py-20 lg:py-28 font-urbanist border-b border-[#ECEDEF]">
+    <section id={id} className="bg-white py-20 lg:py-28 font-urbanist border-b border-[#ECEDEF]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Large Rounded Enclosure Card (Landing FAQ Card Style) */}
         <div className="rounded-[32px] sm:rounded-[40px] bg-white border border-[#ECEDEF] p-8 sm:p-12 lg:px-14 lg:pb-14 lg:pt-10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)]">

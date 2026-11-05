@@ -37,25 +37,51 @@ export function PricingView({ data }: PricingViewProps) {
   const [selectedPlanForDemo, setSelectedPlanForDemo] = useState<string>("");
   const [showDemoModal, setShowDemoModal] = useState<boolean>(false);
 
-  // Sync state when URL parameter changes
+  // Sync state when URL parameter changes (?billing= and ?plan=)
   useEffect(() => {
     const urlBilling = searchParams.get("billing") as BillingPeriodId;
     if (urlBilling === "yearly" || urlBilling === "monthly") {
       setActivePeriod(urlBilling);
     }
-  }, [searchParams]);
+    const urlPlan = searchParams.get("plan");
+    if (urlPlan) {
+      const matched = data.plans?.find(
+        (p) =>
+          p.slug?.toLowerCase() === urlPlan.toLowerCase() ||
+          p.id?.toLowerCase() === urlPlan.toLowerCase() ||
+          p.name.toLowerCase() === urlPlan.toLowerCase()
+      );
+      setSelectedPlanForDemo(matched ? matched.name : urlPlan);
+      setShowDemoModal(true);
+    }
+  }, [searchParams, data.plans]);
 
   const handlePeriodChange = (newPeriod: BillingPeriodId) => {
     setActivePeriod(newPeriod);
     const params = new URLSearchParams(searchParams.toString());
     params.set("billing", newPeriod);
-    // Replace URL query smoothly without full page refresh
-    window.history.replaceState(null, "", `?${params.toString()}`);
+    router.replace(`?${params.toString()}`, { scroll: false });
   };
 
-  const handleOpenDemoModal = (planName?: string) => {
+  const handleOpenDemoModal = (planName?: string, planSlug?: string) => {
     setSelectedPlanForDemo(planName || "General Pricing Enquiry");
     setShowDemoModal(true);
+    const params = new URLSearchParams(searchParams.toString());
+    if (planSlug) {
+      params.set("plan", planSlug);
+    }
+    const qs = params.toString();
+    router.replace(qs ? `?${qs}` : window.location.pathname, { scroll: false });
+  };
+
+  const handleCloseDemoModal = () => {
+    setShowDemoModal(false);
+    const params = new URLSearchParams(searchParams.toString());
+    if (params.has("plan")) {
+      params.delete("plan");
+      const qs = params.toString();
+      router.replace(qs ? `?${qs}` : window.location.pathname, { scroll: false });
+    }
   };
 
   const hasPlans = data.plans && data.plans.length > 0;
@@ -172,6 +198,7 @@ export function PricingView({ data }: PricingViewProps) {
       {data.faq && data.faq.items && data.faq.items.length > 0 && (
         <ContentSource id="pricing-faq" source={data.sources?.faq || "code"}>
           <MarketingFaq
+            id="faqSection"
             eyebrow={data.faq.eyebrow}
             title={data.faq.title || "Frequently Asked Questions"}
             subtitle={data.faq.subtitle || "Answers to common questions about plans, seats, and billing cycles."}
@@ -187,10 +214,16 @@ export function PricingView({ data }: PricingViewProps) {
       </ContentSource>
 
       {/* Demo Enquiry Modal with preselected plan */}
-      <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
+      <Dialog
+        open={showDemoModal}
+        onOpenChange={(open) => {
+          if (!open) handleCloseDemoModal();
+          else setShowDemoModal(true);
+        }}
+      >
         <DialogContent className="max-w-xl bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl">
           <EnquiryForm
-            onClose={() => setShowDemoModal(false)}
+            onClose={handleCloseDemoModal}
             initialSubject={selectedPlanForDemo ? `Plan Enquiry: ${selectedPlanForDemo}` : undefined}
           />
         </DialogContent>

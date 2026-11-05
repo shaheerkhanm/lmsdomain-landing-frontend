@@ -9,7 +9,7 @@ interface PricingComparisonTableProps {
   plans: Plan[];
   comparison: PricingComparison;
   period: BillingPeriodId;
-  onRequestDemo: (planName: string) => void;
+  onRequestDemo: (planName: string, planSlug?: string) => void;
   heading?: { eyebrow: string; title: string; subtitle: string; cornerLabel: string };
 }
 
@@ -93,14 +93,10 @@ export function PricingComparisonTable({
                     </span>
                     <button
                       type="button"
-                      onClick={() =>
-                        plan.cta.action === "demo" || !isSignupVisible
-                          ? onRequestDemo(plan.name)
-                          : (window.location.href = `/signup?plan=${plan.slug || plan.id}&billing=${period}`)
-                      }
+                      onClick={() => onRequestDemo(plan.name, plan.slug || plan.id)}
                       className="px-3.5 py-1.5 rounded-full bg-[#161616] text-white text-[11px] font-semibold hover:bg-black transition-all cursor-pointer shadow-2xs"
                     >
-                      {plan.cta.label}
+                      {plan.cta.label || "Choose Plan"}
                     </button>
                   </th>
                 ))}
