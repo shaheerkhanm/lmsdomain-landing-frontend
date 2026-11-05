@@ -13,6 +13,7 @@ import { getPageVisibility } from "@/lib/pages";
 import { PageVisibilityProvider } from "@/lib/pages-context";
 import { getSiteNavigation } from "@/lib/api/content";
 import { MotionConfig } from "motion/react";
+import DemoHashListener from "@/components/marketing/DemoHashListener";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -89,6 +90,7 @@ export default async function RootLayout({
               <SmoothScroll>
                 {children}
               </SmoothScroll>
+              <DemoHashListener />
               <Toaster position="bottom-right" />
               <Footer />
             </MotionConfig>

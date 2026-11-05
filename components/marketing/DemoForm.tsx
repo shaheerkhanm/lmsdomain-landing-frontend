@@ -6,17 +6,31 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { Loader2, AlertCircle, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
-import { DEFAULT_CONTACT_TOPICS } from "@/content/contact/page";
-import type { ContactTopic } from "@/types/content";
 import BrandLogo from "@/components/brand/BrandLogo";
+
+export const COUNTRY_CODES = [
+  { code: "+91", label: "+91 (IN)", digits: "91" },
+  { code: "+1", label: "+1 (US/CA)", digits: "1" },
+  { code: "+44", label: "+44 (UK)", digits: "44" },
+  { code: "+61", label: "+61 (AU)", digits: "61" },
+  { code: "+62", label: "+62 (ID)", digits: "62" },
+  { code: "+65", label: "+65 (SG)", digits: "65" },
+  { code: "+971", label: "+971 (AE)", digits: "971" },
+  { code: "+977", label: "+977 (NP)", digits: "977" },
+  { code: "+880", label: "+880 (BD)", digits: "880" },
+  { code: "+94", label: "+94 (LK)", digits: "94" },
+  { code: "+60", label: "+60 (MY)", digits: "60" },
+];
+
+export const LEARNER_OPTIONS = ["<100", "100–500", "500–2,000", "2,000+"] as const;
 
 export interface DemoFormInputs {
   name: string;
   email: string;
   phoneNumber: string;
   organizationName: string;
-  topic: string;
-  subject: string;
+  learners: string;
+  message?: string;
   website?: string; // Honeypot field
 }
 
@@ -29,7 +43,7 @@ export interface DemoFormProps {
   successTitle?: string;
   successMessage?: string;
   privacyNote?: string;
-  topics?: ContactTopic[];
+  topics?: any[];
   variant?: "modal" | "page";
   className?: string;
 }
@@ -37,27 +51,22 @@ export interface DemoFormProps {
 export function DemoForm({
   onClose,
   initialSubject,
-  initialTopic,
   initialPlan,
   submitLabel,
-  successTitle = "Message received",
-  successMessage = "Thank you for reaching out. We will review your message and get back to you soon.",
   privacyNote,
-  topics = DEFAULT_CONTACT_TOPICS,
   variant = "page",
   className = "",
 }: DemoFormProps) {
-  const defaultSubmitLabel = variant === "modal" ? "Schedule My Demo" : "Send message";
+  const defaultSubmitLabel = variant === "modal" ? "Schedule My Demo" : "Book a 20-minute demo";
   const effectiveSubmitLabel = submitLabel || defaultSubmitLabel;
   const searchParams = useSearchParams();
-  const urlTopic = searchParams?.get("topic") || undefined;
   const urlPlan = searchParams?.get("plan") || undefined;
-
-  const activeTopic = initialTopic || urlTopic || topics[0]?.label || "Request an Academy Demo";
   const activePlan = initialPlan || urlPlan;
 
+  const [countryCode, setCountryCode] = useState("+91");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submittedFirstName, setSubmittedFirstName] = useState("there");
   const [networkError, setNetworkError] = useState<string | null>(null);
 
   const successHeadingRef = useRef<HTMLHeadingElement>(null);
@@ -66,7 +75,6 @@ export function DemoForm({
     register,
     handleSubmit,
     reset,
-    setValue,
     formState: { errors },
   } = useForm<DemoFormInputs>({
     defaultValues: {
@@ -74,23 +82,11 @@ export function DemoForm({
       email: "",
       phoneNumber: "",
       organizationName: "",
-      topic: activeTopic,
-      subject: initialSubject || "",
+      learners: "",
+      message: "",
       website: "",
     },
   });
-
-  // Keep topic synced if URL parameters hydrate
-  useEffect(() => {
-    if (urlTopic) {
-      const match = topics.find(
-        (t) => t.id === urlTopic || t.label.toLowerCase().includes(urlTopic.toLowerCase())
-      );
-      if (match) {
-        setValue("topic", match.label);
-      }
-    }
-  }, [urlTopic, topics, setValue]);
 
   // Focus success heading when submission succeeds
   useEffect(() => {
@@ -111,6 +107,7 @@ export function DemoForm({
   const onSubmit: SubmitHandler<DemoFormInputs> = async (formData) => {
     // Spam Honeypot Check: if filled by a bot, pretend success
     if (formData.website && formData.website.trim().length > 0) {
+      setSubmittedFirstName(formData.name.trim().split(/\s+/)[0] || "there");
       setIsSubmitted(true);
       return;
     }
@@ -119,31 +116,22 @@ export function DemoForm({
       setIsSubmitting(true);
       setNetworkError(null);
 
-      const cleanedPhone = formData.phoneNumber.replace(/\D/g, "");
-
-      // Bundle topic, plan, and message into the subject payload for the Enquiry backend
-      const subjectParts = [
-        variant !== "modal" && formData.topic ? `Topic: ${formData.topic}` : null,
-        activePlan ? `Plan: ${activePlan}` : null,
-        formData.subject.trim()
-          ? variant === "modal"
-            ? formData.subject.trim()
-            : `Notes: ${formData.subject.trim()}`
-          : null,
-      ].filter(Boolean);
-
-      const compositeSubject =
-        subjectParts.join(" | ") || initialSubject || "Platform Demonstration Request";
+      const codeDigits = countryCode.replace(/\D/g, "");
+      const rawDigits = formData.phoneNumber.replace(/\D/g, "");
+      const fullDigits = rawDigits.startsWith(codeDigits) ? rawDigits : `${codeDigits}${rawDigits}`;
 
       const payload = {
         name: formData.name.trim(),
         email: formData.email.trim(),
-        phoneNumber: cleanedPhone,
+        phoneNumber: fullDigits,
         organizationName: formData.organizationName.trim(),
-        subject: compositeSubject,
-        // Also sent separately for the notification email (backend stores them when filled in)
-        topic: variant !== "modal" && formData.topic ? formData.topic : activePlan ? `Plan: ${activePlan}` : "",
-        message: formData.subject.trim(),
+        learners: formData.learners,
+        message: formData.message?.trim() || undefined,
+        topic: "Demo",
+        plan: activePlan || undefined,
+        subject: activePlan
+          ? `Demo request: ${formData.organizationName.trim()} (${activePlan})`
+          : initialSubject || `Demo request: ${formData.organizationName.trim()}`,
         page: typeof window !== "undefined" ? window.location.pathname : "",
         type: 1, // 1 = Request Demo / Contact enquiry
       };
@@ -157,16 +145,14 @@ export function DemoForm({
       const response = await res.json().catch(() => null);
 
       if (res.ok && response && response.success !== false) {
-        toast.success("Enquiry submitted successfully! Our specialists will contact you shortly.", {
+        toast.success("Enquiry submitted successfully! Our team will contact you shortly.", {
           richColors: true,
           duration: 5000,
         });
+        const first = formData.name.trim().split(/\s+/)[0] || "there";
+        setSubmittedFirstName(first);
         reset();
-        if (variant === "modal" && onClose) {
-          onClose();
-        } else {
-          setIsSubmitted(true);
-        }
+        setIsSubmitted(true);
       } else {
         const errorMsg =
           response?.message || "Unable to submit enquiry. Please verify your details and retry.";
@@ -194,9 +180,20 @@ export function DemoForm({
       ? `w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition ${
           hasError
             ? "border-red-500 focus:ring-2 focus:ring-red-100"
-            : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+            : "border-slate-300 focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/10"
         }`
       : `w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
+          hasError ? "border-red-500 ring-2 ring-red-100" : ""
+        }`;
+
+  const getSelectClass = (hasError: boolean) =>
+    isModal
+      ? `w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 focus:outline-none transition appearance-none cursor-pointer ${
+          hasError
+            ? "border-red-500 focus:ring-2 focus:ring-red-100"
+            : "border-slate-300 focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/10"
+        }`
+      : `w-full h-[48px] px-3.5 pr-10 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all appearance-none cursor-pointer ${
           hasError ? "border-red-500 ring-2 ring-red-100" : ""
         }`;
 
@@ -205,14 +202,14 @@ export function DemoForm({
       ? `w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition resize-none ${
           hasError
             ? "border-red-500 focus:ring-2 focus:ring-red-100"
-            : "border-slate-300 focus:border-MainColor focus:ring-2 focus:ring-MainColor/10"
+            : "border-slate-300 focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/10"
         }`
       : `w-full min-h-[96px] p-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all resize-none ${
           hasError ? "border-red-500 ring-2 ring-red-100" : ""
         }`;
 
   return (
-    <div className={`w-full ${isModal ? "font-inter" : "font-urbanist"} ${className}`}>
+    <div className={`w-full ${isModal ? "font-urbanist" : "font-urbanist"} ${className}`}>
       <AnimatePresence mode="wait">
         {isSubmitted ? (
           <motion.div
@@ -221,7 +218,7 @@ export function DemoForm({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="py-12 sm:py-16 text-center flex flex-col items-center justify-center"
+            className="py-10 sm:py-14 text-center flex flex-col items-center justify-center font-urbanist"
             role="status"
             aria-live="polite"
           >
@@ -235,29 +232,29 @@ export function DemoForm({
               tabIndex={-1}
               className="text-2xl sm:text-3xl font-semibold text-[#161616] tracking-tight focus:outline-none"
             >
-              {successTitle}
+              Thanks, {submittedFirstName}.
             </h3>
 
             <p className="text-sm sm:text-base text-[#6B6F76] mt-3 max-w-[440px] leading-relaxed">
-              {successMessage}
+              Our team will email you to fix a 20-minute demo time that suits you.
             </p>
 
-            <div className="mt-8 flex items-center gap-3">
+            <div className="mt-8 flex items-center justify-center gap-3">
               {onClose ? (
                 <button
                   type="button"
                   onClick={onClose}
                   className="px-6 py-2.5 rounded-full bg-[#161616] text-white text-sm font-semibold hover:bg-black transition-all cursor-pointer"
                 >
-                  Close Window
+                  Close
                 </button>
               ) : (
                 <button
                   type="button"
                   onClick={() => setIsSubmitted(false)}
-                  className="px-6 py-2.5 rounded-full bg-[#F3F4F6] text-[#161616] text-sm font-semibold hover:bg-slate-200 transition-all cursor-pointer"
+                  className="px-6 py-2.5 rounded-full bg-[#161616] text-white text-sm font-semibold hover:bg-black transition-all cursor-pointer"
                 >
-                  Send Another Message
+                  Close
                 </button>
               )}
             </div>
@@ -305,206 +302,185 @@ export function DemoForm({
               />
             </div>
 
-            {/* Row 1: Full Name & Work Email */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Full Name */}
-              <div className={isModal ? "space-y-1" : "space-y-1.5"}>
-                <label
-                  htmlFor="field-name"
-                  className={labelClass}
-                >
-                  Full Name {isModal ? "*" : <span className="text-red-500">*</span>}
-                </label>
-                <input
-                  id="field-name"
-                  type="text"
-                  autoComplete="name"
-                  aria-invalid={errors.name ? "true" : "false"}
-                  aria-describedby={errors.name ? "field-name-error" : undefined}
-                  className={getInputClass(!!errors.name)}
-                  placeholder="e.g. Sarah Jenkins"
-                  {...register("name", {
-                    required: "Full name is required",
-                    minLength: { value: 2, message: "Enter at least 2 characters" },
-                  })}
-                />
-                {errors.name?.message && (
-                  <span
-                    id="field-name-error"
-                    role="alert"
-                    className="text-xs text-red-600 block mt-1 font-medium"
-                  >
-                    {errors.name.message}
-                  </span>
-                )}
-              </div>
-
-              {/* Work Email */}
-              <div className={isModal ? "space-y-1" : "space-y-1.5"}>
-                <label
-                  htmlFor="field-email"
-                  className={labelClass}
-                >
-                  Work Email {isModal ? "*" : <span className="text-red-500">*</span>}
-                </label>
-                <input
-                  id="field-email"
-                  type="email"
-                  autoComplete="email"
-                  aria-invalid={errors.email ? "true" : "false"}
-                  aria-describedby={errors.email ? "field-email-error" : undefined}
-                  className={getInputClass(!!errors.email)}
-                  placeholder="sarah@institution.com"
-                  {...register("email", {
-                    required: "Work email is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Please enter a valid email address",
-                    },
-                  })}
-                />
-                {errors.email?.message && (
-                  <span
-                    id="field-email-error"
-                    role="alert"
-                    className="text-xs text-red-600 block mt-1 font-medium"
-                  >
-                    {errors.email.message}
-                  </span>
-                )}
-              </div>
+            {/* 1. Full Name */}
+            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+              <label htmlFor="field-name" className={labelClass}>
+                Full Name {isModal ? "*" : <span className="text-red-500">*</span>}
+              </label>
+              <input
+                id="field-name"
+                type="text"
+                autoComplete="name"
+                aria-invalid={errors.name ? "true" : "false"}
+                aria-describedby={errors.name ? "field-name-error" : undefined}
+                className={getInputClass(!!errors.name)}
+                placeholder="e.g. Sarah Jenkins"
+                {...register("name", {
+                  required: "Full name is required",
+                  minLength: { value: 2, message: "Enter at least 2 characters" },
+                })}
+              />
+              {errors.name?.message && (
+                <span id="field-name-error" role="alert" className="text-xs text-red-600 block mt-1 font-medium">
+                  {errors.name.message}
+                </span>
+              )}
             </div>
 
-            {/* Row 2: Phone Number & Organization */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Phone Number */}
-              <div className={isModal ? "space-y-1" : "space-y-1.5"}>
-                <label
-                  htmlFor="field-phoneNumber"
-                  className={labelClass}
-                >
-                  Phone Number {isModal ? "*" : <span className="text-red-500">*</span>}
-                </label>
-                <input
-                  id="field-phoneNumber"
-                  type="tel"
-                  autoComplete="tel"
-                  aria-invalid={errors.phoneNumber ? "true" : "false"}
-                  aria-describedby={errors.phoneNumber ? "field-phoneNumber-error" : undefined}
-                  className={getInputClass(!!errors.phoneNumber)}
-                  placeholder={isModal ? "e.g. 14155552671" : "e.g. +1 415 555 2671"}
-                  {...register("phoneNumber", {
-                    required: "Phone number is required",
-                    validate: (val) => {
-                      const digits = val.replace(/\D/g, "");
-                      return (
-                        (digits.length >= 7 && digits.length <= 15) ||
-                        (isModal ? "Enter 7-15 digits" : "Please enter 7 to 15 digits")
-                      );
-                    },
-                  })}
-                />
-                {errors.phoneNumber?.message && (
-                  <span
-                    id="field-phoneNumber-error"
-                    role="alert"
-                    className="text-xs text-red-600 block mt-1 font-medium"
-                  >
-                    {errors.phoneNumber.message}
-                  </span>
-                )}
-              </div>
-
-              {/* Organization Name */}
-              <div className={isModal ? "space-y-1" : "space-y-1.5"}>
-                <label
-                  htmlFor="field-organizationName"
-                  className={labelClass}
-                >
-                  {isModal ? "Organization / Institute *" : <>Organization / Academy <span className="text-red-500">*</span></>}
-                </label>
-                <input
-                  id="field-organizationName"
-                  type="text"
-                  autoComplete="organization"
-                  aria-invalid={errors.organizationName ? "true" : "false"}
-                  aria-describedby={
-                    errors.organizationName ? "field-organizationName-error" : undefined
-                  }
-                  className={getInputClass(!!errors.organizationName)}
-                  placeholder="e.g. Apex Coding Academy"
-                  {...register("organizationName", {
-                    required: isModal ? "Organization name is required" : "Organization or academy name is required",
-                  })}
-                />
-                {errors.organizationName?.message && (
-                  <span
-                    id="field-organizationName-error"
-                    role="alert"
-                    className="text-xs text-red-600 block mt-1 font-medium"
-                  >
-                    {errors.organizationName.message}
-                  </span>
-                )}
-              </div>
+            {/* 2. Work Email */}
+            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+              <label htmlFor="field-email" className={labelClass}>
+                Work Email {isModal ? "*" : <span className="text-red-500">*</span>}
+              </label>
+              <input
+                id="field-email"
+                type="email"
+                autoComplete="email"
+                aria-invalid={errors.email ? "true" : "false"}
+                aria-describedby={errors.email ? "field-email-error" : undefined}
+                className={getInputClass(!!errors.email)}
+                placeholder="sarah@institution.com"
+                {...register("email", {
+                  required: "Work email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Please enter a valid email address",
+                  },
+                })}
+              />
+              {errors.email?.message && (
+                <span id="field-email-error" role="alert" className="text-xs text-red-600 block mt-1 font-medium">
+                  {errors.email.message}
+                </span>
+              )}
             </div>
 
-            {/* Row 3: Discussion Topic (page variant only) */}
-            {!isModal && (
-              <div className="space-y-1.5">
-                <label
-                  htmlFor="field-topic"
-                  className={labelClass}
-                >
-                  Inquiry Topic
-                </label>
-                <div className="relative">
+            {/* 3. Phone / WhatsApp */}
+            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+              <label htmlFor="field-phoneNumber" className={labelClass}>
+                Phone / WhatsApp {isModal ? "*" : <span className="text-red-500">*</span>}
+              </label>
+              <div className="flex gap-2">
+                <div className="relative shrink-0 w-[110px] sm:w-[125px]">
                   <select
-                    id="field-topic"
-                    aria-describedby="field-topic-description"
-                    className="w-full h-[48px] px-3.5 pr-10 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all appearance-none cursor-pointer"
-                    {...register("topic")}
+                    id="field-countryCode"
+                    value={countryCode}
+                    onChange={(e) => setCountryCode(e.target.value)}
+                    className={getSelectClass(false)}
+                    aria-label="Country code"
                   >
-                    {topics.map((t) => (
-                      <option key={t.id} value={t.label}>
-                        {t.label}
+                    {COUNTRY_CODES.map((c) => (
+                      <option key={c.code} value={c.code}>
+                        {c.label}
                       </option>
                     ))}
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#6B6F76]">
-                    <ChevronDown className="size-4" />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#6B6F76]">
+                    <ChevronDown className="size-3.5" />
                   </div>
                 </div>
+                <div className="flex-1 min-w-0">
+                  <input
+                    id="field-phoneNumber"
+                    type="tel"
+                    autoComplete="tel-national"
+                    aria-invalid={errors.phoneNumber ? "true" : "false"}
+                    aria-describedby={errors.phoneNumber ? "field-phoneNumber-error" : undefined}
+                    className={getInputClass(!!errors.phoneNumber)}
+                    placeholder="98765 43210"
+                    {...register("phoneNumber", {
+                      required: "Phone number is required",
+                      validate: (val) => {
+                        const rawDigits = val.replace(/\D/g, "");
+                        const codeDigits = countryCode.replace(/\D/g, "");
+                        const totalDigits = rawDigits.startsWith(codeDigits)
+                          ? rawDigits
+                          : `${codeDigits}${rawDigits}`;
+                        return (
+                          (totalDigits.length >= 7 && totalDigits.length <= 15) ||
+                          "Enter a valid phone number (7–15 digits)"
+                        );
+                      },
+                    })}
+                  />
+                </div>
               </div>
-            )}
-
-            {/* Row 4: Scope or Project Details */}
-            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
-              <label
-                htmlFor="field-subject"
-                className={labelClass}
-              >
-                Project Scope or Questions {isModal ? "*" : ""}
-              </label>
-              <textarea
-                id="field-subject"
-                rows={3}
-                aria-describedby="field-subject-description"
-                className={getTextareaClass(!!errors.subject)}
-                placeholder="Tell us about your academy and what you need"
-                {...register("subject", {
-                  required: isModal ? "Project scope or message is required" : false,
-                })}
-              />
-              {errors.subject?.message && (
-                <span
-                  id="field-subject-error"
-                  role="alert"
-                  className="text-xs text-red-600 block mt-1 font-medium"
-                >
-                  {errors.subject.message}
+              {errors.phoneNumber?.message && (
+                <span id="field-phoneNumber-error" role="alert" className="text-xs text-red-600 block mt-1 font-medium">
+                  {errors.phoneNumber.message}
                 </span>
               )}
+            </div>
+
+            {/* 4. Academy Name */}
+            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+              <label htmlFor="field-organizationName" className={labelClass}>
+                Academy Name {isModal ? "*" : <span className="text-red-500">*</span>}
+              </label>
+              <input
+                id="field-organizationName"
+                type="text"
+                autoComplete="organization"
+                aria-invalid={errors.organizationName ? "true" : "false"}
+                aria-describedby={errors.organizationName ? "field-organizationName-error" : undefined}
+                className={getInputClass(!!errors.organizationName)}
+                placeholder="e.g. Apex Coding Academy"
+                {...register("organizationName", {
+                  required: "Academy name is required",
+                })}
+              />
+              {errors.organizationName?.message && (
+                <span id="field-organizationName-error" role="alert" className="text-xs text-red-600 block mt-1 font-medium">
+                  {errors.organizationName.message}
+                </span>
+              )}
+            </div>
+
+            {/* 5. Active Learners */}
+            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+              <label htmlFor="field-learners" className={labelClass}>
+                Active Learners {isModal ? "*" : <span className="text-red-500">*</span>}
+              </label>
+              <div className="relative">
+                <select
+                  id="field-learners"
+                  aria-invalid={errors.learners ? "true" : "false"}
+                  aria-describedby={errors.learners ? "field-learners-error" : undefined}
+                  className={getSelectClass(!!errors.learners)}
+                  {...register("learners", {
+                    required: "Please select active learner count",
+                  })}
+                >
+                  <option value="">Select learner count</option>
+                  {LEARNER_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-[#6B6F76]">
+                  <ChevronDown className="size-4" />
+                </div>
+              </div>
+              {errors.learners?.message && (
+                <span id="field-learners-error" role="alert" className="text-xs text-red-600 block mt-1 font-medium">
+                  {errors.learners.message}
+                </span>
+              )}
+            </div>
+
+            {/* 6. Message (Optional) */}
+            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+              <label htmlFor="field-message" className={labelClass}>
+                Message <span className="text-xs font-normal text-[#8F94A0] normal-case">(optional)</span>
+              </label>
+              <textarea
+                id="field-message"
+                rows={3}
+                className={getTextareaClass(false)}
+                placeholder="Anything specific you'd like to see in your demo?"
+                {...register("message")}
+              />
             </div>
 
             {/* Privacy Note */}
@@ -530,8 +506,8 @@ export function DemoForm({
                 disabled={isSubmitting}
                 className={
                   isModal
-                    ? "px-6 py-2.5 text-sm font-semibold text-white bg-MainColor hover:bg-[#5A3DE6] rounded-lg shadow-sm hover:shadow-[0_0_20px_-3px_rgba(108,75,255,0.35)] transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
-                    : "w-full sm:w-auto h-[48px] px-8 rounded-xl bg-[#161616] hover:bg-black text-white text-sm font-semibold shadow-xs hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
+                    ? "px-6 py-2.5 text-sm font-semibold text-white bg-[#161616] hover:bg-black rounded-full shadow-sm transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
+                    : "w-full sm:w-auto h-[48px] px-8 rounded-full bg-[#161616] hover:bg-black text-white text-sm font-semibold shadow-xs hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
                 }
               >
                 {isSubmitting ? (
