@@ -90,8 +90,8 @@ export const SECTIONS = {
     slug: "site-home-hero",
     page: "home",
     label: "Home: hero (new site)",
-    defaults: { ...heroContent, connector: "to" },
-    fields: { title: "titlePrefix", subTitle: "subtitle", buttonText: "ctaText" },
+    defaults: { ...heroContent },
+    fields: { title: "title", subTitle: "subtitle", buttonText: "ctaText" },
   },
   "home-teach-smarter": {
     slug: "site-home-teach-smarter",

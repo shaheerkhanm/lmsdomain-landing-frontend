@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { getPageVisibility } from "@/lib/pages";
 import { PageVisibilityProvider } from "@/lib/pages-context";
 import { getSiteNavigation } from "@/lib/api/content";
+import { MotionConfig } from "motion/react";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -82,13 +83,15 @@ export default async function RootLayout({
       <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} font-urbanist bg-[#F3F4F6] lg:bg-white text-[#161616] antialiased !mr-0`}>
         <BrandProvider brand={brand}>
           <PageVisibilityProvider visibility={visibility}>
-            <Canonical />
-            <Header siteNav={siteNav?.marketingNav} />
-            <SmoothScroll>
-              {children}
-            </SmoothScroll>
-            <Toaster position="bottom-right" />
-            <Footer />
+            <MotionConfig reducedMotion="user">
+              <Canonical />
+              <Header siteNav={siteNav?.marketingNav} />
+              <SmoothScroll>
+                {children}
+              </SmoothScroll>
+              <Toaster position="bottom-right" />
+              <Footer />
+            </MotionConfig>
           </PageVisibilityProvider>
         </BrandProvider>
       </body>

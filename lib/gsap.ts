@@ -9,6 +9,14 @@ if (typeof window !== "undefined") {
 export { gsap, ScrollTrigger };
 
 /**
+ * Returns true if the client environment prefers reduced motion.
+ */
+export function prefersReducedMotion(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+/**
  * Standard matchMedia contexts per spec §5.0:
  * - desktop: (min-width: 1024px)
  * - mobile: (max-width: 1023px)

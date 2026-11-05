@@ -689,10 +689,13 @@ export type HeroProductCard =
   | HeroCertificateCard;
 
 export interface HeroContent {
-  titlePrefix: string;
-  rotatingWords: { text: string; bg: string }[];
+  title?: string;
+  titlePrefix?: string;
+  rotatingWords?: { text: string; bg: string }[];
   subtitle: string;
   ctaText: string;
+  secondaryCtaText?: string;
+  microcopy?: string;
   cards: HeroProductCard[];
 }
 
