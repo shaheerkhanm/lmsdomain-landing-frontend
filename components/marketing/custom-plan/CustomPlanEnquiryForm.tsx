@@ -60,7 +60,7 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
     "Just exploring",
   ];
 
-  // Pre-select needs from URL query string ?needs=android,ios
+  // Pre-select needs from URL query string if provided
   useEffect(() => {
     if (typeof window === "undefined") return;
     const urlParams = new URLSearchParams(window.location.search);
