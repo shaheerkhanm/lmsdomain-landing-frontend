@@ -6,6 +6,7 @@
 
 import { fetchApi } from "./client";
 import { isPlaceholderPhone } from "@/lib/utils";
+import { liveOr, keepLive } from "@/lib/claims";
 import type {
   CmsDocument,
   PricingPlan,
@@ -1147,7 +1148,6 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     deliverablesDoc,
     timelineDoc,
     comparisonDoc,
-    mobileAppsDoc,
     servicesDoc,
     pricingNoteDoc,
     formDoc,
@@ -1160,7 +1160,6 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     fetchCms("site-custom-deliverables", ["cms", "custom-plan"]),
     fetchCms("site-custom-timeline", ["cms", "custom-plan"]),
     fetchCms("site-custom-comparison", ["cms", "custom-plan"]),
-    fetchCms("site-custom-mobile-apps", ["cms", "custom-plan"]),
     fetchCms("site-custom-services", ["cms", "custom-plan"]),
     fetchCms("site-custom-pricing-note", ["cms", "custom-plan"]),
     fetchCms("site-custom-form", ["cms", "custom-plan"]),
@@ -1169,6 +1168,8 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
   ]);
 
   const fallback = DEFAULT_CUSTOM_PLAN_PAGE_DATA;
+  const TIMING_PROMISE_REGEX = /within 24 hours|working days|in days\b|within a day|one working day/i;
+  const cleanTiming = <T extends string | undefined | null>(val: T, def: T): T => (!val || TIMING_PROMISE_REGEX.test(val) ? def : val);
 
   const getData = <T>(doc: any, def: T): T => {
     if (!doc || doc.isActive === false || doc.isDeleted === true) return def;
@@ -1178,25 +1179,115 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     return def;
   };
 
-  const seo = seoDoc?.data?.title
-    ? {
-        title: seoDoc.data.title,
-        description: seoDoc.data.description,
-        shareImage: seoDoc.data.shareImage || "",
-      }
-    : fallback.seo;
+  const rawSeoTitle = seoDoc?.data?.title;
+  const rawSeoDesc = seoDoc?.data?.description;
+  const seo = {
+    title: liveOr(cleanTiming(rawSeoTitle, fallback.seo?.title || ""), fallback.seo?.title || ""),
+    description: liveOr(cleanTiming(rawSeoDesc, fallback.seo?.description || ""), fallback.seo?.description || ""),
+    shareImage: seoDoc?.data?.shareImage || "",
+  };
 
-  const hero = getData(heroDoc, fallback.hero);
-  const audiences = audiencesDoc?.isActive !== false ? getData(audiencesDoc, fallback.audiences) : undefined;
-  const deliverables = deliverablesDoc?.isActive !== false ? getData(deliverablesDoc, fallback.deliverables) : undefined;
-  const timeline = timelineDoc?.isActive !== false ? getData(timelineDoc, fallback.timeline) : undefined;
-  const comparison = comparisonDoc?.isActive !== false ? getData(comparisonDoc, fallback.comparison) : undefined;
-  const mobileApps = mobileAppsDoc?.isActive !== false ? getData(mobileAppsDoc, fallback.mobileApps) : undefined;
-  const services = servicesDoc?.isActive !== false ? getData(servicesDoc, fallback.services) : undefined;
-  const pricingNote = pricingNoteDoc?.isActive !== false ? getData(pricingNoteDoc, fallback.pricingNote) : undefined;
-  const form = getData(formDoc, fallback.form);
-  const faq = faqDoc?.isActive !== false ? getData(faqDoc, fallback.faq) : undefined;
-  const cta = ctaDoc?.isActive !== false ? getData(ctaDoc, fallback.cta) : undefined;
+  const rawHero = getData(heroDoc, fallback.hero);
+  const hero = {
+    ...rawHero,
+    title: liveOr(cleanTiming(rawHero.title, fallback.hero.title), fallback.hero.title),
+    subtitle: liveOr(cleanTiming(rawHero.subtitle, fallback.hero.subtitle), fallback.hero.subtitle),
+    proofChips: keepLive(rawHero.proofChips, (chip) => chip).filter((chip) => !TIMING_PROMISE_REGEX.test(chip)),
+  };
+
+  const rawAudiences = audiencesDoc?.isActive !== false ? getData(audiencesDoc, fallback.audiences) : undefined;
+  const audiences = rawAudiences
+    ? {
+        ...rawAudiences,
+        title: liveOr(cleanTiming(rawAudiences.title, fallback.audiences?.title || ""), fallback.audiences?.title || ""),
+        items: keepLive(rawAudiences.items, (item) => [item.title, item.text])
+          .filter((item) => !/schools?|colleges?|universit/i.test(item.title) && !TIMING_PROMISE_REGEX.test(item.text)),
+      }
+    : undefined;
+
+  const rawDeliverables = deliverablesDoc?.isActive !== false ? getData(deliverablesDoc, fallback.deliverables) : undefined;
+  const deliverables = rawDeliverables
+    ? {
+        ...rawDeliverables,
+        title: liveOr(cleanTiming(rawDeliverables.title, fallback.deliverables?.title || ""), fallback.deliverables?.title || ""),
+        subtitle: liveOr(cleanTiming(rawDeliverables.subtitle, fallback.deliverables?.subtitle || ""), fallback.deliverables?.subtitle || ""),
+        items: keepLive(rawDeliverables.items, (item) => [item.title, item.text, item.tag])
+          .filter((item) => !TIMING_PROMISE_REGEX.test(item.text)),
+      }
+    : undefined;
+
+  const rawTimeline = timelineDoc?.isActive !== false ? getData(timelineDoc, fallback.timeline) : undefined;
+  const timeline = rawTimeline
+    ? {
+        ...rawTimeline,
+        title: liveOr(cleanTiming(rawTimeline.title, fallback.timeline?.title || "From first call to launch"), fallback.timeline?.title || "From first call to launch"),
+        subtitle: liveOr(cleanTiming(rawTimeline.subtitle, fallback.timeline?.subtitle || ""), fallback.timeline?.subtitle || ""),
+        footnote: liveOr(cleanTiming(rawTimeline.footnote, fallback.timeline?.footnote || "We agree the dates with you in the written plan."), fallback.timeline?.footnote || "We agree the dates with you in the written plan."),
+        steps: keepLive(rawTimeline.steps, (step) => [step.title, step.text, step.when])
+          .filter((step) => !TIMING_PROMISE_REGEX.test(step.text))
+          .map((step, idx) => ({
+            ...step,
+            when: `Step ${idx + 1}`,
+          })),
+      }
+    : undefined;
+
+  const rawComparison = comparisonDoc?.isActive !== false ? getData(comparisonDoc, fallback.comparison) : undefined;
+  const comparison = rawComparison
+    ? {
+        ...rawComparison,
+        title: liveOr(cleanTiming(rawComparison.title, fallback.comparison?.title || ""), fallback.comparison?.title || ""),
+        rows: keepLive(rawComparison.rows, (row) => [row.topic, row.left, row.right])
+          .filter((row) => !TIMING_PROMISE_REGEX.test(row.left) && !TIMING_PROMISE_REGEX.test(row.right)),
+      }
+    : undefined;
+
+  const rawServices = servicesDoc?.isActive !== false ? getData(servicesDoc, fallback.services) : undefined;
+  const services = rawServices
+    ? {
+        ...rawServices,
+        title: liveOr(cleanTiming(rawServices.title, fallback.services?.title || ""), fallback.services?.title || ""),
+        items: keepLive(rawServices.items, (item) => [item.title, item.text])
+          .filter((item) => !TIMING_PROMISE_REGEX.test(item.text)),
+      }
+    : undefined;
+
+  const rawPricingNote = pricingNoteDoc?.isActive !== false ? getData(pricingNoteDoc, fallback.pricingNote) : undefined;
+  const pricingNote = rawPricingNote
+    ? {
+        ...rawPricingNote,
+        title: liveOr(cleanTiming(rawPricingNote.title, fallback.pricingNote?.title || ""), fallback.pricingNote?.title || ""),
+        text: liveOr(cleanTiming(rawPricingNote.text, fallback.pricingNote?.text || ""), fallback.pricingNote?.text || ""),
+      }
+    : undefined;
+
+  const rawForm = getData(formDoc, fallback.form);
+  const form = {
+    ...rawForm,
+    title: liveOr(cleanTiming(rawForm.title, fallback.form.title), fallback.form.title),
+    subtitle: liveOr(cleanTiming(rawForm.subtitle, fallback.form.subtitle), fallback.form.subtitle),
+    successMessage: liveOr(cleanTiming(rawForm.successMessage, fallback.form.successMessage), fallback.form.successMessage),
+    needs: keepLive(rawForm.needs, (need) => need),
+  };
+
+  const rawFaq = faqDoc?.isActive !== false ? getData(faqDoc, fallback.faq) : undefined;
+  const faq = rawFaq
+    ? {
+        ...rawFaq,
+        title: liveOr(cleanTiming(rawFaq.title, fallback.faq?.title || ""), fallback.faq?.title || ""),
+        items: keepLive(rawFaq.items, (item) => [item.question, item.answer])
+          .filter((item) => !TIMING_PROMISE_REGEX.test(item.answer) && !TIMING_PROMISE_REGEX.test(item.question)),
+      }
+    : undefined;
+
+  const rawCta = ctaDoc?.isActive !== false ? getData(ctaDoc, fallback.cta) : undefined;
+  const cta = rawCta
+    ? {
+        ...rawCta,
+        title: liveOr(cleanTiming(rawCta.title, fallback.cta?.title || ""), fallback.cta?.title || ""),
+        text: liveOr(cleanTiming(rawCta.text, fallback.cta?.text || ""), fallback.cta?.text || ""),
+      }
+    : undefined;
 
   return {
     seo,
@@ -1205,7 +1296,6 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     deliverables,
     timeline,
     comparison,
-    mobileApps,
     services,
     pricingNote,
     form,

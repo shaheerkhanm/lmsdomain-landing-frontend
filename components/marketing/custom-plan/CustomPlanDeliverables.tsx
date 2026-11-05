@@ -35,8 +35,6 @@ const ICON_MAP: Record<string, React.ElementType> = {
 // Pastel pill colour by tag
 const TAG_COLORS: Record<string, string> = {
   Web: "bg-[#EEE9FF] text-[#7B5CF5] border-[#DCD3FF]",
-  Android: "bg-[#E8F8F5] text-[#0D9488] border-[#B2ECE1]",
-  iOS: "bg-[#EFF6FF] text-[#2563EB] border-[#BFDBFE]",
   Admin: "bg-[#F3F4F6] text-[#4B5563] border-[#E5E7EB]",
   Payments: "bg-[#FEF3C7] text-[#D97706] border-[#FDE68A]",
   AI: "bg-[#F5F3FF] text-[#7C3AED] border-[#DDD6FE]",
@@ -91,53 +89,7 @@ export function CustomPlanDeliverables({ deliverables }: CustomPlanDeliverablesP
           </div>
         );
 
-      // 2. Android Phone illustration
-      case "Android":
-        return (
-          <div className="w-full h-16 rounded-xl bg-[#F8FAFC] border border-[#ECEDEF] p-2 flex items-center justify-between gap-3 mt-4 overflow-hidden">
-            <div className="flex items-center gap-2">
-              <div
-                className={`size-9 rounded-xl bg-[#0D9488] text-white flex items-center justify-center font-bold text-xs transition-transform duration-300 ${
-                  isHovered ? "scale-110" : ""
-                }`}
-              >
-                App
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-[#161616] leading-tight">Google Play Listing</p>
-                <p className="text-[8px] text-[#0D9488] font-medium">Your Developer Account</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-1 text-[9px] font-bold text-[#0D9488] bg-[#E8F8F5] px-2 py-1 rounded-md">
-              <span>★ 4.9</span>
-            </div>
-          </div>
-        );
-
-      // 3. iOS Phone illustration
-      case "iOS":
-        return (
-          <div className="w-full h-16 rounded-xl bg-[#F8FAFC] border border-[#ECEDEF] p-2 flex items-center justify-between gap-3 mt-4 overflow-hidden">
-            <div className="flex items-center gap-2">
-              <div
-                className={`size-9 rounded-xl bg-[#2563EB] text-white flex items-center justify-center font-bold text-xs transition-transform duration-300 ${
-                  isHovered ? "scale-110" : ""
-                }`}
-              >
-                iOS
-              </div>
-              <div>
-                <p className="text-[10px] font-bold text-[#161616] leading-tight">Apple App Store</p>
-                <p className="text-[8px] text-[#2563EB] font-medium">iPhone &amp; iPad Native</p>
-              </div>
-            </div>
-            <div className="px-2 py-1 rounded-md bg-[#EFF6FF] text-[9px] font-bold text-[#2563EB]">
-              Store Ready
-            </div>
-          </div>
-        );
-
-      // 4. Domie AI Chat Bubble illustration
+      // 2. Domie AI Chat Bubble illustration
       case "AI":
         return (
           <div className="w-full h-16 rounded-xl bg-[#F8FAFC] border border-[#ECEDEF] p-2 flex items-center justify-between gap-3 mt-4 overflow-hidden">
@@ -198,12 +150,12 @@ export function CustomPlanDeliverables({ deliverables }: CustomPlanDeliverablesP
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {deliverables.items.map((item, idx) => {
             const Icon = ICON_MAP[item.icon] || Globe;
-            // First 3 items (Web, Android, iOS) and AI item are given 2-column span on desktop
+            // Web, AI, After launch, and Custom are given 2-column span on desktop
             const isFeatured =
               item.tag === "Web" ||
-              item.tag === "Android" ||
-              item.tag === "iOS" ||
-              item.tag === "AI";
+              item.tag === "AI" ||
+              item.tag === "After launch" ||
+              item.tag === "Custom";
             const colSpan = isFeatured ? "lg:col-span-2" : "lg:col-span-1";
             const tagClass = TAG_COLORS[item.tag] || "bg-slate-100 text-slate-700 border-slate-200";
             const isHovered = hoveredIdx === idx;

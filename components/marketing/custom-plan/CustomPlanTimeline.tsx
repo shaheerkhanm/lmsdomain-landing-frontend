@@ -22,13 +22,13 @@ export function CustomPlanTimeline({ timeline }: CustomPlanTimelineProps) {
   }
 
   const steps = timeline.steps;
-  const title = timeline.title || "From first call to launch, in days not months";
+  const title = timeline.title || "From first call to launch";
   const subtitle =
     timeline.subtitle ||
     "A fixed plan from the first day, so you always know what happens next.";
   const footnote =
     timeline.footnote ||
-    "Times are working days after you approve the plan and share your brand assets. Store review time is set by Apple and Google, usually a few days.";
+    "We agree the dates with you in the written plan.";
 
   // GSAP Horizontal Scrub for Desktop (>= 1024px)
   useEffect(() => {

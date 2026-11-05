@@ -14,7 +14,7 @@ export function CustomPlanPricingNote({ pricingNote }: CustomPlanPricingNoteProp
   const title = pricingNote.title || "A plan that fits what you need";
   const text =
     pricingNote.text ||
-    "Every Custom Plan is quoted on what you actually need: number of learners, apps, migration and custom features. You get a clear written quote within 24 hours of our call, with no hidden costs.";
+    "Every Custom Plan is quoted on what you actually need: number of learners, migration and custom features. You get a clear written quote after our call, with no hidden costs.";
   const ctaLabel = pricingNote.ctaLabel || "Get my quote";
 
   // Format startingFrom if set and valid number

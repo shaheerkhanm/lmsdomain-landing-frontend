@@ -59,7 +59,7 @@ export function CustomPlanFaq({ faq }: CustomPlanFaqProps) {
               </h2>
 
               <p className="text-sm sm:text-base text-slate-500 leading-relaxed font-normal">
-                Everything you need to know about timeline, custom apps, data ownership, and pricing.
+                Everything you need to know about setup, data ownership, and pricing.
               </p>
 
               <div className="pt-2">
