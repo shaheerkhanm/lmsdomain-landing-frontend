@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useRef, useState, useMemo } from "react";
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { useBrandPreview } from "./BrandPreviewContext";
 import type { CustomPlanBrandPreview } from "@/types/content";
-import { Check, Play, BookOpen, Star, Compass } from "lucide-react";
+import { Check } from "lucide-react";
 
 interface BrandPreviewMockProps {
   config?: CustomPlanBrandPreview;
@@ -35,13 +35,6 @@ export function BrandPreviewMock({
     if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
     return (parts[0][0] + (parts[1]?.[0] || "")).toUpperCase();
   }, [brandName]);
-
-  // Subtle parallax for phone frame on scroll (desktop only)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-  const phoneY = useTransform(scrollYProgress, [0, 1], [15, -25]);
 
   // Auto-play once on load: types a sample name, cycles 2 colours, then waits
   useEffect(() => {
@@ -201,16 +194,13 @@ export function BrandPreviewMock({
             </div>
 
             {/* Academy Course Card (Featured Hero Course) */}
-            <div className="rounded-xl border border-[#ECEDEF] bg-white p-3.5 sm:p-4 shadow-xs relative max-w-[70%] sm:max-w-[65%]">
+            <div className="rounded-xl border border-[#ECEDEF] bg-white p-3.5 sm:p-4 shadow-xs relative max-w-md">
               <div className="flex items-center gap-2 mb-2">
                 <span
                   className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider text-white transition-colors duration-300"
                   style={{ backgroundColor: "var(--brand-accent)" }}
                 >
                   Active Course
-                </span>
-                <span className="text-[10px] text-[#8F94A0] flex items-center gap-0.5">
-                  <Star className="size-2.5 fill-amber-400 text-amber-400" /> 4.9
                 </span>
               </div>
 
@@ -237,73 +227,6 @@ export function BrandPreviewMock({
             </div>
           </div>
         </div>
-
-        {/* Overlapping Phone Frame (App preview) */}
-        <motion.div
-          style={{ y: shouldReduceMotion ? 0 : phoneY }}
-          className="absolute -right-2 sm:-right-4 -bottom-6 sm:-bottom-8 w-[170px] sm:w-[210px] rounded-[30px] sm:rounded-[36px] bg-[#161616] p-2.5 sm:p-3 shadow-[0_25px_60px_rgba(0,0,0,0.28)] border border-white/20 z-20"
-        >
-          {/* Phone Screen Glass */}
-          <div className="w-full rounded-[22px] sm:rounded-[26px] bg-[#0E0E0E] text-white p-3 pt-3.5 sm:p-3.5 sm:pt-4 overflow-hidden relative">
-            {/* Phone Speaker Notch */}
-            <div className="w-12 h-3 bg-black rounded-full mx-auto mb-3" />
-
-            {/* App Top Brand Header */}
-            <div className="flex items-center gap-2 mb-3">
-              {/* App Icon */}
-              <div
-                className="size-7 sm:size-8 rounded-xl flex items-center justify-center text-white font-bold text-xs shadow-md transition-colors duration-300 shrink-0"
-                style={{ backgroundColor: "var(--brand-accent)" }}
-              >
-                {initials}
-              </div>
-              <div className="min-w-0 text-left">
-                <p className="text-[11px] sm:text-xs font-bold text-white truncate leading-tight">
-                  {brandName || "Your Academy"}
-                </p>
-                <p className="text-[9px] text-[#8F94A0] truncate">Mobile App</p>
-              </div>
-            </div>
-
-            {/* App Mini Cards */}
-            <div className="space-y-2 text-left">
-              <div className="p-2 rounded-xl bg-white/10 border border-white/10">
-                <div className="flex items-center justify-between text-[9px] text-[#C9CCD1] mb-1">
-                  <span>Module 3: React</span>
-                  <span
-                    className="font-bold text-[8px] px-1 rounded transition-colors duration-300"
-                    style={{ color: "var(--brand-accent)" }}
-                  >
-                    Resume
-                  </span>
-                </div>
-                <div className="w-full h-1 rounded-full bg-white/10 overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-300"
-                    style={{ width: "75%", backgroundColor: "var(--brand-accent)" }}
-                  />
-                </div>
-              </div>
-
-              <div className="p-2 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between">
-                <div className="text-[9px] text-[#C9CCD1] truncate">
-                  <span>Domie AI Tutor</span>
-                </div>
-                <span
-                  className="size-1.5 rounded-full animate-pulse"
-                  style={{ backgroundColor: "var(--brand-accent)" }}
-                />
-              </div>
-            </div>
-
-            {/* Bottom App Navigation Bar */}
-            <div className="mt-4 pt-2 border-t border-white/10 flex items-center justify-around text-[#8F94A0]">
-              <span className="size-2 rounded-full" style={{ backgroundColor: "var(--brand-accent)" }} />
-              <span className="size-2 rounded-full bg-white/20" />
-              <span className="size-2 rounded-full bg-white/20" />
-            </div>
-          </div>
-        </motion.div>
       </div>
     </div>
   );

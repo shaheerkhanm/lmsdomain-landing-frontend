@@ -45,13 +45,9 @@ import type {
   LegalPageData,
   AiPageData,
   AuthCopy,
-  HomeTestimonials,
-  TestimonialItem,
   PlanCurrency,
-  HomeMobileApp,
   HomeClients,
   CustomPlanPageData,
-  HomeCustomPlanBand,
   SiteNavigation,
 } from "@/types/content";
 import { DEFAULT_CUSTOM_PLAN_PAGE_DATA } from "@/content/custom-plan/page";
@@ -1076,28 +1072,10 @@ export async function getAiPage(): Promise<AiPageData> {
 // ----------------------------------------------------------------------------
 // Homepage Testimonials (Wall of Love + CtaSection floating cards)
 // Endpoint: POST /api/home/testimonials
-// Published backend testimonials win. Otherwise the local sample, loaded with a
-// dynamic import ONLY when CMS_USE_FIXTURES === "true". Otherwise empty, and the
-// sections hide.
 // ----------------------------------------------------------------------------
-interface BackendTestimonial {
-  _id?: string;
-  customerName?: string;
-  customerProfession?: string;
-  comment?: string;
-  image?: string;
-  photo?: string;
-  imageAlt?: string;
-  photoAlt?: string;
-  isActive?: boolean;
-  isDeleted?: boolean;
-}
-
-// ----------------------------------------------------------------------------
-// Home: mobile app section (Home > Cms > "mobile app (new site)") and client
-// logos (heading: Home > Cms > "client logos (new site)"; logos: Home > Client
-// logos, /api/home/clients). Each returns null when unpublished or empty, and
-// the section is not shown. Refresh tags: home.
+// Home: client logos (heading: Home > Cms > "client logos (new site)";
+// logos: Home > Client logos, /api/home/clients). Returns null when unpublished
+// or empty, and the section is not shown. Refresh tags: home.
 // ----------------------------------------------------------------------------
 const text = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 const isImagePath = (v: string) => /^(\/uploads\/|https:\/\/|\/assets\/)/.test(v);
@@ -1114,27 +1092,6 @@ interface BackendClient {
   url?: string;
   isActive?: boolean;
   isDeleted?: boolean;
-}
-
-export async function getHomeMobileApp(): Promise<HomeMobileApp | null> {
-  const doc = await fetchCms("site-home-mobile-app", ["cms", "home", "cms:site-home-mobile-app"]);
-  const data: Loose = doc?.data || {};
-  const app: HomeMobileApp = {
-    eyebrow: text(data.eyebrow),
-    title: text(data.title),
-    description: text(data.description),
-    highlights: list(data.highlights)
-      .map((h) => ({ icon: text(h.icon), title: text(h.title), text: text(h.text) }))
-      .filter((h) => h.title),
-    screenshots: list(data.screenshots)
-      .map((sc) => ({ image: text(sc.image), alt: text(sc.alt) }))
-      .filter((sc) => isImagePath(sc.image)),
-    appStoreUrl: isHttpUrl(text(data.appStoreUrl)) ? text(data.appStoreUrl) : undefined,
-    playStoreUrl: isHttpUrl(text(data.playStoreUrl)) ? text(data.playStoreUrl) : undefined,
-    qrImage: isImagePath(text(data.qrImage)) ? text(data.qrImage) : undefined,
-  };
-  if (!doc || !app.title || (!app.description && !app.highlights.length && !app.screenshots.length)) return null;
-  return app;
 }
 
 export async function getHomeClients(): Promise<HomeClients | null> {
@@ -1156,7 +1113,7 @@ export async function getHomeClients(): Promise<HomeClients | null> {
       logo: text(c.logo),
       url: isHttpUrl(text(c.url)) ? text(c.url) : undefined,
     }))
-    .filter((c) => c.name && isImagePath(c.logo));
+    .filter((c) => c.name && isImagePath(c.logo) && !/^client\s*\d*$/i.test(c.name));
   if (!logos.length) return null;
   return { eyebrow: text(data.eyebrow), title: text(data.title), subtitle: text(data.subtitle), logos };
 }
@@ -1176,65 +1133,6 @@ export function htmlToText(value: unknown): string {
     .replace(/[ \t]+\n/g, "\n")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
-}
-
-export async function getHomeTestimonials(): Promise<HomeTestimonials> {
-  const res = await fetchApi<{ status?: boolean; data?: BackendTestimonial[] }>(
-    "/api/home/testimonials",
-    {
-      method: "POST",
-      body: { slug: "" },
-      tags: ["home", "testimonials"],
-      revalidate: 300,
-    }
-  ).catch(() => null);
-
-  const published = filterActiveDocuments(res?.data).filter(
-    (t) => t.customerName?.trim() && t.comment?.trim()
-  );
-
-  if (published.length > 0) {
-    const cards: TestimonialItem[] = published.map((t, idx) => {
-      const rawPhoto = (t.photo || t.image || "").trim();
-      let photoUrl: string | undefined = undefined;
-      if (rawPhoto) {
-        photoUrl = isHttpUrl(rawPhoto) || rawPhoto.startsWith("/") ? rawPhoto : `/${rawPhoto}`;
-      }
-      return {
-        id: t._id || `testimonial-${idx + 1}`,
-        name: t.customerName!.trim(),
-        role: t.customerProfession?.trim() || "",
-        avatar: photoUrl,
-        photo: photoUrl,
-        image: photoUrl,
-        quote: t.comment!.trim(),
-        placeholder: false,
-      };
-    });
-
-    return {
-      cards,
-      cta: cards.map((c) => ({
-        id: c.id,
-        avatar: c.avatar,
-        text: c.quote!,
-        author: c.name,
-        role: c.role || undefined,
-      })),
-      isSample: false,
-    };
-  }
-
-  if (process.env.CMS_USE_FIXTURES === "true") {
-    const sample = await import("@/content/home/sample-testimonials");
-    return {
-      cards: sample.SAMPLE_TESTIMONIAL_CARDS,
-      cta: sample.SAMPLE_CTA_TESTIMONIALS,
-      isSample: true,
-    };
-  }
-
-  return { cards: [], cta: [], isSample: false };
 }
 
 // ----------------------------------------------------------------------------
@@ -1314,25 +1212,6 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     faq,
     cta,
   };
-}
-
-export async function getHomeCustomPlanBand(): Promise<HomeCustomPlanBand | null> {
-  try {
-    const doc = await fetchCms("site-home-custom-plan", ["cms", "home", "custom-plan"]);
-    if (!doc || doc.isActive === false || doc.isDeleted === true) return null;
-    const data = doc.data as any;
-    if (!data || !data.title) return null;
-    return {
-      eyebrow: data.eyebrow || "CUSTOM PLAN",
-      title: data.title,
-      text: data.text || "",
-      ctaLabel: data.ctaLabel || "See how it works",
-      ctaHref: data.ctaHref || "/custom-lms",
-      image: data.image || "",
-    };
-  } catch (e) {
-    return null;
-  }
 }
 
 export async function getSiteNavigation(): Promise<SiteNavigation | null> {

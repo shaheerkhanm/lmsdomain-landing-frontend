@@ -4,32 +4,21 @@ import FeaturesSection from "@/components/sections/HomePage/FeaturesSection/Feat
 import ManifestSection from "@/components/sections/HomePage/ManifestSection";
 import AiSection from "@/components/sections/HomePage/AiSection/AiSection";
 import AdvantageSection from "@/components/sections/HomePage/AdvantageSection/AdvantageSection";
-import CustomerSection from "@/components/sections/HomePage/CustomerSection/CustomerSection";
 import FaqSection from "@/components/sections/HomePage/FaqSection";
-import MobileAppSection from "@/components/sections/HomePage/MobileAppSection";
 import ClientLogosSection from "@/components/sections/HomePage/ClientLogosSection";
-import CustomPlanBand from "@/components/sections/HomePage/CustomPlanBand";
-import { getSection, getHomeTestimonials, getHomeMobileApp, getHomeClients, getHomeCustomPlanBand } from "@/lib/api/content";
+import { getSection, getHomeClients } from "@/lib/api/content";
 import { ContentSource } from "@/components/content/ContentSource";
 import { PageContentProvider } from "@/components/content/PageContent";
 
 export async function HomePage() {
-  // Every section's copy comes from the admin (Home > Cms), with the built-in
-  // content as fallback; testimonials come from Home > Testimonials.
-  // Mobile app and client logos come only from the admin and are hidden while
-  // unpublished or empty (no built-in fallback).
-  const [hero, teachSmarter, manifesto, ai, benefits, wallTitle, faq, testimonials, mobileApp, clients, customPlan] = await Promise.all([
+  const [hero, teachSmarter, manifesto, ai, benefits, faq, clients] = await Promise.all([
     getSection("home-hero"),
     getSection("home-teach-smarter"),
     getSection("home-manifesto"),
     getSection("home-ai"),
     getSection("home-benefits"),
-    getSection("testimonials"),
     getSection("home-faq"),
-    getHomeTestimonials(),
-    getHomeMobileApp(),
     getHomeClients(),
-    getHomeCustomPlanBand(),
   ]);
 
   const content = {
@@ -38,7 +27,6 @@ export async function HomePage() {
     "home-manifesto": manifesto.content,
     "home-ai": ai.content,
     "home-benefits": benefits.content,
-    testimonials: wallTitle.content,
     "home-faq": faq.content,
   };
 
@@ -57,29 +45,13 @@ export async function HomePage() {
         <ContentSource id="home-ai" source={ai.source}>
           <AiSection />
         </ContentSource>
-        {/* After the AI tools: where learners use the product, before the business benefits */}
-        {mobileApp && (
-          <ContentSource id="site-home-mobile-app" source="api">
-            <MobileAppSection data={mobileApp} />
-          </ContentSource>
-        )}
         <ContentSource id="home-benefits" source={benefits.source}>
           <AdvantageSection />
         </ContentSource>
-        {/* Social proof together: logos lead into the wall of love */}
+        {/* Social proof */}
         {clients && (
           <ContentSource id="site-home-clients" source="api">
             <ClientLogosSection data={clients} />
-          </ContentSource>
-        )}
-        {/* Cards come from Home > Testimonials; hidden when there are none */}
-        <ContentSource id="testimonials" source={testimonials.cards.length ? wallTitle.source : "api"}>
-          <CustomerSection cards={testimonials.cards} />
-        </ContentSource>
-        {/* Custom Plan Band: between Wall of Love and FAQ */}
-        {customPlan && (
-          <ContentSource id="site-home-custom-plan" source="api">
-            <CustomPlanBand data={customPlan} />
           </ContentSource>
         )}
         <ContentSource id="home-faq" source={faq.source}>
