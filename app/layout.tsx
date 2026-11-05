@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { getSiteIdentity, getBrand, iconUrls, DEFAULT_THEME_LIGHT, DEFAULT_THEME_DARK } from "@/lib/siteIdentity";
 import { BrandProvider } from "@/lib/brand-context";
-import { getMetadataBase } from "@/lib/site";
+import { getMetadataBase, isProductionSite } from "@/lib/site";
 import { Urbanist, Inter, Manrope } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/Header";
@@ -44,6 +44,12 @@ export async function generateMetadata(): Promise<Metadata> {
     title: "LMS Domain",
     description: "LMS Domain Learning Management",
     applicationName: "LMS Domain",
+    robots: isProductionSite()
+      ? undefined
+      : {
+          index: false,
+          follow: false,
+        },
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "48x48" },
