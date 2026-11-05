@@ -659,7 +659,7 @@ export interface HeroTutorCard {
   subtitle: string;
   question: string;
   answer: string;
-  sourceChip: string;
+  sourceChip?: string;
 }
 
 export interface HeroCheckoutCard {

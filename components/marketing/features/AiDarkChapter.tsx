@@ -321,12 +321,6 @@ export function AiDarkChapter({
                               <span className="inline-block w-1.5 h-3 bg-[#7B5CF5] ml-1 animate-pulse align-middle" />
                             )}
                           </p>
-                          <div className="pt-1">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#7B5CF5]/20 border border-[#7B5CF5]/30 text-[#A78BFA] text-[10px] font-semibold">
-                              <span>✦</span>
-                              From your course: Module 2 (Assessment Guidelines)
-                            </span>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -503,17 +497,14 @@ export function AiDarkChapter({
                         <div className="p-2 rounded-lg bg-white/10 text-white text-right">
                           Can you summarize Module 2?
                         </div>
-                        <div className="p-2.5 rounded-lg bg-[#7B5CF5]/20 text-[#E9D5FF] text-left">
-                          Domie references course transcripts and slides directly.
-                        </div>
                       </div>
                     )}
                     {idx === 1 && (
                       <div className="space-y-1.5">
                         <span className="text-[9px] font-bold text-[#A78BFA] uppercase">
-                          AI Curriculum Outliner
+                          AI Content Generator
                         </span>
-                        <p className="text-white font-medium">Generate 10 structured lessons &amp; quizzes.</p>
+                        <p className="text-white font-medium">Draft titles, descriptions and learning outcomes.</p>
                       </div>
                     )}
                     {idx === 2 && (
@@ -543,7 +534,7 @@ export function AiDarkChapter({
                 Want to see the complete Domie AI architecture?
               </p>
               <p className="text-xs text-[#C9CCD1]">
-                Learn how course-grounding safeguards your content and prevents hallucination.
+                Learn how course-grounding safeguards your content and reduces off-topic answers by grounding responses in your course content.
               </p>
             </div>
 

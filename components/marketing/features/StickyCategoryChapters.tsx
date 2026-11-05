@@ -299,7 +299,7 @@ function renderFeatureAttachment(
     return (
       <div className="mt-4 p-4 rounded-2xl bg-[#F9FAFB] border border-[#E5E7EB] space-y-2 text-xs">
         <div className="flex flex-wrap gap-2">
-          {["Stripe", "PayPal", "Razorpay", "Offline Bank Transfer"].map((gw) => (
+          {["Stripe", "Razorpay", "Paytm", "DOKU", "Offline Bank Transfer"].map((gw) => (
             <span
               key={gw}
               className="px-3 py-1 rounded-lg bg-white border border-[#E5E7EB] font-bold text-[#161616] shadow-2xs"

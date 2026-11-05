@@ -374,7 +374,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
         id: doc._id || doc.slug || String(idx),
         slug: doc.slug,
         name: doc.title,
-        tagline: doc.subTitle,
+        tagline: doc.subTitle ? liveOr(doc.subTitle, "") : undefined,
         isPopular,
         isCustom,
         prices: {
@@ -391,7 +391,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
         },
         priceNote: isCustom ? "Custom" : undefined,
         limits: limits.length > 0 ? limits : undefined,
-        features: Array.isArray(doc.tags) ? doc.tags : [],
+        features: keepLive(Array.isArray(doc.tags) ? doc.tags : [], (tag) => tag),
         cta: {
           label: doc.buttonText || (isPopular ? "Get Started" : "Start Free Trial"),
           action: doc.buttonAction === "demo" ? "demo" : doc.buttonAction === "contact" ? "contact" : "signup",
@@ -402,14 +402,15 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     });
   }
 
+  const DEFAULT_ENT_TITLE = "Need your own branded LMS?";
+  const DEFAULT_ENT_DESC = "Get a Custom Plan: your academy, set up and supported by our team.";
+
   // Enterprise band from CMS site-pricing-enterprise (Prompt 37a/37b)
   if (enterpriseDoc && enterpriseDoc.isActive !== false && !enterpriseDoc.isDeleted && enterpriseDoc.data) {
     const entData = enterpriseDoc.data as any;
     enterprise = {
-      title: entData.title || "Need your own branded LMS and apps?",
-      description:
-        entData.description ||
-        "Get a Custom Plan: your academy, Android and iOS apps, set up by our team in days.",
+      title: liveOr(entData.title, DEFAULT_ENT_TITLE),
+      description: liveOr(entData.description, DEFAULT_ENT_DESC),
       cta: {
         label: entData.cta?.label || "Build your custom plan",
         href: entData.cta?.href || "/custom-lms",
@@ -422,7 +423,11 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     mappedPlans = sample.SAMPLE_PLANS.map((plan) => ({ ...plan, currency: resolvePlanCurrency() }));
     comparison = sample.SAMPLE_COMPARISON;
     addOns = { title: "Flexible Add-Ons", items: sample.SAMPLE_ADD_ONS };
-    enterprise = sample.SAMPLE_ENTERPRISE;
+    enterprise = {
+      ...sample.SAMPLE_ENTERPRISE,
+      title: liveOr(sample.SAMPLE_ENTERPRISE.title, DEFAULT_ENT_TITLE),
+      description: liveOr(sample.SAMPLE_ENTERPRISE.description, DEFAULT_ENT_DESC),
+    };
     faq = { ...faqHeading, items: sample.SAMPLE_FAQ.items };
     yearlySavingsLabel = "Sample: 2 months free";
     isSample = true;
@@ -430,8 +435,8 @@ export async function getPricingPage(): Promise<PricingPageModel> {
 
   if (!enterprise && (activePlans.length > 0 || process.env.CMS_USE_FIXTURES === "true")) {
     enterprise = {
-      title: "Need your own branded LMS and apps?",
-      description: "Get a Custom Plan: your academy, Android and iOS apps, set up by our team in days.",
+      title: DEFAULT_ENT_TITLE,
+      description: DEFAULT_ENT_DESC,
       cta: {
         label: "Build your custom plan",
         href: "/custom-lms",

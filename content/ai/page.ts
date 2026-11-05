@@ -22,7 +22,6 @@ export const AI_TOOLS: AiTool[] = [
     bullets: [
       "Answers grounded directly in your syllabus and uploaded course materials",
       "Maintains isolated chat histories for every course the student is taking",
-      "Cites lesson sources so students can review the exact context",
     ],
     badge: "Premium",
     demo: "tutor",

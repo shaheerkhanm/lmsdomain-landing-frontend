@@ -30,7 +30,7 @@ export function AiHowItWorks({
       stepNumber: "03",
       title: "Full Administrator Control",
       description:
-        "Keep complete governance over AI features with course-level toggles, clear source citations, and human-in-the-loop workflows.",
+        "Keep complete governance over AI features with course-level toggles and human-in-the-loop workflows.",
     },
   ],
 }: AiHowItWorksProps) {

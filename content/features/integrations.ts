@@ -30,7 +30,6 @@ export const INTEGRATIONS: Integration[] = [
   { name: "Microsoft Teams", logo: "/assets/img/integration/integration-7.png", logoSize: 34, category: "Live classes" },
   { name: "Stripe", logo: "/assets/img/integration/integration-8.png", logoSize: 54, category: "Payments" },
   { name: "Google Meet", logo: "/assets/img/integration/integration-9.png", logoSize: 27, category: "Live classes" },
-  { name: "PayPal", logo: "/assets/img/integration/integration-10.png", logoSize: 38, category: "Payments" },
   { name: "Slack", logo: "/assets/img/integration/integration-11.png", logoSize: 36, category: "Communication" },
   { name: "Google Analytics", logo: "/assets/img/integration/integration-12.png", logoSize: 26, category: "Analytics" },
 ];

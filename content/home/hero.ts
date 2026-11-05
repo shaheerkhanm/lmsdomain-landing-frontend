@@ -31,7 +31,6 @@ export const heroContent: HeroContent = {
       question: "What's the difference between a quiz and an assignment?",
       answer:
         "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor review.",
-      sourceChip: "From your course: Module 2",
     },
     {
       type: "checkout",

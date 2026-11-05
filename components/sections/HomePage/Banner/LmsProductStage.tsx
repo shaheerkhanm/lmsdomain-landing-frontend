@@ -475,12 +475,14 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
               </div>
             </div>
 
-            <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
-              <span className="inline-flex items-center gap-1 text-[10px] text-[#7B5CF5] font-semibold bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200/60">
-                <span>✦</span>
-                {card2Data.sourceChip}
-              </span>
-            </div>
+            {card2Data.sourceChip && (
+              <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
+                <span className="inline-flex items-center gap-1 text-[10px] text-[#7B5CF5] font-semibold bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200/60">
+                  <span>✦</span>
+                  {card2Data.sourceChip}
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -684,12 +686,14 @@ export function LmsProductStage({ onOpenModal }: LmsProductStageProps) {
                     </div>
                   </div>
                 </div>
-                <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1 text-[11px] text-[#7B5CF5] font-semibold bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200/60">
-                    <span>✦</span>
-                    {card2Data.sourceChip}
-                  </span>
-                </div>
+                {card2Data.sourceChip && (
+                  <div className="mt-2 pt-2 border-t border-[#ECEDEF] flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1 text-[11px] text-[#7B5CF5] font-semibold bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200/60">
+                      <span>✦</span>
+                      {card2Data.sourceChip}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
 
