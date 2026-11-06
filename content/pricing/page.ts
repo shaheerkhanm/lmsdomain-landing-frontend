@@ -2,7 +2,7 @@ export const DEFAULT_PRICING_HERO = {
   eyebrow: "✦ PRICING",
   title: "Transparent, Scalable Plans for Every Stage",
   subtitle:
-    "Choose the right plan to launch, scale, and deliver verified courses for your academy.",
+    "Choose the right plan to launch, scale, and deliver courses for your academy.",
 };
 
 export const DEFAULT_PRICING_EMPTY_STATE = {

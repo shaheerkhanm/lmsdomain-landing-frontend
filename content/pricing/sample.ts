@@ -154,7 +154,7 @@ export const SAMPLE_COMPARISON: PricingComparison = {
         },
         {
           label: "Course Certificates",
-          tooltip: "Custom verifiable PDF certificates awarded upon criteria completion.",
+          tooltip: "Custom branded PDF certificates awarded upon criteria completion.",
           values: {
             "sample-starter": "Standard",
             "sample-growth": "Custom Branded",

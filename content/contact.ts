@@ -11,7 +11,7 @@ export interface ContactDetails {
 }
 
 export const defaultContactDetails: ContactDetails = {
-  email: "contact@lmsdomain.com",
+  email: "support@lmsdomain.com",
   phone: "+91 9539825916",
   whatsappNumber: "+91 9539825916",
   addressLines: [

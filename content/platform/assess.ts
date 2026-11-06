@@ -5,7 +5,7 @@ export const assessPlatformData: PlatformPageData = {
   eyebrow: "ASSESSMENTS & EVALUATION",
   title: "Test learners and certify the ones who finish.",
   subtitle:
-    "Evaluate student comprehension with automated quizzes, hands-on assignments, in-video knowledge checks, and verified completion credentials.",
+    "Evaluate student comprehension with automated quizzes, hands-on assignments, in-video knowledge checks, and branded completion certificates.",
   frameTitle: "Gradebook & Assessment Center",
   frameAlt: "Test learners and certify the ones who finish",
   features: [
@@ -45,7 +45,7 @@ export const assessPlatformData: PlatformPageData = {
       title: "Training companies",
       href: "/solutions/training-companies",
       description:
-        "Assess enterprise cohorts with practical project submissions and certified completion records.",
+        "Assess cohorts with practical project submissions and branded completion certificates.",
     },
   ],
 };

@@ -37,9 +37,9 @@ export const trainingCompaniesData: SolutionPageData = {
     },
     {
       title: "Branded completion certificates",
-      tagline: "Formal credentials recognizing verified completion.",
+      tagline: "Certificates for learners who finish",
       description:
-        "Award branded PDF completion certificates automatically when enterprise learners satisfy passing scores on course requirements.",
+        "Award branded PDF certificates when learners meet the course's passing requirements.",
       icon: "Award",
     },
   ],

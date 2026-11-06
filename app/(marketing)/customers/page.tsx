@@ -52,7 +52,7 @@ export default async function CustomersRoute() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-10">
             <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.1em] text-[#7B5CF5]">
-              VERIFIED ACADEMY PARTNERS
+              ACADEMY PARTNERS
             </p>
           </div>
 

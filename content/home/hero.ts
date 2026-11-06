@@ -41,7 +41,7 @@ export const heroContent: HeroContent = {
     {
       type: "certificate",
       title: "Certificate issued",
-      subtitle: "Verified course completion",
+      subtitle: "Course completion",
       learnerName: "Aisha K.",
       courseName: "Full-Stack Web Engineering",
       buttonText: "View certificate",

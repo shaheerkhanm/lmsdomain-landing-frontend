@@ -21,7 +21,7 @@ export const AUDIENCE_TABS: AudienceTab[] = [
     label: "Training Institutes",
     heading: "Built for Professional Academies and Institutes",
     subheading:
-      "Scale cohorts, manage teacher permissions, issue accredited certificates, and white-label your entire school.",
+      "Scale cohorts, manage teacher permissions, issue completion certificates, and white-label your entire school.",
     photo: "/images/features/audience-institutes.webp",
     photoAlt: "Training Institute classroom with educator and learners",
     photoChip: "Training institute",
@@ -29,7 +29,7 @@ export const AUDIENCE_TABS: AudienceTab[] = [
     features: [
       { title: "Structured Courses", slug: "course-learning", tag: "Curriculums" },
       { title: "Graded Quizzes", slug: "assessment-and-evaluation", tag: "Testing" },
-      { title: "Course Certificates", slug: "course-learning", tag: "Verifiable" },
+      { title: "Course Certificates", slug: "course-learning", tag: "Branded" },
       { title: "Role-Based Access Control", slug: "administration-and-communication", tag: "Admin" },
       { title: "Custom Domain with SSL", slug: "branding-website-and-reach", tag: "Branding" },
       { title: "Per-School Branding", slug: "branding-website-and-reach", tag: "White-Label" },
