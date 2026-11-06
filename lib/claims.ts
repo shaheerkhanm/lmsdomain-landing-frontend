@@ -5,12 +5,21 @@
  * and promises that are not live today (e.g. mobile apps, DRM, WebRTC, PayPal,
  * WhatsApp, memberships, affiliates program, funnels, AI quizzes).
  *
- * NOTE: The future /roadmap page must NOT use this guard, as roadmap items
- * deliberately describe upcoming features.
+ * NOTE: The /roadmap page is permitted to describe upcoming features ONLY
+ * for its own roadmap items (labelled "Coming soon"). All other content on
+ * that page (hero, FAQ, band) still passes through this claims guard.
  */
 
 export const NOT_LIVE_REGEX =
   /android|\bios\b|iphone|ipad|app store|google play|play store|store listings?|mobile apps?|\bapps\b|\bDRM\b|fairplay|widevine|whatsapp|webrtc|memberships?|affiliates? program|\bfunnels?\b|paypal/i;
+
+/**
+ * Explicit exception for roadmap items only: passes items through without
+ * filtering prohibited not-live claims.
+ */
+export function keepRoadmapItems<T>(items: T[] | undefined | null): T[] {
+  return Array.isArray(items) ? items : [];
+}
 
 /**
  * Returns true if any of the provided values match unapproved / not-live terms.

@@ -23,6 +23,10 @@ export const SITE_PAGES: readonly PageDefinition[] = [
   { slug: "signup", path: "/signup" },
   { slug: "refund-policy", path: "/refund-policy" },
   { slug: "dpa", path: "/dpa" },
+  { slug: "platform", path: "/platform" },
+  { slug: "customers", path: "/customers" },
+  { slug: "roadmap", path: "/roadmap" },
+  { slug: "demo", path: "/demo" },
 ] as const;
 
 export interface PageVisibilityState {
