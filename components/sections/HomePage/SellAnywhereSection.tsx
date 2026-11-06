@@ -24,14 +24,14 @@ export function SellAnywhereSection() {
       desc: "Create percentage or flat discount codes with expiry dates and redemption limits.",
     },
     {
-      icon: ReceiptText,
-      title: "Automated GST & tax invoices",
-      desc: "Generate compliant PDF invoices for learners with your academy's GSTIN and branding.",
-    },
-    {
       icon: ShieldCheck,
       title: "Offline payments with review",
-      desc: "Accept direct bank transfers and UPI screenshots with one-click admin approval.",
+      desc: "Accept direct bank transfers and payment screenshots with one-click admin approval.",
+    },
+    {
+      icon: ReceiptText,
+      title: "Revenue reports & payouts",
+      desc: "Track academy earnings and calculate revenue splits for your teaching team.",
     },
   ];
 

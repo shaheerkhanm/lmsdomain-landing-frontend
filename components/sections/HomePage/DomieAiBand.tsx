@@ -9,17 +9,17 @@ export function DomieAiBand() {
     {
       icon: MessageSquareText,
       title: "HelpDesk AI tutor",
-      desc: "Answers student questions 24/7, strictly grounded in your own course curriculum.",
+      desc: "Answers learner questions, grounded in your course content.",
     },
     {
       icon: FileEdit,
       title: "Course content drafts",
-      desc: "Generates course titles, descriptions, and learning outcomes in seconds.",
+      desc: "Drafts course titles, descriptions and learning outcomes.",
     },
     {
       icon: BarChart3,
       title: "Prescriptive analytics",
-      desc: "Identifies struggling learners and nudges instructors before drop-off occurs.",
+      desc: "Highlights learners who may need help.",
     },
   ];
 
@@ -30,7 +30,7 @@ export function DomieAiBand() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
               <Sparkles className="size-3.5" />
-              <span>Domie AI · Premium Add-on</span>
+              <span>Premium</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
               An AI teaching assistant grounded in your courses
@@ -78,3 +78,4 @@ export function DomieAiBand() {
 }
 
 export default DomieAiBand;
+

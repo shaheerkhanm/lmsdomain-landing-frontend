@@ -14,6 +14,15 @@ export const NOT_LIVE_REGEX =
   /android|\bios\b|iphone|ipad|app store|google play|play store|store listings?|mobile apps?|\bapps\b|\bDRM\b|fairplay|widevine|whatsapp|webrtc|memberships?|affiliates? program|\bfunnels?\b|paypal/i;
 
 /**
+ * Whitelisted item IDs allowed to reference roadmap features (e.g. mobile-app FAQ linking to /roadmap)
+ */
+export const WHITELISTED_CLAIM_IDS = new Set(["mobile-app", "faq-mobile-app"]);
+
+export function isWhitelistedClaim(id?: string | null): boolean {
+  return Boolean(id && WHITELISTED_CLAIM_IDS.has(id));
+}
+
+/**
  * Explicit exception for roadmap items only: passes items through without
  * filtering prohibited not-live claims.
  */
@@ -44,7 +53,8 @@ export function liveOr<T extends string | null | undefined>(value: T, fallback: 
 }
 
 /**
- * Filters a list, dropping items whose picked field(s) mention any not-live claim.
+ * Filters a list, dropping items whose picked field(s) mention any not-live claim,
+ * unless the item is whitelisted by id.
  */
 export function keepLive<T>(
   items: T[] | undefined | null,
@@ -52,6 +62,10 @@ export function keepLive<T>(
 ): T[] {
   if (!Array.isArray(items)) return [];
   return items.filter((item) => {
+    const raw = item as unknown as { id?: string; _id?: string } | null | undefined;
+    if (raw && isWhitelistedClaim(raw.id || raw._id)) {
+      return true;
+    }
     const picked = pick(item);
     const strings = Array.isArray(picked) ? picked : [picked];
     return !mentionsNotLive(...strings);

@@ -9,6 +9,7 @@ import PricingTeaserSection from "@/components/sections/HomePage/PricingTeaserSe
 import { ProofStrip, FAQ, CTABand } from "@/components/marketing/ui";
 import { homeFaqItems } from "@/content/faq";
 import { getSection, getHomeClients, getPricingPage } from "@/lib/api/content";
+import { keepLive } from "@/lib/claims";
 import { ContentSource } from "@/components/content/ContentSource";
 import { PageContentProvider } from "@/components/content/PageContent";
 
@@ -75,7 +76,7 @@ export async function HomePage() {
 
         {/* 9. FAQ */}
         <FAQ
-          items={homeFaqItems}
+          items={keepLive(homeFaqItems, (item) => [item.question, item.answer])}
           title="Frequently asked questions"
           subtitle="Everything you need to know about setting up and running your academy on LMS Domain."
           className="bg-white border-y border-[#EAE8E2]"
