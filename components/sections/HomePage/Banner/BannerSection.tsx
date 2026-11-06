@@ -12,6 +12,12 @@ import { useSectionContent } from "@/components/content/PageContent";
 
 export function BannerSection({ data, graphData }: { data: any; graphData: any }) {
   const heroContent = useSectionContent("home-hero", defaultHeroContent);
+  const isStaleSubtitle =
+    !heroContent.subtitle ||
+    heroContent.subtitle.includes("Build courses, sell them and support every learner");
+  const effectiveSubtitle = isStaleSubtitle
+    ? defaultHeroContent.subtitle
+    : heroContent.subtitle;
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
@@ -26,7 +32,7 @@ export function BannerSection({ data, graphData }: { data: any; graphData: any }
 
           {/* 2. Subtitle */}
           <p className="mt-3 max-w-2xl text-center text-[15px] sm:text-base text-[#6B6F76] leading-relaxed">
-            {heroContent.subtitle}
+            {effectiveSubtitle}
           </p>
 
           {/* 3. Action CTAs (Primary Demo Modal + Secondary Pricing Link) */}
