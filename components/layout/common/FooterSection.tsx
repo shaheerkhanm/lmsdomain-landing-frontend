@@ -14,20 +14,34 @@ const DEFAULT_FOOTER_COLUMNS = [
   {
     title: "Platform",
     links: [
-      { title: "Features & LMS Core", href: "/features" },
-      { title: "Domie AI", href: "/ai" },
-      { title: "Plans & Pricing", href: "/pricing" },
-      { title: "Custom LMS", href: "/custom-lms" },
-      { title: "Product FAQs", href: "/pricing#faqSection" },
-      { title: "Request Live Demo", href: "/#demo" },
+      { title: "Teach & Batches", href: "/platform/teach" },
+      { title: "Assess & Certify", href: "/platform/assess" },
+      { title: "Manage & Operations", href: "/platform/manage" },
+      { title: "Sell & Checkout", href: "/platform/sell" },
+      { title: "Brand & Custom Domain", href: "/platform/brand" },
+      { title: "Domie AI", href: "/platform/ai" },
+      { title: "Security & Hosting", href: "/platform/security" },
+      { title: "All Features", href: "/platform" },
     ],
   },
   {
-    title: "Company",
+    title: "Solutions",
     links: [
-      { title: "Home", href: "/" },
-      { title: "About Our Story", href: "/about" },
-      { title: "Core Architecture", href: "/features" },
+      { title: "Language & Test-Prep Academies", href: "/solutions/language-test-prep-academies" },
+      { title: "Training Companies", href: "/solutions/training-companies" },
+      { title: "Enterprise LMS", href: "/custom-lms" },
+      { title: "Plans & Pricing", href: "/pricing" },
+      { title: "Customers", href: "/customers" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { title: "Blog", href: "/resources/blog" },
+      { title: "Product Roadmap", href: "/roadmap" },
+      { title: "About Us", href: "/about" },
+      { title: "Contact Us", href: "/contact" },
+      { title: "Product FAQs", href: "/pricing#faqSection" },
     ],
   },
   {
@@ -72,7 +86,9 @@ export function FooterSection({
   }).filter((section) => section.links.length > 0);
 
   const gridColsClass =
-    columns.length === 3
+    columns.length >= 4
+      ? "grid-cols-2 sm:grid-cols-4"
+      : columns.length === 3
       ? "grid-cols-1 sm:grid-cols-3"
       : columns.length === 2
       ? "grid-cols-1 sm:grid-cols-2"

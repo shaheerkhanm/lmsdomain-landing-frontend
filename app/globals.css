@@ -53,6 +53,30 @@
   --radius-pill-nav: 18px;
   --radius-btn: 12px;
 
+  /* Phase 2 Design Tokens */
+  --font-display: var(--font-urbanist);
+  --font-body: var(--font-inter);
+
+  /* Page Backgrounds & Ink Colors */
+  --color-warm-offwhite: #FAF9F6;
+  --color-surface-warm: #F7F6F2;
+  --color-surface-subtle: #F4F4F1;
+  --color-border-warm: #EAE8E2;
+  --color-ink-muted: #595D65;
+  --color-ink-faint: #6B6F76;
+
+  /* Primary Action & Highlight (Violet #7B5CF5 Family) */
+  --color-violet-action: #7B5CF5;
+  --color-violet-action-hover: #6842ED;
+  --color-violet-subtle: #EEE9FF;
+
+  /* Secondary Accent (Emerald/Teal for attendance, passed, live data states) */
+  --color-accent-success: #059669;
+  --color-accent-success-dark: #047857;
+  --color-accent-success-subtle: #ECFDF5;
+  --color-accent-live: #0D9488;
+  --color-accent-live-subtle: #F0FDFA;
+
   /* Custom Fonts */
   --font-urbanist: var(--font-urbanist);
   --font-manrope: var(--font-manrope);
@@ -488,3 +512,57 @@ input[type="number"]::-webkit-inner-spin-button {
 /* Mobile app carousel: horizontal scroll without a visible scrollbar */
 .app-carousel { scrollbar-width: none; }
 .app-carousel::-webkit-scrollbar { display: none; }
+
+/* ------------------------------------------------------------------
+   Phase 2 Typography Utilities
+   H1: 56/64 desktop, 36/44 mobile
+   H2: 36/44 desktop, 28/36 mobile
+   Body: 18/28 desktop, 16/26 mobile
+   Reading width: max 70ch
+   ------------------------------------------------------------------ */
+@layer utilities {
+  .type-h1 {
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 36px;
+    line-height: 44px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  @media (min-width: 1024px) {
+    .type-h1 {
+      font-size: 56px;
+      line-height: 64px;
+    }
+  }
+
+  .type-h2 {
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 28px;
+    line-height: 36px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  @media (min-width: 1024px) {
+    .type-h2 {
+      font-size: 36px;
+      line-height: 44px;
+    }
+  }
+
+  .type-body {
+    font-family: var(--font-inter), sans-serif;
+    font-size: 16px;
+    line-height: 26px;
+    font-weight: 400;
+  }
+  @media (min-width: 1024px) {
+    .type-body {
+      font-size: 18px;
+      line-height: 28px;
+    }
+  }
+
+  .prose-reading {
+    max-width: 70ch;
+  }
+}

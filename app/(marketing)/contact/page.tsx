@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { getContactPage, fetchSeo } from "@/lib/api/content";
+import { getContactPage, getSiteContact, fetchSeo } from "@/lib/api/content";
 import { ContactView } from "@/components/marketing";
-import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
+import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -59,11 +59,36 @@ async function baseMetadata(): Promise<Metadata> {
 
 export default async function ContactPage() {
   await guardPage("contact");
-  const data = await getContactPage();
+  const [data, siteContact] = await Promise.all([
+    getContactPage(),
+    getSiteContact(),
+  ]);
+  const siteOrigin = getSiteUrl() || PRODUCTION_ORIGIN;
+
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "LMS Domain",
+    url: siteOrigin,
+    telephone: siteContact.phone,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: siteContact.addressLines.join(", "),
+      addressLocality: siteContact.city,
+      postalCode: siteContact.postalCode,
+      addressCountry: siteContact.country,
+    },
+  };
 
   return (
-    <Suspense fallback={<div className="min-h-screen bg-white" />}>
-      <ContactView data={data} />
-    </Suspense>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+      />
+      <Suspense fallback={<div className="min-h-screen bg-white" />}>
+        <ContactView data={data} />
+      </Suspense>
+    </>
   );
 }

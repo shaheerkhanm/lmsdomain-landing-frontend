@@ -87,7 +87,7 @@ export function CategorySections({ categories, media }: CategorySectionsProps) {
 function getCategoryHeading(slug: string, fallback: string): string {
   switch (slug) {
     case "course-learning":
-      return "Deliver Structured, Verifiable Course Curriculums";
+      return "Deliver Structured Course Curriculums";
     case "assessment-and-evaluation":
       return "Evaluate Mastery with Quizzes and Assignments";
     case "learner-engagement":

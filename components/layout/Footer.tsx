@@ -1,15 +1,22 @@
 import React from 'react';
 import FooterSection from './common/FooterSection';
-import { fetchCms, getLegalPages } from '@/lib/api/content';
+import { fetchCms, getLegalPages, getSiteContact } from '@/lib/api/content';
 import { ContentSource } from '@/components/content/ContentSource';
 import { SECTIONS } from '@/content/cms-sections';
 
 async function Footer() {
-  const [addressData, contentData, publishedLegalSlugs] = await Promise.all([
+  const [siteContact, addressData, contentData, publishedLegalSlugs] = await Promise.all([
+    getSiteContact().catch(() => null),
     fetchCms("address"),
     fetchCms(SECTIONS.footer.slug), // site-footer: the live site still reads "footer"
     getLegalPages(),
   ]);
+
+  const effectiveAddressData = {
+    ...(addressData || {}),
+    email: siteContact?.email || (addressData as any)?.email,
+    phone: siteContact?.phone || (addressData as any)?.phone,
+  };
 
   // Footer description: Settings > Footer content (Lorem ipsum counts as not filled in)
   const description = String((contentData as any)?.content || "");
@@ -20,7 +27,7 @@ async function Footer() {
     <div>
       <FooterSection
         contentData={contentData || {}}
-        addressData={addressData || {}}
+        addressData={effectiveAddressData}
         publishedLegalSlugs={publishedLegalSlugs}
       />
     </div>

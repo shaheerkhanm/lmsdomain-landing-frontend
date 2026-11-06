@@ -25,7 +25,7 @@ export const SAMPLE_ABOUT_HERO_IMAGE = "/images/features/team-training-office.we
 export const SAMPLE_ABOUT_MISSION: AboutMission = {
   title: "Mission Statement",
   statement:
-    "We build reliable learning architecture that empowers institutions, academies, and enterprise teams to deliver verifiable, cohort-driven education at scale.",
+    "We build reliable learning architecture that empowers institutions, academies, and enterprise teams to deliver cohort-driven education at scale.",
 };
 
 export const SAMPLE_ABOUT_STORY: AboutStory = {
@@ -42,17 +42,17 @@ export const SAMPLE_ABOUT_VALUES: AboutValues = {
     {
       title: "Sample Value: Structured Learning Pedagogy",
       description:
-        "Modules, sequential lessons, and verifiable checkpoints that ensure comprehensive subject mastery rather than passive video consumption.",
+        "Modules, sequential lessons, and structured checkpoints that ensure comprehensive subject mastery rather than passive video consumption.",
     },
     {
       title: "Sample Value: Unified Learning Infrastructure",
       description:
-        "Combining video streaming, graded assessments, cohort forums, and accredited certificates in one integrated operational system.",
+        "Combining video streaming, graded assessments, cohort forums, and completion certificates in one integrated operational system.",
     },
     {
       title: "Sample Value: Rigorous Academic Integrity",
       description:
-        "Automated quiz randomization, time limits, plagiarism safeguards, and verifiable credential verification.",
+        "Automated quiz randomization, time limits, and plagiarism safeguards.",
     },
     {
       title: "Sample Value: Purposeful Intelligence",
@@ -76,7 +76,7 @@ export const SAMPLE_ABOUT_TIMELINE: AboutTimeline = {
       date: "Year 2",
       title: "Assessments & Certification",
       description:
-        "Introduced graded quizzes, automated instructor reviews, and tamper-proof certificate generation.",
+        "Introduced graded quizzes, automated instructor reviews, and branded certificate generation.",
     },
     {
       date: "Year 3",

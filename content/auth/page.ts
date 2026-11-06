@@ -33,7 +33,7 @@ export const DEFAULT_AUTH_COPY: AuthCopy = {
     bullets: [
       "Custom branded domain with complete white-label styling",
       "Course builder with lesson sequences and video hosting",
-      "Automated grading and verifiable digital certificates",
+      "Automated grading and branded digital certificates",
     ],
   },
 };

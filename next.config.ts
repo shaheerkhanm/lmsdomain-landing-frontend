@@ -23,6 +23,20 @@ const nextConfig = {
       { source: "/forgot-password", headers: noFraming },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/features",
+        destination: "/platform",
+        permanent: true,
+      },
+      {
+        source: "/ai",
+        destination: "/platform/ai",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {

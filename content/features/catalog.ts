@@ -6,7 +6,7 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
     title: "Course Learning",
     eyebrow: "Course Learning",
     intro:
-      "Build structured curriculums with flexible content formats, scheduled content release, and verifiable completion certificates.",
+      "Build structured curriculums with flexible content formats, scheduled content release, and branded completion certificates.",
     order: 1,
     features: [
       {
