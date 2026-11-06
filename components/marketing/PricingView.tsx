@@ -189,8 +189,8 @@ export function PricingView({ data }: PricingViewProps) {
         />
       )}
 
-      {/* 7. Enterprise Band (White, only if present) */}
-      {hasPlans && data.enterprise && (
+      {/* 7. Enterprise Card */}
+      {hasPlans && (
         <PricingEnterprise data={data.enterprise} />
       )}
 

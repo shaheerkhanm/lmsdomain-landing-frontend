@@ -9,6 +9,8 @@ import { isPlaceholderPhone } from "@/lib/utils";
 import { liveOr, keepLive } from "@/lib/claims";
 import { PRICING_CONFIG } from "@/config/pricing";
 import { DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
+import { defaultAboutContent, AboutContent } from "@/content/about";
+import { defaultContactDetails, ContactDetails } from "@/content/contact";
 import type {
   CmsDocument,
   PricingPlan,
@@ -537,8 +539,8 @@ export async function getPricingPage(): Promise<PricingPageModel> {
 
   const hero = {
     eyebrow: (heroCms?.tags && heroCms.tags[0]) || DEFAULT_PRICING_HERO.eyebrow,
-    title: heroCms?.title || DEFAULT_PRICING_HERO.title,
-    subtitle: heroCms?.subTitle || heroCms?.description || DEFAULT_PRICING_HERO.subtitle,
+    title: (heroCms?.title && heroCms.title.trim() !== "" && !/lorem ipsum/i.test(heroCms.title)) ? heroCms.title : DEFAULT_PRICING_HERO.title,
+    subtitle: (heroCms?.subTitle && heroCms.subTitle.trim() !== "" && !/lorem ipsum/i.test(heroCms.subTitle)) ? heroCms.subTitle : (heroCms?.description || DEFAULT_PRICING_HERO.subtitle),
   };
 
   const emptyState = {
@@ -549,14 +551,14 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     secondaryCta: { label: empty.content.secondaryCta.label, href: empty.content.secondaryCta.href, action: "contact" as const },
   };
 
-  if (!faq || !faq.items || faq.items.length === 0) {
-    faq = {
-      ...faqHeading,
-      title: faqHeading?.title || "Frequently Asked Questions",
-      subtitle: faqHeading?.subtitle || "Answers to common questions about plans, seats, and billing cycles.",
-      items: DEFAULT_PRICING_FAQS,
-    };
-  }
+  const rawFaqItems = (activeFaqs && activeFaqs.length > 0) ? activeFaqs : DEFAULT_PRICING_FAQS;
+  const guardedFaqItems = keepLive(rawFaqItems, (item) => [item.question, item.answer]);
+  faq = {
+    ...faqHeading,
+    title: faqHeading?.title || "Frequently Asked Questions",
+    subtitle: faqHeading?.subtitle || "Answers to common questions about plans, seats, and billing cycles.",
+    items: guardedFaqItems,
+  };
 
   return {
     isSample,
@@ -953,45 +955,71 @@ export async function getAboutPage(): Promise<AboutPageModel> {
 // Endpoints: /api/cms (slugs: contact-hero, address), /api/seo
 // ----------------------------------------------------------------------------
 export async function getContactPage(): Promise<ContactPageModel> {
-  const [hero, channelsSection, form, settingsCms, seo] = await Promise.all([
+  const [hero, channelsSection, form, siteContact, settingsCms, seo] = await Promise.all([
     getSection("contact-hero"),
     getSection("contact-channels"),
     getSection("contact-form"),
-    fetchCms("address", ["cms", "settings"]),
+    getSiteContact(),
+    fetchCms("address", ["cms", "settings"]).catch(() => null),
     fetchSeo("contact"),
   ]);
   const labels = channelsSection.content;
 
-  // Email, phone and address come from Settings > Address; labels from Contact > Cms
   const channels: ContactChannel[] = [];
-  if (settingsCms?.email) {
+  const emailVal = siteContact.email || settingsCms?.email || defaultContactDetails.email;
+  if (emailVal) {
     channels.push({
       type: "email",
-      title: labels.emailLabel,
-      value: settingsCms.email,
-      href: `mailto:${settingsCms.email}`,
+      title: labels?.emailLabel || "Email",
+      value: emailVal,
+      href: `mailto:${emailVal}`,
     });
   }
-  if (settingsCms?.phone && !isPlaceholderPhone(settingsCms.phone)) {
+
+  const phoneVal = siteContact.phone || (settingsCms?.phone && !isPlaceholderPhone(settingsCms.phone) ? settingsCms.phone : "");
+  if (phoneVal) {
     channels.push({
       type: "phone",
-      title: labels.phoneLabel,
-      value: settingsCms.phone,
-      href: `tel:${settingsCms.phone}`,
+      title: labels?.phoneLabel || "Phone",
+      value: phoneVal,
+      href: `tel:${phoneVal.replace(/\s+/g, "")}`,
     });
   }
-  if (settingsCms?.address) {
+
+  const waVal = siteContact.whatsappNumber;
+  if (waVal) {
+    const waDigits = waVal.replace(/\D/g, "");
+    channels.push({
+      type: "whatsapp",
+      title: "WhatsApp",
+      value: waVal,
+      href: `https://wa.me/${waDigits}`,
+    });
+  }
+
+  const addrParts = [
+    ...(siteContact.addressLines || []),
+    [siteContact.city, siteContact.postalCode].filter(Boolean).join(" "),
+    siteContact.country,
+  ].filter(Boolean);
+
+  if (addrParts.length > 0) {
     channels.push({
       type: "address",
-      title: labels.addressLabel,
-      value: settingsCms.address,
+      title: labels?.addressLabel || "Office",
+      value: addrParts.join(", "),
+      href: siteContact.mapUrl || undefined,
     });
   }
 
   const { topics, ...formConfig } = form.content;
   return {
     seo: seo || undefined,
-    hero: hero.content,
+    hero: {
+      eyebrow: hero.content?.eyebrow || DEFAULT_CONTACT_HERO.eyebrow,
+      title: (hero.content?.title && hero.content.title.trim() !== "" && !/lorem ipsum/i.test(hero.content.title)) ? hero.content.title : DEFAULT_CONTACT_HERO.title,
+      subtitle: (hero.content?.subtitle && hero.content.subtitle.trim() !== "" && !/lorem ipsum/i.test(hero.content.subtitle)) ? hero.content.subtitle : DEFAULT_CONTACT_HERO.subtitle,
+    },
     form: { ...formConfig, privacyNote: formConfig.privacyNote || undefined },
     topics,
     channels,
@@ -1387,5 +1415,55 @@ export async function getSiteNavigation(): Promise<SiteNavigation | null> {
     return (doc.data as SiteNavigation) || null;
   } catch (e) {
     return null;
+  }
+}
+
+export async function getSiteAbout(): Promise<AboutContent> {
+  try {
+    const doc = await fetchCms("site-about", ["cms", "about", "cms:site-about"]);
+    if (!doc || !doc.data) return defaultAboutContent;
+    const data = doc.data as Partial<AboutContent>;
+    const rawTeam = Array.isArray(data.team) ? data.team : [];
+    const team = rawTeam.length > 0 ? rawTeam : defaultAboutContent.team;
+
+    return {
+      heroTitle: text(data.heroTitle) || defaultAboutContent.heroTitle,
+      mission: text(data.mission) || defaultAboutContent.mission,
+      companyLegalName: text(data.companyLegalName) || defaultAboutContent.companyLegalName,
+      productName: text(data.productName) || defaultAboutContent.productName,
+      city: text(data.city) || defaultAboutContent.city,
+      region: text(data.region) || defaultAboutContent.region,
+      country: text(data.country) || defaultAboutContent.country,
+      yearFounded: Number(data.yearFounded) || defaultAboutContent.yearFounded,
+      companyBlurb: text(data.companyBlurb) || defaultAboutContent.companyBlurb,
+      team,
+    };
+  } catch (e) {
+    return defaultAboutContent;
+  }
+}
+
+export async function getSiteContact(): Promise<ContactDetails> {
+  try {
+    const doc = await fetchCms("site-contact", ["cms", "contact", "cms:site-contact"]);
+    if (!doc || !doc.data) return defaultContactDetails;
+    const data = doc.data as Partial<ContactDetails>;
+    const addressLines = Array.isArray(data.addressLines) && data.addressLines.length > 0
+      ? data.addressLines.map((l) => text(l)).filter(Boolean)
+      : defaultContactDetails.addressLines;
+
+    return {
+      email: text(data.email) || defaultContactDetails.email,
+      phone: text(data.phone) || defaultContactDetails.phone,
+      whatsappNumber: text(data.whatsappNumber) || defaultContactDetails.whatsappNumber,
+      addressLines,
+      city: text(data.city) || defaultContactDetails.city,
+      postalCode: text(data.postalCode) || defaultContactDetails.postalCode,
+      country: text(data.country) || defaultContactDetails.country,
+      mapUrl: isHttpUrl(text(data.mapUrl)) ? text(data.mapUrl) : defaultContactDetails.mapUrl,
+      hours: text(data.hours) || defaultContactDetails.hours,
+    };
+  } catch (e) {
+    return defaultContactDetails;
   }
 }

@@ -16,10 +16,35 @@ export const NOT_LIVE_REGEX =
 /**
  * Whitelisted item IDs allowed to reference roadmap features (e.g. mobile-app FAQ linking to /roadmap)
  */
-export const WHITELISTED_CLAIM_IDS = new Set(["mobile-app", "faq-mobile-app"]);
+export const WHITELISTED_CLAIM_IDS = new Set([
+  "mobile-app",
+  "faq-mobile-app",
+  "contact-whatsapp",
+  "site-contact",
+]);
 
 export function isWhitelistedClaim(id?: string | null): boolean {
   return Boolean(id && WHITELISTED_CLAIM_IDS.has(id));
+}
+
+/**
+ * Field-level exception for contact details: "WhatsApp" as a communication
+ * channel is permitted on contact cards and footer without whitelisting it globally.
+ */
+export function liveContactOr<T extends string | null | undefined>(
+  field: string,
+  value: T,
+  fallback: T
+): T {
+  if (
+    field === "whatsappNumber" ||
+    field === "whatsapp" ||
+    field === "whatsappLabel" ||
+    field === "wa"
+  ) {
+    return value ?? fallback;
+  }
+  return liveOr(value, fallback);
 }
 
 /**
