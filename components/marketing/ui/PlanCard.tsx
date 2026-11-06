@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { Check, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -76,15 +77,13 @@ export function PlanCard({
     );
   };
 
+  const planSlug = plan.slug || plan.id || plan.name.toLowerCase().replace(/\s+/g, "-");
+  const demoUrl = `/demo?plan=${encodeURIComponent(planSlug)}`;
+
   const handleCta = (e: React.MouseEvent) => {
-    e.preventDefault();
     if (onRequestDemo) {
-      onRequestDemo(plan.name, plan.slug || plan.id);
-    } else {
-      // Default to /demo or /#demo
-      if (typeof window !== "undefined") {
-        window.location.href = `/#demo?plan=${encodeURIComponent(plan.slug || plan.id || "")}`;
-      }
+      e.preventDefault();
+      onRequestDemo(plan.name, planSlug);
     }
   };
 
@@ -153,10 +152,10 @@ export function PlanCard({
         )}
       </div>
 
-      {/* CTA Button */}
-      <button
-        type="button"
-        onClick={handleCta}
+      {/* CTA Button / Link */}
+      <Link
+        href={demoUrl}
+        onClick={onRequestDemo ? handleCta : undefined}
         className={cn(
           "w-full py-3.5 px-5 rounded-full text-sm font-semibold transition-all cursor-pointer shadow-xs active:scale-[0.98] inline-flex items-center justify-center gap-1.5",
           plan.isPopular
@@ -166,9 +165,10 @@ export function PlanCard({
       >
         <span>{plan.cta?.label || "Choose Plan"}</span>
         <ArrowRight className="size-4 opacity-75" />
-      </button>
+      </Link>
     </motion.div>
   );
 }
 
 export default PlanCard;
+
