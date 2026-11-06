@@ -13,6 +13,8 @@ export const PRODUCTION_ORIGIN = "https://lmsdomain.com";
 // Only this origin may be indexed; every other SITE_URL (or none) is blocked.
 const INDEXABLE_ORIGIN = PRODUCTION_ORIGIN;
 
+export type SiteEnv = "production" | "staging" | "development";
+
 export function getSiteUrl(): string | undefined {
   const raw = process.env.SITE_URL?.trim();
   if (!raw) return undefined;
@@ -23,8 +25,27 @@ export function getSiteUrl(): string | undefined {
   }
 }
 
+export function getSiteEnv(): SiteEnv {
+  const envVal = process.env.SITE_ENV?.trim().toLowerCase();
+  if (envVal === "production" || envVal === "staging" || envVal === "development") {
+    return envVal;
+  }
+  const siteUrl = getSiteUrl();
+  if (siteUrl === PRODUCTION_ORIGIN) {
+    return "production";
+  }
+  if (siteUrl && siteUrl.includes("staging")) {
+    return "staging";
+  }
+  return "development";
+}
+
+export function isProductionSite(): boolean {
+  return getSiteEnv() === "production";
+}
+
 export function isIndexableSite(): boolean {
-  return getSiteUrl() === INDEXABLE_ORIGIN;
+  return isProductionSite();
 }
 
 // Canonical URL must use SITE_URL, never localhost or staging
@@ -61,6 +82,10 @@ export async function applySeo<T extends Record<string, any>>(
   const image = seo?.ogImage || (await getSiteIdentity()).shareImage || shareImageUrl(options.page || "home", title);
   out.openGraph = { ...(out.openGraph || {}), images: [image] };
   out.twitter = { ...(out.twitter || {}), card: "summary_large_image", images: [image] };
-  if (seo?.noindex) out.robots = { index: false, follow: false };
+  if (!isProductionSite()) {
+    out.robots = { index: false, follow: false };
+  } else if (seo?.noindex) {
+    out.robots = { index: false, follow: false };
+  }
   return out as T;
 }

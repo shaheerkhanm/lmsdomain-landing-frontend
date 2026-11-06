@@ -1,7 +1,7 @@
 import { HomePage } from "@/components/modules/HomePage";
 import { fetchSeo, getSiteSettings } from "@/lib/api/content";
 import { Metadata } from "next";
-import { SITE_NAME, getMetadataBase, applySeo, fullTitle, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
+import { SITE_NAME, getMetadataBase, applySeo, fullTitle, getSiteUrl, PRODUCTION_ORIGIN, isProductionSite } from "@/lib/site";
 import { getSiteIdentity } from "@/lib/siteIdentity";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -72,7 +72,7 @@ export default async function Home() {
     getSiteIdentity().catch(() => ({} as import("@/lib/siteIdentity").SiteIdentity)),
   ]);
 
-  const siteOrigin = getSiteUrl() || PRODUCTION_ORIGIN;
+  const siteOrigin = isProductionSite() ? PRODUCTION_ORIGIN : (getSiteUrl() || PRODUCTION_ORIGIN);
   const address = settings?.address as Record<string, string | undefined> | undefined;
 
   const sameAs: string[] = [];
@@ -85,7 +85,17 @@ export default async function Home() {
   ];
   for (const [val, key] of socialEntries) {
     const url = getSafeSocialUrl(val, key);
-    if (url) sameAs.push(url);
+    if (url) {
+      try {
+        const parsed = new URL(url);
+        // drop any sameAs URL whose host has no dot (e.g. https://facebook/lmsdomain)
+        if (parsed.hostname && parsed.hostname.includes(".")) {
+          sameAs.push(url);
+        }
+      } catch {
+        // invalid URL
+      }
+    }
   }
 
   const logoUrl = identity?.iconImage

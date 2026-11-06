@@ -21,7 +21,7 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
   const [organisationType, setOrganisationType] = useState("Coaching");
 
   const [learners, setLearners] = useState("500–2,000");
-  const [needs, setNeeds] = useState<string[]>(["Web academy", "Android app", "iOS app"]);
+  const [needs, setNeeds] = useState<string[]>(["Web academy"]);
   const [launchTiming, setLaunchTiming] = useState("Within a month");
   const [currentPlatform, setCurrentPlatform] = useState("");
 
@@ -50,8 +50,6 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
   ];
   const needsOptions = formConfig.needs || [
     "Web academy",
-    "Android app",
-    "iOS app",
     "Migration from another LMS",
     "Custom features",
   ];
@@ -62,7 +60,7 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
     "Just exploring",
   ];
 
-  // Pre-select needs from URL query string ?needs=android,ios
+  // Pre-select needs from URL query string if provided
   useEffect(() => {
     if (typeof window === "undefined") return;
     const urlParams = new URLSearchParams(window.location.search);

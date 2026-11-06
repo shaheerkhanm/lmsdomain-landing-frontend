@@ -19,7 +19,7 @@ const DEFAULT_FOOTER_COLUMNS = [
       { title: "Plans & Pricing", href: "/pricing" },
       { title: "Custom LMS", href: "/custom-lms" },
       { title: "Product FAQs", href: "/pricing#faqSection" },
-      { title: "Request Live Demo", href: "/#cta-enquiry" },
+      { title: "Request Live Demo", href: "/#demo" },
     ],
   },
   {

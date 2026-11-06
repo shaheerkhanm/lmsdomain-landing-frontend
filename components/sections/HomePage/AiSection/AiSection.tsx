@@ -353,13 +353,6 @@ export function AiSection() {
                   <span className="inline-block w-1.5 h-3 bg-[#7B5CF5] ml-1 animate-pulse align-middle" />
                 )}
               </p>
-
-              <div className="pt-0.5">
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#7B5CF5]/20 border border-[#7B5CF5]/30 text-[#A78BFA] text-[10px] font-semibold">
-                  <span>✦</span>
-                  From your course: Module 2
-                </span>
-              </div>
             </div>
           </div>
 

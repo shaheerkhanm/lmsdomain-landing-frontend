@@ -50,7 +50,7 @@ export const AUDIENCE_TABS: AudienceTab[] = [
       { title: "HelpDesk AI Tutor", slug: "ai-powered-tools", tag: "24/7 Support" },
       { title: "Course Catalogue, Cart, and Wishlist", slug: "course-sales-and-payments", tag: "Storefront" },
       { title: "Coupons and Discounts", slug: "course-sales-and-payments", tag: "Marketing" },
-      { title: "Video Watermarking", slug: "course-learning", tag: "DRM Protection" },
+      { title: "Video Watermarking", slug: "course-learning", tag: "Watermarking" },
       { title: "One-to-One Tutor Booking", slug: "live-and-cohort-learning", tag: "1:1 Sessions" },
     ],
   },

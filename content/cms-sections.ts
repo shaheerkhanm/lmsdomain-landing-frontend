@@ -41,12 +41,12 @@ export interface SectionDef<T = any> {
 
 // Closing band with the "Notify" email form (features, ai, pricing, about)
 export const CLOSING_BAND_DEFAULTS = {
-  title: "Join forward-thinking\nAI leaders", // a new line starts the second line
+  title: "Monthly notes for\nacademy owners", // a new line starts the second line
   subtitle: "",
   buttonText: "Notify",
   placeholder: "Your email address",
   sendingText: "Sending...",
-  successMessage: "✓ You are on the priority access list. We will notify you shortly.",
+  successMessage: "Thanks, you're subscribed.",
 };
 const BAND_FIELDS = { title: "title", subTitle: "subtitle", buttonText: "buttonText" } as const;
 
@@ -90,8 +90,8 @@ export const SECTIONS = {
     slug: "site-home-hero",
     page: "home",
     label: "Home: hero (new site)",
-    defaults: { ...heroContent, connector: "to" },
-    fields: { title: "titlePrefix", subTitle: "subtitle", buttonText: "ctaText" },
+    defaults: { ...heroContent },
+    fields: { title: "title", subTitle: "subtitle", buttonText: "ctaText" },
   },
   "home-teach-smarter": {
     slug: "site-home-teach-smarter",

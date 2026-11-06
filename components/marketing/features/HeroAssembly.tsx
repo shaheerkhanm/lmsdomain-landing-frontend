@@ -311,10 +311,6 @@ export function HeroAssembly({
                         Which mechanism securely verifies certificate authenticity?
                       </p>
                       <div className="space-y-1.5 text-[11px]">
-                        <div className="p-2 rounded-lg bg-[#10B981]/10 border border-[#10B981]/30 text-[#065F46] font-medium flex items-center justify-between">
-                          <span>Cryptographic QR Verification</span>
-                          <span>✓</span>
-                        </div>
                         <div className="p-2 rounded-lg bg-[#F4F5F7] text-[#6B6F76]">
                           <span>Manual signature upload</span>
                         </div>
@@ -389,7 +385,7 @@ export function HeroAssembly({
                         <span className="text-sm font-bold text-[#065F46]">$149.00</span>
                       </div>
                       <div className="flex items-center justify-between text-[10px] text-[#8F94A0]">
-                        <span>Stripe / PayPal Gateways</span>
+                        <span>Stripe / Razorpay / Paytm / DOKU</span>
                         <span>Instant Access</span>
                       </div>
                     </div>

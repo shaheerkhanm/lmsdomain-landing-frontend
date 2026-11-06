@@ -418,7 +418,7 @@ export function CourseSalesScene({ size = "sm", isActive = true }: MiniSceneProp
       <div className="p-2.5 rounded-xl bg-[#F9FAFB] border border-[#E5E7EB] flex items-center justify-between">
         <div>
           <p className="text-xs font-bold text-[#161616]">Python Mastery Bootcamp</p>
-          <p className="text-[10px] text-[#6B6F76]">Instant Stripe / PayPal access</p>
+          <p className="text-[10px] text-[#6B6F76]">Stripe, Razorpay, Paytm or DOKU</p>
         </div>
         <span className="text-xs font-bold text-[#161616]">$99</span>
       </div>
@@ -431,7 +431,7 @@ export function CourseSalesScene({ size = "sm", isActive = true }: MiniSceneProp
         }`}
       >
         <span>{inCart ? "✓ Payment Received · Instant Enrollment" : "Add to Cart →"}</span>
-        <span className="text-[10px] font-mono">{inCart ? "#TXN-8820" : "0% Platform Fee"}</span>
+        <span className="text-[10px] font-mono">{inCart ? "#TXN-8820" : ""}</span>
       </div>
     </div>
   );

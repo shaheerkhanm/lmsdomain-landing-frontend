@@ -6,6 +6,9 @@
 
 import { fetchApi } from "./client";
 import { isPlaceholderPhone } from "@/lib/utils";
+import { liveOr, keepLive } from "@/lib/claims";
+import { PRICING_CONFIG } from "@/config/pricing";
+import { DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
 import type {
   CmsDocument,
   PricingPlan,
@@ -45,13 +48,9 @@ import type {
   LegalPageData,
   AiPageData,
   AuthCopy,
-  HomeTestimonials,
-  TestimonialItem,
   PlanCurrency,
-  HomeMobileApp,
   HomeClients,
   CustomPlanPageData,
-  HomeCustomPlanBand,
   SiteNavigation,
 } from "@/types/content";
 import { DEFAULT_CUSTOM_PLAN_PAGE_DATA } from "@/content/custom-plan/page";
@@ -344,7 +343,67 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   const faqHeading = faqSection.content;
   let faq = activeFaqs.length > 0 ? { ...faqHeading, items: activeFaqs } : undefined;
 
-  if (activePlans.length > 0) {
+  if (PRICING_CONFIG.plans.length > 0) {
+    const months = PRICING_CONFIG.annualRule?.months ?? 2;
+    mappedPlans = PRICING_CONFIG.plans.map((cfg, idx) => {
+      const isCustom = Boolean(cfg.isCustom);
+      const monthly = typeof cfg.monthly === "number" ? cfg.monthly : null;
+      const yearly = monthly !== null ? monthly * (12 - months) : null;
+      const yearlyFull = monthly !== null ? monthly * 12 : null;
+      const discountPercent = Math.round((months / 12) * 100);
+
+      const limits = [];
+      if (cfg.limits?.activeLearners) {
+        limits.push({
+          label: "Active Learners",
+          value:
+            typeof cfg.limits.activeLearners === "number"
+              ? `Up to ${cfg.limits.activeLearners.toLocaleString()}`
+              : String(cfg.limits.activeLearners),
+        });
+      }
+      if (cfg.limits?.adminSeats) {
+        limits.push({ label: "Admin Seats", value: String(cfg.limits.adminSeats) });
+      }
+      if (cfg.limits?.storageGb) {
+        limits.push({ label: "Storage", value: `${cfg.limits.storageGb} GB` });
+      }
+      if (cfg.limits?.bandwidthGbPerMonth) {
+        limits.push({ label: "Bandwidth", value: `${cfg.limits.bandwidthGbPerMonth} GB/mo` });
+      }
+
+      return {
+        id: cfg.id,
+        slug: cfg.slug || cfg.id,
+        name: cfg.name,
+        tagline: cfg.tagline,
+        isPopular: Boolean(cfg.isPopular),
+        isCustom,
+        prices: {
+          monthly,
+          yearly,
+        },
+        yearlyFullPrice: yearlyFull,
+        discountPercent,
+        currency: resolvePlanCurrency({ currency: PRICING_CONFIG.currency }),
+        priceSuffix: monthly !== null ? "/month" : "",
+        priceSuffixes: {
+          monthly: "/month",
+          yearly: "/year, billed annually",
+        },
+        priceNote: isCustom ? "Custom" : undefined,
+        limits: limits.length > 0 ? limits : undefined,
+        features: keepLive(cfg.features, (f) => f),
+        cta: {
+          label: cfg.isPopular ? "Get Started" : isCustom ? "Contact Us" : "Choose Plan",
+          action: "demo",
+          href: "#",
+        },
+        displayOrder: idx + 1,
+      };
+    });
+    yearlySavingsLabel = `${months} months free`;
+  } else if (activePlans.length > 0) {
     // "Most popular": the backend isPopular flag wins. Until the backend has it,
     // server env PRICING_POPULAR_PLAN names the plan (title or slug, any case).
     const backendHasPopular = activePlans.some((doc) => doc.isPopular === true);
@@ -377,7 +436,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
         id: doc._id || doc.slug || String(idx),
         slug: doc.slug,
         name: doc.title,
-        tagline: doc.subTitle,
+        tagline: doc.subTitle ? liveOr(doc.subTitle, "") : undefined,
         isPopular,
         isCustom,
         prices: {
@@ -394,7 +453,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
         },
         priceNote: isCustom ? "Custom" : undefined,
         limits: limits.length > 0 ? limits : undefined,
-        features: Array.isArray(doc.tags) ? doc.tags : [],
+        features: keepLive(Array.isArray(doc.tags) ? doc.tags : [], (tag) => tag),
         cta: {
           label: doc.buttonText || (isPopular ? "Get Started" : "Start Free Trial"),
           action: doc.buttonAction === "demo" ? "demo" : doc.buttonAction === "contact" ? "contact" : "signup",
@@ -405,14 +464,15 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     });
   }
 
+  const DEFAULT_ENT_TITLE = "Need your own branded LMS?";
+  const DEFAULT_ENT_DESC = "Get a Custom Plan: your academy, set up and supported by our team.";
+
   // Enterprise band from CMS site-pricing-enterprise (Prompt 37a/37b)
   if (enterpriseDoc && enterpriseDoc.isActive !== false && !enterpriseDoc.isDeleted && enterpriseDoc.data) {
     const entData = enterpriseDoc.data as any;
     enterprise = {
-      title: entData.title || "Need your own branded LMS and apps?",
-      description:
-        entData.description ||
-        "Get a Custom Plan: your academy, Android and iOS apps, set up by our team in days.",
+      title: liveOr(entData.title, DEFAULT_ENT_TITLE),
+      description: liveOr(entData.description, DEFAULT_ENT_DESC),
       cta: {
         label: entData.cta?.label || "Build your custom plan",
         href: entData.cta?.href || "/custom-lms",
@@ -425,7 +485,11 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     mappedPlans = sample.SAMPLE_PLANS.map((plan) => ({ ...plan, currency: resolvePlanCurrency() }));
     comparison = sample.SAMPLE_COMPARISON;
     addOns = { title: "Flexible Add-Ons", items: sample.SAMPLE_ADD_ONS };
-    enterprise = sample.SAMPLE_ENTERPRISE;
+    enterprise = {
+      ...sample.SAMPLE_ENTERPRISE,
+      title: liveOr(sample.SAMPLE_ENTERPRISE.title, DEFAULT_ENT_TITLE),
+      description: liveOr(sample.SAMPLE_ENTERPRISE.description, DEFAULT_ENT_DESC),
+    };
     faq = { ...faqHeading, items: sample.SAMPLE_FAQ.items };
     yearlySavingsLabel = "Sample: 2 months free";
     isSample = true;
@@ -433,8 +497,8 @@ export async function getPricingPage(): Promise<PricingPageModel> {
 
   if (!enterprise && (activePlans.length > 0 || process.env.CMS_USE_FIXTURES === "true")) {
     enterprise = {
-      title: "Need your own branded LMS and apps?",
-      description: "Get a Custom Plan: your academy, Android and iOS apps, set up by our team in days.",
+      title: DEFAULT_ENT_TITLE,
+      description: DEFAULT_ENT_DESC,
       cta: {
         label: "Build your custom plan",
         href: "/custom-lms",
@@ -484,6 +548,15 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     primaryCta: { label: empty.content.primaryCta.label, action: "demo" as const },
     secondaryCta: { label: empty.content.secondaryCta.label, href: empty.content.secondaryCta.href, action: "contact" as const },
   };
+
+  if (!faq || !faq.items || faq.items.length === 0) {
+    faq = {
+      ...faqHeading,
+      title: faqHeading?.title || "Frequently Asked Questions",
+      subtitle: faqHeading?.subtitle || "Answers to common questions about plans, seats, and billing cycles.",
+      items: DEFAULT_PRICING_FAQS,
+    };
+  }
 
   return {
     isSample,
@@ -1076,28 +1149,10 @@ export async function getAiPage(): Promise<AiPageData> {
 // ----------------------------------------------------------------------------
 // Homepage Testimonials (Wall of Love + CtaSection floating cards)
 // Endpoint: POST /api/home/testimonials
-// Published backend testimonials win. Otherwise the local sample, loaded with a
-// dynamic import ONLY when CMS_USE_FIXTURES === "true". Otherwise empty, and the
-// sections hide.
 // ----------------------------------------------------------------------------
-interface BackendTestimonial {
-  _id?: string;
-  customerName?: string;
-  customerProfession?: string;
-  comment?: string;
-  image?: string;
-  photo?: string;
-  imageAlt?: string;
-  photoAlt?: string;
-  isActive?: boolean;
-  isDeleted?: boolean;
-}
-
-// ----------------------------------------------------------------------------
-// Home: mobile app section (Home > Cms > "mobile app (new site)") and client
-// logos (heading: Home > Cms > "client logos (new site)"; logos: Home > Client
-// logos, /api/home/clients). Each returns null when unpublished or empty, and
-// the section is not shown. Refresh tags: home.
+// Home: client logos (heading: Home > Cms > "client logos (new site)";
+// logos: Home > Client logos, /api/home/clients). Returns null when unpublished
+// or empty, and the section is not shown. Refresh tags: home.
 // ----------------------------------------------------------------------------
 const text = (v: unknown) => (typeof v === "string" ? v.trim() : "");
 const isImagePath = (v: string) => /^(\/uploads\/|https:\/\/|\/assets\/)/.test(v);
@@ -1114,27 +1169,6 @@ interface BackendClient {
   url?: string;
   isActive?: boolean;
   isDeleted?: boolean;
-}
-
-export async function getHomeMobileApp(): Promise<HomeMobileApp | null> {
-  const doc = await fetchCms("site-home-mobile-app", ["cms", "home", "cms:site-home-mobile-app"]);
-  const data: Loose = doc?.data || {};
-  const app: HomeMobileApp = {
-    eyebrow: text(data.eyebrow),
-    title: text(data.title),
-    description: text(data.description),
-    highlights: list(data.highlights)
-      .map((h) => ({ icon: text(h.icon), title: text(h.title), text: text(h.text) }))
-      .filter((h) => h.title),
-    screenshots: list(data.screenshots)
-      .map((sc) => ({ image: text(sc.image), alt: text(sc.alt) }))
-      .filter((sc) => isImagePath(sc.image)),
-    appStoreUrl: isHttpUrl(text(data.appStoreUrl)) ? text(data.appStoreUrl) : undefined,
-    playStoreUrl: isHttpUrl(text(data.playStoreUrl)) ? text(data.playStoreUrl) : undefined,
-    qrImage: isImagePath(text(data.qrImage)) ? text(data.qrImage) : undefined,
-  };
-  if (!doc || !app.title || (!app.description && !app.highlights.length && !app.screenshots.length)) return null;
-  return app;
 }
 
 export async function getHomeClients(): Promise<HomeClients | null> {
@@ -1156,7 +1190,7 @@ export async function getHomeClients(): Promise<HomeClients | null> {
       logo: text(c.logo),
       url: isHttpUrl(text(c.url)) ? text(c.url) : undefined,
     }))
-    .filter((c) => c.name && isImagePath(c.logo));
+    .filter((c) => c.name && isImagePath(c.logo) && !/^client\s*\d*$/i.test(c.name));
   if (!logos.length) return null;
   return { eyebrow: text(data.eyebrow), title: text(data.title), subtitle: text(data.subtitle), logos };
 }
@@ -1178,65 +1212,6 @@ export function htmlToText(value: unknown): string {
     .trim();
 }
 
-export async function getHomeTestimonials(): Promise<HomeTestimonials> {
-  const res = await fetchApi<{ status?: boolean; data?: BackendTestimonial[] }>(
-    "/api/home/testimonials",
-    {
-      method: "POST",
-      body: { slug: "" },
-      tags: ["home", "testimonials"],
-      revalidate: 300,
-    }
-  ).catch(() => null);
-
-  const published = filterActiveDocuments(res?.data).filter(
-    (t) => t.customerName?.trim() && t.comment?.trim()
-  );
-
-  if (published.length > 0) {
-    const cards: TestimonialItem[] = published.map((t, idx) => {
-      const rawPhoto = (t.photo || t.image || "").trim();
-      let photoUrl: string | undefined = undefined;
-      if (rawPhoto) {
-        photoUrl = isHttpUrl(rawPhoto) || rawPhoto.startsWith("/") ? rawPhoto : `/${rawPhoto}`;
-      }
-      return {
-        id: t._id || `testimonial-${idx + 1}`,
-        name: t.customerName!.trim(),
-        role: t.customerProfession?.trim() || "",
-        avatar: photoUrl,
-        photo: photoUrl,
-        image: photoUrl,
-        quote: t.comment!.trim(),
-        placeholder: false,
-      };
-    });
-
-    return {
-      cards,
-      cta: cards.map((c) => ({
-        id: c.id,
-        avatar: c.avatar,
-        text: c.quote!,
-        author: c.name,
-        role: c.role || undefined,
-      })),
-      isSample: false,
-    };
-  }
-
-  if (process.env.CMS_USE_FIXTURES === "true") {
-    const sample = await import("@/content/home/sample-testimonials");
-    return {
-      cards: sample.SAMPLE_TESTIMONIAL_CARDS,
-      cta: sample.SAMPLE_CTA_TESTIMONIALS,
-      isSample: true,
-    };
-  }
-
-  return { cards: [], cta: [], isSample: false };
-}
-
 // ----------------------------------------------------------------------------
 // Custom Plan (/custom-lms) Page Content
 // Tags: ["custom-plan"]
@@ -1249,7 +1224,6 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     deliverablesDoc,
     timelineDoc,
     comparisonDoc,
-    mobileAppsDoc,
     servicesDoc,
     pricingNoteDoc,
     formDoc,
@@ -1262,7 +1236,6 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     fetchCms("site-custom-deliverables", ["cms", "custom-plan"]),
     fetchCms("site-custom-timeline", ["cms", "custom-plan"]),
     fetchCms("site-custom-comparison", ["cms", "custom-plan"]),
-    fetchCms("site-custom-mobile-apps", ["cms", "custom-plan"]),
     fetchCms("site-custom-services", ["cms", "custom-plan"]),
     fetchCms("site-custom-pricing-note", ["cms", "custom-plan"]),
     fetchCms("site-custom-form", ["cms", "custom-plan"]),
@@ -1271,6 +1244,8 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
   ]);
 
   const fallback = DEFAULT_CUSTOM_PLAN_PAGE_DATA;
+  const TIMING_PROMISE_REGEX = /within 24 hours|working days|in days\b|within a day|one working day/i;
+  const cleanTiming = <T extends string | undefined | null>(val: T, def: T): T => (!val || TIMING_PROMISE_REGEX.test(val) ? def : val);
 
   const getData = <T>(doc: any, def: T): T => {
     if (!doc || doc.isActive === false || doc.isDeleted === true) return def;
@@ -1280,25 +1255,115 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     return def;
   };
 
-  const seo = seoDoc?.data?.title
-    ? {
-        title: seoDoc.data.title,
-        description: seoDoc.data.description,
-        shareImage: seoDoc.data.shareImage || "",
-      }
-    : fallback.seo;
+  const rawSeoTitle = seoDoc?.data?.title;
+  const rawSeoDesc = seoDoc?.data?.description;
+  const seo = {
+    title: liveOr(cleanTiming(rawSeoTitle, fallback.seo?.title || ""), fallback.seo?.title || ""),
+    description: liveOr(cleanTiming(rawSeoDesc, fallback.seo?.description || ""), fallback.seo?.description || ""),
+    shareImage: seoDoc?.data?.shareImage || "",
+  };
 
-  const hero = getData(heroDoc, fallback.hero);
-  const audiences = audiencesDoc?.isActive !== false ? getData(audiencesDoc, fallback.audiences) : undefined;
-  const deliverables = deliverablesDoc?.isActive !== false ? getData(deliverablesDoc, fallback.deliverables) : undefined;
-  const timeline = timelineDoc?.isActive !== false ? getData(timelineDoc, fallback.timeline) : undefined;
-  const comparison = comparisonDoc?.isActive !== false ? getData(comparisonDoc, fallback.comparison) : undefined;
-  const mobileApps = mobileAppsDoc?.isActive !== false ? getData(mobileAppsDoc, fallback.mobileApps) : undefined;
-  const services = servicesDoc?.isActive !== false ? getData(servicesDoc, fallback.services) : undefined;
-  const pricingNote = pricingNoteDoc?.isActive !== false ? getData(pricingNoteDoc, fallback.pricingNote) : undefined;
-  const form = getData(formDoc, fallback.form);
-  const faq = faqDoc?.isActive !== false ? getData(faqDoc, fallback.faq) : undefined;
-  const cta = ctaDoc?.isActive !== false ? getData(ctaDoc, fallback.cta) : undefined;
+  const rawHero = getData(heroDoc, fallback.hero);
+  const hero = {
+    ...rawHero,
+    title: liveOr(cleanTiming(rawHero.title, fallback.hero.title), fallback.hero.title),
+    subtitle: liveOr(cleanTiming(rawHero.subtitle, fallback.hero.subtitle), fallback.hero.subtitle),
+    proofChips: keepLive(rawHero.proofChips, (chip) => chip).filter((chip) => !TIMING_PROMISE_REGEX.test(chip)),
+  };
+
+  const rawAudiences = audiencesDoc?.isActive !== false ? getData(audiencesDoc, fallback.audiences) : undefined;
+  const audiences = rawAudiences
+    ? {
+        ...rawAudiences,
+        title: liveOr(cleanTiming(rawAudiences.title, fallback.audiences?.title || ""), fallback.audiences?.title || ""),
+        items: keepLive(rawAudiences.items, (item) => [item.title, item.text])
+          .filter((item) => !/schools?|colleges?|universit/i.test(item.title) && !TIMING_PROMISE_REGEX.test(item.text)),
+      }
+    : undefined;
+
+  const rawDeliverables = deliverablesDoc?.isActive !== false ? getData(deliverablesDoc, fallback.deliverables) : undefined;
+  const deliverables = rawDeliverables
+    ? {
+        ...rawDeliverables,
+        title: liveOr(cleanTiming(rawDeliverables.title, fallback.deliverables?.title || ""), fallback.deliverables?.title || ""),
+        subtitle: liveOr(cleanTiming(rawDeliverables.subtitle, fallback.deliverables?.subtitle || ""), fallback.deliverables?.subtitle || ""),
+        items: keepLive(rawDeliverables.items, (item) => [item.title, item.text, item.tag])
+          .filter((item) => !TIMING_PROMISE_REGEX.test(item.text)),
+      }
+    : undefined;
+
+  const rawTimeline = timelineDoc?.isActive !== false ? getData(timelineDoc, fallback.timeline) : undefined;
+  const timeline = rawTimeline
+    ? {
+        ...rawTimeline,
+        title: liveOr(cleanTiming(rawTimeline.title, fallback.timeline?.title || "From first call to launch"), fallback.timeline?.title || "From first call to launch"),
+        subtitle: liveOr(cleanTiming(rawTimeline.subtitle, fallback.timeline?.subtitle || ""), fallback.timeline?.subtitle || ""),
+        footnote: liveOr(cleanTiming(rawTimeline.footnote, fallback.timeline?.footnote || "We agree the dates with you in the written plan."), fallback.timeline?.footnote || "We agree the dates with you in the written plan."),
+        steps: keepLive(rawTimeline.steps, (step) => [step.title, step.text, step.when])
+          .filter((step) => !TIMING_PROMISE_REGEX.test(step.text))
+          .map((step, idx) => ({
+            ...step,
+            when: `Step ${idx + 1}`,
+          })),
+      }
+    : undefined;
+
+  const rawComparison = comparisonDoc?.isActive !== false ? getData(comparisonDoc, fallback.comparison) : undefined;
+  const comparison = rawComparison
+    ? {
+        ...rawComparison,
+        title: liveOr(cleanTiming(rawComparison.title, fallback.comparison?.title || ""), fallback.comparison?.title || ""),
+        rows: keepLive(rawComparison.rows, (row) => [row.topic, row.left, row.right])
+          .filter((row) => !TIMING_PROMISE_REGEX.test(row.left) && !TIMING_PROMISE_REGEX.test(row.right)),
+      }
+    : undefined;
+
+  const rawServices = servicesDoc?.isActive !== false ? getData(servicesDoc, fallback.services) : undefined;
+  const services = rawServices
+    ? {
+        ...rawServices,
+        title: liveOr(cleanTiming(rawServices.title, fallback.services?.title || ""), fallback.services?.title || ""),
+        items: keepLive(rawServices.items, (item) => [item.title, item.text])
+          .filter((item) => !TIMING_PROMISE_REGEX.test(item.text)),
+      }
+    : undefined;
+
+  const rawPricingNote = pricingNoteDoc?.isActive !== false ? getData(pricingNoteDoc, fallback.pricingNote) : undefined;
+  const pricingNote = rawPricingNote
+    ? {
+        ...rawPricingNote,
+        title: liveOr(cleanTiming(rawPricingNote.title, fallback.pricingNote?.title || ""), fallback.pricingNote?.title || ""),
+        text: liveOr(cleanTiming(rawPricingNote.text, fallback.pricingNote?.text || ""), fallback.pricingNote?.text || ""),
+      }
+    : undefined;
+
+  const rawForm = getData(formDoc, fallback.form);
+  const form = {
+    ...rawForm,
+    title: liveOr(cleanTiming(rawForm.title, fallback.form.title), fallback.form.title),
+    subtitle: liveOr(cleanTiming(rawForm.subtitle, fallback.form.subtitle), fallback.form.subtitle),
+    successMessage: liveOr(cleanTiming(rawForm.successMessage, fallback.form.successMessage), fallback.form.successMessage),
+    needs: keepLive(rawForm.needs, (need) => need),
+  };
+
+  const rawFaq = faqDoc?.isActive !== false ? getData(faqDoc, fallback.faq) : undefined;
+  const faq = rawFaq
+    ? {
+        ...rawFaq,
+        title: liveOr(cleanTiming(rawFaq.title, fallback.faq?.title || ""), fallback.faq?.title || ""),
+        items: keepLive(rawFaq.items, (item) => [item.question, item.answer])
+          .filter((item) => !TIMING_PROMISE_REGEX.test(item.answer) && !TIMING_PROMISE_REGEX.test(item.question)),
+      }
+    : undefined;
+
+  const rawCta = ctaDoc?.isActive !== false ? getData(ctaDoc, fallback.cta) : undefined;
+  const cta = rawCta
+    ? {
+        ...rawCta,
+        title: liveOr(cleanTiming(rawCta.title, fallback.cta?.title || ""), fallback.cta?.title || ""),
+        text: liveOr(cleanTiming(rawCta.text, fallback.cta?.text || ""), fallback.cta?.text || ""),
+      }
+    : undefined;
 
   return {
     seo,
@@ -1307,32 +1372,12 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
     deliverables,
     timeline,
     comparison,
-    mobileApps,
     services,
     pricingNote,
     form,
     faq,
     cta,
   };
-}
-
-export async function getHomeCustomPlanBand(): Promise<HomeCustomPlanBand | null> {
-  try {
-    const doc = await fetchCms("site-home-custom-plan", ["cms", "home", "custom-plan"]);
-    if (!doc || doc.isActive === false || doc.isDeleted === true) return null;
-    const data = doc.data as any;
-    if (!data || !data.title) return null;
-    return {
-      eyebrow: data.eyebrow || "CUSTOM PLAN",
-      title: data.title,
-      text: data.text || "",
-      ctaLabel: data.ctaLabel || "See how it works",
-      ctaHref: data.ctaHref || "/custom-lms",
-      image: data.image || "",
-    };
-  } catch (e) {
-    return null;
-  }
 }
 
 export async function getSiteNavigation(): Promise<SiteNavigation | null> {

@@ -16,15 +16,14 @@ export function CustomPlanHero({ hero }: CustomPlanHeroProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   const eyebrow = hero.eyebrow || "✦ CUSTOM PLAN";
-  const title = hero.title || "Your own LMS and mobile apps, live in days";
-  const highlightedWords = hero.highlightedWords || "live in days";
+  const title = hero.title || "Your own LMS, set up for you";
+  const highlightedWords = hero.highlightedWords || "set up for you";
   const subtitle =
     hero.subtitle ||
-    "Tell us how you teach. Our team builds your branded academy, website and Android & iOS apps, sets everything up, and stays with you after launch.";
+    "Tell us how you teach. Our team builds your branded academy and website, sets everything up, and stays with you after launch. No developers to hire.";
   const primaryCta = hero.primaryCta || { label: "Plan my custom LMS", href: "#plan" };
   const secondaryCta = hero.secondaryCta || { label: "Book a 20-minute call", action: "demo" };
   const proofChips = hero.proofChips || [
-    "Web + Android + iOS",
     "Your domain and brand",
     "Setup and support included",
   ];

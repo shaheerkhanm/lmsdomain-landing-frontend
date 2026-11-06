@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getCustomPlanPage, fetchSeo } from "@/lib/api/content";
-import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
+import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
+import { liveOr } from "@/lib/claims";
 import {
   BrandPreviewProvider,
   CustomPlanHero,
@@ -9,7 +10,6 @@ import {
   CustomPlanDeliverables,
   CustomPlanTimeline,
   CustomPlanComparison,
-  CustomPlanMobileApps,
   CustomPlanServices,
   CustomPlanPricingNote,
   CustomPlanEnquiryForm,
@@ -25,33 +25,29 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
+const DEFAULT_TITLE = "Custom LMS for Your Academy, Set Up for You | LMS Domain";
+const DEFAULT_DESCRIPTION =
+  "Get your own branded LMS and website, set up by our team. Your domain and your brand, with setup, migration and support included.";
+
 async function baseMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
     fetchSeo("custom-lms").catch(() => null),
     getCustomPlanPage().catch(() => null),
   ]);
 
-  const rawTitle =
-    seo?.metatitle ||
-    pageData?.seo?.title ||
-    "Custom LMS with Android & iOS Apps, Live in Days | LMS Domain";
+  const rawTitle = liveOr(seo?.metatitle || pageData?.seo?.title, DEFAULT_TITLE) || DEFAULT_TITLE;
   const title = fullTitle(rawTitle);
 
-  const description =
-    seo?.metadescription ||
-    pageData?.seo?.description ||
-    "Get your own branded LMS, website and Android & iOS apps, set up by our team in days. Your domain, your brand, your store listings, with setup, migration and support included.";
+  const description = liveOr(seo?.metadescription || pageData?.seo?.description, DEFAULT_DESCRIPTION) || DEFAULT_DESCRIPTION;
 
   return {
     metadataBase: getMetadataBase(),
     title,
     description,
-    keywords: seo?.metakeyword || [
+    keywords: [
       "Custom LMS",
       "White label LMS",
-      "Branded LMS apps",
-      "Android LMS app",
-      "iOS LMS app",
+      "Branded LMS",
       "Enterprise LMS",
     ],
     alternates: {
@@ -79,15 +75,13 @@ export default async function CustomPlanPage() {
     "@context": "https://schema.org",
     "@type": "Service",
     name: "LMS Domain Custom Plan",
-    description:
-      pageData.seo?.description ||
-      "Get your own branded LMS, website and Android & iOS apps, set up by our team in days.",
+    description: pageData.seo?.description || DEFAULT_DESCRIPTION,
     provider: {
       "@type": "Organization",
       name: "LMS Domain",
-      url: "https://lmsdomain.com",
+      url: getSiteUrl() || PRODUCTION_ORIGIN,
     },
-    serviceType: "Custom Learning Management System and Mobile Apps",
+    serviceType: "Custom Learning Management System",
     areaServed: "Worldwide",
   };
 
@@ -105,7 +99,7 @@ export default async function CustomPlanPage() {
         {/* 1. Hero with Brand Preview Signature Element */}
         <CustomPlanHero hero={pageData.hero} />
 
-        {/* 2. Audiences (Three cards) */}
+        {/* 2. Audiences (Two cards) */}
         {pageData.audiences && <CustomPlanAudiences audiences={pageData.audiences} />}
 
         {/* 3. Deliverables Bento Grid */}
@@ -119,27 +113,23 @@ export default async function CustomPlanPage() {
         {/* 5. Comparison: Building it yourself vs LMS Domain Custom Plan */}
         {pageData.comparison && <CustomPlanComparison comparison={pageData.comparison} />}
 
-        {/* 6. Mobile Apps Band (Gray background, Two phone frames + Shared app-icon) */}
-        {pageData.mobileApps && <CustomPlanMobileApps mobileApps={pageData.mobileApps} />}
-
-        {/* 7. Services After Launch */}
+        {/* 6. Services After Launch */}
         {pageData.services && <CustomPlanServices services={pageData.services} />}
 
-        {/* 8. Pricing Note */}
+        {/* 7. Pricing Note */}
         {pageData.pricingNote && (
           <CustomPlanPricingNote pricingNote={pageData.pricingNote} />
         )}
 
-        {/* 9. Enquiry Form (Anchor #plan, 3-step animated flow) */}
+        {/* 8. Enquiry Form (Anchor #plan, 3-step animated flow) */}
         <CustomPlanEnquiryForm formConfig={pageData.form} />
 
-        {/* 10. FAQ (Landing FAQ card style + FAQPage JSON-LD) */}
+        {/* 9. FAQ (Landing FAQ card style + FAQPage JSON-LD) */}
         {pageData.faq && <CustomPlanFaq faq={pageData.faq} />}
 
-        {/* 11. Final CTA */}
+        {/* 10. Final CTA */}
         {pageData.cta && <CustomPlanCta cta={pageData.cta} />}
       </div>
     </BrandPreviewProvider>
   );
 }
-

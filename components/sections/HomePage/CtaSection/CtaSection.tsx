@@ -74,12 +74,12 @@ export interface CtaBandContent {
 }
 
 const DEFAULT_BAND: CtaBandContent = {
-  title: "Join forward-thinking\nAI leaders",
+  title: "Monthly notes for\nacademy owners",
   subtitle: "",
   buttonText: "Notify",
   placeholder: "Your email address",
   sendingText: "Sending...",
-  successMessage: "✓ You are on the priority access list. We will notify you shortly.",
+  successMessage: "Thanks, you're subscribed.",
 };
 
 export interface CtaSectionProps {
@@ -95,6 +95,18 @@ export function CtaSection({
   showTestimonials = true,
   testimonials = [],
 }: CtaSectionProps = {}) {
+  const resolvedContent: CtaBandContent = {
+    ...DEFAULT_BAND,
+    ...content,
+    title:
+      content?.title && !content.title.includes("forward-thinking")
+        ? content.title
+        : DEFAULT_BAND.title,
+    successMessage:
+      content?.successMessage && !content.successMessage.includes("priority access list")
+        ? content.successMessage
+        : DEFAULT_BAND.successMessage,
+  };
   const panels = showTestimonials
     ? TESTIMONIAL_SLOTS.slice(0, testimonials.length).map((slot, i) => ({
         ...slot,
@@ -146,7 +158,7 @@ export function CtaSection({
 
       if (res.ok && response) {
         setIsSubmitted(true);
-        toast.success("Thank you! You have been added to our notification list.", {
+        toast.success("Thanks, you're subscribed.", {
           richColors: true,
           duration: 4000,
         });
@@ -234,14 +246,14 @@ export function CtaSection({
             <div className="relative z-30 w-full max-w-2xl mx-auto text-center space-y-5 sm:space-y-6 mt-3 sm:mt-6">
               {/* Exact 2-Line Headline from Reference Video */}
               <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light text-slate-900 tracking-tight leading-[1.08] font-manrope">
-                {content.title.split("\n").map((line, i) => (
+                {resolvedContent.title.split("\n").map((line, i) => (
                   <span key={i} className={i === 0 ? undefined : "block mt-1 sm:mt-2"}>
                     {line}
                   </span>
                 ))}
               </h2>
-              {content.subtitle && (
-                <p className="text-base sm:text-lg text-slate-700 max-w-xl mx-auto">{content.subtitle}</p>
+              {resolvedContent.subtitle && (
+                <p className="text-base sm:text-lg text-slate-700 max-w-xl mx-auto">{resolvedContent.subtitle}</p>
               )}
 
               {/* Unified Email Form Pill: Light Cream Container with Inset Black Button */}
@@ -252,7 +264,7 @@ export function CtaSection({
                 >
                   <input
                     type="email"
-                    placeholder={content.placeholder}
+                    placeholder={resolvedContent.placeholder}
                     disabled={isSubmitting}
                     value={email}
                     onChange={(e) => {
@@ -267,7 +279,7 @@ export function CtaSection({
                     disabled={isSubmitting}
                     className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-[#15171A] hover:bg-black text-white text-xs font-semibold shadow-xs transition-all active:scale-95 cursor-pointer disabled:opacity-50 shrink-0"
                   >
-                    {isSubmitting ? content.sendingText : content.buttonText}
+                    {isSubmitting ? resolvedContent.sendingText : resolvedContent.buttonText}
                   </button>
                 </form>
 
@@ -279,7 +291,7 @@ export function CtaSection({
 
                 {isSubmitted && (
                   <p className="text-xs text-emerald-800 font-semibold mt-2.5 text-center animate-in fade-in">
-                    {content.successMessage}
+                    {resolvedContent.successMessage}
                   </p>
                 )}
               </div>

@@ -1,16 +1,12 @@
 import { HeroContent } from "@/types/content";
 
 export const heroContent: HeroContent = {
-  titlePrefix: "Meet all-in-one platform",
-  rotatingWords: [
-    { text: "teach", bg: "#F3CF74" },
-    { text: "sell", bg: "#FBCFE8" },
-    { text: "certify", bg: "#8E7CF8" },
-    { text: "scale", bg: "#A6E3D3" },
-  ],
+  title: "Run your academy's batches, live classes and tests in one place.",
   subtitle:
-    "Build courses, sell them and support every learner, with AI that drafts your content, answers learner questions and tells you what needs attention.",
-  ctaText: "Request a Demo",
+    "LMS Domain gives language, test-prep and training academies their own branded learning platform: schedule batches, teach live, test learners and collect fees online, on your own domain.",
+  ctaText: "Book a 20-minute demo",
+  secondaryCtaText: "See pricing",
+  microcopy: "Your own domain on every plan · Set up with our team",
   cards: [
     {
       type: "course_builder",
@@ -31,7 +27,6 @@ export const heroContent: HeroContent = {
       question: "What's the difference between a quiz and an assignment?",
       answer:
         "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor review.",
-      sourceChip: "From your course: Module 2",
     },
     {
       type: "checkout",
