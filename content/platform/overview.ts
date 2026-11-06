@@ -24,7 +24,7 @@ export const platformOverviewPillars: PlatformOverviewPillar[] = [
     title: "Assess",
     tagline: "Test learners and certify the ones who finish.",
     description:
-      "Graded quizzes, written assignments with private review, in-video checkpoints, and verifiable PDF certificates.",
+      "Graded quizzes, written assignments with private review, in-video checkpoints, and branded completion certificates.",
     icon: "CheckSquare",
   },
   {
@@ -33,7 +33,7 @@ export const platformOverviewPillars: PlatformOverviewPillar[] = [
     title: "Manage",
     tagline: "Know every batch, learner and class at a glance.",
     description:
-      "Batch rosters, student progress records, attendance logs, role-based access control, and automated SMS alerts.",
+      "Batch rosters, student progress records, attendance for every live class, role-based access control, and automated SMS alerts.",
     icon: "CalendarRange",
   },
   {
@@ -42,7 +42,7 @@ export const platformOverviewPillars: PlatformOverviewPillar[] = [
     title: "Sell",
     tagline: "Collect fees in any currency, on your own checkout.",
     description:
-      "Online course cart, coupons, Stripe, Razorpay, Paytm and DOKU, multi-currency support, and instructor payouts.",
+      "Online course cart, coupons, Stripe, Razorpay, Paytm and DOKU, multi-currency checkout, and instructor payouts.",
     icon: "CreditCard",
   },
   {
@@ -70,7 +70,8 @@ export const platformOverviewPillars: PlatformOverviewPillar[] = [
     title: "Security",
     tagline: "Protect your courses and your learners' data.",
     description:
-      "Video watermarking stamps, device sign-in limits, role-based access control, secure AWS cloud hosting, and transparent DPA.",
+      "Video watermarking stamps, device sign-in limits, role-based access control, and managed cloud hosting with HTTPS.",
     icon: "ShieldCheck",
   },
 ];
+

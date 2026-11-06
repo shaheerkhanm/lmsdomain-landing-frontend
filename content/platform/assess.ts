@@ -18,7 +18,7 @@ export const assessPlatformData: PlatformPageData = {
     {
       title: "Assignments with review",
       description:
-        "Collect written work and project submissions with private instructor grading, rubric scoring, and feedback.",
+        "Review submissions and give feedback.",
       icon: "FileCheck",
     },
     {
@@ -30,7 +30,7 @@ export const assessPlatformData: PlatformPageData = {
     {
       title: "Course completion certificates",
       description:
-        "Issue verifiable branded PDF certificates automatically when learners satisfy passing score criteria.",
+        "Branded certificates for learners who finish.",
       icon: "Award",
     },
   ],
@@ -49,3 +49,4 @@ export const assessPlatformData: PlatformPageData = {
     },
   ],
 };
+

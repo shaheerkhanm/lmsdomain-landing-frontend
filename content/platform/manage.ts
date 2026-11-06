@@ -24,7 +24,7 @@ export const managePlatformData: PlatformPageData = {
     {
       title: "Attendance tracking",
       description:
-        "Log live classroom attendance, lecture engagement metrics, and batch attendance histories automatically.",
+        "Attendance for every live class.",
       icon: "ClipboardCheck",
     },
     {
@@ -55,3 +55,4 @@ export const managePlatformData: PlatformPageData = {
     },
   ],
 };
+

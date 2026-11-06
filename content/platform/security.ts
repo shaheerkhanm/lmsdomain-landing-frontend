@@ -28,15 +28,15 @@ export const securityPlatformData: PlatformPageData = {
       icon: "Lock",
     },
     {
-      title: "Encrypted cloud hosting",
+      title: "Managed cloud hosting",
       description:
-        "Hosted on AWS infrastructure with TLS 1.2+ encrypted network connections and AES-256 storage encryption at rest.",
+        "Managed cloud hosting with HTTPS on every academy domain.",
       icon: "Server",
     },
     {
-      title: "Data handling & DPA",
+      title: "Your data stays yours",
       description:
-        "Governed by a transparent Data Processing Agreement with clear institutional ownership, export options, and privacy protections.",
+        "Your data stays yours, and you can export it.",
       icon: "FileText",
     },
   ],
@@ -49,3 +49,4 @@ export const securityPlatformData: PlatformPageData = {
     },
   ],
 };
+

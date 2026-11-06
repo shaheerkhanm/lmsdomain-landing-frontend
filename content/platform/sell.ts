@@ -5,7 +5,7 @@ export const sellPlatformData: PlatformPageData = {
   eyebrow: "MONETIZATION & PAYMENTS",
   title: "Collect fees in any currency, on your own checkout.",
   subtitle:
-    "Accept payments in 100+ currencies through Stripe, Razorpay, Paytm, or DOKU with instant fee settlements straight to your own accounts.",
+    "Accept payments through Stripe, Razorpay, Paytm, or DOKU with fee settlements straight to your own gateway accounts.",
   frameTitle: "Storefront & Multi-Gateway Checkout",
   frameAlt: "Collect fees in any currency, on your own checkout",
   features: [
@@ -24,13 +24,13 @@ export const sellPlatformData: PlatformPageData = {
     {
       title: "Stripe, Razorpay, Paytm & DOKU",
       description:
-        "Accept credit cards, UPI, debit cards, and local payment methods with zero platform transaction commissions.",
+        "No cut of your sales: gateway fees are charged by your gateway.",
       icon: "CreditCard",
     },
     {
       title: "Multi-currency checkout",
       description:
-        "Sell courses in INR, USD, EUR, GBP, and 100+ currencies supported by your connected gateway accounts.",
+        "Charge learners in their own currency, depending on your gateway account.",
       icon: "Globe",
     },
     {
@@ -61,3 +61,4 @@ export const sellPlatformData: PlatformPageData = {
     },
   ],
 };
+

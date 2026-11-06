@@ -55,3 +55,4 @@ export const brandPlatformData: PlatformPageData = {
     },
   ],
 };
+

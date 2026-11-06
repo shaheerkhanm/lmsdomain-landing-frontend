@@ -240,3 +240,4 @@ export function PlatformPage({ data }: PlatformPageProps) {
 }
 
 export default PlatformPage;
+

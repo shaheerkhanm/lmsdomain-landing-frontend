@@ -24,3 +24,4 @@ export interface PlatformPageData {
   ctaSubtitle?: string;
   ctaButtonText?: string;
 }
+
