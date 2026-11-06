@@ -99,7 +99,14 @@ export function FAQ({
                 <AccordionPrimitive.Content
                   className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden px-5 sm:px-6 pb-5 sm:pb-6 text-sm sm:text-base text-[#6B6F76] leading-relaxed border-t border-[#F0EFEA] pt-4"
                 >
-                  <p>{item.answer}</p>
+                  {item.answer.includes("<") ? (
+                    <div
+                      className="prose prose-sm max-w-none text-[#6B6F76]"
+                      dangerouslySetInnerHTML={{ __html: item.answer }}
+                    />
+                  ) : (
+                    <p>{item.answer}</p>
+                  )}
                 </AccordionPrimitive.Content>
               </AccordionPrimitive.Item>
             );
@@ -111,3 +118,4 @@ export function FAQ({
 }
 
 export default FAQ;
+

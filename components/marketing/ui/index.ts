@@ -18,3 +18,4 @@ export type { FAQProps, FaqItem } from "./FAQ";
 
 export { CTABand } from "./CTABand";
 export type { CTABandProps } from "./CTABand";
+

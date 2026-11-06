@@ -138,3 +138,4 @@ The following components currently render dual DOM trees toggleable only via CSS
 - **Component:** [`components/marketing/features/FeatureMarquee.tsx`](file:///Users/shaheerkhan/Documents/Docker/lms-frontend/lmsdomain-landing-frontend/components/marketing/features/FeatureMarquee.tsx)
 - **Render Location:** Directly inside [`app/(marketing)/features/page.tsx`](file:///Users/shaheerkhan/Documents/Docker/lms-frontend/lmsdomain-landing-frontend/app/(marketing)/features/page.tsx#L101-L103) right below `<HeroAssembly />` (Section 1) and preceding `<BentoOverview />` (Section 2).
 - **Implementation:** Two continuous animated CSS/framer marquee rows slicing 38 feature cards from `content/features/catalog.ts` (`FEATURE_CATEGORIES`), paused on `:hover` and disabled when `prefers-reduced-motion` is active.
+

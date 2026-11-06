@@ -3,15 +3,11 @@
 import React from "react";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
 import { useSectionContent } from "@/components/content/PageContent";
+import { liveOr } from "@/lib/claims";
 
 export function MainHeading({ data }: { data?: any }) {
   const heroContent = useSectionContent("home-hero", defaultHeroContent);
-  const isStaleRotatingPrefix =
-    !heroContent.title ||
-    heroContent.title.trim().toLowerCase() === "meet all-in-one platform";
-  const title = isStaleRotatingPrefix
-    ? "Run your academy's batches, live classes and tests in one place."
-    : heroContent.title;
+  const title = liveOr(heroContent.title, defaultHeroContent.title);
 
   return (
     <div className="flex flex-col items-center text-center max-w-4xl mx-auto font-urbanist">

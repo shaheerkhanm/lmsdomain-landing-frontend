@@ -116,3 +116,4 @@ capture().catch((err) => {
   console.error("Error capturing screenshots:", err);
   process.exit(1);
 });
+
