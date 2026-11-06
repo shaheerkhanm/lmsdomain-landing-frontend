@@ -19,7 +19,16 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
     pathname?.startsWith("/signup") ||
     pathname?.startsWith("/forgot-password");
 
-  const baseNav = siteNav && siteNav.length > 0 ? siteNav : navigationConfig.marketingNav;
+  // Use CMS siteNav if provided with dropdown hierarchy; if legacy flat nav is returned, use navigationConfig
+  const isLegacyFlatCmsNav =
+    siteNav &&
+    siteNav.length > 0 &&
+    !siteNav.some((item) => item.children && item.children.length > 0);
+
+  const baseNav =
+    siteNav && siteNav.length > 0 && !isLegacyFlatCmsNav
+      ? siteNav
+      : navigationConfig.marketingNav;
 
   // Filter dropdown children through page visibility
   const visibleNav = baseNav
