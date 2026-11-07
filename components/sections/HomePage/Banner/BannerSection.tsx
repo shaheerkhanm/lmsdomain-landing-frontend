@@ -13,8 +13,9 @@ import { useSectionContent } from "@/components/content/PageContent";
 import { liveOr } from "@/lib/claims";
 
 export function BannerSection({ data, graphData }: { data?: any; graphData?: any }) {
-  const heroContent = useSectionContent("home-hero", defaultHeroContent);
-  const effectiveSubtitle = liveOr(heroContent.subtitle, defaultHeroContent.subtitle);
+  // Phase 2 copy is code-owned until cutover; site-home-hero is still used by the live site.
+  const heroContent = defaultHeroContent;
+  const effectiveSubtitle = defaultHeroContent.subtitle;
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
