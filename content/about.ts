@@ -1,3 +1,5 @@
+import { entity } from "@/content/entity";
+
 export interface TeamMember {
   name: string;
   role: string;
@@ -26,17 +28,16 @@ export const defaultAboutContent: AboutContent = {
   heroTitle: "We build the platform academies run on.",
   mission:
     "LMS Domain helps language, test-prep and training academies run batches, live classes and tests on their own branded website. We built it because most course platforms are made for selling recorded videos, not for teaching people on a schedule.",
-  companyLegalName: "Techiegram",
-  productName: "LMS Domain",
-  city: "Kozhikode (Calicut)",
-  region: "Kerala",
-  country: "India",
-  yearFounded: 2024,
-  companyBlurb:
-    "LMS Domain is a SaaS learning platform built by Techiegram, a software company based in Kozhikode, Kerala.",
+  companyLegalName: entity.facts.company,
+  productName: entity.facts.product,
+  city: entity.facts.city,
+  region: entity.facts.state,
+  country: entity.facts.country,
+  yearFounded: entity.facts.founded,
+  companyBlurb: entity.short,
   team: [
     {
-      name: "Shaheer Khan",
+      name: entity.facts.founders[0],
       role: "Co-founder",
       photo: "",
       bio: "",
@@ -46,7 +47,7 @@ export const defaultAboutContent: AboutContent = {
       visible: true,
     },
     {
-      name: "Anoop Sha",
+      name: entity.facts.founders[1],
       role: "Co-founder",
       photo: "",
       bio: "",

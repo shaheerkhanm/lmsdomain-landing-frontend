@@ -52,6 +52,13 @@ export const roadmapPageData: RoadmapPageData = {
       badge: "Coming soon",
     },
     {
+      title: "Google Meet integration",
+      category: "Classroom Technology",
+      description:
+        "Direct Google Meet meeting generation and automated calendar invites for scheduled batch classes.",
+      badge: "Coming soon",
+    },
+    {
       title: "Memberships & recurring subscriptions",
       category: "Monetization",
       description:

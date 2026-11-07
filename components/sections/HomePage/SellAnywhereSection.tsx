@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { Section, Eyebrow } from "@/components/marketing/ui";
+import { Section, Eyebrow, ScreenshotFrame } from "@/components/marketing/ui";
+import { CheckoutScreen } from "@/components/marketing/mockups/screens";
 import { Globe, ShieldCheck, Tag, ReceiptText } from "lucide-react";
 
 export function SellAnywhereSection() {
@@ -16,7 +17,7 @@ export function SellAnywhereSection() {
     {
       icon: Globe,
       title: "Multi-currency checkout",
-      desc: "Sell in INR, USD, EUR, GBP and 100+ currencies depending on your gateway account.",
+      desc: "Sell in INR, USD, EUR, GBP and other major currencies, depending on your gateway account.",
     },
     {
       icon: Tag,
@@ -40,7 +41,7 @@ export function SellAnywhereSection() {
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16">
         <Eyebrow tone="emerald">PAYMENTS & CHECKOUT</Eyebrow>
         <h2 className="type-h2 text-[#161616] mt-3">
-          Sell anywhere, in any currency
+          Sell courses online with GST invoices and major currencies
         </h2>
         <p className="type-body text-[#6B6F76] mt-3">
           Connect your preferred payment gateway. No proprietary vendor lock-in, with instant fee settlements straight to your own merchant account.
@@ -48,7 +49,7 @@ export function SellAnywhereSection() {
       </div>
 
       {/* Gateway Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-10">
         {gateways.map((gw, idx) => (
           <div
             key={idx}
@@ -62,6 +63,16 @@ export function SellAnywhereSection() {
             </span>
           </div>
         ))}
+      </div>
+
+      {/* Checkout Mockup Slot */}
+      <div className="mb-12 w-full max-w-4xl mx-auto">
+        <ScreenshotFrame
+          screen={<CheckoutScreen />}
+          title="learn.northstaracademy.in/checkout"
+          alt="Northstar Academy branded checkout with GST breakdown and payment gateways"
+          className="shadow-xl ring-1 ring-black/5"
+        />
       </div>
 
       {/* Highlights Grid */}

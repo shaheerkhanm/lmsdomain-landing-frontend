@@ -27,8 +27,10 @@ const DEFAULT_FOOTER_COLUMNS = [
   {
     title: "Solutions",
     links: [
+      { title: "Coaching Institutes", href: "/solutions/coaching-institutes" },
       { title: "Language & Test-Prep Academies", href: "/solutions/language-test-prep-academies" },
       { title: "Training Companies", href: "/solutions/training-companies" },
+      { title: "Solo Educators & Tutors", href: "/solutions/solo-educators" },
       { title: "Enterprise LMS", href: "/custom-lms" },
       { title: "Plans & Pricing", href: "/pricing" },
       { title: "Customers", href: "/customers" },
@@ -37,7 +39,6 @@ const DEFAULT_FOOTER_COLUMNS = [
   {
     title: "Resources",
     links: [
-      { title: "Blog", href: "/resources/blog" },
       { title: "Product Roadmap", href: "/roadmap" },
       { title: "About Us", href: "/about" },
       { title: "Contact Us", href: "/contact" },
@@ -50,7 +51,6 @@ const DEFAULT_FOOTER_COLUMNS = [
       { title: "Privacy Policy", href: "/privacy-policy" },
       { title: "Terms of Service", href: "/terms" },
       { title: "Refund & Cancellation", href: "/refund-policy" },
-      { title: "Data Processing (DPA)", href: "/dpa" },
     ],
   },
 ];

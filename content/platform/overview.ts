@@ -8,6 +8,14 @@ export interface PlatformOverviewPillar {
   icon: string;
 }
 
+export const platformOverviewSeo = {
+  title: "All-in-One Academy Operating System | LMS Domain",
+  description:
+    "Explore LMS Domain's 7 pillars: courses, batches, Zoom live classes, assessments, multi-currency checkout, and course-grounded AI under your own brand.",
+  heroAnswer:
+    "LMS Domain is an online course platform and academy operating system built for Indian coaching institutes, test-prep academies, and training providers. Teach live batches on Zoom, host recorded curriculum with drip scheduling, conduct mock assessments, sell courses in INR with GST invoices, and issue branded PDF certificates on your own domain.",
+};
+
 export const platformOverviewPillars: PlatformOverviewPillar[] = [
   {
     slug: "teach",

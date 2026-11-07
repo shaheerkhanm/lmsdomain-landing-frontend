@@ -2,9 +2,9 @@ import type { CustomPlanPageData } from "@/types/content";
 
 export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
   seo: {
-    title: "Custom LMS for Your Academy, Set Up for You | LMS Domain",
+    title: "Custom LMS Set Up for Your Academy | LMS Domain",
     description:
-      "Get your own branded LMS and website, set up by our team. Your domain and your brand, with setup, migration and support included.",
+      "Get your custom branded learning platform built and set up for you. Setup, content migration, staff training, and ongoing support included.",
     shareImage: "",
   },
   hero: {
@@ -12,7 +12,7 @@ export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
     title: "Your own LMS, set up for you",
     highlightedWords: "set up for you",
     subtitle:
-      "Tell us how you teach. Our team builds your branded academy and website, sets everything up, and stays with you after launch. No developers to hire.",
+      "LMS Domain builds and deploys customized learning management systems for established coaching institutes, training organizations, and academies in India. Get your own white-label platform configured with custom branding, batch workflows, live Zoom integration, domestic payment gateways, and dedicated onboarding support from our engineering team.",
     primaryCta: { label: "Plan my custom LMS", href: "#plan" },
     secondaryCta: { label: "Book a 20-minute call", action: "demo" },
     proofChips: [
@@ -177,7 +177,7 @@ export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
       {
         icon: "Zap",
         title: "Growth help",
-        text: "Advice on SEO, payments and engagement as you grow.",
+        text: "Advice on SEO, payments and growth as you scale.",
       },
     ],
   },

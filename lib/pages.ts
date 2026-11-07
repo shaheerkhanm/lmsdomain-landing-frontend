@@ -9,23 +9,28 @@ export interface PageDefinition {
   locked?: boolean;
 }
 
+// Phase 2 copy is code-owned until cutover; core pages are unconditionally locked/visible.
 export const SITE_PAGES: readonly PageDefinition[] = [
   { slug: "home", path: "/", locked: true },
   { slug: "privacy-policy", path: "/privacy-policy", locked: true },
   { slug: "terms", path: "/terms", locked: true },
+  { slug: "pricing", path: "/pricing", locked: true },
+  { slug: "contact", path: "/contact", locked: true },
+  { slug: "about", path: "/about", locked: true },
+  { slug: "platform", path: "/platform", locked: true },
+  { slug: "customers", path: "/customers", locked: true },
+  { slug: "roadmap", path: "/roadmap", locked: true },
+  { slug: "coaching-institutes", path: "/solutions/coaching-institutes", locked: true },
+  { slug: "language-test-prep-academies", path: "/solutions/language-test-prep-academies", locked: true },
+  { slug: "training-companies", path: "/solutions/training-companies", locked: true },
+  { slug: "solo-educators", path: "/solutions/solo-educators", locked: true },
   { slug: "features", path: "/features" },
   { slug: "ai", path: "/ai" },
-  { slug: "pricing", path: "/pricing" },
   { slug: "custom-lms", path: "/custom-lms" },
-  { slug: "about", path: "/about" },
-  { slug: "contact", path: "/contact" },
   { slug: "login", path: "/login" },
   { slug: "signup", path: "/signup" },
   { slug: "refund-policy", path: "/refund-policy" },
   { slug: "dpa", path: "/dpa" },
-  { slug: "platform", path: "/platform" },
-  { slug: "customers", path: "/customers" },
-  { slug: "roadmap", path: "/roadmap" },
   { slug: "demo", path: "/demo" },
 ] as const;
 

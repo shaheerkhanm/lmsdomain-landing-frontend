@@ -5,8 +5,8 @@ import { fullTitle, getMetadataBase } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: fullTitle("Domie AI | Platform"),
-  description: aiPlatformData.title,
+  title: aiPlatformData.metaTitle || fullTitle("Domie AI | Platform"),
+  description: aiPlatformData.metaDescription || aiPlatformData.title,
   alternates: { canonical: "/platform/ai" },
 };
 

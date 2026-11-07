@@ -196,7 +196,7 @@ export function InteractiveVideoCheckpoint() {
       {showQuestion && (
         <div className="bg-white p-3 rounded-xl border border-[#C4B5FD] shadow-xs space-y-2 text-xs animate-in fade-in zoom-in-95 duration-200">
           <p className="font-semibold text-[#161616] text-[11px]">
-            Checkpoint: Which structure guarantees FIFO order?
+            Checkpoint: Which structure enforces FIFO order?
           </p>
           <div className="grid grid-cols-2 gap-1.5">
             <button

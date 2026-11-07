@@ -4,6 +4,12 @@ import React, { useEffect, useState } from "react";
 import { Section, Eyebrow, ScreenshotFrame } from "@/components/marketing/ui";
 import { Calendar, Video, FileCheck, CreditCard } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  CoursesScreen,
+  BatchScheduleScreen,
+  TestsScreen,
+  PaymentsScreen,
+} from "@/components/marketing/mockups/screens";
 
 const BATCH_STATUSES = [
   { label: "Scheduled", color: "bg-amber-50 text-amber-700 border-amber-200" },
@@ -36,8 +42,9 @@ export function HowAcademyRunsSection() {
       title: "Set up batches",
       description:
         "Create a course once and run it as many batches as you need, each with its own schedule, learners and drip release.",
-      frameTitle: "Batch Manager & Schedule",
-      frameAlt: "Batch Scheduler — separate dates, drip rules and learner rosters per cohort",
+      frameTitle: "Batch Manager & Courses",
+      frameAlt: "Course Manager — separate dates, drip rules and learner rosters per cohort",
+      screen: <CoursesScreen />,
       extraBadge: null,
     },
     {
@@ -48,6 +55,7 @@ export function HowAcademyRunsSection() {
         "Schedule Zoom classes for a batch, send reminders, and keep recordings with the course.",
       frameTitle: "Live Classroom & Zoom Sync",
       frameAlt: "Live Class Hub — Zoom schedule, attendee roster and automatic recordings",
+      screen: <BatchScheduleScreen />,
       extraBadge: (
         <span
           className={cn(
@@ -67,6 +75,7 @@ export function HowAcademyRunsSection() {
         "Quizzes, assignments and in-video checkpoints, with attendance and progress for every learner.",
       frameTitle: "Gradebook & Assessments",
       frameAlt: "Assessment Center — quizzes, assignments and completion certificates",
+      screen: <TestsScreen />,
       extraBadge: null,
     },
     {
@@ -77,6 +86,7 @@ export function HowAcademyRunsSection() {
         "Razorpay, Paytm, Stripe or DOKU, in multiple currencies, with coupons and offline-payment approval.",
       frameTitle: "Multi-Currency Checkout",
       frameAlt: "Checkout & Payments — instant enrollment, coupons and invoice generation",
+      screen: <PaymentsScreen />,
       extraBadge: null,
     },
   ];
@@ -86,7 +96,7 @@ export function HowAcademyRunsSection() {
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16">
         <Eyebrow tone="violet">THE WORKFLOW</Eyebrow>
         <h2 className="type-h2 text-[#161616] mt-3">
-          How an academy runs on LMS Domain
+          How does an academy run on LMS Domain?
         </h2>
         <p className="type-body text-[#6B6F76] mt-3">
           Four interconnected steps to build courses, manage live teaching, evaluate learners and collect revenue.
@@ -120,10 +130,10 @@ export function HowAcademyRunsSection() {
                 </p>
               </div>
 
-              {/* Screenshot Frame with neutral placeholder */}
+              {/* Screenshot Frame with coded mockup */}
               <div className="mt-2">
-                {/* TODO(content): add real screenshots for ${step.title} */}
                 <ScreenshotFrame
+                  screen={step.screen}
                   title={step.frameTitle}
                   alt={step.frameAlt}
                   className="bg-white shadow-sm ring-1 ring-black/5"

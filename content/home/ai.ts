@@ -32,7 +32,7 @@ export const aiSectionContent: AiSectionContent = {
       shortLabel: "Analytics",
       title: "AI prescriptive analytics",
       description:
-        "A dashboard that flags falling enrolments, expiring coupons and low course engagement, with a short summary of what to do next.",
+        "A dashboard that flags falling enrolments, expiring coupons and low course progress, with a short summary of what to do next.",
     },
     {
       id: "command_bar",

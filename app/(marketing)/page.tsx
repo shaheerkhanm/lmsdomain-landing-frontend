@@ -4,6 +4,9 @@ import { Metadata } from "next";
 import { SITE_NAME, getMetadataBase, applySeo, fullTitle, getSiteUrl, PRODUCTION_ORIGIN, isProductionSite } from "@/lib/site";
 import { getSiteIdentity } from "@/lib/siteIdentity";
 
+import { entity } from "@/content/entity";
+import { getWebSiteJsonLd, getSoftwareApplicationJsonLd } from "@/components/seo/JsonLd";
+
 export async function generateMetadata(): Promise<Metadata> {
   // Share image and noindex from Admin > SEO
   return applySeo(await baseMetadata(), await fetchSeo("home").catch(() => null), { page: "home" });
@@ -12,11 +15,11 @@ export async function generateMetadata(): Promise<Metadata> {
 async function baseMetadata(): Promise<Metadata> {
   const seo = await fetchSeo("home").catch(() => null);
 
-  const rawTitle = seo?.metatitle || "Modern AI-Powered Learning Platform";
-  const title = fullTitle(rawTitle);
+  const title = seo?.metatitle
+    ? fullTitle(seo.metatitle)
+    : "LMS for Academies & Coaching Institutes | LMS Domain";
   const description =
-    seo?.metadescription ||
-    "Scale your academy with courses, live classes, assessments, payments, and Domie AI tutor in one flexible learning platform.";
+    seo?.metadescription || entity.oneLine;
 
   return {
     metadataBase: getMetadataBase(),
@@ -102,20 +105,18 @@ export default async function Home() {
     ? (identity.iconImage.startsWith("http") ? identity.iconImage : `${siteOrigin}${identity.iconImage}`)
     : `${siteOrigin}/site-icon/apple-touch-icon.png`;
 
-  const organizationJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: SITE_NAME,
-    url: siteOrigin,
-    logo: logoUrl,
-    ...(sameAs.length > 0 ? { sameAs } : {}),
-  };
+  const websiteJsonLd = getWebSiteJsonLd();
+  const softwareAppJsonLd = getSoftwareApplicationJsonLd();
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
       />
       <HomePage />
     </>

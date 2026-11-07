@@ -10,11 +10,11 @@ export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getSiteUrl() || PRODUCTION_ORIGIN;
 
-  let legalSlugs = ["privacy-policy", "terms", "refund-policy", "dpa"];
+  let legalSlugs = ["privacy-policy", "terms", "refund-policy"];
   try {
     const fetched = await getLegalPages();
     if (fetched && fetched.length > 0) {
-      legalSlugs = fetched;
+      legalSlugs = fetched.filter((s) => s !== "dpa");
     }
   } catch {
     // Fallback to static legal slugs
@@ -84,6 +84,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${baseUrl}/solutions/training-companies`,
       lastModified: new Date(SITEMAP_LAST_MODIFIED["/solutions/training-companies"] || "2026-11-06"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/solutions/coaching-institutes`,
+      lastModified: new Date(SITEMAP_LAST_MODIFIED["/solutions/coaching-institutes"] || "2026-11-07"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/solutions/solo-educators`,
+      lastModified: new Date(SITEMAP_LAST_MODIFIED["/solutions/solo-educators"] || "2026-11-07"),
       changeFrequency: "weekly",
       priority: 0.8,
     },

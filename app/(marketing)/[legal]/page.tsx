@@ -13,11 +13,14 @@ interface LegalPageProps {
 
 export async function generateStaticParams() {
   const slugs = await getLegalPages();
-  return slugs.map((legal) => ({ legal }));
+  return slugs.filter((slug) => slug !== "dpa").map((legal) => ({ legal }));
 }
 
 export async function generateMetadata(props: LegalPageProps): Promise<Metadata> {
   const { legal } = await props.params;
+  if (legal === "dpa") {
+    return { title: "Page Not Found | LMS Domain", robots: { index: false, follow: false } };
+  }
   const hiddenMeta = await guardMetadata(legal);
   if (hiddenMeta) return hiddenMeta;
   // Share image and noindex from Admin > SEO
@@ -28,6 +31,9 @@ async function baseMetadata({
   params,
 }: LegalPageProps): Promise<Metadata> {
   const { legal } = await params;
+  if (legal === "dpa") {
+    return { title: "Page Not Found | LMS Domain", robots: { index: false, follow: false } };
+  }
   const page = await getLegalPage(legal);
 
   if (!page || !page.body) {
@@ -66,6 +72,9 @@ async function baseMetadata({
 
 export default async function LegalPage({ params }: LegalPageProps) {
   const { legal } = await params;
+  if (legal === "dpa") {
+    notFound();
+  }
   await guardPage(legal);
   const page = await getLegalPage(legal);
 

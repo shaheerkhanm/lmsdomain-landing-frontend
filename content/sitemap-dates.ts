@@ -15,6 +15,8 @@ export const SITEMAP_LAST_MODIFIED: Record<string, string> = {
   "/platform/security": "2026-11-06",
   "/solutions/language-test-prep-academies": "2026-11-06",
   "/solutions/training-companies": "2026-11-06",
+  "/solutions/coaching-institutes": "2026-11-07",
+  "/solutions/solo-educators": "2026-11-07",
   "/customers": "2026-11-06",
   "/roadmap": "2026-11-06",
   "/pricing": "2026-11-05",
@@ -25,5 +27,4 @@ export const SITEMAP_LAST_MODIFIED: Record<string, string> = {
   "/privacy-policy": "2025-11-28",
   "/terms": "2025-11-28",
   "/refund-policy": "2025-11-28",
-  "/dpa": "2025-11-28",
 };

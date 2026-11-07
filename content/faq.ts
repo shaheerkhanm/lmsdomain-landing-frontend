@@ -19,10 +19,10 @@ export const homeFaqItems: FaqItem[] = [
       "Razorpay, Paytm, Stripe and DOKU, subject to your gateway account's country and currency.",
   },
   {
-    id: "sales-cut",
-    question: "Do you take a cut of my sales?",
+    id: "sales-commission",
+    question: "Do you charge a commission on my sales?",
     answer:
-      "No. You pay the plan price; gateway fees are charged by your gateway.",
+      "No. LMS Domain charges zero platform commission on course sales. You keep 100% of your earnings; standard payment gateway processing fees still apply based on your gateway provider.",
   },
   {
     id: "live-classes",
@@ -33,7 +33,7 @@ export const homeFaqItems: FaqItem[] = [
     id: "mobile-app",
     question: "Is there a mobile app?",
     answer:
-      'Learners use your academy in any phone browser today. Branded Android and iOS apps are on our <a href="/roadmap" class="text-[#7B5CF5] underline underline-offset-2 hover:text-[#6842ED]">roadmap</a>.',
+      'Learners use your academy in any phone browser today. Native mobile apps are on our <a href="/roadmap" class="text-[#7B5CF5] underline underline-offset-2 hover:text-[#6842ED]">roadmap</a>.',
   },
   {
     id: "course-migration",

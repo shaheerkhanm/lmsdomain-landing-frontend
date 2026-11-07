@@ -81,7 +81,7 @@ export const SAMPLE_PLANS: Omit<Plan, "currency">[] = [
     id: "sample-enterprise",
     slug: "sample-enterprise",
     name: "Sample Enterprise",
-    tagline: "For enterprise training academies requiring unlimited scale, custom SLA, and full AI access.",
+    tagline: "For enterprise training academies requiring dedicated infrastructure, custom SLA, and full AI access.",
     isCustom: true,
     isPopular: false,
     prices: {
@@ -90,8 +90,8 @@ export const SAMPLE_PLANS: Omit<Plan, "currency">[] = [
     },
     priceNote: "Custom",
     limits: [
-      { label: "Users", value: "Unlimited" },
-      { label: "Admins", value: "Unlimited" },
+      { label: "Users", value: "Custom" },
+      { label: "Admins", value: "Custom" },
     ],
     features: [
       "Learner Device Limits",
@@ -209,7 +209,7 @@ export const SAMPLE_COMPARISON: PricingComparison = {
       rows: [
         {
           label: "HelpDesk AI Tutor",
-          tooltip: "24/7 student chat tutor grounded in course syllabus and transcript.",
+          tooltip: "Student chat tutor grounded in course syllabus and transcript.",
           values: {
             "sample-starter": false,
             "sample-growth": true,

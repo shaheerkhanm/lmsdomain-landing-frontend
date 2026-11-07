@@ -34,11 +34,11 @@ export const AI_TOOLS: AiTool[] = [
     audience: analyticsFeature?.audience || "For administrators",
     summary:
       analyticsFeature?.description ||
-      "Provide administrators with concise insights and alerts about areas requiring attention, such as declining enrolments, expiring coupons, and low course engagement.",
+      "Provide administrators with concise insights and alerts about areas requiring attention, such as declining enrolments, expiring coupons, and low course progress.",
     bullets: [
       "Highlights courses with declining enrolments before revenue drops",
       "Alerts administrators when promotional coupon codes approach expiration",
-      "Flags lessons with lower student engagement or quiz completion rates",
+      "Flags lessons with lower student activity or quiz completion rates",
     ],
     badge: "Premium",
     demo: "analytics",

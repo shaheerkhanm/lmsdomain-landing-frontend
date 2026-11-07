@@ -47,7 +47,7 @@ export const AUDIENCE_TABS: AudienceTab[] = [
     photoChipColor: "bg-[#7B5CF5]",
     features: [
       { title: "Domie AI Content Generator", slug: "ai-powered-tools", tag: "AI Drafts" },
-      { title: "HelpDesk AI Tutor", slug: "ai-powered-tools", tag: "24/7 Support" },
+      { title: "HelpDesk AI Tutor", slug: "ai-powered-tools", tag: "Student Support" },
       { title: "Course Catalogue, Cart, and Wishlist", slug: "course-sales-and-payments", tag: "Storefront" },
       { title: "Coupons and Discounts", slug: "course-sales-and-payments", tag: "Marketing" },
       { title: "Video Watermarking", slug: "course-learning", tag: "Watermarking" },
@@ -59,7 +59,7 @@ export const AUDIENCE_TABS: AudienceTab[] = [
     label: "Corporate Teams",
     heading: "Engineered for Enterprise Employee Onboarding and Training",
     subheading:
-      "Automate corporate compliance training, track team progress with analytics, and allocate seat licenses effortlessly.",
+      "Deliver structured employee training with batch cohorts, track team progress with analytics, and issue branded completion certificates.",
     photo: "/images/features/audience-corporate.webp",
     photoAlt: "Corporate team collaborating around laptop in office meeting",
     photoChip: "Team training",

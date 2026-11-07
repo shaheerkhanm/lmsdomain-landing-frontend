@@ -43,7 +43,7 @@ export function PricingTeaserSection({
             <Check className="size-4 text-[#7B5CF5]" /> Custom domain with SSL
           </span>
           <span className="inline-flex items-center gap-1.5">
-            <Check className="size-4 text-[#7B5CF5]" /> Unlimited batches & courses
+            <Check className="size-4 text-[#7B5CF5]" /> Scheduled batches & courses
           </span>
           <span className="inline-flex items-center gap-1.5">
             <Check className="size-4 text-[#7B5CF5]" /> Direct payment gateway payout

@@ -243,7 +243,7 @@ export function AiSpotlightSection({ features, media, heading = DEFAULT_HEADING 
 
               <p className="text-[15px] text-[#6B6F76] leading-relaxed mb-6">
                 {analytics?.description ||
-                  "Provide administrators with concise insights and alerts about areas requiring attention, such as declining enrolments, expiring coupons, and low course engagement."}
+                  "Provide administrators with concise insights and alerts about areas requiring attention, such as declining enrolments, expiring coupons, and low course progress."}
               </p>
             </div>
 

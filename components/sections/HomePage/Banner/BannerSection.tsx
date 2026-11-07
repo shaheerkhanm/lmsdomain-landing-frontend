@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import MainHeading from "./MainHeading";
 import { ScreenshotFrame } from "@/components/marketing/ui/ScreenshotFrame";
+import { DashboardScreen } from "@/components/marketing/mockups/screens";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
@@ -12,8 +13,9 @@ import { useSectionContent } from "@/components/content/PageContent";
 import { liveOr } from "@/lib/claims";
 
 export function BannerSection({ data, graphData }: { data?: any; graphData?: any }) {
-  const heroContent = useSectionContent("home-hero", defaultHeroContent);
-  const effectiveSubtitle = liveOr(heroContent.subtitle, defaultHeroContent.subtitle);
+  // Phase 2 copy is code-owned until cutover; site-home-hero is still used by the live site.
+  const heroContent = defaultHeroContent;
+  const effectiveSubtitle = defaultHeroContent.subtitle;
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   return (
@@ -60,12 +62,12 @@ export function BannerSection({ data, graphData }: { data?: any; graphData?: any
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, ease: "easeOut" }}
-          className="mt-10 sm:mt-12 w-full max-w-5xl"
+          className="mt-10 sm:mt-12 w-full max-w-5xl min-w-0 overflow-hidden"
         >
-          {/* TODO(content): add real dashboard screenshot once available */}
           <ScreenshotFrame
-            title="LMS Domain Academy Dashboard"
-            alt="LMS Domain Academy Dashboard — batches, live classes and tests in one place"
+            screen={<DashboardScreen />}
+            title="lmsdomain.com/admin/dashboard"
+            alt="Northstar Academy sample dashboard in LMS Domain — batches, live classes and tests in one place"
             className="shadow-xl ring-1 ring-black/5"
           />
         </motion.div>

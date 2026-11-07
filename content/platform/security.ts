@@ -5,7 +5,11 @@ export const securityPlatformData: PlatformPageData = {
   eyebrow: "SECURITY & DATA PROTECTION",
   title: "Protect your courses and your learners' data.",
   subtitle:
-    "Protect proprietary course videos, control student account access, and ensure compliant data processing on secure cloud infrastructure.",
+    "LMS Domain delivers secure cloud hosting and content protection for coaching institutes and enterprise training companies in India. Safeguard course lecture videos with dynamic learner watermarks, enforce simultaneous device login limits, assign Admin and Instructor access controls, and retain full ownership with complete data export capabilities.",
+  metaTitle: "Secure Cloud LMS & Video Watermarking | LMS Domain",
+  metaDescription:
+    "Protect courses with dynamic video watermarks, learner device sign-in limits, staff role permissions, and secure cloud hosting on your own domain.",
+  sectionHeading: "How does content and data protection work in LMS Domain?",
   frameTitle: "Security, Watermarking & Access Controls",
   frameAlt: "Protect your courses and your learners' data",
   features: [
@@ -46,6 +50,50 @@ export const securityPlatformData: PlatformPageData = {
       href: "/solutions/training-companies",
       description:
         "Satisfy corporate data handling requirements, protect intellectual property, and govern employee records.",
+    },
+    {
+      title: "Language & test-prep academies",
+      href: "/solutions/language-test-prep-academies",
+      description:
+        "Prevent question bank leakages and unauthorized screen recording of proprietary test preparation materials.",
+    },
+    {
+      title: "Coaching institutes",
+      href: "/solutions/coaching-institutes",
+      description:
+        "Protect competitive exam video modules and restrict student credentials from unauthorized sharing.",
+    },
+  ],
+  faqs: [
+    {
+      question: "How does dynamic video watermarking protect course videos?",
+      answer:
+        "Dynamic video watermarking stamps the logged-in student's email and user ID visibly across the video player during playback. This discourages screen recording and unauthorized video sharing.",
+    },
+    {
+      question: "Can I restrict simultaneous student device logins?",
+      answer:
+        "Yes, you can enforce maximum device limits per student account. When the limit is reached, older sessions are terminated or new logins are blocked to prevent credential sharing.",
+    },
+    {
+      question: "Where is academy data hosted, and who owns it?",
+      answer:
+        "Your academy data is hosted on secure cloud infrastructure protected with TLS encryption. You retain 100% ownership of your course content, student records, and intellectual property.",
+    },
+    {
+      question: "What permissions do Instructor accounts have?",
+      answer:
+        "Instructor accounts have restricted role-based permissions. They can view only their assigned batches, manage course materials, and grade student tests without accessing overall financial or revenue reports.",
+    },
+    {
+      question: "Can I export all my student and course data?",
+      answer:
+        "Yes, you can export student directories, test results, attendance logs, and transaction reports at any time in standard CSV format.",
+    },
+    {
+      question: "How are course videos protected from unauthorized downloading?",
+      answer:
+        "Course videos are streamed with dynamic user-specific watermarks displaying the student's email and phone number on screen, time-limited playback tokens, and single-device concurrent session limits.",
     },
   ],
 };

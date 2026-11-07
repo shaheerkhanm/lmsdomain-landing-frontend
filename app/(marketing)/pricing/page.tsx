@@ -5,6 +5,8 @@ import { PricingView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, getSiteUrl, applySeo } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
 
+import { DEFAULT_PRICING_HERO } from "@/content/pricing/page";
+
 export async function generateMetadata(): Promise<Metadata> {
   const hiddenMeta = await guardMetadata("pricing");
   if (hiddenMeta) return hiddenMeta;
@@ -20,15 +22,11 @@ async function baseMetadata(): Promise<Metadata> {
 
   const isSample = Boolean(pageData?.isSample || process.env.CMS_USE_FIXTURES === "true");
 
-  const rawTitle =
-    seo?.metatitle ||
-    (pageData?.hero?.title ? pageData.hero.title : "Plans & Pricing");
-  const title = fullTitle(rawTitle);
+  const title = seo?.metatitle ? fullTitle(seo.metatitle) : DEFAULT_PRICING_HERO.metaTitle;
 
   const description =
     seo?.metadescription ||
-    pageData?.hero?.subtitle ||
-    "Transparent, scalable plans for every stage. Choose the right tier to launch and scale your academy.";
+    DEFAULT_PRICING_HERO.metaDescription;
 
   return {
     metadataBase: getMetadataBase(),
@@ -75,13 +73,16 @@ export default async function PricingPage() {
     (plan) => !plan.isCustom && (plan.prices.monthly !== null || plan.prices.yearly !== null)
   );
 
-  const jsonLd =
-    !data.isSample && numericPlans.length > 0
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "LMS Domain",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
+    description: data.hero.subtitle,
+    ...(numericPlans.length > 0
       ? {
-          "@context": "https://schema.org",
-          "@type": "Product",
-          name: "LMS Domain Academy Platform",
-          description: data.hero.subtitle,
           offers: numericPlans.map((plan) => ({
             "@type": "Offer",
             name: plan.name,
@@ -89,10 +90,11 @@ export default async function PricingPage() {
             price: plan.prices.monthly ?? plan.prices.yearly,
             priceCurrency: plan.currency.code,
             availability: "https://schema.org/InStock",
-            ...(siteUrl ? { url: `${siteUrl}/pricing` } : {}),
+            url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
           })),
         }
-      : null;
+      : {}),
+  };
 
   return (
     <>

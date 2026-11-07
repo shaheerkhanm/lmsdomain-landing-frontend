@@ -1,9 +1,13 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import { Section, Eyebrow } from "@/components/marketing/ui";
-import { Globe2, Palette, LayoutTemplate, Check } from "lucide-react";
+import { Section, Eyebrow, ScreenshotFrame } from "@/components/marketing/ui";
+import { MockupCaption } from "@/components/marketing/mockups/MockupCaption";
+import {
+  BrandedSiteScreen,
+  StudentViewScreen,
+} from "@/components/marketing/mockups/screens";
+import { Globe2, Palette, LayoutTemplate } from "lucide-react";
 
 export function YourBrandSection() {
   const points = [
@@ -31,7 +35,7 @@ export function YourBrandSection() {
         <div className="lg:col-span-7 flex flex-col items-start">
           <Eyebrow tone="violet">WHITE-LABEL EXPERIENCE</Eyebrow>
           <h2 className="type-h2 text-[#161616] mt-3">
-            Your brand, your domain
+            Launch your branded academy website on your own domain
           </h2>
           <p className="type-body text-[#6B6F76] mt-3 mb-8">
             Your own domain, logo and colours, with a home page you build yourself. Students experience your academy, not ours.
@@ -59,25 +63,26 @@ export function YourBrandSection() {
           </div>
         </div>
 
-        {/* Right Column: Visual illustration */}
-        <div className="lg:col-span-5 flex justify-center">
-          <div className="relative rounded-3xl bg-[#FAF9F6] border border-[#EAE8E2] p-6 sm:p-8 w-full max-w-md shadow-sm">
-            <div className="relative aspect-4/3 w-full flex items-center justify-center overflow-hidden rounded-2xl bg-white border border-[#EAE8E2]">
-              <Image
-                src="/assets/img/home/benefits/benefit_your_brand.png"
-                alt="Your brand and custom domain configuration"
-                width={400}
-                height={300}
-                className="w-full h-auto object-contain p-4"
-              />
-            </div>
-            <div className="mt-4 flex items-center justify-between text-xs text-[#6B6F76] px-1">
-              <span className="font-semibold text-[#161616]">academy.yourdomain.com</span>
-              <span className="inline-flex items-center gap-1 text-emerald-600 font-medium">
-                <Check className="size-3.5" /> SSL Secured
-              </span>
+        {/* Right Column: Layered Storefront + Mobile Student View */}
+        <div className="lg:col-span-5 flex flex-col items-center justify-center w-full min-w-0">
+          <div className="relative w-full max-w-md sm:max-w-lg">
+            {/* Desktop Branded Storefront */}
+            <ScreenshotFrame
+              screen={<BrandedSiteScreen />}
+              title="learn.northstaracademy.in"
+              alt="Northstar Academy branded custom domain storefront"
+              className="shadow-xl ring-1 ring-black/5"
+              showCaption={false}
+            />
+
+            {/* Overlapping Student View on Mobile Phone (hidden on smallest viewports, shown on sm+) */}
+            <div className="hidden sm:block absolute -bottom-5 -right-3 w-[190px] md:w-[210px] rounded-2xl border-2 border-white shadow-2xl overflow-hidden bg-white z-10 aspect-9/16 ring-1 ring-black/10">
+              <div className="w-full h-full transform scale-90 origin-top">
+                <StudentViewScreen />
+              </div>
             </div>
           </div>
+          <MockupCaption className="mt-7 sm:mt-9" />
         </div>
       </div>
     </Section>

@@ -9,6 +9,18 @@ import {
   ScreenshotFrame,
   CTABand,
 } from "@/components/marketing/ui";
+import { FAQ } from "@/components/marketing/ui/FAQ";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
+import {
+  CoursesScreen,
+  BatchScheduleScreen,
+  TestsScreen,
+  PaymentsScreen,
+  BrandedSiteScreen,
+  DashboardScreen,
+  DomieScreen,
+  RolesScreen,
+} from "@/components/marketing/mockups/screens";
 import { PlatformPageData } from "@/content/platform/types";
 import {
   BookOpen,
@@ -90,9 +102,37 @@ export interface PlatformPageProps {
   data: PlatformPageData;
 }
 
+function getPlatformScreen(slug: string) {
+  switch (slug) {
+    case "teach":
+      return <CoursesScreen />;
+    case "assess":
+      return <TestsScreen />;
+    case "manage":
+      return <BatchScheduleScreen />;
+    case "sell":
+      return <PaymentsScreen />;
+    case "brand":
+      return <BrandedSiteScreen />;
+    case "security":
+      return <RolesScreen />;
+    case "ai":
+      return <DomieScreen />;
+    default:
+      return <DashboardScreen />;
+  }
+}
+
 export function PlatformPage({ data }: PlatformPageProps) {
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Platform", path: "/platform" },
+    { name: data.title, path: `/platform/${data.slug}` },
+  ];
+
   return (
     <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
       {/* 1. Hero & Outcome H1 */}
       <section className="relative pt-[130px] sm:pt-[150px] pb-12 sm:pb-16 overflow-x-clip bg-[#FAF9F6]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
@@ -121,10 +161,10 @@ export function PlatformPage({ data }: PlatformPageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="mt-10 sm:mt-12 w-full max-w-5xl"
+            className="mt-10 sm:mt-12 w-full max-w-5xl min-w-0 overflow-hidden"
           >
-            {/* TODO(content): add real screenshot for ${data.slug} */}
             <ScreenshotFrame
+              screen={getPlatformScreen(data.slug)}
               title={data.frameTitle}
               alt={data.frameAlt}
               className="shadow-xl ring-1 ring-black/5"
@@ -138,7 +178,7 @@ export function PlatformPage({ data }: PlatformPageProps) {
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <Eyebrow tone="violet">KEY CAPABILITIES</Eyebrow>
           <h2 className="type-h2 text-[#161616] mt-3">
-            Built for everyday academy workflows
+            {data.sectionHeading || "Built for everyday academy workflows"}
           </h2>
           <p className="type-body text-[#6B6F76] mt-3">
             Designed to give teachers and administrators complete control without complexity.
@@ -225,7 +265,20 @@ export function PlatformPage({ data }: PlatformPageProps) {
         </Section>
       )}
 
-      {/* 5. CTABand */}
+      {/* 5. Pillar FAQs with automatic FAQPage JSON-LD */}
+      {data.faqs && data.faqs.length > 0 && (
+        <section className="bg-white border-t border-[#EAE8E2]">
+          <FAQ
+            items={data.faqs}
+            title="Frequently asked questions"
+            subtitle={`Everything you need to know about ${data.title.toLowerCase()} on LMS Domain.`}
+            eyebrow="QUESTIONS & ANSWERS"
+            className="py-16 sm:py-20"
+          />
+        </section>
+      )}
+
+      {/* 6. CTABand */}
       <CTABand
         title={data.ctaTitle || "See your academy running on LMS Domain."}
         subtitle={

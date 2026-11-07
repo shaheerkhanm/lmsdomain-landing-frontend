@@ -6,8 +6,8 @@ import { fullTitle, getMetadataBase } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: fullTitle("Language & Test-Prep Academies | Solutions"),
-  description: languageTestPrepData.title,
+  title: languageTestPrepData.metaTitle || fullTitle("Language & Test-Prep Academies | Solutions"),
+  description: languageTestPrepData.metaDescription || languageTestPrepData.title,
   alternates: { canonical: "/solutions/language-test-prep-academies" },
 };
 

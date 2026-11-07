@@ -97,7 +97,7 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
     title: "Learner Engagement",
     eyebrow: "Learner Engagement",
     intro:
-      "Drive course completion with gamified rankings, verified watch thresholds, and in-context lesson assistance.",
+      "Drive course completion with gamified rankings, tracked watch thresholds, and in-context lesson assistance.",
     isPremium: true,
     order: 3,
     features: [
