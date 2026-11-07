@@ -169,7 +169,7 @@ export function PlatformPage({ data }: PlatformPageProps) {
         <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <Eyebrow tone="violet">KEY CAPABILITIES</Eyebrow>
           <h2 className="type-h2 text-[#161616] mt-3">
-            Built for everyday academy workflows
+            {data.sectionHeading || "Built for everyday academy workflows"}
           </h2>
           <p className="type-body text-[#6B6F76] mt-3">
             Designed to give teachers and administrators complete control without complexity.

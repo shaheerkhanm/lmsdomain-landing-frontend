@@ -5,7 +5,11 @@ export const sellPlatformData: PlatformPageData = {
   eyebrow: "MONETIZATION & PAYMENTS",
   title: "Collect fees in any currency, on your own checkout.",
   subtitle:
-    "Accept payments through Stripe, Razorpay, Paytm, or DOKU with fee settlements straight to your own gateway accounts.",
+    "LMS Domain is an e-commerce platform to sell courses online in India with GST invoices, custom discount coupons, and offline bank transfer reviews. Connect Razorpay, Paytm, Stripe, or DOKU to accept student fees in INR and major currencies with direct payouts to your business bank account.",
+  metaTitle: "Sell Courses Online with GST Invoices | LMS Domain",
+  metaDescription:
+    "Sell courses with Razorpay, Paytm, Stripe, and DOKU. Offer coupons, approve offline payments, and generate automated GST invoices on your own checkout.",
+  sectionHeading: "How does fee collection and checkout work in LMS Domain?",
   frameTitle: "Storefront & Multi-Gateway Checkout",
   frameAlt: "Collect fees in any currency, on your own checkout",
   features: [
@@ -24,13 +28,13 @@ export const sellPlatformData: PlatformPageData = {
     {
       title: "Stripe, Razorpay, Paytm & DOKU",
       description:
-        "No cut of your sales: gateway fees are charged by your gateway.",
+        "Connect your existing gateway account to receive direct payouts without platform intermediaries.",
       icon: "CreditCard",
     },
     {
       title: "Multi-currency checkout",
       description:
-        "Charge learners in their own currency, depending on your gateway account.",
+        "Charge learners in INR or major currencies depending on your connected gateway capabilities.",
       icon: "Globe",
     },
     {
@@ -58,6 +62,12 @@ export const sellPlatformData: PlatformPageData = {
       href: "/solutions/training-companies",
       description:
         "Invoice corporate team packages, manage bank transfer approvals, and split instructor compensation.",
+    },
+    {
+      title: "Solo educators & creators",
+      href: "/solutions/solo-educators",
+      description:
+        "Sell pre-recorded video courses, live cohort workshops, and 1:1 consultation sessions.",
     },
   ],
 };

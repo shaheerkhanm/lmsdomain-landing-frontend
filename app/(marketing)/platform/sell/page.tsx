@@ -5,8 +5,8 @@ import { fullTitle, getMetadataBase } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: fullTitle("Sell | Platform"),
-  description: sellPlatformData.title,
+  title: sellPlatformData.metaTitle || fullTitle("Sell | Platform"),
+  description: sellPlatformData.metaDescription || sellPlatformData.title,
   alternates: { canonical: "/platform/sell" },
 };
 

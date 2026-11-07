@@ -1,6 +1,7 @@
 import { FooterContent } from "@/types/content";
+import { entity } from "@/content/entity";
 
 export const footerContent: FooterContent = {
-  description: "An AI-powered LMS to build, sell and run your online academy.",
+  description: entity.oneLine,
 };
 

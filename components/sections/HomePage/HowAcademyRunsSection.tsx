@@ -96,7 +96,7 @@ export function HowAcademyRunsSection() {
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16">
         <Eyebrow tone="violet">THE WORKFLOW</Eyebrow>
         <h2 className="type-h2 text-[#161616] mt-3">
-          How an academy runs on LMS Domain
+          How does an academy run on LMS Domain?
         </h2>
         <p className="type-body text-[#6B6F76] mt-3">
           Four interconnected steps to build courses, manage live teaching, evaluate learners and collect revenue.

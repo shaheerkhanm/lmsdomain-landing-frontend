@@ -5,7 +5,11 @@ export const teachPlatformData: PlatformPageData = {
   eyebrow: "TEACHING & CURRICULUM",
   title: "Teach recorded courses and live batches from one place.",
   subtitle:
-    "Combine on-demand video lectures, structured learning documents, and scheduled live Zoom classes into one cohesive student journey.",
+    "LMS Domain provides live class software with Zoom and structured course delivery for coaching institutes, tutors, and training academies. Create video lessons with drip scheduling, run scheduled morning and evening batches, launch cohort bootcamps, and let students book 1:1 tutor sessions with recordings saved alongside the curriculum.",
+  metaTitle: "Live Classes & Course Builder Software | LMS Domain",
+  metaDescription:
+    "Deliver recorded video courses with drip release, schedule live Zoom classes for batches, and host cohort bootcamps and 1:1 tutor sessions with LMS Domain.",
+  sectionHeading: "How do live classes and courses work in LMS Domain?",
   frameTitle: "Course Builder & Batch Manager",
   frameAlt: "Teach recorded courses and live batches from one place",
   features: [
@@ -52,6 +56,12 @@ export const teachPlatformData: PlatformPageData = {
       href: "/solutions/training-companies",
       description:
         "Deliver cohort bootcamps, group training packages, and 1:1 tutor consultations.",
+    },
+    {
+      title: "Coaching institutes",
+      href: "/solutions/coaching-institutes",
+      description:
+        "Run subject batches, track live Zoom attendance, and distribute daily lecture materials.",
     },
   ],
 };

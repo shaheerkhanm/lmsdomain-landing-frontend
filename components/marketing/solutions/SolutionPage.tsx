@@ -143,7 +143,7 @@ export function SolutionPage({ data, clientLogo }: SolutionPageProps) {
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
           <Eyebrow tone="emerald">BUILT FOR YOUR WORKFLOW</Eyebrow>
           <h2 className="type-h2 text-[#161616] mt-3">
-            Everything structured around how your team teaches
+            {data.sectionHeading || "Everything structured around how your team teaches"}
           </h2>
           <p className="type-body text-[#6B6F76] mt-3">
             Say goodbye to stitching multiple tools together. Run batches, live meetings, assessments and billing in one unified system.

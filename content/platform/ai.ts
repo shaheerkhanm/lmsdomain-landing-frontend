@@ -6,7 +6,11 @@ export const aiPlatformData: PlatformPageData = {
   badge: "Premium",
   title: "Domie AI: a teaching assistant grounded in your own courses.",
   subtitle:
-    "An AI teaching assistant built specifically for academies to answer student inquiries, draft course metadata, and highlight learners who need help.",
+    "LMS Domain offers Domie AI on the Premium plan for academies, coaching institutes, and training organizations in India. Provide a 24/7 HelpDesk student tutor grounded in your academy's own course content, generate drafts for course titles and descriptions, review learner engagement analytics, and consult the Ask Domie assistant daily.",
+  metaTitle: "Course-Grounded AI Teaching Assistant | LMS Domain",
+  metaDescription:
+    "Support learners 24/7 with a HelpDesk AI tutor grounded in your course content. Draft curriculum metadata and track engagement analytics on Premium.",
+  sectionHeading: "How does Domie AI support teaching and operations in LMS Domain?",
   frameTitle: "Domie AI Assistant & Tutor",
   frameAlt: "Domie AI: a teaching assistant grounded in your own courses",
   features: [
@@ -41,6 +45,12 @@ export const aiPlatformData: PlatformPageData = {
       href: "/solutions/language-test-prep-academies",
       description:
         "Provide round-the-clock course assistance for grammar, test questions, and exam preparation queries.",
+    },
+    {
+      title: "Coaching institutes",
+      href: "/solutions/coaching-institutes",
+      description:
+        "Answer repetitive student syllabus questions automatically using lesson-grounded assistance.",
     },
   ],
 };

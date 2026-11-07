@@ -5,7 +5,11 @@ export const managePlatformData: PlatformPageData = {
   eyebrow: "ACADEMY OPERATIONS",
   title: "Know every batch, learner and class at a glance.",
   subtitle:
-    "Manage cohort schedules, monitor learner engagement, coordinate teaching staff, and broadcast essential notifications.",
+    "LMS Domain is an academy operations and batch management software designed for coaching institutes, training companies, and educational organizations in India. Track student attendance for every live class, oversee batch schedules and drip lessons, assign Admin and Instructor staff permissions, and send automated email and SMS class notifications.",
+  metaTitle: "Batch Management & Academy Operations | LMS Domain",
+  metaDescription:
+    "Manage student cohorts, track attendance for every live class, assign staff roles, and broadcast automated email and SMS notices on LMS Domain.",
+  sectionHeading: "How does batch and operations management work in LMS Domain?",
   frameTitle: "Operations Dashboard & Roster",
   frameAlt: "Know every batch, learner and class at a glance",
   features: [
@@ -52,6 +56,12 @@ export const managePlatformData: PlatformPageData = {
       href: "/solutions/training-companies",
       description:
         "Coordinate enterprise client groups, delegate instructor responsibilities, and monitor team progress.",
+    },
+    {
+      title: "Coaching institutes",
+      href: "/solutions/coaching-institutes",
+      description:
+        "Schedule multiple shifts, take live Zoom attendance, and notify parents and students via SMS.",
     },
   ],
 };

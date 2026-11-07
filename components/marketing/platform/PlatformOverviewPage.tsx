@@ -7,6 +7,7 @@ import { Eyebrow, CTABand } from "@/components/marketing/ui";
 import {
   platformOverviewPillars,
   PlatformOverviewPillar,
+  platformOverviewSeo,
 } from "@/content/platform/overview";
 import {
   BookOpen,
@@ -44,8 +45,7 @@ export function PlatformOverviewPage() {
           </h1>
 
           <p className="type-body text-[#6B6F76] mt-4 max-w-2xl leading-relaxed">
-            Seven unified pillars designed to run courses, live batches, assessments,
-            global multi-currency commerce, and grounded AI under your own brand.
+            {platformOverviewSeo.heroAnswer}
           </p>
         </div>
       </section>

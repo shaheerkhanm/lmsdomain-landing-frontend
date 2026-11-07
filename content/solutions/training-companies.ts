@@ -5,7 +5,11 @@ export const trainingCompaniesData: SolutionPageData = {
   eyebrow: "TRAINING COMPANIES & INSTITUTES",
   title: "Sell cohorts and team packages, deliver them live, and certify the people who finish.",
   subtitle:
-    "Deliver professional cohort bootcamps, provide 1:1 coaching hours, invoice corporate client packages, and issue completion credentials under your own enterprise brand.",
+    "LMS Domain is an enterprise training management platform built for vocational institutes, corporate trainers, and consulting firms in India. Deliver cohort bootcamps, schedule 1:1 tutor consultations, invoice corporate client packages with GST, manage instructor revenue splits, and award branded PDF completion certificates on your own custom domain.",
+  metaTitle: "LMS for Training Companies & Bootcamps | LMS Domain",
+  metaDescription:
+    "Deliver cohort bootcamps, manage 1:1 tutor bookings, invoice corporate team packages with GST, and issue branded completion certificates.",
+  sectionHeading: "How does LMS Domain support professional training businesses?",
   features: [
     {
       title: "Bootcamps & cohort delivery",
@@ -41,6 +45,23 @@ export const trainingCompaniesData: SolutionPageData = {
       description:
         "Award branded PDF certificates when learners meet the course's passing requirements.",
       icon: "Award",
+    },
+  ],
+  platformLinks: [
+    {
+      title: "Bootcamps & Live Classes",
+      href: "/platform/teach",
+      description: "Deliver cohort bootcamps and 1:1 tutor bookings with Zoom.",
+    },
+    {
+      title: "Corporate Packages & Payouts",
+      href: "/platform/sell",
+      description: "Invoice enterprise clients with GST and track trainer commissions.",
+    },
+    {
+      title: "Branded Certificates & Testing",
+      href: "/platform/assess",
+      description: "Issue completion certificates and evaluate hands-on assignments.",
     },
   ],
   ctaTitle: "Scale your training business with LMS Domain.",

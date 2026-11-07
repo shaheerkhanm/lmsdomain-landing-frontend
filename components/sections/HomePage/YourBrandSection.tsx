@@ -35,7 +35,7 @@ export function YourBrandSection() {
         <div className="lg:col-span-7 flex flex-col items-start">
           <Eyebrow tone="violet">WHITE-LABEL EXPERIENCE</Eyebrow>
           <h2 className="type-h2 text-[#161616] mt-3">
-            Your brand, your domain
+            Launch your branded academy website on your own domain
           </h2>
           <p className="type-body text-[#6B6F76] mt-3 mb-8">
             Your own domain, logo and colours, with a home page you build yourself. Students experience your academy, not ours.

@@ -31,7 +31,7 @@ export function WhyChooseUsSection() {
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16">
         <Eyebrow tone="violet">THE DIFFERENCE</Eyebrow>
         <h2 className="type-h2 text-[#161616] mt-3">
-          Why academies choose LMS Domain
+          Why do coaching institutes and academies choose LMS Domain?
         </h2>
         <p className="type-body text-[#6B6F76] mt-3">
           A platform purpose-built for the daily operations of live teaching academies.

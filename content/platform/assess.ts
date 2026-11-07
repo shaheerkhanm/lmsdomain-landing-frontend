@@ -5,7 +5,11 @@ export const assessPlatformData: PlatformPageData = {
   eyebrow: "ASSESSMENTS & EVALUATION",
   title: "Test learners and certify the ones who finish.",
   subtitle:
-    "Evaluate student comprehension with automated quizzes, hands-on assignments, in-video knowledge checks, and branded completion certificates.",
+    "LMS Domain is an online assessment and testing platform for coaching institutes, test-prep centers, and training companies. Create timed mock tests from custom question banks, review student assignments with private feedback, check comprehension with in-video questions, and issue branded PDF completion certificates when learners pass your course requirements.",
+  metaTitle: "Mock Tests & Question Banks Software | LMS Domain",
+  metaDescription:
+    "Create timed mock tests from custom question banks, review assignments, and issue branded PDF completion certificates with LMS Domain's assessment tools.",
+  sectionHeading: "How do mock tests and assessments work in LMS Domain?",
   frameTitle: "Gradebook & Assessment Center",
   frameAlt: "Test learners and certify the ones who finish",
   features: [
@@ -46,6 +50,12 @@ export const assessPlatformData: PlatformPageData = {
       href: "/solutions/training-companies",
       description:
         "Assess cohorts with practical project submissions and branded completion certificates.",
+    },
+    {
+      title: "Coaching institutes",
+      href: "/solutions/coaching-institutes",
+      description:
+        "Administer chapter-wise mock tests and generate instant student rank reports.",
     },
   ],
 };

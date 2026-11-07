@@ -5,7 +5,11 @@ export const securityPlatformData: PlatformPageData = {
   eyebrow: "SECURITY & DATA PROTECTION",
   title: "Protect your courses and your learners' data.",
   subtitle:
-    "Protect proprietary course videos, control student account access, and ensure compliant data processing on secure cloud infrastructure.",
+    "LMS Domain delivers secure cloud hosting and content protection for coaching institutes and enterprise training companies in India. Safeguard course lecture videos with dynamic learner watermarks, enforce simultaneous device login limits, assign Admin and Instructor access controls, and retain full ownership with complete data export capabilities.",
+  metaTitle: "Secure Cloud LMS & Video Watermarking | LMS Domain",
+  metaDescription:
+    "Protect courses with dynamic video watermarks, learner device sign-in limits, staff role permissions, and secure cloud hosting on your own domain.",
+  sectionHeading: "How does content and data protection work in LMS Domain?",
   frameTitle: "Security, Watermarking & Access Controls",
   frameAlt: "Protect your courses and your learners' data",
   features: [
@@ -46,6 +50,18 @@ export const securityPlatformData: PlatformPageData = {
       href: "/solutions/training-companies",
       description:
         "Satisfy corporate data handling requirements, protect intellectual property, and govern employee records.",
+    },
+    {
+      title: "Language & test-prep academies",
+      href: "/solutions/language-test-prep-academies",
+      description:
+        "Prevent question bank leakages and unauthorized screen recording of proprietary test preparation materials.",
+    },
+    {
+      title: "Coaching institutes",
+      href: "/solutions/coaching-institutes",
+      description:
+        "Protect competitive exam video modules and restrict student credentials from unauthorized sharing.",
     },
   ],
 };

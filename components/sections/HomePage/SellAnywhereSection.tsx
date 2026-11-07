@@ -41,7 +41,7 @@ export function SellAnywhereSection() {
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-12 sm:mb-16">
         <Eyebrow tone="emerald">PAYMENTS & CHECKOUT</Eyebrow>
         <h2 className="type-h2 text-[#161616] mt-3">
-          Sell anywhere, in any currency
+          Sell courses online with GST invoices and major currencies
         </h2>
         <p className="type-body text-[#6B6F76] mt-3">
           Connect your preferred payment gateway. No proprietary vendor lock-in, with instant fee settlements straight to your own merchant account.

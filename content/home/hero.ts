@@ -3,7 +3,7 @@ import { HeroContent } from "@/types/content";
 export const heroContent: HeroContent = {
   title: "Run your academy's batches, live classes and tests in one place.",
   subtitle:
-    "LMS Domain gives language, test-prep and training academies their own branded learning platform: schedule batches, teach live, test learners and collect fees online, on your own domain.",
+    "LMS Domain is an all-in-one learning management system (LMS) for coaching institutes, test-prep academies, and training businesses in India. Build structured courses, run live Zoom classes with automated reminders, schedule batches, conduct mock tests, and sell courses online with GST invoices under your own custom branded domain.",
   ctaText: "Book a 20-minute demo",
   secondaryCtaText: "See pricing",
   microcopy: "Your own domain on every plan · Set up with our team",

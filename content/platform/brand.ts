@@ -5,7 +5,11 @@ export const brandPlatformData: PlatformPageData = {
   eyebrow: "WHITE-LABEL BRANDING",
   title: "Your academy, on your own domain.",
   subtitle:
-    "Deliver learning under your own brand identity with custom domains, dedicated SSL certificates, bespoke homepage designs, and organic search tools.",
+    "LMS Domain is a white-label academy website builder for coaching institutes, training companies, and independent educators in India. Launch your learning portal on your own custom web domain with free automated SSL, upload your own brand logo and colors, publish blogs and knowledge base articles, and sell downloadable ebooks.",
+  metaTitle: "White-Label LMS on Custom Domain | LMS Domain",
+  metaDescription:
+    "Launch your learning platform on your own custom domain with free SSL, brand logos, custom colors, blog publishing, and downloadable ebooks.",
+  sectionHeading: "How does custom branding work in LMS Domain?",
   frameTitle: "Brand & Domain Configuration",
   frameAlt: "Your academy, on your own domain",
   features: [
@@ -52,6 +56,12 @@ export const brandPlatformData: PlatformPageData = {
       href: "/solutions/training-companies",
       description:
         "Present a premium corporate training portal matching your enterprise client expectations.",
+    },
+    {
+      title: "Coaching institutes",
+      href: "/solutions/coaching-institutes",
+      description:
+        "Build a credible local institute brand with per-course landing pages and public admissions portals.",
     },
   ],
 };
