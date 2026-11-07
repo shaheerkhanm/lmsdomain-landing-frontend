@@ -63,7 +63,7 @@ export function StudentViewScreen() {
               <div className="font-bold text-[11px] truncate mt-0.5">
                 NEET Biology Live (Batch B)
               </div>
-              <div className="text-[9px] text-white/70">Dr. K. Sharma · Zoom Sync</div>
+              <div className="text-[9px] text-white/70">Dr. K. Sharma · Zoom</div>
             </div>
             <button className="px-2.5 py-1 rounded-lg bg-white text-[#161616] text-[9px] font-bold shrink-0 shadow-xs flex items-center gap-1">
               <Video className="size-2.5 text-[#161616]" />

@@ -38,7 +38,7 @@ export function BatchScheduleScreen() {
             </div>
             <span className="text-[9px] text-[#059669] bg-[#ECFDF5] border border-[#A7F3D0] px-2 py-0.5 rounded-full font-medium flex items-center gap-1">
               <CheckCircle2 className="size-2.5" />
-              Zoom Sync Active
+              Zoom
             </span>
           </div>
 

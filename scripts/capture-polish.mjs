@@ -6,8 +6,9 @@ const BASE_URL = "http://localhost:3000";
 const OUT_DIR = path.resolve("docs/phase2/polish");
 const WIDTHS = [375, 768, 1440];
 const PAGES = [
-  { name: "home-hero", url: "/", selector: "section" },
-  { name: "how-academy-runs", url: "/#workflow", selector: "section:nth-of-type(3)" },
+  { name: "home-hero", url: "/" },
+  { name: "platform-security", url: "/platform/security" },
+  { name: "platform-sell", url: "/platform/sell" },
   { name: "platform-teach", url: "/platform/teach" },
   { name: "platform-assess", url: "/platform/assess" },
   { name: "solution-testprep", url: "/solutions/language-test-prep-academies" },
@@ -29,9 +30,9 @@ async function main() {
     for (const p of PAGES) {
       const fullUrl = `${BASE_URL}${p.url}`;
       await page.goto(fullUrl, { waitUntil: "networkidle" });
-      await page.waitForTimeout(500);
+      await page.waitForTimeout(600);
 
-      // Check overflow
+      // Check overflow across entire page
       const overflow = await page.evaluate(() => {
         return {
           scrollWidth: document.documentElement.scrollWidth,
@@ -60,4 +61,3 @@ main().catch((err) => {
   console.error("Capture failed:", err);
   process.exit(1);
 });
-

@@ -5,9 +5,13 @@ import AppShell from "../AppShell";
 import { Sparkles, Send, Bot, CheckCircle2, AlertTriangle, ArrowRight, CornerDownRight } from "lucide-react";
 import { MOCKUP_IDENTITY } from "@/content/mockup-data";
 
-export function DomieScreen() {
+export interface DomieScreenProps {
+  compact?: boolean;
+}
+
+export function DomieScreen({ compact = false }: DomieScreenProps) {
   return (
-    <AppShell activeMenuItem="Domie AI" title="Ask Domie AI Assistant">
+    <AppShell activeMenuItem="Domie AI" compact={compact} title="Ask Domie AI Assistant">
       <div className="h-full flex flex-col gap-3 overflow-hidden text-[11px]">
         {/* Main AI Chat & Summary Container */}
         <div className="bg-white rounded-xl border border-[#EAE8E2] p-3 shadow-2xs flex-1 flex flex-col min-h-0 overflow-hidden">

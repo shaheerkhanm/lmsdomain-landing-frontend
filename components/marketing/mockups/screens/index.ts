@@ -6,4 +6,6 @@ export { PaymentsScreen } from "./PaymentsScreen";
 export { StudentViewScreen } from "./StudentViewScreen";
 export { DomieScreen } from "./DomieScreen";
 export { BrandedSiteScreen } from "./BrandedSiteScreen";
+export { RolesScreen } from "./RolesScreen";
+export { CheckoutScreen } from "./CheckoutScreen";
 

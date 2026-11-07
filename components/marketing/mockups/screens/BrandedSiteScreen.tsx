@@ -71,7 +71,7 @@ export function BrandedSiteScreen() {
               Master Entrance Exams & Professional Skills with Expert Faculty
             </h1>
             <p className="text-[11px] text-[#717684] max-w-md mx-auto">
-              Live Zoom classes, interactive doubt-clearing sessions, and certified learning paths directly on Northstar Academy.
+              Live Zoom classes, interactive doubt-clearing sessions, and completion certificates directly on Northstar Academy.
             </p>
           </div>
 

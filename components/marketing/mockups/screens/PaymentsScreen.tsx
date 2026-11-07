@@ -117,7 +117,7 @@ export function PaymentsScreen() {
           </div>
 
           <div className="pt-2 border-t border-[#F0EFEA] flex items-center justify-between text-[9px] text-[#8F94A0]">
-            <span>{MOCKUP_IDENTITY.timeZoneText} · Auto-generated GST tax receipts</span>
+            <span>{MOCKUP_IDENTITY.timeZoneText} · GST invoices</span>
             <span className="font-medium text-[#161616]">Settled directly to your bank account</span>
           </div>
         </div>

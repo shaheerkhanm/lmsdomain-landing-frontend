@@ -3,6 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { Sparkles, ArrowRight, MessageSquareText, FileEdit, BarChart3 } from "lucide-react";
+import { ScreenshotFrame } from "@/components/marketing/ui";
+import { DomieScreen } from "@/components/marketing/mockups/screens";
 
 export function DomieAiBand() {
   const capabilities = [
@@ -26,28 +28,36 @@ export function DomieAiBand() {
   return (
     <section className="w-full py-12 sm:py-16 bg-[#161616] text-white font-urbanist relative overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-10 border-b border-white/10">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30 text-xs font-semibold uppercase tracking-wider mb-3">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pb-12 border-b border-white/10">
+          <div className="lg:col-span-6 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30 text-xs font-semibold uppercase tracking-wider">
               <Sparkles className="size-3.5" />
               <span>Premium</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
               An AI teaching assistant grounded in your courses
             </h2>
-            <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl">
               Designed specifically for academies to reduce repetitive support and assist course authors without inventing facts.
             </p>
+            <div className="pt-2">
+              <Link
+                href="/platform/ai"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#161616] hover:bg-slate-100 text-sm font-semibold transition-all shadow-sm active:scale-95"
+              >
+                <span>Explore Domie AI</span>
+                <ArrowRight className="size-4" />
+              </Link>
+            </div>
           </div>
 
-          <div className="shrink-0">
-            <Link
-              href="/platform/ai"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-[#161616] hover:bg-slate-100 text-sm font-semibold transition-all shadow-sm active:scale-95"
-            >
-              <span>Explore Domie AI</span>
-              <ArrowRight className="size-4" />
-            </Link>
+          <div className="lg:col-span-6 w-full min-w-0">
+            <ScreenshotFrame
+              screen={<DomieScreen compact />}
+              title="lmsdomain.com/admin/domie-ai"
+              alt="Domie AI assistant answering academy queries with zero hallucination"
+              className="shadow-2xl ring-1 ring-white/10"
+            />
           </div>
         </div>
 

@@ -17,6 +17,7 @@ import {
   BrandedSiteScreen,
   DashboardScreen,
   DomieScreen,
+  RolesScreen,
 } from "@/components/marketing/mockups/screens";
 import { PlatformPageData } from "@/content/platform/types";
 import {
@@ -112,7 +113,7 @@ function getPlatformScreen(slug: string) {
     case "brand":
       return <BrandedSiteScreen />;
     case "security":
-      return <DashboardScreen />;
+      return <RolesScreen />;
     case "ai":
       return <DomieScreen />;
     default:
