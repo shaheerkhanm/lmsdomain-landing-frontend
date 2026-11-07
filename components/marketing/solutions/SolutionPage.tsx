@@ -99,7 +99,7 @@ export function SolutionPage({ data, clientLogo }: SolutionPageProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="mt-12 sm:mt-16 w-full max-w-5xl"
+            className="mt-12 sm:mt-16 w-full max-w-5xl min-w-0 overflow-hidden"
           >
             <ScreenshotFrame
               screen={getSolutionScreen(data.slug)}

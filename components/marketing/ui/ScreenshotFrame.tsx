@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -39,6 +39,9 @@ export function ScreenshotFrame({
   const [imageFailed, setImageFailed] = useState(false);
   const showImage = Boolean(src && !imageFailed);
 
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [scale, setScale] = useState<number>(1);
+
   useEffect(() => {
     if (process.env.NODE_ENV !== "production" && !screen && !src) {
       console.warn(
@@ -46,6 +49,24 @@ export function ScreenshotFrame({
       );
     }
   }, [screen, src, title]);
+
+  useEffect(() => {
+    if (!screen) return;
+    const el = containerRef.current;
+    if (!el) return;
+
+    const updateScale = () => {
+      const clientW = el.clientWidth;
+      if (clientW > 0) {
+        setScale(clientW / 1024);
+      }
+    };
+
+    updateScale();
+    const ro = new ResizeObserver(updateScale);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [screen]);
 
   const aspectClass =
     aspectRatio === "16/10"
@@ -57,10 +78,10 @@ export function ScreenshotFrame({
       : "";
 
   const frameContent = (
-    <div className="w-full">
+    <div className="w-full max-w-full min-w-0 overflow-hidden">
       <div
         className={cn(
-          "relative rounded-2xl sm:rounded-3xl bg-white border border-[#EAE8E2] shadow-[0_20px_50px_-15px_rgba(22,22,22,0.08)] overflow-hidden font-urbanist w-full",
+          "relative rounded-2xl sm:rounded-3xl bg-white border border-[#EAE8E2] shadow-[0_20px_50px_-15px_rgba(22,22,22,0.08)] overflow-hidden font-urbanist w-full max-w-full min-w-0",
           className
         )}
       >
@@ -83,15 +104,23 @@ export function ScreenshotFrame({
         </div>
 
         {/* Frame Screen Area */}
-        <div className={cn("relative w-full bg-[#FAF9F6] overflow-hidden [container-type:inline-size]", aspectClass)}>
+        <div
+          className={cn(
+            "relative w-full max-w-full min-w-0 bg-[#FAF9F6] overflow-clip [contain:paint]",
+            aspectClass
+          )}
+        >
           {screen ? (
-            /* Render coded React Mockup with CSS Container-Query transform scaling */
-            <div className="w-full h-full relative overflow-hidden">
+            /* Render coded React Mockup with CSS transform scaling */
+            <div
+              ref={containerRef}
+              className="w-full h-full relative overflow-clip [contain:paint] pointer-events-none"
+            >
               <div
                 style={{
                   width: "1024px",
                   height: "640px",
-                  transform: "scale(calc(100cqw / 1024))",
+                  transform: `scale(${scale})`,
                   transformOrigin: "top left",
                 }}
                 className="absolute top-0 left-0"
@@ -143,7 +172,7 @@ export function ScreenshotFrame({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.3, ease: "easeOut" }}
-      className="w-full"
+      className="w-full max-w-full min-w-0"
     >
       {frameContent}
     </motion.div>

@@ -60,15 +60,15 @@ export function YourBrandSection() {
         </div>
 
         {/* Right Column: Visual illustration */}
-        <div className="lg:col-span-5 flex justify-center">
-          <div className="relative rounded-3xl bg-[#FAF9F6] border border-[#EAE8E2] p-6 sm:p-8 w-full max-w-md shadow-sm">
+        <div className="lg:col-span-5 flex justify-center w-full min-w-0">
+          <div className="relative rounded-3xl bg-[#FAF9F6] border border-[#EAE8E2] p-4 sm:p-8 w-full max-w-md shadow-sm">
             <div className="relative aspect-4/3 w-full flex items-center justify-center overflow-hidden rounded-2xl bg-white border border-[#EAE8E2]">
               <Image
                 src="/assets/img/home/benefits/benefit_your_brand.png"
                 alt="Your brand and custom domain configuration"
                 width={400}
                 height={300}
-                className="w-full h-auto object-contain p-4"
+                className="w-full max-w-full h-auto object-contain p-2 sm:p-4"
               />
             </div>
             <div className="mt-4 flex items-center justify-between text-xs text-[#6B6F76] px-1">
