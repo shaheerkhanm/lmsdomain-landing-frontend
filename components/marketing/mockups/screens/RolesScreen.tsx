@@ -15,8 +15,8 @@ interface TeamMember {
 
 const TEAM_MEMBERS: TeamMember[] = [
   {
-    name: "Shaheer Khan",
-    email: "shaheer@northstaracademy.in",
+    name: "Priya Menon",
+    email: "priya.m@northstaracademy.in",
     role: "Admin",
     assignedBatches: "All Batches",
     status: "Active",
