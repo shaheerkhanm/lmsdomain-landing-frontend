@@ -35,6 +35,16 @@ const nextConfig = {
         destination: "/platform/ai",
         permanent: true,
       },
+      {
+        source: "/blog",
+        destination: "/resources/blog",
+        permanent: true,
+      },
+      {
+        source: "/blog/:slug*",
+        destination: "/resources/blog/:slug*",
+        permanent: true,
+      },
     ];
   },
   async rewrites() {
