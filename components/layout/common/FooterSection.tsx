@@ -27,8 +27,10 @@ const DEFAULT_FOOTER_COLUMNS = [
   {
     title: "Solutions",
     links: [
+      { title: "Coaching Institutes", href: "/solutions/coaching-institutes" },
       { title: "Language & Test-Prep Academies", href: "/solutions/language-test-prep-academies" },
       { title: "Training Companies", href: "/solutions/training-companies" },
+      { title: "Solo Educators & Tutors", href: "/solutions/solo-educators" },
       { title: "Enterprise LMS", href: "/custom-lms" },
       { title: "Plans & Pricing", href: "/pricing" },
       { title: "Customers", href: "/customers" },

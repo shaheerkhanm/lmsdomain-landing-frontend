@@ -11,6 +11,7 @@ import {
   TestsScreen,
   CoursesScreen,
   BatchScheduleScreen,
+  PaymentsScreen,
 } from "@/components/marketing/mockups/screens";
 import { SolutionPageData } from "@/content/solutions/types";
 import {
@@ -57,6 +58,10 @@ function getSolutionScreen(slug: string) {
       return <TestsScreen />;
     case "training-companies":
       return <CoursesScreen />;
+    case "coaching-institutes":
+      return <BatchScheduleScreen />;
+    case "solo-educators":
+      return <PaymentsScreen />;
     default:
       return <BatchScheduleScreen />;
   }

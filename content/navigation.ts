@@ -78,6 +78,11 @@ export const navigationConfig: NavigationConfig = {
       label: "Solutions",
       children: [
         {
+          label: "Coaching institutes",
+          href: "/solutions/coaching-institutes",
+          description: "For tuition centers, exam prep, and scheduled live shifts",
+        },
+        {
           label: "Language & test-prep academies",
           href: "/solutions/language-test-prep-academies",
           description: "For IELTS, PTE and language academies teaching in batches",
@@ -86,6 +91,11 @@ export const navigationConfig: NavigationConfig = {
           label: "Training companies",
           href: "/solutions/training-companies",
           description: "For cohorts, corporate packages, bootcamps and tutor booking",
+        },
+        {
+          label: "Solo educators & creators",
+          href: "/solutions/solo-educators",
+          description: "For tutors selling on-demand courses, cohorts, and 1:1 sessions",
         },
       ],
     },
