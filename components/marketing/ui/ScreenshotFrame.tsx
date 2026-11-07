@@ -1,13 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Monitor } from "lucide-react";
+import { MockupCaption } from "@/components/marketing/mockups/MockupCaption";
 
 export interface ScreenshotFrameProps {
   src?: string | null;
+  screen?: React.ReactNode;
   alt?: string;
   width?: number;
   height?: number;
@@ -17,10 +19,12 @@ export interface ScreenshotFrameProps {
   title?: string;
   className?: string;
   animate?: boolean;
+  showCaption?: boolean;
 }
 
 export function ScreenshotFrame({
   src,
+  screen,
   alt = "Product screenshot",
   width = 1200,
   height = 750,
@@ -30,9 +34,18 @@ export function ScreenshotFrame({
   title = "lmsdomain.com",
   className,
   animate = true,
+  showCaption = true,
 }: ScreenshotFrameProps) {
   const [imageFailed, setImageFailed] = useState(false);
   const showImage = Boolean(src && !imageFailed);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production" && !screen && !src) {
+      console.warn(
+        `[ScreenshotFrame] No screen or src provided for "${title}". Rendering fallback placeholder.`
+      );
+    }
+  }, [screen, src, title]);
 
   const aspectClass =
     aspectRatio === "16/10"
@@ -44,59 +57,79 @@ export function ScreenshotFrame({
       : "";
 
   const frameContent = (
-    <div
-      className={cn(
-        "relative rounded-2xl sm:rounded-3xl bg-white border border-[#EAE8E2] shadow-[0_20px_50px_-15px_rgba(22,22,22,0.08)] overflow-hidden font-urbanist w-full",
-        className
-      )}
-    >
-      {/* Browser Chrome Header */}
-      <div className="h-10 sm:h-11 px-4 sm:px-5 bg-[#F9F9F7] border-b border-[#EAE8E2] flex items-center justify-between select-none">
-        {/* Window controls (Traffic lights) */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
-          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
-          <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
-        </div>
-
-        {/* URL Pill */}
-        <div className="px-3 sm:px-4 py-1 rounded-md bg-white border border-[#EAE8E2] text-[11px] sm:text-xs text-[#6B6F76] font-medium tracking-tight truncate max-w-[200px] sm:max-w-[280px] text-center shadow-2xs">
-          {title}
-        </div>
-
-        {/* Empty balancer */}
-        <div className="w-10 sm:w-12" aria-hidden="true" />
-      </div>
-
-      {/* Frame Screen Area */}
-      <div className={cn("relative w-full bg-[#FAF9F6] overflow-hidden", aspectClass)}>
-        {showImage && src ? (
-          <Image
-            src={src}
-            alt={alt}
-            width={width}
-            height={height}
-            sizes={sizes}
-            priority={priority}
-            onError={() => setImageFailed(true)}
-            className="w-full h-full object-cover object-top"
-          />
-        ) : (
-          /* Neutral Placeholder (logs nothing, renders clearly) */
-          <div className="w-full h-full min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-[#FAF9F6] to-[#F3F4F6] border-t border-[#F0EFEA]">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white border border-[#EAE8E2] shadow-xs flex items-center justify-center text-[#8F94A0] mb-3">
-              <Monitor className="size-6 text-[#8F94A0]" />
-            </div>
-            <p className="text-sm sm:text-base font-semibold text-[#161616]">
-              Screenshot coming
-            </p>
-            <p className="text-xs text-[#6B6F76] mt-1 max-w-[280px]">
-              {/* TODO(content): replace with production screenshot */}
-              Live academy product view will render here
-            </p>
-          </div>
+    <div className="w-full">
+      <div
+        className={cn(
+          "relative rounded-2xl sm:rounded-3xl bg-white border border-[#EAE8E2] shadow-[0_20px_50px_-15px_rgba(22,22,22,0.08)] overflow-hidden font-urbanist w-full",
+          className
         )}
+      >
+        {/* Browser Chrome Header */}
+        <div className="h-10 sm:h-11 px-4 sm:px-5 bg-[#F9F9F7] border-b border-[#EAE8E2] flex items-center justify-between select-none">
+          {/* Window controls (Traffic lights) */}
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
+          </div>
+
+          {/* URL Pill */}
+          <div className="px-3 sm:px-4 py-1 rounded-md bg-white border border-[#EAE8E2] text-[11px] sm:text-xs text-[#6B6F76] font-medium tracking-tight truncate max-w-[200px] sm:max-w-[280px] text-center shadow-2xs font-mono">
+            {title}
+          </div>
+
+          {/* Empty balancer */}
+          <div className="w-10 sm:w-12" aria-hidden="true" />
+        </div>
+
+        {/* Frame Screen Area */}
+        <div className={cn("relative w-full bg-[#FAF9F6] overflow-hidden [container-type:inline-size]", aspectClass)}>
+          {screen ? (
+            /* Render coded React Mockup with CSS Container-Query transform scaling */
+            <div className="w-full h-full relative overflow-hidden">
+              <div
+                style={{
+                  width: "1024px",
+                  height: "640px",
+                  transform: "scale(calc(100cqw / 1024))",
+                  transformOrigin: "top left",
+                }}
+                className="absolute top-0 left-0"
+              >
+                {screen}
+              </div>
+            </div>
+          ) : showImage && src ? (
+            <Image
+              src={src}
+              alt={alt}
+              width={width}
+              height={height}
+              sizes={sizes}
+              priority={priority}
+              onError={() => setImageFailed(true)}
+              className="w-full h-full object-cover object-top"
+            />
+          ) : (
+            /* Neutral Placeholder (fallback only when no screen or src) */
+            <div className="w-full h-full min-h-[260px] sm:min-h-[380px] lg:min-h-[460px] flex flex-col items-center justify-center p-6 text-center bg-gradient-to-b from-[#FAF9F6] to-[#F3F4F6] border-t border-[#F0EFEA]">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white border border-[#EAE8E2] shadow-xs flex items-center justify-center text-[#8F94A0] mb-3">
+                <Monitor className="size-6 text-[#8F94A0]" />
+              </div>
+              <p className="text-sm sm:text-base font-semibold text-[#161616]">
+                Screenshot coming
+              </p>
+              <p className="text-xs text-[#6B6F76] mt-1 max-w-[280px]">
+                {/* TODO(content): replace with production screenshot */}
+                Live academy product view will render here
+              </p>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Shared caption for all mockups */}
+      {showCaption && screen && <MockupCaption />}
     </div>
   );
 
@@ -118,4 +151,3 @@ export function ScreenshotFrame({
 }
 
 export default ScreenshotFrame;
-
