@@ -31,9 +31,11 @@ export const DEFAULT_AUTH_COPY: AuthCopy = {
     subtitle:
       "One unified system for live cohort courses, video hosting, interactive assessments, and AI-powered learning.",
     bullets: [
-      "Custom branded domain with complete white-label styling",
-      "Course builder with lesson sequences and video hosting",
-      "Automated grading and branded digital certificates",
+      "Course builder with lessons and drip release",
+      "Zoom live classes",
+      "Tests and question banks",
+      "Branded certificates",
+      "Payments with GST invoices",
     ],
   },
 };

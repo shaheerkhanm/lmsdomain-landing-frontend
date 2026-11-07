@@ -469,45 +469,16 @@ export async function getPricingPage(): Promise<PricingPageModel> {
   const DEFAULT_ENT_TITLE = "Need your own branded LMS?";
   const DEFAULT_ENT_DESC = "Get a Custom Plan: your academy, set up and supported by our team.";
 
-  // Enterprise band from CMS site-pricing-enterprise (Prompt 37a/37b)
-  if (enterpriseDoc && enterpriseDoc.isActive !== false && !enterpriseDoc.isDeleted && enterpriseDoc.data) {
-    const entData = enterpriseDoc.data as any;
-    enterprise = {
-      title: liveOr(entData.title, DEFAULT_ENT_TITLE),
-      description: liveOr(entData.description, DEFAULT_ENT_DESC),
-      cta: {
-        label: entData.cta?.label || "Build your custom plan",
-        href: entData.cta?.href || "/custom-lms",
-        action: "link",
-      },
-    };
-  } else if (process.env.CMS_USE_FIXTURES === "true") {
-    // Dynamic import ONLY when CMS_USE_FIXTURES === "true". Never statically imported.
-    const sample = await import("@/content/pricing/sample");
-    mappedPlans = sample.SAMPLE_PLANS.map((plan) => ({ ...plan, currency: resolvePlanCurrency() }));
-    comparison = sample.SAMPLE_COMPARISON;
-    addOns = { title: "Flexible Add-Ons", items: sample.SAMPLE_ADD_ONS };
-    enterprise = {
-      ...sample.SAMPLE_ENTERPRISE,
-      title: liveOr(sample.SAMPLE_ENTERPRISE.title, DEFAULT_ENT_TITLE),
-      description: liveOr(sample.SAMPLE_ENTERPRISE.description, DEFAULT_ENT_DESC),
-    };
-    faq = { ...faqHeading, items: sample.SAMPLE_FAQ.items };
-    yearlySavingsLabel = "Sample: 2 months free";
-    isSample = true;
-  }
-
-  if (!enterprise && (activePlans.length > 0 || process.env.CMS_USE_FIXTURES === "true")) {
-    enterprise = {
-      title: DEFAULT_ENT_TITLE,
-      description: DEFAULT_ENT_DESC,
-      cta: {
-        label: "Build your custom plan",
-        href: "/custom-lms",
-        action: "link",
-      },
-    };
-  }
+  // Phase 2 copy is code-owned until cutover; site-pricing-enterprise is still used by the live site.
+  enterprise = {
+    title: DEFAULT_ENT_TITLE,
+    description: DEFAULT_ENT_DESC,
+    cta: {
+      label: "Build your custom plan",
+      href: "/custom-lms",
+      action: "link",
+    },
+  };
 
   // Comparison table from the admin: "yes" is a check, "no" or empty a dash, anything else text
   const comparisonRows = comparisonRes?.data || [];
@@ -537,10 +508,11 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     currencyCode = mappedPlans[0].currency.code;
   }
 
+  // Phase 2 copy is code-owned until cutover; pricing-hero is still used by the live site.
   const hero = {
-    eyebrow: (heroCms?.tags && heroCms.tags[0]) || DEFAULT_PRICING_HERO.eyebrow,
-    title: (heroCms?.title && heroCms.title.trim() !== "" && !/lorem ipsum/i.test(heroCms.title)) ? heroCms.title : DEFAULT_PRICING_HERO.title,
-    subtitle: (heroCms?.subTitle && heroCms.subTitle.trim() !== "" && !/lorem ipsum/i.test(heroCms.subTitle)) ? heroCms.subTitle : (heroCms?.description || DEFAULT_PRICING_HERO.subtitle),
+    eyebrow: DEFAULT_PRICING_HERO.eyebrow,
+    title: DEFAULT_PRICING_HERO.title,
+    subtitle: DEFAULT_PRICING_HERO.subtitle,
   };
 
   const emptyState = {
@@ -1093,7 +1065,19 @@ export async function getAuthCopy(): Promise<AuthCopy> {
 // Login & signup pages: Admin > Login & signup > Cms (auth-copy)
 export async function getAuthCopyWithSource(): Promise<{ copy: AuthCopy; source: ContentSourceKind }> {
   const section = await getSection("auth-copy");
-  return { copy: section.content as AuthCopy, source: section.source };
+  const copy = { ...(section.content as AuthCopy) };
+  // Phase 2 copy is code-owned until cutover; auth-copy in CMS contains stale claims (DRM, verifiable certificates)
+  copy.sidePanel = {
+    ...copy.sidePanel,
+    bullets: [
+      "Course builder with lessons and drip release",
+      "Zoom live classes",
+      "Tests and question banks",
+      "Branded certificates",
+      "Payments with GST invoices",
+    ],
+  };
+  return { copy, source: section.source };
 }
 
 export async function getHomePage() {
