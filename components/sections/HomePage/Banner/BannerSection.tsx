@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import MainHeading from "./MainHeading";
 import { ScreenshotFrame } from "@/components/marketing/ui/ScreenshotFrame";
+import { DashboardScreen } from "@/components/marketing/mockups/screens";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
@@ -62,10 +63,10 @@ export function BannerSection({ data, graphData }: { data?: any; graphData?: any
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="mt-10 sm:mt-12 w-full max-w-5xl"
         >
-          {/* TODO(content): add real dashboard screenshot once available */}
           <ScreenshotFrame
-            title="LMS Domain Academy Dashboard"
-            alt="LMS Domain Academy Dashboard — batches, live classes and tests in one place"
+            screen={<DashboardScreen />}
+            title="lmsdomain.com/admin/dashboard"
+            alt="Northstar Academy sample dashboard in LMS Domain — batches, live classes and tests in one place"
             className="shadow-xl ring-1 ring-black/5"
           />
         </motion.div>

@@ -5,6 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Eyebrow, CTABand, ScreenshotFrame } from "@/components/marketing/ui";
+import {
+  TestsScreen,
+  CoursesScreen,
+  BatchScheduleScreen,
+} from "@/components/marketing/mockups/screens";
 import { SolutionPageData } from "@/content/solutions/types";
 import {
   CalendarRange,
@@ -44,6 +49,17 @@ export interface SolutionPageProps {
   };
 }
 
+function getSolutionScreen(slug: string) {
+  switch (slug) {
+    case "language-test-prep-academies":
+      return <TestsScreen />;
+    case "training-companies":
+      return <CoursesScreen />;
+    default:
+      return <BatchScheduleScreen />;
+  }
+}
+
 export function SolutionPage({ data, clientLogo }: SolutionPageProps) {
   return (
     <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
@@ -77,7 +93,7 @@ export function SolutionPage({ data, clientLogo }: SolutionPageProps) {
             </Link>
           </div>
 
-          {/* ScreenshotFrame placeholder */}
+          {/* ScreenshotFrame with coded mockup */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -85,8 +101,8 @@ export function SolutionPage({ data, clientLogo }: SolutionPageProps) {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="mt-12 sm:mt-16 w-full max-w-5xl"
           >
-            {/* TODO(content): add real screenshot for ${data.slug} */}
             <ScreenshotFrame
+              screen={getSolutionScreen(data.slug)}
               title={`${data.eyebrow} Platform Interface`}
               alt={data.title}
               className="shadow-xl ring-1 ring-black/5"

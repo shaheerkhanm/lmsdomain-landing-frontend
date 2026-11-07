@@ -9,6 +9,15 @@ import {
   ScreenshotFrame,
   CTABand,
 } from "@/components/marketing/ui";
+import {
+  CoursesScreen,
+  BatchScheduleScreen,
+  TestsScreen,
+  PaymentsScreen,
+  BrandedSiteScreen,
+  DashboardScreen,
+  DomieScreen,
+} from "@/components/marketing/mockups/screens";
 import { PlatformPageData } from "@/content/platform/types";
 import {
   BookOpen,
@@ -90,6 +99,27 @@ export interface PlatformPageProps {
   data: PlatformPageData;
 }
 
+function getPlatformScreen(slug: string) {
+  switch (slug) {
+    case "teach":
+      return <CoursesScreen />;
+    case "assess":
+      return <TestsScreen />;
+    case "manage":
+      return <BatchScheduleScreen />;
+    case "sell":
+      return <PaymentsScreen />;
+    case "brand":
+      return <BrandedSiteScreen />;
+    case "security":
+      return <DashboardScreen />;
+    case "ai":
+      return <DomieScreen />;
+    default:
+      return <DashboardScreen />;
+  }
+}
+
 export function PlatformPage({ data }: PlatformPageProps) {
   return (
     <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
@@ -123,8 +153,8 @@ export function PlatformPage({ data }: PlatformPageProps) {
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="mt-10 sm:mt-12 w-full max-w-5xl"
           >
-            {/* TODO(content): add real screenshot for ${data.slug} */}
             <ScreenshotFrame
+              screen={getPlatformScreen(data.slug)}
               title={data.frameTitle}
               alt={data.frameAlt}
               className="shadow-xl ring-1 ring-black/5"
