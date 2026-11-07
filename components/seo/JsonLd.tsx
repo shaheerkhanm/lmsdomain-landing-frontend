@@ -1,9 +1,20 @@
 import React from "react";
 import { entity } from "@/content/entity";
-import { PRODUCTION_ORIGIN, getSiteUrl } from "@/lib/site";
+
+const CANONICAL_ORIGIN = entity.facts.website || "https://lmsdomain.com";
+
+function getOrigin(): string {
+  const envUrl = process.env.NEXT_PUBLIC_SITE_URL || process.env.SITE_URL;
+  if (!envUrl) return CANONICAL_ORIGIN;
+  try {
+    return new URL(envUrl).origin;
+  } catch {
+    return CANONICAL_ORIGIN;
+  }
+}
 
 export function getOrganizationJsonLd() {
-  const origin = getSiteUrl() || PRODUCTION_ORIGIN;
+  const origin = getOrigin();
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -35,7 +46,7 @@ export function getOrganizationJsonLd() {
 }
 
 export function getWebSiteJsonLd() {
-  const origin = getSiteUrl() || PRODUCTION_ORIGIN;
+  const origin = getOrigin();
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -48,7 +59,7 @@ export function getWebSiteJsonLd() {
 export function getSoftwareApplicationJsonLd(
   plans?: { name: string; price: number; currency: string }[]
 ) {
-  const origin = getSiteUrl() || PRODUCTION_ORIGIN;
+  const origin = getOrigin();
   const offers =
     plans && plans.length > 0
       ? plans.map((p) => ({
@@ -75,7 +86,7 @@ export function getSoftwareApplicationJsonLd(
 export function getBreadcrumbListJsonLd(
   items: { name: string; path: string }[]
 ) {
-  const origin = getSiteUrl() || PRODUCTION_ORIGIN;
+  const origin = getOrigin();
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -96,3 +107,4 @@ export function JsonLdScript({ data }: { data: Record<string, any> }) {
     />
   );
 }
+

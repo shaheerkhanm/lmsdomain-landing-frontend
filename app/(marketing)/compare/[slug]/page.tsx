@@ -177,3 +177,4 @@ export default async function ComparePageRoute({ params }: ComparePageProps) {
     </>
   );
 }
+

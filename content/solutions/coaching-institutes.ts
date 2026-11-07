@@ -108,3 +108,4 @@ export const coachingInstitutesData: SolutionPageData = {
     "Book a 20-minute demo. We'll show you how batch schedules, live Zoom classes, and timed mock tests operate on your custom domain.",
   ctaButtonText: "Book a demo",
 };
+

@@ -108,3 +108,4 @@ export const soloEducatorsData: SolutionPageData = {
     "Book a 20-minute demo. We'll show you how course building, 1:1 booking, and payment checkouts operate under your own brand.",
   ctaButtonText: "Book a demo",
 };
+

@@ -259,3 +259,4 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
     ],
   },
 };
+

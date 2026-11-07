@@ -13,3 +13,4 @@ export const metadata: Metadata = {
 export default function SoloEducatorsRoute() {
   return <SolutionPage data={soloEducatorsData} />;
 }
+

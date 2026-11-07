@@ -38,3 +38,4 @@ export const entity = {
 } as const;
 
 export type Entity = typeof entity;
+

@@ -420,3 +420,4 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     ],
   },
 };
+
