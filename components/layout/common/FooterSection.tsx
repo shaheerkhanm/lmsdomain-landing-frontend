@@ -50,7 +50,6 @@ const DEFAULT_FOOTER_COLUMNS = [
       { title: "Privacy Policy", href: "/privacy-policy" },
       { title: "Terms of Service", href: "/terms" },
       { title: "Refund & Cancellation", href: "/refund-policy" },
-      { title: "Data Processing (DPA)", href: "/dpa" },
     ],
   },
 ];

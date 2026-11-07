@@ -77,8 +77,11 @@ export default async function PricingPage() {
     !data.isSample && numericPlans.length > 0
       ? {
           "@context": "https://schema.org",
-          "@type": "Product",
-          name: "LMS Domain Academy Platform",
+          "@type": "SoftwareApplication",
+          name: "LMS Domain",
+          applicationCategory: "BusinessApplication",
+          operatingSystem: "Web",
+          url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
           description: data.hero.subtitle,
           offers: numericPlans.map((plan) => ({
             "@type": "Offer",
@@ -87,7 +90,7 @@ export default async function PricingPage() {
             price: plan.prices.monthly ?? plan.prices.yearly,
             priceCurrency: plan.currency.code,
             availability: "https://schema.org/InStock",
-            ...(siteUrl ? { url: `${siteUrl}/pricing` } : {}),
+            url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
           })),
         }
       : null;

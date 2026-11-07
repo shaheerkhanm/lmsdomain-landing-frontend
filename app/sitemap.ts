@@ -10,11 +10,11 @@ export const dynamic = "force-dynamic";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = getSiteUrl() || PRODUCTION_ORIGIN;
 
-  let legalSlugs = ["privacy-policy", "terms", "refund-policy", "dpa"];
+  let legalSlugs = ["privacy-policy", "terms", "refund-policy"];
   try {
     const fetched = await getLegalPages();
     if (fetched && fetched.length > 0) {
-      legalSlugs = fetched;
+      legalSlugs = fetched.filter((s) => s !== "dpa");
     }
   } catch {
     // Fallback to static legal slugs

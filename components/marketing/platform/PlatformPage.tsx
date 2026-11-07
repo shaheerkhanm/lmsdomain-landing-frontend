@@ -10,6 +10,7 @@ import {
   CTABand,
 } from "@/components/marketing/ui";
 import { FAQ } from "@/components/marketing/ui/FAQ";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import {
   CoursesScreen,
   BatchScheduleScreen,
@@ -123,8 +124,15 @@ function getPlatformScreen(slug: string) {
 }
 
 export function PlatformPage({ data }: PlatformPageProps) {
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Platform", path: "/platform" },
+    { name: data.title, path: `/platform/${data.slug}` },
+  ];
+
   return (
     <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
       {/* 1. Hero & Outcome H1 */}
       <section className="relative pt-[130px] sm:pt-[150px] pb-12 sm:pb-16 overflow-x-clip bg-[#FAF9F6]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">

@@ -5,6 +5,7 @@ import { SITE_NAME, getMetadataBase, applySeo, fullTitle, getSiteUrl, PRODUCTION
 import { getSiteIdentity } from "@/lib/siteIdentity";
 
 import { entity } from "@/content/entity";
+import { getWebSiteJsonLd, getSoftwareApplicationJsonLd } from "@/components/seo/JsonLd";
 
 export async function generateMetadata(): Promise<Metadata> {
   // Share image and noindex from Admin > SEO
@@ -104,20 +105,18 @@ export default async function Home() {
     ? (identity.iconImage.startsWith("http") ? identity.iconImage : `${siteOrigin}${identity.iconImage}`)
     : `${siteOrigin}/site-icon/apple-touch-icon.png`;
 
-  const organizationJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: SITE_NAME,
-    url: siteOrigin,
-    logo: logoUrl,
-    ...(sameAs.length > 0 ? { sameAs } : {}),
-  };
+  const websiteJsonLd = getWebSiteJsonLd();
+  const softwareAppJsonLd = getSoftwareApplicationJsonLd();
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppJsonLd) }}
       />
       <HomePage />
     </>
