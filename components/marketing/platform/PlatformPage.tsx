@@ -9,6 +9,7 @@ import {
   ScreenshotFrame,
   CTABand,
 } from "@/components/marketing/ui";
+import { FAQ } from "@/components/marketing/ui/FAQ";
 import {
   CoursesScreen,
   BatchScheduleScreen,
@@ -256,7 +257,20 @@ export function PlatformPage({ data }: PlatformPageProps) {
         </Section>
       )}
 
-      {/* 5. CTABand */}
+      {/* 5. Pillar FAQs with automatic FAQPage JSON-LD */}
+      {data.faqs && data.faqs.length > 0 && (
+        <section className="bg-white border-t border-[#EAE8E2]">
+          <FAQ
+            items={data.faqs}
+            title="Frequently asked questions"
+            subtitle={`Everything you need to know about ${data.title.toLowerCase()} on LMS Domain.`}
+            eyebrow="QUESTIONS & ANSWERS"
+            className="py-16 sm:py-20"
+          />
+        </section>
+      )}
+
+      {/* 6. CTABand */}
       <CTABand
         title={data.ctaTitle || "See your academy running on LMS Domain."}
         subtitle={

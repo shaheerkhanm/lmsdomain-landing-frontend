@@ -64,5 +64,37 @@ export const brandPlatformData: PlatformPageData = {
         "Build a credible local institute brand with per-course landing pages and public admissions portals.",
     },
   ],
+  faqs: [
+    {
+      question: "Can I use my own domain on LMS Domain?",
+      answer:
+        "Yes, you can connect your own custom domain (e.g., learn.youracademy.in or yourdomain.com) on every plan. Free automated SSL certificates are provisioned and renewed automatically.",
+    },
+    {
+      question: "Can I customize the colors and logo of my academy?",
+      answer:
+        "Yes, you can upload your light and dark brand logos, favicon, and select custom brand colors. Your branding is reflected across the public website, student portal, emails, and completion certificates.",
+    },
+    {
+      question: "Does LMS Domain include a website and homepage builder?",
+      answer:
+        "Yes, LMS Domain includes a visual homepage builder to showcase featured courses, faculty, announcements, and enrollment links without coding.",
+    },
+    {
+      question: "Can I publish blog articles and a knowledge base?",
+      answer:
+        "Yes, you can publish educational blog posts, course announcements, and student help articles to improve search visibility and support your learners.",
+    },
+    {
+      question: "Can I manage SEO settings for each page?",
+      answer:
+        "Yes, you can configure custom meta titles, meta descriptions, and social share images for your homepage, course pages, and public catalogue.",
+    },
+    {
+      question: "Is there a mobile app under my own brand?",
+      answer:
+        "Learners access your fully branded web academy through any mobile web browser today. Dedicated branded native mobile apps published to Google Play and Apple App Store are on our product roadmap.",
+    },
+  ],
 };
 

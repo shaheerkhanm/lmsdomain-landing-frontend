@@ -64,5 +64,37 @@ export const teachPlatformData: PlatformPageData = {
         "Run subject batches, track live Zoom attendance, and distribute daily lecture materials.",
     },
   ],
+  faqs: [
+    {
+      question: "Does LMS Domain support live classes?",
+      answer:
+        "Yes, LMS Domain supports live classes through direct Zoom integration. Meeting links and automated class reminders are sent to enrolled students, and recorded sessions are automatically stored inside the course timeline.",
+    },
+    {
+      question: "Can I drip release course lessons on a schedule?",
+      answer:
+        "Yes, you can unlock lessons based on calendar dates or learner enrollment days. Drip scheduling ensures that all students in a cohort progress through the curriculum together.",
+    },
+    {
+      question: "What content types can I upload to courses?",
+      answer:
+        "LMS Domain supports video lectures, downloadable PDF documents, structured rich-text lessons, and embedded resources. You can organize learning into distinct chapters and sections.",
+    },
+    {
+      question: "Can learners book 1:1 sessions with instructors?",
+      answer:
+        "Yes, the Tutor Booking feature allows learners to schedule and pay for private 1:1 sessions. Instructors can set their own availability calendar, hourly rates, and meeting links.",
+    },
+    {
+      question: "Can I run intensive bootcamps on LMS Domain?",
+      answer:
+        "Yes, you can structure cohort bootcamps with specific start dates, shared project milestones, and live faculty reviews. Cohort dashboards give you real-time visibility into student submissions.",
+    },
+    {
+      question: "Is there a mobile app for live classes?",
+      answer:
+        "Learners can join live Zoom classes and access course lessons using any modern mobile browser. Dedicated branded native mobile apps for Android and iOS are currently on our product roadmap.",
+    },
+  ],
 };
 

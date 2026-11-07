@@ -58,5 +58,37 @@ export const assessPlatformData: PlatformPageData = {
         "Administer chapter-wise mock tests and generate instant student rank reports.",
     },
   ],
+  faqs: [
+    {
+      question: "What types of tests can I create in LMS Domain?",
+      answer:
+        "You can create timed multiple-choice mock exams, topic quizzes, and written assignment submissions. Questions can be pulled from custom question banks with randomized order and automated scoring.",
+    },
+    {
+      question: "Does LMS Domain issue completion certificates?",
+      answer:
+        "Yes, LMS Domain generates branded PDF completion certificates when students finish your course requirements. Certificates carry your academy logo, student name, course details, and issue date.",
+    },
+    {
+      question: "What are in-video checkpoints?",
+      answer:
+        "In-video checkpoints are interactive question prompts placed at specific timestamps in recorded lectures. Playback pauses until the learner responds, helping verify comprehension during playback.",
+    },
+    {
+      question: "How do instructors review written assignments?",
+      answer:
+        "Instructors can review student file submissions in the dedicated evaluation portal. Staff can leave private feedback, award scores, and request revisions directly from the student's submission view.",
+    },
+    {
+      question: "Can I set passing percentages and time limits on quizzes?",
+      answer:
+        "Yes, you can set custom passing marks, maximum attempt counts, and countdown timers for every test. Retakes can be allowed or restricted according to your course policy.",
+    },
+    {
+      question: "Is there a mobile app for taking practice tests?",
+      answer:
+        "Students can take all quizzes, tests, and assignment submissions seamlessly in any mobile web browser. Branded native Android and iOS apps are currently on our roadmap.",
+    },
+  ],
 };
 

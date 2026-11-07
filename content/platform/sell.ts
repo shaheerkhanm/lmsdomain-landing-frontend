@@ -70,5 +70,37 @@ export const sellPlatformData: PlatformPageData = {
         "Sell pre-recorded video courses, live cohort workshops, and 1:1 consultation sessions.",
     },
   ],
+  faqs: [
+    {
+      question: "Which payment gateways does LMS Domain support?",
+      answer:
+        "LMS Domain supports Razorpay, Paytm, Stripe, and DOKU. Supported gateways depend on your business location and merchant account capabilities.",
+    },
+    {
+      question: "Can I sell courses with GST invoices?",
+      answer:
+        "Yes, LMS Domain automatically generates GST-compliant tax invoices for student enrollments. You can configure your academy GSTIN, business address, and state tax rules in the payment settings.",
+    },
+    {
+      question: "Can I accept offline payments like bank transfers?",
+      answer:
+        "Yes, students can submit direct bank transfer or UPI payment receipts during checkout. Administrators can review the proof of payment and approve enrollment with one click.",
+    },
+    {
+      question: "What currencies can I charge students in?",
+      answer:
+        "You can sell courses in INR, USD, EUR, GBP, and other major currencies supported by your connected payment gateway account. The checkout displays clear currency pricing.",
+    },
+    {
+      question: "Can I create discount coupons and promotional offers?",
+      answer:
+        "Yes, you can generate percentage or flat discount coupon codes with expiration dates, minimum order values, and maximum usage limits.",
+    },
+    {
+      question: "Can I sell ebooks and study materials?",
+      answer:
+        "Yes, you can sell downloadable digital ebooks as standalone products or bundle them with course enrollments.",
+    },
+  ],
 };
 

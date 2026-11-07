@@ -58,6 +58,38 @@ export const languageTestPrepData: SolutionPageData = {
     },
   ],
   customerNote: "Permission confirmed by Shaheer Khan for all 3 client logos.",
+  faqs: [
+    {
+      question: "How does LMS Domain support IELTS and PTE batch schedules?",
+      answer:
+        "LMS Domain allows language academies to configure morning, evening, and weekend batches. Each batch has its own calendar dates, Zoom live class links, student rosters, and drip lesson schedules.",
+    },
+    {
+      question: "Can I create timed mock tests for language exams?",
+      answer:
+        "Yes, you can create timed practice tests with multiple-choice sections and essay submission prompts. Scores are calculated automatically for objective questions, while teachers can leave written feedback for descriptive answers.",
+    },
+    {
+      question: "Does the platform track student attendance in live Zoom classes?",
+      answer:
+        "Yes, attendance is automatically logged whenever students join batch Zoom classes through their portal. Instructors can generate batch attendance summaries with one click.",
+    },
+    {
+      question: "Can students pay tuition fees in international currencies?",
+      answer:
+        "Yes, you can collect course fees via Stripe, Razorpay, Paytm, and DOKU in INR and international currencies supported by your gateway merchant account.",
+    },
+    {
+      question: "Can I issue completion certificates for test-prep cohorts?",
+      answer:
+        "Yes, you can issue branded PDF completion certificates customized with your academy logo, student name, and course details once a student passes the required mock tests.",
+    },
+    {
+      question: "Can learners take mock tests on mobile phones?",
+      answer:
+        "Yes, learners can access practice tests, video lessons, and live Zoom meetings on any mobile web browser. Branded native mobile apps are on our roadmap.",
+    },
+  ],
   ctaTitle: "See how LMS Domain powers your language academy.",
   ctaSubtitle:
     "Book a 20-minute demo. We'll show you how batch rosters, Zoom classes, and timed mock tests work on your custom domain.",

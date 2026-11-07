@@ -64,5 +64,37 @@ export const securityPlatformData: PlatformPageData = {
         "Protect competitive exam video modules and restrict student credentials from unauthorized sharing.",
     },
   ],
+  faqs: [
+    {
+      question: "How does dynamic video watermarking protect course videos?",
+      answer:
+        "Dynamic video watermarking stamps the logged-in student's email and user ID visibly across the video player during playback. This discourages screen recording and unauthorized video sharing.",
+    },
+    {
+      question: "Can I restrict simultaneous student device logins?",
+      answer:
+        "Yes, you can enforce maximum device limits per student account. When the limit is reached, older sessions are terminated or new logins are blocked to prevent credential sharing.",
+    },
+    {
+      question: "Where is academy data hosted, and who owns it?",
+      answer:
+        "Your academy data is hosted on secure cloud infrastructure protected with TLS encryption. You retain 100% ownership of your course content, student records, and intellectual property.",
+    },
+    {
+      question: "What permissions do Instructor accounts have?",
+      answer:
+        "Instructor accounts have restricted role-based permissions. They can view only their assigned batches, manage course materials, and grade student tests without accessing overall financial or revenue reports.",
+    },
+    {
+      question: "Can I export all my student and course data?",
+      answer:
+        "Yes, you can export student directories, test results, attendance logs, and transaction reports at any time in standard CSV format.",
+    },
+    {
+      question: "Is there DRM video encryption available today?",
+      answer:
+        "Hardware DRM encryption (such as Widevine and FairPlay) is currently on our product roadmap. Today, lecture videos are protected with dynamic user watermarking, secure streaming tokens, and strict session limits.",
+    },
+  ],
 };
 

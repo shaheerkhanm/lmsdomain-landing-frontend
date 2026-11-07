@@ -53,5 +53,37 @@ export const aiPlatformData: PlatformPageData = {
         "Answer repetitive student syllabus questions automatically using lesson-grounded assistance.",
     },
   ],
+  faqs: [
+    {
+      question: "How does Domie AI answer student questions?",
+      answer:
+        "Domie AI is a HelpDesk student tutor that grounds its answers in your academy's published course materials. It provides relevant answers when instructors are offline without inventing unverified facts.",
+    },
+    {
+      question: "Does Domie AI generate complete lessons or quizzes?",
+      answer:
+        "No, Domie AI does not generate full lesson scripts, quizzes, or grades. It assists instructors by drafting curriculum metadata such as course titles, course descriptions, and learning outcomes.",
+    },
+    {
+      question: "What is the Ask Domie assistant in the admin panel?",
+      answer:
+        "Ask Domie is an operational assistant that provides a daily morning summary of academy activity, batch enrollments, and upcoming schedules directly in your admin dashboard.",
+    },
+    {
+      question: "What are prescriptive analytics?",
+      answer:
+        "Prescriptive analytics highlight learners whose progress or attendance has dropped, alerting instructors before students fall behind in their batch.",
+    },
+    {
+      question: "Which plans include Domie AI?",
+      answer:
+        "Domie AI features are included on the Premium plan. You can enable or disable AI capabilities for specific courses and student groups.",
+    },
+    {
+      question: "Does Domie AI cite external web sources?",
+      answer:
+        "No, Domie AI answers solely from the materials provided in your courses and academy knowledge base.",
+    },
+  ],
 };
 

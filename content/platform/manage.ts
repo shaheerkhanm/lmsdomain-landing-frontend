@@ -64,5 +64,37 @@ export const managePlatformData: PlatformPageData = {
         "Schedule multiple shifts, take live Zoom attendance, and notify parents and students via SMS.",
     },
   ],
+  faqs: [
+    {
+      question: "How does batch management work in LMS Domain?",
+      answer:
+        "Batch management allows you to create separate cohorts for the same course with unique schedules, live class timings, and student rosters. Drip dates and instructor assignments can be customized per batch.",
+    },
+    {
+      question: "How is student attendance tracked for live classes?",
+      answer:
+        "LMS Domain automatically logs attendance when learners join scheduled Zoom classes through the platform. Instructors and administrators can export complete attendance sheets per session.",
+    },
+    {
+      question: "What roles are available for academy team members?",
+      answer:
+        "LMS Domain provides Admin and Instructor roles with role-based permissions. Admins oversee the entire platform, while Instructors can be restricted to managing their assigned courses, batches, and evaluations.",
+    },
+    {
+      question: "Can I send automated email and SMS notifications?",
+      answer:
+        "Yes, LMS Domain supports automated email announcements, batch updates, and class reminders. SMS notifications are also available as an option for critical schedule alerts.",
+    },
+    {
+      question: "Can I export student performance and enrollment data?",
+      answer:
+        "Yes, you can export student rosters, course progress percentages, test scores, and payment reports to CSV spreadsheets anytime from the admin portal.",
+    },
+    {
+      question: "Is there a mobile app for academy administrators?",
+      answer:
+        "The LMS Domain admin portal is fully responsive and accessible from any smartphone or tablet browser. Branded native mobile apps for Android and iOS are on our roadmap.",
+    },
+  ],
 };
 
