@@ -67,7 +67,7 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
 </ul>
 
 <h2 id="running-live-classes">5. Deliver live classes and assessments</h2>
-<p>Live instruction remains the heart of student retention and engagement. Connecting your platform directly with Zoom enables automated class meeting links, calendar notifications, and automatic lecture recording archives stored directly in the lesson timeline.</p>
+<p>Live instruction remains the heart of student retention and active participation. Connecting your platform directly with Zoom enables automated class meeting links, calendar notifications, and automatic lecture recording archives stored directly in the lesson timeline.</p>
 <p>Complement live sessions with regular evaluations:</p>
 <ul>
   <li><strong>Timed Mock Tests:</strong> Build chapter question banks and administer timed practice tests with automated scoring and passing requirements.</li>
@@ -76,7 +76,7 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
 </ul>
 
 <h2 id="onboarding-students">6. Onboard learners and scale operations</h2>
-<p>Once your platform and curriculum are in place, focus on delivering a smooth onboarding experience. Send automated transactional emails with student login credentials, provide an intuitive course orientation, and maintain prompt support. As your student body expands, tools like <a href="/platform/ai">Domie AI</a> can assist by answering routine syllabus questions 24/7 without burdening your teaching staff.</p>
+<p>Once your platform and curriculum are in place, focus on delivering a smooth onboarding experience. Send automated transactional emails with student login credentials, provide an intuitive course orientation, and maintain prompt support. As your student body expands, tools like <a href="/platform/ai">Domie AI</a> can assist by answering routine syllabus questions around the clock without burdening your teaching staff.</p>
 `,
     faqs: [
       {
@@ -189,13 +189,13 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
       { id: "introduction-monetization", title: "1. The online education monetization landscape in India" },
       { id: "choosing-payment-gateways", title: "2. Selecting and integrating Indian payment gateways" },
       { id: "understanding-gst", title: "3. Understanding GST compliance for online education" },
-      { id: "generating-gst-invoices", title: "4. Automating GST-compliant tax invoices" },
+      { id: "generating-gst-invoices", title: "4. Automating regular and B2B GST invoices" },
       { id: "handling-offline-payments", title: "5. Handling offline bank transfers and review workflows" },
       { id: "pricing-and-promotions", title: "6. Discount coupons and pricing strategies" },
       { id: "faqs", title: "Frequently asked questions" },
     ],
     content: `
-<p>Selling educational courses and live cohort seats online in India has expanded dramatically. However, as independent academies, test-prep centers, and training companies scale beyond informal fee collection, financial compliance becomes essential. Accepting student tuition securely while issuing automated, GST-compliant tax invoices is critical for building a legitimate, audit-proof education business.</p>
+<p>Selling educational courses and live cohort seats online in India has expanded dramatically. However, as independent academies, test-prep centers, and training companies scale beyond informal fee collection, financial compliance becomes essential. Accepting student tuition securely while issuing automated regular and B2B GST invoices is critical for building a legitimate, audit-proof education business.</p>
 
 <p>This guide explains how to set up payment infrastructure, connect domestic and international gateways, and automate GST invoicing on your own branded website.</p>
 
@@ -219,12 +219,12 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
   <li><strong>Export of Services:</strong> Invoices issued to foreign learners paying in convertible foreign exchange may qualify as zero-rated export of services under applicable legal provisions.</li>
 </ul>
 
-<h2 id="generating-gst-invoices">4. Automating GST-compliant tax invoices</h2>
+<h2 id="generating-gst-invoices">4. Automating regular and B2B GST invoices</h2>
 <p>Manually calculating tax breakdowns and typing invoices for hundreds of student enrollments each month is inefficient and prone to error. An academy platform like <a href="/platform/sell">LMS Domain</a> automates this entire sequence:</p>
 <ul>
   <li><strong>Sequential Numbering:</strong> Generates unique, non-repeating tax invoice serial numbers for every successful checkout.</li>
   <li><strong>Mandatory Business Identifiers:</strong> Displays your registered business name, registered office address, PAN, and 15-digit GSTIN.</li>
-  <li><strong>Student Tax Details:</strong> Captures student state of supply and optional corporate client GSTIN for B2B training packages.</li>
+  <li><strong>Student Tax Details:</strong> Captures student state of supply and optional corporate client GSTIN for B2B client batches.</li>
   <li><strong>Automated PDF Delivery:</strong> Immediately emails the finalized PDF tax receipt to the learner while archiving the record in your admin payment reports.</li>
 </ul>
 

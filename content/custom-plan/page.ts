@@ -177,7 +177,7 @@ export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
       {
         icon: "Zap",
         title: "Growth help",
-        text: "Advice on SEO, payments and engagement as you grow.",
+        text: "Advice on SEO, payments and growth as you scale.",
       },
     ],
   },

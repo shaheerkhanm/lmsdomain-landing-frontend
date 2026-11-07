@@ -209,7 +209,7 @@ export const SAMPLE_COMPARISON: PricingComparison = {
       rows: [
         {
           label: "HelpDesk AI Tutor",
-          tooltip: "24/7 student chat tutor grounded in course syllabus and transcript.",
+          tooltip: "Student chat tutor grounded in course syllabus and transcript.",
           values: {
             "sample-starter": false,
             "sample-growth": true,

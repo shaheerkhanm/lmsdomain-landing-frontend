@@ -36,7 +36,7 @@ export const coachingInstitutesData: SolutionPageData = {
       title: "Fee collection with GST invoices",
       tagline: "Razorpay, Paytm, UPI, and manual bank transfer reviews.",
       description:
-        "Collect monthly or term tuition fees directly to your bank account. The system issues automated GST-compliant tax invoices and lets staff verify direct bank transfer receipts.",
+        "Collect monthly or term tuition fees directly to your bank account. The system issues automated GST invoices and lets staff verify direct bank transfer receipts.",
       icon: "CreditCard",
     },
     {

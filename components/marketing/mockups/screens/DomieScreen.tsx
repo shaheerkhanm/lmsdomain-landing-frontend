@@ -52,7 +52,7 @@ export function DomieScreen({ compact = false }: DomieScreenProps) {
 
               <div className="flex-1 bg-[#FAF9F6] border border-[#EAE8E2] rounded-2xl rounded-tl-xs p-3 space-y-2.5 shadow-2xs">
                 <div className="text-[11px] text-[#161616] font-medium leading-relaxed">
-                  Based on live batch attendance and LMS progress data for this week (Asia/Kolkata), here is your batch engagement status:
+                  Based on live batch attendance and LMS progress data for this week (Asia/Kolkata), here is your batch activity status:
                 </div>
 
                 {/* Grounded Summary Table */}

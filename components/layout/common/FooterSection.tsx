@@ -39,7 +39,6 @@ const DEFAULT_FOOTER_COLUMNS = [
   {
     title: "Resources",
     links: [
-      { title: "Blog", href: "/resources/blog" },
       { title: "Product Roadmap", href: "/roadmap" },
       { title: "About Us", href: "/about" },
       { title: "Contact Us", href: "/contact" },

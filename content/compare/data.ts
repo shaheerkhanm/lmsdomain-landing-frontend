@@ -57,7 +57,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       {
         title: "Indian payment gateways with GST",
         description:
-          "Collect fees via Razorpay, Paytm, Stripe, or DOKU with automated GST-compliant tax invoices and offline bank transfer approvals.",
+          "Collect fees via Razorpay, Paytm, Stripe, or DOKU with automated regular and B2B GST invoices and offline bank transfer approvals.",
       },
       {
         title: "Testing & branded certificates",
@@ -123,7 +123,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       {
         title: "Grounded AI assistance",
         description:
-          "Domie AI on Premium provides a 24/7 student HelpDesk tutor grounded strictly in your academy's published course materials.",
+          "Domie AI on Premium provides a student HelpDesk tutor grounded strictly in your academy's published course materials without training external AI models.",
       },
     ],
     faqs: [
@@ -257,10 +257,10 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     competitorName: "Teachable",
     metaTitle: "Teachable Alternative for India: GST & Batches | LMS Domain",
     metaDescription:
-      "A localized Teachable alternative for Indian academies. Built for live Zoom classes, scheduled batches, question bank mock tests, and GST-compliant checkouts.",
+      "A localized Teachable alternative for Indian academies. Built for live Zoom classes, scheduled batches, question bank mock tests, and checkouts with GST invoices.",
     title: "Looking for a Teachable alternative built for live batch teaching?",
     subtitle:
-      "Teachable was designed primarily for asynchronous video courses in Western markets. LMS Domain gives Indian academies the tools they need for live Zoom batches, chapter mock tests, tutor bookings, and automated GST compliance on their own custom domain.",
+      "Teachable was designed primarily for asynchronous video courses in Western markets. LMS Domain gives Indian academies the tools they need for live Zoom batches, chapter mock tests, tutor bookings, and automated GST invoices on their own custom domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description:

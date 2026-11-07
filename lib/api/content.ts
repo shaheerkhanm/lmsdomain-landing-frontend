@@ -1336,7 +1336,11 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
         ...rawServices,
         title: liveOr(cleanTiming(rawServices.title, fallback.services?.title || ""), fallback.services?.title || ""),
         items: keepLive(rawServices.items, (item) => [item.title, item.text])
-          .filter((item) => !TIMING_PROMISE_REGEX.test(item.text)),
+          .filter((item) => !TIMING_PROMISE_REGEX.test(item.text))
+          .map((item) => ({
+            ...item,
+            text: item.text.replace(/\bengagement\b/gi, "growth"),
+          })),
       }
     : undefined;
 

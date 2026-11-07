@@ -5,10 +5,10 @@ export const brandPlatformData: PlatformPageData = {
   eyebrow: "WHITE-LABEL BRANDING",
   title: "Your academy, on your own domain.",
   subtitle:
-    "LMS Domain is a white-label academy website builder for coaching institutes, training companies, and independent educators in India. Launch your learning portal on your own custom web domain with free automated SSL, upload your own brand logo and colors, publish blogs and knowledge base articles, and sell downloadable ebooks.",
+    "LMS Domain is a white-label academy website builder for coaching institutes, training companies, and independent educators in India. Launch your learning portal on your own custom web domain with free automated SSL, upload your own brand logo, colors, and custom fonts, publish blogs and knowledge base articles, and sell downloadable ebooks.",
   metaTitle: "White-Label LMS on Custom Domain | LMS Domain",
   metaDescription:
-    "Launch your learning platform on your own custom domain with free SSL, brand logos, custom colors, blog publishing, and downloadable ebooks.",
+    "Launch your learning platform on your own custom domain with free SSL, brand logos, custom colors and fonts, blog publishing, and downloadable ebooks.",
   sectionHeading: "How does custom branding work in LMS Domain?",
   frameTitle: "Brand & Domain Configuration",
   frameAlt: "Your academy, on your own domain",
@@ -28,7 +28,7 @@ export const brandPlatformData: PlatformPageData = {
     {
       title: "Per-school branding",
       description:
-        "Upload light and dark wordmarks, browser favicons, and customize brand color palettes across all student touchpoints.",
+        "Upload light and dark wordmarks, browser favicons, and customize brand colors and fonts across all student touchpoints.",
       icon: "Palette",
     },
     {
@@ -71,9 +71,9 @@ export const brandPlatformData: PlatformPageData = {
         "Yes, you can connect your own custom domain (e.g., learn.youracademy.in or yourdomain.com) on every plan. Free automated SSL certificates are provisioned and renewed automatically.",
     },
     {
-      question: "Can I customize the colors and logo of my academy?",
+      question: "Can I customize the colors, logos, and fonts of my academy?",
       answer:
-        "Yes, you can upload your light and dark brand logos, favicon, and select custom brand colors. Your branding is reflected across the public website, student portal, emails, and completion certificates.",
+        "Yes, you can upload your light and dark brand logos, favicon, and select custom brand colors and fonts. Your branding is reflected across the public website, student portal, emails, and completion certificates.",
     },
     {
       question: "Does LMS Domain include a website and homepage builder?",

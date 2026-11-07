@@ -14,7 +14,7 @@ interface PricingEnterpriseProps {
 
 const ENTERPRISE_FEATURES = [
   "Multi-academy management",
-  "Guaranteed uptime SLA",
+  "Production uptime SLA",
   "Custom platform features",
   "Full migration assistance",
   "Dedicated support & account manager",

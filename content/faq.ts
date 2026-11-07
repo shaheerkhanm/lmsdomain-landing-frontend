@@ -19,10 +19,10 @@ export const homeFaqItems: FaqItem[] = [
       "Razorpay, Paytm, Stripe and DOKU, subject to your gateway account's country and currency.",
   },
   {
-    id: "sales-cut",
-    question: "Do you take a cut of my sales?",
+    id: "sales-commission",
+    question: "Do you charge a commission on my sales?",
     answer:
-      "No. You pay the plan price; gateway fees are charged by your gateway.",
+      "No. LMS Domain charges zero platform commission on course sales. You keep 100% of your earnings; standard payment gateway processing fees still apply based on your gateway provider.",
   },
   {
     id: "live-classes",

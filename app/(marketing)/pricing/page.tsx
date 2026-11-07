@@ -73,16 +73,16 @@ export default async function PricingPage() {
     (plan) => !plan.isCustom && (plan.prices.monthly !== null || plan.prices.yearly !== null)
   );
 
-  const jsonLd =
-    !data.isSample && numericPlans.length > 0
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "LMS Domain",
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
+    description: data.hero.subtitle,
+    ...(numericPlans.length > 0
       ? {
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: "LMS Domain",
-          applicationCategory: "BusinessApplication",
-          operatingSystem: "Web",
-          url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
-          description: data.hero.subtitle,
           offers: numericPlans.map((plan) => ({
             "@type": "Offer",
             name: plan.name,
@@ -93,7 +93,8 @@ export default async function PricingPage() {
             url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
           })),
         }
-      : null;
+      : {}),
+  };
 
   return (
     <>

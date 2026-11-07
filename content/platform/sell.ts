@@ -72,6 +72,11 @@ export const sellPlatformData: PlatformPageData = {
   ],
   faqs: [
     {
+      question: "Do you charge a commission on my sales?",
+      answer:
+        "No. LMS Domain charges zero platform commission on course sales. You keep 100% of your earnings; standard payment gateway processing fees still apply based on your gateway provider.",
+    },
+    {
       question: "Which payment gateways does LMS Domain support?",
       answer:
         "LMS Domain supports Razorpay, Paytm, Stripe, and DOKU. Supported gateways depend on your business location and merchant account capabilities.",
@@ -79,7 +84,7 @@ export const sellPlatformData: PlatformPageData = {
     {
       question: "Can I sell courses with GST invoices?",
       answer:
-        "Yes, LMS Domain automatically generates GST-compliant tax invoices for student enrollments. You can configure your academy GSTIN, business address, and state tax rules in the payment settings.",
+        "Yes, LMS Domain automatically generates regular GST invoices for individual learners and separate B2B GST invoices for corporate clients. You can configure your academy GSTIN, business address, and state tax rules in payment settings.",
     },
     {
       question: "Can I accept offline payments like bank transfers?",
