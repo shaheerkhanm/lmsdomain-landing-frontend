@@ -17,7 +17,7 @@ export function SellAnywhereSection() {
     {
       icon: Globe,
       title: "Multi-currency checkout",
-      desc: "Sell in INR, USD, EUR, GBP and 100+ currencies depending on your gateway account.",
+      desc: "Sell in INR, USD, EUR, GBP and other major currencies, depending on your gateway account.",
     },
     {
       icon: Tag,
