@@ -205,7 +205,7 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
 <h2 id="choosing-payment-gateways">2. Selecting and integrating Indian payment gateways</h2>
 <p>To maximize checkout conversion, your academy website should support the primary payment methods preferred by Indian students:</p>
 <ul>
-  <li><strong>Razorpay:</strong> The standard domestic gateway in India, supporting UPI apps (Google Pay, PhonePe, Paytm, BHIM), RuPay and international debit/credit cards, and net banking across 50+ Indian banks. Direct settlements deposit into your verified business bank account.</li>
+  <li><strong>Razorpay:</strong> The standard domestic gateway in India, supporting UPI apps (Google Pay, PhonePe, Paytm, BHIM), RuPay and international debit/credit cards, and net banking across 50+ Indian banks. Direct settlements deposit into your registered business bank account.</li>
   <li><strong>Paytm Payment Gateway:</strong> Highly popular across tier-2 and tier-3 cities, offering deep UPI coverage and Paytm Wallet support.</li>
   <li><strong>Stripe:</strong> Essential if your academy attracts students from the diaspora (e.g., NRI students in the Gulf, USA, Canada, or UK). Stripe enables international card processing in USD, EUR, GBP, and major foreign currencies.</li>
   <li><strong>DOKU:</strong> Valuable for academies marketing language or vocational courses into Southeast Asian markets like Indonesia.</li>

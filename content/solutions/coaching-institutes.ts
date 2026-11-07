@@ -100,7 +100,7 @@ export const coachingInstitutesData: SolutionPageData = {
     {
       question: "Is there a mobile app for students?",
       answer:
-        "Students can attend live classes, watch recorded lectures, and take practice tests using any mobile web browser today. Dedicated branded native mobile apps for Android and iOS are on our product roadmap.",
+        "Students can attend live classes, watch recorded lectures, and take practice tests using any mobile web browser today. Native mobile apps are on our roadmap.",
     },
   ],
   ctaTitle: "See how LMS Domain powers your coaching institute.",

@@ -91,9 +91,9 @@ export const securityPlatformData: PlatformPageData = {
         "Yes, you can export student directories, test results, attendance logs, and transaction reports at any time in standard CSV format.",
     },
     {
-      question: "Is there DRM video encryption available today?",
+      question: "How are course videos protected from unauthorized downloading?",
       answer:
-        "Hardware DRM encryption (such as Widevine and FairPlay) is currently on our product roadmap. Today, lecture videos are protected with dynamic user watermarking, secure streaming tokens, and strict session limits.",
+        "Course videos are streamed with dynamic user-specific watermarks displaying the student's email and phone number on screen, time-limited playback tokens, and single-device concurrent session limits.",
     },
   ],
 };

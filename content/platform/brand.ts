@@ -93,7 +93,7 @@ export const brandPlatformData: PlatformPageData = {
     {
       question: "Is there a mobile app under my own brand?",
       answer:
-        "Learners access your fully branded web academy through any mobile web browser today. Dedicated branded native mobile apps published to Google Play and Apple App Store are on our product roadmap.",
+        "Learners access your fully branded web academy through any mobile web browser today. Native mobile apps are on our product roadmap.",
     },
   ],
 };

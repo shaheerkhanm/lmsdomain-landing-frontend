@@ -191,7 +191,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       {
         question: "Is there a mobile app?",
         answer:
-          "Students access all features seamlessly in any mobile web browser. Branded native Android and iOS apps are on our product roadmap.",
+          "Students access all features seamlessly in any mobile web browser. Native mobile apps are on our product roadmap.",
       },
     ],
   },

@@ -93,7 +93,7 @@ export const managePlatformData: PlatformPageData = {
     {
       question: "Is there a mobile app for academy administrators?",
       answer:
-        "The LMS Domain admin portal is fully responsive and accessible from any smartphone or tablet browser. Branded native mobile apps for Android and iOS are on our roadmap.",
+        "The LMS Domain admin portal is fully responsive and accessible from any smartphone or tablet browser. Native mobile apps are on our roadmap.",
     },
   ],
 };

@@ -93,7 +93,7 @@ export const teachPlatformData: PlatformPageData = {
     {
       question: "Is there a mobile app for live classes?",
       answer:
-        "Learners can join live Zoom classes and access course lessons using any modern mobile browser. Dedicated branded native mobile apps for Android and iOS are currently on our product roadmap.",
+        "Learners can join live Zoom classes and access course lessons using any modern mobile browser. Native mobile apps are on our roadmap.",
     },
   ],
 };

@@ -33,7 +33,7 @@ export const homeFaqItems: FaqItem[] = [
     id: "mobile-app",
     question: "Is there a mobile app?",
     answer:
-      'Learners use your academy in any phone browser today. Branded Android and iOS apps are on our <a href="/roadmap" class="text-[#7B5CF5] underline underline-offset-2 hover:text-[#6842ED]">roadmap</a>.',
+      'Learners use your academy in any phone browser today. Native mobile apps are on our <a href="/roadmap" class="text-[#7B5CF5] underline underline-offset-2 hover:text-[#6842ED]">roadmap</a>.',
   },
   {
     id: "course-migration",

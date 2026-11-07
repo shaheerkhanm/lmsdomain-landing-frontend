@@ -100,7 +100,7 @@ export const soloEducatorsData: SolutionPageData = {
     {
       question: "Is there a mobile app for learners?",
       answer:
-        "Students can log in, stream lessons, and complete mock tests seamlessly in any mobile web browser. Dedicated branded native Android and iOS mobile apps are on our product roadmap.",
+        "Students can log in, stream lessons, and complete mock tests seamlessly in any mobile web browser. Native mobile apps are on our roadmap.",
     },
   ],
   ctaTitle: "Ready to launch your own teaching academy?",

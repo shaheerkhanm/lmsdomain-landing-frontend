@@ -57,7 +57,7 @@ export const aiPlatformData: PlatformPageData = {
     {
       question: "How does Domie AI answer student questions?",
       answer:
-        "Domie AI is a HelpDesk student tutor that grounds its answers in your academy's published course materials. It provides relevant answers when instructors are offline without inventing unverified facts.",
+        "Domie AI is a HelpDesk student tutor that grounds its answers in your academy's published course materials. It provides relevant answers when instructors are offline without inventing answers.",
     },
     {
       question: "Does Domie AI generate complete lessons or quizzes?",

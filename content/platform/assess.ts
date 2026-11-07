@@ -87,7 +87,7 @@ export const assessPlatformData: PlatformPageData = {
     {
       question: "Is there a mobile app for taking practice tests?",
       answer:
-        "Students can take all quizzes, tests, and assignment submissions seamlessly in any mobile web browser. Branded native Android and iOS apps are currently on our roadmap.",
+        "Students can take all quizzes, tests, and assignment submissions seamlessly in any mobile web browser. Native mobile apps are currently on our roadmap.",
     },
   ],
 };
