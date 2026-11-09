@@ -169,6 +169,13 @@ export function PricingView({
 
   return (
     <div className="min-h-screen bg-white font-urbanist relative">
+      <noscript>
+        <style>{`
+          .pricing-card-price-content { visibility: visible !important; }
+          .pricing-card-shimmer { display: none !important; }
+        `}</style>
+      </noscript>
+
       {/* 1. Hero */}
       <ContentSource id="pricing-hero" source={data.sources?.hero || "code"}>
         <PageHero
