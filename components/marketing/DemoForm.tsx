@@ -39,6 +39,8 @@ export interface DemoFormProps {
   initialSubject?: string;
   initialTopic?: string;
   initialPlan?: string;
+  initialBilling?: string;
+  initialCurrency?: string;
   submitLabel?: string;
   successTitle?: string;
   successMessage?: string;
@@ -52,6 +54,8 @@ export function DemoForm({
   onClose,
   initialSubject,
   initialPlan,
+  initialBilling,
+  initialCurrency,
   submitLabel,
   privacyNote,
   variant = "page",
@@ -61,7 +65,11 @@ export function DemoForm({
   const effectiveSubmitLabel = submitLabel || defaultSubmitLabel;
   const searchParams = useSearchParams();
   const urlPlan = searchParams?.get("plan") || undefined;
+  const urlBilling = searchParams?.get("billing") || undefined;
+  const urlCurrency = searchParams?.get("currency") || undefined;
   const activePlan = initialPlan || urlPlan;
+  const activeBilling = initialBilling || urlBilling;
+  const activeCurrency = initialCurrency || urlCurrency;
 
   const [countryCode, setCountryCode] = useState("+91");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -120,17 +128,30 @@ export function DemoForm({
       const rawDigits = formData.phoneNumber.replace(/\D/g, "");
       const fullDigits = rawDigits.startsWith(codeDigits) ? rawDigits : `${codeDigits}${rawDigits}`;
 
+      let planMeta = "";
+      if (activePlan) {
+        planMeta = `Plan: ${activePlan}`;
+        if (activeBilling) planMeta += ` (${activeBilling})`;
+        if (activeCurrency) planMeta += ` [${activeCurrency.toUpperCase()}]`;
+      }
+
+      const combinedMessage = formData.message?.trim()
+        ? (planMeta ? `${formData.message.trim()}\n\n${planMeta}` : formData.message.trim())
+        : (planMeta || undefined);
+
       const payload = {
         name: formData.name.trim(),
         email: formData.email.trim(),
         phoneNumber: fullDigits,
         organizationName: formData.organizationName.trim(),
         learners: formData.learners,
-        message: formData.message?.trim() || undefined,
+        message: combinedMessage,
         topic: "Demo",
         plan: activePlan || undefined,
+        billing: activeBilling || undefined,
+        currency: activeCurrency ? activeCurrency.toUpperCase() : undefined,
         subject: activePlan
-          ? `Demo request: ${formData.organizationName.trim()} (${activePlan})`
+          ? `Demo request: ${formData.organizationName.trim()} (${activePlan}${activeBilling ? ` - ${activeBilling}` : ""})`
           : initialSubject || `Demo request: ${formData.organizationName.trim()}`,
         page: typeof window !== "undefined" ? window.location.pathname : "",
         type: 1, // 1 = Request Demo / Contact enquiry
