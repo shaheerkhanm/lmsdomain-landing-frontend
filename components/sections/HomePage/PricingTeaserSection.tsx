@@ -25,18 +25,12 @@ export function PricingTeaserSection({
   const [isResolved, setIsResolved] = useState<boolean>(false);
 
   useEffect(() => {
-    let saved: string | null = null;
-    try {
-      saved = localStorage.getItem("preferred_currency");
-    } catch {}
-
     let tz: string | null = null;
     try {
       tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     } catch {}
 
     const resolved = resolveCurrency({
-      savedCurrency: saved,
       clientTimeZone: tz,
     });
     setActiveCurrency(resolved);

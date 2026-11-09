@@ -39,7 +39,7 @@ export function BillingToggle({
         ref={containerRef}
         role="radiogroup"
         aria-label="Billing frequency options"
-        className="inline-flex items-center bg-white border border-[#ECEDEF] rounded-[14px] p-1 shadow-xs"
+        className="inline-flex items-center bg-white border border-[#ECEDEF] rounded-full p-1 shadow-xs"
       >
         {periods.map((period, idx) => {
           const isActive = activePeriod === period.id;
@@ -53,7 +53,7 @@ export function BillingToggle({
               tabIndex={isActive ? 0 : -1}
               onKeyDown={(e) => handleKeyDown(e, idx)}
               onClick={() => onChange(period.id)}
-              className={`relative px-4 sm:px-5 py-2 rounded-[10px] text-xs sm:text-sm font-semibold transition-colors duration-200 cursor-pointer flex items-center gap-2 ${
+              className={`relative px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200 cursor-pointer flex items-center gap-2 ${
                 isActive ? "text-white" : "text-[#6B6F76] hover:text-[#161616]"
               }`}
             >
@@ -65,7 +65,7 @@ export function BillingToggle({
                     stiffness: 400,
                     damping: 32,
                   }}
-                  className="absolute inset-0 bg-[#161616] rounded-[10px] shadow-sm z-0"
+                  className="absolute inset-0 bg-[#161616] rounded-full shadow-sm z-0"
                 />
               )}
 
