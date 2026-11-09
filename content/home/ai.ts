@@ -1,9 +1,9 @@
 import { AiSectionContent } from "@/types/content";
 
 export const aiSectionContent: AiSectionContent = {
-  badge: "Premium add-on",
+  badge: "Pro plan",
   title: "AI that works inside your academy",
-  subtitle: "Four premium tools that save your team hours and keep learners moving.",
+  subtitle: "Four AI tools that save your team hours and keep learners moving.",
   writingLabel: "Domie is writing…",
   summaryHeading: "Domie's summary",
   tabs: [

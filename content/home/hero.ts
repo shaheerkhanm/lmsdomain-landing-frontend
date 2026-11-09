@@ -34,7 +34,7 @@ export const heroContent: HeroContent = {
       subtitle: "Instant global enrollment",
       courseName: "Full-Stack Web Engineering",
       priceUsd: "$89",
-      priceInr: "₹7,499",
+      priceInr: "₹7,999",
       couponText: "WELCOME10 applied",
       gateways: ["Stripe", "Razorpay", "Paytm", "DOKU"],
     },

@@ -35,7 +35,8 @@ export async function HomePage() {
     .sort((a, b) => (a.prices.monthly ?? 0) - (b.prices.monthly ?? 0));
 
   const lowestPlan = paidPlans[0];
-  const lowestMonthlyPrice = lowestPlan?.prices?.monthly ?? null;
+  const lowestMonthlyPrice = lowestPlan?.prices?.monthly ?? 3999;
+  const lowestMonthlyPriceUsd = pricingPage?.pricingV2?.plans?.[0]?.priceMonthly?.USD ?? 49;
   const planCurrency = lowestPlan?.currency || pricingPage?.plans?.[0]?.currency;
 
   return (
@@ -71,6 +72,7 @@ export async function HomePage() {
         {/* 8. PRICING TEASER */}
         <PricingTeaserSection
           lowestMonthlyPrice={lowestMonthlyPrice}
+          lowestMonthlyPriceUsd={lowestMonthlyPriceUsd}
           currency={planCurrency}
         />
 

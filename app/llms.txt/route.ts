@@ -19,7 +19,7 @@ export async function GET() {
 - [Sell](${origin}/platform/sell): Collect tuition fees online via Razorpay, Paytm, Stripe, or DOKU with automated GST invoices and coupon codes.
 - [Brand](${origin}/platform/brand): White-label learning portal on your custom domain with free SSL, logo, color, and font customization, blogs, and downloadable ebooks.
 - [Security](${origin}/platform/security): Protect courses with dynamic video watermarks, student device sign-in limits, and role-based permissions.
-- [Domie AI](${origin}/platform/ai): Course-grounded AI HelpDesk student tutor, metadata drafting, and daily admin operational brief on the Premium plan.
+- [Domie AI](${origin}/platform/ai): Course-grounded AI HelpDesk student tutor, metadata drafting, and daily admin operational brief on the Pro plan.
 
 ## Solutions
 

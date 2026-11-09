@@ -1,31 +1,48 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { Section, Eyebrow } from "@/components/marketing/ui";
-import { formatPriceParts } from "@/lib/pricing";
+import { formatPrice, type PricingCurrency } from "@/config/pricing";
 import type { PlanCurrency } from "@/types/content";
 
 export interface PricingTeaserSectionProps {
   lowestMonthlyPrice?: number | null;
+  lowestMonthlyPriceUsd?: number | null;
   currency?: PlanCurrency;
 }
 
 export function PricingTeaserSection({
-  lowestMonthlyPrice,
+  lowestMonthlyPrice = 3999,
+  lowestMonthlyPriceUsd = 49,
   currency = { code: "INR", locale: "en-IN" },
 }: PricingTeaserSectionProps) {
-  const hasPrice =
-    typeof lowestMonthlyPrice === "number" && lowestMonthlyPrice > 0;
+  const [activeCurrency, setActiveCurrency] = useState<PricingCurrency>(
+    (currency?.code?.toUpperCase() as PricingCurrency) || "INR"
+  );
 
-  const formattedPrice = hasPrice
-    ? formatPriceParts(lowestMonthlyPrice, currency).map((p) => p.value).join("")
-    : null;
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("preferred_currency")?.toUpperCase();
+      if (saved === "INR" || saved === "USD") {
+        setActiveCurrency(saved as PricingCurrency);
+      } else {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        if (tz && tz !== "Asia/Kolkata" && tz !== "Asia/Calcutta") {
+          setActiveCurrency("USD");
+        }
+      }
+    } catch {}
+  }, []);
 
-  const title = hasPrice
-    ? `Plans from ${formattedPrice}/month, all with your own domain.`
-    : "See plans and pricing";
+  const priceAmount =
+    activeCurrency === "USD"
+      ? (lowestMonthlyPriceUsd ?? 49)
+      : (lowestMonthlyPrice ?? 3999);
+
+  const formattedPrice = formatPrice(priceAmount, activeCurrency);
+  const title = `Plans from ${formattedPrice}/month, all with your own domain.`;
 
   return (
     <Section tone="white" spacing="default">

@@ -34,7 +34,7 @@ export function localeForCurrency(code: string, locale?: string): string {
   return code === "INR" ? "en-IN" : "en-US";
 }
 
-// e.g. 3699 INR → [{currency "₹"}, {integer "3"}, {group ","}, {integer "699"}]
+// e.g. 3999 INR → [{currency "₹"}, {integer "3"}, {group ","}, {integer "999"}]
 export function formatPriceParts(amount: number, currency: PlanCurrency): Intl.NumberFormatPart[] {
   return new Intl.NumberFormat(currency.locale, {
     style: "currency",
