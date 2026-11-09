@@ -9,11 +9,15 @@ export function EnquiryForm({
   initialSubject,
   initialTopic,
   initialPlan,
+  initialBilling,
+  initialCurrency,
 }: {
   onClose?: () => void;
   initialSubject?: string;
   initialTopic?: string;
   initialPlan?: string;
+  initialBilling?: string;
+  initialCurrency?: string;
 }) {
   return (
     <div className="font-inter">
@@ -32,6 +36,8 @@ export function EnquiryForm({
           initialSubject={initialSubject}
           initialTopic={initialTopic}
           initialPlan={initialPlan}
+          initialBilling={initialBilling}
+          initialCurrency={initialCurrency}
           variant="modal"
           submitLabel="Schedule My Demo"
         />

@@ -32,7 +32,7 @@ export function DomieAiBand() {
           <div className="lg:col-span-6 space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/20 text-violet-300 border border-violet-500/30 text-xs font-semibold uppercase tracking-wider">
               <Sparkles className="size-3.5" />
-              <span>Premium</span>
+              <span>Pro</span>
             </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
               An AI teaching assistant grounded in your courses

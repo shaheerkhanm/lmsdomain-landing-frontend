@@ -251,9 +251,9 @@ export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
           "We host your academy, keep it updated with new features, fix issues and help your team whenever needed.",
       },
       {
-        question: "How is this different from your standard plans?",
+        question: "How is this different from your self-serve plans?",
         answer:
-          "Standard plans let you set up the academy yourself. A Custom Plan is done for you: we set up, brand, migrate, and build anything extra you need.",
+          "Self-serve plans (Starter, Growth, Pro) let you set up the academy yourself. A Custom Plan is done for you: we set up, brand, migrate, and build anything extra you need.",
       },
     ],
   },

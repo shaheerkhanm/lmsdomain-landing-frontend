@@ -22,6 +22,7 @@ export * from "./platform";
 export * from "./MarketingFaq";
 export * from "./PricingEmptyState";
 export * from "./BillingToggle";
+export * from "./CurrencyToggle";
 export * from "./PricingCard";
 export * from "./PricingComparisonTable";
 export * from "./PricingAddOns";

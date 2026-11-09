@@ -7,7 +7,7 @@ export const faqContent: FaqContent = {
     line2: "questions",
   },
   subtitle:
-    "Everything you need to know about our learning platform, premium AI add-ons, payments, and custom domains.",
+    "Everything you need to know about our learning platform, Domie AI, payments, and custom domains.",
   items: [
     {
       question: "How does the HelpDesk AI tutor answer questions?",
@@ -15,7 +15,7 @@ export const faqContent: FaqContent = {
     },
     {
       question: "Are the AI tools included?",
-      answer: "They are premium add-ons.",
+      answer: "Domie AI features are included on the Pro plan.",
     },
     {
       question: "Can I run the academy on my own domain?",

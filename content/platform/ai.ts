@@ -3,13 +3,13 @@ import { PlatformPageData } from "./types";
 export const aiPlatformData: PlatformPageData = {
   slug: "ai",
   eyebrow: "DOMIE AI",
-  badge: "Premium",
+  badge: "Pro",
   title: "Domie AI: a teaching assistant grounded in your own courses.",
   subtitle:
-    "LMS Domain offers Domie AI on the Premium plan for academies, coaching institutes, and training organizations in India. Provide a HelpDesk student tutor grounded in your academy's own course content, generate drafts for course titles and descriptions, see analytics, and consult the Ask Domie assistant daily.",
+    "LMS Domain offers Domie AI on the Pro plan for academies, coaching institutes, and training organizations in India. Provide a HelpDesk student tutor grounded in your academy's own course content, generate drafts for course titles and descriptions, see analytics, and consult the Ask Domie assistant daily.",
   metaTitle: "Course-Grounded AI Teaching Assistant | LMS Domain",
   metaDescription:
-    "Support learners with a HelpDesk AI tutor grounded in your course content. Draft curriculum metadata and see analytics on Premium.",
+    "Support learners with a HelpDesk AI tutor grounded in your course content. Draft curriculum metadata and see analytics on Pro.",
   sectionHeading: "How does Domie AI support teaching and operations in LMS Domain?",
   frameTitle: "Domie AI Assistant & Tutor",
   frameAlt: "Domie AI: a teaching assistant grounded in your own courses",
@@ -77,7 +77,7 @@ export const aiPlatformData: PlatformPageData = {
     {
       question: "Which plans include Domie AI?",
       answer:
-        "Domie AI features are included on the Premium plan. You can enable or disable AI capabilities for specific courses and student groups.",
+        "Domie AI features are included on the Pro plan within fair-use limits. You can enable or disable AI capabilities for specific courses and student groups.",
     },
     {
       question: "Does Domie AI use my course content to train external AI models?",

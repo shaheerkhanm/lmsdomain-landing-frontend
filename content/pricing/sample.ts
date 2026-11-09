@@ -15,8 +15,8 @@ export const SAMPLE_PLANS: Omit<Plan, "currency">[] = [
     tagline: "For individual educators and coaches launching their initial academy.",
     isPopular: false,
     prices: {
-      monthly: 3699,
-      yearly: 36990,
+      monthly: 3999,
+      yearly: 39990,
     },
     priceSuffix: "/month",
     priceSuffixes: {

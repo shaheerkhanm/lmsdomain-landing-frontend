@@ -7,8 +7,8 @@
 import { fetchApi } from "./client";
 import { isPlaceholderPhone } from "@/lib/utils";
 import { liveOr, keepLive } from "@/lib/claims";
-import { PRICING_CONFIG } from "@/config/pricing";
-import { DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
+import { DEFAULT_PRICING_V2, computePlanPricing, PricingV2Data, formatPrice } from "@/config/pricing";
+import { getPricingFaqs, DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
 import { defaultAboutContent, AboutContent } from "@/content/about";
 import { defaultContactDetails, ContactDetails } from "@/content/contact";
 import type {
@@ -306,213 +306,139 @@ function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): P
 }
 
 export async function getPricingPage(): Promise<PricingPageModel> {
-  const [heroCms, empty, band, faqSection, comparisonHeading, plansRes, faqsRes, seo, enterpriseDoc] = await Promise.all([
-    fetchCms("pricing-hero", ["cms", "pricing"]),
+  const [empty, band, faqSection, comparisonHeading, pricingV2Res, pricingV2Cms, seo, enterpriseDoc] = await Promise.all([
     getSection("pricing-empty"),
     getSection("pricing-footer-card"),
-    // FAQ heading (title / subTitle), as on the live site
     getSection("pricing-faq"),
     getSection("pricing-comparison"),
-    fetchApi<{ status?: boolean; data?: PricingPlan[] }>("/api/pricing", {
-      method: "POST",
-      tags: ["pricing", "plans"],
+    fetchApi<{ status?: boolean; data?: PricingV2Data }>("/api/pricing-v2", {
+      method: "GET",
+      tags: ["pricing", "pricing-v2"],
       revalidate: 300,
     }).catch(() => null),
-    fetchApi<{ status?: boolean; data?: FaqItem[] }>("/api/pricing/faq", {
-      method: "POST",
-      tags: ["pricing", "faqs"],
-      revalidate: 300,
-    }).catch(() => null),
+    fetchCms("pricing-v2", ["cms", "pricing"]).catch(() => null),
     fetchSeo("pricing"),
     fetchCms("site-pricing-enterprise", ["cms", "pricing", "custom-plan"]),
   ]);
-  // Admin > Pricing > Comparison (rows with one value per plan)
-  const comparisonRes = await fetchApi<{
-    data?: { group: string; label: string; tooltip?: string; values?: { plan: string; value?: string }[] }[];
-  }>("/api/pricing/comparison", { method: "POST", tags: ["pricing"], revalidate: 300 }).catch(() => null);
 
-  const activePlans = filterActiveDocuments(plansRes?.data);
-  const activeFaqs = filterActiveDocuments(faqsRes?.data);
+  // Determine active PricingV2 data:
+  // 1. API endpoint /api/pricing-v2
+  // 2. CMS document "pricing-v2"
+  // 3. DEFAULT_PRICING_V2 fallback from config/pricing.ts (when backend is unreachable)
+  let pricingV2: PricingV2Data = DEFAULT_PRICING_V2;
+  let sourceMode: "api" | "code" = "code";
 
-  let isSample = false;
-  let currencyCode = "";
-  const currencySymbol = "";
-  let yearlySavingsLabel: string | undefined = undefined;
-  let mappedPlans: Plan[] = [];
-  let comparison: PricingComparison | undefined = undefined;
-  let addOns: { title: string; items: PricingAddOn[] } | undefined = undefined;
-  let enterprise: PricingEnterprise | undefined = undefined;
-  const faqHeading = faqSection.content;
-  let faq = activeFaqs.length > 0 ? { ...faqHeading, items: activeFaqs } : undefined;
-
-  if (PRICING_CONFIG.plans.length > 0) {
-    const months = PRICING_CONFIG.annualRule?.months ?? 2;
-    mappedPlans = PRICING_CONFIG.plans.map((cfg, idx) => {
-      const isCustom = Boolean(cfg.isCustom);
-      const monthly = typeof cfg.monthly === "number" ? cfg.monthly : null;
-      const yearly = monthly !== null ? monthly * (12 - months) : null;
-      const yearlyFull = monthly !== null ? monthly * 12 : null;
-      const discountPercent = Math.round((months / 12) * 100);
-
-      const limits = [];
-      if (cfg.limits?.activeLearners) {
-        limits.push({
-          label: "Active Learners",
-          value:
-            typeof cfg.limits.activeLearners === "number"
-              ? `Up to ${cfg.limits.activeLearners.toLocaleString()}`
-              : String(cfg.limits.activeLearners),
-        });
-      }
-      if (cfg.limits?.adminSeats) {
-        limits.push({ label: "Admin Seats", value: String(cfg.limits.adminSeats) });
-      }
-      if (cfg.limits?.storageGb) {
-        limits.push({ label: "Storage", value: `${cfg.limits.storageGb} GB` });
-      }
-      if (cfg.limits?.bandwidthGbPerMonth) {
-        limits.push({ label: "Bandwidth", value: `${cfg.limits.bandwidthGbPerMonth} GB/mo` });
-      }
-
-      return {
-        id: cfg.id,
-        slug: cfg.slug || cfg.id,
-        name: cfg.name,
-        tagline: cfg.tagline,
-        isPopular: Boolean(cfg.isPopular),
-        isCustom,
-        prices: {
-          monthly,
-          yearly,
-        },
-        yearlyFullPrice: yearlyFull,
-        discountPercent,
-        currency: resolvePlanCurrency({ currency: PRICING_CONFIG.currency }),
-        priceSuffix: monthly !== null ? "/month" : "",
-        priceSuffixes: {
-          monthly: "/month",
-          yearly: "/year, billed annually",
-        },
-        priceNote: isCustom ? "Custom" : undefined,
-        limits: limits.length > 0 ? limits : undefined,
-        features: keepLive(cfg.features, (f) => f),
-        cta: {
-          label: cfg.isPopular ? "Get Started" : isCustom ? "Contact Us" : "Choose Plan",
-          action: "demo",
-          href: "#",
-        },
-        displayOrder: idx + 1,
+  if (pricingV2Res?.data && Array.isArray(pricingV2Res.data.plans) && pricingV2Res.data.plans.length > 0) {
+    pricingV2 = pricingV2Res.data;
+    sourceMode = "api";
+  } else if (pricingV2Cms?.data && typeof pricingV2Cms.data === "object") {
+    const cmsData = pricingV2Cms.data as Partial<PricingV2Data>;
+    if (Array.isArray(cmsData.plans) && cmsData.plans.length > 0) {
+      pricingV2 = {
+        annualMode: cmsData.annualMode || DEFAULT_PRICING_V2.annualMode,
+        monthsFree: typeof cmsData.monthsFree === "number" ? cmsData.monthsFree : DEFAULT_PRICING_V2.monthsFree,
+        trialDays: typeof cmsData.trialDays === "number" ? cmsData.trialDays : DEFAULT_PRICING_V2.trialDays,
+        currencies: cmsData.currencies || DEFAULT_PRICING_V2.currencies,
+        plans: cmsData.plans,
+        comparison: cmsData.comparison || DEFAULT_PRICING_V2.comparison,
       };
-    });
-    yearlySavingsLabel = `${months} months free`;
-  } else if (activePlans.length > 0) {
-    // "Most popular": the backend isPopular flag wins. Until the backend has it,
-    // server env PRICING_POPULAR_PLAN names the plan (title or slug, any case).
-    const backendHasPopular = activePlans.some((doc) => doc.isPopular === true);
-    const envPopular = process.env.PRICING_POPULAR_PLAN?.trim().toLowerCase();
-    const isEnvPopular = (doc: PricingPlan) =>
-      !backendHasPopular &&
-      !!envPopular &&
-      (doc.title?.trim().toLowerCase() === envPopular || doc.slug?.trim().toLowerCase() === envPopular);
-
-    mappedPlans = activePlans.map((doc, idx) => {
-      // Highlight only when the backend (or the env fallback) says so; no guessing from the title
-      const isPopular = doc.isPopular === true || isEnvPopular(doc);
-      // "Custom" only when the backend marks the plan, never because a price is missing
-      const isCustom = doc.isCustom === true || doc.buttonAction === "contact";
-      const monthlyPrice = typeof doc.price === "number" ? doc.price : null;
-      // Yearly is derived exactly like the live site: monthly × 12 less the plan's
-      // `discount` %. (`price_yearly` exists in the model but the live site ignores it.)
-      const discountPercent = normalizeDiscount(doc.discount);
-      const yearly = monthlyPrice !== null ? yearlyFromMonthly(monthlyPrice, discountPercent) : null;
-
-      const limits = [];
-      if (doc.max_users) {
-        limits.push({
-          label: "Active Learners",
-          value: `Up to ${doc.max_users.toLocaleString()}`,
-        });
-      }
-
-      return {
-        id: doc._id || doc.slug || String(idx),
-        slug: doc.slug,
-        name: doc.title,
-        tagline: doc.subTitle ? liveOr(doc.subTitle, "") : undefined,
-        isPopular,
-        isCustom,
-        prices: {
-          monthly: monthlyPrice,
-          yearly: yearly ? yearly.discounted : null,
-        },
-        yearlyFullPrice: yearly ? yearly.full : null,
-        discountPercent,
-        currency: resolvePlanCurrency(doc),
-        priceSuffix: monthlyPrice !== null ? "/month" : "",
-        priceSuffixes: {
-          monthly: doc.priceSuffix || "/month",
-          yearly: doc.priceSuffixYearly || "/year, billed annually",
-        },
-        priceNote: isCustom ? "Custom" : undefined,
-        limits: limits.length > 0 ? limits : undefined,
-        features: keepLive(Array.isArray(doc.tags) ? doc.tags : [], (tag) => tag),
-        cta: {
-          label: doc.buttonText || (isPopular ? "Get Started" : "Start Free Trial"),
-          action: doc.buttonAction === "demo" ? "demo" : doc.buttonAction === "contact" ? "contact" : "signup",
-          href: doc.buttonAction?.startsWith("/") ? doc.buttonAction : `/signup?plan=${doc.slug || doc._id}`,
-        },
-        displayOrder: doc.displayOrder || idx + 1,
-      };
-    });
-  }
-
-  const DEFAULT_ENT_TITLE = "Need your own branded LMS?";
-  const DEFAULT_ENT_DESC = "Get a Custom Plan: your academy, set up and supported by our team.";
-
-  // Phase 2 copy is code-owned until cutover; site-pricing-enterprise is still used by the live site.
-  enterprise = {
-    title: DEFAULT_ENT_TITLE,
-    description: DEFAULT_ENT_DESC,
-    cta: {
-      label: "Build your custom plan",
-      href: "/custom-lms",
-      action: "link",
-    },
-  };
-
-  // Comparison table from the admin: "yes" is a check, "no" or empty a dash, anything else text
-  const comparisonRows = comparisonRes?.data || [];
-  if (activePlans.length > 0 && comparisonRows.length > 0) {
-    const groups: PricingComparison["groups"] = [];
-    for (const row of comparisonRows) {
-      if (!row.group || !row.label) continue;
-      let group = groups.find((g) => g.title === row.group);
-      if (!group) {
-        group = { title: row.group, rows: [] };
-        groups.push(group);
-      }
-      const values: Record<string, boolean | string> = {};
-      for (const cell of row.values || []) {
-        const v = (cell.value || "").trim();
-        values[String(cell.plan)] = /^yes$/i.test(v) ? true : /^no$/i.test(v) || v === "" ? false : v;
-      }
-      group.rows.push({ label: row.label, tooltip: row.tooltip || undefined, values });
+      sourceMode = "api";
     }
-    comparison = groups.length > 0 ? { groups } : undefined;
   }
 
-  const hasYearlyPrices = mappedPlans.some((plan) => !plan.isCustom && plan.prices.yearly !== null);
+  const activePlans = pricingV2.plans.filter((p) => p.active !== false).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 
-  // Page-level currency mirrors the first plan (plans carry their own currency).
-  if (mappedPlans.length > 0) {
-    currencyCode = mappedPlans[0].currency.code;
+  // Map plans to Plan structure
+  const mappedPlans: Plan[] = activePlans.map((plan, idx) => {
+    const isCustom = Boolean(plan.isCustom || plan.priceMonthly?.INR === null);
+    const inrPricing = computePlanPricing(
+      plan,
+      "INR",
+      pricingV2.annualMode,
+      pricingV2.monthsFree,
+      pricingV2.currencies?.INR?.taxLabel || "+ GST"
+    );
+    const limits = [
+      {
+        label: "Active Learners",
+        value: typeof plan.limits?.activeLearners === "number"
+          ? `Up to ${plan.limits.activeLearners.toLocaleString()}`
+          : String(plan.limits?.activeLearners || "Custom"),
+      },
+      {
+        label: "Admin & Teacher Seats",
+        value: typeof plan.limits?.teamSeats === "number"
+          ? `${plan.limits.teamSeats} seats`
+          : String(plan.limits?.teamSeats || "Custom"),
+      },
+      {
+        label: "Storage",
+        value: typeof plan.limits?.storageGb === "number"
+          ? `${plan.limits.storageGb} GB`
+          : String(plan.limits?.storageGb || "Custom"),
+      },
+      {
+        label: "Bandwidth",
+        value: typeof plan.limits?.bandwidthGbPerMonth === "number"
+          ? `${plan.limits.bandwidthGbPerMonth} GB/mo`
+          : String(plan.limits?.bandwidthGbPerMonth || "Custom"),
+      },
+    ];
+
+    return {
+      id: plan.slug || String(idx),
+      slug: plan.slug,
+      name: plan.name,
+      tagline: plan.tagline,
+      isPopular: Boolean(plan.isPopular),
+      isCustom,
+      prices: {
+        monthly: inrPricing.monthly,
+        yearly: inrPricing.yearly,
+      },
+      yearlyFullPrice: inrPricing.monthly !== null ? inrPricing.monthly * 12 : null,
+      discountPercent: pricingV2.annualMode === "percent" ? plan.annualDiscountPercent : Math.round(((pricingV2.monthsFree || 2) / 12) * 100),
+      currency: { code: "INR", locale: "en-IN" },
+      priceSuffix: inrPricing.monthly !== null ? "/month" : "",
+      priceSuffixes: {
+        monthly: "/month",
+        yearly: "/year, billed annually",
+      },
+      priceNote: isCustom ? "Custom" : undefined,
+      limits,
+      features: plan.features || [],
+      cta: {
+        label: isCustom ? "Talk to us" : `Start ${pricingV2.trialDays}-day free trial`,
+        action: "demo",
+        href: "#",
+      },
+      displayOrder: plan.sortOrder || idx + 1,
+    };
+  });
+
+  // Group comparison rows
+  const comparisonGroups: { title: string; rows: { label: string; values: Record<string, boolean | string> }[] }[] = [];
+  for (const row of pricingV2.comparison || []) {
+    if (!row.group || !row.label) continue;
+    let group = comparisonGroups.find((g) => g.title === row.group);
+    if (!group) {
+      group = { title: row.group, rows: [] };
+      comparisonGroups.push(group);
+    }
+    group.rows.push({
+      label: row.label,
+      values: row.values || {},
+    });
   }
 
-  // Phase 2 copy is code-owned until cutover; pricing-hero is still used by the live site.
+  const yearlySavingsLabel = pricingV2.annualMode === "monthsFree"
+    ? `${pricingV2.monthsFree} months free`
+    : undefined;
+
   const hero = {
     eyebrow: DEFAULT_PRICING_HERO.eyebrow,
-    title: DEFAULT_PRICING_HERO.title,
-    subtitle: DEFAULT_PRICING_HERO.subtitle,
+    title: "Simple pricing. 0% commission on every plan.",
+    subtitle: `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`,
   };
 
   const emptyState = {
@@ -523,40 +449,36 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     secondaryCta: { label: empty.content.secondaryCta.label, href: empty.content.secondaryCta.href, action: "contact" as const },
   };
 
-  const rawFaqItems = (activeFaqs && activeFaqs.length > 0) ? activeFaqs : DEFAULT_PRICING_FAQS;
-  const guardedFaqItems = keepLive(rawFaqItems, (item) => [item.question, item.answer]);
-  faq = {
+  const faqItems = getPricingFaqs(pricingV2.trialDays);
+  const faqHeading = faqSection.content;
+  const faq = {
     ...faqHeading,
     title: faqHeading?.title || "Frequently Asked Questions",
     subtitle: faqHeading?.subtitle || "Answers to common questions about plans, seats, and billing cycles.",
-    items: guardedFaqItems,
+    items: faqItems,
   };
 
   return {
-    isSample,
+    pricingV2,
+    isSample: false,
     seo: seo || undefined,
     hero,
     billing: {
-      // Yearly is offered when a priced plan has a yearly price (derived from its monthly price)
-      periods: hasYearlyPrices
-        ? [
-            { id: "monthly", label: "Monthly" },
-            { id: "yearly", label: "Yearly", note: yearlySavingsLabel },
-          ]
-        : [{ id: "monthly", label: "Monthly" }],
+      periods: [
+        { id: "monthly", label: "Monthly" },
+        { id: "yearly", label: "Yearly", note: yearlySavingsLabel },
+      ],
       defaultPeriod: "monthly",
       yearlySavingsLabel,
     },
     currency: {
-      code: currencyCode,
-      symbol: currencySymbol,
+      code: "INR",
+      symbol: "₹",
       position: "before",
     },
     plans: mappedPlans,
     emptyState: mappedPlans.length === 0 ? emptyState : undefined,
-    comparison,
-    addOns,
-    enterprise,
+    comparison: comparisonGroups.length > 0 ? { groups: comparisonGroups } : undefined,
     faq,
     cta: {
       title: band.content.title,
@@ -566,11 +488,11 @@ export async function getPricingPage(): Promise<PricingPageModel> {
     band: band.content,
     comparisonHeading: comparisonHeading.content,
     sources: {
-      hero: heroCms ? "api" : "code",
-      plans: activePlans.length > 0 ? "api" : "code",
+      hero: "code",
+      plans: sourceMode,
       empty: empty.source,
-      comparison: comparisonHeading.source,
-      faq: faqSection.source,
+      comparison: sourceMode,
+      faq: "code",
       band: band.source,
     },
   };

@@ -1,5 +1,6 @@
 import React from "react";
 import { entity } from "@/content/entity";
+import { DEFAULT_PRICING_V2, type PricingV2Data } from "@/config/pricing";
 
 const CANONICAL_ORIGIN = entity.facts.website || "https://lmsdomain.com";
 
@@ -56,21 +57,48 @@ export function getWebSiteJsonLd() {
   };
 }
 
+export function getPricingAggregateOffers(
+  pricingV2?: PricingV2Data,
+  urlPath: string = "/pricing"
+) {
+  const data = pricingV2 || DEFAULT_PRICING_V2;
+  const origin = getOrigin();
+  const starter = data.plans.find((p) => p.slug === "starter");
+  const pro = data.plans.find((p) => p.slug === "pro");
+
+  const lowInr = starter?.priceMonthly?.INR ?? 3999;
+  const highInr = pro?.priceMonthly?.INR ?? 14999;
+  const lowUsd = starter?.priceMonthly?.USD ?? 49;
+  const highUsd = pro?.priceMonthly?.USD ?? 199;
+
+  return [
+    {
+      "@type": "AggregateOffer",
+      priceCurrency: "INR",
+      lowPrice: lowInr,
+      highPrice: highInr,
+      offerCount: data.plans.filter((p) => p.priceMonthly?.INR !== null).length,
+      url: `${origin}${urlPath}`,
+      availability: "https://schema.org/InStock",
+    },
+    {
+      "@type": "AggregateOffer",
+      priceCurrency: "USD",
+      lowPrice: lowUsd,
+      highPrice: highUsd,
+      offerCount: data.plans.filter((p) => p.priceMonthly?.USD !== null).length,
+      url: `${origin}${urlPath}`,
+      availability: "https://schema.org/InStock",
+    },
+  ];
+}
+
 export function getSoftwareApplicationJsonLd(
-  plans?: { name: string; price: number; currency: string }[]
+  pricingV2?: PricingV2Data,
+  urlPath: string = ""
 ) {
   const origin = getOrigin();
-  const offers =
-    plans && plans.length > 0
-      ? plans.map((p) => ({
-          "@type": "Offer",
-          name: p.name,
-          price: p.price,
-          priceCurrency: p.currency,
-          url: `${origin}/pricing`,
-          availability: "https://schema.org/InStock",
-        }))
-      : undefined;
+  const offers = getPricingAggregateOffers(pricingV2, urlPath || "/pricing");
 
   return {
     "@context": "https://schema.org",
@@ -78,8 +106,8 @@ export function getSoftwareApplicationJsonLd(
     name: entity.facts.product,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
-    url: origin,
-    ...(offers ? { offers } : {}),
+    url: urlPath ? `${origin}${urlPath}` : origin,
+    offers,
   };
 }
 

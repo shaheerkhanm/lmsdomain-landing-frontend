@@ -5,6 +5,7 @@
 
 import type { AudienceTab } from "@/content/features/audiences";
 import type { Integration } from "@/content/features/integrations";
+import type { PricingV2Data } from "@/config/pricing";
 
 export interface CmsDocument {
   _id: string;
@@ -88,6 +89,7 @@ export interface PricingPlan {
 }
 
 export interface FaqItem {
+  id?: string;
   _id?: string;
   slug?: string;
   question: string;
@@ -296,6 +298,7 @@ export interface PricingEmptyState {
 }
 
 export interface PricingPageModel {
+  pricingV2?: PricingV2Data;
   band?: {
     title: string;
     subtitle?: string;

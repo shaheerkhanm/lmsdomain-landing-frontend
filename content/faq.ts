@@ -48,7 +48,6 @@ export const homeFaqItems: FaqItem[] = [
   {
     id: "ai-tools",
     question: "Are the AI tools included?",
-    // TODO(pricing): re-check wording once Phase 3 plan names are approved.
-    answer: "Domie AI is included on the Premium plan.",
+    answer: "Domie AI is included on the Pro plan within fair-use limits, and on custom terms for Enterprise.",
   },
 ];

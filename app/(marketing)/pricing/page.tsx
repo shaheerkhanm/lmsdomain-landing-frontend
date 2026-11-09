@@ -4,6 +4,7 @@ import { getPricingPage, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, getSiteUrl, applySeo } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
+import { getSoftwareApplicationJsonLd } from "@/components/seo/JsonLd";
 
 import { DEFAULT_PRICING_HERO } from "@/content/pricing/page";
 
@@ -63,38 +64,22 @@ async function baseMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function PricingPage() {
+export default async function PricingPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ mode?: string; [key: string]: string | undefined }>;
+}) {
   await guardPage("pricing");
   const data = await getPricingPage();
+  const sp = searchParams ? await searchParams : {};
+  if (sp?.mode === "percent" && data.pricingV2) {
+    data.pricingV2 = { ...data.pricingV2, annualMode: "percent" };
+  } else if (sp?.mode === "monthsFree" && data.pricingV2) {
+    data.pricingV2 = { ...data.pricingV2, annualMode: "monthsFree" };
+  }
   const siteUrl = getSiteUrl();
 
-  // Generate JSON-LD Product & Offer schemas for plans with numeric prices (production only)
-  const numericPlans = data.plans.filter(
-    (plan) => !plan.isCustom && (plan.prices.monthly !== null || plan.prices.yearly !== null)
-  );
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "LMS Domain",
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
-    description: data.hero.subtitle,
-    ...(numericPlans.length > 0
-      ? {
-          offers: numericPlans.map((plan) => ({
-            "@type": "Offer",
-            name: plan.name,
-            description: plan.tagline || plan.name,
-            price: plan.prices.monthly ?? plan.prices.yearly,
-            priceCurrency: plan.currency.code,
-            availability: "https://schema.org/InStock",
-            url: `${siteUrl || "https://lmsdomain.com"}/pricing`,
-          })),
-        }
-      : {}),
-  };
+  const jsonLd = getSoftwareApplicationJsonLd(data.pricingV2, "/pricing");
 
   return (
     <>

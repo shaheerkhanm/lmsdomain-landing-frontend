@@ -131,11 +131,15 @@ export function PricingComparisonTable({
                           )}
                         </div>
                       </th>
-                      {plans.map((plan) => (
-                        <td key={plan.id} className="py-3.5 px-4 text-center">
-                          {renderCellValue(row.values[plan.id] ?? row.values[plan.slug || ""])}
-                        </td>
-                      ))}
+                      {plans.map((plan) => {
+                        const planKey = (plan.slug || plan.id || plan.name || "").toLowerCase();
+                        const val = row.values[planKey] ?? row.values[plan.id] ?? row.values[plan.slug || ""];
+                        return (
+                          <td key={plan.id} className="py-3.5 px-4 text-center">
+                            {renderCellValue(val)}
+                          </td>
+                        );
+                      })}
                     </tr>
                   ))}
                 </React.Fragment>
@@ -177,7 +181,8 @@ export function PricingComparisonTable({
 
                 <div className="space-y-2.5">
                   {group.rows.map((row, rIdx) => {
-                    const val = row.values[activeMobilePlan.id] ?? row.values[activeMobilePlan.slug || ""];
+                    const planKey = (activeMobilePlan.slug || activeMobilePlan.id || activeMobilePlan.name || "").toLowerCase();
+                    const val = row.values[planKey] ?? row.values[activeMobilePlan.id] ?? row.values[activeMobilePlan.slug || ""];
                     return (
                       <div key={rIdx} className="flex items-center justify-between text-xs py-1">
                         <span className="text-[#161616] font-medium pr-2">{row.label}</span>
