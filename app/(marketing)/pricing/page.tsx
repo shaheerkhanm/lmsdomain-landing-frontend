@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { headers } from "next/headers";
 import { getPricingPage, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, getSiteUrl, applySeo } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
 import { getSoftwareApplicationJsonLd } from "@/components/seo/JsonLd";
+import { getCountryHeaderCurrency, type PricingCurrency } from "@/lib/currency";
 
 import { DEFAULT_PRICING_HERO } from "@/content/pricing/page";
 
@@ -67,7 +69,7 @@ async function baseMetadata(): Promise<Metadata> {
 export default async function PricingPage({
   searchParams,
 }: {
-  searchParams?: Promise<{ mode?: string; [key: string]: string | undefined }>;
+  searchParams?: Promise<{ mode?: string; currency?: string; [key: string]: string | undefined }>;
 }) {
   await guardPage("pricing");
   const data = await getPricingPage();
@@ -77,6 +79,21 @@ export default async function PricingPage({
   } else if (sp?.mode === "monthsFree" && data.pricingV2) {
     data.pricingV2 = { ...data.pricingV2, annualMode: "monthsFree" };
   }
+
+  // Inspect proxy/CDN country headers (cf-ipcountry, x-vercel-ip-country, x-country-code)
+  const headerList = await headers();
+  const serverCountryCurrency = getCountryHeaderCurrency(headerList);
+
+  let initialCurrency: PricingCurrency | null = null;
+  if (sp?.currency) {
+    const norm = sp.currency.trim().toUpperCase();
+    if (norm === "INR" || norm === "USD") {
+      initialCurrency = norm as PricingCurrency;
+    }
+  } else if (serverCountryCurrency) {
+    initialCurrency = serverCountryCurrency;
+  }
+
   const siteUrl = getSiteUrl();
 
   const jsonLd = getSoftwareApplicationJsonLd(data.pricingV2, "/pricing");
@@ -90,7 +107,11 @@ export default async function PricingPage({
         />
       )}
       <Suspense fallback={<div className="min-h-screen bg-white" />}>
-        <PricingView data={data} />
+        <PricingView
+          data={data}
+          initialCurrency={initialCurrency}
+          serverCountryCurrency={serverCountryCurrency}
+        />
       </Suspense>
     </>
   );

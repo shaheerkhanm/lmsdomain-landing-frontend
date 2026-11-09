@@ -22,6 +22,7 @@ interface PricingCardProps {
   previousPlanName?: string;
   onRequestDemo: (planName: string, planSlug: string, billing: BillingPeriodId, currency: PricingCurrency) => void;
   index: number;
+  isResolved?: boolean;
 }
 
 export function PricingCard({
@@ -35,6 +36,7 @@ export function PricingCard({
   previousPlanName,
   onRequestDemo,
   index,
+  isResolved = true,
 }: PricingCardProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -100,7 +102,7 @@ export function PricingCard({
         </div>
 
         {/* Price Display */}
-        <div className="mb-5 min-h-[82px] flex flex-col items-start justify-center text-left">
+        <div className="mb-5 min-h-[82px] flex flex-col items-start justify-center text-left relative">
           {isCustomPrice ? (
             <div>
               <span className="text-[34px] sm:text-[38px] font-semibold text-[#161616] tracking-tight block">
@@ -112,40 +114,49 @@ export function PricingCard({
             </div>
           ) : (
             displayPrice !== null && (
-              <div>
-                <div className="flex flex-wrap items-baseline gap-x-1" aria-live="polite">
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                      key={`${displayPrice}-${currency}-${period}`}
-                      initial={shouldReduceMotion ? false : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={shouldReduceMotion ? undefined : { opacity: 0 }}
-                      transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: "easeInOut" }}
-                      className="font-bold text-[38px] sm:text-[44px] text-[#161616] tracking-[-0.02em] tabular-nums"
-                    >
-                      {formatPrice(displayPrice, currency)}
-                    </motion.div>
-                  </AnimatePresence>
+              <>
+                <div className={`pricing-card-price-content w-full ${!isResolved ? "invisible" : ""}`}>
+                  <div className="flex flex-wrap items-baseline gap-x-1" aria-live="polite">
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.div
+                        key={`${displayPrice}-${currency}-${period}`}
+                        initial={shouldReduceMotion ? false : { opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={shouldReduceMotion ? undefined : { opacity: 0 }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: "easeInOut" }}
+                        className="font-bold text-[38px] sm:text-[44px] text-[#161616] tracking-[-0.02em] tabular-nums"
+                      >
+                        {formatPrice(displayPrice, currency)}
+                      </motion.div>
+                    </AnimatePresence>
 
-                  <span className="text-[13px] sm:text-[14px] font-semibold text-[#6B6F76] ml-0.5 whitespace-nowrap">
-                    {period === "yearly" ? "/mo" : "/month"}
-                    <span className="ml-1 text-[11px] font-normal text-[#8F94A0]">{taxLabel}</span>
-                  </span>
-                </div>
-
-                {isYearly && pricing.yearly !== null ? (
-                  <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[12px] text-[#6B6F76]">
-                    <span>Billed yearly: {formatPrice(pricing.yearly, currency)}</span>
-                    <span className="px-2 py-0.5 rounded-full bg-[#F3CF74]/40 text-amber-900 text-[10px] font-bold uppercase tracking-wider">
-                      {pricing.yearlySavingsLabel}
+                    <span className="text-[13px] sm:text-[14px] font-semibold text-[#6B6F76] ml-0.5 whitespace-nowrap">
+                      {period === "yearly" ? "/mo" : "/month"}
+                      <span className="ml-1 text-[11px] font-normal text-[#8F94A0]">{taxLabel}</span>
                     </span>
                   </div>
-                ) : (
-                  <div className="text-[12px] font-medium text-[#6B6F76] mt-0.5">
-                    Billed monthly
+
+                  {isYearly && pricing.yearly !== null ? (
+                    <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[12px] text-[#6B6F76]">
+                      <span>Billed yearly: {formatPrice(pricing.yearly, currency)}</span>
+                      <span className="px-2 py-0.5 rounded-full bg-[#F3CF74]/40 text-amber-900 text-[10px] font-bold uppercase tracking-wider">
+                        {pricing.yearlySavingsLabel}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="text-[12px] font-medium text-[#6B6F76] mt-0.5">
+                      Billed monthly
+                    </div>
+                  )}
+                </div>
+
+                {!isResolved && (
+                  <div className="pricing-card-shimmer absolute inset-0 py-1 flex flex-col justify-center pointer-events-none" aria-hidden="true">
+                    <div className="h-10 w-36 bg-[#ECEDEF] rounded-xl animate-pulse" />
+                    <div className="h-3.5 w-24 bg-[#F1F3F5] rounded mt-2.5 animate-pulse" />
                   </div>
                 )}
-              </div>
+              </>
             )
           )}
         </div>

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { Section, Eyebrow } from "@/components/marketing/ui";
 import { formatPrice, type PricingCurrency } from "@/config/pricing";
+import { resolveCurrency } from "@/lib/currency";
 import type { PlanCurrency } from "@/types/content";
 
 export interface PricingTeaserSectionProps {
@@ -21,19 +22,25 @@ export function PricingTeaserSection({
   const [activeCurrency, setActiveCurrency] = useState<PricingCurrency>(
     (currency?.code?.toUpperCase() as PricingCurrency) || "INR"
   );
+  const [isResolved, setIsResolved] = useState<boolean>(false);
 
   useEffect(() => {
+    let saved: string | null = null;
     try {
-      const saved = localStorage.getItem("preferred_currency")?.toUpperCase();
-      if (saved === "INR" || saved === "USD") {
-        setActiveCurrency(saved as PricingCurrency);
-      } else {
-        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        if (tz && tz !== "Asia/Kolkata" && tz !== "Asia/Calcutta") {
-          setActiveCurrency("USD");
-        }
-      }
+      saved = localStorage.getItem("preferred_currency");
     } catch {}
+
+    let tz: string | null = null;
+    try {
+      tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch {}
+
+    const resolved = resolveCurrency({
+      savedCurrency: saved,
+      clientTimeZone: tz,
+    });
+    setActiveCurrency(resolved);
+    setIsResolved(true);
   }, []);
 
   const priceAmount =
@@ -42,14 +49,31 @@ export function PricingTeaserSection({
       : (lowestMonthlyPrice ?? 3999);
 
   const formattedPrice = formatPrice(priceAmount, activeCurrency);
-  const title = `Plans from ${formattedPrice}/month, all with your own domain.`;
 
   return (
     <Section tone="white" spacing="default">
+      <noscript>
+        <style>{`
+          .pricing-teaser-price { visibility: visible !important; }
+          .pricing-teaser-shimmer { display: none !important; }
+        `}</style>
+      </noscript>
       <div className="max-w-4xl mx-auto rounded-3xl bg-[#FAF9F6] border border-[#EAE8E2] p-8 sm:p-12 text-center flex flex-col items-center">
         <Eyebrow tone="violet">TRANSPARENT PRICING</Eyebrow>
         <h2 className="type-h2 text-[#161616] mt-3 max-w-2xl">
-          {title}
+          Plans from{" "}
+          <span className="relative inline-block align-baseline">
+            <span className={`pricing-teaser-price ${!isResolved ? "invisible" : ""}`}>
+              {formattedPrice}
+            </span>
+            {!isResolved && (
+              <span
+                className="pricing-teaser-shimmer absolute inset-0 bg-[#E5E7EB] rounded animate-pulse"
+                aria-hidden="true"
+              />
+            )}
+          </span>
+          /month, all with your own domain.
         </h2>
         <p className="type-body text-[#6B6F76] mt-3 max-w-xl">
           Everything you need to launch, teach and grow your academy. Zero platform transaction fees on course sales.
