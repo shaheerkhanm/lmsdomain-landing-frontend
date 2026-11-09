@@ -6,7 +6,6 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
 import PageHero from "@/components/marketing/PageHero";
 import BillingToggle from "./BillingToggle";
-import CurrencyToggle from "./CurrencyToggle";
 import PricingCard from "./PricingCard";
 import PricingEmptyState from "./PricingEmptyState";
 import PricingComparisonTable from "./PricingComparisonTable";
@@ -63,13 +62,8 @@ export function PricingView({
   // Sync state when URL parameter changes (?billing=, ?plan=, ?currency=)
   useEffect(() => {
     // 1. Resolve currency strictly in priority order:
-    // ?currency= URL param > localStorage > country header > timezone > USD
+    // ?currency= URL param > country header > timezone > USD
     const urlCurrency = searchParams.get("currency");
-    let savedCurrency: string | null = null;
-    try {
-      savedCurrency = localStorage.getItem("preferred_currency");
-    } catch {}
-
     let clientTimeZone: string | null = null;
     try {
       clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -77,7 +71,6 @@ export function PricingView({
 
     const resolved = resolveCurrency({
       urlCurrency,
-      savedCurrency,
       serverCountryCurrency,
       clientTimeZone,
     });
@@ -110,17 +103,6 @@ export function PricingView({
     setActivePeriod(newPeriod);
     const params = new URLSearchParams(searchParams.toString());
     params.set("billing", newPeriod);
-    router.replace(`?${params.toString()}`, { scroll: false });
-  };
-
-  const handleCurrencyChange = (newCurrency: PricingCurrency) => {
-    setCurrency(newCurrency);
-    setIsCurrencyResolved(true);
-    try {
-      localStorage.setItem("preferred_currency", newCurrency);
-    } catch {}
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("currency", newCurrency.toLowerCase());
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
@@ -185,20 +167,14 @@ export function PricingView({
           subtitle={data.hero.subtitle}
           className="border-b border-[#ECEDEF]"
         >
-          {/* Billing & Currency Toggles */}
+          {/* Billing Toggle (Centered on its own) */}
           {hasPlans && (
-            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 my-8 font-urbanist select-none">
-              <BillingToggle
-                periods={data.billing.periods}
-                activePeriod={activePeriod}
-                onChange={handlePeriodChange}
-                yearlySavingsLabel={yearlySavingsLabel}
-              />
-              <CurrencyToggle
-                currency={currency}
-                onChange={handleCurrencyChange}
-              />
-            </div>
+            <BillingToggle
+              periods={data.billing.periods}
+              activePeriod={activePeriod}
+              onChange={handlePeriodChange}
+              yearlySavingsLabel={yearlySavingsLabel}
+            />
           )}
         </PageHero>
       </ContentSource>

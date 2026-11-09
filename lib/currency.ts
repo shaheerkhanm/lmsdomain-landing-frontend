@@ -50,7 +50,6 @@ export function getCountryHeaderCurrency(
 
 export interface CurrencyResolutionOptions {
   urlCurrency?: string | null;
-  savedCurrency?: string | null;
   serverCountryCurrency?: PricingCurrency | null;
   clientTimeZone?: string | null;
 }
@@ -58,14 +57,12 @@ export interface CurrencyResolutionOptions {
 /**
  * Resolves currency with the strict priority:
  * 1. ?currency= URL param
- * 2. visitor's saved choice (localStorage)
- * 3. country header (cf-ipcountry, x-vercel-ip-country, x-country-code)
- * 4. client timezone (Asia/Kolkata or Asia/Calcutta -> INR)
- * 5. fallback: USD
+ * 2. country header (cf-ipcountry, x-vercel-ip-country, x-country-code)
+ * 3. client timezone (Asia/Kolkata or Asia/Calcutta -> INR)
+ * 4. fallback: USD
  */
 export function resolveCurrency({
   urlCurrency,
-  savedCurrency,
   serverCountryCurrency,
   clientTimeZone,
 }: CurrencyResolutionOptions): PricingCurrency {
@@ -75,22 +72,16 @@ export function resolveCurrency({
     if (norm === "INR" || norm === "USD") return norm;
   }
 
-  // 2. Visitor's saved choice from localStorage
-  if (savedCurrency) {
-    const norm = savedCurrency.trim().toUpperCase();
-    if (norm === "INR" || norm === "USD") return norm;
-  }
-
-  // 3. Country header from proxy / CDN
+  // 2. Country header from proxy / CDN
   if (serverCountryCurrency === "INR" || serverCountryCurrency === "USD") {
     return serverCountryCurrency;
   }
 
-  // 4. Client timezone
+  // 3. Client timezone
   if (clientTimeZone && isIndiaTimeZone(clientTimeZone)) {
     return "INR";
   }
 
-  // 5. Default fallback for visitors outside India
+  // 4. Default fallback for visitors outside India
   return "USD";
 }
