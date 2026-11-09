@@ -13,15 +13,22 @@ import PricingComparisonTable from "./PricingComparisonTable";
 import MarketingFaq from "./MarketingFaq";
 import { CtaSection } from "@/components/sections/HomePage/CtaSection/CtaSection";
 import type { PricingPageModel, BillingPeriodId } from "@/types/content";
-import { DEFAULT_PRICING_V2, type PricingCurrency } from "@/config/pricing";
+import { DEFAULT_PRICING_V2 } from "@/config/pricing";
+import { resolveCurrency, type PricingCurrency } from "@/lib/currency";
 import { ContentSource } from "@/components/content/ContentSource";
 import { ShieldCheck, Globe, Video, Headphones } from "lucide-react";
 
 interface PricingViewProps {
   data: PricingPageModel;
+  initialCurrency?: PricingCurrency | null;
+  serverCountryCurrency?: PricingCurrency | null;
 }
 
-export function PricingView({ data }: PricingViewProps) {
+export function PricingView({
+  data,
+  initialCurrency,
+  serverCountryCurrency,
+}: PricingViewProps) {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -38,8 +45,15 @@ export function PricingView({ data }: PricingViewProps) {
   );
   const activePeriod: BillingPeriodId = yearlyAvailable ? selectedPeriod : "monthly";
 
-  // Currency: default INR for server rendering; switch after hydration if needed
-  const [currency, setCurrency] = useState<PricingCurrency>("INR");
+  // Currency resolution:
+  // If initialCurrency (from URL param or proxy/CDN country header) is known, start with it.
+  // Otherwise, default to INR for safety, but mark isCurrencyResolved as false until client resolves.
+  const [currency, setCurrency] = useState<PricingCurrency>(
+    initialCurrency || "INR"
+  );
+  const [isCurrencyResolved, setIsCurrencyResolved] = useState<boolean>(
+    Boolean(initialCurrency)
+  );
 
   const [selectedPlanForDemo, setSelectedPlanForDemo] = useState<string>("");
   const [selectedBillingForDemo, setSelectedBillingForDemo] = useState<string>("monthly");
@@ -48,27 +62,28 @@ export function PricingView({ data }: PricingViewProps) {
 
   // Sync state when URL parameter changes (?billing=, ?plan=, ?currency=)
   useEffect(() => {
-    // 1. Currency resolution
-    const urlCurrency = searchParams.get("currency")?.toUpperCase();
-    if (urlCurrency === "INR" || urlCurrency === "USD") {
-      setCurrency(urlCurrency);
-    } else {
-      try {
-        const savedCurrency = localStorage.getItem("preferred_currency")?.toUpperCase();
-        if (savedCurrency === "INR" || savedCurrency === "USD") {
-          setCurrency(savedCurrency as PricingCurrency);
-        } else {
-          const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-          if (tz === "Asia/Kolkata" || tz === "Asia/Calcutta") {
-            setCurrency("INR");
-          } else {
-            setCurrency("USD");
-          }
-        }
-      } catch {
-        setCurrency("INR");
-      }
-    }
+    // 1. Resolve currency strictly in priority order:
+    // ?currency= URL param > localStorage > country header > timezone > USD
+    const urlCurrency = searchParams.get("currency");
+    let savedCurrency: string | null = null;
+    try {
+      savedCurrency = localStorage.getItem("preferred_currency");
+    } catch {}
+
+    let clientTimeZone: string | null = null;
+    try {
+      clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch {}
+
+    const resolved = resolveCurrency({
+      urlCurrency,
+      savedCurrency,
+      serverCountryCurrency,
+      clientTimeZone,
+    });
+
+    setCurrency(resolved);
+    setIsCurrencyResolved(true);
 
     // 2. Billing resolution
     const urlBilling = searchParams.get("billing") as BillingPeriodId;
@@ -86,10 +101,10 @@ export function PricingView({ data }: PricingViewProps) {
       );
       setSelectedPlanForDemo(matched ? matched.name : urlPlan);
       setSelectedBillingForDemo(urlBilling || activePeriod);
-      setSelectedCurrencyForDemo(urlCurrency || currency);
+      setSelectedCurrencyForDemo(urlCurrency || resolved);
       setShowDemoModal(true);
     }
-  }, [searchParams, plansV2, activePeriod, currency]);
+  }, [searchParams, plansV2, activePeriod, serverCountryCurrency]);
 
   const handlePeriodChange = (newPeriod: BillingPeriodId) => {
     setActivePeriod(newPeriod);
@@ -100,6 +115,7 @@ export function PricingView({ data }: PricingViewProps) {
 
   const handleCurrencyChange = (newCurrency: PricingCurrency) => {
     setCurrency(newCurrency);
+    setIsCurrencyResolved(true);
     try {
       localStorage.setItem("preferred_currency", newCurrency);
     } catch {}
@@ -217,6 +233,7 @@ export function PricingView({ data }: PricingViewProps) {
                       handleOpenDemoModal(name, slug, billing, curr)
                     }
                     index={idx}
+                    isResolved={isCurrencyResolved}
                   />
                 </div>
               ))}

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Check } from "lucide-react";
 import { Section, Eyebrow } from "@/components/marketing/ui";
 import { formatPrice, type PricingCurrency } from "@/config/pricing";
+import { resolveCurrency } from "@/lib/currency";
 import type { PlanCurrency } from "@/types/content";
 
 export interface PricingTeaserSectionProps {
@@ -23,17 +24,21 @@ export function PricingTeaserSection({
   );
 
   useEffect(() => {
+    let saved: string | null = null;
     try {
-      const saved = localStorage.getItem("preferred_currency")?.toUpperCase();
-      if (saved === "INR" || saved === "USD") {
-        setActiveCurrency(saved as PricingCurrency);
-      } else {
-        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        if (tz && tz !== "Asia/Kolkata" && tz !== "Asia/Calcutta") {
-          setActiveCurrency("USD");
-        }
-      }
+      saved = localStorage.getItem("preferred_currency");
     } catch {}
+
+    let tz: string | null = null;
+    try {
+      tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    } catch {}
+
+    const resolved = resolveCurrency({
+      savedCurrency: saved,
+      clientTimeZone: tz,
+    });
+    setActiveCurrency(resolved);
   }, []);
 
   const priceAmount =

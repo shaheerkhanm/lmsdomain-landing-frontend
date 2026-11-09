@@ -22,6 +22,7 @@ interface PricingCardProps {
   previousPlanName?: string;
   onRequestDemo: (planName: string, planSlug: string, billing: BillingPeriodId, currency: PricingCurrency) => void;
   index: number;
+  isResolved?: boolean;
 }
 
 export function PricingCard({
@@ -35,6 +36,7 @@ export function PricingCard({
   previousPlanName,
   onRequestDemo,
   index,
+  isResolved = true,
 }: PricingCardProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -101,7 +103,12 @@ export function PricingCard({
 
         {/* Price Display */}
         <div className="mb-5 min-h-[82px] flex flex-col items-start justify-center text-left">
-          {isCustomPrice ? (
+          {!isResolved && !isCustomPrice ? (
+            <div className="w-full py-1">
+              <div className="h-10 w-36 bg-[#ECEDEF] rounded-xl animate-pulse" />
+              <div className="h-3.5 w-24 bg-[#F1F3F5] rounded mt-2.5 animate-pulse" />
+            </div>
+          ) : isCustomPrice ? (
             <div>
               <span className="text-[34px] sm:text-[38px] font-semibold text-[#161616] tracking-tight block">
                 Talk to us
