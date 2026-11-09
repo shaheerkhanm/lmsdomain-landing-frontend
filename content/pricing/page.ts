@@ -1,11 +1,11 @@
 export const DEFAULT_PRICING_HERO = {
   eyebrow: "✦ PRICING",
-  title: "Transparent, Scalable Plans for Every Stage",
+  title: "Simple pricing. 0% commission on every plan.",
   subtitle:
-    "LMS Domain offers predictable monthly and annual software pricing for coaching institutes, training academies, and educators in India. Every plan includes your own custom domain, Zoom live classes, batch scheduling, tests, and payment gateway integration with zero commission fees on your course sales.",
-  metaTitle: "Academy Plans & Software Pricing | LMS Domain",
+    "Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for 15 days.",
+  metaTitle: "Simple Pricing | LMS Domain",
   metaDescription:
-    "Transparent pricing for academies and coaching institutes. Every plan includes your own domain, Zoom live classes, batch scheduling, and zero commission.",
+    "Transparent pricing with 0% commission on every plan. Your own domain, Zoom live classes and GST invoices included from Starter.",
 };
 
 export const DEFAULT_PRICING_EMPTY_STATE = {
