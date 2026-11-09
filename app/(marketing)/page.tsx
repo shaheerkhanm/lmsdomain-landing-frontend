@@ -1,5 +1,5 @@
 import { HomePage } from "@/components/modules/HomePage";
-import { fetchSeo, getSiteSettings } from "@/lib/api/content";
+import { fetchSeo, getSiteSettings, getPricingPage } from "@/lib/api/content";
 import { Metadata } from "next";
 import { SITE_NAME, getMetadataBase, applySeo, fullTitle, getSiteUrl, PRODUCTION_ORIGIN, isProductionSite } from "@/lib/site";
 import { getSiteIdentity } from "@/lib/siteIdentity";
@@ -70,9 +70,10 @@ function getSafeSocialUrl(href?: string, key?: string): string | null {
 }
 
 export default async function Home() {
-  const [settings, identity] = await Promise.all([
+  const [settings, identity, pricingPage] = await Promise.all([
     getSiteSettings().catch(() => null),
     getSiteIdentity().catch(() => ({} as import("@/lib/siteIdentity").SiteIdentity)),
+    getPricingPage().catch(() => null),
   ]);
 
   const siteOrigin = isProductionSite() ? PRODUCTION_ORIGIN : (getSiteUrl() || PRODUCTION_ORIGIN);
@@ -106,7 +107,7 @@ export default async function Home() {
     : `${siteOrigin}/site-icon/apple-touch-icon.png`;
 
   const websiteJsonLd = getWebSiteJsonLd();
-  const softwareAppJsonLd = getSoftwareApplicationJsonLd();
+  const softwareAppJsonLd = getSoftwareApplicationJsonLd(pricingPage?.pricingV2);
 
   return (
     <>
