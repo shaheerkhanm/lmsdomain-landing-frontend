@@ -55,22 +55,6 @@ export default async function AboutRoute() {
     .filter((m) => m.visible !== false && m.group === "team")
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 
-  const orgJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: about.productName,
-    legalName: about.companyLegalName,
-    url: siteOrigin,
-    foundingDate: String(about.yearFounded),
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: about.city,
-      addressRegion: about.region,
-      addressCountry: about.country,
-    },
-    sameAs: [...officialSocialProfiles],
-  };
-
   const breadcrumbs = [
     { name: "Home", path: "/" },
     { name: "About Us", path: "/about" },
@@ -78,10 +62,6 @@ export default async function AboutRoute() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-      />
       <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
       <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
         {/* 1. Hero & Outcome H1 */}

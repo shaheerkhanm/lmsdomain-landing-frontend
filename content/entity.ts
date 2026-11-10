@@ -99,6 +99,7 @@ export const entity = {
     founders: ["Shaheer Khan", "Anoop Sha"],
     website: "https://lmsdomain.com",
     supportEmail: "support@lmsdomain.com",
+    telephone: "+919539825916",
     address: {
       streetAddress: "Techiegram, Hilite Business Park",
       addressLocality: "Kozhikode",

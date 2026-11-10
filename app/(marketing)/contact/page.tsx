@@ -67,24 +67,6 @@ export default async function ContactPage() {
     getContactPage(),
     getSiteContact(),
   ]);
-  const siteOrigin = getSiteUrl() || PRODUCTION_ORIGIN;
-
-  const orgJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "LMS Domain",
-    url: siteOrigin,
-    telephone: siteContact.phone,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: siteContact.addressLines.join(", "),
-      addressLocality: siteContact.city,
-      postalCode: siteContact.postalCode,
-      addressCountry: siteContact.country,
-    },
-    sameAs: [...officialSocialProfiles],
-  };
-
   const breadcrumbs = [
     { name: "Home", path: "/" },
     { name: "Contact", path: "/contact" },
@@ -92,12 +74,10 @@ export default async function ContactPage() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-      />
       <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
       <ContactView data={data} />
+    </>
+  );
     </>
   );
 }
