@@ -79,7 +79,7 @@ export function CTABand({
                 isDark
                   ? "bg-white hover:bg-slate-100 text-[#161616]"
                   : tone === "violet"
-                  ? "bg-white hover:bg-slate-100 text-[#7B5CF5]"
+                  ? "bg-white hover:bg-slate-100 text-[#5925DC]"
                   : "bg-[#161616] hover:bg-black text-white"
               )}
             >

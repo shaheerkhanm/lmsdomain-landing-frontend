@@ -196,6 +196,7 @@ export function PricingView({
       {hasPlans && (
         <section className="bg-[#F3F4F6] pt-14 sm:pt-20 lg:pt-24 pb-16 sm:pb-24 font-urbanist border-b border-[#ECEDEF]">
           <div className="max-w-[1360px] mx-auto px-4 sm:px-6">
+            <h2 className="sr-only">Pricing Plans</h2>
             {/* 4 Cards Grid */}
             <div className="lg:-mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
               {plansV2.map((plan, idx) => (
@@ -230,58 +231,58 @@ export function PricingView({
             {/* Why teams switch to LMS Domain strip */}
             <div className="mt-16 pt-12 border-t border-[#E5E7EB]">
               <div className="text-center max-w-xl mx-auto mb-10">
-                <span className="text-xs font-bold uppercase tracking-wider text-[#7B5CF5] block mb-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#5925DC] block mb-2">
                   ✦ WHY LMS DOMAIN
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-bold text-[#161616] tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-bold text-[#161616] tracking-tight">
                   Why teams switch to LMS Domain
-                </h3>
+                </h2>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="bg-white p-6 rounded-2xl border border-[#ECEDEF] shadow-2xs text-left">
-                  <div className="size-10 rounded-xl bg-[#EEE9FF] text-[#7B5CF5] flex items-center justify-center mb-4">
+                  <div className="size-10 rounded-xl bg-[#EEE9FF] text-[#5925DC] flex items-center justify-center mb-4">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
-                  <h4 className="text-base font-bold text-[#161616] mb-1.5">
+                  <h3 className="text-base font-bold text-[#161616] mb-1.5">
                     0% commission on sales
-                  </h4>
+                  </h3>
                   <p className="text-xs sm:text-sm text-[#6B6F76] leading-relaxed">
                     Keep 100% of your course revenue across every plan. We never take a cut of your academy sales.
                   </p>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl border border-[#ECEDEF] shadow-2xs text-left">
-                  <div className="size-10 rounded-xl bg-[#EEE9FF] text-[#7B5CF5] flex items-center justify-center mb-4">
+                  <div className="size-10 rounded-xl bg-[#EEE9FF] text-[#5925DC] flex items-center justify-center mb-4">
                     <Globe className="w-5 h-5" />
                   </div>
-                  <h4 className="text-base font-bold text-[#161616] mb-1.5">
+                  <h3 className="text-base font-bold text-[#161616] mb-1.5">
                     Own domain on every plan
-                  </h4>
+                  </h3>
                   <p className="text-xs sm:text-sm text-[#6B6F76] leading-relaxed">
                     Launch under your academy&apos;s primary domain with automatic free SSL from day one on Starter.
                   </p>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl border border-[#ECEDEF] shadow-2xs text-left">
-                  <div className="size-10 rounded-xl bg-[#EEE9FF] text-[#7B5CF5] flex items-center justify-center mb-4">
+                  <div className="size-10 rounded-xl bg-[#EEE9FF] text-[#5925DC] flex items-center justify-center mb-4">
                     <Video className="w-5 h-5" />
                   </div>
-                  <h4 className="text-base font-bold text-[#161616] mb-1.5">
+                  <h3 className="text-base font-bold text-[#161616] mb-1.5">
                     Live classes included
-                  </h4>
+                  </h3>
                   <p className="text-xs sm:text-sm text-[#6B6F76] leading-relaxed">
                     Zoom live classes scheduled per batch, with recordings and attendance organized alongside courses.
                   </p>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl border border-[#ECEDEF] shadow-2xs text-left">
-                  <div className="size-10 rounded-xl bg-[#EEE9FF] text-[#7B5CF5] flex items-center justify-center mb-4">
+                  <div className="size-10 rounded-xl bg-[#EEE9FF] text-[#5925DC] flex items-center justify-center mb-4">
                     <Headphones className="w-5 h-5" />
                   </div>
-                  <h4 className="text-base font-bold text-[#161616] mb-1.5">
+                  <h3 className="text-base font-bold text-[#161616] mb-1.5">
                     Indian support team
-                  </h4>
+                  </h3>
                   <p className="text-xs sm:text-sm text-[#6B6F76] leading-relaxed">
                     Direct technical assistance, fast response times, and migration help from our dedicated support team.
                   </p>

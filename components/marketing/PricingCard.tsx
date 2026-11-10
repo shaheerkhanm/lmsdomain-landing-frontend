@@ -90,7 +90,7 @@ export function PricingCard({
             </h3>
           </div>
           {plan.audience && (
-            <p className="text-[13px] font-medium text-[#7B5CF5] mt-0.5">
+            <p className="text-[13px] font-medium text-[#5925DC] mt-0.5">
               {plan.audience}
             </p>
           )}
@@ -132,7 +132,7 @@ export function PricingCard({
 
                     <span className="text-[13px] sm:text-[14px] font-semibold text-[#6B6F76] ml-0.5 whitespace-nowrap">
                       {period === "yearly" ? "/mo" : "/month"}
-                      <span className="ml-1 text-[11px] font-normal text-[#8F94A0]">{taxLabel}</span>
+                      <span className="ml-1 text-[11px] font-normal text-[#5F6368]">{taxLabel}</span>
                     </span>
                   </div>
 
@@ -211,11 +211,11 @@ export function PricingCard({
         {/* Features List */}
         <div className="space-y-2.5 text-left pb-4">
           {plan.includesPrevious && previousPlanName ? (
-            <span className="text-[11px] font-bold text-[#7B5CF5] block">
+            <span className="text-[11px] font-bold text-[#5925DC] block">
               Everything in {previousPlanName}, plus:
             </span>
           ) : (
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#8F94A0] block">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6368] block">
               What&apos;s included
             </span>
           )}

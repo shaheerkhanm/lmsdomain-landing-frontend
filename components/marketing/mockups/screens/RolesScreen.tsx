@@ -100,9 +100,9 @@ export function RolesScreen() {
           {/* Team Members List (7 cols) */}
           <div className="lg:col-span-7 bg-white rounded-xl border border-[#EAE8E2] p-3 shadow-2xs flex flex-col min-h-0 overflow-hidden">
             <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-[#F0EFEA] shrink-0">
-              <h4 className="text-[12px] font-bold text-[#161616]">
+              <p className="text-[12px] font-bold text-[#161616]">
                 Academy Team ({TEAM_MEMBERS.length})
-              </h4>
+              </p>
               <span className="text-[9px] text-[#717684]">
                 Roles: Admin, Instructor
               </span>
@@ -161,9 +161,9 @@ export function RolesScreen() {
             <div className="flex items-center justify-between mb-2 pb-1.5 border-b border-[#F0EFEA] shrink-0">
               <div className="flex items-center gap-1.5">
                 <Lock className="size-3.5 text-[#161616]" />
-                <h4 className="text-[12px] font-bold text-[#161616]">
+                <p className="text-[12px] font-bold text-[#161616]">
                   Role: Instructor
-                </h4>
+                </p>
               </div>
               <span className="text-[9px] bg-[#FAF5FF] text-[#6D58E8] font-semibold px-2 py-0.5 rounded border border-[#8E7CF8]/30">
                 Staff Profile
