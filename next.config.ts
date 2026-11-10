@@ -58,6 +58,18 @@ const nextConfig = {
   },
   async redirects() {
     return [
+      // www to apex redirect (preserves path and query parameters)
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "www.lmsdomain.com",
+          },
+        ],
+        destination: "https://lmsdomain.com/:path*",
+        permanent: true,
+      },
       {
         source: "/features",
         destination: "/platform",
