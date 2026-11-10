@@ -3,9 +3,9 @@ export const DEFAULT_PRICING_HERO = {
   title: "Simple pricing. 0% commission on every plan.",
   subtitle:
     "Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for 15 days.",
-  metaTitle: "Simple Pricing | LMS Domain",
+  metaTitle: "Academy LMS Pricing: 0% Platform Commission | LMS Domain",
   metaDescription:
-    "Transparent pricing with 0% commission on every plan. Your own domain, Zoom live classes and GST invoices included from Starter.",
+    "Simple academy pricing with zero commission on sales. Includes custom domain, live Zoom classes, batch schedules, GST invoices, and a 15-day free trial.",
 };
 
 export const DEFAULT_PRICING_EMPTY_STATE = {

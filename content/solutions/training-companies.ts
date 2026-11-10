@@ -6,9 +6,9 @@ export const trainingCompaniesData: SolutionPageData = {
   title: "Deliver cohorts and client batches, teach them live, and certify the people who finish.",
   subtitle:
     "LMS Domain is a training management platform built for vocational institutes, training companies, and professional educators in India. Deliver cohort bootcamps, schedule 1:1 tutor sessions, invoice client batches with B2B GST invoices, and award branded PDF completion certificates on your own custom domain.",
-  metaTitle: "LMS for Training Companies & Bootcamps | LMS Domain",
+  metaTitle: "LMS for Training Companies & Upskilling | LMS Domain",
   metaDescription:
-    "Deliver cohort bootcamps, manage 1:1 tutor bookings, issue B2B GST invoices for client batches, and award branded completion certificates.",
+    "Deliver cohort training programs, track attendance and assessments, and issue automated corporate B2B GST invoices on your white-label academy platform.",
   sectionHeading: "How does LMS Domain support professional training businesses?",
   features: [
     {

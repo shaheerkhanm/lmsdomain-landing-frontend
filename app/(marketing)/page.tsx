@@ -7,6 +7,10 @@ import { getSiteIdentity } from "@/lib/siteIdentity";
 import { entity } from "@/content/entity";
 import { getWebSiteJsonLd, getSoftwareApplicationJsonLd } from "@/components/seo/JsonLd";
 
+const DEFAULT_HOME_TITLE = "Online Academy Platform & LMS in India | LMS Domain";
+const DEFAULT_HOME_DESCRIPTION =
+  "All-in-one LMS for coaching institutes and academies. Run live Zoom classes, drip video courses, mock tests, and collect fees with 0% commission on sales.";
+
 export async function generateMetadata(): Promise<Metadata> {
   // Share image and noindex from Admin > SEO
   return applySeo(await baseMetadata(), await fetchSeo("home").catch(() => null), { page: "home" });
@@ -15,11 +19,12 @@ export async function generateMetadata(): Promise<Metadata> {
 async function baseMetadata(): Promise<Metadata> {
   const seo = await fetchSeo("home").catch(() => null);
 
-  const title = seo?.metatitle
+  const title = (seo?.metatitle && !seo.metatitle.toLowerCase().includes("lms-domain") && seo.metatitle.length >= 40)
     ? fullTitle(seo.metatitle)
-    : "LMS for Academies & Coaching Institutes | LMS Domain";
-  const description =
-    seo?.metadescription || entity.oneLine;
+    : DEFAULT_HOME_TITLE;
+  const description = (seo?.metadescription && !seo.metadescription.toLowerCase().includes("lms domain description") && seo.metadescription.length >= 100)
+    ? seo.metadescription
+    : DEFAULT_HOME_DESCRIPTION;
 
   return {
     metadataBase: getMetadataBase(),

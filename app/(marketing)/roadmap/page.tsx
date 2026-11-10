@@ -6,8 +6,9 @@ import { Sparkles, Clock, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: fullTitle("Product Roadmap"),
-  description: roadmapPageData.title,
+  title: "Product Roadmap & Confirmed LMS Features | LMS Domain",
+  description:
+    "Track LMS Domain upcoming features, live batch management enhancements, assessment engine releases, and newly confirmed learning platform capabilities.",
   alternates: { canonical: "/roadmap" },
 };
 

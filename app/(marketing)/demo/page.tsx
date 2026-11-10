@@ -6,8 +6,9 @@ import { fullTitle, getMetadataBase } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: fullTitle("Book a Demo"),
-  description: "Schedule a personalized 20-minute walkthrough of LMS Domain for your academy.",
+  title: "Schedule an LMS Platform Walkthrough Demo | LMS Domain",
+  description:
+    "Book an interactive walkthrough of LMS Domain. See how live Zoom batches, mock tests, student management, and branded course selling work firsthand.",
   alternates: { canonical: "/demo" },
 };
 

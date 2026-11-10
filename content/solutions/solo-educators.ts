@@ -6,9 +6,9 @@ export const soloEducatorsData: SolutionPageData = {
   title: "Sell courses, live cohorts and 1:1 sessions under your own brand.",
   subtitle:
     "LMS Domain is an online course platform for independent educators, subject tutors, and content creators in India. Deliver recorded courses with drip release, host live cohort workshops on Zoom, offer 1:1 paid tutor bookings, sell downloadable ebooks, and collect payments directly to your bank account with GST invoices.",
-  metaTitle: "Platform for Solo Educators & Tutors | LMS Domain",
+  metaTitle: "LMS for Solo Educators & Course Creators | LMS Domain",
   metaDescription:
-    "Sell recorded courses, teach live Zoom cohorts, offer 1:1 tutor bookings, and collect payments with GST invoices under your own custom domain.",
+    "Sell courses, run Zoom live classes, and host 1:1 bookings under your own brand with 0% platform transaction fees. Built for independent educators in India.",
   sectionHeading: "How does LMS Domain empower solo educators and independent tutors?",
   features: [
     {

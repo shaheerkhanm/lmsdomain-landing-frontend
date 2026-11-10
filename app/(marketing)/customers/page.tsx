@@ -9,8 +9,9 @@ import { Sparkles, FileText, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: fullTitle("Customers"),
-  description: customersPageData.title,
+  title: "Customer Stories & Academy Case Studies | LMS Domain",
+  description:
+    "See how test prep academies, language institutes, and professional training companies across India run live batches and scale on LMS Domain platform.",
   alternates: { canonical: "/customers" },
 };
 

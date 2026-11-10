@@ -27,6 +27,24 @@ export async function generateMetadata(props: LegalPageProps): Promise<Metadata>
   return applySeo(await baseMetadata(props), await fetchSeo(legal).catch(() => null), { page: legal });
 }
 
+const LEGAL_SEO: Record<string, { title: string; description: string }> = {
+  "privacy-policy": {
+    title: "Privacy Policy & Data Protection Terms | LMS Domain",
+    description:
+      "Official privacy policy for LMS Domain. Learn how we collect, protect, and handle academy and student personal data under Indian and international privacy laws.",
+  },
+  terms: {
+    title: "Terms of Service & Customer Agreement | LMS Domain",
+    description:
+      "Official Terms of Service and master customer agreement for LMS Domain. Read our software subscription terms, acceptable use policies, and billing terms.",
+  },
+  "refund-policy": {
+    title: "Subscription Refund Policy & Guarantees | LMS Domain",
+    description:
+      "Official subscription refund and cancellation policy for LMS Domain. Understand trial periods, billing cycles, cancellation terms, and refund eligibility.",
+  },
+};
+
 async function baseMetadata({
   params,
 }: LegalPageProps): Promise<Metadata> {
@@ -43,10 +61,14 @@ async function baseMetadata({
     };
   }
 
-  const rawTitle = page.seo?.metatitle || page.title;
+  const fallback = LEGAL_SEO[legal];
+  const rawTitle = (page.seo?.metatitle && page.seo.metatitle.length >= 40)
+    ? page.seo.metatitle
+    : fallback?.title || fullTitle(page.title);
   const title = fullTitle(rawTitle);
-  const description =
-    page.seo?.metadescription || `Official ${page.title} documentation for LMS Domain.`;
+  const description = (page.seo?.metadescription && page.seo.metadescription.length >= 100)
+    ? page.seo.metadescription
+    : fallback?.description || `Official ${page.title} documentation for LMS Domain.`;
 
   return {
     metadataBase: getMetadataBase(),

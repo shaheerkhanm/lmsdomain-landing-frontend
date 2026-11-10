@@ -25,9 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-const DEFAULT_TITLE = "Custom LMS for Your Academy, Set Up for You | LMS Domain";
+const DEFAULT_TITLE = "Custom LMS Development & White-Label Setup | LMS Domain";
 const DEFAULT_DESCRIPTION =
-  "Get your own branded LMS and website, set up by our team. Your domain and your brand, with setup, migration and support included.";
+  "Get your custom branded learning platform built and set up for you. Setup, content migration, staff training, and dedicated ongoing support included.";
 
 async function baseMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([

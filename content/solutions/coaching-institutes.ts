@@ -6,9 +6,9 @@ export const coachingInstitutesData: SolutionPageData = {
   title: "The LMS built for coaching institutes that teach live batches.",
   subtitle:
     "LMS Domain is an all-in-one learning management system for coaching institutes, competitive exam centers, and tuition academies in India. Run scheduled morning and evening batches, teach live on Zoom with automatic attendance, conduct timed mock tests, and collect fees with GST invoices on your own custom domain.",
-  metaTitle: "LMS for Coaching Institutes in India | LMS Domain",
+  metaTitle: "LMS for Coaching Institutes & Test Centres | LMS Domain",
   metaDescription:
-    "Run live Zoom batches, track class attendance, conduct timed mock tests, and collect course fees with GST invoices on your own branded coaching website.",
+    "All-in-one software for coaching institutes in India. Deliver live Zoom batches, full-length test series, study materials, and automated GST fee receipts.",
   sectionHeading: "How does LMS Domain support coaching institutes and tuition centers?",
   features: [
     {

@@ -7,15 +7,21 @@ import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } f
 import { guardMetadata } from "@/lib/pages";
 import { Linkedin, Building2, MapPin, Calendar, Users, Award, BookOpen, Video, ArrowRight } from "lucide-react";
 
+const DEFAULT_ABOUT_TITLE = "About LMS Domain: Built for Serious Educators | LMS Domain";
+const DEFAULT_ABOUT_DESCRIPTION =
+  "Learn how LMS Domain helps training institutes, coaching centres, and solo educators build independent, branded online academies with zero sales commission.";
+
 export async function generateMetadata(): Promise<Metadata> {
   const hiddenMeta = await guardMetadata("about");
   if (hiddenMeta) return hiddenMeta;
 
-  const about = await getSiteAbout().catch(() => null);
-  const title = fullTitle("About Us");
-  const description =
-    about?.mission ||
-    "We build the platform academies run on: batches, live classes, and assessments under your own domain.";
+  const seo = await fetchSeo("about").catch(() => null);
+  const title = (seo?.metatitle && !seo.metatitle.toLowerCase().includes("about us") && seo.metatitle.length >= 40)
+    ? fullTitle(seo.metatitle)
+    : DEFAULT_ABOUT_TITLE;
+  const description = (seo?.metadescription && seo.metadescription.length >= 100)
+    ? seo.metadescription
+    : DEFAULT_ABOUT_DESCRIPTION;
 
   const base: Metadata = {
     metadataBase: getMetadataBase(),
@@ -26,7 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: { card: "summary_large_image", title, description },
   };
 
-  return applySeo(base, await fetchSeo("about").catch(() => null), { page: "about" });
+  return applySeo(base, seo, { page: "about" });
 }
 
 function getInitials(name: string): string {

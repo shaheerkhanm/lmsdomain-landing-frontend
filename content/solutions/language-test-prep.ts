@@ -6,9 +6,9 @@ export const languageTestPrepData: SolutionPageData = {
   title: "Built for IELTS, PTE and language academies that teach in batches.",
   subtitle:
     "LMS Domain is an all-in-one LMS for language schools and test-prep academies in India teaching IELTS, PTE, TOEFL, and foreign languages. Run morning and evening batches, host live Zoom sessions with attendance tracking, conduct timed practice mock tests from question banks, and collect tuition in INR and international currencies on your own domain.",
-  metaTitle: "LMS for IELTS, PTE & Language Academies | LMS Domain",
+  metaTitle: "LMS for IELTS & Language Test Preparation | LMS Domain",
   metaDescription:
-    "Run morning and evening batches, teach live via Zoom with attendance, deliver timed practice mock tests, and collect fees in local currencies.",
+    "Prepare students for IELTS, TOEFL, and competitive exams with timed section tests, live speaking cohorts, recorded lessons, and personalized evaluations.",
   sectionHeading: "How does LMS Domain support language and test-prep academies?",
   features: [
     {

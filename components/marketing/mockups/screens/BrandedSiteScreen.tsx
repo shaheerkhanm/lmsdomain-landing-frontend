@@ -67,9 +67,9 @@ export function BrandedSiteScreen() {
             <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] text-[9px] font-bold">
               <span>● Admissions Open for Winter 2026 Cohorts</span>
             </div>
-            <h1 className="text-[18px] sm:text-[22px] font-extrabold text-[#161616] leading-tight tracking-tight">
+            <p className="text-[18px] sm:text-[22px] font-extrabold text-[#161616] leading-tight tracking-tight">
               Master Entrance Exams & Professional Skills with Expert Faculty
-            </h1>
+            </p>
             <p className="text-[11px] text-[#717684] max-w-md mx-auto">
               Live Zoom classes, interactive doubt-clearing sessions, and completion certificates directly on Northstar Academy.
             </p>

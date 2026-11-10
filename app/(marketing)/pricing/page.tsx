@@ -25,11 +25,14 @@ async function baseMetadata(): Promise<Metadata> {
 
   const isSample = Boolean(pageData?.isSample || process.env.CMS_USE_FIXTURES === "true");
 
-  const title = seo?.metatitle ? fullTitle(seo.metatitle) : DEFAULT_PRICING_HERO.metaTitle;
+  const title = (seo?.metatitle && !seo.metatitle.toLowerCase().includes("pricing plans") && seo.metatitle.length >= 40)
+    ? fullTitle(seo.metatitle)
+    : DEFAULT_PRICING_HERO.metaTitle;
 
   const description =
-    seo?.metadescription ||
-    DEFAULT_PRICING_HERO.metaDescription;
+    (seo?.metadescription && seo.metadescription.length >= 100)
+      ? seo.metadescription
+      : DEFAULT_PRICING_HERO.metaDescription;
 
   return {
     metadataBase: getMetadataBase(),
