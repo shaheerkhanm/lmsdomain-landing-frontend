@@ -316,7 +316,6 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
       method: "GET",
       tags: ["pricing", "pricing-v2"],
       revalidate: 300,
-      timeoutMs: 800,
     }).catch(() => null),
     fetchCms("pricing-v2", ["cms", "pricing"]).catch(() => null),
     fetchSeo("pricing"),

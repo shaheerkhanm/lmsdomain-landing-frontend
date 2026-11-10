@@ -62,7 +62,7 @@ export async function fetchApi<T>(
 
   const url = `${baseUrl}${normalizedEndpoint}`;
   const method = options.method || "POST";
-  const timeoutMs = options.timeoutMs ?? 1500;
+  const timeoutMs = options.timeoutMs ?? 8000;
 
   const requestHeaders: Record<string, string> = {
     "Content-Type": "application/json",
