@@ -58,7 +58,7 @@ export function BannerSection({ data, graphData }: { data?: any; graphData?: any
 
         {/* 5. One ScreenshotFrame with <=300ms whileInView fade */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, ease: "easeOut" }}

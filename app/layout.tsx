@@ -17,22 +17,26 @@ import DemoHashListener from "@/components/marketing/DemoHashListener";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-urbanist",
   display: "swap",
+  preload: true,
 });
 
 const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter', // Optional for CSS variables
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  preload: false,
 });
 
 const manrope = Manrope({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'], // Add weights you need
-  variable: '--font-manrope', // Optional: to use as CSS variable
-  display: 'swap',
-})
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-manrope",
+  display: "swap",
+  preload: false,
+});
 
 
 // Icons: generated files (scripts/generate-icons.mjs), or the admin's icon from
