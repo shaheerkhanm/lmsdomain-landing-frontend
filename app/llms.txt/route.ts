@@ -21,17 +21,26 @@ export async function GET() {
 - [Security](${origin}/platform/security): Protect courses with dynamic video watermarks, student device sign-in limits, and role-based permissions.
 - [Domie AI](${origin}/platform/ai): Course-grounded AI HelpDesk student tutor, metadata drafting, and daily admin operational brief on the Pro plan.
 
-## Solutions
+## Pricing & Plans
+
+All plans come with a 15-day free trial, 0% commission on your sales (gateway processing fees apply), custom domain with SSL, and automated GST invoices.
+
+- **Starter Plan**: ₹3,999/month ($49/month) billed monthly, or ₹3,333/month ($41/month) billed yearly (2 months free). For solo educators and new academies. Includes 500 active learners, 3 team seats, courses, drip release, and Zoom live classes.
+- **Growth Plan**: ₹7,999/month ($99/month) billed monthly, or ₹6,666/month ($82/month) billed yearly (2 months free). For coaching institutes running several batches. Includes 2,000 active learners, 10 team seats, 1:1 tutor bookings, bootcamps, and video watermarking.
+- **Pro Plan**: ₹14,999/month ($199/month) billed monthly, or ₹12,499/month ($165/month) billed yearly (2 months free). For larger academies and training companies. Includes 5,000 active learners, 25 team seats, Domie AI assistant, device limits, and custom roles.
+- **Enterprise Plan**: Custom pricing. For multi-branch institutes requiring custom active learners, team seats, SLAs, and dedicated migration assistance.
+- [View Full Pricing Table](${origin}/pricing): Detailed comparison of all features and limits.
+
+## Solutions (Who It Is For)
 
 - [Coaching Institutes](${origin}/solutions/coaching-institutes): Built for coaching institutes, competitive exam centers, and batch tuition academies.
 - [Language & Test-Prep Academies](${origin}/solutions/language-test-prep-academies): Built for IELTS, PTE, and language academies teaching scheduled morning and evening batches.
 - [Training Companies](${origin}/solutions/training-companies): Deliver professional vocational bootcamps, client batches, and 1:1 tutor bookings.
 - [Solo Educators & Creators](${origin}/solutions/solo-educators): Sell recorded courses, live cohort workshops, ebooks, and paid 1:1 consultations.
 
-## Plans & Deployment
+## Custom Deployment
 
-- [Pricing & Plans](${origin}/pricing): Predictable monthly and annual subscriptions with your own custom domain and zero platform commission on sales.
-- [Custom LMS](${origin}/custom-lms): Full custom academy deployment with content migration, staff training, and dedicated engineering support.
+- [Custom LMS Development](${origin}/custom-lms): Full custom academy deployment with content migration, staff training, and dedicated engineering support.
 
 ## Company & Contact
 

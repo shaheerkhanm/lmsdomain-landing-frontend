@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Icons } from './common/Icons';
+import { officialSocialProfiles } from '@/content/entity';
 
 function getSafeSocialUrl(href: string, key: string): string {
   if (!href) return '#';
@@ -35,18 +36,28 @@ export default function SocialMediaIcons({ data }: { data: any }) {
     { key: 'linkedin', href: data?.linkedin, icon: Icons.linkedin_Icon, label: 'LinkedIn' },
   ];
 
-  const validLinks = socialLinks.filter((item) => Boolean(item.href));
+  // Show only links whose profile URL is maintained in officialSocialProfiles (content/entity.ts)
+  const validLinks = socialLinks
+    .map((item) => ({ ...item, safeUrl: getSafeSocialUrl(item.href, item.key) }))
+    .filter((item) => {
+      if (!item.href) return false;
+      return (officialSocialProfiles as readonly string[]).some((url) => {
+        const u = url.toLowerCase().replace(/\/$/, "");
+        const s = item.safeUrl.toLowerCase().replace(/\/$/, "");
+        return s === u || s.includes("lmsdomain");
+      });
+    });
+
   if (validLinks.length === 0) return null;
 
   return (
     <div className="flex items-center gap-3">
       {validLinks.map((item, index) => {
         const IconComponent = item.icon;
-        const safeUrl = getSafeSocialUrl(item.href, item.key);
         return (
           <a
             key={index}
-            href={safeUrl}
+            href={item.safeUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label={item.label}

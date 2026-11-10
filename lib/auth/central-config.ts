@@ -15,7 +15,7 @@ export interface CentralLoginConfig {
 }
 
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1"]);
-const DEFAULT_ALLOWED_DOMAINS = "lmsdomain.com,lmsdomain.online";
+const DEFAULT_ALLOWED_DOMAINS = "lmsdomain.com,lmsdomain.site";
 const SITE_KEY_RE = /^[A-Za-z0-9_-]{20,80}$/;
 
 // The local fake API lives under this path on the dev server; real central

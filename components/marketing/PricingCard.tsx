@@ -63,10 +63,10 @@ export function PricingCard({
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.45, delay: index * 0.08, ease: "easeOut" }}
+      transition={{ duration: 0.35, delay: index * 0.05, ease: "easeOut" }}
       className={`rounded-[32px] bg-white p-6 sm:p-7 flex flex-col justify-between relative transition-all duration-300 font-urbanist h-full ${
         plan.isPopular
           ? "border-2 border-[#161616] lg:-translate-y-2.5 shadow-xl z-10"

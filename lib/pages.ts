@@ -136,7 +136,7 @@ export function matchPathToSlug(href: string): string | null {
       const internalHosts = [
         "lmsdomain.com",
         "www.lmsdomain.com",
-        "staging.lmsdomain.online",
+        "lmsdomain.site",
         "localhost",
         "127.0.0.1",
       ];

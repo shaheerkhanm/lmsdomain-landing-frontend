@@ -13,27 +13,39 @@ export function NotFoundActions() {
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+      <div className="flex flex-wrap items-center justify-center gap-3 w-full sm:w-auto">
         <Link
           href="/"
-          className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-[#161616] text-white text-sm font-semibold hover:bg-black transition-all shadow-xs hover:shadow-md active:scale-95 cursor-pointer"
+          className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-[#161616] text-white text-sm font-semibold hover:bg-black transition-all shadow-xs hover:shadow-md active:scale-95 cursor-pointer"
         >
-          Back to home
+          Home
+        </Link>
+        <Link
+          href="/pricing"
+          className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-white text-[#161616] border border-[#ECEDEF] text-sm font-semibold hover:bg-[#F3F4F6] transition-all shadow-2xs active:scale-95 cursor-pointer"
+        >
+          Pricing
+        </Link>
+        <Link
+          href="/platform"
+          className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-white text-[#161616] border border-[#ECEDEF] text-sm font-semibold hover:bg-[#F3F4F6] transition-all shadow-2xs active:scale-95 cursor-pointer"
+        >
+          Platform
         </Link>
         {contactVisible ? (
           <Link
             href="/contact"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-white text-[#161616] border border-[#ECEDEF] text-sm font-semibold hover:bg-[#F3F4F6] transition-all shadow-2xs active:scale-95 cursor-pointer"
+            className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-white text-[#161616] border border-[#ECEDEF] text-sm font-semibold hover:bg-[#F3F4F6] transition-all shadow-2xs active:scale-95 cursor-pointer"
           >
-            Contact us
+            Contact
           </Link>
         ) : (
           <button
             type="button"
             onClick={() => setShowModal(true)}
-            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-white text-[#161616] border border-[#ECEDEF] text-sm font-semibold hover:bg-[#F3F4F6] transition-all shadow-2xs active:scale-95 cursor-pointer"
+            className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-white text-[#161616] border border-[#ECEDEF] text-sm font-semibold hover:bg-[#F3F4F6] transition-all shadow-2xs active:scale-95 cursor-pointer"
           >
-            Contact us
+            Contact
           </button>
         )}
       </div>

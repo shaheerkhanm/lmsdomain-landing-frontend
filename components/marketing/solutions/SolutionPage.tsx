@@ -67,11 +67,19 @@ function getSolutionScreen(slug: string) {
   }
 }
 
+const SOLUTION_SHORT_NAMES: Record<string, string> = {
+  "coaching-institutes": "Coaching Institutes",
+  "language-test-prep-academies": "Language & Test Prep",
+  "solo-educators": "Solo Educators",
+  "training-companies": "Training Companies",
+};
+
 export function SolutionPage({ data, clientLogo }: SolutionPageProps) {
+  const pageName = SOLUTION_SHORT_NAMES[data.slug] || data.slug.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
   const breadcrumbs = [
     { name: "Home", path: "/" },
     { name: "Solutions", path: "/solutions" },
-    { name: data.title, path: `/solutions/${data.slug}` },
+    { name: pageName, path: `/solutions/${data.slug}` },
   ];
 
   return (

@@ -6,9 +6,9 @@ export const brandPlatformData: PlatformPageData = {
   title: "Your academy, on your own domain.",
   subtitle:
     "LMS Domain is a white-label academy website builder for coaching institutes, training companies, and independent educators in India. Launch your learning portal on your own custom web domain with free automated SSL, upload your own brand logo, colors, and custom fonts, publish blogs and knowledge base articles, and sell downloadable ebooks.",
-  metaTitle: "White-Label LMS on Custom Domain | LMS Domain",
+  metaTitle: "White-Label LMS on Your Own Custom Domain | LMS Domain",
   metaDescription:
-    "Launch your learning platform on your own custom domain with free SSL, brand logos, custom colors and fonts, blog publishing, and downloadable ebooks.",
+    "Launch your academy on your custom domain with your logo, colors, and typography. Deliver a completely branded learning experience without vendor badges.",
   sectionHeading: "How does custom branding work in LMS Domain?",
   frameTitle: "Brand & Domain Configuration",
   frameAlt: "Your academy, on your own domain",

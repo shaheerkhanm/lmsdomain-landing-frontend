@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { Suspense } from "react";
 import PageHero from "./PageHero";
 import DemoForm from "./DemoForm";
 import ContactChannels from "./ContactChannels";
@@ -39,14 +39,16 @@ export function ContactView({ data }: ContactViewProps) {
               {/* Right Column (60% desktop, Order 1 mobile): Form first */}
               <div className="lg:col-span-7 order-1 lg:order-2">
                 <ContentSource id="contact-form" source={data.sources?.form || "code"}>
-                  <DemoForm
-                    submitLabel={data.form.submitLabel}
-                    successTitle={data.form.successTitle}
-                    successMessage={data.form.successMessage}
-                    privacyNote={data.form.privacyNote}
-                    topics={data.topics}
-                    variant="page"
-                  />
+                  <Suspense fallback={<div className="h-[480px] w-full bg-slate-50 animate-pulse rounded-2xl" />}>
+                    <DemoForm
+                      submitLabel={data.form.submitLabel}
+                      successTitle={data.form.successTitle}
+                      successMessage={data.form.successMessage}
+                      privacyNote={data.form.privacyNote}
+                      topics={data.topics}
+                      variant="page"
+                    />
+                  </Suspense>
                 </ContentSource>
               </div>
             </div>

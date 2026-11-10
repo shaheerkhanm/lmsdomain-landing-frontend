@@ -3,11 +3,13 @@ import type { Metadata } from "next";
 import PageHero from "@/components/marketing/PageHero";
 import DemoForm from "@/components/marketing/DemoForm";
 import { fullTitle, getMetadataBase } from "@/lib/site";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: fullTitle("Book a Demo"),
-  description: "Schedule a personalized 20-minute walkthrough of LMS Domain for your academy.",
+  title: "Schedule an LMS Platform Walkthrough Demo | LMS Domain",
+  description:
+    "Book an interactive walkthrough of LMS Domain. See how live Zoom batches, mock tests, student management, and branded course selling work firsthand.",
   alternates: { canonical: "/demo" },
 };
 
@@ -20,8 +22,14 @@ function DemoPageForm() {
 }
 
 export default function DemoPage() {
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Demo", path: "/demo" },
+  ];
+
   return (
     <div className="min-h-screen bg-[#FAF9F6] font-urbanist pb-24">
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
       <PageHero
         eyebrow="Live Walkthrough"
         title="Book a 20-minute academy demo"

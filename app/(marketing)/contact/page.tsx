@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { getContactPage, getSiteContact, fetchSeo } from "@/lib/api/content";
 import { ContactView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
+import { officialSocialProfiles } from "@/content/entity";
+
+const DEFAULT_TITLE = "Contact Us: Sales, Onboarding & Support | LMS Domain";
+const DEFAULT_DESCRIPTION =
+  "Speak with the LMS Domain team in India for sales inquiries, academy onboarding, technical support, migration assistance, or platform walkthroughs.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const hiddenMeta = await guardMetadata("contact");
@@ -19,16 +24,15 @@ async function baseMetadata(): Promise<Metadata> {
   ]);
 
   const rawTitle =
-    seo?.metatitle ||
-    (pageData?.hero?.title
-      ? pageData.hero.title
-      : "Contact & Platform Demonstration");
+    (seo?.metatitle && seo.metatitle.length >= 40)
+      ? seo.metatitle
+      : DEFAULT_TITLE;
   const title = fullTitle(rawTitle);
 
   const description =
-    seo?.metadescription ||
-    pageData?.hero?.subtitle ||
-    "Schedule a live platform walkthrough, discuss custom enterprise deployments, or evaluate pedagogy workflows tailored to your academy.";
+    (seo?.metadescription && seo.metadescription.length >= 100)
+      ? seo.metadescription
+      : DEFAULT_DESCRIPTION;
 
   return {
     metadataBase: getMetadataBase(),
@@ -63,32 +67,15 @@ export default async function ContactPage() {
     getContactPage(),
     getSiteContact(),
   ]);
-  const siteOrigin = getSiteUrl() || PRODUCTION_ORIGIN;
-
-  const orgJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "LMS Domain",
-    url: siteOrigin,
-    telephone: siteContact.phone,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: siteContact.addressLines.join(", "),
-      addressLocality: siteContact.city,
-      postalCode: siteContact.postalCode,
-      addressCountry: siteContact.country,
-    },
-  };
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" },
+  ];
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-      />
-      <Suspense fallback={<div className="min-h-screen bg-white" />}>
-        <ContactView data={data} />
-      </Suspense>
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
+      <ContactView data={data} />
     </>
   );
 }

@@ -237,6 +237,10 @@ export function CtaSection({
                 <img
                   src="/assets/img/reference/floating_blue_sphere.png"
                   alt="Glossy Blue 3D Sphere"
+                  width={320}
+                  height={320}
+                  loading="lazy"
+                  decoding="async"
                   className="w-48 sm:w-64 lg:w-[320px] h-auto drop-shadow-[0_25px_45px_rgba(2,132,199,0.35)] object-contain"
                 />
               </div>

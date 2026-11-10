@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getCustomPlanPage, fetchSeo } from "@/lib/api/content";
 import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { liveOr } from "@/lib/claims";
 import {
   BrandPreviewProvider,
@@ -25,9 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-const DEFAULT_TITLE = "Custom LMS for Your Academy, Set Up for You | LMS Domain";
+const DEFAULT_TITLE = "Custom LMS Development & White-Label Setup | LMS Domain";
 const DEFAULT_DESCRIPTION =
-  "Get your own branded LMS and website, set up by our team. Your domain and your brand, with setup, migration and support included.";
+  "Get your custom branded learning platform built and set up for you. Setup, content migration, staff training, and dedicated ongoing support included.";
 
 async function baseMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -35,10 +36,14 @@ async function baseMetadata(): Promise<Metadata> {
     getCustomPlanPage().catch(() => null),
   ]);
 
-  const rawTitle = liveOr(seo?.metatitle || pageData?.seo?.title, DEFAULT_TITLE) || DEFAULT_TITLE;
+  const rawTitle = (seo?.metatitle && seo.metatitle.length >= 45)
+    ? seo.metatitle
+    : DEFAULT_TITLE;
   const title = fullTitle(rawTitle);
 
-  const description = liveOr(seo?.metadescription || pageData?.seo?.description, DEFAULT_DESCRIPTION) || DEFAULT_DESCRIPTION;
+  const description = (seo?.metadescription && seo.metadescription.length >= 140)
+    ? seo.metadescription
+    : DEFAULT_DESCRIPTION;
 
   return {
     metadataBase: getMetadataBase(),
@@ -87,6 +92,11 @@ export default async function CustomPlanPage() {
 
   const defaultColor = pageData.hero.brandPreview?.colours?.[0] || "#7B5CF5";
 
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Custom LMS", path: "/custom-lms" },
+  ];
+
   return (
     <BrandPreviewProvider defaultColor={defaultColor}>
       {/* Service Structured Data */}
@@ -94,6 +104,7 @@ export default async function CustomPlanPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
 
       <div className="min-h-screen bg-white font-urbanist">
         {/* 1. Hero with Brand Preview Signature Element */}

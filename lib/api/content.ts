@@ -4,6 +4,7 @@
 // Filters: isActive === true && isDeleted !== true
 // ============================================================================
 
+import { cache } from "react";
 import { fetchApi } from "./client";
 import { isPlaceholderPhone } from "@/lib/utils";
 import { liveOr, keepLive } from "@/lib/claims";
@@ -305,7 +306,7 @@ function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): P
   return { code, locale: localeForCurrency(code, plan?.locale) };
 }
 
-export async function getPricingPage(): Promise<PricingPageModel> {
+export const getPricingPage = cache(async function getPricingPage(): Promise<PricingPageModel> {
   const [empty, band, faqSection, comparisonHeading, pricingV2Res, pricingV2Cms, seo, enterpriseDoc] = await Promise.all([
     getSection("pricing-empty"),
     getSection("pricing-footer-card"),
@@ -496,7 +497,7 @@ export async function getPricingPage(): Promise<PricingPageModel> {
       band: band.source,
     },
   };
-}
+});
 
 // ----------------------------------------------------------------------------
 // Features Page Content

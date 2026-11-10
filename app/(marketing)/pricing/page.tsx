@@ -5,7 +5,11 @@ import { getPricingPage, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, getSiteUrl, applySeo } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
-import { getSoftwareApplicationJsonLd } from "@/components/seo/JsonLd";
+import {
+  getSoftwareApplicationJsonLd,
+  getBreadcrumbListJsonLd,
+  JsonLdScript,
+} from "@/components/seo/JsonLd";
 import { getCountryHeaderCurrency, type PricingCurrency } from "@/lib/currency";
 
 import { DEFAULT_PRICING_HERO } from "@/content/pricing/page";
@@ -25,11 +29,14 @@ async function baseMetadata(): Promise<Metadata> {
 
   const isSample = Boolean(pageData?.isSample || process.env.CMS_USE_FIXTURES === "true");
 
-  const title = seo?.metatitle ? fullTitle(seo.metatitle) : DEFAULT_PRICING_HERO.metaTitle;
+  const title = (seo?.metatitle && !seo.metatitle.toLowerCase().includes("pricing plans") && seo.metatitle.length >= 40)
+    ? fullTitle(seo.metatitle)
+    : DEFAULT_PRICING_HERO.metaTitle;
 
   const description =
-    seo?.metadescription ||
-    DEFAULT_PRICING_HERO.metaDescription;
+    (seo?.metadescription && seo.metadescription.length >= 100)
+      ? seo.metadescription
+      : DEFAULT_PRICING_HERO.metaDescription;
 
   return {
     metadataBase: getMetadataBase(),
@@ -97,6 +104,10 @@ export default async function PricingPage({
   const siteUrl = getSiteUrl();
 
   const jsonLd = getSoftwareApplicationJsonLd(data.pricingV2, "/pricing");
+  const breadcrumbJsonLd = getBreadcrumbListJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Pricing", path: "/pricing" },
+  ]);
 
   return (
     <>
@@ -106,6 +117,7 @@ export default async function PricingPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
+      <JsonLdScript data={breadcrumbJsonLd} />
       <Suspense fallback={<div className="min-h-screen bg-white" />}>
         <PricingView
           data={data}

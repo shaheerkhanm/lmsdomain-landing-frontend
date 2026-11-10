@@ -1,7 +1,7 @@
 // ============================================================================
 // Site URL and page titles (server-side only)
 // SITE_URL is read from server env: https://lmsdomain.com in production,
-// https://staging.lmsdomain.online on staging. Unset locally.
+// configured via SITE_URL in deployment environments. Unset locally.
 // ============================================================================
 
 import { getSiteIdentity } from "@/lib/siteIdentity";
