@@ -9,8 +9,8 @@ export interface EyebrowProps {
 }
 
 const TONE_CLASSES = {
-  violet: "bg-[#EEE9FF] text-[#7B5CF5] border-[#DDD6FE]",
-  emerald: "bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]",
+  violet: "bg-[#EEE9FF] text-[#5925DC] border-[#DDD6FE]",
+  emerald: "bg-[#ECFDF5] text-[#047857] border-[#A7F3D0]",
   dark: "bg-white/10 text-white border-white/20",
   neutral: "bg-slate-100 text-[#161616] border-slate-200",
 } as const;

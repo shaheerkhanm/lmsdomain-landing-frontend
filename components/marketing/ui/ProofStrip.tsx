@@ -52,7 +52,7 @@ export function ProofStrip({
     >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col items-center">
         {/* Strip Heading */}
-        <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.1em] text-[#7B5CF5] mb-6">
+        <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.1em] text-[#5925DC] mb-6">
           {heading}
         </p>
 

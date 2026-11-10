@@ -51,9 +51,9 @@ export function DashboardScreen() {
           <div className="lg:col-span-2 bg-white rounded-xl border border-[#EAE8E2] p-3 shadow-2xs flex flex-col justify-between">
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h4 className="text-[12px] font-bold text-[#161616]">
+                <p className="text-[12px] font-bold text-[#161616]">
                   Revenue & Collection
-                </h4>
+                </p>
                 <p className="text-[9px] text-[#717684]">
                   Last 12 months · Dec–Nov
                 </p>
@@ -119,9 +119,9 @@ export function DashboardScreen() {
                   <div className="size-5 rounded-md bg-[#8E7CF8] text-white flex items-center justify-center">
                     <Sparkles className="size-3" />
                   </div>
-                  <h4 className="text-[12px] font-bold text-[#161616]">
+                  <p className="text-[12px] font-bold text-[#161616]">
                     Domie&apos;s Brief
-                  </h4>
+                  </p>
                 </div>
                 <span className="text-[9px] font-bold text-[#6D58E8] bg-[#8E7CF8]/15 px-1.5 py-0.5 rounded">
                   Today
@@ -151,9 +151,9 @@ export function DashboardScreen() {
           {/* Course Completion Table (2 cols) */}
           <div className="lg:col-span-2 bg-white rounded-xl border border-[#EAE8E2] p-3 shadow-2xs flex flex-col min-h-0 overflow-hidden">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-[12px] font-bold text-[#161616]">
+              <p className="text-[12px] font-bold text-[#161616]">
                 Course Progress & Completion
-              </h4>
+              </p>
               <span className="text-[9px] text-[#717684]">
                 Across active batches
               </span>
@@ -211,9 +211,9 @@ export function DashboardScreen() {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-1.5">
                 <Calendar className="size-3.5 text-[#161616]" />
-                <h4 className="text-[12px] font-bold text-[#161616]">
+                <p className="text-[12px] font-bold text-[#161616]">
                   Today&apos;s Schedule
-                </h4>
+                </p>
               </div>
               <span className="text-[9px] bg-[#F5F6F8] font-bold px-1.5 py-0.5 rounded text-[#525866]">
                 6 classes

@@ -59,7 +59,7 @@ export function PricingComparisonTable({
     <section className="bg-white py-20 lg:py-28 font-urbanist border-b border-[#ECEDEF]">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-left max-w-2xl mb-12 lg:mb-16">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-3.5">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#5925DC] mb-3.5">
             <span>✦</span>
             <span>{heading.eyebrow}</span>
           </span>
@@ -83,7 +83,7 @@ export function PricingComparisonTable({
                 as an inset shadow (collapsed borders do not stick), above the rows */}
             <thead className="sticky top-0 lg:top-20 z-30 bg-white">
               <tr className="bg-white">
-                <th scope="col" className={`${headerCellClass} text-xs font-bold uppercase tracking-wider text-[#8F94A0] w-1/3`}>
+                <th scope="col" className={`${headerCellClass} text-xs font-bold uppercase tracking-wider text-[#5F6368] w-1/3`}>
                   {heading.cornerLabel}
                 </th>
                 {plans.map((plan) => (
@@ -125,7 +125,7 @@ export function PricingComparisonTable({
                         <div className="flex items-center gap-1.5">
                           <span>{row.label}</span>
                           {row.tooltip && (
-                            <span title={row.tooltip} className="cursor-help text-[#8F94A0] hover:text-[#161616] transition-colors">
+                            <span title={row.tooltip} className="cursor-help text-[#5F6368] hover:text-[#161616] transition-colors">
                               <Info className="w-3.5 h-3.5" />
                             </span>
                           )}
@@ -175,7 +175,7 @@ export function PricingComparisonTable({
           <div className="bg-[#F8FAFC] rounded-2xl border border-[#ECEDEF] p-5 space-y-6">
             {comparison.groups.map((group, gIdx) => (
               <div key={gIdx} className="space-y-3">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#8F94A0] block pb-1 border-b border-[#ECEDEF]">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6368] block pb-1 border-b border-[#ECEDEF]">
                   {group.title}
                 </span>
 

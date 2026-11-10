@@ -33,16 +33,16 @@ export function PricingEnterprise({ data }: PricingEnterpriseProps) {
             <div className="lg:col-span-8 space-y-6">
               <div className="flex items-center gap-3">
                 <LogoMark className="size-10 sm:size-12 shrink-0" />
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-500/10 text-[#7B5CF5] border border-violet-500/20 text-xs font-semibold uppercase tracking-wider">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-500/10 text-[#5925DC] border border-violet-500/20 text-xs font-semibold uppercase tracking-wider">
                   <Sparkles className="size-3.5" />
                   <span>Enterprise & Custom LMS</span>
                 </span>
               </div>
 
               <div>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#161616] tracking-tight leading-snug">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#161616] tracking-tight leading-snug">
                   Need multi-academy scale, custom features, or a dedicated SLA?
-                </h3>
+                </h2>
                 <p className="type-body text-[#6B6F76] mt-3 max-w-2xl text-sm sm:text-base leading-relaxed">
                   We build tailored infrastructure for training companies, education groups,
                   and growing academy networks requiring dedicated hosting and bespoke workflows.

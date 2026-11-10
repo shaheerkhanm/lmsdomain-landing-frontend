@@ -17,7 +17,7 @@ export function PricingAddOns({
     <section className="bg-[#F3F4F6] py-20 lg:py-28 font-urbanist border-b border-[#ECEDEF]">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-left max-w-2xl mb-12 lg:mb-16">
-          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-3.5">
+          <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#5925DC] mb-3.5">
             <span>✦</span>
             <span>MODULAR CAPACITY</span>
           </span>
@@ -37,7 +37,7 @@ export function PricingAddOns({
               className="bg-white rounded-[28px] sm:rounded-[32px] border border-[#ECEDEF] p-7 sm:p-8 flex flex-col justify-between shadow-2xs hover:shadow-md transition-shadow text-left"
             >
               <div>
-                <div className="size-10 rounded-2xl bg-[#EEE9FF] text-[#7B5CF5] flex items-center justify-center mb-5">
+                <div className="size-10 rounded-2xl bg-[#EEE9FF] text-[#5925DC] flex items-center justify-center mb-5">
                   <PlusCircle className="w-5 h-5" />
                 </div>
 

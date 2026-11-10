@@ -125,9 +125,9 @@ export function FooterSection({
             <div className={`lg:col-span-7 grid ${gridColsClass} gap-8`}>
               {columns.map((section, idx) => (
                 <div key={idx} className="space-y-4">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-900">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-900">
                     {section.title}
-                  </h4>
+                  </p>
                   <ul className="space-y-2.5">
                     {section.links.map((link, i) => (
                       <li key={i}>

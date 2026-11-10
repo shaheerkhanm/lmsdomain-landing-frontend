@@ -124,9 +124,9 @@ export function BatchScheduleScreen() {
           {/* Today's & Upcoming Schedule Details (5 cols) */}
           <div className="lg:col-span-5 bg-white rounded-xl border border-[#EAE8E2] p-3 shadow-2xs flex flex-col min-h-0 overflow-hidden">
             <div className="flex items-center justify-between mb-2">
-              <h4 className="text-[12px] font-bold text-[#161616]">
+              <p className="text-[12px] font-bold text-[#161616]">
                 Upcoming Classes & 1:1s
-              </h4>
+              </p>
               <span className="text-[9px] font-semibold text-[#8E7CF8] bg-[#8E7CF8]/10 px-2 py-0.5 rounded-full">
                 Asia/Kolkata
               </span>

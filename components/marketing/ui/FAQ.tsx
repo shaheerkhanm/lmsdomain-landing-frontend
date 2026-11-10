@@ -59,7 +59,7 @@ export function FAQ({
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
           {eyebrow && (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] border border-[#DDD6FE] text-[11px] sm:text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-4">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] border border-[#DDD6FE] text-[11px] sm:text-xs font-semibold uppercase tracking-[0.08em] text-[#5925DC] mb-4">
               <span>✦</span>
               <span>{eyebrow}</span>
             </div>

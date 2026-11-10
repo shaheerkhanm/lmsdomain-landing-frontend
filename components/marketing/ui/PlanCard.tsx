@@ -68,7 +68,7 @@ export function PlanCard({
             {periodLabel}
           </span>
           {taxLabel && (
-            <span className="text-[11px] font-semibold text-[#8F94A0] uppercase ml-1">
+            <span className="text-[11px] font-semibold text-[#5F6368] uppercase ml-1">
               {taxLabel}
             </span>
           )}
