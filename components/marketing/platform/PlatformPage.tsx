@@ -123,11 +123,22 @@ function getPlatformScreen(slug: string) {
   }
 }
 
+const PLATFORM_SHORT_NAMES: Record<string, string> = {
+  teach: "Teach",
+  assess: "Assess",
+  manage: "Manage",
+  sell: "Sell",
+  brand: "Brand",
+  ai: "AI",
+  security: "Security",
+};
+
 export function PlatformPage({ data }: PlatformPageProps) {
+  const pageName = PLATFORM_SHORT_NAMES[data.slug] || data.slug.charAt(0).toUpperCase() + data.slug.slice(1);
   const breadcrumbs = [
     { name: "Home", path: "/" },
     { name: "Platform", path: "/platform" },
-    { name: data.title, path: `/platform/${data.slug}` },
+    { name: pageName, path: `/platform/${data.slug}` },
   ];
 
   return (
