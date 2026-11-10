@@ -63,11 +63,11 @@ async function baseMetadata({
   }
 
   const fallback = LEGAL_SEO[legal];
-  const rawTitle = (page.seo?.metatitle && page.seo.metatitle.length >= 40)
+  const rawTitle = (page.seo?.metatitle && page.seo.metatitle.length >= 50 && page.seo.metatitle.length <= 60)
     ? page.seo.metatitle
     : fallback?.title || fullTitle(page.title);
   const title = fullTitle(rawTitle);
-  const description = (page.seo?.metadescription && page.seo.metadescription.length >= 100)
+  const description = (page.seo?.metadescription && page.seo.metadescription.length >= 140 && page.seo.metadescription.length <= 160)
     ? page.seo.metadescription
     : fallback?.description || `Official ${page.title} documentation for LMS Domain.`;
 

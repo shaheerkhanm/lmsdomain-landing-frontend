@@ -36,10 +36,14 @@ async function baseMetadata(): Promise<Metadata> {
     getCustomPlanPage().catch(() => null),
   ]);
 
-  const rawTitle = liveOr(seo?.metatitle || pageData?.seo?.title, DEFAULT_TITLE) || DEFAULT_TITLE;
+  const rawTitle = (seo?.metatitle && seo.metatitle.length >= 45)
+    ? seo.metatitle
+    : DEFAULT_TITLE;
   const title = fullTitle(rawTitle);
 
-  const description = liveOr(seo?.metadescription || pageData?.seo?.description, DEFAULT_DESCRIPTION) || DEFAULT_DESCRIPTION;
+  const description = (seo?.metadescription && seo.metadescription.length >= 140)
+    ? seo.metadescription
+    : DEFAULT_DESCRIPTION;
 
   return {
     metadataBase: getMetadataBase(),
