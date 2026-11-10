@@ -3,6 +3,8 @@ import { getContactPage, getSiteContact, fetchSeo } from "@/lib/api/content";
 import { ContactView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
+import { officialSocialProfiles } from "@/content/entity";
 
 const DEFAULT_TITLE = "Contact Us: Sales, Onboarding & Support | LMS Domain";
 const DEFAULT_DESCRIPTION =
@@ -80,7 +82,13 @@ export default async function ContactPage() {
       postalCode: siteContact.postalCode,
       addressCountry: siteContact.country,
     },
+    sameAs: [...officialSocialProfiles],
   };
+
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" },
+  ];
 
   return (
     <>
@@ -88,6 +96,7 @@ export default async function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
       />
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
       <ContactView data={data} />
     </>
   );

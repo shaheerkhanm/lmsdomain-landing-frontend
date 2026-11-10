@@ -5,6 +5,8 @@ import { Eyebrow, CTABand } from "@/components/marketing/ui";
 import { getSiteAbout, fetchSeo } from "@/lib/api/content";
 import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardMetadata } from "@/lib/pages";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
+import { officialSocialProfiles } from "@/content/entity";
 import { Linkedin, Building2, MapPin, Calendar, Users, Award, BookOpen, Video, ArrowRight } from "lucide-react";
 
 const DEFAULT_ABOUT_TITLE = "About LMS Domain: Built for Serious Educators | LMS Domain";
@@ -66,7 +68,13 @@ export default async function AboutRoute() {
       addressRegion: about.region,
       addressCountry: about.country,
     },
+    sameAs: [...officialSocialProfiles],
   };
+
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "About Us", path: "/about" },
+  ];
 
   return (
     <>
@@ -74,6 +82,7 @@ export default async function AboutRoute() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
       />
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
       <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
         {/* 1. Hero & Outcome H1 */}
         <section className="relative pt-[130px] sm:pt-[150px] pb-12 sm:pb-16 overflow-x-clip bg-[#FAF9F6]">

@@ -109,5 +109,19 @@ export const entity = {
   },
 } as const;
 
+/**
+ * Official social profile handles for Organization sameAs and footer links.
+ * NOTE: Only profiles that are live and verified may stay in this list.
+ * Any entry removed from here will automatically be excluded from Organization
+ * JSON-LD sameAs and hidden from footer social icon links.
+ */
+export const officialSocialProfiles = [
+  "https://www.linkedin.com/company/lmsdomain",
+  "https://www.instagram.com/lmsdomain",
+  "https://www.youtube.com/@lmsdomain",
+  "https://www.facebook.com/lmsdomain",
+  "https://x.com/lmsdomain",
+] as const;
+
 export type Entity = typeof entity;
 

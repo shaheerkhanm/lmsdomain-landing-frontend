@@ -1,5 +1,5 @@
 import React from "react";
-import { entity } from "@/content/entity";
+import { entity, officialSocialProfiles } from "@/content/entity";
 import { DEFAULT_PRICING_V2, type PricingV2Data } from "@/config/pricing";
 
 const CANONICAL_ORIGIN = entity.facts.website || "https://lmsdomain.com";
@@ -41,8 +41,7 @@ export function getOrganizationJsonLd() {
       email: entity.facts.supportEmail,
       contactType: "customer support",
     },
-    // TODO: Shaheer to supply social profile URLs (LinkedIn, YouTube, Instagram, X)
-    sameAs: [],
+    sameAs: [...officialSocialProfiles],
   };
 }
 

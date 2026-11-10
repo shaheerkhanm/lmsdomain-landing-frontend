@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getCustomPlanPage, fetchSeo } from "@/lib/api/content";
 import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { liveOr } from "@/lib/claims";
 import {
   BrandPreviewProvider,
@@ -87,6 +88,11 @@ export default async function CustomPlanPage() {
 
   const defaultColor = pageData.hero.brandPreview?.colours?.[0] || "#7B5CF5";
 
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Custom LMS", path: "/custom-lms" },
+  ];
+
   return (
     <BrandPreviewProvider defaultColor={defaultColor}>
       {/* Service Structured Data */}
@@ -94,6 +100,7 @@ export default async function CustomPlanPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
       />
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
 
       <div className="min-h-screen bg-white font-urbanist">
         {/* 1. Hero with Brand Preview Signature Element */}

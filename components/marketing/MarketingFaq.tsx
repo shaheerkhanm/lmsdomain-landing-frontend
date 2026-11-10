@@ -32,8 +32,25 @@ export function MarketingFaq({
     setOpenIndex(openIndex === idx ? null : idx);
   };
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
   return (
     <section id={id} className="bg-white py-20 lg:py-28 font-urbanist border-b border-[#ECEDEF]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Large Rounded Enclosure Card (Landing FAQ Card Style) */}
         <div className="rounded-[32px] sm:rounded-[40px] bg-white border border-[#ECEDEF] p-8 sm:p-12 lg:px-14 lg:pb-14 lg:pt-10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.06)]">

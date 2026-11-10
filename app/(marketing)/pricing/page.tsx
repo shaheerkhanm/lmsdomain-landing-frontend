@@ -5,7 +5,11 @@ import { getPricingPage, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, getSiteUrl, applySeo } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
-import { getSoftwareApplicationJsonLd } from "@/components/seo/JsonLd";
+import {
+  getSoftwareApplicationJsonLd,
+  getBreadcrumbListJsonLd,
+  JsonLdScript,
+} from "@/components/seo/JsonLd";
 import { getCountryHeaderCurrency, type PricingCurrency } from "@/lib/currency";
 
 import { DEFAULT_PRICING_HERO } from "@/content/pricing/page";
@@ -100,6 +104,10 @@ export default async function PricingPage({
   const siteUrl = getSiteUrl();
 
   const jsonLd = getSoftwareApplicationJsonLd(data.pricingV2, "/pricing");
+  const breadcrumbJsonLd = getBreadcrumbListJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Pricing", path: "/pricing" },
+  ]);
 
   return (
     <>
@@ -109,6 +117,7 @@ export default async function PricingPage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       )}
+      <JsonLdScript data={breadcrumbJsonLd} />
       <Suspense fallback={<div className="min-h-screen bg-white" />}>
         <PricingView
           data={data}

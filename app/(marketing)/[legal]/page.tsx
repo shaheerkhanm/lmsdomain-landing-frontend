@@ -4,6 +4,7 @@ import { getLegalPage, getLegalPages, fetchSeo } from "@/lib/api/content";
 import { LegalView } from "@/components/marketing/LegalView";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 
 interface LegalPageProps {
   params: Promise<{
@@ -104,5 +105,15 @@ export default async function LegalPage({ params }: LegalPageProps) {
     notFound();
   }
 
-  return <LegalView page={page} />;
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: page.title, path: `/${page.slug}` },
+  ];
+
+  return (
+    <>
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
+      <LegalView page={page} />
+    </>
+  );
 }

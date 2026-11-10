@@ -5,6 +5,7 @@ import { Eyebrow, CTABand } from "@/components/marketing/ui";
 import { customersPageData } from "@/content/customers";
 import { getHomeClients } from "@/lib/api/content";
 import { fullTitle, getMetadataBase } from "@/lib/site";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { Sparkles, FileText, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -24,8 +25,14 @@ export default async function CustomersRoute() {
     return !/^client\s*-?\s*\d+/i.test(name);
   });
 
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Customers", path: "/customers" },
+  ];
+
   return (
     <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
       {/* 1. Hero & Outcome H1 */}
       <section className="relative pt-[130px] sm:pt-[150px] pb-12 sm:pb-16 overflow-x-clip bg-[#FAF9F6]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
