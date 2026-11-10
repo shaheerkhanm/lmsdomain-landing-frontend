@@ -51,43 +51,48 @@ export async function GET() {
 
 ${entity.confirmedFeatures.map((f) => `- **${f.title}**: ${f.description}`).join("\n")}
 
-## Plans, Pricing & Subscription Tiers (Phase 3)
+## Plans, Pricing & Subscription Tiers
 
-All subscriptions include a 15-day free trial on any plan, 0% platform sales commission on course sales (gateways charge standard processing fees), custom domain with free SSL, automated GST and B2B GST invoices, and Zoom live classes.
+All plans come with a 15-day free trial on any plan, 0% commission on your sales (gateway processing fees apply), custom domain with SSL, automated GST and B2B GST invoices, and Zoom live classes.
 
 ### 1. Starter Plan
 - Price (INR): ₹3,999/month (billed monthly) or ₹3,333/month / ₹39,990/year (billed yearly, 2 months free)
 - Price (USD): $49/month (billed monthly) or $41/month / $490/year (billed yearly, 2 months free)
 - Active Learners: 500
-- Admin/Instructor Seats: 1
-- Courses: Unlimited
-- Key Features: Custom domain, recorded video lessons with drip release, Zoom live classes, Razorpay/Paytm/Stripe/DOKU checkout, automated GST receipts.
-- Who it is for: Solo educators, creators, and new coaching academies launching their first online academy.
+- Team Seats: 3
+- Storage: 100 GB
+- Bandwidth: 250 GB/month
+- Key Features: Your own domain with SSL, 0% commission on your sales, courses, batches and drip release, Zoom live classes, tests, question banks, certificates, Razorpay, Paytm, Stripe and DOKU checkout, coupons, GST invoices, email notifications, blog, ebooks, data export.
+- Who it is for: Solo educators and new academies launching on their own domain.
 
 ### 2. Growth Plan
 - Price (INR): ₹7,999/month (billed monthly) or ₹6,666/month / ₹79,990/year (billed yearly, 2 months free)
 - Price (USD): $99/month (billed monthly) or $82/month / $990/year (billed yearly, 2 months free)
 - Active Learners: 2,000
-- Admin/Instructor Seats: 5
-- Courses: Unlimited
-- Key Features: Everything in Starter plus timed mock tests and question banks, batch schedules and rosters, automated class attendance logs, branded PDF certificates.
-- Who it is for: Growing test-prep institutes and tuition academies running multiple shifts and morning/evening batches.
+- Team Seats: 10
+- Storage: 300 GB
+- Bandwidth: 1,000 GB/month
+- Key Features: Everything in Starter plus 1:1 tutor bookings, bootcamps, SMS notifications, offline payment approval, B2B GST invoices, custom fonts and advanced branding, knowledge base, video watermarking.
+- Who it is for: Coaching institutes running several batches.
 
-### 3. Scale Plan
+### 3. Pro Plan
 - Price (INR): ₹14,999/month (billed monthly) or ₹12,499/month / ₹149,990/year (billed yearly, 2 months free)
 - Price (USD): $199/month (billed monthly) or $165/month / $1,990/year (billed yearly, 2 months free)
-- Active Learners: 10,000
-- Admin/Instructor Seats: 15
-- Courses: Unlimited
-- Key Features: Everything in Growth plus Domie AI course-grounded teaching assistant, course metadata drafting, custom brand colors and fonts, priority support.
-- Who it is for: Established coaching institutes, professional academies, and training providers scaling large cohorts across India.
+- Active Learners: 5,000
+- Team Seats: 25
+- Storage: 1,000 GB
+- Bandwidth: 3,000 GB/month
+- Key Features: Everything in Growth plus Domie AI assistant (fair-use limit), learner device limits, custom roles and permissions, white-label (remove "Powered by LMS Domain"), priority support.
+- Who it is for: Larger academies and training companies.
 
 ### 4. Enterprise Plan
-- Price: Custom pricing based on volume and requirements.
-- Active Learners: Unlimited
-- Admin/Instructor Seats: Unlimited
-- Key Features: Dedicated account manager, custom database setup, legacy LMS data migration, custom SLAs, and custom integration assistance.
-- Who it is for: Large multi-branch coaching chains, universities, and enterprise corporate upskilling programs.
+- Price: Custom pricing ("Talk to us").
+- Active Learners: Custom
+- Team Seats: Custom
+- Storage: Custom
+- Bandwidth: Custom
+- Key Features: Multiple academies or branches, custom features, uptime SLA, free migration, dedicated account manager.
+- Who it is for: Multi-branch institutes and enterprise networks.
 
 ## Who LMS Domain Is For (Solutions)
 

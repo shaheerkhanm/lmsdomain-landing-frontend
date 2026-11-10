@@ -21,14 +21,14 @@ export async function GET() {
 - [Security](${origin}/platform/security): Protect courses with dynamic video watermarks, student device sign-in limits, and role-based permissions.
 - [Domie AI](${origin}/platform/ai): Course-grounded AI HelpDesk student tutor, metadata drafting, and daily admin operational brief on the Pro plan.
 
-## Pricing & Plans (Phase 3)
+## Pricing & Plans
 
-All plans come with a 15-day free trial, 0% platform sales commission (you keep 100% of course earnings; standard payment gateway fees apply), custom domain, and automated GST invoices.
+All plans come with a 15-day free trial, 0% commission on your sales (gateway processing fees apply), custom domain with SSL, and automated GST invoices.
 
-- **Starter Plan**: ₹3,999/month ($49/month) billed monthly, or ₹3,333/month ($41/month) billed yearly (2 months free). For solo educators and new academies launching on their own domain. Includes 500 active learners, 1 instructor seat, unlimited courses, and Zoom live classes.
-- **Growth Plan**: ₹7,999/month ($99/month) billed monthly, or ₹6,666/month ($82/month) billed yearly (2 months free). For growing academies running multiple batches. Includes 2,000 active learners, 5 instructor seats, mock tests, and batch scheduling.
-- **Scale Plan**: ₹14,999/month ($199/month) billed monthly, or ₹12,499/month ($165/month) billed yearly (2 months free). For established institutes. Includes 10,000 active learners, 15 instructor seats, and Domie AI teaching assistant.
-- **Enterprise Plan**: Custom pricing. For large education organizations requiring custom learner limits, dedicated database, and tailored migration services.
+- **Starter Plan**: ₹3,999/month ($49/month) billed monthly, or ₹3,333/month ($41/month) billed yearly (2 months free). For solo educators and new academies. Includes 500 active learners, 3 team seats, courses, drip release, and Zoom live classes.
+- **Growth Plan**: ₹7,999/month ($99/month) billed monthly, or ₹6,666/month ($82/month) billed yearly (2 months free). For coaching institutes running several batches. Includes 2,000 active learners, 10 team seats, 1:1 tutor bookings, bootcamps, and video watermarking.
+- **Pro Plan**: ₹14,999/month ($199/month) billed monthly, or ₹12,499/month ($165/month) billed yearly (2 months free). For larger academies and training companies. Includes 5,000 active learners, 25 team seats, Domie AI assistant, device limits, and custom roles.
+- **Enterprise Plan**: Custom pricing. For multi-branch institutes requiring custom active learners, team seats, SLAs, and dedicated migration assistance.
 - [View Full Pricing Table](${origin}/pricing): Detailed comparison of all features and limits.
 
 ## Solutions (Who It Is For)
