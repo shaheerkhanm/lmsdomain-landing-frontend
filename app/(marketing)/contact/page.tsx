@@ -78,6 +78,4 @@ export default async function ContactPage() {
       <ContactView data={data} />
     </>
   );
-    </>
-  );
 }
