@@ -2,7 +2,7 @@ import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
 
-const BASE_URL = "https://staging.lmsdomain.online";
+const BASE_URL = process.env.SITE_URL || "https://lmsdomain.com";
 const OUT_DIR = path.join(process.cwd(), "docs/phase1/staging");
 
 if (!fs.existsSync(OUT_DIR)) {
