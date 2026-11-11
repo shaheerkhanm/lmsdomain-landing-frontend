@@ -455,6 +455,22 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     secondaryCta: { label: empty.content.secondaryCta.label, href: empty.content.secondaryCta.href, action: "contact" as const },
   };
 
+  let enterprise: PricingEnterprise | undefined = undefined;
+  if (enterpriseDoc && enterpriseDoc.isActive !== false && !enterpriseDoc.isDeleted && enterpriseDoc.data) {
+    const entData = (enterpriseDoc.data || {}) as Record<string, any>;
+    const entTitle = liveOr(entData.title, "Need your own branded LMS?");
+    const entDesc = liveOr(entData.description, "Get a Custom Plan: your academy, set up and supported by our team.");
+    enterprise = {
+      title: entTitle || "Need your own branded LMS?",
+      description: entDesc || "Get a Custom Plan: your academy, set up and supported by our team.",
+      cta: {
+        label: entData.cta?.label || "Explore Custom Plan",
+        href: entData.cta?.href || "/custom-lms",
+        action: "link",
+      },
+    };
+  }
+
   const faqItems = getPricingFaqs(pricingV2.trialDays);
   const faqHeading = faqSection.content;
   const faq = {
@@ -485,6 +501,7 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     plans: mappedPlans,
     emptyState: mappedPlans.length === 0 ? emptyState : undefined,
     comparison: comparisonGroups.length > 0 ? { groups: comparisonGroups } : undefined,
+    enterprise,
     faq,
     cta: {
       title: band.content.title,
