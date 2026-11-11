@@ -41,11 +41,11 @@ export function PricingEnterprise({ data }: PricingEnterpriseProps) {
 
               <div>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#161616] tracking-tight leading-snug">
-                  Need multi-academy scale, custom features, or a dedicated SLA?
+                  {data?.title || "Need multi-academy scale, custom features, or a dedicated SLA?"}
                 </h2>
                 <p className="type-body text-[#6B6F76] mt-3 max-w-2xl text-sm sm:text-base leading-relaxed">
-                  We build tailored infrastructure for training companies, education groups,
-                  and growing academy networks requiring dedicated hosting and bespoke workflows.
+                  {data?.description ||
+                    "We build tailored infrastructure for training companies, education groups, and growing academy networks requiring dedicated hosting and bespoke workflows."}
                 </p>
               </div>
 
@@ -72,10 +72,10 @@ export function PricingEnterprise({ data }: PricingEnterpriseProps) {
               </button>
 
               <Link
-                href="/custom-lms"
+                href={data?.cta?.href || "/custom-lms"}
                 className="w-full px-7 py-3.5 rounded-full bg-white hover:bg-[#FAF9F6] text-[#161616] border border-[#D5D2CA] text-sm font-semibold transition-all shadow-2xs active:scale-95 inline-flex items-center justify-center gap-2 text-center"
               >
-                <span>Explore Custom LMS</span>
+                <span>{data?.cta?.label || "Explore Custom LMS"}</span>
                 <ArrowRight className="size-4 text-[#6B6F76]" />
               </Link>
             </div>

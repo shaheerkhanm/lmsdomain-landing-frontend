@@ -307,7 +307,8 @@ function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): P
 }
 
 export const getPricingPage = cache(async function getPricingPage(): Promise<PricingPageModel> {
-  const [empty, band, faqSection, comparisonHeading, pricingV2Res, pricingV2Cms, seo, enterpriseDoc] = await Promise.all([
+  const [heroCms, empty, band, faqSection, comparisonHeading, pricingV2Res, pricingV2Cms, seo, enterpriseDoc] = await Promise.all([
+    fetchCms("pricing-hero", ["cms", "pricing"]),
     getSection("pricing-empty"),
     getSection("pricing-footer-card"),
     getSection("pricing-faq"),
@@ -437,9 +438,13 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     : undefined;
 
   const hero = {
-    eyebrow: DEFAULT_PRICING_HERO.eyebrow,
-    title: "Simple pricing. 0% commission on every plan.",
-    subtitle: `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`,
+    eyebrow: (heroCms?.tags && heroCms.tags[0]) || DEFAULT_PRICING_HERO.eyebrow,
+    title: liveOr(heroCms?.title, DEFAULT_PRICING_HERO.title) || DEFAULT_PRICING_HERO.title,
+    subtitle:
+      liveOr(
+        heroCms?.subTitle || heroCms?.description,
+        `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
+      ) || DEFAULT_PRICING_HERO.subtitle,
   };
 
   const emptyState = {
@@ -449,6 +454,22 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     primaryCta: { label: empty.content.primaryCta.label, action: "demo" as const },
     secondaryCta: { label: empty.content.secondaryCta.label, href: empty.content.secondaryCta.href, action: "contact" as const },
   };
+
+  let enterprise: PricingEnterprise | undefined = undefined;
+  if (enterpriseDoc && enterpriseDoc.isActive !== false && !enterpriseDoc.isDeleted && enterpriseDoc.data) {
+    const entData = (enterpriseDoc.data || {}) as Record<string, any>;
+    const entTitle = liveOr(entData.title, "Need your own branded LMS?");
+    const entDesc = liveOr(entData.description, "Get a Custom Plan: your academy, set up and supported by our team.");
+    enterprise = {
+      title: entTitle || "Need your own branded LMS?",
+      description: entDesc || "Get a Custom Plan: your academy, set up and supported by our team.",
+      cta: {
+        label: entData.cta?.label || "Explore Custom Plan",
+        href: entData.cta?.href || "/custom-lms",
+        action: "link",
+      },
+    };
+  }
 
   const faqItems = getPricingFaqs(pricingV2.trialDays);
   const faqHeading = faqSection.content;
@@ -480,6 +501,7 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     plans: mappedPlans,
     emptyState: mappedPlans.length === 0 ? emptyState : undefined,
     comparison: comparisonGroups.length > 0 ? { groups: comparisonGroups } : undefined,
+    enterprise,
     faq,
     cta: {
       title: band.content.title,
@@ -489,7 +511,7 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     band: band.content,
     comparisonHeading: comparisonHeading.content,
     sources: {
-      hero: "code",
+      hero: heroCms?.title ? "api" : "code",
       plans: sourceMode,
       empty: empty.source,
       comparison: sourceMode,
@@ -989,17 +1011,9 @@ export async function getAuthCopy(): Promise<AuthCopy> {
 export async function getAuthCopyWithSource(): Promise<{ copy: AuthCopy; source: ContentSourceKind }> {
   const section = await getSection("auth-copy");
   const copy = { ...(section.content as AuthCopy) };
-  // Phase 2 copy is code-owned until cutover; auth-copy in CMS contains stale claims (DRM, verifiable certificates)
-  copy.sidePanel = {
-    ...copy.sidePanel,
-    bullets: [
-      "Course builder with lessons and drip release",
-      "Zoom live classes",
-      "Tests and question banks",
-      "Branded certificates",
-      "Payments with GST invoices",
-    ],
-  };
+  if (copy.sidePanel?.bullets) {
+    copy.sidePanel.bullets = keepLive(copy.sidePanel.bullets, (b) => b);
+  }
   return { copy, source: section.source };
 }
 
