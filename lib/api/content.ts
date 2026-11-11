@@ -989,17 +989,9 @@ export async function getAuthCopy(): Promise<AuthCopy> {
 export async function getAuthCopyWithSource(): Promise<{ copy: AuthCopy; source: ContentSourceKind }> {
   const section = await getSection("auth-copy");
   const copy = { ...(section.content as AuthCopy) };
-  // Phase 2 copy is code-owned until cutover; auth-copy in CMS contains stale claims (DRM, verifiable certificates)
-  copy.sidePanel = {
-    ...copy.sidePanel,
-    bullets: [
-      "Course builder with lessons and drip release",
-      "Zoom live classes",
-      "Tests and question banks",
-      "Branded certificates",
-      "Payments with GST invoices",
-    ],
-  };
+  if (copy.sidePanel?.bullets) {
+    copy.sidePanel.bullets = keepLive(copy.sidePanel.bullets, (b) => b);
+  }
   return { copy, source: section.source };
 }
 

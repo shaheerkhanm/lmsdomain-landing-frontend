@@ -2,10 +2,12 @@
 
 import React from "react";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
+import { useSectionContent } from "@/components/content/PageContent";
+import { liveOr } from "@/lib/claims";
 
 export function MainHeading({ data }: { data?: any }) {
-  // Phase 2 copy is code-owned until cutover; site-home-hero is still used by the live site.
-  const title = defaultHeroContent.title;
+  const heroContent = useSectionContent("home-hero", defaultHeroContent);
+  const title = liveOr(heroContent.title, defaultHeroContent.title);
 
   return (
     <div className="flex flex-col items-center text-center max-w-4xl mx-auto font-urbanist">
