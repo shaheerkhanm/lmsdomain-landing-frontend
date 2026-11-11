@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { getSiteIdentity, getBrand, iconUrls, DEFAULT_THEME_LIGHT, DEFAULT_THEME_DARK } from "@/lib/siteIdentity";
 import { BrandProvider } from "@/lib/brand-context";
 import { getMetadataBase, isProductionSite } from "@/lib/site";
-import { Urbanist, Inter, Manrope } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -15,24 +15,70 @@ import { getSiteNavigation } from "@/lib/api/content";
 import { MotionConfig } from "motion/react";
 import DemoHashListener from "@/components/marketing/DemoHashListener";
 
-const urbanist = Urbanist({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const urbanist = localFont({
+  src: [
+    {
+      path: "./fonts/urbanist.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/urbanist.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/urbanist.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "./fonts/urbanist.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-urbanist",
   display: "swap",
   preload: true,
 });
 
-const inter = Inter({
-  subsets: ["latin"],
+const inter = localFont({
+  src: [
+    {
+      path: "./fonts/inter.woff2",
+      weight: "100 900",
+      style: "normal",
+    },
+  ],
   variable: "--font-inter",
   display: "swap",
   preload: false,
 });
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+const manrope = localFont({
+  src: [
+    {
+      path: "./fonts/manrope.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/manrope.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/manrope.woff2",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "./fonts/manrope.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-manrope",
   display: "swap",
   preload: false,
