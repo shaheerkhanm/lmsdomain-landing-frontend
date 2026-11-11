@@ -307,7 +307,8 @@ function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): P
 }
 
 export const getPricingPage = cache(async function getPricingPage(): Promise<PricingPageModel> {
-  const [empty, band, faqSection, comparisonHeading, pricingV2Res, pricingV2Cms, seo, enterpriseDoc] = await Promise.all([
+  const [heroCms, empty, band, faqSection, comparisonHeading, pricingV2Res, pricingV2Cms, seo, enterpriseDoc] = await Promise.all([
+    fetchCms("pricing-hero", ["cms", "pricing"]),
     getSection("pricing-empty"),
     getSection("pricing-footer-card"),
     getSection("pricing-faq"),
@@ -437,9 +438,13 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     : undefined;
 
   const hero = {
-    eyebrow: DEFAULT_PRICING_HERO.eyebrow,
-    title: "Simple pricing. 0% commission on every plan.",
-    subtitle: `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`,
+    eyebrow: (heroCms?.tags && heroCms.tags[0]) || DEFAULT_PRICING_HERO.eyebrow,
+    title: liveOr(heroCms?.title, DEFAULT_PRICING_HERO.title) || DEFAULT_PRICING_HERO.title,
+    subtitle:
+      liveOr(
+        heroCms?.subTitle || heroCms?.description,
+        `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
+      ) || DEFAULT_PRICING_HERO.subtitle,
   };
 
   const emptyState = {
@@ -489,7 +494,7 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     band: band.content,
     comparisonHeading: comparisonHeading.content,
     sources: {
-      hero: "code",
+      hero: heroCms?.title ? "api" : "code",
       plans: sourceMode,
       empty: empty.source,
       comparison: sourceMode,
