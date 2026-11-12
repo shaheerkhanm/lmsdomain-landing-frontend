@@ -87,12 +87,13 @@ export async function HomePage() {
           heroSubtitle={pricingPage?.hero?.subtitle}
         />
 
-        {/* 9. FAQ */}
+        {/* 12. FAQ (Sendr Dark Panel Style) */}
         <FAQ
           items={keepLive(homeFaqItems, (item) => [item.question, item.answer])}
           title="Frequently asked questions"
-          subtitle="Everything you need to know about setting up and running your academy on LMS Domain."
-          className="bg-white border-y border-[#EAE8E2]"
+          eyebrow="FAQs"
+          variant="dark-panel"
+          contactHref="/contact"
         />
 
         {/* 10. FINAL CTA */}
