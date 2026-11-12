@@ -54,30 +54,18 @@ export function BannerSection({
 
   return (
     <section className="relative pt-[100px] min-[900px]:pt-[93.5px] pb-0 font-sans overflow-x-clip bg-white isolate">
-      {/* Drifting Ambient Blobs behind dots (§4) */}
+      {/* Animated Brand Gradient Dot Grid (V1i §1) */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[720px] overflow-hidden -z-20 select-none"
+        className="hero-dot-grid pointer-events-none absolute inset-x-0 top-0 h-[720px] -z-10 select-none opacity-[0.45]"
         aria-hidden="true"
-      >
-        {/* Blob 1: Violet */}
-        <div className="hero-blob hero-blob-1 absolute left-1/2 -top-[120px] -translate-x-[65%] w-[640px] h-[640px] rounded-full bg-[#8B6CFF] opacity-[0.18] blur-[90px] will-change-transform" />
-        {/* Blob 2: Pink */}
-        <div className="hero-blob hero-blob-2 absolute left-1/2 -top-[60px] -translate-x-[20%] w-[580px] h-[580px] rounded-full bg-[#E2539B] opacity-[0.16] blur-[90px] will-change-transform" />
-        {/* Blob 3: Orange */}
-        <div className="hero-blob hero-blob-3 absolute left-1/2 top-[40px] -translate-x-[45%] w-[520px] h-[520px] rounded-full bg-[#F2894A] opacity-[0.15] blur-[90px] will-change-transform" />
-      </div>
+      />
 
-      {/* Dotted pattern masked with radial fade (§4) */}
+      {/* Soft white radial behind text to preserve crisp readability */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[680px] -z-10 select-none"
+        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[920px] h-[520px] -z-10 select-none"
         style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(108, 75, 255, 0.12) 1.2px, transparent 1.2px)",
-          backgroundSize: "22px 22px",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 70% 65% at 50% 38%, black 25%, transparent 80%)",
-          maskImage:
-            "radial-gradient(ellipse 70% 65% at 50% 38%, black 25%, transparent 80%)",
+          background:
+            "radial-gradient(ellipse 65% 55% at 50% 36%, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0) 100%)",
         }}
         aria-hidden="true"
       />
