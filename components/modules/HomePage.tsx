@@ -47,7 +47,11 @@ export async function HomePage() {
 
   return (
     <PageContentProvider value={content}>
-      <div className="relative font-urbanist selection:bg-[#161616] selection:text-white bg-[#FAF9F6]">
+      <div
+        id="home-page-root"
+        className="relative font-urbanist selection:bg-[#161616] selection:text-white transition-[background-color] duration-700 ease-out"
+        style={{ backgroundColor: "var(--page-bg, #FAFAFA)" }}
+      >
         {/* 1. HERO (Single H1 on the page + Logo Marquee) */}
         <ContentSource id="home-hero" source={hero.source}>
           <BannerSection clientLogos={clients?.logos || []} />
