@@ -10,11 +10,9 @@ export function MainHeading({ data }: { data?: any }) {
   const title = liveOr(heroContent.title, defaultHeroContent.title);
 
   return (
-    <div className="flex flex-col items-center text-center max-w-4xl mx-auto font-urbanist">
-      <h1 className="text-[32px] sm:text-5xl lg:text-[56px] font-semibold tracking-tight text-[#161616] leading-[1.12]">
-        {title}
-      </h1>
-    </div>
+    <h1 className="type-h1-v4 max-w-[15ch] text-[#151517]">
+      {title}
+    </h1>
   );
 }
 

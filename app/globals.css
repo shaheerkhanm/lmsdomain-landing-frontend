@@ -684,6 +684,22 @@ input[type="number"]::-webkit-inner-spin-button {
     opacity: 1;
     transform: none;
   }
+
+  @keyframes mq {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee-v4 {
+    display: flex;
+    width: max-content;
+    animation: mq 38s linear infinite;
+    align-items: center;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -691,5 +707,8 @@ input[type="number"]::-webkit-inner-spin-button {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  .animate-marquee-v4 {
+    animation: none !important;
   }
 }

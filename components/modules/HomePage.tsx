@@ -42,19 +42,12 @@ export async function HomePage() {
   return (
     <PageContentProvider value={content}>
       <div className="relative font-urbanist selection:bg-[#161616] selection:text-white bg-[#FAF9F6]">
-        {/* 1. HERO (Single H1 on the page) */}
+        {/* 1. HERO (Single H1 on the page + Logo Marquee) */}
         <ContentSource id="home-hero" source={hero.source}>
-          <BannerSection data={{}} graphData={{}} />
+          <BannerSection clientLogos={clients?.logos || []} />
         </ContentSource>
 
-        {/* 2. TRUST STRIP (ProofStrip) */}
-        <ProofStrip
-          heading="Academies teaching with LMS Domain"
-          logos={clients?.logos || []}
-          metricsLine="2,000+ learners · 100+ courses · 100+ live classes delivered"
-        />
-
-        {/* 3. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
+        {/* 2. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
         <HowAcademyRunsSection />
 
         {/* 4. SELL ANYWHERE */}
