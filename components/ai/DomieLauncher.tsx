@@ -54,10 +54,11 @@ export function DomieLauncher() {
         className="w-[56px] h-[56px] sm:w-[64px] sm:h-[64px] rounded-full bg-[#16141F] shadow-[0_0_0_3px_rgba(108,75,255,0.35),0_12px_26px_-10px_rgba(108,75,255,0.8)] grid place-items-center overflow-hidden shrink-0 origin-center transition-transform hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-[#6C4BFF]"
       >
         <Image
-          src="/images/ai/domie/domie-bot-sm.webp"
+          src="/images/ai/domie/domie-bot-still.webp"
           alt="Domie AI"
           width={52}
           height={52}
+          sizes="(max-width: 640px) 46px, 52px"
           loading="lazy"
           className="w-[46px] h-[46px] sm:w-[52px] sm:h-[52px] rounded-full object-cover object-center block m-0 p-0 select-none pointer-events-none"
         />

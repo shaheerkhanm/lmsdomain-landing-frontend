@@ -804,6 +804,12 @@ input[type="number"]::-webkit-inner-spin-button {
   .animate-domie-bob {
     animation: domieBob 3s ease-in-out infinite;
   }
+  .animate-domie-float {
+    animation: domieHeroFloat 4s ease-in-out infinite;
+  }
+  .animate-star-twinkle {
+    animation: starTwinkle 2.4s ease-in-out infinite;
+  }
   .animate-spin-slow {
     animation: spinSlow 8s linear infinite;
   }
@@ -816,6 +822,26 @@ input[type="number"]::-webkit-inner-spin-button {
 @media (max-width: 767px) {
   .hero-asm-card {
     --mult: 0.5;
+  }
+}
+
+@keyframes domieHeroFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(2deg);
+  }
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.65);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
   }
 }
 
@@ -1002,6 +1028,8 @@ input[type="number"]::-webkit-inner-spin-button {
   }
   .animate-domie-tw,
   .animate-domie-bob,
+  .animate-domie-float,
+  .animate-star-twinkle,
   .animate-spin-slow,
   .animate-progress-fill {
     animation: none !important;
