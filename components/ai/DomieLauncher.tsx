@@ -5,9 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 
 export function DomieLauncher() {
+  const [mounted, setMounted] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     let showTimer: NodeJS.Timeout | null = null;
     let hideTimer: NodeJS.Timeout | null = null;
 
@@ -29,6 +31,8 @@ export function DomieLauncher() {
       if (hideTimer) clearTimeout(hideTimer);
     };
   }, []);
+
+  if (!mounted) return null;
 
   return (
     <div

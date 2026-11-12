@@ -9,15 +9,10 @@ import DomieAiBand from "@/components/sections/HomePage/DomieAiBand";
 import WhyChooseUsSection from "@/components/sections/HomePage/WhyChooseUsSection";
 import HomeSolutionsSection from "@/components/sections/HomePage/HomeSolutionsSection";
 import PricingTeaserSection from "@/components/sections/HomePage/PricingTeaserSection";
-import dynamic from "next/dynamic";
 import { ProofStrip, FAQ, CTABand } from "@/components/marketing/ui";
 import { BatchFlowScreen } from "@/components/marketing/mockups/screens";
+import { DomieLauncher } from "@/components/ai/DomieLauncher";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
-
-const DomieLauncher = dynamic(
-  () => import("@/components/ai/DomieLauncher").then((mod) => mod.DomieLauncher),
-  { ssr: false }
-);
 import { homeFaqItems } from "@/content/faq";
 import { getSection, getHomeClients, getPricingPage } from "@/lib/api/content";
 import { keepLive } from "@/lib/claims";
