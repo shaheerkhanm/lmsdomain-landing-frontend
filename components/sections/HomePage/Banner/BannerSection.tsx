@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { WandSparkles } from "lucide-react";
 import MainHeading from "./MainHeading";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
@@ -51,18 +52,17 @@ export function BannerSection({
   const hasClientLogos = validClientLogos.length > 0;
 
   return (
-    <section className="pt-[clamp(64px,8vw,80px)] min-[900px]:pt-[clamp(28px,4.5vw,56px)] pb-0 font-sans">
+    <section className="pt-[110px] min-[900px]:pt-[104px] pb-0 font-sans overflow-x-clip">
       <div className="max-w-[1080px] mx-auto px-5 sm:px-6 text-center flex flex-col items-center">
-        {/* Badge above H1 */}
-        <div className="mb-3 sm:mb-3.5">
+        {/* Outlined Pill Badge above H1 (§9) */}
+        <div className="mb-4 sm:mb-5">
           <Link
             href="/platform/ai"
-            className="inline-flex items-center gap-2 text-[12.5px] text-[#535361] hover:text-[#151517] transition-colors flex-wrap justify-center"
+            className="inline-flex items-center gap-[10px] h-[40px] px-[18px] rounded-[999px] border-[1.5px] border-[#6C4BFF] bg-white/60 backdrop-blur-xs text-[15px] sm:text-[16px] font-[500] text-[#5B3DF5] hover:bg-[#F4F1FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#6C4BFF] focus-visible:outline-offset-2 whitespace-nowrap"
           >
-            <span className="inline-flex items-center gap-1.5 bg-[#151517] text-white rounded-[7px] px-2.5 py-1 font-semibold text-[11.5px]">
-              New <span className="bg-gradient-to-r from-[#E2539B] via-[#F2894A] to-[#7B5CFF] bg-clip-text text-transparent not-italic font-bold">Domie AI</span> ›
-            </span>
-            <span>{aiSectionContent.title}</span>
+            <WandSparkles className="w-[18px] h-[18px] text-[#6C4BFF] shrink-0" strokeWidth={1.75} aria-hidden="true" />
+            <span className="hidden sm:inline">Domie AI · AI that works inside your academy</span>
+            <span className="inline sm:hidden text-[14px]">Domie AI · AI inside your academy</span>
           </Link>
         </div>
 
@@ -70,7 +70,7 @@ export function BannerSection({
         <MainHeading data={data} />
 
         {/* Subtitle */}
-        <p className="mt-4 sm:mt-4.5 text-[15px] sm:text-[16px] text-[#535361] leading-[1.5] max-w-[62ch] mx-auto text-center">
+        <p className="mt-4 sm:mt-4.5 text-[15px] sm:text-[16px] text-[#535361] leading-[1.5] max-w-[54ch] mx-auto text-center">
           {effectiveSubtitle}
         </p>
 
