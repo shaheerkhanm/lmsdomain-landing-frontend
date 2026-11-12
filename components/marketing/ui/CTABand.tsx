@@ -37,6 +37,7 @@ export function CTABand({
   return (
     <>
       <section
+        id="cta"
         className={cn(
           "w-full py-20 sm:py-28 font-sans relative overflow-hidden isolate",
           isDark
