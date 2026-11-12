@@ -44,7 +44,7 @@ export function PricingTeaserSection({
   return (
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="plans">
       <div className="max-w-[1080px] mx-auto px-5">
-        <div>
+        <div className="rv-v4">
           <Eyebrow tone="gradient">Pricing</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             {title}
@@ -55,7 +55,7 @@ export function PricingTeaserSection({
         </div>
 
         {/* Large White Sendr-Style Pricing Card */}
-        <div className="mt-10 bg-white border border-[#E8E8EC] rounded-[24px] p-2.5 sm:p-3 shadow-[0_40px_80px_-50px_rgba(20,20,40,0.35)]">
+        <div className="rv-v4 mt-10 bg-white border border-[#E8E8EC] rounded-[24px] p-2.5 sm:p-3 shadow-[0_40px_80px_-50px_rgba(20,20,40,0.35)]">
           {/* Top Toggles Bar */}
           <div className="flex flex-wrap items-center justify-between gap-3 p-3 sm:px-3.5 pb-4">
             {/* Monthly / Yearly Switch */}

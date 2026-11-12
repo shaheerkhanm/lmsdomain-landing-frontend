@@ -32,7 +32,7 @@ export function HomeSolutionsSection() {
   return (
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="solutions">
       <div className="max-w-[1080px] mx-auto px-5">
-        <div>
+        <div className="rv-v4">
           <Eyebrow tone="gradient">Solutions</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             Made for the way you teach
@@ -45,7 +45,7 @@ export function HomeSolutionsSection() {
             <Link
               key={sol.href}
               href={sol.href}
-              className="group relative rounded-[18px] overflow-hidden aspect-[3/4] text-white no-underline isolate flex flex-col justify-end p-4 shadow-sm"
+              className="rv-v4 group relative rounded-[18px] overflow-hidden aspect-[3/4] text-white no-underline isolate flex flex-col justify-end p-4 shadow-sm"
             >
               {/* Photo Background */}
               <Image

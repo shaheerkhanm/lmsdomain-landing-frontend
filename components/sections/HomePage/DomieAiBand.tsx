@@ -87,7 +87,7 @@ export function DomieAiBand() {
       />
 
       <div className="max-w-[1080px] mx-auto px-5">
-        <div>
+        <div className="rv-v4">
           <span className="inline-flex items-center gap-1.5 bg-white/8 border border-white/14 rounded-full px-2.5 py-1 text-xs text-[#D9D3FF] mb-4">
             ✦ Pro plan
           </span>
@@ -105,7 +105,7 @@ export function DomieAiBand() {
           {/* Left: Chat Window */}
           <div
             ref={chatRef}
-            className="bg-[#16161B] border border-white/10 rounded-[18px] overflow-hidden shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]"
+            className="rv-v4 bg-[#16161B] border border-white/10 rounded-[18px] overflow-hidden shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)]"
           >
             {/* Chat Header */}
             <div className="flex items-center gap-3 p-3.5 px-4.5 border-b border-white/8">
@@ -166,7 +166,7 @@ export function DomieAiBand() {
 
           {/* Right: 4 AI Tool Cards */}
           <div
-            className="grid gap-2.5"
+            className="rv-v4 grid gap-2.5"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onFocus={() => setIsPaused(true)}

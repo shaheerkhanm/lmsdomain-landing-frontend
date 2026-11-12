@@ -63,7 +63,7 @@ export function FAQ({
           />
         )}
         <div className="max-w-[1080px] mx-auto px-4 sm:px-6">
-          <div className="rounded-[28px] border border-white/10 bg-gradient-to-b from-[#24242A] to-[#18181C] p-6 sm:p-12 text-white">
+          <div className="rv-v4 rounded-[28px] border border-white/10 bg-gradient-to-b from-[#24242A] to-[#18181C] p-6 sm:p-12 text-white">
             <div className="flex flex-wrap items-end justify-between gap-6 mb-8">
               <div>
                 {eyebrow && (

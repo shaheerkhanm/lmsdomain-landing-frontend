@@ -36,7 +36,7 @@ export function YourBrandSection() {
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="brand">
       <div className="max-w-[1080px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-[clamp(24px,5vw,64px)] items-center">
         {/* Left Column: Brand Copy & Points */}
-        <div>
+        <div className="rv-v4">
           <Eyebrow tone="gradient">Brand</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             Your own domain, logo and colours
@@ -60,7 +60,7 @@ export function YourBrandSection() {
         </div>
 
         {/* Right Column: Dynamic Interactive Browser Window */}
-        <div className="bg-white border border-[#E8E8EC] rounded-[16px] overflow-hidden shadow-[0_40px_80px_-40px_rgba(20,20,40,0.35)]">
+        <div className="rv-v4 bg-white border border-[#E8E8EC] rounded-[16px] overflow-hidden shadow-[0_40px_80px_-40px_rgba(20,20,40,0.35)]">
           {/* Browser Chrome Bar */}
           <div className="flex items-center gap-3 p-2.5 px-3.5 bg-[#F6F6F8] border-b border-[#E8E8EC]">
             <span className="flex items-center gap-1.5 shrink-0" aria-hidden="true">

@@ -79,7 +79,7 @@ export function SellAnywhereSection() {
   return (
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="sell">
       <div className="max-w-[1080px] mx-auto px-5">
-        <div>
+        <div className="rv-v4">
           <Eyebrow tone="gradient">Sell anywhere</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             Collect fees anywhere
@@ -92,7 +92,7 @@ export function SellAnywhereSection() {
         {/* 2-column Grid: Left Checkout Card + Right Gateway List */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-10">
           {/* Left: Checkout Card */}
-          <div className="bg-white border border-[#E8E8EC] rounded-[20px] p-5 sm:p-[22px] shadow-[0_30px_60px_-36px_rgba(20,20,40,0.3)]">
+          <div className="rv-v4 bg-white border border-[#E8E8EC] rounded-[20px] p-5 sm:p-[22px] shadow-[0_30px_60px_-36px_rgba(20,20,40,0.3)]">
             <span className="text-[12px] text-[#535361] uppercase tracking-[0.1em] font-semibold block">
               Checkout
             </span>
@@ -155,7 +155,7 @@ export function SellAnywhereSection() {
           </div>
 
           {/* Right: Gateway List */}
-          <div className="grid gap-3">
+          <div className="rv-v4 grid gap-3">
             {GATEWAYS.map((gw) => (
               <div
                 key={gw.name}
@@ -185,7 +185,7 @@ export function SellAnywhereSection() {
           {FEATURES.map((feat, idx) => (
             <div
               key={idx}
-              className="text-center py-6.5 border-b border-[#E8E8EC] first:border-t"
+              className="rv-v4 text-center py-6.5 border-b border-[#E8E8EC] first:border-t"
             >
               <span className="w-10 h-10 rounded-[12px] bg-white border border-[#E8E8EC] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.3)] flex items-center justify-center mx-auto mb-3.5 text-[#6C4BFF]">
                 {feat.icon}

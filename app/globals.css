@@ -675,12 +675,14 @@ input[type="number"]::-webkit-inner-spin-button {
     transform: translateY(-1px);
   }
 
-  .rv-v4 {
+  .rv-v4,
+  .rv {
     opacity: 0;
     transform: translateY(22px);
     transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
-  .rv-v4.in {
+  .rv-v4.in,
+  .rv.in {
     opacity: 1;
     transform: none;
   }
@@ -798,7 +800,8 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rv-v4 {
+  .rv-v4,
+  .rv {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

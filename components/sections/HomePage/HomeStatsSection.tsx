@@ -129,7 +129,7 @@ export function HomeStatsSection() {
 
   return (
     <section ref={sectionRef} className="pt-0 pb-[clamp(56px,7vw,88px)] font-sans">
-      <div className="max-w-[1080px] mx-auto px-5">
+      <div className="rv-v4 max-w-[1080px] mx-auto px-5">
         <Eyebrow tone="gradient">Proof</Eyebrow>
         <h2 className="type-h2-v4 text-[#151517] mt-1">
           Academies teaching with LMS Domain

@@ -12,6 +12,7 @@ import PricingTeaserSection from "@/components/sections/HomePage/PricingTeaserSe
 import { ProofStrip, FAQ, CTABand } from "@/components/marketing/ui";
 import { BatchFlowScreen } from "@/components/marketing/mockups/screens";
 import { DomieLauncher } from "@/components/ai/DomieLauncher";
+import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { homeFaqItems } from "@/content/faq";
 import { getSection, getHomeClients, getPricingPage } from "@/lib/api/content";
 import { keepLive } from "@/lib/claims";
@@ -53,7 +54,7 @@ export async function HomePage() {
         </ContentSource>
 
         {/* 2. GIANT PRODUCT SCREEN */}
-        <section className="mt-[clamp(56px,7vw,88px)] max-w-[1160px] mx-auto px-5" aria-label="Course batch flow demo">
+        <section className="rv-v4 mt-[clamp(56px,7vw,88px)] max-w-[1160px] mx-auto px-5" aria-label="Course batch flow demo">
           <BatchFlowScreen />
         </section>
 
@@ -107,6 +108,9 @@ export async function HomePage() {
 
         {/* 14. FLOATING DOMIE LAUNCHER */}
         <DomieLauncher />
+
+        {/* 15. SCROLL REVEAL OBSERVER */}
+        <ScrollReveal />
       </div>
     </PageContentProvider>
   );

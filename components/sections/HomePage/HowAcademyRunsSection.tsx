@@ -253,7 +253,7 @@ export function HowAcademyRunsSection() {
   return (
     <section className="py-[clamp(72px,9vw,128px)] font-sans" id="workflow">
       <div className="max-w-[1080px] mx-auto px-5">
-        <div>
+        <div className="rv-v4">
           <Eyebrow tone="gradient">How it works</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             How does an academy run on LMS Domain?
@@ -262,7 +262,7 @@ export function HowAcademyRunsSection() {
 
         {/* White Bordered Workflow Panel */}
         <div
-          className="border border-[#E8E8EC] bg-white rounded-[22px] mt-10 overflow-hidden shadow-xs"
+          className="rv-v4 border border-[#E8E8EC] bg-white rounded-[22px] mt-10 overflow-hidden shadow-xs"
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >

@@ -8,7 +8,7 @@ export function WhyChooseUsSection() {
   return (
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="why">
       <div className="max-w-[1080px] mx-auto px-5">
-        <div>
+        <div className="rv-v4">
           <Eyebrow tone="gradient">Why choose us</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             Why academies choose LMS Domain
@@ -18,7 +18,7 @@ export function WhyChooseUsSection() {
         {/* Stacked Cards Container */}
         <div className="flex flex-col gap-5 sm:gap-[22px] mt-11">
           {/* Card 1: Built for batches */}
-          <article className="lg:sticky lg:top-[96px] bg-white border border-[#E8E8EC] rounded-[24px] grid grid-cols-1 md:grid-cols-[1fr_1.1fr] overflow-hidden shadow-[0_30px_60px_-40px_rgba(20,20,40,0.35)] min-h-[360px]">
+          <article className="rv-v4 lg:sticky lg:top-[96px] bg-white border border-[#E8E8EC] rounded-[24px] grid grid-cols-1 md:grid-cols-[1fr_1.1fr] overflow-hidden shadow-[0_30px_60px_-40px_rgba(20,20,40,0.35)] min-h-[360px]">
             <div className="p-6 sm:p-10 flex flex-col justify-between gap-6">
               <div>
                 <span className="font-mono-code font-medium text-[12px] text-[#8A8A96]">
@@ -68,7 +68,7 @@ export function WhyChooseUsSection() {
           </article>
 
           {/* Card 2: Sell in any currency */}
-          <article className="lg:sticky lg:top-[96px] bg-white border border-[#E8E8EC] rounded-[24px] grid grid-cols-1 md:grid-cols-[1fr_1.1fr] overflow-hidden shadow-[0_30px_60px_-40px_rgba(20,20,40,0.35)] min-h-[360px]">
+          <article className="rv-v4 lg:sticky lg:top-[96px] bg-white border border-[#E8E8EC] rounded-[24px] grid grid-cols-1 md:grid-cols-[1fr_1.1fr] overflow-hidden shadow-[0_30px_60px_-40px_rgba(20,20,40,0.35)] min-h-[360px]">
             <div className="p-6 sm:p-10 flex flex-col justify-between gap-6">
               <div>
                 <span className="font-mono-code font-medium text-[12px] text-[#8A8A96]">
@@ -120,7 +120,7 @@ export function WhyChooseUsSection() {
           </article>
 
           {/* Card 3: Set up with you */}
-          <article className="lg:sticky lg:top-[96px] bg-white border border-[#E8E8EC] rounded-[24px] grid grid-cols-1 md:grid-cols-[1fr_1.1fr] overflow-hidden shadow-[0_30px_60px_-40px_rgba(20,20,40,0.35)] min-h-[360px]">
+          <article className="rv-v4 lg:sticky lg:top-[96px] bg-white border border-[#E8E8EC] rounded-[24px] grid grid-cols-1 md:grid-cols-[1fr_1.1fr] overflow-hidden shadow-[0_30px_60px_-40px_rgba(20,20,40,0.35)] min-h-[360px]">
             <div className="p-6 sm:p-10 flex flex-col justify-between gap-6">
               <div>
                 <span className="font-mono-code font-medium text-[12px] text-[#8A8A96]">

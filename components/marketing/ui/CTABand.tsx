@@ -55,7 +55,7 @@ export function CTABand({
           />
         )}
 
-        <div className="max-w-[1080px] mx-auto px-4 sm:px-6 relative z-10 text-center flex flex-col items-center">
+        <div className="rv-v4 max-w-[1080px] mx-auto px-4 sm:px-6 relative z-10 text-center flex flex-col items-center">
           <span className="eyebrow inline-block font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-grad-v4 mb-3.5 select-none">
             Book a demo
           </span>

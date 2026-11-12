@@ -18,7 +18,7 @@ export function BuiltForBatchesSection() {
   return (
     <section className="py-[clamp(72px,9vw,128px)] font-sans" id="how">
       <div className="max-w-[1080px] mx-auto px-5">
-        <div className="bg-[#0E0E11] text-white rounded-[28px] pt-[clamp(36px,6vw,72px)] px-[clamp(20px,5vw,64px)] pb-0 relative overflow-hidden isolate glow-warm-bottom">
+        <div className="rv-v4 bg-[#0E0E11] text-white rounded-[28px] pt-[clamp(36px,6vw,72px)] px-[clamp(20px,5vw,64px)] pb-0 relative overflow-hidden isolate glow-warm-bottom">
           {/* Eyebrow */}
           <div className="text-left">
             <Eyebrow tone="gradient">Built for batches</Eyebrow>
