@@ -877,15 +877,59 @@ input[type="number"]::-webkit-inner-spin-button {
         background-color: #FAFAFA;
       }
       100% {
-        background-color: #0B0B0F;
+        background-color: #0E0E11;
       }
     }
+  }
+
+  @keyframes domieBob {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes spinSlow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes progressFill {
+    from {
+      width: 0%;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  .animate-domie-bob {
+    animation: domieBob 3s ease-in-out infinite;
+  }
+
+  .animate-spin-slow {
+    animation: spinSlow 8s linear infinite;
+  }
+
+  .animate-progress-fill {
+    animation: progressFill 5s linear forwards;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   #home-page-root {
     transition: none !important;
+  }
+  .animate-domie-bob,
+  .animate-spin-slow,
+  .animate-progress-fill {
+    animation: none !important;
   }
   .rv-v4,
   .rv {
