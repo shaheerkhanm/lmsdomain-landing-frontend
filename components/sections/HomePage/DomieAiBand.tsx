@@ -150,32 +150,40 @@ export function DomieAiBand() {
     aiTutorCard?.answer ||
     "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor review.";
 
-  // Scroll-linked page background fade: #FAFAFA -> #0E0E11 -> #FAFAFA
+  // Scroll-linked page background fade: #FAFAFA -> #0E0E11 -> #FAFAFA (§2b)
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const pageRoot = document.getElementById("home-page-root");
     const el = sectionRef.current;
     if (!el || !pageRoot || prefersReducedMotion) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          pageRoot.setAttribute("data-ai-dark", "true");
-        } else {
-          pageRoot.setAttribute("data-ai-dark", "false");
-        }
-      },
-      {
-        rootMargin: "0px 0px -40% 0px",
-        threshold: [0, 0.1, 0.4, 0.8],
-      }
-    );
+    let ticking = false;
 
-    observer.observe(el);
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          if (!el || !pageRoot) return;
+          const rect = el.getBoundingClientRect();
+          const vh = window.innerHeight;
+
+          // b) Begins to darken when top is at ~85% of viewport, fully dark at ~35%
+          // Same in reverse after the section: begins to lighten when bottom is at ~35% of viewport
+          const isDark = rect.top <= 0.85 * vh && rect.bottom >= 0.35 * vh;
+
+          pageRoot.setAttribute("data-ai-dark", isDark ? "true" : "false");
+        });
+      }
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
       pageRoot.setAttribute("data-ai-dark", "false");
     };
   }, []);
