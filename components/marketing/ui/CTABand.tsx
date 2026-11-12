@@ -28,7 +28,7 @@ export function CTABand({
   secondaryCta = { label: "See pricing", href: "/pricing" },
   handNote = "Your own domain on every plan · Set up with our team",
   className,
-  tone = "dark",
+  tone = "light",
 }: CTABandProps) {
   const [showModal, setShowModal] = useState(false);
 
@@ -36,31 +36,29 @@ export function CTABand({
 
   return (
     <>
-      <div
+      <section
         className={cn(
-          "w-full py-20 sm:py-28 font-sans relative overflow-hidden",
+          "w-full py-20 sm:py-28 font-sans relative overflow-hidden isolate",
           isDark
             ? "bg-[#0E0E11] text-white"
             : tone === "violet"
             ? "bg-[#6C4BFF] text-white"
-            : "bg-[#FAFAFA] text-[#151517] border-y border-[#E8E8EC]",
+            : "bg-[#FAFAFA] text-[#151517] border-t border-[#E8E8EC]",
           className
         )}
       >
-        {/* Soft warm glow behind dark CTA */}
-        {isDark && (
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 glow-warm-bottom opacity-70"
-          />
-        )}
+        {/* Soft warm glow behind CTA */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 -bottom-[220px] -translate-x-1/2 w-[900px] h-[440px] bg-[radial-gradient(closest-side,rgba(242,137,74,0.35),rgba(226,83,155,0.22)_50%,rgba(123,92,255,0.12)_75%,transparent)] -z-10"
+        />
 
         <div className="rv-v4 max-w-[1080px] mx-auto px-4 sm:px-6 relative z-10 text-center flex flex-col items-center">
           <span className="eyebrow inline-block font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-grad-v4 mb-3.5 select-none">
             Book a demo
           </span>
 
-          <h2 className="type-h2-v4 text-white max-w-[20ch] mx-auto">
+          <h2 className={cn("text-[clamp(36px,5vw,58px)] font-bold tracking-[-0.03em] leading-[1.08] max-w-[18ch] mx-auto", isDark ? "text-white" : "text-[#151517]")}>
             {title}
           </h2>
 
@@ -99,12 +97,12 @@ export function CTABand({
           </div>
 
           {handNote && (
-            <p className="font-hand text-[19px] leading-tight text-[#8A8A96] mt-3">
+            <p className={cn("font-hand text-[19px] leading-tight mt-3", isDark ? "text-[#8A8A96]" : "text-[#55555F]")}>
               {handNote}
             </p>
           )}
         </div>
-      </div>
+      </section>
 
       {/* Demo Enquiry Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>

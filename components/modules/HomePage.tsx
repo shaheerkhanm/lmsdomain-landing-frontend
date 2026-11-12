@@ -103,7 +103,7 @@ export async function HomePage() {
           title="See your academy running on LMS Domain."
           subtitle="Book a 20-minute demo. We'll show it with your own course structure."
           buttonText="Book a demo"
-          tone="dark"
+          tone="light"
         />
 
         {/* 14. FLOATING DOMIE LAUNCHER */}
