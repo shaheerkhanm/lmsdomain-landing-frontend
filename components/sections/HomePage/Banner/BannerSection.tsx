@@ -50,7 +50,7 @@ export function BannerSection({
   const hasClientLogos = validClientLogos.length > 0;
 
   return (
-    <section className="pt-[clamp(56px,8vw,104px)] pb-0 font-sans">
+    <section className="pt-[clamp(120px,15vw,144px)] min-[900px]:pt-[clamp(88px,8vw,104px)] pb-0 font-sans">
       <div className="max-w-[1080px] mx-auto px-5 sm:px-6">
         {/* Badge above H1 */}
         <div className="mb-5 sm:mb-[22px]">
