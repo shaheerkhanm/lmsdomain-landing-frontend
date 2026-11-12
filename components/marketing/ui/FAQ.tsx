@@ -21,6 +21,7 @@ export interface FAQProps {
   showJsonLd?: boolean;
   variant?: "default" | "dark-panel";
   contactHref?: string;
+  defaultOpenIndex?: number;
 }
 
 export function FAQ({
@@ -33,6 +34,7 @@ export function FAQ({
   showJsonLd = true,
   variant = "default",
   contactHref = "/contact",
+  defaultOpenIndex,
 }: FAQProps) {
   if (!items || items.length === 0) return null;
 
@@ -50,7 +52,10 @@ export function FAQ({
     })),
   };
 
-  const defaultOpenId = items[1]?.id || `faq-1`;
+  const defaultOpenId =
+    typeof defaultOpenIndex === "number" && items[defaultOpenIndex]
+      ? items[defaultOpenIndex]?.id || `faq-${defaultOpenIndex}`
+      : undefined;
 
   return (
     <section id={id} className={cn("faqband font-sans", className)}>
@@ -99,9 +104,13 @@ export function FAQ({
                       <span className="flex-1 font-medium leading-snug">
                         {item.question}
                       </span>
-                      <span className="w-[38px] h-[38px] rounded-full text-white grid place-items-center text-[20px] font-light shadow-[0_6px_14px_-6px_rgba(0,0,0,0.6)] ml-auto bg-[radial-gradient(circle_at_35%_30%,#444,#000_70%)] group-data-[state=open]:bg-white group-data-[state=open]:text-[#151517] group-data-[state=open]:shadow-[inset_0_0_0_1px_#E8E8EC,0_0_0_3px_rgba(201,184,255,0.35)] transition-all">
-                        <span className="group-data-[state=open]:hidden leading-none mb-0.5">+</span>
-                        <span className="hidden group-data-[state=open]:inline leading-none mb-0.5">×</span>
+                      <span className="w-[38px] h-[38px] rounded-full text-white grid place-items-center shadow-[0_6px_14px_-6px_rgba(0,0,0,0.6)] ml-auto bg-[radial-gradient(circle_at_35%_30%,#444,#000_70%)] group-data-[state=open]:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2),0_0_0_3px_rgba(201,184,255,0.35)] transition-all">
+                        <span
+                          className="text-white text-[20px] font-light leading-none mb-0.5 inline-block transition-transform duration-200 motion-reduce:transition-none group-data-[state=open]:rotate-45"
+                          aria-hidden="true"
+                        >
+                          +
+                        </span>
                       </span>
                     </AccordionPrimitive.Trigger>
                   </AccordionPrimitive.Header>
