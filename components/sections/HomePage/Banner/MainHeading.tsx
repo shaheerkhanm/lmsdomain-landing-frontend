@@ -11,7 +11,7 @@ export function MainHeading({ data }: { data?: any }) {
   const title = liveOr(heroContent.title, defaultHeroContent.title);
 
   return (
-    <h1 className="type-h1-v4 max-w-[18ch] mx-auto text-center text-[#151517]">
+    <h1 className="type-h1-v4 max-w-[22ch] mx-auto text-center text-[#151517]">
       <HeroHeadlineHighlight title={title} />
     </h1>
   );

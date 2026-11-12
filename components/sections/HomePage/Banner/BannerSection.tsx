@@ -53,7 +53,7 @@ export function BannerSection({
   const hasClientLogos = validClientLogos.length > 0;
 
   return (
-    <section className="pt-[110px] min-[900px]:pt-[104px] pb-0 font-sans overflow-x-clip">
+    <section className="pt-[100px] min-[900px]:pt-[93.5px] pb-0 font-sans overflow-x-clip">
       <div className="max-w-[1080px] mx-auto px-5 sm:px-6 text-center flex flex-col items-center">
         {/* Compact Gradient Hairline Badge above H1 (§1) */}
         <div className="mb-4">
@@ -92,13 +92,13 @@ export function BannerSection({
         {/* H1 Headline */}
         <MainHeading data={data} />
 
-        {/* Subtitle */}
-        <p className="mt-4 sm:mt-4.5 text-[15px] sm:text-[16px] text-[#535361] leading-[1.5] max-w-[54ch] mx-auto text-center">
+        {/* Subtitle (18px below H1) */}
+        <p className="mt-[18px] text-[15px] sm:text-[16px] text-[#535361] leading-[1.5] max-w-[54ch] mx-auto text-center">
           {effectiveSubtitle}
         </p>
 
-        {/* CTAs */}
-        <div className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center gap-3">
+        {/* CTAs (24px below subtitle) */}
+        <div className="mt-[24px] flex flex-wrap items-center justify-center gap-3">
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
@@ -131,14 +131,14 @@ export function BannerSection({
           </Link>
         </div>
 
-        {/* Hand note */}
-        <p className="font-hand text-[19px] leading-[1.2] text-[#55555F] mt-2.5 sm:mt-3 flex items-center justify-center gap-1.5 text-center">
+        {/* Hand note (12px below buttons) */}
+        <p className="font-hand text-[19px] leading-[1.2] text-[#55555F] mt-[12px] flex items-center justify-center gap-1.5 text-center">
           {heroContent.microcopy || "Your own domain on every plan · Set up with our team"}
         </p>
       </div>
 
-      {/* Hero Dashboard Assembly Frame (Option F) */}
-      <div className="mt-8 sm:mt-9">
+      {/* Hero Dashboard Assembly Frame (Option F, 36px below hand note) */}
+      <div className="mt-[36px]">
         <HeroDashboard />
       </div>
 

@@ -658,10 +658,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
   .type-h1-v4 {
     font-family: var(--font-inter), sans-serif;
-    font-size: clamp(38px, 5vw, 62px);
+    font-size: clamp(36px, 4.4vw, 60px);
     font-weight: 700;
     letter-spacing: -0.035em;
-    line-height: 1.1;
+    line-height: 1.05;
     text-wrap: balance;
   }
 

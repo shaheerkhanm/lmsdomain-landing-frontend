@@ -53,6 +53,7 @@ export function HeroHeadlineHighlight({ title }: HeroHeadlineHighlightProps) {
       <span className={`hero-marker ${step >= 2 ? "drawn" : ""}`}>
         live classes
       </span>
+      <br className="hidden min-[900px]:inline" />
       <span className="text-[#151517]"> and </span>
       <span className={`hero-marker ${step >= 3 ? "drawn" : ""}`}>
         tests
