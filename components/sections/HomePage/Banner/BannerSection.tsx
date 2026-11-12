@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { WandSparkles } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import { DomieOrb } from "@/components/ai/DomieOrb";
 import MainHeading from "./MainHeading";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
@@ -54,15 +55,37 @@ export function BannerSection({
   return (
     <section className="pt-[110px] min-[900px]:pt-[104px] pb-0 font-sans overflow-x-clip">
       <div className="max-w-[1080px] mx-auto px-5 sm:px-6 text-center flex flex-col items-center">
-        {/* Outlined Pill Badge above H1 (§9) */}
-        <div className="mb-4 sm:mb-5">
+        {/* Compact Gradient Hairline Badge above H1 (§1) */}
+        <div className="mb-4">
           <Link
             href="/platform/ai"
-            className="inline-flex items-center gap-[10px] h-[40px] px-[18px] rounded-[999px] border-[1.5px] border-[#6C4BFF] bg-white/60 backdrop-blur-xs text-[15px] sm:text-[16px] font-[500] text-[#5B3DF5] hover:bg-[#F4F1FF] transition-colors focus-visible:outline-2 focus-visible:outline-[#6C4BFF] focus-visible:outline-offset-2 whitespace-nowrap"
+            className="group inline-flex items-center gap-2 h-[32px] pl-1 pr-3 rounded-[999px] text-[13px] font-[500] text-[#151517] shadow-[0_4px_14px_-6px_rgba(20,20,40,0.18)] hover:shadow-[0_6px_20px_-4px_rgba(20,20,40,0.24)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#7B5CFF] focus-visible:outline-offset-2 whitespace-nowrap"
+            style={{
+              border: "1px solid transparent",
+              background:
+                "linear-gradient(#FFFFFF, #FFFFFF) padding-box, linear-gradient(135deg, #E2539B 0%, #F2894A 50%, #7B5CFF 100%) border-box",
+            }}
           >
-            <WandSparkles className="w-[18px] h-[18px] text-[#6C4BFF] shrink-0" strokeWidth={1.75} aria-hidden="true" />
-            <span className="hidden sm:inline">Domie AI · AI that works inside your academy</span>
-            <span className="inline sm:hidden text-[14px]">Domie AI · AI inside your academy</span>
+            {/* Left: 24px circle with animated Domie orb */}
+            <span className="w-6 h-6 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-[#0E0E11]">
+              <DomieOrb size={24} surface="dark" />
+            </span>
+
+            {/* Phrase 1 */}
+            <span className="text-[#151517] font-[500]">Meet Domie AI</span>
+
+            {/* Hairline Divider & Phrase 2 (dropped below 400px to guarantee 1-line fit on 390px) */}
+            <span className="hidden min-[400px]:inline-block w-[1px] h-3 bg-[#E8E8EC]" aria-hidden="true" />
+            <span className="hidden min-[400px]:inline text-[#535361] font-normal">
+              AI that works inside your academy
+            </span>
+
+            {/* Chevron Right 14px */}
+            <ChevronRight
+              className="w-3.5 h-3.5 text-[#535361] shrink-0 transition-transform duration-200 group-hover:translate-x-[2px]"
+              strokeWidth={1.75}
+              aria-hidden="true"
+            />
           </Link>
         </div>
 
