@@ -221,7 +221,7 @@ export function SellAnywhereSection() {
           {/* Card 4: Revenue reports & payouts */}
           <div className="rv-v4 bg-white border border-[#E8E8EC] rounded-[20px] p-6 shadow-[0_20px_40px_-32px_rgba(20,20,40,0.3)] text-left transition-all duration-200 hover:border-[#D9D3FF] hover:-translate-y-0.5 flex flex-col">
             <div className="h-[88px] canvas-dots rounded-[12px] border border-[#E8E8EC] flex items-center justify-center p-3 mb-5 overflow-hidden">
-              <div className="flex items-end gap-2 h-10" aria-label="Mini revenue bar chart">
+              <div className="flex items-end gap-2 h-10" role="img" aria-label="Mini revenue bar chart">
                 <span className="w-2.5 h-3 rounded-t-[3px] bg-[#6C4BFF]/40" />
                 <span className="w-2.5 h-4.5 rounded-t-[3px] bg-[#6C4BFF]/55" />
                 <span className="w-2.5 h-6 rounded-t-[3px] bg-[#6C4BFF]/70" />
