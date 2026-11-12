@@ -7,6 +7,7 @@ import SellAnywhereSection from "@/components/sections/HomePage/SellAnywhereSect
 import YourBrandSection from "@/components/sections/HomePage/YourBrandSection";
 import DomieAiBand from "@/components/sections/HomePage/DomieAiBand";
 import WhyChooseUsSection from "@/components/sections/HomePage/WhyChooseUsSection";
+import HomeSolutionsSection from "@/components/sections/HomePage/HomeSolutionsSection";
 import PricingTeaserSection from "@/components/sections/HomePage/PricingTeaserSection";
 import { ProofStrip, FAQ, CTABand } from "@/components/marketing/ui";
 import { BatchFlowScreen } from "@/components/marketing/mockups/screens";
@@ -73,10 +74,13 @@ export async function HomePage() {
         {/* 8. YOUR BRAND, YOUR DOMAIN */}
         <YourBrandSection />
 
-        {/* 7. WHY ACADEMIES CHOOSE LMS DOMAIN */}
+        {/* 9. WHY ACADEMIES CHOOSE LMS DOMAIN */}
         <WhyChooseUsSection />
 
-        {/* 8. PRICING TEASER */}
+        {/* 10. SOLUTIONS PHOTO CARDS */}
+        <HomeSolutionsSection />
+
+        {/* 11. PRICING TEASER */}
         <PricingTeaserSection
           lowestMonthlyPrice={lowestMonthlyPrice}
           lowestMonthlyPriceUsd={lowestMonthlyPriceUsd}
