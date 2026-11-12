@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { DomieOrb } from "@/components/ai/DomieOrb";
 import { Eyebrow } from "@/components/marketing/ui";
 import { aiSectionContent } from "@/content/home/ai";
 import { heroContent } from "@/content/home/hero";
@@ -304,15 +305,8 @@ export function DomieAiBand() {
         <div>
           {/* Mobile Domie Avatar (above eyebrow) */}
           <div className="block md:hidden mb-3.5">
-            <div className="w-[48px] h-[48px] rounded-full bg-[#1F1934] p-1 shadow-[0_0_20px_rgba(108,75,255,0.45)] relative inline-block">
-              <Image
-                src="/images/ai/domie/domie-bot-sm.webp"
-                alt="Domie AI"
-                width={48}
-                height={48}
-                loading="lazy"
-                className="w-full h-full object-cover rounded-full"
-              />
+            <div className="w-[48px] h-[48px] rounded-full bg-[#1F1934] p-0.5 shadow-[0_0_20px_rgba(108,75,255,0.45)] relative inline-flex items-center justify-center">
+              <DomieOrb size={44} surface="dark" />
             </div>
           </div>
 
@@ -333,15 +327,8 @@ export function DomieAiBand() {
               className="hidden md:inline-flex items-center relative animate-domie-bob shrink-0 ml-1 select-none"
               aria-hidden="true"
             >
-              <div className="w-[56px] h-[56px] rounded-full bg-[#1F1934] p-1 shadow-[0_0_24px_rgba(108,75,255,0.5)] relative overflow-hidden">
-                <Image
-                  src="/images/ai/domie/domie-bot-sm.webp"
-                  alt="Domie AI"
-                  width={56}
-                  height={56}
-                  loading="lazy"
-                  className="w-full h-full object-cover rounded-full"
-                />
+              <div className="w-[56px] h-[56px] rounded-full bg-[#1F1934] p-0.5 shadow-[0_0_24px_rgba(108,75,255,0.5)] relative overflow-hidden flex items-center justify-center">
+                <DomieOrb size={52} surface="dark" />
               </div>
               {/* Sparkle 1 */}
               <Sparkles className="absolute -top-1.5 -right-2 w-4 h-4 text-[#A48BFF] animate-pulse" />
@@ -426,14 +413,8 @@ export function DomieAiBand() {
                   <div className="animate-in fade-in slide-in-from-bottom-2 duration-250 flex flex-col h-full justify-between">
                     {/* Chat Header */}
                     <div className="flex items-center gap-3 p-3.5 px-4.5 border-b border-white/8 bg-white/[0.01]">
-                      <span className="w-8 h-8 rounded-full bg-[#2A2440] overflow-hidden shrink-0 relative block">
-                        <Image
-                          src="/images/ai/domie/domie-bot-sm.webp"
-                          alt="Domie"
-                          width={32}
-                          height={32}
-                          className="w-full h-full object-cover"
-                        />
+                      <span className="w-8 h-8 rounded-full bg-[#2A2440] overflow-hidden shrink-0 relative flex items-center justify-center">
+                        <DomieOrb size={32} surface="dark" />
                       </span>
                       <div>
                         <b className="block text-[13.5px] text-white">Domie · HelpDesk</b>

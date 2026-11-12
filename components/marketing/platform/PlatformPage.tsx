@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
+import { DomieOrb } from "@/components/ai/DomieOrb";
 import {
   Section,
   Eyebrow,
@@ -147,6 +148,11 @@ export function PlatformPage({ data }: PlatformPageProps) {
       {/* 1. Hero & Outcome H1 */}
       <section className="relative pt-[130px] sm:pt-[150px] pb-12 sm:pb-16 overflow-x-clip bg-[#FAF9F6]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
+          {data.slug === "ai" && (
+            <div className="mb-5 flex justify-center">
+              <DomieOrb size={100} surface="light" />
+            </div>
+          )}
           <div className="flex items-center gap-2 mb-4">
             <Eyebrow tone="violet">{data.eyebrow}</Eyebrow>
             {data.badge && (

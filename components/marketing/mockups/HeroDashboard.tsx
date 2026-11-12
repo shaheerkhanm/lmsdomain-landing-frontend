@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import { DomieOrb } from "@/components/ai/DomieOrb";
 import {
   LayoutGrid,
   Sparkles,
@@ -199,15 +200,8 @@ export function HeroDashboard() {
                 style={{ opacity: dimmedOpacity }}
               >
                 {/* Domie Logo Tile */}
-                <span className="w-[34px] h-[34px] rounded-[10px] bg-white grid place-items-center shadow-xs">
-                  <Image
-                    src="/images/ai/domie/domie-bot-still.webp"
-                    alt="Domie"
-                    width={24}
-                    height={24}
-                    className="w-6 h-6 rounded-full object-cover"
-                    priority={false}
-                  />
+                <span className="w-[34px] h-[34px] rounded-[10px] bg-[#1A1A1F] grid place-items-center shadow-xs overflow-hidden">
+                  <DomieOrb size={24} surface="dark" />
                 </span>
 
                 {/* Nav Icons (lucide-react 18px stroke 1.75) */}
@@ -257,7 +251,8 @@ export function HeroDashboard() {
                     <em className="ml-auto font-mono text-[10.5px] not-italic text-[#A5A5B2]">⌘K</em>
                   </span>
                   <span className="bg-white text-[#151517] rounded-[10px] px-3.5 py-2 font-semibold text-[12.5px] flex items-center gap-1.5 shadow-xs select-none">
-                    ✦ Ask Domie
+                    <DomieOrb size={16} surface="light" />
+                    Ask Domie ✦
                   </span>
                   <span
                     className="w-[34px] h-[34px] rounded-full shrink-0"
@@ -504,21 +499,9 @@ export function HeroDashboard() {
                         aria-hidden="true"
                       />
 
-                      {/* Domie avatar with slow 6px float + 2deg tilt motion */}
-                      <div
-                        className={`absolute right-[-4px] top-[10px] w-[145px] h-[145px] ${
-                          isReducedMotion ? "" : "animate-domie-float"
-                        }`}
-                      >
-                        <Image
-                          src="/images/ai/domie/domie-bot-still.webp"
-                          alt="Domie AI"
-                          width={150}
-                          height={150}
-                          sizes="(max-width: 768px) 120px, 150px"
-                          loading="lazy"
-                          className="w-full h-full object-contain pointer-events-none select-none"
-                        />
+                      {/* Domie Animated Orb 160px (§2) */}
+                      <div className="absolute right-[-4px] top-[5px] w-[160px] h-[160px] flex items-center justify-center">
+                        <DomieOrb size={160} surface="dark" />
                       </div>
 
                       {/* 3 Twinkling Inline SVG 4-Point Stars */}
