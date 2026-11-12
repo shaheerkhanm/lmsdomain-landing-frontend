@@ -12,20 +12,19 @@ import {
   Bell,
   Settings,
   Search,
-  FileText,
-  CreditCard,
-  RotateCw,
-  ExternalLink,
 } from "lucide-react";
 
 export function HeroDashboard() {
   const asmRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const tickingRef = useRef(false);
 
-  const [p, setP] = useState(0);
+  const targetPRef = useRef(0);
+  const currentPRef = useRef(0);
+  const [currentP, setCurrentP] = useState(0);
+
   const [scale, setScale] = useState(1);
   const [height, setHeight] = useState<number | undefined>(undefined);
+  const [isMobile, setIsMobile] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -35,8 +34,15 @@ export function HeroDashboard() {
     setIsReducedMotion(prefersReduced);
 
     if (prefersReduced) {
-      setP(1);
+      targetPRef.current = 1;
+      currentPRef.current = 1;
+      setCurrentP(1);
     }
+
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
 
     const updateScale = () => {
       if (asmRef.current && contentRef.current) {
@@ -50,32 +56,55 @@ export function HeroDashboard() {
     };
 
     const updateScroll = () => {
-      tickingRef.current = false;
       if (!asmRef.current) return;
       if (prefersReduced) {
-        setP(1);
+        targetPRef.current = 1;
         return;
       }
       const r = asmRef.current.getBoundingClientRect();
       const vh = window.innerHeight;
-      let rawP = (vh * 0.92 - r.top) / (vh * 0.62);
-      rawP = Math.max(0, Math.min(1, rawP));
-      const easedP = 1 - Math.pow(1 - rawP, 2);
-      setP(Number(easedP.toFixed(3)));
-    };
-
-    const onScroll = () => {
-      if (!tickingRef.current) {
-        tickingRef.current = true;
-        requestAnimationFrame(updateScroll);
+      // Progress runs from frameTop = 0.95*vh (p = 0) to frameTop = 0.30*vh (p = 1)
+      let rawP = (vh * 0.95 - r.top) / (vh * 0.65);
+      // On first load without scroll (scrollY <= 2), ensure target is exactly 0
+      if (typeof window !== "undefined" && window.scrollY <= 2) {
+        rawP = 0;
       }
+      targetPRef.current = Math.max(0, Math.min(1, rawP));
     };
 
     updateScale();
     updateScroll();
 
+    let animId: number;
+    const tick = () => {
+      if (prefersReduced) {
+        setCurrentP(1);
+        return;
+      }
+      const diff = targetPRef.current - currentPRef.current;
+      if (Math.abs(diff) > 0.0005) {
+        currentPRef.current += diff * 0.12;
+        setCurrentP(Number(currentPRef.current.toFixed(4)));
+      } else if (currentPRef.current !== targetPRef.current) {
+        currentPRef.current = targetPRef.current;
+        setCurrentP(targetPRef.current);
+      }
+      animId = requestAnimationFrame(tick);
+    };
+    animId = requestAnimationFrame(tick);
+
+    const onScroll = () => {
+      updateScroll();
+    };
+
+    const onResize = () => {
+      checkMobile();
+      updateScale();
+      updateScroll();
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", updateScale);
+    window.addEventListener("resize", onResize);
 
     const ro = new ResizeObserver(() => {
       updateScale();
@@ -84,60 +113,104 @@ export function HeroDashboard() {
     if (asmRef.current) ro.observe(asmRef.current);
 
     return () => {
+      cancelAnimationFrame(animId);
       window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", updateScale);
+      window.removeEventListener("resize", onResize);
       ro.disconnect();
     };
   }, []);
 
-  const effectiveP = isReducedMotion ? 1 : p;
+  const effectiveP = isReducedMotion ? 1 : currentP;
+  const isFinalState = isReducedMotion || effectiveP >= 0.999;
+  const mult = isMobile ? 0.5 : 1.0;
+
+  // Staggered card transforms: each card's progress = clamp((p - i*0.06) / 0.82)
+  const getCardTransform = (index: number, baseDx: number, baseDy: number, baseR: number) => {
+    if (isFinalState) {
+      return {
+        transform: "none",
+        boxShadow: "none",
+      };
+    }
+    const cardRawP = Math.max(0, Math.min(1, (effectiveP - index * 0.06) / 0.82));
+    const cardEased = 1 - Math.pow(1 - cardRawP, 2);
+    const factor = (1 - cardEased) * mult;
+
+    const dx = baseDx * factor;
+    const dy = baseDy * factor;
+    const r = baseR * factor;
+    const cardScale = 1 + 0.06 * (1 - cardEased);
+    const shadowAlpha = 0.55 * (1 - cardEased);
+
+    return {
+      transform: `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0) rotate(${r.toFixed(2)}deg) scale(${cardScale.toFixed(3)})`,
+      boxShadow:
+        cardEased >= 0.99
+          ? "none"
+          : `0 40px 70px -30px rgba(20,10,60,${shadowAlpha.toFixed(3)})`,
+    };
+  };
+
+  const card1Style = getCardTransform(0, -145, -65, -7);
+  const card2Style = getCardTransform(1, 145, -95, 7);
+  const card3Style = getCardTransform(2, -95, 145, -10);
+  const card4Style = getCardTransform(3, 130, 175, 10);
+
+  // Bezel shell scales 0.82 -> 1.0; at final state transform is strictly none
+  const bezelTransform = isFinalState ? "none" : `scale(${0.82 + 0.18 * effectiveP})`;
+
+  // Screen background dimmed content (rail + top bar at 30% -> 100%)
+  const dimmedOpacity = isFinalState ? 1 : 0.3 + 0.7 * effectiveP;
 
   return (
     <div
       ref={asmRef}
-      className="asm-container relative max-w-[1120px] mx-auto pb-8 sm:pb-12 overflow-hidden"
+      className="asm-container relative max-w-[1120px] mx-auto pb-8 sm:pb-12 overflow-visible"
       style={{ "--p": effectiveP } as React.CSSProperties}
       aria-hidden="true"
     >
       <div
-        className="dev-wrapper relative w-full origin-top overflow-hidden"
+        className="dev-wrapper relative w-full origin-top overflow-visible"
         style={{
-          transform: isReducedMotion ? "none" : `scale(${0.86 + 0.14 * effectiveP})`,
           height: height ? `${height}px` : "auto",
         }}
       >
         <div
           ref={contentRef}
-          className="devscale-content origin-top-left"
+          className="devscale-content origin-top-left overflow-visible"
           style={{
             width: "1100px",
             transform: `scale(${scale})`,
             transformOrigin: "0 0",
           }}
         >
-          {/* Black device bezel */}
+          {/* Black device bezel (scales 0.82 -> 1, overflow visible for floating cards) */}
           <div
-            className="rounded-[30px] p-[14px] bg-[#0B0B0D] shadow-[0_60px_120px_-50px_rgba(20,10,60,0.55),inset_0_0_0_1px_#26262B]"
+            className="rounded-[30px] p-[14px] bg-[#0B0B0D] shadow-[0_60px_120px_-50px_rgba(20,10,60,0.55),inset_0_0_0_1px_#26262B] origin-center overflow-visible"
+            style={{
+              transform: bezelTransform,
+            }}
           >
             {/* Dark Admin Screen */}
-            <div
-              className="bg-[#121214] rounded-[18px] grid grid-cols-[64px_minmax(0,1fr)] h-[700px] overflow-hidden text-[#ECECF1] font-sans select-none"
-            >
-              {/* Left Rail */}
-              <aside className="border-r border-[#232327] flex flex-col items-center gap-4 py-[18px]">
+            <div className="bg-[#121214] rounded-[18px] grid grid-cols-[64px_minmax(0,1fr)] h-[700px] text-[#ECECF1] font-sans select-none relative overflow-visible">
+              {/* Left Rail (starts at 30% opacity, crisp icons) */}
+              <aside
+                className="border-r border-[#232327] flex flex-col items-center gap-4 py-[18px] transition-opacity duration-150"
+                style={{ opacity: dimmedOpacity }}
+              >
                 {/* Domie Logo Tile */}
                 <span className="w-[34px] h-[34px] rounded-[10px] bg-white grid place-items-center shadow-xs">
                   <Image
-                    src="/images/ai/domie/domie-bot-sm.webp"
+                    src="/images/ai/domie/domie-bot-still.webp"
                     alt="Domie"
                     width={24}
                     height={24}
-                    className="w-6 h-6 rounded-full"
+                    className="w-6 h-6 rounded-full object-cover"
                     priority={false}
                   />
                 </span>
 
-                {/* Nav Icons */}
+                {/* Nav Icons (lucide-react 18px stroke 1.75) */}
                 <i className="w-9 h-9 rounded-[10px] grid place-items-center bg-[#26262B] text-white not-italic cursor-pointer">
                   <LayoutGrid className="w-[18px] h-[18px]" strokeWidth={1.75} />
                 </i>
@@ -169,11 +242,11 @@ export function HeroDashboard() {
               </aside>
 
               {/* Main Area */}
-              <div className="p-[18px_22px] flex flex-col gap-3.5 min-w-0">
-                {/* Top Bar (fades 20% -> 100% on scroll) */}
+              <div className="p-[18px_22px] flex flex-col gap-3.5 min-w-0 relative overflow-visible">
+                {/* Top Bar (starts at 30% opacity) */}
                 <div
-                  className="flex items-center gap-2.5 transition-opacity"
-                  style={{ opacity: isReducedMotion ? 1 : 0.2 + 0.8 * effectiveP }}
+                  className="flex items-center gap-2.5 transition-opacity duration-150"
+                  style={{ opacity: dimmedOpacity }}
                 >
                   <h3 className="text-[24px] font-bold tracking-[-0.03em] mr-auto text-white">
                     Dashboard
@@ -183,9 +256,7 @@ export function HeroDashboard() {
                     <span>Search courses, learners…</span>
                     <em className="ml-auto font-mono text-[10.5px] not-italic text-[#A5A5B2]">⌘K</em>
                   </span>
-                  <span
-                    className="bg-white text-[#151517] rounded-[10px] px-3.5 py-2 font-semibold text-[12.5px] flex items-center gap-1.5 shadow-xs select-none"
-                  >
+                  <span className="bg-white text-[#151517] rounded-[10px] px-3.5 py-2 font-semibold text-[12.5px] flex items-center gap-1.5 shadow-xs select-none">
                     ✦ Ask Domie
                   </span>
                   <span
@@ -194,18 +265,12 @@ export function HeroDashboard() {
                   />
                 </div>
 
-                {/* 2×2 Card Grid */}
-                <div className="grid grid-cols-2 gap-3.5 flex-1 min-h-0">
-                  {/* Card 1: Today's live class */}
+                {/* 2×2 Card Grid (cards sit with z-20 so they break out and float over bezel) */}
+                <div className="grid grid-cols-2 gap-3.5 flex-1 min-h-0 relative overflow-visible">
+                  {/* Card 1: Today's live class (breakout top-left) */}
                   <div
-                    className="hero-asm-card bg-[#1A1A1F] border border-[#2A2A31] rounded-[18px] p-5 relative flex flex-col justify-between"
-                    style={
-                      {
-                        "--dx": "-90px",
-                        "--dy": "-40px",
-                        "--r": "-4deg",
-                      } as React.CSSProperties
-                    }
+                    className="bg-[#1A1A1F] border border-[#2A2A31] rounded-[18px] p-5 relative flex flex-col justify-between z-20 will-change-transform"
+                    style={card1Style}
                   >
                     <div>
                       <div className="flex items-start justify-between gap-2.5">
@@ -248,30 +313,24 @@ export function HeroDashboard() {
                       </div>
                     </div>
 
-                    {/* Bottom Row */}
-                    <div className="flex items-center gap-2.5 mt-3 pt-1">
-                      <span className="bg-white text-[#151517] rounded-[9px] px-3.5 py-1.5 font-semibold text-[12px]">
+                    {/* Bottom CTA row */}
+                    <div className="flex items-center gap-2.5 mt-3 pt-3 border-t border-[#26262C]">
+                      <span className="bg-white text-[#151517] font-semibold text-[11.5px] rounded-[8px] px-3 py-1.5 shadow-xs select-none cursor-pointer">
                         Start class
                       </span>
-                      <small className="text-[#A5A5B2] text-[11.5px]">
+                      <small className="text-[#A5A5B2] text-[11px]">
                         Reminder sent to 24 learners
                       </small>
                     </div>
                   </div>
 
-                  {/* Card 2: Needs your attention */}
+                  {/* Card 2: Needs your attention (breakout top-right) */}
                   <div
-                    className="hero-asm-card bg-[#1A1A1F] border border-[#2A2A31] rounded-[18px] p-5 relative flex flex-col justify-between"
-                    style={
-                      {
-                        "--dx": "90px",
-                        "--dy": "-60px",
-                        "--r": "4deg",
-                      } as React.CSSProperties
-                    }
+                    className="bg-[#1A1A1F] border border-[#2A2A31] rounded-[18px] p-5 relative flex flex-col justify-between z-20 will-change-transform"
+                    style={card2Style}
                   >
                     <div>
-                      <div className="flex items-start justify-between gap-2.5">
+                      <div className="flex items-start justify-between gap-2">
                         <div>
                           <h4 className="text-[16px] font-semibold tracking-[-0.01em] text-white">
                             Needs your attention
@@ -280,101 +339,91 @@ export function HeroDashboard() {
                             Waiting on you right now
                           </div>
                         </div>
-                        <span className="border border-[#33333B] rounded-[8px] px-2.5 py-1 text-[11.5px] text-[#D6D6DE]">
+                        <span className="text-[#A48BFF] text-[11.5px] font-semibold cursor-pointer">
                           View all
                         </span>
                       </div>
 
-                      {/* Row 1: Applications */}
-                      <div className="flex items-center gap-2.5 mt-2.5 bg-[#141417] border border-[#26262C] rounded-[11px] px-3 py-2.5">
-                        <span className="w-7 h-7 rounded-[8px] grid place-items-center text-white shrink-0 bg-[#F2894A]">
-                          <FileText className="w-3.5 h-3.5" strokeWidth={2} />
+                      {/* Item 1 */}
+                      <div className="flex items-center gap-2.5 bg-[#141417] border border-[#26262C] rounded-[11px] p-2.5 mt-3">
+                        <span className="w-7 h-7 rounded-[8px] bg-[#F2894A]/15 text-[#F2894A] grid place-items-center font-bold text-[12px] shrink-0">
+                          📄
                         </span>
-                        <div className="min-w-0">
-                          <div className="text-[12.5px] font-medium text-white leading-tight">
+                        <div className="flex-1 min-w-0">
+                          <b className="block text-[12.5px] font-semibold text-[#ECECF1] truncate">
                             Applications to review
-                          </div>
-                          <small className="block text-[#A5A5B2] text-[11px] mt-0.5">
-                            Batch C · next month
+                          </b>
+                          <small className="block text-[#A5A5B2] text-[11px]">
+                            Batch C · starts next month
                           </small>
                         </div>
-                        <em className="ml-auto not-italic font-bold text-[12px] text-white bg-[#26262B] rounded-[7px] px-2 py-0.5">
+                        <em className="font-mono text-[11.5px] bg-[#26262C] text-white px-2 py-0.5 rounded-[6px] not-italic font-bold">
                           2
                         </em>
                       </div>
 
-                      {/* Row 2: Offline payments */}
-                      <div className="flex items-center gap-2.5 mt-2 bg-[#141417] border border-[#26262C] rounded-[11px] px-3 py-2.5">
-                        <span className="w-7 h-7 rounded-[8px] grid place-items-center text-white shrink-0 bg-[#17A06B]">
-                          <CreditCard className="w-3.5 h-3.5" strokeWidth={2} />
+                      {/* Item 2 */}
+                      <div className="flex items-center gap-2.5 bg-[#141417] border border-[#26262C] rounded-[11px] p-2.5 mt-2">
+                        <span className="w-7 h-7 rounded-[8px] bg-[#17A06B]/15 text-[#17A06B] grid place-items-center font-bold text-[12px] shrink-0">
+                          💳
                         </span>
-                        <div className="min-w-0">
-                          <div className="text-[12.5px] font-medium text-white leading-tight">
+                        <div className="flex-1 min-w-0">
+                          <b className="block text-[12.5px] font-semibold text-[#ECECF1] truncate">
                             Offline payments to approve
-                          </div>
-                          <small className="block text-[#A5A5B2] text-[11px] mt-0.5">
-                            Bank transfer screenshots
+                          </b>
+                          <small className="block text-[#A5A5B2] text-[11px]">
+                            Bank transfers awaiting verification
                           </small>
                         </div>
-                        <em className="ml-auto not-italic font-bold text-[12px] text-white bg-[#26262B] rounded-[7px] px-2 py-0.5">
+                        <em className="font-mono text-[11.5px] bg-[#26262C] text-white px-2 py-0.5 rounded-[6px] not-italic font-bold">
                           2
                         </em>
                       </div>
                     </div>
 
-                    {/* Radios */}
-                    <div className="flex items-center gap-3.5 mt-3 text-[12px] text-[#B4B4C0]">
-                      <span className="flex items-center gap-1.5 text-white font-medium">
-                        <span className="w-3 h-3 rounded-full border-[4px] border-white inline-block" />
+                    {/* Radio pills */}
+                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-[#26262C]">
+                      <span className="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-white bg-white/10 px-2.5 py-1 rounded-full cursor-pointer">
+                        <i className="w-1.5 h-1.5 rounded-full bg-[#17A06B] block not-italic" />
                         Approve
                       </span>
-                      <span className="flex items-center gap-1.5 text-[#A5A5B2]">
-                        <span className="w-3 h-3 rounded-full border-[1.5px] border-[#6C6C78] inline-block" />
+                      <span className="inline-flex items-center gap-1.5 text-[11.5px] text-[#A5A5B2] hover:text-white px-2 py-1 rounded-full cursor-pointer transition-colors">
                         Review later
                       </span>
                     </div>
                   </div>
 
-                  {/* Card 3: Revenue this month */}
+                  {/* Card 3: Revenue this month (breakout bottom-left) */}
                   <div
-                    className="hero-asm-card bg-[#1A1A1F] border border-[#2A2A31] rounded-[18px] p-5 relative flex flex-col justify-between"
-                    style={
-                      {
-                        "--dx": "-60px",
-                        "--dy": "90px",
-                        "--r": "-7deg",
-                      } as React.CSSProperties
-                    }
+                    className="bg-[#1A1A1F] border border-[#2A2A31] rounded-[18px] p-5 relative flex flex-col justify-between z-20 will-change-transform"
+                    style={card3Style}
                   >
                     <div>
-                      <div className="flex items-start justify-between gap-2.5">
+                      <div className="flex items-start justify-between gap-2">
                         <div>
                           <h4 className="text-[16px] font-semibold tracking-[-0.01em] text-white">
                             Revenue this month
                           </h4>
-                          <div className="text-[#A5A5B2] text-[12px] mt-0.5">
-                            Fees collected, all gateways
+                          <div className="flex items-baseline gap-2 mt-1">
+                            <span className="font-bold text-[26px] tracking-[-0.03em] text-white leading-none">
+                              ₹4,86,200
+                            </span>
+                            <span className="text-[#17A06B] font-semibold text-[11.5px]">
+                              ▲ 31.2%
+                            </span>
                           </div>
                         </div>
-                        <span className="border border-[#33333B] rounded-[8px] px-2.5 py-1 text-[11.5px] text-[#D6D6DE]">
+                        <span className="text-[#A48BFF] text-[11.5px] font-semibold cursor-pointer">
                           Reports
                         </span>
                       </div>
 
-                      {/* Number + Delta pill */}
-                      <div className="mt-2 text-[30px] font-bold tracking-[-0.03em] tabular-nums text-white flex items-baseline gap-2">
-                        <span>₹4,86,200</span>
-                        <em className="not-italic text-[12px] font-semibold text-[#5BE0A0] bg-[#3DD68C]/15 rounded-[6px] px-2 py-0.5">
-                          ▲ 31.2%
-                        </em>
-                      </div>
-
-                      {/* 4-segment bar */}
-                      <div className="flex h-2 rounded-[9px] overflow-hidden gap-[3px] mt-2.5">
-                        <i className="block rounded-[9px]" style={{ flex: 42, background: "#8B6CFF" }} />
-                        <i className="block rounded-[9px]" style={{ flex: 26, background: "#7FD8C0" }} />
-                        <i className="block rounded-[9px]" style={{ flex: 18, background: "#F2C76E" }} />
-                        <i className="block rounded-[9px]" style={{ flex: 14, background: "#E2539B" }} />
+                      {/* 4-segment progress bar */}
+                      <div className="h-2 rounded-full overflow-hidden bg-[#24242A] flex gap-[2px] mt-3">
+                        <span className="bg-[#8B6CFF] w-[42%]" />
+                        <span className="bg-[#7FD8C0] w-[26%]" />
+                        <span className="bg-[#F2C76E] w-[18%]" />
+                        <span className="bg-[#E2539B] w-[14%]" />
                       </div>
 
                       {/* 4 Source tiles */}
@@ -426,16 +475,10 @@ export function HeroDashboard() {
                     </div>
                   </div>
 
-                  {/* Card 4: Domie's brief for today */}
+                  {/* Card 4: Domie's brief for today (breakout bottom-right) */}
                   <div
-                    className="hero-asm-card bg-[#1A1A1F] border border-[#2A2A31] rounded-[18px] p-5 relative grid grid-cols-[minmax(0,1fr)_150px] gap-2 items-center overflow-hidden"
-                    style={
-                      {
-                        "--dx": "80px",
-                        "--dy": "110px",
-                        "--r": "7deg",
-                      } as React.CSSProperties
-                    }
+                    className="bg-[#1A1A1F] border border-[#2A2A31] rounded-[18px] p-5 relative grid grid-cols-[minmax(0,1fr)_150px] gap-2 items-center overflow-hidden z-20 will-change-transform"
+                    style={card4Style}
                   >
                     <div>
                       <h4 className="text-[16px] font-semibold tracking-[-0.01em] text-white">
@@ -444,53 +487,70 @@ export function HeroDashboard() {
                       <p className="text-[#B4B4C0] text-[12.5px] mt-2 max-w-[30ch] leading-relaxed">
                         Batch B is almost full, so open Batch C. WELCOME10 brought 38 sales and expires Friday.
                       </p>
-                      <span className="inline-block mt-3.5 border border-[#3A3A44] rounded-[9px] px-3 py-1.5 text-[12px] font-semibold text-white">
+                      <span className="inline-block mt-3.5 border border-[#3A3A44] rounded-[9px] px-3 py-1.5 text-[12px] font-semibold text-white cursor-pointer select-none">
                         Open Domie AI
                       </span>
                     </div>
 
-                    {/* Art Illustration */}
-                    <div className="relative h-[170px]">
-                      {/* Radial glow */}
-                      <span
-                        className="absolute right-[10px] top-[20px] w-[130px] h-[130px] rounded-full blur-[14px]"
+                    {/* High-Resolution Domie Artwork (§7) */}
+                    <div className="relative h-[170px] flex items-center justify-center">
+                      {/* Separate radial glow element behind */}
+                      <div
+                        className="pointer-events-none absolute right-[10px] top-[15px] w-[140px] h-[140px] rounded-full blur-[24px]"
                         style={{
                           background:
-                            "radial-gradient(circle, rgba(164,139,255,0.55), transparent 70%)",
+                            "radial-gradient(circle, rgba(139,108,255,0.45) 0%, rgba(139,108,255,0) 70%)",
                         }}
+                        aria-hidden="true"
                       />
-                      {/* Avatar with bobbing */}
-                      <Image
-                        src="/images/ai/domie/domie-bot-sm.webp"
-                        alt="Domie AI bot"
-                        width={150}
-                        height={150}
-                        loading="lazy"
-                        className={`absolute right-[-6px] top-[6px] w-[150px] h-[150px] rounded-full drop-shadow-[0_20px_30px_rgba(108,75,255,0.5)] ${
-                          isReducedMotion ? "" : "animate-domie-bob"
+
+                      {/* Domie avatar with slow 6px float + 2deg tilt motion */}
+                      <div
+                        className={`absolute right-[-4px] top-[10px] w-[145px] h-[145px] ${
+                          isReducedMotion ? "" : "animate-domie-float"
                         }`}
-                      />
-                      {/* 3 Twinkling Sparkles */}
+                      >
+                        <Image
+                          src="/images/ai/domie/domie-bot-still.webp"
+                          alt="Domie AI"
+                          width={150}
+                          height={150}
+                          sizes="(max-width: 768px) 120px, 150px"
+                          loading="lazy"
+                          className="w-full h-full object-contain pointer-events-none select-none"
+                        />
+                      </div>
+
+                      {/* 3 Twinkling Inline SVG 4-Point Stars */}
                       {!isReducedMotion && (
                         <>
-                          <span
-                            className="absolute text-[#C9BCFF] text-[14px] animate-domie-tw"
-                            style={{ right: "150px", top: "20px" }}
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="#C9BCFF"
+                            className="w-3.5 h-3.5 absolute animate-star-twinkle pointer-events-none select-none"
+                            style={{ right: "140px", top: "15px" }}
+                            aria-hidden="true"
                           >
-                            ✦
-                          </span>
-                          <span
-                            className="absolute text-[#C9BCFF] text-[14px] animate-domie-tw"
-                            style={{ right: "6px", top: "4px", animationDelay: "-1s" }}
+                            <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z" />
+                          </svg>
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="#C9BCFF"
+                            className="w-3 h-3 absolute animate-star-twinkle pointer-events-none select-none"
+                            style={{ right: "12px", top: "8px", animationDelay: "-0.8s" }}
+                            aria-hidden="true"
                           >
-                            ✦
-                          </span>
-                          <span
-                            className="absolute text-[#C9BCFF] text-[10px] animate-domie-tw"
-                            style={{ right: "120px", top: "140px", animationDelay: "-1.8s" }}
+                            <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z" />
+                          </svg>
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="#C9BCFF"
+                            className="w-2.5 h-2.5 absolute animate-star-twinkle pointer-events-none select-none"
+                            style={{ right: "125px", bottom: "16px", animationDelay: "-1.6s" }}
+                            aria-hidden="true"
                           >
-                            ✦
-                          </span>
+                            <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5Z" />
+                          </svg>
                         </>
                       )}
                     </div>
