@@ -8,7 +8,7 @@ export function CheckoutScreen() {
   return (
     <div
       role="img"
-      aria-label="Northstar Academy branded checkout experience"
+      aria-label="Your Academy branded checkout experience"
       className="w-full h-full bg-[#FAF9F6] font-urbanist text-[#161616] flex flex-col select-none overflow-hidden"
     >
       <div aria-hidden="true" className="w-full h-full flex flex-col">
@@ -135,7 +135,7 @@ export function CheckoutScreen() {
             </div>
 
             <div className="pt-2 border-t border-[#F0EFEA] text-[9px] text-[#8F94A0]">
-              Direct settlement to Northstar Academy merchant account · Zero vendor fee
+              Direct settlement to Your Academy merchant account · Zero vendor fee
             </div>
           </div>
 

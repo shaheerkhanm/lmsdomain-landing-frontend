@@ -269,7 +269,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
-            className="px-5 py-2 rounded-full bg-[#161616] hover:bg-black text-white text-[13px] font-semibold transition-all shadow-xs active:scale-95 cursor-pointer shrink-0"
+            className="px-5 py-2 rounded-full bg-[#161616] hover:bg-black text-white text-[13px] font-semibold transition-all shadow-xs active:scale-95 cursor-pointer shrink-0 whitespace-nowrap"
           >
             Book a demo
           </button>
@@ -291,7 +291,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
-            className="min-h-[40px] px-4 py-2 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center justify-center cursor-pointer active:scale-95"
+            className="min-h-[40px] px-4 py-2 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center justify-center cursor-pointer active:scale-95 whitespace-nowrap shrink-0"
           >
             Book a demo
           </button>

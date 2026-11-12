@@ -46,3 +46,7 @@ docs/multipage/evidence/*
 !docs/multipage/evidence/pricing/
 docs/multipage/evidence/pricing/*
 !docs/multipage/evidence/pricing/cms-response.json
+
+# Redesign v4 reference files
+docs/redesign-v4/reference/
+docs/reference-sendr/

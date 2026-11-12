@@ -11,7 +11,7 @@
  */
 
 export const NOT_LIVE_REGEX =
-  /android|\bios\b|iphone|ipad|app store|google play|play store|store listings?|mobile apps?|\bapps\b|\bDRM\b|fairplay|widevine|whatsapp|webrtc|memberships?|affiliates? program|\bfunnels?\b|paypal|ai quiz|quiz generat|assessment generat|verifi(?:ed|able).*certif|certif.*verifi|verifiable credential|verifiable digital certificat/i;
+  /android|\bios\b|iphone|ipad|app store|google play|play store|store listings?|mobile apps?|\bapps\b|\bDRM\b|fairplay|widevine|whatsapp|webrtc|memberships?|affiliates? program|\bfunnels?\b|paypal|ai quiz|quiz generat|assessment generat|verifi(?:ed|able).*certif|certif.*verifi|verifiable credential|verifiable digital certificat|\blorem\b|\bipsum\b/i;
 
 /**
  * Whitelisted item IDs allowed to reference roadmap features (e.g. mobile-app FAQ linking to /roadmap)

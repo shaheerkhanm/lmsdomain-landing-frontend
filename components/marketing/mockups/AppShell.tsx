@@ -93,7 +93,7 @@ export function AppShell({
   return (
     <div
       role="img"
-      aria-label="Northstar Academy sample dashboard in LMS Domain"
+      aria-label="Your Academy sample dashboard in LMS Domain"
       className={cn(
         "w-full h-full flex bg-[#F5F6F8] font-urbanist text-[#161616] text-[13px] select-none overflow-hidden",
         className

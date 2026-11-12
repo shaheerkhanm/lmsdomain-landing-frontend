@@ -1,12 +1,18 @@
 import React from "react";
 import BannerSection from "@/components/sections/HomePage/Banner/BannerSection";
+import BuiltForBatchesSection from "@/components/sections/HomePage/BuiltForBatchesSection";
+import HomeStatsSection from "@/components/sections/HomePage/HomeStatsSection";
 import HowAcademyRunsSection from "@/components/sections/HomePage/HowAcademyRunsSection";
 import SellAnywhereSection from "@/components/sections/HomePage/SellAnywhereSection";
 import YourBrandSection from "@/components/sections/HomePage/YourBrandSection";
 import DomieAiBand from "@/components/sections/HomePage/DomieAiBand";
 import WhyChooseUsSection from "@/components/sections/HomePage/WhyChooseUsSection";
+import HomeSolutionsSection from "@/components/sections/HomePage/HomeSolutionsSection";
 import PricingTeaserSection from "@/components/sections/HomePage/PricingTeaserSection";
 import { ProofStrip, FAQ, CTABand } from "@/components/marketing/ui";
+import { BatchFlowScreen } from "@/components/marketing/mockups/screens";
+import { DomieLauncher } from "@/components/ai/DomieLauncher";
+import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { homeFaqItems } from "@/content/faq";
 import { getSection, getHomeClients, getPricingPage } from "@/lib/api/content";
 import { keepLive } from "@/lib/claims";
@@ -42,55 +48,69 @@ export async function HomePage() {
   return (
     <PageContentProvider value={content}>
       <div className="relative font-urbanist selection:bg-[#161616] selection:text-white bg-[#FAF9F6]">
-        {/* 1. HERO (Single H1 on the page) */}
+        {/* 1. HERO (Single H1 on the page + Logo Marquee) */}
         <ContentSource id="home-hero" source={hero.source}>
-          <BannerSection data={{}} graphData={{}} />
+          <BannerSection clientLogos={clients?.logos || []} />
         </ContentSource>
 
-        {/* 2. TRUST STRIP (ProofStrip) */}
-        <ProofStrip
-          heading="Academies teaching with LMS Domain"
-          logos={clients?.logos || []}
-          metricsLine="2,000+ learners · 100+ courses · 100+ live classes delivered"
-        />
+        {/* 2. GIANT PRODUCT SCREEN */}
+        <section className="mt-[clamp(56px,7vw,88px)] max-w-[1160px] mx-auto px-5" aria-label="Course batch flow demo">
+          <BatchFlowScreen />
+        </section>
 
-        {/* 3. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
-        <HowAcademyRunsSection />
+        {/* 3. BUILT FOR BATCHES DARK PANEL & ADMIN DASHBOARD */}
+        <BuiltForBatchesSection />
 
-        {/* 4. SELL ANYWHERE */}
-        <SellAnywhereSection />
+        {/* 4. STATS (Proof Strip Proof Numbers) */}
+        <HomeStatsSection />
 
-        {/* 5. YOUR BRAND, YOUR DOMAIN */}
-        <YourBrandSection />
-
-        {/* 6. DOMIE AI (Compact band with Premium label) */}
+        {/* 5. DOMIE AI */}
         <DomieAiBand />
 
-        {/* 7. WHY ACADEMIES CHOOSE LMS DOMAIN */}
+        {/* 6. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
+        <HowAcademyRunsSection />
+
+        {/* 7. SELL ANYWHERE */}
+        <SellAnywhereSection />
+
+        {/* 8. YOUR BRAND, YOUR DOMAIN */}
+        <YourBrandSection />
+
+        {/* 9. WHY ACADEMIES CHOOSE LMS DOMAIN */}
         <WhyChooseUsSection />
 
-        {/* 8. PRICING TEASER */}
+        {/* 10. SOLUTIONS PHOTO CARDS */}
+        <HomeSolutionsSection />
+
+        {/* 11. PRICING TEASER */}
         <PricingTeaserSection
-          lowestMonthlyPrice={lowestMonthlyPrice}
-          lowestMonthlyPriceUsd={lowestMonthlyPriceUsd}
-          currency={planCurrency}
+          pricingV2={pricingPage?.pricingV2}
+          heroTitle={pricingPage?.hero?.title}
+          heroSubtitle={pricingPage?.hero?.subtitle}
         />
 
-        {/* 9. FAQ */}
+        {/* 12. FAQ (Sendr Dark Panel Style) */}
         <FAQ
           items={keepLive(homeFaqItems, (item) => [item.question, item.answer])}
           title="Frequently asked questions"
-          subtitle="Everything you need to know about setting up and running your academy on LMS Domain."
-          className="bg-white border-y border-[#EAE8E2]"
+          eyebrow="FAQs"
+          variant="dark-panel"
+          contactHref="/contact"
         />
 
-        {/* 10. FINAL CTA */}
+        {/* 13. FINAL CTA */}
         <CTABand
           title="See your academy running on LMS Domain."
           subtitle="Book a 20-minute demo. We'll show it with your own course structure."
           buttonText="Book a demo"
-          tone="dark"
+          tone="light"
         />
+
+        {/* 14. FLOATING DOMIE LAUNCHER */}
+        <DomieLauncher />
+
+        {/* 15. SCROLL REVEAL OBSERVER */}
+        <ScrollReveal />
       </div>
     </PageContentProvider>
   );

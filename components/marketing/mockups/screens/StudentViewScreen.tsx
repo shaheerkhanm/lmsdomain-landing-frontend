@@ -8,7 +8,7 @@ export function StudentViewScreen() {
   return (
     <div
       role="img"
-      aria-label="Northstar Academy learner experience in mobile browser"
+      aria-label="Your Academy learner experience in mobile browser"
       className="w-full h-full bg-[#F5F6F8] font-urbanist text-[#161616] flex items-center justify-center p-2 sm:p-4 select-none overflow-hidden"
     >
       <div

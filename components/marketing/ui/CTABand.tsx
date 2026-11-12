@@ -16,17 +16,19 @@ export interface CTABandProps {
     label: string;
     href: string;
   };
+  handNote?: string;
   className?: string;
-  tone?: "dark" | "warm" | "violet";
+  tone?: "dark" | "warm" | "violet" | "light";
 }
 
 export function CTABand({
   title = "See your academy running on LMS Domain.",
   subtitle = "Book a 20-minute demo. We'll show it with your own course structure.",
   buttonText = "Book a demo",
-  secondaryCta,
+  secondaryCta = { label: "See pricing", href: "/pricing" },
+  handNote = "Your own domain on every plan · Set up with our team",
   className,
-  tone = "dark",
+  tone = "light",
 }: CTABandProps) {
   const [showModal, setShowModal] = useState(false);
 
@@ -34,77 +36,74 @@ export function CTABand({
 
   return (
     <>
-      <div
+      <section
+        id="cta"
         className={cn(
-          "w-full py-16 sm:py-24 font-urbanist relative overflow-hidden",
+          "w-full py-20 sm:py-28 font-sans relative overflow-hidden isolate",
           isDark
-            ? "bg-[#161616] text-white"
+            ? "bg-[#0E0E11] text-white"
             : tone === "violet"
-            ? "bg-[#7B5CF5] text-white"
-            : "bg-[#FAF9F6] text-[#161616] border-y border-[#EAE8E2]",
+            ? "bg-[#6C4BFF] text-white"
+            : "bg-[#FAFAFA] text-[#151517] border-t border-[#E8E8EC]",
           className
         )}
       >
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 relative z-10 text-center flex flex-col items-center">
-          {/* H2 Title (never animated to keep LCP/readability solid) */}
-          <h2 className="text-[28px] leading-[36px] sm:text-[36px] sm:leading-[44px] font-semibold tracking-tight max-w-[70ch] mx-auto">
+        {/* Soft warm glow behind CTA */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 -bottom-[220px] -translate-x-1/2 w-[900px] h-[440px] bg-[radial-gradient(closest-side,rgba(242,137,74,0.35),rgba(226,83,155,0.22)_50%,rgba(123,92,255,0.12)_75%,transparent)] -z-10"
+        />
+
+        <div className="rv-v4 max-w-[1080px] mx-auto px-4 sm:px-6 relative z-10 text-center flex flex-col items-center">
+          <span className="eyebrow inline-block font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-grad-v4 mb-3.5 select-none">
+            Book a demo
+          </span>
+
+          <h2 className={cn("text-[clamp(36px,5vw,58px)] font-bold tracking-[-0.03em] leading-[1.08] max-w-[18ch] mx-auto", isDark ? "text-white" : "text-[#151517]")}>
             {title}
           </h2>
 
-          {/* Subtitle Body (never animated) */}
           {subtitle && (
             <p
               className={cn(
-                "mt-4 text-[16px] leading-[26px] sm:text-[18px] sm:leading-[28px] max-w-[70ch] mx-auto leading-relaxed",
-                isDark ? "text-slate-300" : tone === "violet" ? "text-violet-100" : "text-[#6B6F76]"
+                "mt-4 text-[16px] leading-[26px] max-w-[56ch] mx-auto leading-relaxed",
+                isDark ? "text-[#8A8A96]" : tone === "violet" ? "text-violet-100" : "text-[#535361]"
               )}
             >
               {subtitle}
             </p>
           )}
 
-          {/* Action CTAs Button Container with optional subtle entry */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4"
-          >
+          {/* Action CTAs */}
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-2.5">
             <button
               type="button"
               onClick={() => setShowModal(true)}
-              className={cn(
-                "px-7 py-3.5 rounded-full text-sm font-semibold transition-all active:scale-95 shadow-sm inline-flex items-center gap-2 cursor-pointer",
-                isDark
-                  ? "bg-white hover:bg-slate-100 text-[#161616]"
-                  : tone === "violet"
-                  ? "bg-white hover:bg-slate-100 text-[#5925DC]"
-                  : "bg-[#161616] hover:bg-black text-white"
-              )}
+              className="btn-v4-dark cursor-pointer"
             >
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-3.5 h-3.5">
+                <path d="M5 11 11 5M6 5h5v5" />
+              </svg>
               <span>{buttonText}</span>
-              <ArrowRight className="size-4" />
             </button>
 
             {secondaryCta && (
               <Link
                 href={secondaryCta.href}
-                className={cn(
-                  "px-6 py-3.5 rounded-full text-sm font-semibold transition-all active:scale-95 border",
-                  isDark
-                    ? "border-white/20 hover:bg-white/10 text-white"
-                    : tone === "violet"
-                    ? "border-white/30 hover:bg-white/10 text-white"
-                    : "border-[#EAE8E2] hover:bg-[#F3F4F6] text-[#161616]"
-                )}
+                className="btn-v4-light"
               >
                 {secondaryCta.label}
               </Link>
             )}
-          </motion.div>
+          </div>
+
+          {handNote && (
+            <p className={cn("font-hand text-[19px] leading-tight mt-3", isDark ? "text-[#8A8A96]" : "text-[#55555F]")}>
+              {handNote}
+            </p>
+          )}
         </div>
-      </div>
+      </section>
 
       {/* Demo Enquiry Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>

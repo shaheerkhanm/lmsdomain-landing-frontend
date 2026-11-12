@@ -8,7 +8,7 @@ export function BrandedSiteScreen() {
   return (
     <div
       role="img"
-      aria-label="Northstar Academy branded custom domain storefront"
+      aria-label="Your Academy branded custom domain storefront"
       className="w-full h-full bg-[#FAF9F6] font-urbanist text-[#161616] flex flex-col select-none overflow-hidden"
     >
       <div aria-hidden="true" className="w-full h-full flex flex-col">
@@ -71,7 +71,7 @@ export function BrandedSiteScreen() {
               Master Entrance Exams & Professional Skills with Expert Faculty
             </p>
             <p className="text-[11px] text-[#717684] max-w-md mx-auto">
-              Live Zoom classes, interactive doubt-clearing sessions, and completion certificates directly on Northstar Academy.
+              Live Zoom classes, interactive doubt-clearing sessions, and completion certificates directly on Your Academy.
             </p>
           </div>
 

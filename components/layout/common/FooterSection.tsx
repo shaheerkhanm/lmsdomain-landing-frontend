@@ -9,6 +9,7 @@ import { sanitizeHtml } from "@/lib/sanitize";
 import { footerContent } from "@/content/home/footer";
 import { usePageVisibility } from "@/lib/pages-context";
 import BrandLogo from "@/components/brand/BrandLogo";
+import { mentionsNotLive } from "@/lib/claims";
 
 const DEFAULT_FOOTER_COLUMNS = [
   {
@@ -31,26 +32,25 @@ const DEFAULT_FOOTER_COLUMNS = [
       { title: "Language & Test-Prep Academies", href: "/solutions/language-test-prep-academies" },
       { title: "Training Companies", href: "/solutions/training-companies" },
       { title: "Solo Educators & Tutors", href: "/solutions/solo-educators" },
-      { title: "Enterprise LMS", href: "/custom-lms" },
-      { title: "Plans & Pricing", href: "/pricing" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { title: "About Us", href: "/about" },
       { title: "Customers", href: "/customers" },
+      { title: "Contact Us", href: "/contact" },
+      { title: "Enterprise LMS", href: "/custom-lms" },
     ],
   },
   {
     title: "Resources",
     links: [
+      { title: "Plans & Pricing", href: "/pricing" },
       { title: "Product Roadmap", href: "/roadmap" },
-      { title: "About Us", href: "/about" },
-      { title: "Contact Us", href: "/contact" },
-      { title: "Product FAQs", href: "/pricing#faqSection" },
-    ],
-  },
-  {
-    title: "Legal & Compliance",
-    links: [
       { title: "Privacy Policy", href: "/privacy-policy" },
       { title: "Terms of Service", href: "/terms" },
-      { title: "Refund & Cancellation", href: "/refund-policy" },
+      { title: "Refund Policy", href: "/refund-policy" },
     ],
   },
 ];
@@ -72,7 +72,7 @@ export function FooterSection({
   }
 
   const sanitizedContent = sanitizeHtml(contentData?.content);
-  const isLorem = /lorem\s*ipsum/i.test(sanitizedContent || "");
+  const isPlaceholder = mentionsNotLive(sanitizedContent || "");
 
   const columns = DEFAULT_FOOTER_COLUMNS.map((section) => {
     let links = section.links.filter((link) => isPathVisible(link.href));
@@ -104,7 +104,7 @@ export function FooterSection({
               <BrandLogo variant="wordmark" tone="light" height={32} />
             </Link>
 
-            {sanitizedContent && !isLorem ? (
+            {sanitizedContent && !isPlaceholder ? (
               <div
                 className="text-sm text-slate-600 leading-relaxed max-w-sm"
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
