@@ -269,7 +269,7 @@ export function BatchFlowScreen() {
                 loading="lazy"
                 className="object-cover"
               />
-              <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 bg-[#E5484D] text-white font-bold text-[10.5px] tracking-[0.08em] px-2 py-1 rounded-[6px]">
+              <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 bg-[#D9383E] text-white font-bold text-[10.5px] tracking-[0.08em] px-2 py-1 rounded-[6px]">
                 <span className="w-1.5 h-1.5 rounded-full bg-white animate-live-blink" />
                 LIVE
               </span>

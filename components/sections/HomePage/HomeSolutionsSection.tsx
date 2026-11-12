@@ -50,7 +50,8 @@ export function HomeSolutionsSection() {
               {/* Photo Background */}
               <Image
                 src={sol.image}
-                alt={sol.title}
+                alt=""
+                aria-hidden="true"
                 fill
                 sizes="(max-width: 980px) 50vw, 25vw"
                 loading="lazy"

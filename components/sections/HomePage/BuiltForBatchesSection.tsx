@@ -47,7 +47,7 @@ export function BuiltForBatchesSection() {
 
           {/* Pillar Chips Row */}
           <div
-            className="flex flex-wrap justify-center gap-2 sm:gap-2.5 mt-8 sm:mt-10 max-w-[680px] mx-auto"
+            className="flex flex-wrap xl:flex-nowrap justify-center gap-2 sm:gap-2.5 mt-8 sm:mt-10 max-w-[520px] xl:max-w-none mx-auto"
             aria-hidden="true"
           >
             {PILLARS.map((pillar) => {
@@ -55,7 +55,7 @@ export function BuiltForBatchesSection() {
               return (
                 <span
                   key={pillar.name}
-                  className="h-9 inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.1] rounded-[10px] px-3.5 text-[14px] text-[#E7E7EE] backdrop-blur-[6px]"
+                  className="h-9 inline-flex items-center gap-1.5 sm:gap-2 bg-white/[0.06] border border-white/[0.1] rounded-[10px] px-3 sm:px-3.5 text-[13.5px] sm:text-[14px] text-[#E7E7EE] backdrop-blur-[6px] shrink-0"
                 >
                   <Icon className="w-4 h-4 text-white/85 shrink-0" strokeWidth={1.75} />
                   <span>{pillar.name}</span>

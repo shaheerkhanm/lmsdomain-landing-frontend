@@ -244,9 +244,9 @@ export function AdminDashboardDark({
           </div>
 
           {/* Heading */}
-          <h4 className="text-[16px] font-bold text-white mt-1">
+          <p className="text-[16px] font-bold text-white mt-1">
             Welcome back, {adminName}
-          </h4>
+          </p>
           <p className="text-[#8C8C98] text-[12.5px] mb-3">
             Courses, students and revenue at a glance. Figures use the Asia/Kolkata time zone.
           </p>

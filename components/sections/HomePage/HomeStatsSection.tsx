@@ -118,11 +118,11 @@ export function HomeStatsSection() {
     <section
       ref={sectionRef}
       id="stats-section"
-      className="pt-14 pb-24 font-sans transition-colors duration-700"
+      className="pt-10 md:pt-12 pb-20 md:pb-24 font-sans transition-colors duration-700"
     >
       <div className="max-w-[1080px] mx-auto px-5 text-center">
-        {/* Caption above the numbers */}
-        <p className="text-[14px] font-medium text-[#8A8A96] stat-text-muted mb-10 tracking-normal transition-colors duration-700">
+        {/* Caption in brand gradient with tightened top spacing (~48px desktop / 40px mobile) */}
+        <p className="text-[14px] font-semibold text-grad-v4 mb-8 tracking-normal select-none">
           Academies teaching with LMS Domain
         </p>
 
@@ -173,7 +173,7 @@ export function HomeStatsSection() {
                   />
                 )}
 
-                {/* 48px Duotone Icon (no tile behind) */}
+                {/* 48px Duotone Icon with Brand Gradient (no tile behind) */}
                 <div className="mb-4 shrink-0">
                   <Icon size={48} className="w-12 h-12" />
                 </div>
