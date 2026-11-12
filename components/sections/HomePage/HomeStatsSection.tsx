@@ -1,8 +1,12 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Eyebrow } from "@/components/marketing/ui";
-import { Users, BookOpen, FileText, Video } from "lucide-react";
+import {
+  DuotoneLearners,
+  DuotoneCourses,
+  DuotoneLessons,
+  DuotoneLiveClasses,
+} from "@/components/marketing/icons/duotone";
 
 interface StatItem {
   id: string;
@@ -10,7 +14,7 @@ interface StatItem {
   suffix: string;
   hasComma?: boolean;
   label: string;
-  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  icon: React.ComponentType<{ className?: string; size?: number }>;
 }
 
 const STATS_DATA: StatItem[] = [
@@ -20,28 +24,28 @@ const STATS_DATA: StatItem[] = [
     suffix: "+",
     hasComma: true,
     label: "learners",
-    icon: Users,
+    icon: DuotoneLearners,
   },
   {
     id: "courses",
     target: 100,
     suffix: "+",
     label: "courses",
-    icon: BookOpen,
+    icon: DuotoneCourses,
   },
   {
     id: "lessons",
     target: 300,
     suffix: "+",
     label: "lessons",
-    icon: FileText,
+    icon: DuotoneLessons,
   },
   {
     id: "classes",
     target: 100,
     suffix: "+",
     label: "live classes",
-    icon: Video,
+    icon: DuotoneLiveClasses,
   },
 ];
 
@@ -76,20 +80,20 @@ export function HomeStatsSection() {
           setHasAnimated(true);
 
           // Animate count up once
-          const duration = 1600; // ms
+          const duration = 1400; // ms
           const startTime = performance.now();
 
           const animate = (currentTime: number) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            // Ease out quad
-            const easeProgress = 1 - (1 - progress) * (1 - progress);
+            // Ease out cubic
+            const easeOut = 1 - Math.pow(1 - progress, 3);
 
             setCounts({
-              learners: Math.round(2000 * easeProgress),
-              courses: Math.round(100 * easeProgress),
-              lessons: Math.round(300 * easeProgress),
-              classes: Math.round(100 * easeProgress),
+              learners: Math.round(2000 * easeOut),
+              courses: Math.round(100 * easeOut),
+              lessons: Math.round(300 * easeOut),
+              classes: Math.round(100 * easeOut),
             });
 
             if (progress < 1) {
@@ -111,34 +115,77 @@ export function HomeStatsSection() {
   }, [hasAnimated]);
 
   return (
-    <section ref={sectionRef} className="py-14 md:py-20 font-sans">
-      <div className="rv-v4 max-w-[1080px] mx-auto px-5">
-        <Eyebrow tone="gradient">Proof</Eyebrow>
-        <h2 className="type-h2-v4 text-[#151517] mt-1">
+    <section
+      ref={sectionRef}
+      id="stats-section"
+      className="pt-14 pb-24 font-sans transition-colors duration-700"
+    >
+      <div className="max-w-[1080px] mx-auto px-5 text-center">
+        {/* Caption above the numbers */}
+        <p className="text-[14px] font-medium text-[#8A8A96] stat-text-muted mb-10 tracking-normal transition-colors duration-700">
           Academies teaching with LMS Domain
-        </h2>
+        </p>
 
-        {/* 4 Stats in one white card with hairlines */}
-        <div className="bg-white border border-[#E8E8EC] rounded-[20px] shadow-[0_20px_40px_-32px_rgba(20,20,40,0.25)] grid grid-cols-2 md:grid-cols-4 mt-8 sm:mt-10 overflow-hidden">
+        {/* 4 equal columns on desktop, 2x2 on mobile, no outer card */}
+        <div className="grid grid-cols-2 md:grid-cols-4 relative">
           {STATS_DATA.map((stat, idx) => {
             const Icon = stat.icon;
             return (
               <div
                 key={stat.id}
-                className={`p-6 sm:p-7 flex flex-col items-start ${
-                  idx % 2 !== 0 ? "border-l border-[#E8E8EC]" : ""
-                } ${
-                  idx >= 2 ? "border-t border-[#E8E8EC] md:border-t-0" : ""
-                } md:border-t-0 md:[&:not(:first-child)]:border-l md:[&:not(:first-child)]:border-[#E8E8EC]`}
+                className="relative flex flex-col items-center justify-center p-6 sm:p-8"
               >
-                <span className="w-10 h-10 rounded-[12px] bg-[#EFEBFF] text-[#6C4BFF] flex items-center justify-center mb-4 shrink-0">
-                  <Icon className="w-5 h-5" strokeWidth={1.75} />
-                </span>
-                <b className="block font-inter font-bold text-[36px] md:text-[48px] tracking-[-0.04em] leading-none text-[#151517]">
+                {/* Vertical Hairline with Top/Bottom Fade */}
+                {idx !== 0 && (
+                  <div
+                    aria-hidden="true"
+                    className={`absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-[75%] stat-divider-line pointer-events-none ${
+                      idx === 2 ? "hidden md:block" : ""
+                    }`}
+                    style={{
+                      background:
+                        "linear-gradient(transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
+                    }}
+                  />
+                )}
+
+                {/* Mobile Second Row Left Divider (idx = 3 on mobile) */}
+                {idx === 3 && (
+                  <div
+                    aria-hidden="true"
+                    className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-[75%] stat-divider-line pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
+                    }}
+                  />
+                )}
+
+                {/* Mobile Horizontal Divider between row 1 & row 2 */}
+                {idx >= 2 && (
+                  <div
+                    aria-hidden="true"
+                    className="md:hidden absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] stat-divider-line pointer-events-none"
+                    style={{
+                      background:
+                        "linear-gradient(90deg, transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
+                    }}
+                  />
+                )}
+
+                {/* 48px Duotone Icon (no tile behind) */}
+                <div className="mb-4 shrink-0">
+                  <Icon size={48} className="w-12 h-12" />
+                </div>
+
+                {/* Number: 52px desktop / 38px mobile Inter 700 -0.04em */}
+                <b className="block font-inter font-bold text-[38px] md:text-[52px] tracking-[-0.04em] leading-none text-[#151517] stat-text-ink transition-colors duration-700">
                   {formatNumber(counts[stat.id] ?? stat.target, stat.hasComma)}
                   {stat.suffix}
                 </b>
-                <span className="text-[#535361] text-[14px] mt-2 block font-normal">
+
+                {/* Label: 16px #535361 */}
+                <span className="text-[#535361] stat-text-muted text-[16px] font-normal mt-2.5 block transition-colors duration-700">
                   {stat.label}
                 </span>
               </div>
