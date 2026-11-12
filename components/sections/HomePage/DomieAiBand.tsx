@@ -300,7 +300,7 @@ export function DomieAiBand() {
         aria-hidden="true"
       />
 
-      <div className="max-w-[1080px] mx-auto px-5">
+      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
         {/* Left-Aligned Header with 2c Domie Presence */}
         <div>
           {/* Mobile Domie Avatar (above eyebrow) */}

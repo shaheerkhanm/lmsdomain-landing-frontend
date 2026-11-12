@@ -7,7 +7,7 @@ import { Eyebrow } from "@/components/marketing/ui";
 export function WhyChooseUsSection() {
   return (
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="why">
-      <div className="max-w-[1080px] mx-auto px-5">
+      <div className="max-w-[1240px] mx-auto px-[clamp(20px,4vw,48px)]">
         <div className="rv-v4">
           <Eyebrow tone="gradient">Why choose us</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">

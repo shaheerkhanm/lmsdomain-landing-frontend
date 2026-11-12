@@ -49,7 +49,7 @@ export function Section({
       {...props}
     >
       {container ? (
-        <div className={cn("max-w-[1080px] mx-auto px-4 sm:px-6 w-full", containerClassName)}>
+        <div className={cn("max-w-[1240px] mx-auto px-[clamp(20px,4vw,48px)] w-full", containerClassName)}>
           {children}
         </div>
       ) : (

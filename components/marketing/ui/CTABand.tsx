@@ -54,7 +54,7 @@ export function CTABand({
           className="pointer-events-none absolute left-1/2 -bottom-[220px] -translate-x-1/2 w-[900px] h-[440px] bg-[radial-gradient(closest-side,rgba(242,137,74,0.35),rgba(226,83,155,0.22)_50%,rgba(123,92,255,0.12)_75%,transparent)] -z-10"
         />
 
-        <div className="rv-v4 max-w-[1080px] mx-auto px-4 sm:px-6 relative z-10 text-center flex flex-col items-center">
+        <div className="rv-v4 max-w-[1240px] mx-auto px-[clamp(20px,4vw,48px)] relative z-10 text-center flex flex-col items-center">
           <span className="eyebrow inline-block font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-grad-v4 mb-3.5 select-none">
             Book a demo
           </span>

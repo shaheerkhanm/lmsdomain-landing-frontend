@@ -49,7 +49,7 @@ export function HeroDashboard() {
       if (asmRef.current && contentRef.current) {
         const clientW = asmRef.current.clientWidth;
         if (clientW > 0) {
-          const s = Math.min(1, clientW / 1100);
+          const s = Math.min(1, clientW / 1200);
           setScale(s);
           setHeight(contentRef.current.offsetHeight * s);
         }
@@ -166,7 +166,7 @@ export function HeroDashboard() {
   return (
     <div
       ref={asmRef}
-      className="asm-container relative max-w-[1120px] mx-auto pb-8 sm:pb-12 overflow-visible"
+      className="asm-container relative max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] pb-8 sm:pb-12 overflow-visible"
       style={{ "--p": effectiveP } as React.CSSProperties}
       aria-hidden="true"
     >
@@ -180,7 +180,7 @@ export function HeroDashboard() {
           ref={contentRef}
           className="devscale-content origin-top-left overflow-visible"
           style={{
-            width: "1100px",
+            width: "1200px",
             transform: `scale(${scale})`,
             transformOrigin: "0 0",
           }}

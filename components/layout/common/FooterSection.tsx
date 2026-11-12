@@ -96,7 +96,7 @@ export function FooterSection({
 
   return (
     <footer className="bg-slate-50 border-t border-slate-200 text-slate-800 font-inter pt-16 pb-12">
-      <div className="main-padding">
+      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 pb-12">
           {/* Brand Column */}
           <div className="lg:col-span-5 space-y-5">

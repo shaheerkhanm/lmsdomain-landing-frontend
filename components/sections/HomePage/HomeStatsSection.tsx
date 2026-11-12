@@ -120,7 +120,7 @@ export function HomeStatsSection() {
       id="stats-section"
       className="pt-10 md:pt-12 pb-20 md:pb-24 font-sans transition-colors duration-700"
     >
-      <div className="max-w-[1080px] mx-auto px-5 text-center">
+      <div className="max-w-[1240px] mx-auto px-[clamp(20px,4vw,48px)] text-center">
         {/* Caption in brand gradient with tightened top spacing (~48px desktop / 40px mobile) */}
         <p className="text-[14px] font-semibold text-grad-v4 mb-8 tracking-normal select-none">
           Academies teaching with LMS Domain

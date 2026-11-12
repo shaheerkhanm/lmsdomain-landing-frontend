@@ -33,7 +33,7 @@ export function YourBrandSection() {
 
   return (
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="brand">
-      <div className="max-w-[1080px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-[clamp(24px,5vw,64px)] items-center">
+      <div className="max-w-[1240px] mx-auto px-[clamp(20px,4vw,48px)] grid grid-cols-1 lg:grid-cols-[1fr_1.25fr] gap-[clamp(24px,5vw,64px)] items-center">
         {/* Left Column: Brand Copy & Points */}
         <div className="rv-v4">
           <Eyebrow tone="gradient">Brand</Eyebrow>

@@ -82,7 +82,7 @@ export function BannerSection({
         aria-hidden="true"
       />
 
-      <div className="max-w-[1080px] mx-auto px-5 sm:px-6 text-center flex flex-col items-center">
+      <div className="max-w-[1240px] mx-auto px-[clamp(20px,4vw,48px)] text-center flex flex-col items-center">
         {/* Compact Gradient Hairline Badge above H1 (§1) */}
         <div className="mb-4">
           <Link
