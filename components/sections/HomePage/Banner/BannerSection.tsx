@@ -53,7 +53,35 @@ export function BannerSection({
   const hasClientLogos = validClientLogos.length > 0;
 
   return (
-    <section className="pt-[100px] min-[900px]:pt-[93.5px] pb-0 font-sans overflow-x-clip">
+    <section className="relative pt-[100px] min-[900px]:pt-[93.5px] pb-0 font-sans overflow-x-clip bg-white isolate">
+      {/* Drifting Ambient Blobs behind dots (§4) */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[720px] overflow-hidden -z-20 select-none"
+        aria-hidden="true"
+      >
+        {/* Blob 1: Violet */}
+        <div className="hero-blob hero-blob-1 absolute left-1/2 -top-[120px] -translate-x-[65%] w-[640px] h-[640px] rounded-full bg-[#8B6CFF] opacity-[0.18] blur-[90px] will-change-transform" />
+        {/* Blob 2: Pink */}
+        <div className="hero-blob hero-blob-2 absolute left-1/2 -top-[60px] -translate-x-[20%] w-[580px] h-[580px] rounded-full bg-[#E2539B] opacity-[0.16] blur-[90px] will-change-transform" />
+        {/* Blob 3: Orange */}
+        <div className="hero-blob hero-blob-3 absolute left-1/2 top-[40px] -translate-x-[45%] w-[520px] h-[520px] rounded-full bg-[#F2894A] opacity-[0.15] blur-[90px] will-change-transform" />
+      </div>
+
+      {/* Dotted pattern masked with radial fade (§4) */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-[680px] -z-10 select-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(108, 75, 255, 0.12) 1.2px, transparent 1.2px)",
+          backgroundSize: "22px 22px",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 70% 65% at 50% 38%, black 25%, transparent 80%)",
+          maskImage:
+            "radial-gradient(ellipse 70% 65% at 50% 38%, black 25%, transparent 80%)",
+        }}
+        aria-hidden="true"
+      />
+
       <div className="max-w-[1080px] mx-auto px-5 sm:px-6 text-center flex flex-col items-center">
         {/* Compact Gradient Hairline Badge above H1 (§1) */}
         <div className="mb-4">

@@ -834,6 +834,54 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
+@keyframes blobDrift1 {
+  0% {
+    transform: translate3d(-65%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-55%, 35px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-72%, -25px, 0) scale(0.95);
+  }
+}
+
+@keyframes blobDrift2 {
+  0% {
+    transform: translate3d(-20%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-30%, -30px, 0) scale(0.92);
+  }
+  100% {
+    transform: translate3d(-12%, 40px, 0) scale(1.06);
+  }
+}
+
+@keyframes blobDrift3 {
+  0% {
+    transform: translate3d(-45%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-38%, 45px, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-52%, -30px, 0) scale(0.94);
+  }
+}
+
+.hero-blob-1 {
+  animation: blobDrift1 22s ease-in-out infinite alternate;
+}
+.hero-blob-2 {
+  animation: blobDrift2 22s ease-in-out infinite alternate;
+  animation-delay: -7s;
+}
+.hero-blob-3 {
+  animation: blobDrift3 22s ease-in-out infinite alternate;
+  animation-delay: -14s;
+}
+
 @keyframes starTwinkle {
   0%, 100% {
     opacity: 0.2;
@@ -1031,7 +1079,10 @@ input[type="number"]::-webkit-inner-spin-button {
   .animate-domie-float,
   .animate-star-twinkle,
   .animate-spin-slow,
-  .animate-progress-fill {
+  .animate-progress-fill,
+  .hero-blob-1,
+  .hero-blob-2,
+  .hero-blob-3 {
     animation: none !important;
   }
   .rv-v4,
