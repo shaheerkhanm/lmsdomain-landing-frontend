@@ -437,14 +437,22 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     ? `${pricingV2.monthsFree} months free`
     : undefined;
 
+  const isPricingHeroStale =
+    !heroCms?.title ||
+    /transparent pricing/i.test(heroCms.title) ||
+    mentionsNotLive(heroCms.title, heroCms.subTitle, heroCms.description);
+
   const hero = {
     eyebrow: (heroCms?.tags && heroCms.tags[0]) || DEFAULT_PRICING_HERO.eyebrow,
-    title: liveOr(heroCms?.title, DEFAULT_PRICING_HERO.title) || DEFAULT_PRICING_HERO.title,
-    subtitle:
-      liveOr(
-        heroCms?.subTitle || heroCms?.description,
-        `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
-      ) || DEFAULT_PRICING_HERO.subtitle,
+    title: isPricingHeroStale
+      ? DEFAULT_PRICING_HERO.title
+      : (liveOr(heroCms?.title, DEFAULT_PRICING_HERO.title) || DEFAULT_PRICING_HERO.title),
+    subtitle: isPricingHeroStale
+      ? `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
+      : (liveOr(
+          heroCms?.subTitle || heroCms?.description,
+          `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
+        ) || DEFAULT_PRICING_HERO.subtitle),
   };
 
   const emptyState = {
