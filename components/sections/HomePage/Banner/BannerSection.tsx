@@ -11,6 +11,7 @@ import { aiSectionContent } from "@/content/home/ai";
 import { useSectionContent } from "@/components/content/PageContent";
 import { liveOr } from "@/lib/claims";
 import type { ClientLogoItem } from "@/components/marketing/ui/ProofStrip";
+import HeroDashboard from "@/components/marketing/mockups/HeroDashboard";
 
 // Integration logos (NEVER integration-10 / PayPal)
 const INTEGRATION_LOGOS = [
@@ -50,13 +51,13 @@ export function BannerSection({
   const hasClientLogos = validClientLogos.length > 0;
 
   return (
-    <section className="pt-[clamp(120px,15vw,144px)] min-[900px]:pt-[clamp(88px,8vw,104px)] pb-0 font-sans">
-      <div className="max-w-[1080px] mx-auto px-5 sm:px-6">
+    <section className="pt-[clamp(64px,8vw,80px)] min-[900px]:pt-[clamp(28px,4.5vw,56px)] pb-0 font-sans">
+      <div className="max-w-[1080px] mx-auto px-5 sm:px-6 text-center flex flex-col items-center">
         {/* Badge above H1 */}
-        <div className="mb-5 sm:mb-[22px]">
+        <div className="mb-3 sm:mb-3.5">
           <Link
-            href="/ai"
-            className="inline-flex items-center gap-2 text-[12.5px] text-[#535361] hover:text-[#151517] transition-colors flex-wrap"
+            href="/platform/ai"
+            className="inline-flex items-center gap-2 text-[12.5px] text-[#535361] hover:text-[#151517] transition-colors flex-wrap justify-center"
           >
             <span className="inline-flex items-center gap-1.5 bg-[#151517] text-white rounded-[7px] px-2.5 py-1 font-semibold text-[11.5px]">
               New <span className="bg-gradient-to-r from-[#E2539B] via-[#F2894A] to-[#7B5CFF] bg-clip-text text-transparent not-italic font-bold">Domie AI</span> ›
@@ -69,12 +70,12 @@ export function BannerSection({
         <MainHeading data={data} />
 
         {/* Subtitle */}
-        <p className="mt-4 sm:mt-5 text-[15px] sm:text-[16px] text-[#535361] leading-[1.55] max-w-[62ch]">
+        <p className="mt-4 sm:mt-4.5 text-[15px] sm:text-[16px] text-[#535361] leading-[1.5] max-w-[62ch] mx-auto text-center">
           {effectiveSubtitle}
         </p>
 
         {/* CTAs */}
-        <div className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3">
+        <div className="mt-5 sm:mt-6 flex flex-wrap items-center justify-center gap-3">
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
@@ -108,13 +109,18 @@ export function BannerSection({
         </div>
 
         {/* Hand note */}
-        <p className="font-hand text-[19px] leading-[1.2] text-[#55555F] mt-3 sm:mt-3.5 flex items-center gap-1.5">
+        <p className="font-hand text-[19px] leading-[1.2] text-[#55555F] mt-2.5 sm:mt-3 flex items-center justify-center gap-1.5 text-center">
           {heroContent.microcopy || "Your own domain on every plan · Set up with our team"}
         </p>
       </div>
 
-      {/* Marquee Section */}
-      <div className="mt-[clamp(56px,7vw,84px)] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
+      {/* Hero Dashboard Assembly Frame (Option F) */}
+      <div className="mt-8 sm:mt-9">
+        <HeroDashboard />
+      </div>
+
+      {/* Marquee Section (Directly Below Dashboard) */}
+      <div className="mt-6 sm:mt-10 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
         {hasClientLogos && (
           <p className="text-center text-[12.5px] text-[#8A8A96] mb-5 sm:mb-[22px]">
             Academies teaching with LMS Domain

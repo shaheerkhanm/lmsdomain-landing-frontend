@@ -52,17 +52,12 @@ export async function HomePage() {
         className="relative font-urbanist selection:bg-[#161616] selection:text-white transition-[background-color] duration-700 ease-out"
         style={{ backgroundColor: "var(--page-bg, #FAFAFA)" }}
       >
-        {/* 1. HERO (Single H1 on the page + Logo Marquee) */}
+        {/* 1. HERO (Option F: Centered hero with scroll-assembling dashboard & marquee) */}
         <ContentSource id="home-hero" source={hero.source}>
           <BannerSection clientLogos={clients?.logos || []} />
         </ContentSource>
 
-        {/* 2. GIANT PRODUCT SCREEN */}
-        <section className="mt-[clamp(56px,7vw,88px)] max-w-[1160px] mx-auto px-5" aria-label="Course batch flow demo">
-          <BatchFlowScreen />
-        </section>
-
-        {/* 3. BUILT FOR BATCHES DARK PANEL & ADMIN DASHBOARD */}
+        {/* 2. BUILT FOR BATCHES DARK PANEL & ADMIN DASHBOARD */}
         <BuiltForBatchesSection />
 
         {/* 4. STATS (Proof Strip Proof Numbers) */}

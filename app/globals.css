@@ -658,11 +658,55 @@ input[type="number"]::-webkit-inner-spin-button {
 
   .type-h1-v4 {
     font-family: var(--font-inter), sans-serif;
-    font-size: clamp(40px, 6vw, 66px);
+    font-size: clamp(38px, 5vw, 62px);
     font-weight: 700;
     letter-spacing: -0.035em;
-    line-height: 1.04;
+    line-height: 1.1;
     text-wrap: balance;
+  }
+
+  /* Option F: Headline highlights (§1b) */
+  .hl {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.1em;
+    margin: 0 -0.06em;
+    border-radius: 0.2em;
+    transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+    white-space: nowrap;
+  }
+  .hl.on {
+    color: #151517;
+  }
+  .hl.on.c1 {
+    background: #FFD98A;
+    box-shadow: 0 0 0 2px #FFD98A;
+  }
+  .hl.on.c2 {
+    background: #C9BCFF;
+    box-shadow: 0 0 0 2px #C9BCFF;
+  }
+  .hl.on.c3 {
+    background: #A8EBD3;
+    box-shadow: 0 0 0 2px #A8EBD3;
+  }
+
+  /* Option F: Hero Dashboard assembly on scroll (§1d, §1e) */
+  .hero-asm-card {
+    --mult: 1;
+    transform: translate(
+      calc(var(--dx) * var(--mult, 1) * (1 - var(--p, 0))),
+      calc(var(--dy) * var(--mult, 1) * (1 - var(--p, 0)))
+    )
+    rotate(calc(var(--r) * var(--mult, 1) * (1 - var(--p, 0))))
+    scale(calc(1 + 0.06 * (1 - var(--p, 0))));
+    box-shadow: 0 calc(40px * (1 - var(--p, 0))) calc(70px * (1 - var(--p, 0))) calc(-30px * (1 - var(--p, 0))) rgba(20, 10, 60, 0.55);
+    z-index: 2;
+    will-change: transform;
+  }
+
+  .animate-domie-tw {
+    animation: domieTw 2.4s ease-in-out infinite;
   }
 
   .type-h2-v4 {
@@ -735,96 +779,11 @@ input[type="number"]::-webkit-inner-spin-button {
     transform: none;
   }
 
-  @keyframes mq {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
   .animate-marquee-v4 {
     display: flex;
     width: max-content;
     animation: mq 38s linear infinite;
     align-items: center;
-  }
-
-  @keyframes flow {
-    from {
-      top: -14px;
-    }
-    to {
-      top: 34px;
-    }
-  }
-
-  @keyframes cur {
-    0%, 8% {
-      transform: translate(170px, 70px);
-    }
-    30%, 48% {
-      transform: translate(60px, 285px);
-    }
-    68%, 82% {
-      transform: translate(90px, 600px);
-    }
-    100% {
-      transform: translate(170px, 70px);
-    }
-  }
-
-  @keyframes blink {
-    50% {
-      opacity: 0.25;
-    }
-  }
-
-  @keyframes dash {
-    to {
-      stroke-dashoffset: -20;
-    }
-  }
-
-  @keyframes draw {
-    from {
-      stroke-dashoffset: 1400;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  @keyframes ty {
-    30% {
-      transform: translateY(-4px);
-      opacity: 1;
-    }
-    0%, 60%, 100% {
-      opacity: 0.4;
-      transform: none;
-    }
-  }
-
-  @keyframes fill {
-    from {
-      width: 0;
-    }
-    to {
-      width: 100%;
-    }
-  }
-
-  @keyframes pin {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
 
   .animate-pulse-flow {
@@ -845,80 +804,190 @@ input[type="number"]::-webkit-inner-spin-button {
   .animate-typing-dot {
     animation: ty 1.2s infinite;
   }
-
-  /* Domie AI Scroll-Linked Dark Transition (§1a) */
-  :root {
-    --page-bg: #FAFAFA;
-  }
-
-  #home-page-root {
-    transition: background-color 0.8s ease, color 0.8s ease;
-  }
-
-  #home-page-root[data-ai-dark="true"] {
-    --page-bg: #0E0E11;
-  }
-
-  #home-page-root[data-ai-dark="true"] .stat-text-ink {
-    color: #ECECF1 !important;
-  }
-
-  #home-page-root[data-ai-dark="true"] .stat-text-muted {
-    color: #A9A9B6 !important;
-  }
-
-  #home-page-root[data-ai-dark="true"] .stat-divider-line {
-    background: linear-gradient(transparent, rgba(255, 255, 255, 0.15) 25%, rgba(255, 255, 255, 0.15) 75%, transparent) !important;
-  }
-
-  @supports (animation-timeline: view()) {
-    @keyframes domieDarkTransition {
-      0% {
-        background-color: #FAFAFA;
-      }
-      100% {
-        background-color: #0E0E11;
-      }
-    }
-  }
-
-  @keyframes domieBob {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-6px);
-    }
-  }
-
-  @keyframes spinSlow {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes progressFill {
-    from {
-      width: 0%;
-    }
-    to {
-      width: 100%;
-    }
-  }
-
   .animate-domie-bob {
     animation: domieBob 3s ease-in-out infinite;
   }
-
   .animate-spin-slow {
     animation: spinSlow 8s linear infinite;
   }
-
   .animate-progress-fill {
     animation: progressFill 5s linear forwards;
+  }
+}
+
+/* Responsive & Animations outside @layer utilities */
+@media (max-width: 767px) {
+  .hero-asm-card {
+    --mult: 0.5;
+  }
+}
+
+@keyframes domieTw {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes mq {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes flow {
+  from {
+    top: -14px;
+  }
+  to {
+    top: 34px;
+  }
+}
+
+@keyframes cur {
+  0%, 8% {
+    transform: translate(170px, 70px);
+  }
+  30%, 48% {
+    transform: translate(60px, 285px);
+  }
+  68%, 82% {
+    transform: translate(90px, 600px);
+  }
+  100% {
+    transform: translate(170px, 70px);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1400;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes ty {
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+  0%, 60%, 100% {
+    opacity: 0.4;
+    transform: none;
+  }
+}
+
+@keyframes fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes pin {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes domieBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Domie AI Scroll-Linked Dark Transition (§2a, §2b) */
+:root {
+  --page-bg: #FAFAFA;
+  --page-ink: #151517;
+  --page-muted: #535361;
+  --page-line: #E8E8EC;
+}
+
+#home-page-root {
+  background-color: var(--page-bg);
+  color: var(--page-ink);
+  transition: background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#home-page-root[data-ai-dark="true"] {
+  --page-bg: #0E0E11;
+  --page-ink: #F4F4F6;
+  --page-muted: #A9A9B6;
+  --page-line: rgba(255, 255, 255, 0.12);
+}
+
+#home-page-root .stat-text-ink {
+  color: var(--page-ink) !important;
+}
+
+#home-page-root .stat-text-muted {
+  color: var(--page-muted) !important;
+}
+
+#home-page-root[data-ai-dark="true"] .stat-divider-line {
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.15) 25%, rgba(255, 255, 255, 0.15) 75%, transparent) !important;
+}
+
+@supports (animation-timeline: view()) {
+  @keyframes domieDarkTransition {
+    0% {
+      background-color: #FAFAFA;
+    }
+    100% {
+      background-color: #0E0E11;
+    }
   }
 }
 
@@ -926,6 +995,14 @@ input[type="number"]::-webkit-inner-spin-button {
   #home-page-root {
     transition: none !important;
   }
+  .hl {
+    transition: none !important;
+  }
+  .hero-asm-card {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+  .animate-domie-tw,
   .animate-domie-bob,
   .animate-spin-slow,
   .animate-progress-fill {
