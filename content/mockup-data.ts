@@ -1,5 +1,5 @@
 // Sample data for coded product mockups
-// Identity: Northstar Academy (fictional sample academy)
+// Identity: Your Academy (fictional sample academy)
 // Time zone: Asia/Kolkata
 // Currency: INR (₹)
 
@@ -78,10 +78,10 @@ export interface BatchScheduleEvent {
 }
 
 export const MOCKUP_IDENTITY = {
-  academyName: "Northstar Academy",
+  academyName: "Your Academy",
   shortName: "NA",
-  roleLabel: "Northstar Academy · Admin",
-  domain: "learn.northstaracademy.in",
+  roleLabel: "Your Academy · Admin",
+  domain: "learn.youracademy.in",
   timeZoneText: "Figures use the Asia/Kolkata time zone.",
 };
 

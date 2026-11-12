@@ -117,7 +117,7 @@ export function CoursesScreen() {
           </div>
 
           <div className="pt-2.5 border-t border-[#F0EFEA] flex items-center justify-between text-[9px] text-[#8F94A0]">
-            <span>Showing 6 of 6 courses · Northstar Academy</span>
+            <span>Showing 6 of 6 courses · Your Academy</span>
             <div className="flex items-center gap-1">
               <span className="font-semibold text-[#161616]">1</span>
               <span>of 1 page</span>

@@ -9,6 +9,7 @@ import { sanitizeHtml } from "@/lib/sanitize";
 import { footerContent } from "@/content/home/footer";
 import { usePageVisibility } from "@/lib/pages-context";
 import BrandLogo from "@/components/brand/BrandLogo";
+import { mentionsNotLive } from "@/lib/claims";
 
 const DEFAULT_FOOTER_COLUMNS = [
   {
@@ -71,7 +72,7 @@ export function FooterSection({
   }
 
   const sanitizedContent = sanitizeHtml(contentData?.content);
-  const isLorem = /lorem\s*ipsum/i.test(sanitizedContent || "");
+  const isPlaceholder = mentionsNotLive(sanitizedContent || "");
 
   const columns = DEFAULT_FOOTER_COLUMNS.map((section) => {
     let links = section.links.filter((link) => isPathVisible(link.href));
@@ -103,7 +104,7 @@ export function FooterSection({
               <BrandLogo variant="wordmark" tone="light" height={32} />
             </Link>
 
-            {sanitizedContent && !isLorem ? (
+            {sanitizedContent && !isPlaceholder ? (
               <div
                 className="text-sm text-slate-600 leading-relaxed max-w-sm"
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
