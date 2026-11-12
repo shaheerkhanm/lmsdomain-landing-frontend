@@ -602,6 +602,54 @@ input[type="number"]::-webkit-inner-spin-button {
     background: radial-gradient(ellipse 65% 55% at 50% 105%, rgba(108, 75, 255, 0.35) 0%, rgba(123, 92, 255, 0.20) 45%, transparent 75%);
   }
 
+  /* FAQ Sendr Reference Style */
+  .faqband {
+    background: #161616;
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(70px, 9vw, 120px);
+  }
+  .faqband::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .faqband::after {
+    content: "";
+    position: absolute;
+    left: 55%;
+    top: -160px;
+    width: 420px;
+    height: 420px;
+    background: radial-gradient(closest-side, rgba(255, 255, 255, 0.35), transparent);
+    pointer-events: none;
+  }
+  .faqpanel {
+    position: relative;
+    z-index: 1;
+    max-width: 1080px;
+    margin: 0 auto;
+    border-radius: 40px;
+    background: linear-gradient(180deg, #FBFBFB 0%, #EDEDED 55%, #BDBDBD 100%);
+    padding: clamp(36px, 6vw, 72px) clamp(16px, 6vw, 96px);
+  }
+  .fq-item {
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 22px;
+    border: 1.5px solid transparent;
+    transition: background 0.2s;
+  }
+  .fq-item[data-state="open"] {
+    background: #fff;
+    border-color: transparent;
+    background-image: linear-gradient(#fff, #fff), linear-gradient(110deg, #C9B8FF, #FFE5B0, #B6F0DA, #B9C8FF);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
   .canvas-dots {
     background-color: #FBFBFC;
     background-image: radial-gradient(#DADAE0 1px, transparent 1.2px);
