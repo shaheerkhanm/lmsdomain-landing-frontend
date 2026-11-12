@@ -7,19 +7,26 @@ interface HeroHeadlineHighlightProps {
 }
 
 export function HeroHeadlineHighlight({ title }: HeroHeadlineHighlightProps) {
-  const [activeHighlight, setActiveHighlight] = useState(0);
+  const [step, setStep] = useState(0);
 
   useEffect(() => {
     const prefersReducedMotion =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion) {
+      setStep(3);
+      return;
+    }
 
-    const interval = setInterval(() => {
-      setActiveHighlight((prev) => (prev + 1) % 3);
-    }, 1800);
+    const t1 = setTimeout(() => setStep(1), 150);
+    const t2 = setTimeout(() => setStep(2), 150 + 350 + 150); // 650ms
+    const t3 = setTimeout(() => setStep(3), 150 + 350 + 150 + 350 + 150); // 1150ms
 
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
   }, []);
 
   const defaultTitle = "Run your academy's batches, live classes and tests in one place.";
@@ -39,24 +46,15 @@ export function HeroHeadlineHighlight({ title }: HeroHeadlineHighlightProps) {
   return (
     <>
       <span className="text-[#151517]">Run your academy&apos;s </span>
-      <span
-        className={`hl c1 ${activeHighlight === 0 ? "on" : ""}`}
-        data-h="0"
-      >
+      <span className={`hero-marker ${step >= 1 ? "drawn" : ""}`}>
         batches
       </span>
       <span className="text-[#151517]">, </span>
-      <span
-        className={`hl c2 ${activeHighlight === 1 ? "on" : ""}`}
-        data-h="1"
-      >
+      <span className={`hero-marker ${step >= 2 ? "drawn" : ""}`}>
         live classes
       </span>
       <span className="text-[#151517]"> and </span>
-      <span
-        className={`hl c3 ${activeHighlight === 2 ? "on" : ""}`}
-        data-h="2"
-      >
+      <span className={`hero-marker ${step >= 3 ? "drawn" : ""}`}>
         tests
       </span>
       <span className="text-[#151517]"> in one place{endsWithPeriod ? "." : ""}</span>

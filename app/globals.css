@@ -665,30 +665,27 @@ input[type="number"]::-webkit-inner-spin-button {
     text-wrap: balance;
   }
 
-  /* Option F: Headline highlights (§1b) */
-  .hl {
+  /* Option F: Headline Soft Violet Marker (§8) */
+  .hero-marker {
     position: relative;
     display: inline-block;
-    padding: 0 0.1em;
-    margin: 0 -0.06em;
-    border-radius: 0.2em;
-    transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
     white-space: nowrap;
   }
-  .hl.on {
-    color: #151517;
+  .hero-marker::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0.04em;
+    height: 38%;
+    width: 0%;
+    border-radius: 0.12em;
+    background: rgba(108, 75, 255, 0.16);
+    z-index: -1;
+    transition: width 350ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    pointer-events: none;
   }
-  .hl.on.c1 {
-    background: #FFD98A;
-    box-shadow: 0 0 0 2px #FFD98A;
-  }
-  .hl.on.c2 {
-    background: #C9BCFF;
-    box-shadow: 0 0 0 2px #C9BCFF;
-  }
-  .hl.on.c3 {
-    background: #A8EBD3;
-    box-shadow: 0 0 0 2px #A8EBD3;
+  .hero-marker.drawn::after {
+    width: 100%;
   }
 
   /* Option F: Hero Dashboard assembly on scroll (§1d, §1e) */
@@ -995,7 +992,8 @@ input[type="number"]::-webkit-inner-spin-button {
   #home-page-root {
     transition: none !important;
   }
-  .hl {
+  .hero-marker::after {
+    width: 100% !important;
     transition: none !important;
   }
   .hero-asm-card {
