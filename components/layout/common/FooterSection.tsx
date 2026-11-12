@@ -31,26 +31,25 @@ const DEFAULT_FOOTER_COLUMNS = [
       { title: "Language & Test-Prep Academies", href: "/solutions/language-test-prep-academies" },
       { title: "Training Companies", href: "/solutions/training-companies" },
       { title: "Solo Educators & Tutors", href: "/solutions/solo-educators" },
-      { title: "Enterprise LMS", href: "/custom-lms" },
-      { title: "Plans & Pricing", href: "/pricing" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { title: "About Us", href: "/about" },
       { title: "Customers", href: "/customers" },
+      { title: "Contact Us", href: "/contact" },
+      { title: "Enterprise LMS", href: "/custom-lms" },
     ],
   },
   {
     title: "Resources",
     links: [
+      { title: "Plans & Pricing", href: "/pricing" },
       { title: "Product Roadmap", href: "/roadmap" },
-      { title: "About Us", href: "/about" },
-      { title: "Contact Us", href: "/contact" },
-      { title: "Product FAQs", href: "/pricing#faqSection" },
-    ],
-  },
-  {
-    title: "Legal & Compliance",
-    links: [
       { title: "Privacy Policy", href: "/privacy-policy" },
       { title: "Terms of Service", href: "/terms" },
-      { title: "Refund & Cancellation", href: "/refund-policy" },
+      { title: "Refund Policy", href: "/refund-policy" },
     ],
   },
 ];
