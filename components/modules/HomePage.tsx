@@ -11,6 +11,7 @@ import HomeSolutionsSection from "@/components/sections/HomePage/HomeSolutionsSe
 import PricingTeaserSection from "@/components/sections/HomePage/PricingTeaserSection";
 import { ProofStrip, FAQ, CTABand } from "@/components/marketing/ui";
 import { BatchFlowScreen } from "@/components/marketing/mockups/screens";
+import { DomieLauncher } from "@/components/ai/DomieLauncher";
 import { homeFaqItems } from "@/content/faq";
 import { getSection, getHomeClients, getPricingPage } from "@/lib/api/content";
 import { keepLive } from "@/lib/claims";
@@ -96,13 +97,16 @@ export async function HomePage() {
           contactHref="/contact"
         />
 
-        {/* 10. FINAL CTA */}
+        {/* 13. FINAL CTA */}
         <CTABand
           title="See your academy running on LMS Domain."
           subtitle="Book a 20-minute demo. We'll show it with your own course structure."
           buttonText="Book a demo"
           tone="dark"
         />
+
+        {/* 14. FLOATING DOMIE LAUNCHER */}
+        <DomieLauncher />
       </div>
     </PageContentProvider>
   );
