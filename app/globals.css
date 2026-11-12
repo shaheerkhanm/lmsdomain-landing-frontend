@@ -731,6 +731,21 @@ input[type="number"]::-webkit-inner-spin-button {
     }
   }
 
+  @keyframes dash {
+    to {
+      stroke-dashoffset: -20;
+    }
+  }
+
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 1400;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
   .animate-pulse-flow {
     animation: flow 2.4s linear infinite;
   }
@@ -739,6 +754,12 @@ input[type="number"]::-webkit-inner-spin-button {
   }
   .animate-live-blink {
     animation: blink 1.4s infinite;
+  }
+  .animate-funnel-dash {
+    animation: dash 1.6s linear infinite;
+  }
+  .animate-chart-draw {
+    animation: draw 2.2s cubic-bezier(0.3, 0.6, 0.2, 1) both;
   }
 }
 
@@ -751,7 +772,9 @@ input[type="number"]::-webkit-inner-spin-button {
   .animate-marquee-v4,
   .animate-pulse-flow,
   .animate-flow-cursor,
-  .animate-live-blink {
+  .animate-live-blink,
+  .animate-funnel-dash,
+  .animate-chart-draw {
     animation: none !important;
   }
 }

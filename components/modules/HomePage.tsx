@@ -1,5 +1,6 @@
 import React from "react";
 import BannerSection from "@/components/sections/HomePage/Banner/BannerSection";
+import BuiltForBatchesSection from "@/components/sections/HomePage/BuiltForBatchesSection";
 import HowAcademyRunsSection from "@/components/sections/HomePage/HowAcademyRunsSection";
 import SellAnywhereSection from "@/components/sections/HomePage/SellAnywhereSection";
 import YourBrandSection from "@/components/sections/HomePage/YourBrandSection";
@@ -53,7 +54,10 @@ export async function HomePage() {
           <BatchFlowScreen />
         </section>
 
-        {/* 3. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
+        {/* 3. BUILT FOR BATCHES DARK PANEL & ADMIN DASHBOARD */}
+        <BuiltForBatchesSection />
+
+        {/* 4. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
         <HowAcademyRunsSection />
 
         {/* 4. SELL ANYWHERE */}

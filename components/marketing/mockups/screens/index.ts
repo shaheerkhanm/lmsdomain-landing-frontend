@@ -9,4 +9,5 @@ export { BrandedSiteScreen } from "./BrandedSiteScreen";
 export { RolesScreen } from "./RolesScreen";
 export { CheckoutScreen } from "./CheckoutScreen";
 export { BatchFlowScreen } from "./BatchFlowScreen";
+export { AdminDashboardDark } from "./AdminDashboardDark";
 
