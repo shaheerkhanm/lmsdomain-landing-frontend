@@ -81,11 +81,6 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "/domie-ai",
-        destination: "/platform/ai",
-        permanent: true,
-      },
-      {
         source: "/blog",
         destination: "/resources/blog",
         permanent: true,

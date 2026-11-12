@@ -8,23 +8,26 @@ export function DomieLauncher() {
   const [showBubble, setShowBubble] = useState(false);
 
   useEffect(() => {
-    // Check if seen in this session
+    let showTimer: NodeJS.Timeout | null = null;
+    let hideTimer: NodeJS.Timeout | null = null;
+
     try {
       if (typeof window !== "undefined" && !sessionStorage.getItem("domie_seen")) {
-        const showTimer = setTimeout(() => {
+        showTimer = setTimeout(() => {
           setShowBubble(true);
           sessionStorage.setItem("domie_seen", "1");
 
-          const hideTimer = setTimeout(() => {
+          hideTimer = setTimeout(() => {
             setShowBubble(false);
           }, 6000);
-
-          return () => clearTimeout(hideTimer);
         }, 2500);
-
-        return () => clearTimeout(showTimer);
       }
     } catch {}
+
+    return () => {
+      if (showTimer) clearTimeout(showTimer);
+      if (hideTimer) clearTimeout(hideTimer);
+    };
   }, []);
 
   return (
@@ -42,7 +45,7 @@ export function DomieLauncher() {
 
       {/* Round 52px Domie Avatar Button with violet ring */}
       <Link
-        href="/domie-ai"
+        href="/platform/ai"
         aria-label="Ask Domie about LMS Domain"
         className="w-[52px] h-[52px] rounded-full bg-[#16141F] shadow-[0_0_0_3px_rgba(108,75,255,0.35),0_12px_26px_-10px_rgba(108,75,255,0.8)] overflow-hidden flex items-center justify-center shrink-0 transition-transform hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-[#6C4BFF]"
       >
