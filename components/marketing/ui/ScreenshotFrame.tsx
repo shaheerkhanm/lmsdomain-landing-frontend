@@ -81,21 +81,21 @@ export function ScreenshotFrame({
     <div className="w-full max-w-full min-w-0 overflow-hidden">
       <div
         className={cn(
-          "relative rounded-2xl sm:rounded-3xl bg-white border border-[#EAE8E2] shadow-[0_20px_50px_-15px_rgba(22,22,22,0.08)] overflow-hidden font-urbanist w-full max-w-full min-w-0",
+          "relative rounded-[20px] bg-white border border-[#E8E8EC] shadow-[0_50px_100px_-40px_rgba(20,20,40,0.28),0_2px_6px_rgba(0,0,0,0.04)] overflow-hidden font-sans w-full max-w-full min-w-0",
           className
         )}
       >
         {/* Browser Chrome Header */}
-        <div className="h-10 sm:h-11 px-4 sm:px-5 bg-[#F9F9F7] border-b border-[#EAE8E2] flex items-center justify-between select-none">
+        <div className="h-10 sm:h-11 px-4 sm:px-5 bg-[#FBFBFC] border-b border-[#E8E8EC] flex items-center justify-between select-none">
           {/* Window controls (Traffic lights) */}
           <div className="flex items-center gap-1.5 sm:gap-2">
-            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
-            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
-            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E5E5E0] border border-[#D5D5D0]" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E8E8EC] border border-[#DADAE0]" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E8E8EC] border border-[#DADAE0]" />
+            <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#E8E8EC] border border-[#DADAE0]" />
           </div>
 
           {/* URL Pill */}
-          <div className="px-3 sm:px-4 py-1 rounded-md bg-white border border-[#EAE8E2] text-[11px] sm:text-xs text-[#6B6F76] font-medium tracking-tight truncate max-w-[200px] sm:max-w-[280px] text-center shadow-2xs font-mono">
+          <div className="px-3 sm:px-4 py-1 rounded-md bg-white border border-[#E8E8EC] text-[11px] sm:text-xs text-[#535361] font-medium tracking-tight truncate max-w-[200px] sm:max-w-[280px] text-center shadow-2xs font-mono">
             {title}
           </div>
 

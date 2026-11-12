@@ -84,6 +84,32 @@ const manrope = localFont({
   preload: false,
 });
 
+const caveat = localFont({
+  src: [
+    {
+      path: "./fonts/caveat.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--font-caveat",
+  display: "swap",
+  preload: false,
+});
+
+const jetbrainsMono = localFont({
+  src: [
+    {
+      path: "./fonts/jetbrains-mono.woff2",
+      weight: "500",
+      style: "normal",
+    },
+  ],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+  preload: false,
+});
+
 
 // Icons: generated files (scripts/generate-icons.mjs), or the admin's icon from
 // Settings > Cms > Site identity. The manifest link comes from app/manifest.ts.
@@ -137,7 +163,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} font-urbanist bg-[#F3F4F6] lg:bg-white text-[#161616] antialiased !mr-0`}>
+      <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} ${caveat.variable} ${jetbrainsMono.variable} font-sans bg-[#FAFAFA] text-[#151517] antialiased !mr-0`}>
         <BrandProvider brand={brand}>
           <PageVisibilityProvider visibility={visibility}>
             <MotionConfig reducedMotion="user">

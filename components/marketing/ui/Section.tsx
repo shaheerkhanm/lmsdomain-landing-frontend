@@ -13,16 +13,16 @@ export interface SectionProps {
 }
 
 const TONE_CLASSES = {
-  white: "bg-white text-[#161616]",
-  warm: "bg-[#FAF9F6] text-[#161616]",
-  subtle: "bg-[#F7F6F2] text-[#161616]",
-  dark: "bg-[#161616] text-white",
+  white: "bg-white text-[#151517]",
+  warm: "bg-[#FAFAFA] text-[#151517]",
+  subtle: "bg-[#F7F6F2] text-[#151517]",
+  dark: "bg-[#0E0E11] text-white",
 } as const;
 
 const SPACING_CLASSES = {
-  default: "py-16 sm:py-20 lg:py-28",
+  default: "py-16 sm:py-20 lg:py-24",
   tight: "py-10 sm:py-14 lg:py-16",
-  loose: "py-20 sm:py-28 lg:py-36",
+  loose: "py-20 sm:py-28 lg:py-32",
   none: "py-0",
 } as const;
 
@@ -41,7 +41,7 @@ export function Section({
     <Component
       id={id}
       className={cn(
-        "relative w-full overflow-hidden font-urbanist",
+        "relative w-full overflow-hidden font-sans",
         TONE_CLASSES[tone],
         SPACING_CLASSES[spacing],
         className
@@ -49,7 +49,7 @@ export function Section({
       {...props}
     >
       {container ? (
-        <div className={cn("max-w-[1200px] mx-auto px-4 sm:px-6 w-full", containerClassName)}>
+        <div className={cn("max-w-[1080px] mx-auto px-4 sm:px-6 w-full", containerClassName)}>
           {children}
         </div>
       ) : (

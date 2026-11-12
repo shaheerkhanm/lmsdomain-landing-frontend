@@ -81,6 +81,22 @@
   --font-urbanist: var(--font-urbanist);
   --font-manrope: var(--font-manrope);
   --font-inter: var(--font-inter);
+  --font-caveat: var(--font-caveat);
+  --font-jetbrains-mono: var(--font-jetbrains-mono);
+
+  /* Sendr V1 Redesign Tokens (§Step 1) */
+  --color-v4-bg: #FAFAFA;
+  --color-v4-ink: #151517;
+  --color-v4-muted: #535361;
+  --color-v4-muted-2: #8A8A96;
+  --color-v4-hairline: #E8E8EC;
+  --color-v4-card: #FFFFFF;
+  --color-v4-dark-panel: #0E0E11;
+  --color-v4-violet: #6C4BFF;
+  --color-v4-violet-soft: #EFEBFF;
+  --color-v4-pink: #E2539B;
+  --color-v4-orange: #F2894A;
+  --color-v4-green: #17A06B;
 
 
   --color-sidebar-ring: var(--sidebar-ring);
@@ -564,5 +580,116 @@ input[type="number"]::-webkit-inner-spin-button {
 
   .prose-reading {
     max-width: 70ch;
+  }
+
+  /* Sendr V1 Utility Classes (§Step 1) */
+  .text-grad-v4 {
+    background: linear-gradient(90deg, #E2539B 0%, #F2894A 45%, #7B5CFF 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-grad-v4 {
+    background: linear-gradient(90deg, #E2539B 0%, #F2894A 45%, #7B5CFF 100%);
+  }
+
+  .glow-warm-bottom {
+    background: radial-gradient(ellipse 65% 55% at 50% 105%, rgba(242, 137, 74, 0.28) 0%, rgba(226, 83, 155, 0.22) 32%, rgba(108, 75, 255, 0.16) 60%, transparent 80%);
+  }
+
+  .glow-violet-bottom {
+    background: radial-gradient(ellipse 65% 55% at 50% 105%, rgba(108, 75, 255, 0.35) 0%, rgba(123, 92, 255, 0.20) 45%, transparent 75%);
+  }
+
+  .canvas-dots {
+    background-color: #FBFBFC;
+    background-image: radial-gradient(#DADAE0 1px, transparent 1.2px);
+    background-size: 18px 18px;
+  }
+
+  .type-h1-v4 {
+    font-family: var(--font-inter), sans-serif;
+    font-size: clamp(40px, 6vw, 66px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .type-h2-v4 {
+    font-family: var(--font-inter), sans-serif;
+    font-size: clamp(32px, 4.4vw, 50px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  .font-hand {
+    font-family: var(--font-caveat), "Caveat", cursive;
+  }
+
+  .font-mono-code {
+    font-family: var(--font-jetbrains-mono), "JetBrains Mono", monospace;
+  }
+
+  .btn-v4-dark {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 10px;
+    font-family: var(--font-inter), sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    background: #151517;
+    color: #FFFFFF;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 6px 16px -8px rgba(0, 0, 0, 0.6);
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-v4-dark:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-v4-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 10px;
+    font-family: var(--font-inter), sans-serif;
+    font-size: 13.5px;
+    font-weight: 600;
+    background: #FFFFFF;
+    color: #151517;
+    border: 1px solid #E8E8EC;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    white-space: nowrap;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-v4-light:hover {
+    transform: translateY(-1px);
+  }
+
+  .rv-v4 {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .rv-v4.in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-v4 {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
