@@ -82,9 +82,9 @@ export async function HomePage() {
 
         {/* 11. PRICING TEASER */}
         <PricingTeaserSection
-          lowestMonthlyPrice={lowestMonthlyPrice}
-          lowestMonthlyPriceUsd={lowestMonthlyPriceUsd}
-          currency={planCurrency}
+          pricingV2={pricingPage?.pricingV2}
+          heroTitle={pricingPage?.hero?.title}
+          heroSubtitle={pricingPage?.hero?.subtitle}
         />
 
         {/* 9. FAQ */}
