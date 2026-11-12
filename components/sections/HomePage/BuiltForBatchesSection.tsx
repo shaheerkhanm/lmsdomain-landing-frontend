@@ -18,7 +18,13 @@ export function BuiltForBatchesSection() {
   return (
     <section className="py-[clamp(72px,9vw,128px)] font-sans" id="how">
       <div className="max-w-[1080px] mx-auto px-5">
-        <div className="rv-v4 bg-[#0E0E11] text-white rounded-[28px] pt-[clamp(36px,6vw,72px)] px-[clamp(20px,5vw,64px)] pb-0 relative overflow-hidden isolate glow-warm-bottom">
+        <div className="rv-v4 bg-[#0E0E11] text-white rounded-[28px] pt-[clamp(36px,6vw,72px)] px-[clamp(20px,5vw,64px)] pb-0 relative overflow-hidden isolate" style={{ backgroundColor: "#0E0E11" }}>
+          {/* Orange -> Pink -> Violet Bottom Glow */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 -bottom-[260px] -translate-x-1/2 w-[110%] h-[520px] bg-[radial-gradient(closest-side,rgba(242,137,74,0.55),rgba(226,83,155,0.35)_45%,rgba(123,92,255,0.18)_70%,transparent)] -z-10 blur-[10px]"
+          />
+
           {/* Eyebrow */}
           <div className="text-left">
             <Eyebrow tone="gradient">Built for batches</Eyebrow>
@@ -38,7 +44,7 @@ export function BuiltForBatchesSection() {
             {PILLARS.map((pillar) => (
               <span
                 key={pillar.name}
-                className="inline-flex items-center gap-2 bg-white/6 border border-white/10 rounded-[10px] px-3.5 py-2 text-[13.5px] text-[#E7E7EE] backdrop-blur-md"
+                className="inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.1] rounded-[10px] px-3.5 py-2 text-[13.5px] text-[#E7E7EE] backdrop-blur-[6px]"
               >
                 <i
                   className="w-2 h-2 rounded-[3px] inline-block shrink-0 not-italic"
@@ -67,7 +73,7 @@ export function BuiltForBatchesSection() {
           </div>
 
           {/* Glow Frame containing AdminDashboardDark */}
-          <div className="relative mt-1 max-w-[980px] mx-auto rounded-t-[16px] p-2.5 pb-0 bg-gradient-to-b from-white/18 to-white/4 shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_-20px_80px_-20px_rgba(242,137,74,0.45)]">
+          <div className="relative mt-1 max-w-[900px] mx-auto rounded-t-[16px] p-2.5 pb-0 bg-gradient-to-b from-white/[0.18] to-white/[0.04] shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_-20px_80px_-20px_rgba(242,137,74,0.45)]">
             {/* Window Dots */}
             <div className="flex items-center gap-1.5 px-1.5 pb-2.5" aria-hidden="true">
               <span className="w-[9px] h-[9px] rounded-full bg-white/30" />
