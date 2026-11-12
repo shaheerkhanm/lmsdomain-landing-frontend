@@ -53,6 +53,7 @@ export function HomeSolutionsSection() {
                 alt={sol.title}
                 fill
                 sizes="(max-width: 980px) 50vw, 25vw"
+                loading="lazy"
                 className="object-cover -z-20 transition-transform duration-500 group-hover:scale-105"
               />
 

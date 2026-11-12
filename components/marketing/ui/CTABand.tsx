@@ -18,7 +18,7 @@ export interface CTABandProps {
   };
   handNote?: string;
   className?: string;
-  tone?: "dark" | "warm" | "violet";
+  tone?: "dark" | "warm" | "violet" | "light";
 }
 
 export function CTABand({

@@ -7,7 +7,7 @@
 import { cache } from "react";
 import { fetchApi } from "./client";
 import { isPlaceholderPhone } from "@/lib/utils";
-import { liveOr, keepLive } from "@/lib/claims";
+import { liveOr, keepLive, mentionsNotLive } from "@/lib/claims";
 import { DEFAULT_PRICING_V2, computePlanPricing, PricingV2Data, formatPrice } from "@/config/pricing";
 import { getPricingFaqs, DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
 import { defaultAboutContent, AboutContent } from "@/content/about";

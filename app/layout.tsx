@@ -40,7 +40,7 @@ const urbanist = localFont({
   ],
   variable: "--font-urbanist",
   display: "swap",
-  preload: true,
+  preload: false,
 });
 
 const inter = localFont({
@@ -53,7 +53,7 @@ const inter = localFont({
   ],
   variable: "--font-inter",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 const manrope = localFont({

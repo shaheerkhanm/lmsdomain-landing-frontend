@@ -45,6 +45,7 @@ export function WhyChooseUsSection() {
                 alt="Live class in progress"
                 fill
                 sizes="(max-width: 768px) 100vw, 550px"
+                loading="lazy"
                 className="object-cover"
               />
               <span className="absolute left-3.5 top-3.5 inline-flex items-center gap-1.5 bg-[#E5484D] text-white font-bold text-[10.5px] tracking-[0.08em] px-2 py-1 rounded-[6px]">

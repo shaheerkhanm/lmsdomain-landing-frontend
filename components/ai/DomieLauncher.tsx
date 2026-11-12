@@ -54,6 +54,7 @@ export function DomieLauncher() {
           alt="Domie AI"
           width={52}
           height={52}
+          loading="lazy"
           className="w-full h-full object-cover"
         />
       </Link>

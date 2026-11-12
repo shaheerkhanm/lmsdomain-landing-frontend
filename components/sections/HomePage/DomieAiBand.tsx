@@ -115,6 +115,7 @@ export function DomieAiBand() {
                   alt="Domie"
                   width={36}
                   height={36}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </span>

@@ -266,6 +266,7 @@ export function BatchFlowScreen() {
                 alt="Live class in progress"
                 fill
                 sizes="(max-width: 980px) 100vw, 360px"
+                loading="lazy"
                 className="object-cover"
               />
               <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1.5 bg-[#E5484D] text-white font-bold text-[10.5px] tracking-[0.08em] px-2 py-1 rounded-[6px]">
