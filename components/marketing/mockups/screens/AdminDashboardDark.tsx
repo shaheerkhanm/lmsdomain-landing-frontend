@@ -2,6 +2,28 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
+import {
+  LayoutGrid,
+  Sparkles,
+  Folder,
+  BookOpen,
+  GraduationCap,
+  CalendarDays,
+  FileText,
+  Notebook,
+  HelpCircle,
+  UserCheck,
+  Share2,
+  BarChart3,
+  Award,
+  Trophy,
+  Bell,
+  ExternalLink,
+  Users,
+  IndianRupee,
+  Video,
+  Clock,
+} from "lucide-react";
 
 export interface AdminDashboardDarkProps {
   adminName?: string;
@@ -109,25 +131,58 @@ export function AdminDashboardDark({
         className="grid grid-cols-[56px_1fr] bg-[#121214] text-[#ECECF1] text-[13px] leading-[1.45] font-sans text-left select-none"
       >
         {/* Left Icon Rail */}
-        <aside className="border-r border-[#232327] flex flex-col items-center gap-3.5 py-4">
-          <div className="w-[30px] h-[30px] rounded-full bg-[radial-gradient(circle_at_35%_35%,#8FA8FF,#5B3DF5_60%,#2A1A80)] shadow-[0_0_0_3px_rgba(108,75,255,0.25)] flex items-center justify-center font-urbanist text-white font-bold text-xs">
+        <aside className="border-r border-[#232327] flex flex-col items-center gap-3 py-4">
+          <div className="w-[30px] h-[30px] rounded-full bg-[radial-gradient(circle_at_35%_35%,#8FA8FF,#5B3DF5_60%,#2A1A80)] shadow-[0_0_0_3px_rgba(108,75,255,0.25)] flex items-center justify-center font-urbanist text-white font-bold text-xs shrink-0">
             L
           </div>
-          <span className="w-[30px] h-[30px] rounded-[8px] bg-[#26262B] border border-[#9A9AA6] flex items-center justify-center text-xs">
-            📊
+          {/* Active LayoutGrid in #26262B tile */}
+          <span className="w-[32px] h-[32px] rounded-[8px] bg-[#26262B] border border-[#3E3E47] flex items-center justify-center text-[#ECECF1] shrink-0">
+            <LayoutGrid className="w-[18px] h-[18px]" strokeWidth={1.75} />
           </span>
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#8B6CFF]" />
+          {/* Sparkles (violet) */}
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#8B6CFF] hover:text-[#A78BFA] transition-colors shrink-0" title="Domie AI">
+            <Sparkles className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
           <hr className="w-6 border-0 border-t border-[#2A2A30] my-0.5" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
+          {/* Main nav items */}
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Files">
+            <Folder className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Courses">
+            <BookOpen className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Batches">
+            <GraduationCap className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Schedule">
+            <CalendarDays className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Assessments">
+            <FileText className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Notes">
+            <Notebook className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Help">
+            <HelpCircle className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
           <hr className="w-6 border-0 border-t border-[#2A2A30] my-0.5" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
-          <span className="w-[18px] h-[18px] rounded-[5px] border-[1.5px] border-[#5E5E68]" />
+          {/* Secondary nav items */}
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Users">
+            <UserCheck className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Marketing">
+            <Share2 className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Analytics">
+            <BarChart3 className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Certificates">
+            <Award className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
+          <span className="w-[28px] h-[28px] flex items-center justify-center text-[#9A9AA6] hover:text-[#ECECF1] transition-colors shrink-0" title="Gamification">
+            <Trophy className="w-[18px] h-[18px]" strokeWidth={1.75} />
+          </span>
         </aside>
 
         {/* Main Content Area */}
@@ -166,13 +221,14 @@ export function AdminDashboardDark({
             </span>
 
             {/* Bell */}
-            <span className="w-7 h-7 rounded-[7px] border border-[#25252B] flex items-center justify-center text-xs">
-              🔔
+            <span className="w-7 h-7 rounded-[7px] border border-[#25252B] flex items-center justify-center text-[#9A9AA6] hover:text-white transition-colors shrink-0">
+              <Bell className="w-3.5 h-3.5" strokeWidth={1.75} />
             </span>
 
             {/* View Site */}
-            <span className="border border-[#25252B] rounded-[7px] px-2.5 py-1 text-xs text-[#B4B4C0]">
-              ↗ View site
+            <span className="border border-[#25252B] rounded-[7px] px-2.5 py-1 text-xs text-[#B4B4C0] flex items-center gap-1.5 hover:text-white transition-colors shrink-0">
+              <ExternalLink className="w-3.5 h-3.5 text-[#9A9AA6]" strokeWidth={1.75} />
+              <span>View site</span>
             </span>
 
             {/* User Menu */}
@@ -200,7 +256,8 @@ export function AdminDashboardDark({
             {/* KPI 1: Students */}
             <div className="border border-[#25252B] bg-[#17171A] rounded-[14px] p-3 px-3.5">
               <small className="text-[#B4B4C0] text-[12px] flex items-center gap-1.5">
-                Students
+                <Users className="w-3.5 h-3.5 text-[#9A9AA6]" strokeWidth={1.75} />
+                <span>Students</span>
               </small>
               <b className="block text-[24px] tracking-[-0.03em] text-white my-1">
                 {kpis.students}
@@ -216,7 +273,8 @@ export function AdminDashboardDark({
             {/* KPI 2: Enrollments */}
             <div className="border border-[#25252B] bg-[#17171A] rounded-[14px] p-3 px-3.5">
               <small className="text-[#B4B4C0] text-[12px] flex items-center gap-1.5">
-                Enrollments this month
+                <GraduationCap className="w-3.5 h-3.5 text-[#9A9AA6]" strokeWidth={1.75} />
+                <span>Enrollments this month</span>
               </small>
               <b className="block text-[24px] tracking-[-0.03em] text-white my-1">
                 {kpis.enrollments}
@@ -232,7 +290,8 @@ export function AdminDashboardDark({
             {/* KPI 3: Revenue */}
             <div className="border border-[#25252B] bg-[#17171A] rounded-[14px] p-3 px-3.5">
               <small className="text-[#B4B4C0] text-[12px] flex items-center gap-1.5">
-                Revenue this month
+                <IndianRupee className="w-3.5 h-3.5 text-[#9A9AA6]" strokeWidth={1.75} />
+                <span>Revenue this month</span>
               </small>
               <b className="block text-[24px] tracking-[-0.03em] text-white my-1">
                 {kpis.revenue}
@@ -248,7 +307,8 @@ export function AdminDashboardDark({
             {/* KPI 4: Classes today */}
             <div className="border border-[#25252B] bg-[#17171A] rounded-[14px] p-3 px-3.5">
               <small className="text-[#B4B4C0] text-[12px] flex items-center gap-1.5">
-                Classes today
+                <Video className="w-3.5 h-3.5 text-[#9A9AA6]" strokeWidth={1.75} />
+                <span>Classes today</span>
               </small>
               <b className="block text-[24px] tracking-[-0.03em] text-white my-1">
                 {kpis.classesToday}
@@ -261,7 +321,8 @@ export function AdminDashboardDark({
             {/* KPI 5: Waiting for review */}
             <div className="border border-[#25252B] bg-[#17171A] rounded-[14px] p-3 px-3.5">
               <small className="text-[#B4B4C0] text-[12px] flex items-center gap-1.5">
-                Waiting for review
+                <Clock className="w-3.5 h-3.5 text-[#9A9AA6]" strokeWidth={1.75} />
+                <span>Waiting for review</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-[#F2894A] ml-auto" />
               </small>
               <b className="block text-[24px] tracking-[-0.03em] text-white my-1">

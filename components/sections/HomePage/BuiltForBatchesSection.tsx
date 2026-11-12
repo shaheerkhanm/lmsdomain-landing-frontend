@@ -3,15 +3,24 @@
 import React from "react";
 import { Eyebrow } from "@/components/marketing/ui";
 import { AdminDashboardDark } from "@/components/marketing/mockups/screens/AdminDashboardDark";
+import {
+  GraduationCap,
+  ClipboardCheck,
+  CalendarDays,
+  CreditCard,
+  Palette,
+  Sparkles,
+  ShieldCheck,
+} from "lucide-react";
 
 const PILLARS = [
-  { name: "Teach", color: "#7B5CFF" },
-  { name: "Assess", color: "#F2894A" },
-  { name: "Manage", color: "#17A06B" },
-  { name: "Sell", color: "#E2539B" },
-  { name: "Brand", color: "#3B82F6" },
-  { name: "Domie AI", color: "#C9BEFF" },
-  { name: "Security", color: "#9C9CAA" },
+  { name: "Teach", icon: GraduationCap },
+  { name: "Assess", icon: ClipboardCheck },
+  { name: "Manage", icon: CalendarDays },
+  { name: "Sell", icon: CreditCard },
+  { name: "Brand", icon: Palette },
+  { name: "Domie AI", icon: Sparkles },
+  { name: "Security", icon: ShieldCheck },
 ];
 
 export function BuiltForBatchesSection() {
@@ -38,21 +47,21 @@ export function BuiltForBatchesSection() {
 
           {/* Pillar Chips Row */}
           <div
-            className="flex flex-wrap justify-center gap-2.5 mt-10 max-w-[720px] mx-auto"
+            className="flex flex-wrap justify-center gap-2 sm:gap-2.5 mt-8 sm:mt-10 max-w-[680px] mx-auto"
             aria-hidden="true"
           >
-            {PILLARS.map((pillar) => (
-              <span
-                key={pillar.name}
-                className="inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.1] rounded-[10px] px-3.5 py-2 text-[13.5px] text-[#E7E7EE] backdrop-blur-[6px]"
-              >
-                <i
-                  className="w-2 h-2 rounded-[3px] inline-block shrink-0 not-italic"
-                  style={{ backgroundColor: pillar.color }}
-                />
-                <span>{pillar.name}</span>
-              </span>
-            ))}
+            {PILLARS.map((pillar) => {
+              const Icon = pillar.icon;
+              return (
+                <span
+                  key={pillar.name}
+                  className="h-9 inline-flex items-center gap-2 bg-white/[0.06] border border-white/[0.1] rounded-[10px] px-3.5 text-[14px] text-[#E7E7EE] backdrop-blur-[6px]"
+                >
+                  <Icon className="w-4 h-4 text-white/85 shrink-0" strokeWidth={1.75} />
+                  <span>{pillar.name}</span>
+                </span>
+              );
+            })}
           </div>
 
           {/* Funnel SVG */}
