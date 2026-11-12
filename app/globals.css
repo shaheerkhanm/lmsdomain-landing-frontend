@@ -845,9 +845,48 @@ input[type="number"]::-webkit-inner-spin-button {
   .animate-typing-dot {
     animation: ty 1.2s infinite;
   }
+
+  /* Domie AI Scroll-Linked Dark Transition (§1a) */
+  :root {
+    --page-bg: #FAFAFA;
+  }
+
+  #home-page-root {
+    transition: background-color 0.8s ease, color 0.8s ease;
+  }
+
+  #home-page-root[data-ai-dark="true"] {
+    --page-bg: #0B0B0F;
+  }
+
+  #home-page-root[data-ai-dark="true"] .stat-text-ink {
+    color: #ECECF1 !important;
+  }
+
+  #home-page-root[data-ai-dark="true"] .stat-text-muted {
+    color: #A9A9B6 !important;
+  }
+
+  #home-page-root[data-ai-dark="true"] .stat-divider-line {
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.15) 25%, rgba(255, 255, 255, 0.15) 75%, transparent) !important;
+  }
+
+  @supports (animation-timeline: view()) {
+    @keyframes domieDarkTransition {
+      0% {
+        background-color: #FAFAFA;
+      }
+      100% {
+        background-color: #0B0B0F;
+      }
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  #home-page-root {
+    transition: none !important;
+  }
   .rv-v4,
   .rv {
     opacity: 1 !important;
