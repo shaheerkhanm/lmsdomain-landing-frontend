@@ -252,7 +252,7 @@ export function HowAcademyRunsSection() {
 
   return (
     <section className="py-[clamp(72px,9vw,128px)] font-sans" id="workflow">
-      <div className="max-w-[1240px] mx-auto px-[clamp(20px,4vw,48px)]">
+      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
         <div className="rv-v4">
           <Eyebrow tone="gradient">How it works</Eyebrow>
           <h2 className="type-h2-v4 text-[var(--page-ink,#151517)] mt-1 transition-colors duration-700">
