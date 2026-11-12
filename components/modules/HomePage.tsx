@@ -61,17 +61,17 @@ export async function HomePage() {
         {/* 4. STATS (Proof Strip Proof Numbers) */}
         <HomeStatsSection />
 
-        {/* 5. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
+        {/* 5. DOMIE AI */}
+        <DomieAiBand />
+
+        {/* 6. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
         <HowAcademyRunsSection />
 
-        {/* 4. SELL ANYWHERE */}
+        {/* 7. SELL ANYWHERE */}
         <SellAnywhereSection />
 
-        {/* 5. YOUR BRAND, YOUR DOMAIN */}
+        {/* 8. YOUR BRAND, YOUR DOMAIN */}
         <YourBrandSection />
-
-        {/* 6. DOMIE AI (Compact band with Premium label) */}
-        <DomieAiBand />
 
         {/* 7. WHY ACADEMIES CHOOSE LMS DOMAIN */}
         <WhyChooseUsSection />
