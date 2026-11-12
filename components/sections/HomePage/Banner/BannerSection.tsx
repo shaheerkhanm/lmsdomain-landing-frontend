@@ -115,9 +115,11 @@ export function BannerSection({
 
       {/* Marquee Section */}
       <div className="rv-v4 mt-[clamp(56px,7vw,84px)] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-        <p className="text-center text-[12.5px] text-[#8A8A96] mb-5 sm:mb-[22px]">
-          Academies teaching with LMS Domain
-        </p>
+        {hasClientLogos && (
+          <p className="text-center text-[12.5px] text-[#8A8A96] mb-5 sm:mb-[22px]">
+            Academies teaching with LMS Domain
+          </p>
+        )}
         <div className="animate-marquee-v4 flex gap-16 items-center shrink-0" aria-hidden="true">
           {hasClientLogos ? (
             <>
