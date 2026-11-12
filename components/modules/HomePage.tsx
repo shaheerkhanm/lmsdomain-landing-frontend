@@ -7,6 +7,7 @@ import DomieAiBand from "@/components/sections/HomePage/DomieAiBand";
 import WhyChooseUsSection from "@/components/sections/HomePage/WhyChooseUsSection";
 import PricingTeaserSection from "@/components/sections/HomePage/PricingTeaserSection";
 import { ProofStrip, FAQ, CTABand } from "@/components/marketing/ui";
+import { BatchFlowScreen } from "@/components/marketing/mockups/screens";
 import { homeFaqItems } from "@/content/faq";
 import { getSection, getHomeClients, getPricingPage } from "@/lib/api/content";
 import { keepLive } from "@/lib/claims";
@@ -47,7 +48,12 @@ export async function HomePage() {
           <BannerSection clientLogos={clients?.logos || []} />
         </ContentSource>
 
-        {/* 2. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
+        {/* 2. GIANT PRODUCT SCREEN */}
+        <section className="mt-[clamp(56px,7vw,88px)] max-w-[1160px] mx-auto px-5" aria-label="Course batch flow demo">
+          <BatchFlowScreen />
+        </section>
+
+        {/* 3. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
         <HowAcademyRunsSection />
 
         {/* 4. SELL ANYWHERE */}

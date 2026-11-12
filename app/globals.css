@@ -700,6 +700,46 @@ input[type="number"]::-webkit-inner-spin-button {
     animation: mq 38s linear infinite;
     align-items: center;
   }
+
+  @keyframes flow {
+    from {
+      top: -14px;
+    }
+    to {
+      top: 34px;
+    }
+  }
+
+  @keyframes cur {
+    0%, 8% {
+      transform: translate(170px, 70px);
+    }
+    30%, 48% {
+      transform: translate(60px, 285px);
+    }
+    68%, 82% {
+      transform: translate(90px, 600px);
+    }
+    100% {
+      transform: translate(170px, 70px);
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0.25;
+    }
+  }
+
+  .animate-pulse-flow {
+    animation: flow 2.4s linear infinite;
+  }
+  .animate-flow-cursor {
+    animation: cur 9s cubic-bezier(0.5, 0, 0.3, 1) infinite;
+  }
+  .animate-live-blink {
+    animation: blink 1.4s infinite;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -708,7 +748,10 @@ input[type="number"]::-webkit-inner-spin-button {
     transform: none !important;
     transition: none !important;
   }
-  .animate-marquee-v4 {
+  .animate-marquee-v4,
+  .animate-pulse-flow,
+  .animate-flow-cursor,
+  .animate-live-blink {
     animation: none !important;
   }
 }
