@@ -5,9 +5,8 @@ import { Eyebrow } from "@/components/marketing/ui";
 
 const BRAND_THEMES = [
   { domain: "learn.youracademy.in", color: "#0F766E", name: "Your Academy" },
-  { domain: "courses.prepcode.com", color: "#1D4ED8", name: "PrepCode" },
-  { domain: "training.northstar.edu", color: "#B45309", name: "NorthStar" },
-  { domain: "academy.apexskills.org", color: "#BE185D", name: "Apex Skills" },
+  { domain: "academy.yourbrand.com", color: "#1D4ED8", name: "Your Brand" },
+  { domain: "classes.yourinstitute.in", color: "#B45309", name: "Your Institute" },
 ];
 
 const POINTS = [
