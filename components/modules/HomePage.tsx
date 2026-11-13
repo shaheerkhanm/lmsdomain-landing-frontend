@@ -88,12 +88,11 @@ export async function HomePage() {
           heroSubtitle={pricingPage?.hero?.subtitle}
         />
 
-        {/* 12. FAQ (Sendr Dark Panel Style) */}
+        {/* 12. FAQ (Unified Light 2-Column Section) */}
         <FAQ
           items={keepLive(homeFaqItems, (item) => [item.question, item.answer])}
           title="Frequently asked questions"
           eyebrow="FAQs"
-          variant="dark-panel"
           contactHref="/contact"
         />
 
