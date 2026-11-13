@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { Eyebrow } from "@/components/marketing/ui";
-import { Check } from "lucide-react";
+import { Eyebrow, FeatureBullet } from "@/components/marketing/ui";
+import { Check, Globe, Palette, LayoutTemplate, ShieldCheck } from "lucide-react";
 
 interface ColorSwatch {
   name: string;
@@ -19,11 +19,27 @@ const SWATCHES: ColorSwatch[] = [
   { name: "Ink", color: "#151517", accentBg: "rgba(21, 21, 23, 0.10)" },
 ];
 
-const POINTS = [
-  "Custom domain with automated SSL certificate",
-  "Per-school logos, favicon and custom brand colors",
-  "Visual homepage builder with full SEO metadata controls",
-  "Zero third-party logos or platform mentions for your students",
+const BRAND_BULLETS = [
+  {
+    icon: Globe,
+    leadText: "Custom domain",
+    restText: " with automated SSL certificate",
+  },
+  {
+    icon: Palette,
+    leadText: "Per-school logos, favicon",
+    restText: " and custom brand colors",
+  },
+  {
+    icon: LayoutTemplate,
+    leadText: "Visual homepage builder",
+    restText: " with full SEO metadata controls",
+  },
+  {
+    icon: ShieldCheck,
+    leadText: "Zero third-party logos",
+    restText: " or platform mentions for your students",
+  },
 ];
 
 const SAMPLE_COURSES = [
@@ -63,13 +79,15 @@ export function YourBrandSection() {
             Your own domain, logo and colours, with a home page you build yourself. Students experience your academy, not ours.
           </p>
 
-          {/* Bullets: Ink Dots (no violet check tiles) */}
-          <div className="grid gap-3.5 mt-7">
-            {POINTS.map((pt, idx) => (
-              <div key={idx} className="flex items-start gap-3 text-[14.5px] text-[#151517]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#151517] shrink-0 mt-2" aria-hidden="true" />
-                <span className="leading-snug">{pt}</span>
-              </div>
+          {/* Bullets: Sendr-style 32px square white tiles with stroke 1.75 icons */}
+          <div className="space-y-[18px] mt-7">
+            {BRAND_BULLETS.map((bullet, idx) => (
+              <FeatureBullet
+                key={idx}
+                icon={bullet.icon}
+                leadText={bullet.leadText}
+                restText={bullet.restText}
+              />
             ))}
           </div>
 

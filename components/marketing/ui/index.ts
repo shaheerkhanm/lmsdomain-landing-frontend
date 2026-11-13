@@ -19,3 +19,6 @@ export type { FAQProps, FaqItem } from "./FAQ";
 export { CTABand } from "./CTABand";
 export type { CTABandProps } from "./CTABand";
 
+export { FeatureBullet } from "./FeatureBullet";
+export type { FeatureBulletProps } from "./FeatureBullet";
+
