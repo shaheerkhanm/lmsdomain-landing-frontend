@@ -313,7 +313,7 @@ export function HomeSolutionsSection() {
           </div>
 
           {/* Dots Indicator */}
-          <div className="flex items-center justify-center gap-2 mt-4">
+          <div className="flex items-center justify-center gap-1 mt-4">
             {SOLUTIONS.map((_, idx) => (
               <button
                 key={idx}
@@ -325,10 +325,14 @@ export function HomeSolutionsSection() {
                     carouselRef.current.scrollTo({ left: idx * width, behavior: "smooth" });
                   }
                 }}
-                className={`h-2 rounded-full transition-all cursor-pointer ${
-                  mobileSlide === idx ? "w-6 bg-[#151517]" : "w-2 bg-[#D0D0D8]"
-                }`}
-              />
+                className="p-2 flex items-center justify-center cursor-pointer min-w-[28px] min-h-[28px]"
+              >
+                <span
+                  className={`h-2 rounded-full transition-all block ${
+                    mobileSlide === idx ? "w-6 bg-[#151517]" : "w-2 bg-[#D0D0D8]"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

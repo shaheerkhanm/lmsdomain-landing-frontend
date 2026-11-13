@@ -162,8 +162,11 @@ export default async function RootLayout({
   ]);
 
   return (
-    <html lang="en">
-      <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} ${caveat.variable} ${jetbrainsMono.variable} font-sans bg-[#FAFAFA] text-[#151517] antialiased !mr-0`}>
+    <html lang="en" style={{ overflowX: "clip" }}>
+      <body
+        style={{ overflowX: "clip" }}
+        className={`${urbanist.variable} ${inter.variable} ${manrope.variable} ${caveat.variable} ${jetbrainsMono.variable} font-sans bg-[#FAFAFA] text-[#151517] antialiased !mr-0 overflow-x-clip`}
+      >
         <BrandProvider brand={brand}>
           <PageVisibilityProvider visibility={visibility}>
             <MotionConfig reducedMotion="user">

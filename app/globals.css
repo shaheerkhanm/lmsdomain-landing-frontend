@@ -231,7 +231,8 @@ body {
 
 body,
 html {
-  overflow-x: clip;
+  overflow-x: clip !important;
+  max-width: 100vw;
 }
 
 body[data-scroll-locked] {
@@ -275,8 +276,8 @@ body[data-scroll-locked] {
 
 html,
 body {
-  max-width: 100%;
-  overflow-x: clip;
+  max-width: 100vw;
+  overflow-x: clip !important;
 }
 
 input[type="number"]::-webkit-outer-spin-button,

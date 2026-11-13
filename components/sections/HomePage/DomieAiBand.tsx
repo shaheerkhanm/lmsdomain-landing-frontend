@@ -301,18 +301,18 @@ export function DomieAiBand() {
     <section
       ref={sectionRef}
       onPointerMove={handlePointerMove}
-      className="py-[clamp(72px,9vw,128px)] bg-transparent text-white relative overflow-hidden isolate font-sans"
+      className="py-[clamp(72px,9vw,128px)] bg-[#0B0B0D] text-white relative overflow-hidden isolate font-sans"
       id="ai"
     >
       {/* 3b. 160px Top Gradient Blend into Stats Section */}
       <div
-        className="pointer-events-none absolute top-0 left-0 right-0 h-[160px] bg-gradient-to-b from-transparent to-[rgba(11,11,13,0.35)] -z-10"
+        className="pointer-events-none absolute top-0 left-0 right-0 h-[160px] bg-gradient-to-b from-transparent to-[#0B0B0D] -z-10"
         aria-hidden="true"
       />
 
       {/* 3c. 160px Bottom Gradient Blend into How Academy Runs */}
       <div
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-[160px] bg-gradient-to-t from-transparent to-[rgba(11,11,13,0.35)] -z-10"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-[160px] bg-gradient-to-t from-transparent to-[#0B0B0D] -z-10"
         aria-hidden="true"
       />
 

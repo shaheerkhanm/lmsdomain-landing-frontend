@@ -135,8 +135,10 @@ export function DomieOrb({
           playsInline
           preload={shouldLoadVideo ? "auto" : "none"}
           poster={poster}
+          width={size}
+          height={size}
           className="w-full h-full object-cover rounded-full block"
-          style={maskStyle}
+          style={{ ...maskStyle, width: `${size}px`, height: `${size}px` }}
         >
           {shouldLoadVideo && (
             <>
