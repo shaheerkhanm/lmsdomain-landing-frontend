@@ -151,71 +151,67 @@ export function DomieAiBand() {
     aiTutorCard?.answer ||
     "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor review.";
 
-  // Scroll-linked page background fade: #F7F7F8 -> #0B0B0D -> #F7F7F8 (§3a-c)
+  // Edmingle-style scroll-driven inset card to full-bleed transition (V1l §2)
+  const [scrollP, setScrollP] = useState(0);
+  const [isReducedMotion, setIsReducedMotion] = useState(false);
+
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const pageRoot = document.getElementById("home-page-root");
-    const el = sectionRef.current;
-    if (!el || !pageRoot || prefersReducedMotion) return;
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setIsReducedMotion(prefersReduced);
+    if (prefersReduced) {
+      setScrollP(1);
+      return;
+    }
 
     let ticking = false;
+    const update = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const vh = window.innerHeight;
+
+      // Domie entry: rect.top travels from 1.0 * vh to 0.20 * vh (p: 0 -> 1)
+      const entryP = Math.max(0, Math.min(1, (vh - rect.top) / (0.80 * vh)));
+
+      // Domie exit: rect.bottom travels from 0.80 * vh to 0.0 * vh (p: 1 -> 0)
+      const exitP = Math.max(0, Math.min(1, rect.bottom / (0.80 * vh)));
+
+      const p = Math.min(entryP, exitP);
+      setScrollP(p);
+      ticking = false;
+    };
 
     const onScroll = () => {
       if (!ticking) {
         ticking = true;
-        requestAnimationFrame(() => {
-          ticking = false;
-          if (!el || !pageRoot) return;
-          const rect = el.getBoundingClientRect();
-          const vh = window.innerHeight;
-
-          // Domie entry: interpolates #F7F7F8 -> #0B0B0D linearly from
-          // Domie top at 100% of viewport (rect.top == vh, p=0) to Domie top at 30% (rect.top == 0.30*vh, p=1)
-          const entryP = Math.max(0, Math.min(1, (vh - rect.top) / (0.70 * vh)));
-
-          // Domie exit: mirrored reverse from bottom at 70% viewport (p=1) to 0% (p=0)
-          const exitP = Math.max(0, Math.min(1, rect.bottom / (0.70 * vh)));
-
-          const p = Math.min(entryP, exitP);
-
-          // Interpolate background RGB between #F7F7F8 [247, 247, 248] and #0B0B0D [11, 11, 13]
-          const r = Math.round(247 + (11 - 247) * p);
-          const g = Math.round(247 + (11 - 247) * p);
-          const b = Math.round(248 + (13 - 248) * p);
-
-          pageRoot.style.setProperty("--page-bg", `rgb(${r}, ${g}, ${b})`);
-
-          // Text contrast: ensure >= 4.5:1 at every scroll position
-          // Luminance threshold is around p = 0.53. Below 0.53, use dark ink #111113; above 0.53, use #FFFFFF
-          if (p <= 0.53) {
-            pageRoot.style.setProperty("--page-ink", "#111113");
-            pageRoot.style.setProperty("--page-muted", "#535361");
-            pageRoot.style.setProperty("--page-line", "#E4E4EA");
-            pageRoot.setAttribute("data-ai-dark", "false");
-          } else {
-            pageRoot.style.setProperty("--page-ink", "#FFFFFF");
-            pageRoot.style.setProperty("--page-muted", "#A9A9B6");
-            pageRoot.style.setProperty("--page-line", "rgba(255, 255, 255, 0.15)");
-            pageRoot.setAttribute("data-ai-dark", "true");
-          }
-        });
+        requestAnimationFrame(update);
       }
     };
 
-    onScroll();
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      pageRoot.style.removeProperty("--page-bg");
-      pageRoot.style.removeProperty("--page-ink");
-      pageRoot.style.removeProperty("--page-muted");
-      pageRoot.style.removeProperty("--page-line");
-      pageRoot.setAttribute("data-ai-dark", "false");
     };
   }, []);
+
+  const p = isReducedMotion ? 1 : scrollP;
+  const eased = p * (2 - p);
+  const scale = 0.94 + 0.06 * eased;
+  const maxMargin = typeof window !== "undefined"
+    ? Math.max(16, Math.min(40, window.innerWidth * 0.03))
+    : 32;
+  const sideMargin = maxMargin * (1 - eased);
+  const radius = 40 * (1 - eased);
+
+  // Inner content fades and slides up in second half of expansion (p in [0.5, 1.0])
+  const contentP = Math.max(0, Math.min(1, (p - 0.5) / 0.5));
+  const contentOpacity = isReducedMotion ? 1 : 0.2 + 0.8 * contentP;
+  const contentTranslateY = isReducedMotion ? 0 : 24 * (1 - contentP);
 
   // Detect fine pointer for cursor spotlight
   useEffect(() => {
@@ -298,49 +294,57 @@ export function DomieAiBand() {
   };
 
   return (
-    <section
-      ref={sectionRef}
-      onPointerMove={handlePointerMove}
-      className="py-[clamp(72px,9vw,128px)] bg-[#0B0B0D] text-white relative overflow-hidden isolate font-sans"
-      id="ai"
-    >
-      {/* 3b. 160px Top Gradient Blend into Stats Section */}
-      <div
-        className="pointer-events-none absolute top-0 left-0 right-0 h-[160px] bg-gradient-to-b from-transparent to-[#0B0B0D] -z-10"
-        aria-hidden="true"
-      />
-
-      {/* 3c. 160px Bottom Gradient Blend into How Academy Runs */}
-      <div
-        className="pointer-events-none absolute bottom-0 left-0 right-0 h-[160px] bg-gradient-to-t from-transparent to-[#0B0B0D] -z-10"
-        aria-hidden="true"
-      />
-
-      {/* 1a. Pre-Section Rising Soft Violet Glow (240px, radial, rgba(139,108,255,.35)) */}
-      <div
-        className="pointer-events-none absolute -top-[120px] left-1/2 -translate-x-1/2 w-[min(1100px,100%)] h-[240px] bg-[radial-gradient(ellipse_at_center,rgba(139,108,255,0.35)_0%,transparent_70%)] -z-10"
-        aria-hidden="true"
-      />
-
-      {/* 2e. Desktop Pointer Spotlight (600px very soft radial glow following cursor) */}
-      {isFinePointer && (
+    <div className="relative bg-white overflow-hidden isolate" id="ai">
+      <section
+        ref={sectionRef}
+        onPointerMove={handlePointerMove}
+        className="py-[clamp(72px,9vw,128px)] bg-[#0B0B0D] text-white relative overflow-hidden isolate font-sans origin-center will-change-[transform,clip-path]"
+        style={
+          isReducedMotion
+            ? {}
+            : {
+                transform: `scale(${scale.toFixed(4)})`,
+                clipPath: `inset(0px ${sideMargin.toFixed(1)}px 0px ${sideMargin.toFixed(1)}px round ${radius.toFixed(1)}px)`,
+                WebkitClipPath: `inset(0px ${sideMargin.toFixed(1)}px 0px ${sideMargin.toFixed(1)}px round ${radius.toFixed(1)}px)`,
+              }
+        }
+      >
+        {/* 1a. Pre-Section Rising Soft Violet Glow (240px, radial, rgba(139,108,255,.35)) */}
         <div
-          className="pointer-events-none absolute inset-0 -z-10 transition-opacity duration-300"
-          style={{
-            background:
-              "radial-gradient(600px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), rgba(108,75,255,0.12), transparent 70%)",
-          }}
+          className="pointer-events-none absolute -top-[120px] left-1/2 -translate-x-1/2 w-[min(1100px,100%)] h-[240px] bg-[radial-gradient(ellipse_at_center,rgba(139,108,255,0.35)_0%,transparent_70%)] -z-10"
           aria-hidden="true"
         />
-      )}
 
-      {/* Violet/Pink Bottom Glow */}
-      <div
-        className="pointer-events-none absolute left-1/2 -bottom-[300px] -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(closest-side,rgba(123,92,255,0.55),rgba(226,83,155,0.3)_50%,transparent)] -z-10"
-        aria-hidden="true"
-      />
+        {/* 2e. Desktop Pointer Spotlight (600px very soft radial glow following cursor) */}
+        {isFinePointer && (
+          <div
+            className="pointer-events-none absolute inset-0 -z-10 transition-opacity duration-300"
+            style={{
+              background:
+                "radial-gradient(600px circle at var(--mouse-x, -1000px) var(--mouse-y, -1000px), rgba(108,75,255,0.12), transparent 70%)",
+            }}
+            aria-hidden="true"
+          />
+        )}
 
-      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
+        {/* Violet/Pink Bottom Glow */}
+        <div
+          className="pointer-events-none absolute left-1/2 -bottom-[300px] -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(closest-side,rgba(123,92,255,0.55),rgba(226,83,155,0.3)_50%,transparent)] -z-10"
+          aria-hidden="true"
+        />
+
+        <div
+          className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] relative z-10"
+          style={
+            isReducedMotion
+              ? {}
+              : {
+                  opacity: contentOpacity,
+                  transform: `translate3d(0, ${contentTranslateY.toFixed(1)}px, 0)`,
+                  willChange: "transform, opacity",
+                }
+          }
+        >
         {/* Left-Aligned Header with 2c Domie Presence */}
         <div>
           {/* Mobile Domie Avatar (above eyebrow) */}
@@ -822,6 +826,7 @@ export function DomieAiBand() {
         </div>
       </div>
     </section>
+  </div>
   );
 }
 

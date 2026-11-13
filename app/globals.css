@@ -973,47 +973,10 @@ input[type="number"]::-webkit-inner-spin-button {
   }
 }
 
-/* Domie AI Scroll-Linked Dark Transition (§2a, §2b) */
-:root {
-  --page-bg: #F7F7F8;
-  --page-ink: #151517;
-  --page-muted: #535361;
-  --page-line: #E8E8EC;
-}
-
+/* Clean light page root (V1l §2a) */
 #home-page-root {
-  background-color: var(--page-bg);
-  color: var(--page-ink);
-}
-
-#home-page-root[data-ai-dark="true"] {
-  --page-bg: #0B0B0D;
-  --page-ink: #FFFFFF;
-  --page-muted: #A9A9B6;
-  --page-line: rgba(255, 255, 255, 0.15);
-}
-
-#home-page-root .stat-text-ink {
-  color: var(--page-ink) !important;
-}
-
-#home-page-root .stat-text-muted {
-  color: var(--page-muted) !important;
-}
-
-#home-page-root .stat-divider-line {
-  background: linear-gradient(transparent, var(--page-line, #E4E4EA) 25%, var(--page-line, #E4E4EA) 75%, transparent) !important;
-}
-
-@supports (animation-timeline: view()) {
-  @keyframes domieDarkTransition {
-    0% {
-      background-color: #FAFAFA;
-    }
-    100% {
-      background-color: #0E0E11;
-    }
-  }
+  background-color: #FFFFFF;
+  color: #151517;
 }
 
 @media (prefers-reduced-motion: reduce) {
