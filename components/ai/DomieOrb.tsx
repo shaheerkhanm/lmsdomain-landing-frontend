@@ -15,6 +15,8 @@ export interface DomieOrbProps {
   className?: string;
   /** Optional priority/eager hint */
   eager?: boolean;
+  /** Whether to render the still poster image instead of video */
+  still?: boolean;
 }
 
 export function DomieOrb({
@@ -23,6 +25,7 @@ export function DomieOrb({
   darkDisc,
   label,
   className = "",
+  still = false,
 }: DomieOrbProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -33,7 +36,7 @@ export function DomieOrb({
   const isSmall = size <= 160;
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || still) return;
 
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mq.matches) {
@@ -87,7 +90,7 @@ export function DomieOrb({
         mq.removeEventListener("change", handler);
       };
     }
-  }, []);
+  }, [still]);
 
   const videoWebm = isSmall
     ? "/images/domie/domie-orb-sm.webm"
@@ -113,7 +116,7 @@ export function DomieOrb({
       role={label ? "img" : undefined}
       aria-label={label || undefined}
     >
-      {isReduced ? (
+      {isReduced || still ? (
         <img
           src={poster}
           alt={label || ""}

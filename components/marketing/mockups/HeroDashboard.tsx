@@ -201,7 +201,7 @@ export function HeroDashboard() {
               >
                 {/* Domie Logo Tile */}
                 <span className="w-[34px] h-[34px] rounded-[10px] bg-[#1A1A1F] grid place-items-center shadow-xs overflow-hidden">
-                  <DomieOrb size={24} surface="dark" />
+                  <DomieOrb size={24} surface="dark" still />
                 </span>
 
                 {/* Nav Icons (lucide-react 18px stroke 1.75) */}
@@ -251,7 +251,7 @@ export function HeroDashboard() {
                     <em className="ml-auto font-mono text-[10.5px] not-italic text-[#A5A5B2]">⌘K</em>
                   </span>
                   <span className="bg-white text-[#151517] rounded-[10px] px-3.5 py-2 font-semibold text-[12.5px] flex items-center gap-1.5 shadow-xs select-none">
-                    <DomieOrb size={16} surface="light" />
+                    <DomieOrb size={16} surface="light" still />
                     Ask Domie ✦
                   </span>
                   <span

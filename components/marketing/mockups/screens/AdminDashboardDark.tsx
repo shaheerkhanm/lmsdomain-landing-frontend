@@ -210,7 +210,7 @@ export function AdminDashboardDark({
             {/* Glowing Ask Domie ✦ */}
             <span className="bg-[#6C4BFF] text-white rounded-[9px] px-3 py-1 font-semibold text-[12px] flex items-center gap-1.5 shadow-[0_0_16px_rgba(108,75,255,0.6)]">
               <span className="w-4 h-4 rounded-full overflow-hidden shrink-0 relative flex items-center justify-center">
-                <DomieOrb size={16} surface="dark" />
+                <DomieOrb size={16} surface="dark" still />
               </span>
               Ask Domie ✦
             </span>
