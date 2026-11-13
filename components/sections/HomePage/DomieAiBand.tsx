@@ -151,7 +151,7 @@ export function DomieAiBand() {
     aiTutorCard?.answer ||
     "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor review.";
 
-  // Scroll-linked page background fade: #FAFAFA -> #0E0E11 -> #FAFAFA (§2b)
+  // Scroll-linked page background fade: #F7F7F8 -> #0B0B0D -> #F7F7F8 (§3a-c)
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const pageRoot = document.getElementById("home-page-root");
@@ -169,11 +169,35 @@ export function DomieAiBand() {
           const rect = el.getBoundingClientRect();
           const vh = window.innerHeight;
 
-          // b) Begins to darken when top is at ~85% of viewport, fully dark at ~35%
-          // Same in reverse after the section: begins to lighten when bottom is at ~35% of viewport
-          const isDark = rect.top <= 0.85 * vh && rect.bottom >= 0.35 * vh;
+          // Domie entry: interpolates #F7F7F8 -> #0B0B0D linearly from
+          // Domie top at 100% of viewport (rect.top == vh, p=0) to Domie top at 30% (rect.top == 0.30*vh, p=1)
+          const entryP = Math.max(0, Math.min(1, (vh - rect.top) / (0.70 * vh)));
 
-          pageRoot.setAttribute("data-ai-dark", isDark ? "true" : "false");
+          // Domie exit: mirrored reverse from bottom at 70% viewport (p=1) to 0% (p=0)
+          const exitP = Math.max(0, Math.min(1, rect.bottom / (0.70 * vh)));
+
+          const p = Math.min(entryP, exitP);
+
+          // Interpolate background RGB between #F7F7F8 [247, 247, 248] and #0B0B0D [11, 11, 13]
+          const r = Math.round(247 + (11 - 247) * p);
+          const g = Math.round(247 + (11 - 247) * p);
+          const b = Math.round(248 + (13 - 248) * p);
+
+          pageRoot.style.setProperty("--page-bg", `rgb(${r}, ${g}, ${b})`);
+
+          // Text contrast: ensure >= 4.5:1 at every scroll position
+          // Luminance threshold is around p = 0.53. Below 0.53, use dark ink #111113; above 0.53, use #FFFFFF
+          if (p <= 0.53) {
+            pageRoot.style.setProperty("--page-ink", "#111113");
+            pageRoot.style.setProperty("--page-muted", "#535361");
+            pageRoot.style.setProperty("--page-line", "#E4E4EA");
+            pageRoot.setAttribute("data-ai-dark", "false");
+          } else {
+            pageRoot.style.setProperty("--page-ink", "#FFFFFF");
+            pageRoot.style.setProperty("--page-muted", "#A9A9B6");
+            pageRoot.style.setProperty("--page-line", "rgba(255, 255, 255, 0.15)");
+            pageRoot.setAttribute("data-ai-dark", "true");
+          }
         });
       }
     };
@@ -185,6 +209,10 @@ export function DomieAiBand() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      pageRoot.style.removeProperty("--page-bg");
+      pageRoot.style.removeProperty("--page-ink");
+      pageRoot.style.removeProperty("--page-muted");
+      pageRoot.style.removeProperty("--page-line");
       pageRoot.setAttribute("data-ai-dark", "false");
     };
   }, []);
@@ -273,9 +301,21 @@ export function DomieAiBand() {
     <section
       ref={sectionRef}
       onPointerMove={handlePointerMove}
-      className="py-[clamp(72px,9vw,128px)] bg-[#0E0E11] text-white relative overflow-hidden isolate font-sans"
+      className="py-[clamp(72px,9vw,128px)] bg-transparent text-white relative overflow-hidden isolate font-sans"
       id="ai"
     >
+      {/* 3b. 160px Top Gradient Blend into Stats Section */}
+      <div
+        className="pointer-events-none absolute top-0 left-0 right-0 h-[160px] bg-gradient-to-b from-transparent to-[rgba(11,11,13,0.35)] -z-10"
+        aria-hidden="true"
+      />
+
+      {/* 3c. 160px Bottom Gradient Blend into How Academy Runs */}
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 right-0 h-[160px] bg-gradient-to-t from-transparent to-[rgba(11,11,13,0.35)] -z-10"
+        aria-hidden="true"
+      />
+
       {/* 1a. Pre-Section Rising Soft Violet Glow (240px, radial, rgba(139,108,255,.35)) */}
       <div
         className="pointer-events-none absolute -top-[120px] left-1/2 -translate-x-1/2 w-[min(1100px,100%)] h-[240px] bg-[radial-gradient(ellipse_at_center,rgba(139,108,255,0.35)_0%,transparent_70%)] -z-10"

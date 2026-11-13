@@ -49,8 +49,8 @@ export async function HomePage() {
     <PageContentProvider value={content}>
       <div
         id="home-page-root"
-        className="relative font-urbanist selection:bg-[#161616] selection:text-white transition-[background-color] duration-700 ease-out"
-        style={{ backgroundColor: "var(--page-bg, #FAFAFA)" }}
+        className="relative font-urbanist selection:bg-[#161616] selection:text-white"
+        style={{ backgroundColor: "var(--page-bg, #F7F7F8)" }}
       >
         {/* 1. HERO (Option F: Centered hero with scroll-assembling dashboard & marquee) */}
         <ContentSource id="home-hero" source={hero.source}>

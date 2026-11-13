@@ -118,14 +118,9 @@ export function HomeStatsSection() {
     <section
       ref={sectionRef}
       id="stats-section"
-      className="pt-10 md:pt-12 pb-20 md:pb-24 font-sans transition-colors duration-700"
+      className="pt-10 md:pt-12 pb-20 md:pb-24 font-sans"
     >
       <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] text-center">
-        {/* Caption in muted uppercase (no gradient text) */}
-        <p className="text-[12.5px] uppercase font-semibold text-[#8C8C98] mb-8 tracking-[0.1em] select-none">
-          Academies teaching with LMS Domain
-        </p>
-
         {/* 4 equal columns on desktop, 2x2 on mobile, no outer card */}
         <div className="grid grid-cols-2 md:grid-cols-4 relative">
           {STATS_DATA.map((stat, idx) => {
@@ -142,10 +137,6 @@ export function HomeStatsSection() {
                     className={`absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-[75%] stat-divider-line pointer-events-none ${
                       idx === 2 ? "hidden md:block" : ""
                     }`}
-                    style={{
-                      background:
-                        "linear-gradient(transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
-                    }}
                   />
                 )}
 
@@ -154,10 +145,6 @@ export function HomeStatsSection() {
                   <div
                     aria-hidden="true"
                     className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-[75%] stat-divider-line pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
-                    }}
                   />
                 )}
 
@@ -168,7 +155,7 @@ export function HomeStatsSection() {
                     className="md:hidden absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] stat-divider-line pointer-events-none"
                     style={{
                       background:
-                        "linear-gradient(90deg, transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
+                        "linear-gradient(90deg, transparent, var(--page-line, #E4E4EA) 25%, var(--page-line, #E4E4EA) 75%, transparent)",
                     }}
                   />
                 )}
@@ -179,13 +166,13 @@ export function HomeStatsSection() {
                 </div>
 
                 {/* Number: 52px desktop / 38px mobile Inter 700 -0.04em */}
-                <b className="block font-inter font-bold text-[38px] md:text-[52px] tracking-[-0.04em] leading-none text-[#151517] stat-text-ink transition-colors duration-700">
+                <b className="block font-inter font-bold text-[38px] md:text-[52px] tracking-[-0.04em] leading-none text-[#151517] stat-text-ink">
                   {formatNumber(counts[stat.id] ?? stat.target, stat.hasComma)}
                   {stat.suffix}
                 </b>
 
                 {/* Label: 16px #535361 */}
-                <span className="text-[#535361] stat-text-muted text-[16px] font-normal mt-2.5 block transition-colors duration-700">
+                <span className="text-[#535361] stat-text-muted text-[16px] font-normal mt-2.5 block">
                   {stat.label}
                 </span>
               </div>
