@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { ChevronRight } from "lucide-react";
 import { DomieOrb } from "@/components/ai/DomieOrb";
 import MainHeading from "./MainHeading";
@@ -14,6 +15,20 @@ import { useSectionContent } from "@/components/content/PageContent";
 import { liveOr } from "@/lib/claims";
 import type { ClientLogoItem } from "@/components/marketing/ui/ProofStrip";
 import HeroDashboard from "@/components/marketing/mockups/HeroDashboard";
+
+// Dynamic import with ssr: false so SSR renders server H1 directly (LCP untouched)
+const ParticleWave = dynamic(
+  () => import("@/components/visual/ParticleWave"),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="hero-dot-grid absolute inset-0 -z-10 select-none opacity-30"
+        aria-hidden="true"
+      />
+    ),
+  }
+);
 
 // Integration logos (NEVER integration-10 / PayPal)
 const INTEGRATION_LOGOS = [
@@ -54,18 +69,20 @@ export function BannerSection({
 
   return (
     <section className="relative pt-[100px] min-[900px]:pt-[93.5px] pb-0 font-sans overflow-x-clip bg-white isolate">
-      {/* Animated Brand Gradient Dot Grid (V1i §1) */}
+      {/* 3D Particle Wave Background (V1j §1) */}
       <div
-        className="hero-dot-grid pointer-events-none absolute inset-x-0 top-0 h-[720px] -z-10 select-none opacity-[0.45]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[860px] -z-10 select-none overflow-hidden"
         aria-hidden="true"
-      />
+      >
+        <ParticleWave className="w-full h-full" mode="hero" />
+      </div>
 
-      {/* Soft white radial behind text to preserve crisp readability */}
+      {/* Soft white radial behind text to preserve crisp readability (V1j §1c) */}
       <div
         className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[920px] h-[520px] -z-10 select-none"
         style={{
           background:
-            "radial-gradient(ellipse 65% 55% at 50% 36%, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0) 100%)",
+            "radial-gradient(ellipse 65% 55% at 50% 36%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 100%)",
         }}
         aria-hidden="true"
       />
