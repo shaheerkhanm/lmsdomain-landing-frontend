@@ -33,7 +33,7 @@ export function HomeSolutionsSection() {
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="solutions">
       <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
         <div className="rv-v4">
-          <Eyebrow tone="gradient">Solutions</Eyebrow>
+          <Eyebrow dotColor="#151517">Solutions</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             Made for the way you teach
           </h2>

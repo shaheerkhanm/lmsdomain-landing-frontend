@@ -70,7 +70,8 @@ export function FAQ({
           {/* Top Header */}
           <div className="grid justify-items-center gap-1.5 mb-10 text-center">
             {eyebrow && (
-              <span className="eyebrow inline-block font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-grad-v4 select-none m-0">
+              <span className="inline-flex items-center gap-2 font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-[#535361] select-none m-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#151517] shrink-0" aria-hidden="true" />
                 {eyebrow}
               </span>
             )}

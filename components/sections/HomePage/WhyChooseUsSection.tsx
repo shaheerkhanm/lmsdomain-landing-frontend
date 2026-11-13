@@ -3,13 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import { Eyebrow } from "@/components/marketing/ui";
+import { Check } from "lucide-react";
 
 export function WhyChooseUsSection() {
   return (
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="why">
       <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
         <div className="rv-v4">
-          <Eyebrow tone="gradient">Why choose us</Eyebrow>
+          <Eyebrow dotColor="#151517">Why choose us</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             Why academies choose LMS Domain
           </h2>
@@ -38,7 +39,7 @@ export function WhyChooseUsSection() {
               </span>
             </div>
 
-            {/* Visual: Live Class Photo + Zoom Card */}
+            {/* Visual: Live Class Photo + Real Zoom Logo */}
             <div className="relative bg-[#F4F4F7] min-h-[260px] md:min-h-[320px] overflow-hidden">
               <Image
                 src="/images/features/live-class-screen.webp"
@@ -52,16 +53,22 @@ export function WhyChooseUsSection() {
                 <span className="w-1.5 h-1.5 rounded-full bg-white animate-live-blink" />
                 LIVE
               </span>
-              <div className="absolute left-3.5 right-3.5 bottom-3.5 sm:left-4 sm:right-4 sm:bottom-4 bg-white/92 backdrop-blur-md rounded-[14px] p-3 px-3.5 flex items-center gap-3 text-[13px] shadow-sm">
-                <span className="w-7.5 h-7.5 rounded-[9px] bg-[#2D8CFF] text-white font-bold text-[11px] flex items-center justify-center shrink-0">
-                  Z
-                </span>
+              <div className="absolute left-3.5 right-3.5 bottom-3.5 sm:left-4 sm:right-4 sm:bottom-4 bg-white/95 backdrop-blur-md rounded-[14px] p-3 px-3.5 flex items-center gap-3 text-[13px] shadow-sm">
+                <div className="w-8 h-8 rounded-[9px] bg-white border border-[#E8E8EC] flex items-center justify-center shrink-0 p-1">
+                  <Image
+                    src="/assets/img/integration/integration-6.png"
+                    alt="Zoom"
+                    width={24}
+                    height={24}
+                    className="w-5 h-auto object-contain"
+                  />
+                </div>
                 <div className="min-w-0">
                   <b className="block text-[13.5px] text-[#151517] truncate">
                     Batch B · Architecture Blueprint
                   </b>
                   <small className="text-[#535361] text-xs block truncate">
-                    Zoom · 24 learners · recording on
+                    Zoom Class · 24 learners · recording on
                   </small>
                 </div>
               </div>
@@ -89,31 +96,47 @@ export function WhyChooseUsSection() {
               </span>
             </div>
 
-            {/* Visual: Dotted Canvas with Currency Chips */}
+            {/* Visual: Dotted Canvas with Real Gateway Logos & Currencies */}
             <div className="relative bg-[#FBFBFC] bg-[radial-gradient(#DADAE0_1px,transparent_1.2px)] [background-size:18px_18px] p-6 sm:p-8 flex items-center justify-center min-h-[260px] md:min-h-[320px]">
-              <div className="flex flex-wrap gap-2 justify-center max-w-[320px]">
-                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[15px] text-[#151517] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.25)]">
-                  <em className="not-italic text-[#8A8A96] font-medium mr-1">INR</em>₹7,999
+              <div className="flex flex-wrap gap-2.5 justify-center max-w-[340px]">
+                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[14px] text-[#151517] shadow-xs flex items-center gap-1.5">
+                  <em className="not-italic text-[#12A27A] font-bold">INR</em>₹4,499
                 </span>
-                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[15px] text-[#151517] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.25)]">
-                  <em className="not-italic text-[#8A8A96] font-medium mr-1">USD</em>$89
+                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[14px] text-[#151517] shadow-xs flex items-center gap-1.5">
+                  <em className="not-italic text-[#2F6BFF] font-bold">USD</em>$54
                 </span>
-                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[15px] text-[#151517] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.25)]">
-                  EUR
+                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[14px] text-[#535361] shadow-xs">
+                  EUR €
                 </span>
-                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[15px] text-[#151517] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.25)]">
-                  GBP
+                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[14px] text-[#535361] shadow-xs">
+                  GBP £
                 </span>
-                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[15px] text-[#151517] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.25)]">
-                  Razorpay
-                </span>
-                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[15px] text-[#151517] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.25)]">
+                {/* Real Razorpay Logo */}
+                <div className="bg-white border border-[#E8E8EC] rounded-[10px] py-1.5 px-3 flex items-center shadow-xs">
+                  <Image
+                    src="/assets/img/integration/integration-1.png"
+                    alt="Razorpay"
+                    width={68}
+                    height={20}
+                    className="h-4.5 w-auto object-contain"
+                  />
+                </div>
+                {/* Clean Paytm Wordmark */}
+                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-bold text-[13px] text-[#00B9F1] shadow-xs">
                   Paytm
                 </span>
-                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[15px] text-[#151517] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.25)]">
-                  Stripe
-                </span>
-                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-semibold text-[15px] text-[#151517] shadow-[0_6px_14px_-10px_rgba(0,0,0,0.25)]">
+                {/* Real Stripe Logo */}
+                <div className="bg-white border border-[#E8E8EC] rounded-[10px] py-1.5 px-3 flex items-center shadow-xs">
+                  <Image
+                    src="/assets/img/integration/integration-8.png"
+                    alt="Stripe"
+                    width={52}
+                    height={20}
+                    className="h-4.5 w-auto object-contain"
+                  />
+                </div>
+                {/* Clean DOKU Wordmark */}
+                <span className="bg-white border border-[#E8E8EC] rounded-[10px] py-2 px-3 font-bold text-[13px] text-[#E2231A] shadow-xs">
                   DOKU
                 </span>
               </div>
@@ -143,44 +166,30 @@ export function WhyChooseUsSection() {
 
             {/* Visual: Dotted Canvas with Onboarding Checklist */}
             <div className="relative bg-[#FBFBFC] bg-[radial-gradient(#DADAE0_1px,transparent_1.2px)] [background-size:18px_18px] p-6 sm:p-8 flex items-center justify-center min-h-[260px] md:min-h-[320px]">
-              <div className="bg-white border border-[#E8E8EC] rounded-[16px] p-4.5 w-full max-w-[330px] grid gap-2.5 shadow-[0_20px_40px_-26px_rgba(0,0,0,0.35)]">
+              <div className="bg-white border border-[#E8E8EC] rounded-[16px] p-4.5 w-full max-w-[330px] grid gap-2.5 shadow-xs">
                 <div className="flex items-center gap-2.5 text-[13.5px] text-[#151517]">
-                  <span className="w-5 h-5 rounded-[6px] bg-[#17A06B] text-white flex items-center justify-center shrink-0">
-                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3">
-                      <path d="m2.5 6.5 2 2 5-5" />
-                    </svg>
+                  <span className="w-5 h-5 rounded-[6px] bg-[#E8F8F0] text-[#12A27A] flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
                   </span>
-                  <span>Courses moved in</span>
+                  <span>Courses & video migration</span>
                 </div>
-
                 <div className="flex items-center gap-2.5 text-[13.5px] text-[#151517]">
-                  <span className="w-5 h-5 rounded-[6px] bg-[#17A06B] text-white flex items-center justify-center shrink-0">
-                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3">
-                      <path d="m2.5 6.5 2 2 5-5" />
-                    </svg>
+                  <span className="w-5 h-5 rounded-[6px] bg-[#E8F8F0] text-[#12A27A] flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
                   </span>
-                  <span>Learners imported</span>
+                  <span>Domain & SSL configuration</span>
                 </div>
-
                 <div className="flex items-center gap-2.5 text-[13.5px] text-[#151517]">
-                  <span className="w-5 h-5 rounded-[6px] bg-[#17A06B] text-white flex items-center justify-center shrink-0">
-                    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" className="w-3 h-3">
-                      <path d="m2.5 6.5 2 2 5-5" />
-                    </svg>
+                  <span className="w-5 h-5 rounded-[6px] bg-[#E8F8F0] text-[#12A27A] flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
                   </span>
-                  <span>Domain connected</span>
+                  <span>Payment gateway & GST setup</span>
                 </div>
-
-                <div className="flex items-center gap-2.5 text-[13.5px] text-[#535361]">
-                  <span className="w-5 h-5 rounded-[6px] bg-white border-[1.5px] border-[#CFCFD7] shrink-0" />
-                  <span>Staff training session</span>
-                </div>
-
-                <div className="flex items-center gap-2.5 border-t border-[#E8E8EC] pt-3 mt-1 text-[12.5px] text-[#535361]">
-                  <span className="w-6 h-6 rounded-full bg-[#151517] text-white text-[10px] font-bold flex items-center justify-center shrink-0">
-                    LD
+                <div className="flex items-center gap-2.5 text-[13.5px] text-[#151517]">
+                  <span className="w-5 h-5 rounded-[6px] bg-[#E8F8F0] text-[#12A27A] flex items-center justify-center shrink-0">
+                    <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
                   </span>
-                  <span>Your onboarding team</span>
+                  <span>Faculty & instructor training</span>
                 </div>
               </div>
             </div>

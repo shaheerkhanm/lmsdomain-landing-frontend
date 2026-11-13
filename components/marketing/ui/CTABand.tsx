@@ -71,7 +71,8 @@ export function CTABand({
         )}
 
         <div className="rv-v4 max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] relative z-10 text-center flex flex-col items-center">
-          <span className="eyebrow inline-block font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-grad-v4 mb-3.5 select-none">
+          <span className="inline-flex items-center gap-2 font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-[#535361] mb-3.5 select-none">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#151517] shrink-0" aria-hidden="true" />
             Book a demo
           </span>
 

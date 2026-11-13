@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 export interface EyebrowProps {
   children: React.ReactNode;
   tone?: "violet" | "emerald" | "dark" | "neutral" | "gradient";
+  dotColor?: string;
   icon?: React.ReactNode;
   className?: string;
 }
@@ -19,9 +20,28 @@ const TONE_CLASSES = {
 export function Eyebrow({
   children,
   tone = "violet",
+  dotColor,
   icon,
   className,
 }: EyebrowProps) {
+  if (dotColor) {
+    return (
+      <span
+        className={cn(
+          "inline-flex items-center gap-2 font-sans text-[11.5px] leading-none font-semibold uppercase tracking-[0.12em] text-[#535361] mb-3.5 select-none",
+          className
+        )}
+      >
+        <span
+          className="w-1.5 h-1.5 rounded-full shrink-0"
+          style={{ backgroundColor: dotColor }}
+          aria-hidden="true"
+        />
+        <span>{children}</span>
+      </span>
+    );
+  }
+
   if (tone === "gradient") {
     return (
       <span
