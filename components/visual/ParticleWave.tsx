@@ -415,6 +415,30 @@ export function ParticleWave({
 
         alpha *= fadeZ * fadeX * fadeBottom;
 
+        // V1l §1e: Drop alpha by 30% in the band under the handwritten line so text area breathes
+        const spanY = height - horizonY;
+        const textBandTop = horizonY + spanY * 0.20;
+        const textBandBottom = horizonY + spanY * 0.38;
+        if (screenY >= textBandTop && screenY <= textBandBottom) {
+          alpha *= 0.70;
+        }
+
+        // V1l §1e: Soft ellipse behind frame (frame size + 60px): fade wave to 0 directly behind frame
+        // keeps wave clearly flowing in the band above frame and in side gutters
+        const frameCenterX = width * 0.5;
+        const frameCenterY = horizonY + spanY * 0.64;
+        const frameRx = Math.min(630, width * 0.46) + 30;
+        const frameRy = Math.min(360, height * 0.30) + 30;
+        const distSqNorm =
+          Math.pow((screenX - frameCenterX) / frameRx, 2) +
+          Math.pow((screenY - frameCenterY) / frameRy, 2);
+
+        if (distSqNorm < 1.0) {
+          // Inner core (dist < 0.45) is 0 alpha; outer margin (0.45 .. 1.0) smoothly restores alpha
+          const frameFade = Math.max(0, Math.min(1, (distSqNorm - 0.45) / 0.55));
+          alpha *= frameFade;
+        }
+
         if (alpha < 0.02) continue;
 
         // Draw dot

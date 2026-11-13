@@ -152,10 +152,11 @@ export function HeroDashboard() {
     };
   };
 
-  const card1Style = getCardTransform(0, -145, -65, -7);
-  const card2Style = getCardTransform(1, 145, -95, 7);
-  const card3Style = getCardTransform(2, -95, 145, -10);
-  const card4Style = getCardTransform(3, 130, 175, 10);
+  // Staggered card transforms: starting offsets reduced to 70% of V1g values, rotation max ±5° (V1l §1d)
+  const card1Style = getCardTransform(0, -101, -45, -5);
+  const card2Style = getCardTransform(1, 101, -66, 5);
+  const card3Style = getCardTransform(2, -66, 101, -5);
+  const card4Style = getCardTransform(3, 91, 122, 5);
 
   // Bezel shell scales 0.82 -> 1.0; at final state transform is strictly none
   const bezelTransform = isFinalState ? "none" : `scale(${0.82 + 0.18 * effectiveP})`;
@@ -185,9 +186,9 @@ export function HeroDashboard() {
             transformOrigin: "0 0",
           }}
         >
-          {/* Black device bezel (scales 0.82 -> 1, overflow visible for floating cards) */}
+          {/* Light device bezel (Mota style, scales 0.82 -> 1, overflow visible for floating cards) (V1l §1c) */}
           <div
-            className="rounded-[30px] p-[14px] bg-[#0B0B0D] shadow-[0_60px_120px_-50px_rgba(20,10,60,0.55),inset_0_0_0_1px_#26262B] origin-center overflow-visible"
+            className="rounded-[28px] p-[12px] bg-white border border-[rgba(15,15,20,0.08)] shadow-[0_40px_100px_-40px_rgba(30,20,80,0.25),0_0_0_8px_rgba(255,255,255,0.6)] origin-center overflow-visible"
             style={{
               transform: bezelTransform,
             }}

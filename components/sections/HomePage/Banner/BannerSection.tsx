@@ -68,10 +68,16 @@ export function BannerSection({
   const hasClientLogos = validClientLogos.length > 0;
 
   return (
-    <section className="relative pt-[100px] min-[900px]:pt-[93.5px] pb-0 font-sans overflow-x-clip bg-white isolate">
-      {/* 3D Particle Wave Background (V1k §1): covers entire hero down to client-logo row */}
+    <section className="relative pt-[112px] min-[900px]:pt-[126px] pb-0 font-sans overflow-x-clip bg-white isolate">
+      {/* 3D Particle Wave Background (V1k §1, V1l §1e): covers entire hero down to client-logo row with soft ellipse mask fading behind frame */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 bottom-[80px] -z-10 select-none overflow-hidden"
+        style={{
+          maskImage:
+            "radial-gradient(ellipse 720px 420px at 50% 70%, transparent 40%, black 85%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 720px 420px at 50% 70%, transparent 40%, black 85%)",
+        }}
         aria-hidden="true"
       >
         <ParticleWave className="w-full h-full" mode="hero" />
@@ -88,8 +94,8 @@ export function BannerSection({
       />
 
       <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] text-center flex flex-col items-center">
-        {/* Compact Gradient Hairline Badge above H1 (§1) */}
-        <div className="mb-4">
+        {/* Compact Gradient Hairline Badge above H1 (56px below nav on desktop, 32px on mobile; 28px/20px to H1) */}
+        <div className="mb-[20px] min-[900px]:mb-[28px]">
           <Link
             href="/platform/ai"
             className="group inline-flex items-center gap-2 h-[32px] pl-1 pr-3 rounded-[999px] text-[13px] font-[500] text-[#151517] shadow-[0_4px_14px_-6px_rgba(20,20,40,0.18)] hover:shadow-[0_6px_20px_-4px_rgba(20,20,40,0.24)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#7B5CFF] focus-visible:outline-offset-2 whitespace-nowrap"
@@ -125,13 +131,13 @@ export function BannerSection({
         {/* H1 Headline */}
         <MainHeading data={data} />
 
-        {/* Subtitle (18px below H1) */}
-        <p className="mt-[18px] text-[15px] sm:text-[16px] text-[#535361] leading-[1.5] max-w-[54ch] mx-auto text-center">
+        {/* Subtitle (24px below H1 on desktop, 16px on mobile; max-width 600px, 18px/1.6, muted) */}
+        <p className="mt-[16px] min-[900px]:mt-[24px] text-[15px] min-[900px]:text-[18px] text-[#535361] leading-[1.6] max-w-[600px] mx-auto text-center">
           {effectiveSubtitle}
         </p>
 
-        {/* CTAs (24px below subtitle) */}
-        <div className="mt-[24px] flex flex-wrap items-center justify-center gap-3">
+        {/* CTAs (36px below subtitle on desktop, 28px on mobile) */}
+        <div className="mt-[28px] min-[900px]:mt-[36px] flex flex-wrap items-center justify-center gap-3">
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
@@ -164,14 +170,14 @@ export function BannerSection({
           </Link>
         </div>
 
-        {/* Hand note (12px below buttons) */}
-        <p className="font-hand text-[19px] leading-[1.2] text-[#55555F] mt-[12px] flex items-center justify-center gap-1.5 text-center">
+        {/* Hand note (18px below buttons on desktop, 14px on mobile) */}
+        <p className="font-hand text-[19px] leading-[1.2] text-[#55555F] mt-[14px] min-[900px]:mt-[18px] flex items-center justify-center gap-1.5 text-center">
           {heroContent.microcopy || "Your own domain on every plan · Set up with our team"}
         </p>
       </div>
 
-      {/* Hero Dashboard Assembly Frame (Option F, 36px below hand note) */}
-      <div className="mt-[36px]">
+      {/* Hero Dashboard Assembly Frame (64px below hand note on desktop, 40px on mobile) */}
+      <div className="mt-[40px] min-[900px]:mt-[64px]">
         <HeroDashboard />
       </div>
 
