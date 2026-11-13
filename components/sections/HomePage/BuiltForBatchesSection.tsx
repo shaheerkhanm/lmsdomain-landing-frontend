@@ -73,8 +73,8 @@ export function BuiltForBatchesSection() {
   const eased = p * (2 - p);
   const scale = 0.94 + 0.06 * eased;
   const contentP = Math.max(0, Math.min(1, (p - 0.5) / 0.5));
-  const contentOpacity = isReducedMotion ? 1 : 0.2 + 0.8 * contentP;
-  const contentTranslateY = isReducedMotion ? 0 : 24 * (1 - contentP);
+  const contentOpacity = isReducedMotion || p === 0 ? 1 : 0.2 + 0.8 * contentP;
+  const contentTranslateY = isReducedMotion || p === 0 ? 0 : 24 * (1 - contentP);
 
   return (
     <section className="py-[clamp(56px,7vw,96px)] font-sans bg-white overflow-hidden" id="how">

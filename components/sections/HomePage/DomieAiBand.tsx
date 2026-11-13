@@ -210,8 +210,8 @@ export function DomieAiBand() {
 
   // Inner content fades and slides up in second half of expansion (p in [0.5, 1.0])
   const contentP = Math.max(0, Math.min(1, (p - 0.5) / 0.5));
-  const contentOpacity = isReducedMotion ? 1 : 0.2 + 0.8 * contentP;
-  const contentTranslateY = isReducedMotion ? 0 : 24 * (1 - contentP);
+  const contentOpacity = isReducedMotion || p === 0 ? 1 : 0.2 + 0.8 * contentP;
+  const contentTranslateY = isReducedMotion || p === 0 ? 0 : 24 * (1 - contentP);
 
   // Detect fine pointer for cursor spotlight
   useEffect(() => {

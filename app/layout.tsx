@@ -40,7 +40,7 @@ const urbanist = localFont({
   ],
   variable: "--font-urbanist",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 const inter = localFont({
