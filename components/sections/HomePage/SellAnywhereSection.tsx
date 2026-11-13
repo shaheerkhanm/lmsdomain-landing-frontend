@@ -1,271 +1,549 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Eyebrow } from "@/components/marketing/ui";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm from "@/components/layout/common/EnquiryForm";
-import { Globe, TicketPercent, Landmark, TrendingUp, Check } from "lucide-react";
+import {
+  RazorpayLogo,
+  StripeLogo,
+  PaytmLogo,
+  DokuLogo,
+} from "@/components/logos";
+import {
+  TicketPercent,
+  FileText,
+  CheckCircle2,
+  Landmark,
+  TrendingUp,
+  ArrowRight,
+  Lock,
+  Sparkles,
+} from "lucide-react";
 
-const GATEWAYS = [
-  {
-    name: "Razorpay",
-    type: "image" as const,
-    src: "/assets/img/integration/integration-1.png",
-    desc: "UPI, Cards & NetBanking in India",
-  },
-  {
-    name: "Stripe",
-    type: "image" as const,
-    src: "/assets/img/integration/integration-8.png",
-    desc: "Global cards, Apple Pay & Google Pay",
-  },
-  {
-    name: "Paytm",
-    type: "wordmark" as const,
-    color: "#00B9F1",
-    desc: "UPI, Paytm Wallet & Indian Cards",
-  },
-  {
-    name: "DOKU",
-    type: "wordmark" as const,
-    color: "#E2231A",
-    desc: "Virtual accounts & wallets in SE Asia",
-  },
+interface CurrencyOption {
+  code: string;
+  symbol: string;
+  price: string;
+  discount: string;
+  total: string;
+}
+
+const CURRENCIES: CurrencyOption[] = [
+  { code: "INR", symbol: "₹", price: "₹4,999", discount: "−₹500", total: "₹4,499" },
+  { code: "USD", symbol: "$", price: "$64", discount: "−$10", total: "$54" },
+  { code: "EUR", symbol: "€", price: "€58", discount: "−€8", total: "€50" },
+  { code: "GBP", symbol: "£", price: "£50", discount: "−£7", total: "£43" },
 ];
 
-const RECENT_PAYMENTS = [
-  { initials: "AK", name: "Aman K.", course: "Batch B · Full-Stack Web", amount: "₹4,499", time: "3m ago" },
-  { initials: "SM", name: "Sneha M.", course: "React & Node.js Mastery", amount: "₹2,499", time: "18m ago" },
-  { initials: "VT", name: "Vikram T.", course: "Python Systems Bootcamp", amount: "₹3,999", time: "1h ago" },
-];
+interface FeedItem {
+  id: string;
+  title: string;
+  subtitle: string;
+  badge: string;
+  badgeType: "success" | "neutral" | "action";
+  logo: React.ReactNode;
+}
 
 export function SellAnywhereSection() {
-  const [selectedGateway, setSelectedGateway] = useState("Razorpay");
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isInView, setIsInView] = useState(false);
   const [showDemoModal, setShowDemoModal] = useState(false);
 
+  // Column 1: Currency & Coupon Animation State
+  const [activeCurrencyIdx, setActiveCurrencyIdx] = useState(0);
+  const [typedCoupon, setTypedCoupon] = useState("");
+  const [couponApplied, setCouponApplied] = useState(false);
+
+  // Column 2: Vertical Feed Animation State
+  const [feedIndex, setFeedIndex] = useState(0);
+
+  // Column 3: Self-writing Settlement Lines
+  const [visibleLines, setVisibleLines] = useState(0);
+
+  // IntersectionObserver to pause animations when out of view
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Column 1: Typewriter coupon & currency cycle
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setTypedCoupon("WELCOME10");
+      setCouponApplied(true);
+      return;
+    }
+    if (!isInView) return;
+
+    const couponTarget = "WELCOME10";
+    let charIdx = 0;
+    let timeoutId: NodeJS.Timeout;
+
+    // Type coupon letter by letter
+    const typeNext = () => {
+      if (charIdx < couponTarget.length) {
+        charIdx++;
+        setTypedCoupon(couponTarget.slice(0, charIdx));
+        timeoutId = setTimeout(typeNext, 120);
+      } else {
+        setCouponApplied(true);
+      }
+    };
+
+    const initialDelay = setTimeout(() => {
+      typeNext();
+    }, 600);
+
+    // Currency cycle every 3s
+    const currencyInterval = setInterval(() => {
+      setActiveCurrencyIdx((prev) => (prev + 1) % CURRENCIES.length);
+    }, 3000);
+
+    return () => {
+      clearTimeout(initialDelay);
+      clearTimeout(timeoutId);
+      clearInterval(currencyInterval);
+    };
+  }, [isInView]);
+
+  // Column 2: Feed cycling upward every 1.8s
+  const feedItems: FeedItem[] = [
+    {
+      id: "f1",
+      title: "Payment received · ₹4,499",
+      subtitle: "Aman K. · Razorpay",
+      badge: "Paid ✓",
+      badgeType: "success",
+      logo: <RazorpayLogo size={20} variant="mark" />,
+    },
+    {
+      id: "f2",
+      title: "Coupon WELCOME10 used",
+      subtitle: "38 uses this month",
+      badge: "−10%",
+      badgeType: "neutral",
+      logo: <TicketPercent size={18} className="text-[#12A27A]" strokeWidth={2} />,
+    },
+    {
+      id: "f3",
+      title: "GST invoice sent",
+      subtitle: "INV-2041 · emailed to learner",
+      badge: "Sent",
+      badgeType: "neutral",
+      logo: <FileText size={18} className="text-[#535361]" strokeWidth={2} />,
+    },
+    {
+      id: "f4",
+      title: "Offline payment to approve",
+      subtitle: "UPI reference 4821…",
+      badge: "Approve",
+      badgeType: "action",
+      logo: <CheckCircle2 size={18} className="text-[#F2894A]" strokeWidth={2} />,
+    },
+    {
+      id: "f5",
+      title: "Payment received · $54",
+      subtitle: "Sneha M. · Stripe",
+      badge: "Paid ✓",
+      badgeType: "success",
+      logo: <StripeLogo size={20} variant="mark" />,
+    },
+    {
+      id: "f6",
+      title: "Bank transfer approved",
+      subtitle: "Access granted to Batch B",
+      badge: "Approved ✓",
+      badgeType: "success",
+      logo: <Landmark size={18} className="text-[#12A27A]" strokeWidth={2} />,
+    },
+  ];
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion || !isInView) return;
+
+    const interval = setInterval(() => {
+      setFeedIndex((prev) => (prev + 1) % feedItems.length);
+    }, 1800);
+
+    return () => clearInterval(interval);
+  }, [isInView, feedItems.length]);
+
+  // Column 3: Self-writing payout panel lines sequence
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) {
+      setVisibleLines(5);
+      return;
+    }
+    if (!isInView) return;
+
+    let line = 0;
+    const interval = setInterval(() => {
+      line++;
+      setVisibleLines(line);
+      if (line >= 5) {
+        clearInterval(interval);
+      }
+    }, 600);
+
+    return () => clearInterval(interval);
+  }, [isInView]);
+
+  const activeCurrency = CURRENCIES[activeCurrencyIdx];
+
+  // Visible window of 4 items for Column 2 feed loop
+  const visibleFeed = [
+    feedItems[feedIndex % feedItems.length],
+    feedItems[(feedIndex + 1) % feedItems.length],
+    feedItems[(feedIndex + 2) % feedItems.length],
+    feedItems[(feedIndex + 3) % feedItems.length],
+  ];
+
   return (
-    <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="sell">
+    <section
+      ref={sectionRef}
+      className="py-[clamp(72px,9vw,128px)] pt-0 font-sans"
+      id="sell"
+    >
       <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
-        <div className="rv-v4">
-          <Eyebrow dotColor="#12A27A">Sell anywhere</Eyebrow>
-          <h2 className="type-h2-v4 text-[#151517] mt-1">
-            Collect fees anywhere
-          </h2>
-          <p className="text-[15px] sm:text-[16px] text-[#535361] leading-[1.55] max-w-[62ch] mt-3">
+        {/* Header: Left H2 + Right short paragraph on 1 row (desktop) */}
+        <div className="rv-v4 flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
+          <div>
+            <Eyebrow dotColor="#12A27A">Sell anywhere</Eyebrow>
+            <h2 className="type-h2-v4 text-[#151517] mt-1">
+              Collect fees anywhere
+            </h2>
+          </div>
+          <p className="text-[15px] sm:text-[16px] text-[#535361] leading-[1.55] max-w-[48ch]">
             Razorpay, Paytm, Stripe or DOKU, in multiple currencies, with coupons and offline-payment approval.
           </p>
         </div>
 
-        {/* 2-column Grid: Left Real Checkout Card + Right Gateway Strip & Benefits */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-6 mt-10 items-start">
-          {/* Left: Believable Checkout Card */}
-          <div className="rv-v4 bg-white border border-[rgba(15,15,20,0.08)] rounded-[20px] p-6 sm:p-7">
-            {/* Header / Course line */}
-            <div className="flex items-start gap-4 pb-5 border-b border-[#F0F0F3]">
-              <div className="relative w-14 h-14 rounded-[12px] overflow-hidden bg-[#F4F4F7] shrink-0 border border-[#E8E8EC]">
-                <Image
-                  src="/images/features/course-checkout-browsing.webp"
-                  alt="Course cover"
-                  fill
-                  sizes="56px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#8C8C98] block">
-                  Course enrollment
-                </span>
-                <b className="text-[16px] font-bold text-[#151517] block truncate mt-0.5">
-                  Full-Stack Web Engineering · Batch B
-                </b>
-                <span className="text-[13px] text-[#535361] mt-0.5 block">
-                  Includes live classes, assignments & certificate
-                </span>
-              </div>
-            </div>
+        {/* 3 Animated Workflow Columns: Sendr-style Live Product UIs */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+          {/* ========================================================= */}
+          {/* COLUMN 1: CHECKOUT (Learner Side) */}
+          {/* ========================================================= */}
+          <div className="rv-v4 flex flex-col">
+            {/* Live UI Container */}
+            <div className="bg-[#F8F8FA] border border-[rgba(15,15,20,0.08)] rounded-[20px] p-5 h-[430px] flex flex-col justify-between overflow-hidden shadow-xs relative">
+              {/* Checkout Mini Window */}
+              <div className="bg-white border border-[#E8E8EC] rounded-[14px] p-4 shadow-[0_4px_16px_rgba(20,20,40,0.04)]">
+                {/* Course Header */}
+                <div className="flex items-center gap-3 pb-3 border-b border-[#F0F0F3]">
+                  <div className="relative w-10 h-10 rounded-[8px] overflow-hidden bg-[#ECECF0] shrink-0 border border-[#E8E8EC]">
+                    <Image
+                      src="/images/features/course-checkout-browsing.webp"
+                      alt="Course thumbnail"
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <b className="text-[13px] font-bold text-[#151517] block truncate">
+                      Full-Stack Web Engineering
+                    </b>
+                    <span className="text-[11.5px] text-[#8C8C98] block">
+                      Batch B · Live + Assignments
+                    </span>
+                  </div>
+                </div>
 
-            {/* Price & Coupon calculation */}
-            <div className="py-4 border-b border-[#F0F0F3] space-y-2 text-[13.5px]">
-              <div className="flex justify-between items-center text-[#535361]">
-                <span>Course fee</span>
-                <span className="text-[#151517] font-medium">₹4,999</span>
-              </div>
-              <div className="flex justify-between items-center text-[#12A27A]">
-                <span className="inline-flex items-center gap-1.5 font-medium">
-                  <span className="bg-[#E8F8F0] px-2 py-0.5 rounded-[5px] text-[11.5px] font-semibold">
-                    WELCOME10 applied
+                {/* Pricing & Coupon Calculation */}
+                <div className="py-2.5 space-y-1.5 text-[12.5px] border-b border-[#F0F0F3]">
+                  <div className="flex justify-between text-[#535361]">
+                    <span>Course fee</span>
+                    <span className="text-[#151517] font-medium">{activeCurrency.price}</span>
+                  </div>
+
+                  {/* Coupon Field & Typewriter */}
+                  <div className="flex items-center justify-between gap-2 py-0.5">
+                    <div className="flex items-center gap-1.5 bg-[#F6F6F9] border border-[#E4E4E9] rounded-[6px] px-2 py-0.5 min-w-[120px]">
+                      <TicketPercent size={13} className="text-[#12A27A] shrink-0" />
+                      <span className="font-mono text-[11px] font-semibold text-[#151517]">
+                        {typedCoupon}
+                        {!couponApplied && (
+                          <span className="inline-block w-1 h-3 bg-[#12A27A] animate-pulse ml-0.5 align-middle" />
+                        )}
+                      </span>
+                    </div>
+                    {couponApplied && (
+                      <span className="text-[#12A27A] font-semibold text-[12px] animate-fade-in">
+                        {activeCurrency.discount}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Total Payable */}
+                  <div className="flex justify-between items-baseline pt-1.5 border-t border-dashed border-[#E8E8EC]">
+                    <span className="font-semibold text-[#151517] text-[13px]">Total payable</span>
+                    <b className="font-bold text-[18px] text-[#151517] tracking-tight">
+                      {couponApplied ? activeCurrency.total : activeCurrency.price}
+                    </b>
+                  </div>
+                </div>
+
+                {/* Currency Switcher Chips */}
+                <div className="pt-2.5">
+                  <span className="text-[10px] uppercase font-semibold tracking-[0.08em] text-[#8C8C98] block mb-1.5">
+                    Currency Auto-Detection
                   </span>
+                  <div className="flex items-center gap-1.5">
+                    {CURRENCIES.map((curr, idx) => {
+                      const isActive = idx === activeCurrencyIdx;
+                      return (
+                        <span
+                          key={curr.code}
+                          className={`text-[11px] font-semibold px-2 py-0.5 rounded-[5px] transition-all ${
+                            isActive
+                              ? "bg-[#151517] text-white shadow-xs"
+                              : "bg-[#F0F0F3] text-[#535361]"
+                          }`}
+                        >
+                          {curr.code}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Overlapping Gateway Discs (Avatar Cluster Style) */}
+              <div className="pt-2 pb-1">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#8C8C98] block mb-2">
+                  Integrated Gateways
                 </span>
-                <span className="font-semibold">−₹500</span>
-              </div>
-              <div className="flex justify-between items-baseline pt-2 border-t border-dashed border-[#E8E8EC]">
-                <span className="text-[14px] font-semibold text-[#151517]">Total payable</span>
-                <div className="text-right">
-                  <span className="text-[22px] font-bold tracking-[-0.03em] text-[#151517] leading-none">
-                    ₹4,499
+                <div className="flex items-center">
+                  {/* Razorpay */}
+                  <div
+                    title="Razorpay"
+                    className="w-11 h-11 rounded-full bg-white border-2 border-white shadow-[0_2px_8px_rgba(20,20,40,0.12)] flex items-center justify-center relative z-[4] hover:z-10 hover:scale-105 transition-all"
+                  >
+                    <RazorpayLogo size={22} variant="mark" />
+                  </div>
+                  {/* Stripe */}
+                  <div
+                    title="Stripe"
+                    className="w-11 h-11 rounded-full bg-white border-2 border-white shadow-[0_2px_8px_rgba(20,20,40,0.12)] flex items-center justify-center -ml-2.5 relative z-[3] hover:z-10 hover:scale-105 transition-all"
+                  >
+                    <StripeLogo size={22} variant="mark" />
+                  </div>
+                  {/* Paytm */}
+                  <div
+                    title="Paytm"
+                    className="w-11 h-11 rounded-full bg-white border-2 border-white shadow-[0_2px_8px_rgba(20,20,40,0.12)] flex items-center justify-center -ml-2.5 relative z-[2] hover:z-10 hover:scale-105 transition-all"
+                  >
+                    <PaytmLogo size={22} variant="mark" />
+                  </div>
+                  {/* DOKU */}
+                  <div
+                    title="DOKU"
+                    className="w-11 h-11 rounded-full bg-white border-2 border-white shadow-[0_2px_8px_rgba(20,20,40,0.12)] flex items-center justify-center -ml-2.5 relative z-[1] hover:z-10 hover:scale-105 transition-all"
+                  >
+                    <DokuLogo size={22} variant="mark" />
+                  </div>
+                  {/* Label */}
+                  <span className="text-[11.5px] font-medium text-[#6B6B78] ml-3">
+                    + Cards, UPI & Wallets
                   </span>
-                  <small className="block text-[#8C8C98] text-[11px] mt-0.5">or $54 USD</small>
                 </div>
               </div>
             </div>
 
-            {/* Gateway choices with real logos & radio */}
-            <div className="py-4 space-y-2">
-              <span className="text-[11.5px] uppercase font-semibold tracking-[0.08em] text-[#8C8C98] block mb-2">
-                Select payment method
-              </span>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {GATEWAYS.map((gw) => {
-                  const isSelected = selectedGateway === gw.name;
-                  return (
-                    <div
-                      key={gw.name}
-                      onClick={() => setSelectedGateway(gw.name)}
-                      className={`border rounded-[12px] p-3 px-3.5 flex items-center justify-between cursor-pointer transition-all ${
-                        isSelected
-                          ? "border-[#12A27A] border-[1.5px] bg-[#F5FAF6] text-[#151517]"
-                          : "border-[#E8E8EC] bg-white text-[#535361] hover:border-[#D0D0D8]"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        {gw.type === "image" ? (
-                          <div className="relative h-6 w-18 shrink-0 flex items-center">
-                            <Image
-                              src={gw.src}
-                              alt={gw.name}
-                              width={72}
-                              height={24}
-                              className="h-5 w-auto object-contain"
-                            />
-                          </div>
-                        ) : (
-                          <span
-                            className="font-bold text-[14px] tracking-tight shrink-0"
-                            style={{ color: gw.color }}
-                          >
-                            {gw.name}
-                          </span>
-                        )}
-                      </div>
-                      <span
-                        className={`w-4 h-4 rounded-full border-[1.5px] flex items-center justify-center shrink-0 ${
-                          isSelected
-                            ? "border-[#12A27A] bg-[#12A27A]"
-                            : "border-[#C8C8D0]"
-                        }`}
-                      >
-                        {isSelected && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
+            {/* Column Text Under UI */}
+            <div className="mt-5 text-left">
+              <h3 className="text-[17px] font-bold text-[#151517] tracking-tight">
+                Multi-currency checkout & coupons
+              </h3>
+              <p className="text-[14px] text-[#535361] leading-[1.5] mt-1.5 min-h-[42px]">
+                Sell in INR, USD, EUR, GBP and other major currencies with auto-detection. Run promotional codes and early-bird discounts.
+              </p>
+              <button
+                type="button"
+                onClick={() => setShowDemoModal(true)}
+                className="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#151517] hover:text-[#12A27A] transition-colors mt-2.5 cursor-pointer"
+              >
+                <span>Learn about checkout</span>
+                <ArrowRight size={14} />
+              </button>
             </div>
-
-            {/* Pay Button */}
-            <button
-              type="button"
-              onClick={() => setShowDemoModal(true)}
-              className="btn-v4-dark w-full justify-center text-center cursor-pointer mt-2 bg-[#151517] hover:bg-[#252528] text-white h-12 rounded-[12px] font-semibold text-[15px]"
-            >
-              Pay ₹4,499
-            </button>
-
-            {/* Security Footnote */}
-            <p className="text-center text-[12px] text-[#8C8C98] mt-3 flex items-center justify-center gap-1.5">
-              <span>🔒 256-bit encrypted checkout</span>
-              <span className="text-[#D0D0D8]">·</span>
-              <span>Secured by {selectedGateway}</span>
-            </p>
           </div>
 
-          {/* Right: Gateway Brand Strip & Integration Details */}
-          <div className="rv-v4 flex flex-col gap-4">
-            <div className="bg-white border border-[rgba(15,15,20,0.08)] rounded-[20px] p-6">
-              <span className="text-[12px] font-semibold uppercase tracking-[0.1em] text-[#12A27A] block mb-2">
-                Zero Commission
-              </span>
-              <h3 className="text-[20px] font-bold text-[#151517] tracking-tight">
-                Connect your existing accounts directly
-              </h3>
-              <p className="text-[14px] text-[#535361] leading-[1.55] mt-2">
-                Fees deposit straight into your bank account. We take 0% cut of your course sales and never hold your funds.
-              </p>
-
-              {/* Gateway Logo Strip (Single Row, Grayscale -> Color on hover) */}
-              <div className="pt-6 mt-6 border-t border-[#F0F0F3]">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#8C8C98] block mb-3.5">
-                  Supported Payment Gateways
+          {/* ========================================================= */}
+          {/* COLUMN 2: PAYMENTS COME IN (Feed Loop) */}
+          {/* ========================================================= */}
+          <div className="rv-v4 flex flex-col">
+            {/* Live UI Container: Scrolling Stack */}
+            <div className="bg-[#F8F8FA] border border-[rgba(15,15,20,0.08)] rounded-[20px] p-5 h-[430px] flex flex-col justify-between overflow-hidden shadow-xs relative">
+              <div className="flex items-center justify-between pb-2 border-b border-[#E8E8EC]">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#8C8C98]">
+                  Live Activity Feed
                 </span>
-                <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-                  {GATEWAYS.map((gw) => (
-                    <div
-                      key={gw.name}
-                      className="group flex items-center gap-2 px-3 py-2 rounded-[10px] bg-[#F7F7F9] border border-[#EBEBEF] transition-all hover:bg-white hover:border-[#D0D0D8]"
-                    >
-                      {gw.type === "image" ? (
-                        <Image
-                          src={gw.src}
-                          alt={gw.name}
-                          width={72}
-                          height={22}
-                          className="h-4.5 w-auto object-contain filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-200"
-                        />
-                      ) : (
-                        <span
-                          className="font-semibold text-[13px] filter grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-200"
-                          style={{ color: gw.color }}
-                        >
-                          {gw.name}
+                <span className="inline-flex items-center gap-1 text-[11px] text-[#12A27A] font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#12A27A] animate-pulse" />
+                  Streaming
+                </span>
+              </div>
+
+              {/* Upward Cycling Stack */}
+              <div className="space-y-2.5 my-auto overflow-hidden">
+                {visibleFeed.map((item, idx) => (
+                  <div
+                    key={`${item.id}-${idx}`}
+                    className="bg-white border border-[#E8E8EC] rounded-[12px] p-3 flex items-center justify-between gap-3 shadow-[0_1px_3px_rgba(20,20,40,0.04)] transition-all duration-500 ease-out"
+                    style={{
+                      opacity: idx === 0 ? 0.85 : 1,
+                      transform: `translateY(${idx * 0}px)`,
+                    }}
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-8 h-8 rounded-[8px] bg-[#F7F7FA] border border-[#E8E8EC] flex items-center justify-center shrink-0">
+                        {item.logo}
+                      </div>
+                      <div className="min-w-0">
+                        <b className="text-[12.5px] font-semibold text-[#151517] block truncate">
+                          {item.title}
+                        </b>
+                        <span className="text-[11px] text-[#8C8C98] block truncate">
+                          {item.subtitle}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="shrink-0">
+                      {item.badgeType === "success" && (
+                        <span className="bg-[#E8F8F0] text-[#12A27A] font-semibold text-[11px] px-2 py-0.5 rounded-[5px]">
+                          {item.badge}
+                        </span>
+                      )}
+                      {item.badgeType === "neutral" && (
+                        <span className="bg-[#F0F0F3] text-[#535361] font-semibold text-[11px] px-2 py-0.5 rounded-[5px]">
+                          {item.badge}
+                        </span>
+                      )}
+                      {item.badgeType === "action" && (
+                        <span className="bg-[#12A27A] text-white font-semibold text-[11px] px-2 py-0.5 rounded-[5px] shadow-xs">
+                          {item.badge}
                         </span>
                       )}
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Footnote */}
+              <div className="pt-2 border-t border-[#E8E8EC] text-center">
+                <span className="text-[11px] text-[#8C8C98]">
+                  Automated receipts & GST invoice generation
+                </span>
               </div>
             </div>
 
-            {/* Offline review preview callout */}
-            <div className="bg-[#F6F5F2] border border-[rgba(15,15,20,0.08)] rounded-[20px] p-6">
-              <b className="text-[14.5px] font-semibold text-[#151517] block">
-                Direct bank transfers & UPI QR codes
-              </b>
-              <p className="text-[13px] text-[#535361] mt-1 leading-relaxed">
-                Learners can submit transaction references or payment receipts. Your finance team reviews and approves access in one click.
+            {/* Column Text Under UI */}
+            <div className="mt-5 text-left">
+              <h3 className="text-[17px] font-bold text-[#151517] tracking-tight">
+                Instant alerts & offline review
+              </h3>
+              <p className="text-[14px] text-[#535361] leading-[1.5] mt-1.5 min-h-[42px]">
+                GST tax invoices emailed on checkout. Direct bank transfers and UPI payments queue for instant one-click approval.
               </p>
+              <button
+                type="button"
+                onClick={() => setShowDemoModal(true)}
+                className="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#151517] hover:text-[#12A27A] transition-colors mt-2.5 cursor-pointer"
+              >
+                <span>Learn about payment flows</span>
+                <ArrowRight size={14} />
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* Feature Cards Bento Grid: 1 Wide Card + 3 Smaller UI-Fragment Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
-          {/* Card 1 (Wide Bento Card spanning 2 columns on desktop): Payments this week */}
-          <div className="rv-v4 lg:col-span-2 bg-white border border-[rgba(15,15,20,0.08)] rounded-[20px] p-6 text-left flex flex-col justify-between">
-            <div>
-              {/* Top Row: Title + Sparkline */}
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div>
-                  <span className="text-[11.5px] uppercase font-semibold tracking-[0.08em] text-[#12A27A] block">
-                    Revenue & payouts
-                  </span>
-                  <h3 className="text-[18px] font-bold text-[#151517] tracking-tight mt-0.5">
-                    Payments this week
-                  </h3>
-                  <p className="text-[13.5px] text-[#535361] mt-1 max-w-[48ch]">
-                    Track academy earnings, verify settlement dates, and calculate revenue splits for instructors.
-                  </p>
-                </div>
-
-                {/* Green Sparkline */}
-                <div className="hidden sm:flex flex-col items-end shrink-0">
-                  <div className="flex items-center gap-1.5 text-[#12A27A] font-bold text-[13px]">
-                    <TrendingUp className="w-4 h-4" strokeWidth={2} />
+          {/* ========================================================= */}
+          {/* COLUMN 3: MONEY REACHES YOU (Self-writing Payout) */}
+          {/* ========================================================= */}
+          <div className="rv-v4 flex flex-col">
+            {/* Live UI Container */}
+            <div className="bg-[#F8F8FA] border border-[rgba(15,15,20,0.08)] rounded-[20px] p-5 h-[430px] flex flex-col justify-between overflow-hidden shadow-xs relative">
+              {/* Payout Breakdown Card */}
+              <div className="bg-white border border-[#E8E8EC] rounded-[14px] p-4 shadow-[0_4px_16px_rgba(20,20,40,0.04)]">
+                <div className="flex items-center justify-between pb-2.5 border-b border-[#F0F0F3]">
+                  <div>
+                    <span className="text-[10px] uppercase font-semibold tracking-[0.08em] text-[#8C8C98] block">
+                      Settlement Statement
+                    </span>
+                    <b className="text-[14px] font-bold text-[#151517]">
+                      Weekly Payout
+                    </b>
+                  </div>
+                  <div className="flex items-center gap-1 text-[#12A27A] font-bold text-[12.5px]">
+                    <TrendingUp size={15} strokeWidth={2.2} />
                     <span>₹1,42,800</span>
                   </div>
-                  <svg viewBox="0 0 100 24" className="w-24 h-6 mt-1 text-[#12A27A]" fill="none">
+                </div>
+
+                {/* Self-writing Lines */}
+                <div className="py-2.5 space-y-2 text-[12px]">
+                  {/* Line 1: Gross */}
+                  <div
+                    className={`flex justify-between items-center transition-all duration-300 ${
+                      visibleLines >= 1 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+                    }`}
+                  >
+                    <span className="text-[#535361]">Gross course sales</span>
+                    <span className="font-semibold text-[#151517]">₹1,42,800</span>
+                  </div>
+
+                  {/* Line 2: Gateway Fees */}
+                  <div
+                    className={`flex justify-between items-center transition-all duration-300 ${
+                      visibleLines >= 2 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+                    }`}
+                  >
+                    <span className="text-[#535361]">Gateway fees (direct)</span>
+                    <span className="text-[#8C8C98]">As per gateway</span>
+                  </div>
+
+                  {/* Line 3: 0% Platform Cut */}
+                  <div
+                    className={`flex justify-between items-center bg-[#F5FAF6] rounded-[6px] px-2 py-1 transition-all duration-300 ${
+                      visibleLines >= 3 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+                    }`}
+                  >
+                    <span className="text-[#12A27A] font-semibold">LMS Domain cut</span>
+                    <b className="text-[#12A27A] font-bold">0% (₹0)</b>
+                  </div>
+
+                  {/* Line 4: Net Payout */}
+                  <div
+                    className={`flex justify-between items-baseline pt-2 border-t border-dashed border-[#E8E8EC] transition-all duration-300 ${
+                      visibleLines >= 4 ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1"
+                    }`}
+                  >
+                    <span className="font-semibold text-[#151517]">Net to your bank</span>
+                    <b className="font-bold text-[16px] text-[#151517]">100% funds</b>
+                  </div>
+                </div>
+
+                {/* Drawing Sparkline */}
+                <div className="pt-1">
+                  <svg viewBox="0 0 100 20" className="w-full h-5 text-[#12A27A]" fill="none">
                     <path
-                      d="M2 20 L18 16 L34 19 L50 11 L66 14 L82 6 L98 2"
+                      d="M2 17 L18 13 L34 15 L50 8 L66 11 L82 5 L98 2"
                       stroke="currentColor"
                       strokeWidth="2"
                       strokeLinecap="round"
@@ -274,158 +552,40 @@ export function SellAnywhereSection() {
                 </div>
               </div>
 
-              {/* 3 Rows of Recent Payments with Initials & Paid Pill */}
-              <div className="divide-y divide-[#F0F0F3] border-t border-b border-[#F0F0F3] my-2">
-                {RECENT_PAYMENTS.map((payment, pIdx) => (
-                  <div key={pIdx} className="py-2.5 flex items-center justify-between gap-3 text-[13px]">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="w-7 h-7 rounded-[8px] bg-[#EBEBED] text-[#535361] font-semibold text-[11px] grid place-items-center shrink-0">
-                        {payment.initials}
-                      </span>
-                      <div className="min-w-0">
-                        <b className="font-semibold text-[#151517] block truncate leading-tight">
-                          {payment.name}
-                        </b>
-                        <small className="text-[#8C8C98] text-[11px] block truncate">
-                          {payment.course} · {payment.time}
-                        </small>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="font-mono font-semibold text-[#151517] text-[13px]">
-                        {payment.amount}
-                      </span>
-                      <span className="bg-[#E8F8F0] text-[#12A27A] font-semibold text-[11px] px-2 py-0.5 rounded-[5px]">
-                        Paid ✓
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <p className="text-[12.5px] text-[#8C8C98] mt-3">
-              Automated settlement reconciliation with zero payment delay.
-            </p>
-          </div>
-
-          {/* Card 2: Multi-currency checkout */}
-          <div className="rv-v4 bg-white border border-[rgba(15,15,20,0.08)] rounded-[20px] p-6 text-left flex flex-col justify-between">
-            <div>
-              {/* Real UI Fragment: Currency Switcher Pill */}
-              <div className="p-3 bg-[#F7F7F9] rounded-[12px] border border-[#E8E8EC] mb-4">
-                <span className="text-[10.5px] uppercase font-semibold tracking-[0.08em] text-[#8C8C98] block mb-2">
-                  Auto-detected currency
+              {/* Footer Trust Callout */}
+              <div className="bg-white border border-[#E8E8EC] rounded-[10px] p-2.5 px-3 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#12A27A] shrink-0" />
+                <span className="text-[11.5px] font-medium text-[#151517] leading-tight">
+                  Your own Razorpay / Stripe account, connected directly
                 </span>
-                <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="bg-white border border-[#12A27A] text-[#12A27A] font-semibold text-[12px] px-2.5 py-1 rounded-[6px] shadow-xs">
-                    ₹ INR · ₹4,499
-                  </span>
-                  <span className="bg-white border border-[#E8E8EC] text-[#535361] font-medium text-[12px] px-2 py-1 rounded-[6px]">
-                    $ USD · $54
-                  </span>
-                  <span className="bg-white border border-[#E8E8EC] text-[#8C8C98] font-medium text-[12px] px-2 py-1 rounded-[6px]">
-                    € EUR
-                  </span>
-                  <span className="bg-white border border-[#E8E8EC] text-[#8C8C98] font-medium text-[12px] px-2 py-1 rounded-[6px]">
-                    £ GBP
-                  </span>
-                </div>
               </div>
-
-              <h3 className="text-[16px] font-bold text-[#151517] mb-1.5">
-                Multi-currency checkout
-              </h3>
-              <p className="text-[13.5px] text-[#535361] leading-[1.5]">
-                Sell in INR, USD, EUR, GBP and other major currencies, depending on your gateway account.
-              </p>
             </div>
-          </div>
 
-          {/* Card 3: Coupons & promotions */}
-          <div className="rv-v4 bg-white border border-[rgba(15,15,20,0.08)] rounded-[20px] p-6 text-left flex flex-col justify-between">
-            <div>
-              {/* Real UI Fragment: Coupon Chip */}
-              <div className="p-3 bg-[#F7F7F9] rounded-[12px] border border-[#E8E8EC] mb-4">
-                <div className="border border-dashed border-[#A0D8B4] bg-[#F5FAF6] rounded-[8px] p-2.5 px-3 flex items-center justify-between">
-                  <div className="min-w-0">
-                    <span className="font-mono font-bold text-[13px] text-[#151517] block">
-                      WELCOME10
-                    </span>
-                    <small className="text-[#12A27A] text-[11px] font-semibold block">
-                      10% off · 38 uses recorded
-                    </small>
-                  </div>
-                  <span className="bg-[#12A27A] text-white text-[10.5px] font-semibold px-2 py-0.5 rounded-[5px] shrink-0">
-                    Active
-                  </span>
-                </div>
-              </div>
-
-              <h3 className="text-[16px] font-bold text-[#151517] mb-1.5">
-                Coupons & promotions
+            {/* Column Text Under UI */}
+            <div className="mt-5 text-left">
+              <h3 className="text-[17px] font-bold text-[#151517] tracking-tight">
+                0% platform cut & direct settlements
               </h3>
-              <p className="text-[13.5px] text-[#535361] leading-[1.5]">
-                Create percentage or flat discount codes with expiry dates and redemption limits.
+              <p className="text-[14px] text-[#535361] leading-[1.5] mt-1.5 min-h-[42px]">
+                Connect your existing payment accounts. Fees deposit straight into your bank account with zero platform commission.
               </p>
-            </div>
-          </div>
-
-          {/* Card 4: Offline payments with review */}
-          <div className="rv-v4 lg:col-span-2 bg-white border border-[rgba(15,15,20,0.08)] rounded-[20px] p-6 text-left flex flex-col justify-between">
-            <div>
-              {/* Real UI Fragment: Invoice with GST line + Approve Row */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                {/* GST invoice fragment */}
-                <div className="p-3 bg-[#F7F7F9] rounded-[12px] border border-[#E8E8EC] text-[12px]">
-                  <span className="text-[10.5px] uppercase font-semibold text-[#8C8C98] block">
-                    GST Compliant Invoice
-                  </span>
-                  <b className="font-semibold text-[#151517] block mt-0.5">INV-2026-0841</b>
-                  <div className="flex justify-between text-[#535361] mt-1 text-[11.5px]">
-                    <span>18% GST (CGST + SGST)</span>
-                    <span className="font-mono font-semibold">₹686.28</span>
-                  </div>
-                </div>
-
-                {/* Action Row */}
-                <div className="p-3 bg-[#F7F7F9] rounded-[12px] border border-[#E8E8EC] flex flex-col justify-between">
-                  <div className="flex justify-between items-center text-[11.5px]">
-                    <span className="text-[#151517] font-medium">Bank transfer · UTR 481920</span>
-                    <span className="text-[#8C8C98]">₹4,499</span>
-                  </div>
-                  <div className="flex items-center gap-2 mt-2">
-                    <button
-                      type="button"
-                      className="bg-[#12A27A] hover:bg-[#0E8563] text-white text-[11.5px] font-semibold px-2.5 py-1 rounded-[6px] transition-colors"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      type="button"
-                      className="bg-white border border-[#E8E8EC] text-[#535361] text-[11.5px] font-medium px-2.5 py-1 rounded-[6px]"
-                    >
-                      Reject
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <h3 className="text-[16px] font-bold text-[#151517] mb-1.5">
-                Offline payments with review
-              </h3>
-              <p className="text-[13.5px] text-[#535361] leading-[1.5]">
-                Accept direct bank transfers and payment screenshots with one-click admin approval.
-              </p>
+              <button
+                type="button"
+                onClick={() => setShowDemoModal(true)}
+                className="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#151517] hover:text-[#12A27A] transition-colors mt-2.5 cursor-pointer"
+              >
+                <span>Learn about payouts</span>
+                <ArrowRight size={14} />
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Demo Enquiry Modal Dialog */}
+      {/* Demo Modal */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-xl bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl">
-          <EnquiryForm onClose={() => setShowDemoModal(false)} />
+        <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden bg-white border border-[#E8E8EC] rounded-[24px]">
+          <EnquiryForm />
         </DialogContent>
       </Dialog>
     </section>
