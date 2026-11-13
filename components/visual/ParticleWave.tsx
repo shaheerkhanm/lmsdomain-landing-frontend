@@ -97,8 +97,8 @@ export function ParticleWave({
 
     const setupGrid = () => {
       const isMobile = width < 768;
-      const targetCols = isMobile ? 60 : 90;
-      const targetRows = isMobile ? 24 : 34;
+      const targetCols = isMobile ? 64 : 96;
+      const targetRows = isMobile ? 30 : 46;
 
       cols = Math.round(targetCols / stepDensity);
       rows = Math.round(targetRows / stepDensity);
@@ -111,14 +111,14 @@ export function ParticleWave({
       gridU = new Float32Array(totalPoints);
 
       // Virtual 3D plane dimensions
-      const planeWidth = width * (isMobile ? 1.4 : 1.35);
-      const zNear = 220;
-      const zFar = 1100;
+      const planeWidth = width * (isMobile ? 1.45 : 1.4);
+      const zNear = 180;
+      const zFar = 1350;
 
       for (let r = 0; r < rows; r++) {
-        // Linear or slightly quadratic z spacing so near rows aren't too sparse
+        // Slightly quadratic z spacing so near rows aren't too sparse
         const zNorm = r / Math.max(1, rows - 1);
-        const z = zNear + (zFar - zNear) * Math.pow(zNorm, 1.15);
+        const z = zNear + (zFar - zNear) * Math.pow(zNorm, 1.12);
 
         for (let c = 0; c < cols; c++) {
           const idx = r * cols + c;
@@ -256,18 +256,19 @@ export function ParticleWave({
     const drawFrame = (timeSec: number) => {
       if (!ctx || width === 0 || height === 0) return;
 
-      const fov = 680;
-      const horizonY = height * 0.38;
-      const cameraY = 270;
+      const fov = 720;
+      // Horizon aimed so ridges run above the dashboard and in the side gutters
+      const horizonY = height * 0.20;
+      const cameraY = 300;
       const centerX = width * 0.5;
 
-      const planeWidth = width * (width < 768 ? 1.4 : 1.35);
-      const zNear = 220;
-      const zFar = 1100;
+      const planeWidth = width * (width < 768 ? 1.45 : 1.4);
+      const zNear = 180;
+      const zFar = 1350;
       const zSpan = zFar - zNear;
 
       const k1 = (2.2 * 2 * Math.PI) / planeWidth;
-      const k2 = (2.0 * 2 * Math.PI) / zSpan;
+      const k2 = (2.6 * 2 * Math.PI) / zSpan;
       const k3 = (1.4 * 2 * Math.PI) / planeWidth;
 
       // Cursor lerp & mobile auto-moving lens
@@ -406,10 +407,10 @@ export function ParticleWave({
           fadeX = (1 - u) / 0.16;
         }
 
-        // Vignette: bottom fade before client logos / dashboard
+        // Vignette: bottom fade before client logos row
         let fadeBottom = 1.0;
-        if (screenY > height - 90) {
-          fadeBottom = Math.max(0, (height - screenY) / 90);
+        if (screenY > height - 120) {
+          fadeBottom = Math.max(0, (height - 20 - screenY) / 100);
         }
 
         alpha *= fadeZ * fadeX * fadeBottom;

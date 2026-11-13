@@ -69,17 +69,17 @@ export function BannerSection({
 
   return (
     <section className="relative pt-[100px] min-[900px]:pt-[93.5px] pb-0 font-sans overflow-x-clip bg-white isolate">
-      {/* 3D Particle Wave Background (V1j §1) */}
+      {/* 3D Particle Wave Background (V1k §1): covers entire hero down to client-logo row */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[860px] -z-10 select-none overflow-hidden"
+        className="pointer-events-none absolute inset-x-0 top-0 bottom-[80px] -z-10 select-none overflow-hidden"
         aria-hidden="true"
       >
         <ParticleWave className="w-full h-full" mode="hero" />
       </div>
 
-      {/* Soft white radial behind text to preserve crisp readability (V1j §1c) */}
+      {/* Soft white radial behind text to preserve crisp readability (V1k §1c) */}
       <div
-        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[920px] h-[520px] -z-10 select-none"
+        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[980px] h-[520px] -z-10 select-none"
         style={{
           background:
             "radial-gradient(ellipse 65% 55% at 50% 36%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 100%)",
