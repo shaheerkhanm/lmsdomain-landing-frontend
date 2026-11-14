@@ -24,6 +24,8 @@ export interface FAQProps {
   contactHref?: string;
   ctaText?: string;
   defaultOpenIndex?: number;
+  /** Quieter style: no sparkle, neutral open border, light outlined icon. */
+  minimal?: boolean;
 }
 
 export function FAQ({
@@ -37,6 +39,7 @@ export function FAQ({
   contactHref = "/contact",
   ctaText = "Book a demo",
   defaultOpenIndex,
+  minimal = false,
 }: FAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(
     typeof defaultOpenIndex === "number" ? defaultOpenIndex : null
@@ -79,7 +82,7 @@ export function FAQ({
             <div className="lg:col-span-5 text-left flex flex-col justify-between">
               <div>
                 <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-[#6C4BFF]">
-                  <span>✦</span>
+                  {!minimal && <span>✦</span>}
                   <span>{eyebrow}</span>
                 </div>
 
@@ -130,10 +133,14 @@ export function FAQ({
                     key={idx}
                     className={cn(
                       "rounded-[16px] transition-all duration-200 overflow-hidden",
-                      isOpen ? "shadow-[0_8px_24px_-6px_rgba(123,92,255,0.14)]" : "bg-white border border-[#E8E8EC] hover:border-[#D4D4DC]"
+                      isOpen
+                        ? minimal
+                          ? "bg-white border border-[#0A0A0B]"
+                          : "shadow-[0_8px_24px_-6px_rgba(123,92,255,0.14)]"
+                        : "bg-white border border-[#E8E8EC] hover:border-[#D4D4DC]"
                     )}
                     style={
-                      isOpen
+                      isOpen && !minimal
                         ? {
                             border: "1px solid transparent",
                             background:
@@ -155,10 +162,16 @@ export function FAQ({
                       </span>
 
                       {/* Dark round button with white '+' rotating 45° to '×' (200ms) (§4c) */}
-                      <span className="w-[32px] h-[32px] sm:w-[34px] sm:h-[34px] rounded-full text-white grid place-items-center bg-[#151517] shadow-xs shrink-0 transition-transform duration-200 group-hover:scale-105">
+                      <span
+                        className={cn(
+                          "w-[32px] h-[32px] sm:w-[34px] sm:h-[34px] rounded-full grid place-items-center shrink-0 transition-transform duration-200 group-hover:scale-105",
+                          minimal ? "border border-[#E4E4E7] bg-white text-[#0A0A0B]" : "text-white bg-[#151517] shadow-xs"
+                        )}
+                      >
                         <span
                           className={cn(
-                            "text-white text-[20px] font-light leading-none mb-0.5 inline-block transition-transform duration-200 motion-reduce:transition-none",
+                            minimal ? "text-[#0A0A0B]" : "text-white",
+                            "text-[20px] font-light leading-none mb-0.5 inline-block transition-transform duration-200 motion-reduce:transition-none",
                             isOpen && "rotate-45"
                           )}
                           aria-hidden="true"

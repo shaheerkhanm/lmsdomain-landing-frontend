@@ -53,6 +53,19 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>(null);
   const [showDemoModal, setShowDemoModal] = useState(false);
+  // Homepage: full-width transparent bar at the top that morphs into the floating pill on scroll
+  const morphOnScroll = pathname === "/";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!morphOnScroll) return;
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [morphOnScroll]);
+
+  const compact = !morphOnScroll || scrolled;
 
   const navRef = useRef<HTMLDivElement>(null);
   const activeTriggerRef = useRef<HTMLButtonElement | null>(null);
@@ -134,9 +147,21 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           ========================================================================= */}
       <header
         ref={navRef}
-        className="fixed top-4 inset-x-0 z-50 justify-center font-urbanist hidden min-[900px]:flex pointer-events-none"
+        className={`fixed inset-x-0 z-50 justify-center font-urbanist hidden min-[900px]:flex pointer-events-none transition-[top] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
+          compact ? "top-4" : "top-0"
+        }`}
       >
-        <div className="pointer-events-auto inline-flex items-center gap-5 lg:gap-7 bg-white/95 backdrop-blur-md px-5 sm:px-6 py-2.5 rounded-full border border-[#EAE8E2] shadow-[0_10px_30px_-5px_rgba(22,22,22,0.08)]">
+        <div
+          className={
+            morphOnScroll
+              ? `pointer-events-auto flex w-[calc(100%-32px)] items-center justify-between gap-5 lg:gap-7 rounded-full border px-5 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
+                  compact
+                    ? "max-w-[960px] py-2.5 bg-white/85 backdrop-blur-md border-[#EAE8E2] shadow-[0_10px_30px_-5px_rgba(22,22,22,0.08)]"
+                    : "max-w-[1200px] py-5 bg-transparent border-transparent shadow-none"
+                }`
+              : "pointer-events-auto inline-flex items-center gap-5 lg:gap-7 bg-white/95 backdrop-blur-md px-5 sm:px-6 py-2.5 rounded-full border border-[#EAE8E2] shadow-[0_10px_30px_-5px_rgba(22,22,22,0.08)]"
+          }
+        >
           {/* Brand Logo */}
           <Link href="/" aria-label="LMS Domain home" className="flex items-center shrink-0">
             <span className="hidden min-[1120px]:inline-flex items-center">
@@ -280,7 +305,17 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           MOBILE / TABLET TOP BAR (< 900px)
           Fixed top header with logo, CTA button and hamburger toggle
           ========================================================================= */}
-      <header className="w-full absolute top-0 inset-x-0 z-40 font-urbanist flex min-[900px]:hidden items-center justify-between px-4 sm:px-6 h-20">
+      <header
+        className={`w-full top-0 inset-x-0 z-40 font-urbanist flex min-[900px]:hidden items-center justify-between px-4 sm:px-6 ${
+          morphOnScroll
+            ? `fixed transition-all duration-300 ${
+                scrolled
+                  ? "h-16 bg-white/90 backdrop-blur-md border-b border-[#EAE8E2] shadow-[0_6px_20px_-10px_rgba(22,22,22,0.12)]"
+                  : "h-20 bg-transparent border-b border-transparent"
+              }`
+            : "absolute h-20"
+        }`}
+      >
         <Link href="/" aria-label="LMS Domain home" className="min-w-[44px] min-h-[44px] flex items-center shrink-0">
           <span className="inline-flex items-center">
             <BrandLogo variant="wordmark" tone="light" height={24} />

@@ -1011,3 +1011,128 @@ input[type="number"]::-webkit-inner-spin-button {
     animation: none !important;
   }
 }
+
+/* ==========================================================================
+   v5 homepage motion (all of it is skipped when the user prefers reduced motion)
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .v5 .rv-v4 {
+    transition-delay: var(--rv-delay, 0ms);
+  }
+
+  /* Hero: content rises in sequence on load, product view tilts up into place */
+  .v5-rise {
+    animation: v5-rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .v5-shot {
+    animation: v5-shot 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: 450ms;
+    transform-origin: 50% 0%;
+  }
+  .v5-grow {
+    animation: v5-grow 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--d, 1100ms);
+  }
+
+  /* Pieces inside a revealed card settle in after the card itself */
+  .rv-v4 .v5-pop {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition-delay: calc(var(--rv-delay, 0ms) + 250ms + var(--d, 0ms));
+  }
+  .rv-v4.in .v5-pop {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hover: the main illustration piece lifts slightly */
+  .v5-lift {
+    transition: translate 0.45s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.45s ease;
+  }
+  .group:hover .v5-lift {
+    translate: 0 -6px;
+    box-shadow: 0 1px 2px rgba(16, 16, 24, 0.05), 0 22px 44px -18px rgba(16, 16, 24, 0.28);
+  }
+
+  /* Score ring draws itself */
+  .rv-v4 .v5-ring {
+    stroke-dashoffset: var(--c);
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--rv-delay, 0ms) + 500ms);
+  }
+  .rv-v4.in .v5-ring {
+    stroke-dashoffset: var(--o);
+  }
+
+  /* Progress bars fill when revealed */
+  .rv-v4 .v5-fill {
+    width: 0 !important;
+    transition: width 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--rv-delay, 0ms) + 500ms);
+  }
+  .rv-v4.in .v5-fill {
+    width: var(--w) !important;
+  }
+
+  /* Setup steps: dashed connector draws left to right, badges pop */
+  .rv-v4.v5-draw {
+    opacity: 1;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1.6s cubic-bezier(0.65, 0, 0.35, 1) 200ms;
+  }
+  .rv-v4.v5-draw.in {
+    transform: scaleX(1);
+  }
+  .rv-v4 .v5-badge {
+    scale: 0.4;
+    opacity: 0;
+    transition: scale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    transition-delay: calc(var(--rv-delay, 0ms) + 150ms);
+  }
+  .rv-v4.in .v5-badge {
+    scale: 1;
+    opacity: 1;
+  }
+
+  /* AI window: messages appear in order each time a tab opens */
+  .v5-seq {
+    animation: v5-rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+
+  /* Featured testimonial photo: slow settle */
+  .rv-v4 .v5-zoom {
+    scale: 1.08;
+    transition: scale 1.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .rv-v4.in .v5-zoom {
+    scale: 1;
+  }
+}
+
+@keyframes v5-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes v5-shot {
+  from {
+    opacity: 0;
+    transform: perspective(1800px) rotateX(16deg) translateY(56px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes v5-grow {
+  from {
+    width: 0;
+  }
+}

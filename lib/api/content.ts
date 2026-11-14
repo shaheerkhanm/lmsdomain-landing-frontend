@@ -1152,6 +1152,44 @@ export async function getHomeClients(): Promise<HomeClients | null> {
   return { eyebrow: text(data.eyebrow), title: text(data.title), subtitle: text(data.subtitle), logos };
 }
 
+// Home: testimonials (Home > Testimonials, /api/home/testimonials).
+// Returns only published records; the homepage decides what to show when empty.
+export interface HomeTestimonial {
+  id: string;
+  name: string;
+  role: string;
+  quote: string;
+  avatar?: string;
+}
+
+interface BackendTestimonial {
+  _id?: string;
+  customerName?: string;
+  customerProfession?: string;
+  comment?: string;
+  image?: string;
+  isActive?: boolean;
+  isDeleted?: boolean;
+}
+
+export async function getHomeTestimonials(): Promise<HomeTestimonial[]> {
+  const res = await fetchApi<{ status?: boolean; data?: BackendTestimonial[] }>("/api/home/testimonials", {
+    method: "POST",
+    body: { slug: "" },
+    tags: ["home", "testimonials"],
+    revalidate: 300,
+  }).catch(() => null);
+  return filterActiveDocuments(res?.data)
+    .filter((t) => text(t.customerName) && text(t.comment))
+    .map((t, idx) => ({
+      id: String(t._id || `testimonial-${idx + 1}`),
+      name: text(t.customerName),
+      role: text(t.customerProfession),
+      quote: htmlToText(t.comment),
+      avatar: isImagePath(text(t.image)) ? text(t.image) : undefined,
+    }));
+}
+
 // Rich text from the admin editor ("<p>..</p>") as plain paragraphs (blank line between)
 export function htmlToText(value: unknown): string {
   return String(value ?? "")
