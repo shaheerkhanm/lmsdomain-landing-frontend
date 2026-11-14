@@ -116,7 +116,7 @@ export function FooterSection({
             </p>
 
             {siteConfig.tagline && (
-              <p className="text-[12px] font-medium text-[#7B5CFF] tracking-wide uppercase">
+              <p className="text-[12px] font-medium text-[#6C4BFF] tracking-wide uppercase">
                 ✦ {siteConfig.tagline}
               </p>
             )}
