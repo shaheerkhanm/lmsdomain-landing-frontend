@@ -1,194 +1,117 @@
-"use client";
+'use client'
 
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { motion } from "motion/react"
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import SocialMediaIcons from "../SocialMediaIcons";
-import BrandLogo from "@/components/brand/BrandLogo";
-import { usePageVisibility } from "@/lib/pages-context";
-import { siteConfig } from "@/content/site";
-import { Mail } from "lucide-react";
+import CopyrightSection from "../CopyrightSection";
 
-interface FooterColumn {
-  title: string;
-  links: { title: string; href: string }[];
-}
 
-const FOOTER_COLUMNS: FooterColumn[] = [
-  {
-    title: "Platform",
-    links: [
-      { title: "Teach & Batches", href: "/platform/teach" },
-      { title: "Assess & Certify", href: "/platform/assess" },
-      { title: "Manage & Operations", href: "/platform/manage" },
-      { title: "Sell & Checkout", href: "/platform/sell" },
-      { title: "Brand & Custom Domain", href: "/platform/brand" },
-      { title: "Domie AI", href: "/platform/ai" },
-      { title: "Security & Hosting", href: "/platform/security" },
-      { title: "All Features", href: "/platform" },
-    ],
-  },
-  {
-    title: "Solutions",
-    links: [
-      { title: "Coaching Institutes", href: "/solutions/coaching-institutes" },
-      { title: "Language & Test-Prep", href: "/solutions/language-test-prep-academies" },
-      { title: "Training Companies", href: "/solutions/training-companies" },
-      { title: "Solo Educators & Tutors", href: "/solutions/solo-educators" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { title: "Plans & Pricing", href: "/pricing" },
-      { title: "Product Roadmap", href: "/roadmap" },
-      { title: "Blog & Guides", href: "/resources/blog" },
-      { title: "Edmingle Alternative", href: "/compare/edmingle-alternative" },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { title: "About Us", href: "/about" },
-      { title: "Customers", href: "/customers" },
-      { title: "Contact Us", href: "/contact" },
-      { title: "Enterprise LMS", href: "/custom-lms" },
-    ],
-  },
-  {
-    title: "Legal",
-    links: [
-      { title: "Privacy Policy", href: "/privacy-policy" },
-      { title: "Terms of Service", href: "/terms" },
-      { title: "Refund Policy", href: "/refund-policy" },
-    ],
-  },
+const navData = [
+    {
+        title: "Company",
+        links: [
+            { title: "Home", href: "/" },
+            { title: "About Us", href: "/about" },
+            { title: "Features", href: "/features" },
+            { title: "Pricing", href: "/pricing" },
+        ],
+    },
+    {
+        title: "Product",
+        links: [
+            { title: "Pricing", href: "#" },
+            { title: "Solutions", href: "#" },
+            { title: "FAQs", href: "/pricing/#faqSection" },
+            { title: "Demo", href: "#" },
+        ],
+    },
+    {
+        title: "Connect",
+        links: [
+            { title: "Login", href: "#" },
+            { title: "Contact us", href: "#" },
+            { title: "Privacy Policy", href: "/privacy-policy" },
+            { title: "Terms & Service", href: "/terms" },
+            { title: "⁠Refund & Cancellation Policy", href: "/refund-policy" },
+            { title: "Data Processing Agreement (DPA)", href: "/dpa" },
+        ],
+    },
 ];
 
-export function FooterSection({
-  addressData,
-  contentData,
-  publishedLegalSlugs,
-}: {
-  addressData?: any;
-  contentData?: any;
-  publishedLegalSlugs?: string[];
-}) {
-  const pathname = usePathname();
-  const { isPathVisible } = usePageVisibility();
-  const currentYear = siteConfig.copyrightYear;
+function FooterSection({ addressData, contentData }: any) {
 
-  if (
-    pathname?.startsWith("/login") ||
-    pathname?.startsWith("/signup") ||
-    pathname?.startsWith("/forgot-password")
-  ) {
-    return null;
-  }
 
-  // Filter links through page visibility context
-  const columns = FOOTER_COLUMNS.map((col) => {
-    let links = col.links.filter((link) => isPathVisible(link.href));
-    if (col.title === "Legal" && publishedLegalSlugs && publishedLegalSlugs.length > 0) {
-      links = links.filter((link) => {
-        const slug = link.href.replace(/^\//, "");
-        return publishedLegalSlugs.includes(slug);
-      });
-    }
-    return { ...col, links };
-  }).filter((col) => col.links.length > 0);
+    return (
+        <div className="main-padding lg:pb-[3%] lg:pt-[3%] md:pt-[6%] md:pb-[2%] pt-[12%] pb-[10%] font-manrope bg-[#F3F2FA] flex flex-col md:gap-[50px] gap-[30px]">
+            <div className="grid grid-cols-12 lg:gap-4">
+                {/* Logo & Description */}
+                <div className="lg:col-span-4 md:col-span-8 col-span-12">
+                    <div className="flex flex-col gap-6">
+                        <Link href={'/'} className="logo-div w-fit">
+                            <motion.img
+                                initial={{ x: 80, opacity: 0 }}
+                                whileInView={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0, duration: 0.5, type: "spring", stiffness: 100, damping: 20 }}
+                                viewport={{ once: false, amount: 0.7 }}
+                                src="/assets/img/logo/logo.svg"
+                                alt="Logo"
+                                className="md:h-[60px] h-[40px] object-contain"
+                            />
+                        </Link>
+                        <motion.div
+                            initial={{ x: 80, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0, duration: 0.5, type: "spring", stiffness: 100, damping: 20 }}
+                            viewport={{ once: false, amount: 0.3 }}
+                            className="leading-normal 2xl:text-[18px] text-[16px]"
+                            dangerouslySetInnerHTML={{ __html: contentData?.content || "" }}
+                        />
+                        <SocialMediaIcons data={addressData} />
+                    </div>
+                </div>
 
-  const contactEmail = addressData?.email || siteConfig.supportEmail;
+                {/* Empty space */}
+                <div className="lg:col-span-1 md:col-span-1 md:block hidden"></div>
 
-  return (
-    <footer className="bg-[#FAFAFA] border-t border-[rgba(15,15,20,0.08)] text-[#151517] font-urbanist pt-16 pb-12">
-      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
-        {/* Top Grid: Brand Column + 5 Nav Link Columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 pb-12">
-          {/* Brand & Social Column (4 cols on lg) */}
-          <div className="lg:col-span-4 space-y-4">
-            <Link href="/" aria-label="LMS Domain home" className="inline-block">
-              <BrandLogo variant="wordmark" tone="light" height={28} />
-            </Link>
-
-            <p className="text-[14px] text-[#535361] leading-relaxed max-w-sm">
-              {siteConfig.description}
-            </p>
-
-            {siteConfig.tagline && (
-              <p className="text-[12px] font-medium text-[#6C4BFF] tracking-wide uppercase">
-                ✦ {siteConfig.tagline}
-              </p>
-            )}
-
-            {/* Social Profile Icons Row */}
-            <div className="pt-2">
-              <SocialMediaIcons data={addressData} />
+                {/* Navigation Links */}
+                <div className="lg:col-span-7 md:col-span-12 col-span-12 grid grid-cols-12 lg:gap-4 gap-2 lg:mt-0 md:mt-10 mt-5">
+                    {navData?.map((section, idx) => (
+                        <motion.div
+                            initial={{ x: -80, opacity: 0 }}
+                            whileInView={{ x: 0, opacity: 1 }}
+                            transition={{
+                                delay: idx * -0.2,
+                                duration: 0.5, type: "tween", stiffness: 100, damping: 20
+                            }}
+                            viewport={{ once: false, amount: 0.3 }}
+                            key={idx} className={`
+                            ${idx === 0 ? 'md:col-span-3 col-span-6' : ''}
+                            ${idx === 1 ? 'md:col-span-3 col-span-6' : ''} 
+                            ${idx === 2 ? 'md:col-span-5 col-span-12 md:mt-0 mt-5' : ''}
+                            `}>
+                            <div className="flex flex-col gap-3">
+                                <h4 className="font-bold lg:text-[20px] md:text-[18px] text-[16px]">{section.title}</h4>
+                                <ul className="flex flex-col lg:gap-3 md:gap-2 gap-1">
+                                    {section?.links?.map((link, i) => (
+                                        <li key={i}>
+                                            <Link
+                                                href={link.href}
+                                                className="hover:underline hover:text-MainColor transition-all duration-200 cursor-pointer lg:text-[18px] text-[16px] leading-[14px]"
+                                            >
+                                                {link.title}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
             </div>
-          </div>
-
-          {/* Nav Link Columns (8 cols on lg, 2x2/5-col layout) */}
-          <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 sm:gap-8">
-            {columns.map((col) => (
-              <div key={col.title} className="space-y-3">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[#151517]">
-                  {col.title}
-                </p>
-                <ul className="space-y-2">
-                  {col.links.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="text-[13.5px] text-[#535361] hover:text-[#151517] transition-colors leading-normal"
-                      >
-                        {link.title}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
+            <CopyrightSection data={addressData} />
         </div>
-
-        {/* Bottom Bar: Copyright, Contact Email, Legal Quicklinks */}
-        <div className="pt-8 border-t border-[rgba(15,15,20,0.08)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6B6F76]">
-          <p>© {currentYear} LMS Domain. All rights reserved.</p>
-
-          <div className="flex flex-wrap items-center gap-5 sm:gap-6">
-            {contactEmail && (
-              <a
-                href={`mailto:${contactEmail}`}
-                className="inline-flex items-center gap-1.5 text-[#535361] hover:text-[#151517] transition-colors"
-              >
-                <Mail className="size-3.5 text-[#7B5CFF]" />
-                <span>{contactEmail}</span>
-              </a>
-            )}
-
-            <Link
-              href="/privacy-policy"
-              className="text-[#535361] hover:text-[#151517] transition-colors"
-            >
-              Privacy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-[#535361] hover:text-[#151517] transition-colors"
-            >
-              Terms
-            </Link>
-            <Link
-              href="/refund-policy"
-              className="text-[#535361] hover:text-[#151517] transition-colors"
-            >
-              Refunds
-            </Link>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+    );
 }
 
 export default FooterSection;

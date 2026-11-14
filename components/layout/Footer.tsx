@@ -1,39 +1,36 @@
-import React from 'react';
-import FooterSection from './common/FooterSection';
-import { fetchCms, getLegalPages, getSiteContact } from '@/lib/api/content';
-import { ContentSource } from '@/components/content/ContentSource';
-import { SECTIONS } from '@/content/cms-sections';
-import { mentionsNotLive } from '@/lib/claims';
+import React from 'react'
+import FooterSection from './common/FooterSection'
+import { apiRoutes } from '@/utils/api/apiRoutes'
+import { fetchData } from '@/utils/api'
 
 async function Footer() {
-  const [siteContact, addressData, contentData, publishedLegalSlugs] = await Promise.all([
-    getSiteContact().catch(() => null),
-    fetchCms("address"),
-    fetchCms(SECTIONS.footer.slug), // site-footer: the live site still reads "footer"
-    getLegalPages(),
-  ]);
 
-  const effectiveAddressData = {
-    ...(addressData || {}),
-    email: siteContact?.email || (addressData as any)?.email,
-    phone: siteContact?.phone || (addressData as any)?.phone,
-  };
+  const getData = async (slug: string) => {
+    try {
+      const location = process.env.BACKEND_URL + apiRoutes?.getAllCms
+      const response = await fetchData({
+        url: location,
+        body: { slug },
 
-  // Footer description: Settings > Footer content (placeholder text counts as not filled in)
-  const description = String((contentData as any)?.content || "");
-  const source = !contentData ? "code" : !description.trim() || mentionsNotLive(description) ? "partial" : "api";
+      })
+
+
+
+      return response
+    } catch (error) {
+      return {}
+    }
+  }
+
+  // Fetch all section data
+  const addressData = await getData("address");
+  const contentData = await getData("footer");
 
   return (
-    <ContentSource id="footer" source={source}>
     <div>
-      <FooterSection
-        contentData={contentData || {}}
-        addressData={effectiveAddressData}
-        publishedLegalSlugs={publishedLegalSlugs}
-      />
+      <FooterSection contentData={contentData} addressData={addressData} />
     </div>
-    </ContentSource>
-  );
+  )
 }
 
-export default Footer;
+export default Footer
