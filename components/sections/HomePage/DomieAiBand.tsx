@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { DomieOrb } from "@/components/ai/DomieOrb";
 import { Eyebrow } from "@/components/marketing/ui";
-import { useInsetPanelProgress } from "@/hooks/useInsetPanelProgress";
 import { aiSectionContent } from "@/content/home/ai";
 import { heroContent } from "@/content/home/hero";
 import {
@@ -59,163 +58,251 @@ const TOOL_BULLETS: Record<string, string[]> = {
     "Answers repetitive syllabus questions automatically",
   ],
   generator: [
-    "Drafts course titles, descriptions, and learning outcomes",
-    "Helps instructors prepare curriculum modules faster",
-    "Full instructor review control before publishing",
+    "Drafts lesson outlines, reading summaries and key takeaways",
+    "Edits to your tone and structure",
+    "You review and publish when ready",
   ],
   analytics: [
-    "Surfaces proactive administrative alerts",
-    "Highlights learners before they fall behind in their batch",
-    "Daily morning summary of academy activity and schedules",
+    "Flags students with low engagement across 3 consecutive sessions",
+    "Highlights test questions with high failure rates",
+    "Suggests concrete interventions for your teaching team",
   ],
   command_bar: [
-    "One search box for every admin page & setting",
-    "Quick keyboard shortcuts to jump to tools instantly",
-    "Instant answers to questions about the platform",
+    "Jump to any course, batch or student with keyboard shortcuts",
+    "Perform common admin tasks in seconds",
+    "Available anywhere across the LMS dashboard",
   ],
 };
 
-/**
- * ScaledUiContainer: scales down inner UIs smoothly on smaller containers
- * to ensure text never wraps unexpectedly or triggers horizontal scroll.
- */
-function ScaledUiContainer({
-  baseWidth,
-  children,
-  className = "",
-}: {
-  baseWidth: number;
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
-  const [height, setHeight] = useState<number | undefined>(undefined);
+const ROTATION_INTERVAL = 8000;
+
+function StarField() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const updateSize = () => {
-      if (containerRef.current && contentRef.current) {
-        const clientW = containerRef.current.clientWidth;
-        if (clientW > 0) {
-          const s = Math.min(1, clientW / baseWidth);
-          setScale(s);
-          setHeight(contentRef.current.offsetHeight * s);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    let animId: number;
+    let isVisible = false;
+
+    // 75 stars with soft twinkling
+    const stars = Array.from({ length: 75 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      radius: Math.random() * 0.7 + 0.8,
+      baseAlpha: Math.random() * 0.4 + 0.2,
+      speed: Math.random() * 1.5 + 0.8,
+      phase: Math.random() * Math.PI * 2,
+    }));
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize, { passive: true });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries[0].isIntersecting;
+        if (isVisible && !animId) {
+          loop();
         }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
+
+    const loop = () => {
+      if (!isVisible) {
+        animId = 0;
+        return;
       }
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const now = performance.now() * 0.001;
+
+      for (const s of stars) {
+        const alpha = s.baseAlpha * (0.65 + 0.35 * Math.sin(now * s.speed + s.phase));
+        ctx.fillStyle = `rgba(255, 255, 255, ${alpha.toFixed(3)})`;
+        ctx.beginPath();
+        ctx.arc(s.x * canvas.width, s.y * canvas.height, s.radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      animId = requestAnimationFrame(loop);
     };
 
-    updateSize();
-    const ro = new ResizeObserver(updateSize);
-    if (containerRef.current) ro.observe(containerRef.current);
-    return () => ro.disconnect();
-  }, [baseWidth]);
+    loop();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", resize);
+      if (animId) cancelAnimationFrame(animId);
+    };
+  }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className={`relative w-full overflow-hidden ${className}`}
-      style={{ height: height !== undefined ? `${height}px` : "auto" }}
-    >
-      <div
-        ref={contentRef}
-        style={{
-          width: `${baseWidth}px`,
-          transform: `scale(${scale})`,
-          transformOrigin: "top left",
-        }}
-      >
-        {children}
-      </div>
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none select-none z-0"
+      aria-hidden="true"
+    />
   );
 }
 
 export function DomieAiBand() {
   const [activeTab, setActiveTab] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [showHelpdeskAnswer, setShowHelpdeskAnswer] = useState(false);
   const [progressKey, setProgressKey] = useState(0);
+  const [interactiveQuery, setInteractiveQuery] = useState("");
+  const [interactiveAnswer, setInteractiveAnswer] = useState<string | null>(null);
+  const [isAnswering, setIsAnswering] = useState(false);
   const [isFinePointer, setIsFinePointer] = useState(false);
 
-  const { containerRef, panelRef, contentRef } = useInsetPanelProgress();
-  const rafRef = useRef<number | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const revealContainerRef = useRef<HTMLDivElement>(null);
+  const tabListRef = useRef<HTMLDivElement>(null);
 
-  const currentTab = aiSectionContent.tabs[activeTab] || aiSectionContent.tabs[0];
-  const chips = TOOL_CHIPS[currentTab.id] || TOOL_CHIPS.tutor;
-  const bullets = TOOL_BULLETS[currentTab.id] || TOOL_BULLETS.tutor;
-
-  const aiTutorCard = heroContent.cards?.find((c) => c.type === "ai_tutor");
-  const question =
-    aiTutorCard?.question || "What's the difference between a quiz and an assignment?";
-  const answer =
-    aiTutorCard?.answer ||
-    "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor review.";
-
-  // Detect fine pointer for cursor spotlight
+  // Pointer spotlight capability check
   useEffect(() => {
-    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setIsFinePointer(hasFinePointer && !prefersReducedMotion);
+    if (typeof window !== "undefined") {
+      setIsFinePointer(window.matchMedia("(pointer: fine)").matches);
+    }
   }, []);
 
-  // Pointer spotlight rAF-throttled
+  // Edmingle-style circular dark reveal scroll handler
+  useEffect(() => {
+    const section = sectionRef.current;
+    const revealContainer = revealContainerRef.current;
+    if (!section || !revealContainer) return;
+
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      section.style.setProperty("--reveal-r", "150vmax");
+      section.style.setProperty("--halo-alpha", "0");
+      section.style.setProperty("--outer-tint", "#0B0B0D");
+      section.style.setProperty("--pre-glow", "0");
+      return;
+    }
+
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        if (!section || !revealContainer) return;
+
+        const vh = window.innerHeight;
+        const rect = revealContainer.getBoundingClientRect();
+
+        // 1. Pre-glow: when section approaches from vh * 1.35 to vh
+        let preGlow = 0;
+        if (rect.top > vh) {
+          preGlow = 0;
+        } else if (rect.top > 0) {
+          preGlow = Math.max(0, Math.min(1, (vh * 1.35 - rect.top) / (vh * 0.35)));
+        } else {
+          preGlow = 1;
+        }
+
+        // 2. Reveal scroll progress p (0 -> 1 over 90vh of scroll)
+        const revealDistance = vh * 0.9;
+        const scrolledIn = vh - rect.top;
+        const p = Math.max(0, Math.min(1, scrolledIn / revealDistance));
+
+        // Ease out
+        const easeP = 1 - Math.pow(1 - p, 2.2);
+
+        // Radius: start at clamp(190px, 24vmin, 280px), expand to 150vmax
+        const minDim = Math.min(window.innerWidth, vh);
+        const maxDim = Math.max(window.innerWidth, vh);
+        const startR = Math.max(190, Math.min(280, minDim * 0.24));
+        const maxR = maxDim * 1.5;
+        const currentR = startR + (maxR - startR) * easeP;
+
+        // Outside page tint: from #FFFFFF to #0B0B0D over p 0.35 -> 1.0
+        const tintP = Math.max(0, Math.min(1, (p - 0.35) / 0.65));
+        const r = Math.round(255 - 244 * tintP);
+        const g = Math.round(255 - 244 * tintP);
+        const b = Math.round(255 - 242 * tintP);
+
+        // Halo opacity
+        const haloAlpha = p < 0.75 ? 0.65 : 0.65 * (1 - (p - 0.75) / 0.25);
+
+        section.style.setProperty("--reveal-r", `${currentR.toFixed(1)}px`);
+        section.style.setProperty("--halo-alpha", haloAlpha.toFixed(3));
+        section.style.setProperty("--pre-glow", preGlow.toFixed(3));
+        section.style.setProperty("--outer-tint", `rgb(${r}, ${g}, ${b})`);
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    onScroll();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLElement>) => {
-    if (!isFinePointer || !panelRef.current) return;
-    const rect = panelRef.current.getBoundingClientRect();
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(() => {
-      if (panelRef.current) {
-        panelRef.current.style.setProperty("--mouse-x", `${x}px`);
-        panelRef.current.style.setProperty("--mouse-y", `${y}px`);
-      }
-    });
-  }, [isFinePointer, panelRef]);
-
-  // Typing indicator -> show answer in HelpDesk after entry
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowHelpdeskAnswer(true);
-    }, 900);
-    return () => clearTimeout(timer);
+    sectionRef.current.style.setProperty("--mouse-x", `${x}px`);
+    sectionRef.current.style.setProperty("--mouse-y", `${y}px`);
   }, []);
 
-  // Auto-advance tools every 5s with progress bar
+  const handleInteractiveAsk = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!interactiveQuery.trim()) return;
+    setIsAnswering(true);
+    setInteractiveAnswer(null);
+
+    setTimeout(() => {
+      setIsAnswering(false);
+      setInteractiveAnswer(
+        "Based on your published Module 4 notes: Dynamic memory allocation stores structures in the heap rather than the call stack, requiring explicit deallocation with free()."
+      );
+    }, 900);
+  };
+
   useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion || isPaused) return;
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setActiveTab((prev) => (prev + 1) % aiSectionContent.tabs.length);
+      setProgressKey((k) => k + 1);
+    }, ROTATION_INTERVAL);
+    return () => clearInterval(timer);
+  }, [isPaused]);
 
-    const interval = setInterval(() => {
-      setActiveTab((prev) => {
-        const next = (prev + 1) % aiSectionContent.tabs.length;
-        setProgressKey((k) => k + 1);
-        return next;
-      });
-    }, 5000);
+  const currentTab = aiSectionContent.tabs[activeTab];
+  const chips = TOOL_CHIPS[currentTab.id] || ["AI Assistant", "Grounded in your content"];
+  const bullets = TOOL_BULLETS[currentTab.id] || [];
 
-    return () => clearInterval(interval);
-  }, [isPaused, progressKey]);
-
-  // Keyboard navigation for ARIA tabs
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
     const total = aiSectionContent.tabs.length;
-    if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+    if (e.key === "ArrowRight") {
       e.preventDefault();
-      setActiveTab((prev) => {
-        const next = (prev + 1) % total;
-        setProgressKey((k) => k + 1);
-        return next;
-      });
-    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+      const next = (index + 1) % total;
+      setActiveTab(next);
+      setProgressKey((k) => k + 1);
+    } else if (e.key === "ArrowLeft") {
       e.preventDefault();
-      setActiveTab((prev) => {
-        const next = (prev - 1 + total) % total;
-        setProgressKey((k) => k + 1);
-        return next;
-      });
+      const prev = (index - 1 + total) % total;
+      setActiveTab(prev);
+      setProgressKey((k) => k + 1);
     } else if (e.key === "Home") {
       e.preventDefault();
       setActiveTab(0);
@@ -233,19 +320,82 @@ export function DomieAiBand() {
   };
 
   return (
-    <div ref={containerRef} className="relative bg-white overflow-hidden isolate" id="ai">
-      <section
-        ref={panelRef}
-        onPointerMove={handlePointerMove}
-        className="py-[clamp(72px,9vw,128px)] bg-[#0B0B0D] text-white relative overflow-hidden isolate font-sans origin-center will-change-[transform,clip-path]"
-      >
-        {/* 1a. Pre-Section Rising Soft Violet Glow (240px, radial, rgba(139,108,255,.35)) */}
-        <div
-          className="pointer-events-none absolute -top-[120px] left-1/2 -translate-x-1/2 w-[min(1100px,100%)] h-[240px] bg-[radial-gradient(ellipse_at_center,rgba(139,108,255,0.35)_0%,transparent_70%)] -z-10"
-          aria-hidden="true"
-        />
+    <section
+      ref={sectionRef}
+      id="ai"
+      onPointerMove={handlePointerMove}
+      className="relative w-full overflow-hidden isolate font-sans"
+      style={{
+        backgroundColor: "var(--outer-tint, #FFFFFF)",
+      }}
+    >
+      {/* 1. Pre-Section Rising Soft Blue/Violet Radial Glow */}
+      <div
+        className="pointer-events-none absolute -top-[200px] left-1/2 -translate-x-1/2 w-full max-w-[1400px] h-[480px] -z-10 blur-[20px] transition-opacity duration-300"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(123,92,255,calc(var(--pre-glow, 0) * 0.45)), rgba(80,90,255,calc(var(--pre-glow, 0) * 0.25)) 45%, transparent 75%)",
+          opacity: "var(--pre-glow, 0)",
+        }}
+        aria-hidden="true"
+      />
 
-        {/* 2e. Desktop Pointer Spotlight (600px very soft radial glow following cursor) */}
+      {/* 2. Pinned Reveal Stage (~180vh total scroll, intro sticky for ~70vh while disc expands) */}
+      <div ref={revealContainerRef} className="relative w-full h-[180vh]">
+        {/* Sticky Viewport Stage */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-start pt-[14vh] min-[900px]:pt-[18vh]">
+          {/* Dark Expanding Circle Layer (#0B0B0D) */}
+          <div
+            className="absolute inset-0 pointer-events-none z-0"
+            style={{
+              clipPath: "circle(var(--reveal-r, 24vmin) at 50% 40%)",
+              WebkitClipPath: "circle(var(--reveal-r, 24vmin) at 50% 40%)",
+            }}
+          >
+            <div className="absolute inset-0 bg-[#0B0B0D]" />
+            {/* Twinkling Star Field on the dark layer */}
+            <StarField />
+          </div>
+
+          {/* Soft Blue/Violet Halo Ring around the circular edge */}
+          <div
+            className="absolute inset-0 pointer-events-none z-0 transition-opacity duration-200"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 40%, transparent calc(var(--reveal-r, 24vmin) - 2px), rgba(123,92,255,var(--halo-alpha, 0.65)) calc(var(--reveal-r, 24vmin)), rgba(80,90,255,calc(var(--halo-alpha, 0.65) * 0.45)) calc(var(--reveal-r, 24vmin) + 3vmin), transparent calc(var(--reveal-r, 24vmin) + 12vmin))",
+            }}
+            aria-hidden="true"
+          />
+
+          {/* Intro Block: DomieOrb + Eyebrow + Heading + Subtitle (White on Dark from p=0) */}
+          <div className="relative z-10 text-center max-w-[820px] mx-auto px-5 select-none pointer-events-auto">
+            {/* Domie Orb Video (72px, lazy) */}
+            <div className="w-[72px] h-[72px] rounded-full mx-auto mb-4 bg-[#1F1934] p-0.5 shadow-[0_0_36px_rgba(123,92,255,0.55)] flex items-center justify-center overflow-hidden">
+              <DomieOrb size={68} surface="dark" />
+            </div>
+
+            {/* Eyebrow */}
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-3.5 py-1 text-[12.5px] text-[#D9D3FF] mb-3 backdrop-blur-md">
+              <Sparkles className="w-3.5 h-3.5 text-[#E2539B]" />
+              <span className="font-medium">✦ Pro plan · Domie AI</span>
+            </div>
+
+            {/* Centered Heading */}
+            <h2 className="text-[clamp(32px,4.8vw,54px)] font-bold text-white tracking-[-0.035em] leading-[1.05] max-w-[18ch] mx-auto">
+              AI that works inside your academy
+            </h2>
+
+            {/* Centered Subtitle */}
+            <p className="text-[#A9A9B6] text-[15px] sm:text-[16.5px] leading-[1.6] max-w-[56ch] mx-auto mt-3.5">
+              Domie knows your syllabus, your student roster and your live schedule. It drafts lessons, flags struggling students and answers routine questions.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. Followup Dark Cards & Feature Content (bg-[#0B0B0D], scrolls up seamlessly) */}
+      <div className="relative bg-[#0B0B0D] text-white pt-2 pb-[clamp(72px,9vw,120px)] z-10">
+        {/* Desktop Pointer Spotlight (600px very soft radial glow following cursor) */}
         {isFinePointer && (
           <div
             className="pointer-events-none absolute inset-0 -z-10 transition-opacity duration-300"
@@ -263,492 +413,363 @@ export function DomieAiBand() {
           aria-hidden="true"
         />
 
-        <div
-          ref={contentRef}
-          className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] relative z-10 will-change-[transform,opacity]"
-        >
-        {/* Left-Aligned Header with 2c Domie Presence */}
-        <div>
-          {/* Mobile Domie Avatar (above eyebrow) */}
-          <div className="block md:hidden mb-3.5">
-            <div className="w-[48px] h-[48px] rounded-full bg-[#1F1934] p-0.5 shadow-[0_0_20px_rgba(108,75,255,0.45)] relative inline-flex items-center justify-center">
-              <DomieOrb size={44} surface="dark" />
-            </div>
+        <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
+          {/* Mobile Tabs: 2x2 Compact Buttons (< 768px) */}
+          <div className="grid grid-cols-2 gap-2 mb-8 md:hidden" role="tablist" aria-label="Domie AI Tools Mobile">
+            {aiSectionContent.tabs.map((tab, idx) => {
+              const isActive = activeTab === idx;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  id={`mobile-tab-${tab.id}`}
+                  aria-selected={isActive}
+                  aria-controls={`domie-panel-${tab.id}`}
+                  onClick={() => handleSelectTab(idx)}
+                  className={`flex items-center gap-2 p-2.5 px-3 rounded-[12px] text-[13px] font-medium border text-left transition-all ${
+                    isActive
+                      ? "bg-[#6C4BFF]/20 border-[#A08CFF]/50 text-white shadow-[0_0_16px_rgba(108,75,255,0.3)]"
+                      : "bg-white/4 border-white/10 text-[#A9A9B6]"
+                  }`}
+                >
+                  <span className="text-[#C9BEFF] shrink-0">
+                    {AI_ICONS[tab.id] ?? <Sparkles className="w-4 h-4" />}
+                  </span>
+                  <span className="truncate">{tab.shortLabel || tab.title}</span>
+                </button>
+              );
+            })}
           </div>
 
-          <span className="inline-flex items-center gap-1.5 bg-white/8 border border-white/14 rounded-full px-2.5 py-1 text-xs text-[#D9D3FF] mb-4">
-            ✦ Pro plan
-          </span>
-          <br />
-          <Eyebrow tone="gradient">Domie AI</Eyebrow>
-
-          {/* Heading + Desktop Floating Domie Avatar with bob and sparkles */}
-          <div className="flex items-center gap-4 mt-1">
-            <h2 className="type-h2-v4 text-white">
-              {aiSectionContent.title}
-            </h2>
-
-            {/* Desktop Domie Bobbing Avatar with Twinkling Sparkles */}
-            <div
-              className="hidden md:inline-flex items-center relative animate-domie-bob shrink-0 ml-1 select-none"
-              aria-hidden="true"
-            >
-              <div className="w-[56px] h-[56px] rounded-full bg-[#1F1934] p-0.5 shadow-[0_0_24px_rgba(108,75,255,0.5)] relative overflow-hidden flex items-center justify-center">
-                <DomieOrb size={52} surface="dark" />
-              </div>
-              {/* Sparkle 1 */}
-              <Sparkles className="absolute -top-1.5 -right-2 w-4 h-4 text-[#A48BFF] animate-pulse" />
-              {/* Sparkle 2 */}
-              <Sparkles className="absolute -bottom-1 -left-2 w-3.5 h-3.5 text-[#E2539B] animate-pulse [animation-delay:0.7s]" />
-              {/* Sparkle 3 */}
-              <span className="absolute top-2 -right-3 w-1.5 h-1.5 rounded-full bg-[#D9D3FF] animate-ping [animation-delay:1.4s]" />
-            </div>
-          </div>
-
-          <p className="text-[15px] sm:text-[16px] text-[#A9A9B6] leading-[1.55] max-w-[62ch] mt-3">
-            {aiSectionContent.subtitle}
-          </p>
-        </div>
-
-        {/* Mobile Tabs: 2x2 Compact Buttons (< 768px) */}
-        <div className="grid grid-cols-2 gap-2 mt-8 md:hidden" role="tablist" aria-label="Domie AI Tools Mobile">
-          {aiSectionContent.tabs.map((tab, idx) => {
-            const isActive = activeTab === idx;
-            return (
-              <button
-                key={tab.id}
-                type="button"
-                role="tab"
-                id={`mobile-tab-${tab.id}`}
-                aria-selected={isActive}
-                aria-controls={`domie-panel-${tab.id}`}
-                onClick={() => handleSelectTab(idx)}
-                className={`flex items-center gap-2 p-2.5 px-3 rounded-[12px] text-[13px] font-medium border text-left transition-all ${
-                  isActive
-                    ? "bg-[#6C4BFF]/20 border-[#A08CFF]/50 text-white shadow-[0_0_16px_rgba(108,75,255,0.3)]"
-                    : "bg-white/4 border-white/10 text-[#A9A9B6]"
-                }`}
-              >
-                <span className="text-[#C9BEFF] shrink-0">
-                  {AI_ICONS[tab.id] ?? <Sparkles className="w-4 h-4" />}
-                </span>
-                <span className="truncate">{tab.shortLabel || tab.title}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Desktop & Mobile Main Stage: 2-Column on Desktop (1.15fr / 1fr) */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-7 mt-8 md:mt-11 items-start">
-          {/* LEFT: 2b Living Window with Rotating Conic Border & 2d Context Chips */}
-          <div className="relative group">
-            {/* 2d Context Chips (Float half outside window, never cover text) */}
-            <div
-              className="absolute -top-3.5 right-6 z-20 bg-[#1C1C24]/90 backdrop-blur-md border border-white/15 rounded-full px-3 py-1 text-[11.5px] text-[#D9D3FF] shadow-[0_8px_24px_rgba(0,0,0,0.5)] flex items-center gap-1.5 select-none pointer-events-none transition-all duration-300"
-              aria-hidden="true"
-            >
-              <Sparkles className="w-3 h-3 text-[#A48BFF]" />
-              <span>{chips[0]}</span>
-            </div>
-
-            <div
-              className="absolute -bottom-3.5 left-6 z-20 bg-[#1C1C24]/90 backdrop-blur-md border border-white/15 rounded-full px-3 py-1 text-[11.5px] text-[#D9D3FF] shadow-[0_8px_24px_rgba(0,0,0,0.5)] flex items-center gap-1.5 select-none pointer-events-none transition-all duration-300"
-              aria-hidden="true"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#3DD68C]" />
-              <span>{chips[1]}</span>
-            </div>
-
-            {/* 2b Living Window Outer Wrapper with rotating conic border */}
-            <div className="relative p-[1.5px] rounded-[20px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(108,75,255,0.35)]">
-              {/* Rotating conic gradient border */}
+          {/* Desktop & Mobile Main Stage: 2-Column on Desktop (1.15fr / 1fr) */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-7 items-start">
+            {/* LEFT: Living Window with Rotating Conic Border & Context Chips */}
+            <div className="relative group">
+              {/* Context Chips (Float half outside window, never cover text) */}
               <div
-                className="absolute -inset-[150%] bg-[conic-gradient(from_0deg,#7B5CFF,#E2539B,transparent_65%,#7B5CFF)] animate-spin-slow -z-10"
+                className="absolute -top-3.5 right-6 z-20 bg-[#1C1C24]/90 backdrop-blur-md border border-white/15 rounded-full px-3 py-1 text-[11.5px] text-[#D9D3FF] shadow-[0_8px_24px_rgba(0,0,0,0.5)] flex items-center gap-1.5 select-none pointer-events-none transition-all duration-300"
                 aria-hidden="true"
-              />
-
-              {/* Inner Window Box: #16161B */}
-              <div
-                id={`domie-panel-${currentTab.id}`}
-                role="tabpanel"
-                aria-labelledby={`tab-${currentTab.id}`}
-                className="bg-[#16161B] rounded-[18.5px] overflow-hidden min-h-[420px] flex flex-col justify-between"
               >
-                {/* TOOL 0: HelpDesk AI Tutor UI */}
-                {activeTab === 0 && (
-                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-250 flex flex-col h-full justify-between">
-                    {/* Chat Header */}
-                    <div className="flex items-center gap-3 p-3.5 px-4.5 border-b border-white/8 bg-white/[0.01]">
+                <Sparkles className="w-3 h-3 text-[#A48BFF]" />
+                <span>{chips[0]}</span>
+              </div>
+
+              <div
+                className="absolute -bottom-3.5 left-6 z-20 bg-[#1C1C24]/90 backdrop-blur-md border border-white/15 rounded-full px-3 py-1 text-[11.5px] text-[#D9D3FF] shadow-[0_8px_24px_rgba(0,0,0,0.5)] flex items-center gap-1.5 select-none pointer-events-none transition-all duration-300"
+                aria-hidden="true"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3DD68C]" />
+                <span>{chips[1]}</span>
+              </div>
+
+              {/* Living Window Outer Wrapper with rotating conic border */}
+              <div className="relative p-[1.5px] rounded-[20px] overflow-hidden shadow-[0_20px_60px_-15px_rgba(108,75,255,0.35)]">
+                {/* Rotating conic gradient border */}
+                <div
+                  className="absolute -inset-[150%] bg-[conic-gradient(from_0deg,#7B5CFF,#E2539B,transparent_65%,#7B5CFF)] animate-spin-slow -z-10"
+                  aria-hidden="true"
+                />
+
+                {/* Inner Window Box: #16161B */}
+                <div
+                  id={`domie-panel-${currentTab.id}`}
+                  role="tabpanel"
+                  aria-labelledby={`tab-${currentTab.id}`}
+                  className="bg-[#16161B] rounded-[18.5px] overflow-hidden min-h-[420px] flex flex-col justify-between"
+                >
+                  {/* Window Chrome */}
+                  <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.08] bg-[#121217]">
+                    <div className="flex items-center gap-2">
                       <span className="w-8 h-8 rounded-full bg-[#2A2440] overflow-hidden shrink-0 relative flex items-center justify-center">
-                        <DomieOrb size={32} surface="dark" />
+                        <DomieOrb size={30} surface="dark" />
                       </span>
                       <div>
-                        <b className="block text-[13.5px] text-white">Domie · HelpDesk</b>
-                        <small className="text-[#A9A9B6] text-xs">
-                          Full-Stack Web Engineering
-                        </small>
-                      </div>
-                      <span className="ml-auto text-[11.5px] text-[#7EE2B8] flex items-center gap-1.5">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#3DD68C] animate-pulse" />
-                        Online
-                      </span>
-                    </div>
-
-                    {/* Chat Body with Saved Chats column + Messages */}
-                    <div className="p-4 grid grid-cols-1 sm:grid-cols-[140px_1fr] gap-3.5">
-                      {/* Saved Chats Stack */}
-                      <div className="hidden sm:flex flex-col gap-2 border-r border-white/8 pr-3">
-                        <span className="text-[10px] uppercase tracking-wider text-[#A9A9B6] font-medium px-1">
-                          Saved Chats
-                        </span>
-                        <div className="p-2 rounded-[8px] bg-white/[0.02] border border-white/[0.04] opacity-40">
-                          <b className="block text-[11px] text-white truncate">React & Node</b>
-                          <small className="text-[9.5px] text-[#A9A9B6]">12 questions</small>
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[13px] font-semibold text-white">Domie</span>
+                          <span className="text-[10px] bg-[#6C4BFF]/25 border border-[#8B6CFF]/40 text-[#D9D3FF] px-1.5 py-0.2 rounded-full">
+                            AI
+                          </span>
                         </div>
-                        <div className="p-2 rounded-[8px] bg-[#6C4BFF]/15 border border-[#6C4BFF]/40 shadow-[0_0_12px_rgba(108,75,255,0.2)]">
-                          <div className="flex items-center justify-between">
-                            <b className="block text-[11px] text-white font-semibold truncate">
-                              Full-Stack
-                            </b>
+                        <span className="text-[11px] text-[#A9A9B6] flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#3DD68C] animate-pulse" />
+                          Online · Grounded in your content
+                        </span>
+                      </div>
+                    </div>
+                    <span className="text-[11.5px] text-[#A9A9B6] bg-white/[0.06] border border-white/[0.08] px-2 py-0.5 rounded-md">
+                      {currentTab.shortLabel || currentTab.title}
+                    </span>
+                  </div>
+
+                  {/* Window Body */}
+                  <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+                    {/* Dynamic Simulated Content per Tool */}
+                    {currentTab.id === "tutor" && (
+                      <div className="space-y-3.5">
+                        <div className="flex gap-2.5 items-start">
+                          <div className="w-6 h-6 rounded-full bg-white/10 text-[10px] font-bold flex items-center justify-center shrink-0 text-white/80">
+                            L
+                          </div>
+                          <div className="bg-white/[0.06] border border-white/[0.08] rounded-[12px] p-2.5 px-3 text-[13px] text-white/90 max-w-[85%]">
+                            When should we use dynamic memory allocation instead of the call stack?
+                          </div>
+                        </div>
+
+                        <div className="flex gap-2.5 items-start">
+                          <div className="w-6 h-6 rounded-full bg-[#6C4BFF]/30 border border-[#8B6CFF]/40 flex items-center justify-center shrink-0">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#3DD68C] animate-pulse" />
                           </div>
-                          <small className="text-[9.5px] text-[#D9D3FF]">34 questions</small>
-                        </div>
-                        <div className="p-2 rounded-[8px] bg-white/[0.02] border border-white/[0.04] opacity-40">
-                          <b className="block text-[11px] text-white truncate">UI/UX Design</b>
-                          <small className="text-[9.5px] text-[#A9A9B6]">8 questions</small>
-                        </div>
-                      </div>
-
-                      {/* Messages Area */}
-                      <div className="flex flex-col gap-3 min-h-[240px] justify-center">
-                        {/* Question */}
-                        <div className="max-w-[90%] text-[13px] p-3 px-3.5 rounded-[14px] bg-[#262436] text-[#ECEAF8] self-end rounded-br-[3px] leading-relaxed">
-                          {question}
-                        </div>
-
-                        {/* Typing Indicator -> Answer */}
-                        {!showHelpdeskAnswer ? (
-                          <div className="self-start flex items-center gap-1 bg-white/8 p-2.5 px-3.5 rounded-[14px]">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#9C9CAA] animate-typing-dot" />
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#9C9CAA] animate-typing-dot [animation-delay:0.15s]" />
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#9C9CAA] animate-typing-dot [animation-delay:0.3s]" />
+                          <div className="bg-[#201D2D] border border-[#6C4BFF]/20 rounded-[12px] p-3 text-[13px] text-white/95 leading-[1.5] max-w-[90%] space-y-2">
+                            <p>
+                              Based on your published Module 4 notes: Dynamic memory is allocated at runtime in the heap when the object size is unknown ahead of time or must outlive the creating function.
+                            </p>
+                            <div className="bg-white/[0.04] border border-white/[0.08] rounded-md p-2 text-[11.5px] text-[#C9BEFF] flex items-center gap-2">
+                              <Folder className="w-3.5 h-3.5 shrink-0" />
+                              <span>Source: Lecture 4 · Memory Management (Slide 18)</span>
+                            </div>
                           </div>
-                        ) : (
-                          <div className="max-w-[92%] text-[13px] p-3 px-3.5 rounded-[14px] bg-white/8 text-[#ECECF1] self-start rounded-bl-[3px] leading-relaxed animate-in fade-in duration-300">
-                            {answer}
-                            <span className="block mt-2 text-[10.5px] text-[#A9A9B6] bg-white/8 px-2 py-0.5 rounded-[4px] w-fit">
-                              From your course content
-                            </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {currentTab.id === "generator" && (
+                      <div className="space-y-3 bg-[#111116] border border-white/[0.06] rounded-[14px] p-4">
+                        <div className="flex items-center justify-between text-[12px] border-b border-white/[0.08] pb-2 text-[#A9A9B6]">
+                          <span>Drafted: Lesson 8 Summary & Key Takeaways</span>
+                          <span className="text-[#3DD68C] flex items-center gap-1">
+                            <Check className="w-3 h-3" /> Ready for review
+                          </span>
+                        </div>
+                        <p className="text-[13px] text-white/90 leading-[1.5]">
+                          In this session, students covered async programming, Promise resolution pipelines, and event loop microtask queues.
+                        </p>
+                        <div className="space-y-1.5 text-[12px] text-white/80">
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-1 h-1 rounded-full bg-[#A48BFF]" />
+                            <span>Microtasks run before the next browser rendering frame</span>
                           </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Input Bar */}
-                    <div className="m-3.5 mt-0 border border-white/12 rounded-[12px] p-2.5 px-3.5 text-[13px] text-[#A9A9B6] flex justify-between items-center select-none bg-black/20">
-                      <span>Ask about this course…</span>
-                      <Send className="w-4 h-4 text-[#A9A9B6]" />
-                    </div>
-                  </div>
-                )}
-
-                {/* TOOL 1: Domie AI Content Generator UI */}
-                {activeTab === 1 && (
-                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-250 p-5 flex flex-col justify-between h-full">
-                    {/* Header with animated underline sweep */}
-                    <div>
-                      <div className="flex items-center gap-2 text-[12.5px] text-[#D9D3FF] font-medium mb-1.5">
-                        <Sparkles className="w-4 h-4 text-[#A48BFF]" />
-                        <span>Generating course details…</span>
-                      </div>
-                      <div className="h-[2px] w-full bg-white/[0.06] rounded-full overflow-hidden">
-                        <div className="h-full w-2/3 bg-gradient-to-r from-transparent via-[#8B6CFF] to-transparent animate-pulse-flow" />
-                      </div>
-                    </div>
-
-                    {/* Form Fields filling in */}
-                    <div className="space-y-3 my-4">
-                      {/* Field 1 */}
-                      <div className="bg-[#141418] border border-white/[0.06] rounded-[10px] p-3">
-                        <span className="block text-[10.5px] uppercase text-[#A9A9B6] font-medium mb-1">
-                          Course Title
-                        </span>
-                        <b className="block text-[13px] text-white font-medium">
-                          Full-Stack Web Engineering Bootcamp
-                        </b>
-                      </div>
-
-                      {/* Field 2 */}
-                      <div className="bg-[#141418] border border-white/[0.06] rounded-[10px] p-3">
-                        <span className="block text-[10.5px] uppercase text-[#A9A9B6] font-medium mb-1">
-                          Description
-                        </span>
-                        <p className="text-[12.5px] text-[#ECECF1] leading-relaxed">
-                          Master modern web architectures, API design, and deployment pipelines.
-                        </p>
-                      </div>
-
-                      {/* Field 3 */}
-                      <div className="bg-[#141418] border border-white/[0.06] rounded-[10px] p-3">
-                        <span className="block text-[10.5px] uppercase text-[#A9A9B6] font-medium mb-1">
-                          Learning Outcomes
-                        </span>
-                        <p className="text-[12px] text-[#C5C5D2] leading-relaxed">
-                          • Build production React & Node apps <br />• Deploy containerized services with CI/CD
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex items-center justify-end gap-2.5 pt-1 border-t border-white/8">
-                      <button
-                        type="button"
-                        className="px-3.5 py-1.5 rounded-[8px] border border-white/[0.14] text-[12px] text-[#C9BEFF] hover:bg-white/[0.04]"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        type="button"
-                        className="px-3.5 py-1.5 rounded-[8px] bg-[#6C4BFF] hover:bg-[#7B5CFF] text-[12px] text-white font-medium shadow-[0_2px_10px_rgba(108,75,255,0.4)]"
-                      >
-                        Publish
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {/* TOOL 2: AI Prescriptive Analytics UI */}
-                {activeTab === 2 && (
-                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-250 p-5 flex flex-col justify-between h-full">
-                    {/* Top KPI Numbers */}
-                    <div className="grid grid-cols-2 gap-3 mb-3">
-                      <div className="bg-[#141418] border border-white/[0.06] rounded-[10px] p-3">
-                        <small className="text-[10.5px] uppercase text-[#A9A9B6] block">
-                          Enrolments
-                        </small>
-                        <div className="flex items-baseline gap-1.5 mt-0.5">
-                          <b className="text-[16px] font-bold text-white">1,342</b>
-                          <span className="text-[10.5px] text-[#3DD68C] font-semibold">▲ 34%</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-1 h-1 rounded-full bg-[#A48BFF]" />
+                            <span>Promise.all fails fast on the first rejected promise</span>
+                          </div>
+                        </div>
+                        <div className="pt-2 flex gap-2">
+                          <button className="text-[11.5px] bg-[#6C4BFF] hover:bg-[#7B5CFF] text-white px-3 py-1 rounded-md font-medium transition-colors">
+                            Approve & Publish
+                          </button>
+                          <button className="text-[11.5px] bg-white/[0.08] hover:bg-white/[0.12] text-white/80 px-3 py-1 rounded-md transition-colors">
+                            Edit Draft
+                          </button>
                         </div>
                       </div>
-                      <div className="bg-[#141418] border border-white/[0.06] rounded-[10px] p-3">
-                        <small className="text-[10.5px] uppercase text-[#A9A9B6] block">Revenue</small>
-                        <div className="flex items-baseline gap-1.5 mt-0.5">
-                          <b className="text-[16px] font-bold text-white">₹4.86L</b>
-                          <span className="text-[10.5px] text-[#3DD68C] font-semibold">▲ 31%</span>
+                    )}
+
+                    {currentTab.id === "analytics" && (
+                      <div className="space-y-2.5">
+                        <div className="bg-[#241A1A] border border-[#FF6B6B]/30 rounded-[12px] p-3 text-[12.5px] flex items-start gap-2.5">
+                          <AlertCircle className="w-4 h-4 text-[#FF8585] shrink-0 mt-0.5" />
+                          <div>
+                            <span className="font-semibold text-white">3 students missed 2 live classes</span>
+                            <p className="text-[#E7A5A5] text-[11.5px] mt-0.5">
+                              Batch 2026-A · Sent automated WhatsApp & email catchup reminder.
+                            </p>
+                          </div>
+                        </div>
+                        <div className="bg-[#1A2222] border border-[#20C997]/30 rounded-[12px] p-3 text-[12.5px] flex items-start gap-2.5">
+                          <Clock className="w-4 h-4 text-[#3DD68C] shrink-0 mt-0.5" />
+                          <div>
+                            <span className="font-semibold text-white">Quiz 3 submission rate: 94%</span>
+                            <p className="text-[#96E2CE] text-[11.5px] mt-0.5">
+                              Average score 82%. Question 7 had 41% error rate (Pointers).
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* Dark Bar Chart with 10 Violet Bars + Glowing Pill */}
-                    <div className="relative bg-[#141418] border border-white/[0.06] rounded-[10px] p-3 pt-7 pb-2 mb-3">
-                      <span className="absolute top-1.5 right-2 inline-flex items-center gap-1 bg-[#6C4BFF]/25 border border-[#8B6CFF]/50 text-[#D9D3FF] text-[10px] px-2 py-0.5 rounded-full shadow-[0_0_12px_rgba(108,75,255,0.4)]">
-                        <Sparkles className="w-2.5 h-2.5 text-[#A48BFF]" />
-                        Domie suggests
-                      </span>
-                      <div className="flex items-end justify-between h-[75px] gap-2 px-1">
-                        {[32, 40, 48, 45, 60, 56, 72, 68, 80, 92].map((height, idx) => (
-                          <div
-                            key={idx}
-                            style={{ height: `${height}%` }}
-                            className={`w-full rounded-t-[3px] transition-all duration-500 ${
-                              idx === 9
-                                ? "bg-gradient-to-t from-[#6C4BFF] to-[#A48BFF] shadow-[0_0_8px_rgba(108,75,255,0.5)]"
-                                : "bg-gradient-to-t from-[#2F294D] to-[#513AA6]"
-                            }`}
-                          />
-                        ))}
+                    {currentTab.id === "command_bar" && (
+                      <div className="space-y-2">
+                        <div className="bg-white/[0.05] border border-white/[0.1] rounded-[10px] p-2 px-3 flex items-center justify-between text-[12.5px] text-white/90">
+                          <div className="flex items-center gap-2">
+                            <Search className="w-3.5 h-3.5 text-[#A48BFF]" />
+                            <span>Jump to Batch 2026-A Attendance</span>
+                          </div>
+                          <span className="text-[11px] text-[#A9A9B6] font-mono">↵ Enter</span>
+                        </div>
+                        <div className="bg-white/[0.02] border border-white/[0.05] rounded-[10px] p-2 px-3 flex items-center justify-between text-[12.5px] text-white/60">
+                          <div className="flex items-center gap-2">
+                            <Folder className="w-3.5 h-3.5 text-white/40" />
+                            <span>Open Syllabus · Module 4</span>
+                          </div>
+                          <span className="text-[11px] text-white/40 font-mono">⌘4</span>
+                        </div>
+                        <div className="bg-white/[0.02] border border-white/[0.05] rounded-[10px] p-2 px-3 flex items-center justify-between text-[12.5px] text-white/60">
+                          <div className="flex items-center gap-2">
+                            <Settings className="w-3.5 h-3.5 text-white/40" />
+                            <span>Configure Razorpay Webhook</span>
+                          </div>
+                          <span className="text-[11px] text-white/40 font-mono">⌘W</span>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* 2 Proactive Flag Rows */}
-                    <div className="space-y-2">
-                      <div className="bg-[#141418] border border-white/[0.06] rounded-[8px] p-2.5 px-3 flex items-center justify-between text-[11.5px] text-[#ECECF1]">
-                        <span className="flex items-center gap-2">
-                          <Clock className="w-3.5 h-3.5 text-[#F59E0B]" />
-                          Coupon WELCOME10 expires Friday
-                        </span>
-                        <span className="text-[10px] text-[#A48BFF] bg-[#6C4BFF]/15 px-2 py-0.5 rounded">
-                          Review
-                        </span>
+                    {/* Interactive Input Field at Bottom */}
+                    <form onSubmit={handleInteractiveAsk} className="mt-4 pt-3 border-t border-white/[0.08]">
+                      <div className="flex items-center gap-2 bg-[#0E0E12] border border-white/[0.12] rounded-[12px] p-1.5 pl-3 focus-within:border-[#8B6CFF]">
+                        <input
+                          type="text"
+                          value={interactiveQuery}
+                          onChange={(e) => setInteractiveQuery(e.target.value)}
+                          placeholder="Try asking Domie about your academy..."
+                          className="w-full bg-transparent text-[13px] text-white placeholder-[#787886] focus:outline-none"
+                        />
+                        <button
+                          type="submit"
+                          aria-label="Send query to Domie"
+                          disabled={isAnswering || !interactiveQuery.trim()}
+                          className="w-8 h-8 rounded-[9px] bg-[#6C4BFF] hover:bg-[#7B5CFF] disabled:opacity-40 text-white flex items-center justify-center transition-colors shrink-0 cursor-pointer"
+                        >
+                          <Send className="w-3.5 h-3.5" />
+                        </button>
                       </div>
-                      <div className="bg-[#141418] border border-white/[0.06] rounded-[8px] p-2.5 px-3 flex items-center justify-between text-[11.5px] text-[#ECECF1]">
-                        <span className="flex items-center gap-2">
-                          <AlertCircle className="w-3.5 h-3.5 text-[#EF4444]" />
-                          Frontend React progress below 40%
-                        </span>
-                        <span className="text-[10px] text-[#A48BFF] bg-[#6C4BFF]/15 px-2 py-0.5 rounded">
-                          Nudge batch
-                        </span>
-                      </div>
-                    </div>
+
+                      {isAnswering && (
+                        <div className="flex items-center gap-2 mt-2 text-[12px] text-[#C9BEFF]">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#9C9CAA] animate-typing-dot" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#9C9CAA] animate-typing-dot [animation-delay:0.15s]" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#9C9CAA] animate-typing-dot [animation-delay:0.3s]" />
+                          <span>Searching academy course documents...</span>
+                        </div>
+                      )}
+
+                      {interactiveAnswer && (
+                        <div className="mt-2.5 p-2.5 bg-[#201D2D] border border-[#6C4BFF]/30 rounded-[10px] text-[12.5px] text-white/95 leading-[1.45] animate-in fade-in duration-300">
+                          {interactiveAnswer}
+                        </div>
+                      )}
+                    </form>
                   </div>
-                )}
-
-                {/* TOOL 3: AI Command Bar UI */}
-                {activeTab === 3 && (
-                  <div className="animate-in fade-in slide-in-from-bottom-2 duration-250 p-5 flex flex-col justify-between h-full">
-                    {/* ⌘K Search Input */}
-                    <div className="bg-[#141418] border border-white/[0.1] rounded-[10px] p-2.5 px-3 flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2">
-                        <Search className="w-4 h-4 text-[#A9A9B6]" />
-                        <span className="text-[13px] text-white font-medium">refund policy</span>
-                        <span className="w-[1.5px] h-4 bg-[#6C4BFF] animate-pulse" />
-                      </div>
-                      <span className="text-[10.5px] text-[#A9A9B6] bg-white/[0.06] border border-white/[0.08] px-1.5 py-0.5 rounded">
-                        esc
-                      </span>
-                    </div>
-
-                    {/* Group 1: Admin Pages */}
-                    <div className="mb-3">
-                      <span className="text-[10.5px] uppercase tracking-wider text-[#A9A9B6] font-medium px-1 block mb-1.5">
-                        Admin Pages
-                      </span>
-                      <div className="space-y-1.5">
-                        <div className="bg-[#262436] border border-[#6C4BFF]/30 rounded-[8px] p-2 px-3 flex items-center justify-between text-[12.5px] text-white">
-                          <span className="flex items-center gap-2">
-                            <Folder className="w-3.5 h-3.5 text-[#A48BFF]" />
-                            <span>Payments › Refunds</span>
-                          </span>
-                          <span className="text-[10.5px] text-[#A48BFF] flex items-center gap-1">
-                            <CornerDownLeft className="w-3 h-3" /> Jump
-                          </span>
-                        </div>
-                        <div className="bg-transparent rounded-[8px] p-2 px-3 flex items-center justify-between text-[12.5px] text-[#A9A9B6]">
-                          <span className="flex items-center gap-2">
-                            <Settings className="w-3.5 h-3.5 text-[#A9A9B6]" />
-                            <span>Settings › Policies › Terms & Policies</span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Group 2: Neutral Navigation Answer (Part 4a fix) */}
-                    <div className="pt-2 border-t border-white/[0.06] mb-3">
-                      <span className="text-[10.5px] uppercase tracking-wider text-[#A9A9B6] font-medium px-1 block mb-1.5">
-                        Answer
-                      </span>
-                      <div className="bg-[#141418] border border-white/[0.06] rounded-[8px] p-2.5 px-3 text-[12px] text-[#ECECF1] flex items-start gap-2 leading-relaxed">
-                        <Sparkles className="w-3.5 h-3.5 text-[#A48BFF] mt-0.5 shrink-0" />
-                        <span>
-                          Refund requests are under Payments › Refunds, where you can review and approve them.
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Keyboard Hints */}
-                    <div className="flex items-center gap-4 text-[11px] text-[#A9A9B6] pt-1 px-1 border-t border-white/6">
-                      <span>↵ Select</span>
-                      <span>↑↓ Navigate</span>
-                      <span>esc Close</span>
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* RIGHT: Desktop 4 Tool Cards with ARIA Tabs + Progress Line */}
-          <div className="flex flex-col gap-6">
+            {/* RIGHT: Desktop Tab Column (Hidden on < 1024px) */}
             <div
+              ref={tabListRef}
               role="tablist"
               aria-label="Domie AI Tools"
-              className="grid gap-2.5"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
-              onFocus={() => setIsPaused(true)}
-              onBlur={() => setIsPaused(false)}
-              onKeyDown={handleKeyDown}
+              className="hidden lg:flex flex-col gap-3"
             >
               {aiSectionContent.tabs.map((tab, idx) => {
                 const isActive = activeTab === idx;
                 return (
-                  <button
+                  <div
                     key={tab.id}
-                    type="button"
                     role="tab"
                     id={`tab-${tab.id}`}
                     aria-selected={isActive}
                     aria-controls={`domie-panel-${tab.id}`}
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => handleSelectTab(idx)}
-                    className={`relative border rounded-[14px] p-4 px-4.5 grid grid-cols-[34px_1fr] gap-3.5 transition-all duration-300 cursor-pointer text-left overflow-hidden ${
+                    onKeyDown={(e) => handleKeyDown(e, idx)}
+                    onMouseEnter={() => setIsPaused(true)}
+                    onMouseLeave={() => setIsPaused(false)}
+                    className={`rounded-[16px] p-4 transition-all duration-300 cursor-pointer border relative select-none ${
                       isActive
-                        ? "bg-[#6C4BFF]/12 border-[#A08CFF]/45 shadow-[0_0_24px_rgba(108,75,255,0.18)]"
-                        : "bg-white/3 border-white/10 hover:bg-white/5"
+                        ? "bg-[#16161B] border-[#6C4BFF]/40 shadow-[0_12px_32px_-10px_rgba(108,75,255,0.25)]"
+                        : "bg-white/[0.02] border-white/[0.06] hover:bg-white/[0.04] hover:border-white/[0.1]"
                     }`}
                   >
-                    <span className="w-[34px] h-[34px] rounded-[10px] bg-white/8 flex items-center justify-center text-[#C9BEFF] shrink-0">
-                      {AI_ICONS[tab.id] ?? <Sparkles className="w-4 h-4" />}
-                    </span>
-                    <div>
-                      <b className="text-[15px] font-semibold text-white block mb-0.5">
-                        {tab.title}
-                      </b>
-                      <p className="text-[#A9A9B6] text-[13.5px] leading-relaxed">
-                        {tab.description}
-                      </p>
+                    {/* Header: Icon + Title */}
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-9 h-9 rounded-[10px] flex items-center justify-center transition-colors shrink-0 ${
+                          isActive
+                            ? "bg-[#6C4BFF] text-white shadow-[0_0_16px_rgba(108,75,255,0.5)]"
+                            : "bg-white/[0.06] text-[#A9A9B6]"
+                        }`}
+                      >
+                        {AI_ICONS[tab.id] ?? <Sparkles className="w-4 h-4" />}
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-[15px] font-semibold text-white tracking-[-0.01em]">
+                            {tab.title}
+                          </h3>
+                          {isActive && (
+                            <span className="text-[11px] font-medium text-[#C9BEFF] bg-[#6C4BFF]/20 border border-[#8B6CFF]/30 px-2 py-0.5 rounded-full">
+                              Active
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[13px] text-[#A9A9B6] line-clamp-1 mt-0.5">
+                          {tab.description}
+                        </p>
+                      </div>
                     </div>
 
-                    {/* 2a. Active Card Bottom 5s Gradient Progress Line */}
+                    {/* Expanded Content with Progress Bar and Bullets when Active */}
                     {isActive && (
-                      <span
-                        key={progressKey}
-                        className={`absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[#6C4BFF] via-[#E2539B] to-[#6C4BFF] rounded-b-[14px] animate-progress-fill ${
-                          isPaused ? "[animation-play-state:paused]" : ""
-                        }`}
-                        aria-hidden="true"
-                      />
+                      <div className="mt-3 pt-3 border-t border-white/[0.08] space-y-2.5 animate-in fade-in duration-200">
+                        {/* Progress Bar for Auto-Rotation */}
+                        <div className="h-[2px] w-full bg-white/[0.06] rounded-full overflow-hidden">
+                          <div
+                            key={progressKey}
+                            className={`h-full bg-gradient-to-r from-[#6C4BFF] to-[#E2539B] transition-none ${
+                              isPaused ? "" : "animate-progress"
+                            }`}
+                            style={{ animationDuration: `${ROTATION_INTERVAL}ms` }}
+                          />
+                        </div>
+
+                        {/* Bullets */}
+                        <ul className="space-y-1.5 pt-1">
+                          {bullets.map((b, i) => (
+                            <li key={i} className="text-[12.5px] text-[#D1D1DB] flex items-start gap-2">
+                              <Check className="w-3.5 h-3.5 text-[#3DD68C] shrink-0 mt-0.5" strokeWidth={2.5} />
+                              <span>{b}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     )}
-                  </button>
+                  </div>
                 );
               })}
             </div>
+          </div>
 
-            {/* Mobile Tool Detail bullets (< 768px) */}
-            <div className="block md:hidden bg-white/[0.02] border border-white/[0.06] rounded-[14px] p-4">
-              <span className="text-[11.5px] text-[#D9D3FF] font-medium block mb-2">
-                ✦ {currentTab.title} capabilities:
-              </span>
-              <ul className="space-y-1.5 text-[12.5px] text-[#C5C5D2]">
-                {bullets.map((b, i) => (
-                  <li key={i} className="flex items-center gap-2">
-                    <span className="w-3.5 h-3.5 rounded-full bg-[#6C4BFF]/20 text-[#A48BFF] flex items-center justify-center shrink-0">
-                      <Check className="w-2.5 h-2.5" strokeWidth={2.5} />
-                    </span>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* 2f Closing Line & Buttons */}
-            <div className="pt-2">
-              <p className="text-[13.5px] text-[#A9A9B6] mb-4">
-                AI that works inside your academy · Included on Pro plan with fair-use limits.
-              </p>
-              <div className="flex flex-wrap items-center gap-3">
-                <Link
-                  href="/demo"
-                  className="inline-flex items-center justify-center px-5 py-2.5 rounded-[12px] bg-white hover:bg-[#F2F2F5] text-[#151517] font-semibold text-[14px] transition-all shadow-[0_4px_16px_rgba(255,255,255,0.12)] active:scale-[0.98]"
-                >
-                  Book a 20-minute demo
-                </Link>
-                <Link
-                  href="/platform/ai"
-                  className="inline-flex items-center justify-center px-5 py-2.5 rounded-[12px] border border-white/20 hover:border-white/40 text-white font-medium text-[14px] transition-colors"
-                >
-                  Learn more about Domie AI
-                </Link>
+          {/* Bottom Card: Domie's Brief Preview */}
+          <div className="mt-8 bg-gradient-to-r from-[#171424] via-[#14141B] to-[#171424] border border-[#6C4BFF]/30 rounded-[20px] p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-[0_12px_40px_-15px_rgba(108,75,255,0.2)]">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-full bg-[#2A2440] p-0.5 shrink-0 flex items-center justify-center shadow-[0_0_20px_rgba(108,75,255,0.5)]">
+                <DomieOrb size={44} surface="dark" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[15px] font-semibold text-white">Daily Academy Intelligence</span>
+                  <span className="text-[10.5px] bg-[#3DD68C]/20 border border-[#3DD68C]/40 text-[#5DECB0] px-2 py-0.2 rounded-full">
+                    Grounded
+                  </span>
+                </div>
+                <p className="text-[13px] text-[#A9A9B6] mt-0.5">
+                  Domie monitors enrollments, class attendance, and quiz completion across all your batches.
+                </p>
               </div>
             </div>
+
+            <Link
+              href="/platform/ai"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-[12px] bg-white/10 hover:bg-white/15 border border-white/15 text-white text-[13px] font-medium transition-colors shrink-0"
+            >
+              <span>Explore Domie AI</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
       </div>
     </section>
-  </div>
   );
 }
 
