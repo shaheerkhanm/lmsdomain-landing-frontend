@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { DomieOrb } from "@/components/ai/DomieOrb";
 import { Eyebrow } from "@/components/marketing/ui";
+import { useInsetPanelProgress } from "@/hooks/useInsetPanelProgress";
 import { aiSectionContent } from "@/content/home/ai";
 import { heroContent } from "@/content/home/hero";
 import {
@@ -137,7 +138,7 @@ export function DomieAiBand() {
   const [progressKey, setProgressKey] = useState(0);
   const [isFinePointer, setIsFinePointer] = useState(false);
 
-  const sectionRef = useRef<HTMLElement>(null);
+  const { containerRef, panelRef, contentRef } = useInsetPanelProgress();
   const rafRef = useRef<number | null>(null);
 
   const currentTab = aiSectionContent.tabs[activeTab] || aiSectionContent.tabs[0];
@@ -151,68 +152,6 @@ export function DomieAiBand() {
     aiTutorCard?.answer ||
     "Quizzes check comprehension with automated scoring, while assignments require learner submissions and direct instructor review.";
 
-  // Edmingle-style scroll-driven inset card to full-bleed transition (V1l §2)
-  const [scrollP, setScrollP] = useState(0);
-  const [isReducedMotion, setIsReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setIsReducedMotion(prefersReduced);
-    if (prefersReduced) {
-      setScrollP(1);
-      return;
-    }
-
-    let ticking = false;
-    const update = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const vh = window.innerHeight;
-
-      // Domie entry: rect.top travels from 1.0 * vh to 0.20 * vh (p: 0 -> 1)
-      const entryP = Math.max(0, Math.min(1, (vh - rect.top) / (0.80 * vh)));
-
-      // Domie exit: rect.bottom travels from 0.80 * vh to 0.0 * vh (p: 1 -> 0)
-      const exitP = Math.max(0, Math.min(1, rect.bottom / (0.80 * vh)));
-
-      const p = Math.min(entryP, exitP);
-      setScrollP(p);
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(update);
-      }
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  const p = isReducedMotion ? 1 : scrollP;
-  const eased = p * (2 - p);
-  const scale = 0.94 + 0.06 * eased;
-  const maxMargin = typeof window !== "undefined"
-    ? Math.max(16, Math.min(40, window.innerWidth * 0.03))
-    : 32;
-  const sideMargin = maxMargin * (1 - eased);
-  const radius = 40 * (1 - eased);
-
-  // Inner content fades and slides up in second half of expansion (p in [0.5, 1.0])
-  const contentP = Math.max(0, Math.min(1, (p - 0.5) / 0.5));
-  const contentOpacity = isReducedMotion || p === 0 ? 1 : 0.2 + 0.8 * contentP;
-  const contentTranslateY = isReducedMotion || p === 0 ? 0 : 24 * (1 - contentP);
-
   // Detect fine pointer for cursor spotlight
   useEffect(() => {
     const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
@@ -222,19 +161,19 @@ export function DomieAiBand() {
 
   // Pointer spotlight rAF-throttled
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLElement>) => {
-    if (!isFinePointer || !sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
+    if (!isFinePointer || !panelRef.current) return;
+    const rect = panelRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => {
-      if (sectionRef.current) {
-        sectionRef.current.style.setProperty("--mouse-x", `${x}px`);
-        sectionRef.current.style.setProperty("--mouse-y", `${y}px`);
+      if (panelRef.current) {
+        panelRef.current.style.setProperty("--mouse-x", `${x}px`);
+        panelRef.current.style.setProperty("--mouse-y", `${y}px`);
       }
     });
-  }, [isFinePointer]);
+  }, [isFinePointer, panelRef]);
 
   // Typing indicator -> show answer in HelpDesk after entry
   useEffect(() => {
@@ -294,20 +233,11 @@ export function DomieAiBand() {
   };
 
   return (
-    <div className="relative bg-white overflow-hidden isolate" id="ai">
+    <div ref={containerRef} className="relative bg-white overflow-hidden isolate" id="ai">
       <section
-        ref={sectionRef}
+        ref={panelRef}
         onPointerMove={handlePointerMove}
         className="py-[clamp(72px,9vw,128px)] bg-[#0B0B0D] text-white relative overflow-hidden isolate font-sans origin-center will-change-[transform,clip-path]"
-        style={
-          isReducedMotion
-            ? {}
-            : {
-                transform: `scale(${scale.toFixed(4)})`,
-                clipPath: `inset(0px ${sideMargin.toFixed(1)}px 0px ${sideMargin.toFixed(1)}px round ${radius.toFixed(1)}px)`,
-                WebkitClipPath: `inset(0px ${sideMargin.toFixed(1)}px 0px ${sideMargin.toFixed(1)}px round ${radius.toFixed(1)}px)`,
-              }
-        }
       >
         {/* 1a. Pre-Section Rising Soft Violet Glow (240px, radial, rgba(139,108,255,.35)) */}
         <div
@@ -334,16 +264,8 @@ export function DomieAiBand() {
         />
 
         <div
-          className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] relative z-10"
-          style={
-            isReducedMotion
-              ? {}
-              : {
-                  opacity: contentOpacity,
-                  transform: `translate3d(0, ${contentTranslateY.toFixed(1)}px, 0)`,
-                  willChange: "transform, opacity",
-                }
-          }
+          ref={contentRef}
+          className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] relative z-10 will-change-[transform,opacity]"
         >
         {/* Left-Aligned Header with 2c Domie Presence */}
         <div>

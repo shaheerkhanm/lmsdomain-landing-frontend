@@ -125,7 +125,7 @@ export function HowAcademyRunsSection() {
       <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
         <div className="rv-v4">
           <Eyebrow dotColor="#2F6BFF">How it works</Eyebrow>
-          <h2 className="type-h2-v4 text-[var(--page-ink,#151517)] mt-1 transition-colors duration-700">
+          <h2 className="type-h2-v4 text-[#151517] mt-1">
             How does an academy run on LMS Domain?
           </h2>
         </div>

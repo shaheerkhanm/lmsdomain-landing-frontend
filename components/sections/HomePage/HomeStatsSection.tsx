@@ -155,7 +155,7 @@ export function HomeStatsSection() {
                     className="md:hidden absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[1px] stat-divider-line pointer-events-none"
                     style={{
                       background:
-                        "linear-gradient(90deg, transparent, var(--page-line, #E4E4EA) 25%, var(--page-line, #E4E4EA) 75%, transparent)",
+                        "linear-gradient(90deg, transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
                     }}
                   />
                 )}
