@@ -3,7 +3,6 @@
 import React from "react";
 import { Eyebrow } from "@/components/marketing/ui";
 import { AdminDashboardDark } from "@/components/marketing/mockups/screens/AdminDashboardDark";
-import { useInsetPanelProgress } from "@/hooks/useInsetPanelProgress";
 import {
   GraduationCap,
   ClipboardCheck,
@@ -25,24 +24,16 @@ const PILLARS = [
 ];
 
 export function BuiltForBatchesSection() {
-  const { containerRef, panelRef, contentRef } = useInsetPanelProgress();
-
   return (
-    <div ref={containerRef} className="relative w-full bg-white overflow-hidden isolate" id="how">
-      <section
-        ref={panelRef}
-        className="py-[clamp(56px,7vw,96px)] bg-[#0E0E11] text-white relative overflow-hidden isolate font-sans origin-center will-change-[transform,clip-path]"
-      >
-        {/* Orange -> Pink -> Violet Bottom Glow */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 -bottom-[260px] -translate-x-1/2 w-[110%] h-[520px] bg-[radial-gradient(closest-side,rgba(242,137,74,0.55),rgba(226,83,155,0.35)_45%,rgba(123,92,255,0.18)_70%,transparent)] -z-10 blur-[10px]"
-        />
+    <section className="py-[clamp(56px,7vw,96px)] font-sans" id="how">
+      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
+        <div className="bg-[#0E0E11] text-white rounded-[28px] pt-[clamp(36px,5vw,64px)] px-[clamp(20px,5vw,64px)] pb-[48px] relative overflow-hidden isolate">
+          {/* Orange -> Pink -> Violet Bottom Glow */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 -bottom-[260px] -translate-x-1/2 w-[110%] h-[520px] bg-[radial-gradient(closest-side,rgba(242,137,74,0.55),rgba(226,83,155,0.35)_45%,rgba(123,92,255,0.18)_70%,transparent)] -z-10 blur-[10px]"
+          />
 
-        <div
-          ref={contentRef}
-          className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] relative z-10 will-change-[transform,opacity]"
-        >
           {/* Eyebrow with pink accent dot */}
           <div className="rv-v4 text-left">
             <Eyebrow dotColor="#E2539B">Built for batches</Eyebrow>
@@ -105,8 +96,8 @@ export function BuiltForBatchesSection() {
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
 

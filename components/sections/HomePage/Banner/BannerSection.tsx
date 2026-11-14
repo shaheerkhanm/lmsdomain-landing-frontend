@@ -14,6 +14,7 @@ import { aiSectionContent } from "@/content/home/ai";
 import { useSectionContent } from "@/components/content/PageContent";
 import { liveOr } from "@/lib/claims";
 import type { ClientLogoItem } from "@/components/marketing/ui/ProofStrip";
+import { PARTNER_LOGOS } from "@/components/logos/PartnerLogos";
 import HeroDashboard from "@/components/marketing/mockups/HeroDashboard";
 
 // Dynamic import with ssr: false so SSR renders server H1 directly (LCP untouched)
@@ -181,13 +182,13 @@ export function BannerSection({
         <HeroDashboard />
       </div>
 
-      {/* Marquee Section (Directly Below Dashboard) */}
-      <div className="mt-6 sm:mt-10 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-        {hasClientLogos && (
-          <p className="text-center text-[12.5px] text-[#8A8A96] mb-5 sm:mb-[22px]">
-            Academies teaching with LMS Domain
-          </p>
-        )}
+      {/* Marquee Section (Directly Below Dashboard, >= 72px space above & below) */}
+      <div className="mt-[72px] mb-[72px] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
+        <p className="text-center text-[13px] font-medium text-[#71717A] tracking-[-0.01em] mb-7 sm:mb-8">
+          {hasClientLogos
+            ? "Academies teaching with LMS Domain"
+            : "Connects with the tools your academy uses every day"}
+        </p>
         <div className="animate-marquee-v4 flex gap-16 items-center shrink-0" aria-hidden="true">
           {hasClientLogos ? (
             <>
@@ -197,8 +198,8 @@ export function BannerSection({
                     src={client.logo!}
                     alt={client.name || "Client academy"}
                     width={140}
-                    height={34}
-                    className="h-[34px] w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+                    height={24}
+                    className="h-6 w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
                   />
                 </div>
               ))}
@@ -208,36 +209,36 @@ export function BannerSection({
                     src={client.logo!}
                     alt={client.name || "Client academy"}
                     width={140}
-                    height={34}
-                    className="h-[34px] w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+                    height={24}
+                    className="h-6 w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
                   />
                 </div>
               ))}
             </>
           ) : (
             <>
-              {INTEGRATION_LOGOS.map((logo, idx) => (
-                <div key={`logo-1-${idx}`} className="shrink-0 flex items-center justify-center">
-                  <Image
-                    src={logo.src}
-                    alt={logo.name}
-                    width={120}
-                    height={34}
-                    className="h-[34px] w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
-                  />
-                </div>
-              ))}
-              {INTEGRATION_LOGOS.map((logo, idx) => (
-                <div key={`logo-2-${idx}`} className="shrink-0 flex items-center justify-center">
-                  <Image
-                    src={logo.src}
-                    alt={logo.name}
-                    width={120}
-                    height={34}
-                    className="h-[34px] w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
-                  />
-                </div>
-              ))}
+              {PARTNER_LOGOS.map((logo, idx) => {
+                const LogoComponent = logo.component;
+                return (
+                  <div
+                    key={`partner-1-${idx}`}
+                    className="shrink-0 flex items-center justify-center filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200 cursor-pointer"
+                  >
+                    <LogoComponent />
+                  </div>
+                );
+              })}
+              {PARTNER_LOGOS.map((logo, idx) => {
+                const LogoComponent = logo.component;
+                return (
+                  <div
+                    key={`partner-2-${idx}`}
+                    className="shrink-0 flex items-center justify-center filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200 cursor-pointer"
+                  >
+                    <LogoComponent />
+                  </div>
+                );
+              })}
             </>
           )}
         </div>
