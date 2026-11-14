@@ -291,7 +291,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
-            className="min-h-[40px] px-4 py-2 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center justify-center cursor-pointer active:scale-95 whitespace-nowrap shrink-0"
+            className="min-h-[44px] px-4 py-2 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center justify-center cursor-pointer active:scale-95 whitespace-nowrap shrink-0"
           >
             Book a demo
           </button>

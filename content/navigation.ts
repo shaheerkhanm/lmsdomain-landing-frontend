@@ -111,6 +111,11 @@ export const navigationConfig: NavigationConfig = {
       label: "Resources",
       children: [
         {
+          label: "Blog",
+          href: "/resources/blog",
+          description: "Guides, tutorials and academy growth playbooks",
+        },
+        {
           label: "Roadmap",
           href: "/roadmap",
           description: "See what we're building next",

@@ -68,7 +68,7 @@ export function BannerSection({
   const hasClientLogos = validClientLogos.length > 0;
 
   return (
-    <section className="relative pt-[112px] min-[900px]:pt-[126px] pb-0 font-sans overflow-x-clip bg-white isolate">
+    <section id="hero" className="relative pt-[112px] min-[900px]:pt-[126px] pb-0 font-sans overflow-x-clip bg-white isolate">
       {/* 3D Particle Wave Background (V1k §1, V1l §1e): covers entire hero down to client-logo row with soft ellipse mask fading behind frame */}
       <div
         className="pointer-events-none absolute inset-x-0 top-0 bottom-[80px] -z-10 select-none overflow-hidden"

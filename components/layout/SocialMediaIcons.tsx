@@ -1,69 +1,51 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { Icons } from './common/Icons';
-import { officialSocialProfiles } from '@/content/entity';
+import React from "react";
+import {
+  LinkedInIcon,
+  InstagramIcon,
+  YouTubeIcon,
+  XIcon,
+  FacebookIcon,
+} from "@/components/logos/social";
+import { socialLinks } from "@/content/site";
 
-function getSafeSocialUrl(href: string, key: string): string {
-  if (!href) return '#';
-  if (href.startsWith('http://') || href.startsWith('https://')) return href;
-  const clean = href.replace(/^@/, '');
-  switch (key) {
-    case 'twitter':
-      return `https://x.com/${clean}`;
-    case 'instagram':
-      return `https://instagram.com/${clean}`;
-    case 'fb':
-      return `https://facebook.com/${clean}`;
-    case 'youtubelink':
-      return `https://youtube.com/@${clean}`;
-    case 'linkedin':
-      return `https://linkedin.com/company/${clean}`;
-    default:
-      return `https://${clean}`;
-  }
-}
+const SOCIAL_ICON_COMPONENTS: Record<
+  string,
+  React.ComponentType<{ className?: string; size?: number }>
+> = {
+  linkedin: LinkedInIcon,
+  instagram: InstagramIcon,
+  youtube: YouTubeIcon,
+  x: XIcon,
+  facebook: FacebookIcon,
+};
 
-export default function SocialMediaIcons({ data }: { data: any }) {
-  if (!data) return null;
+export default function SocialMediaIcons({
+  className = "",
+}: {
+  data?: any;
+  className?: string;
+}) {
+  // Read verified links configured in content/site.ts
+  const activeLinks = socialLinks.filter((item) => Boolean(item.url && item.url.trim()));
 
-  const socialLinks = [
-    { key: 'twitter', href: data?.twitter, icon: Icons.x_Icon, label: 'X (formerly Twitter)' },
-    { key: 'instagram', href: data?.instagram, icon: Icons.insta_Icon, label: 'Instagram' },
-    { key: 'fb', href: data?.fb, icon: Icons.fb_Icon, label: 'Facebook' },
-    { key: 'youtubelink', href: data?.youtubelink, icon: Icons.youtube_Icon, label: 'YouTube' },
-    { key: 'linkedin', href: data?.linkedin, icon: Icons.linkedin_Icon, label: 'LinkedIn' },
-  ];
-
-  // Show only links whose profile URL is maintained in officialSocialProfiles (content/entity.ts)
-  const validLinks = socialLinks
-    .map((item) => ({ ...item, safeUrl: getSafeSocialUrl(item.href, item.key) }))
-    .filter((item) => {
-      if (!item.href) return false;
-      return (officialSocialProfiles as readonly string[]).some((url) => {
-        const u = url.toLowerCase().replace(/\/$/, "");
-        const s = item.safeUrl.toLowerCase().replace(/\/$/, "");
-        return s === u || s.includes("lmsdomain");
-      });
-    });
-
-  if (validLinks.length === 0) return null;
+  if (activeLinks.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-3">
-      {validLinks.map((item, index) => {
-        const IconComponent = item.icon;
+    <div className={`flex items-center gap-2.5 ${className}`}>
+      {activeLinks.map((item) => {
+        const IconComponent = SOCIAL_ICON_COMPONENTS[item.id] || XIcon;
         return (
           <a
-            key={index}
-            href={item.safeUrl}
+            key={item.id}
+            href={item.url}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={item.label}
-            className="size-9 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-slate-500 hover:text-MainColor hover:border-MainColor/40 transition-colors shadow-xs"
+            aria-label={item.ariaLabel}
+            className="w-9 h-9 rounded-full border border-[rgba(15,15,20,0.12)] bg-white flex items-center justify-center text-[#151517]/70 hover:text-[#151517] hover:border-[rgba(15,15,20,0.25)] hover:shadow-xs transition-all duration-150 focus-visible:outline-2 focus-visible:outline-[#7B5CF5]"
           >
-            <IconComponent className="size-4 fill-current" />
+            <IconComponent size={17} className="fill-current" />
           </a>
         );
       })}
