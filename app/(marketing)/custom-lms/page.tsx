@@ -3,20 +3,21 @@ import { getCustomPlanPage, fetchSeo } from "@/lib/api/content";
 import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
-import { liveOr } from "@/lib/claims";
+import { BrandPreviewProvider, CustomPlanEnquiryForm } from "@/components/marketing/custom-plan";
+import { FAQ } from "@/components/marketing/ui/FAQ";
+import { ScrollReveal } from "@/components/marketing/ScrollReveal";
+import { CustomCta } from "@/components/sections/CustomV5/CustomV5";
 import {
-  BrandPreviewProvider,
-  CustomPlanHero,
-  CustomPlanAudiences,
-  CustomPlanDeliverables,
-  CustomPlanTimeline,
-  CustomPlanComparison,
-  CustomPlanServices,
-  CustomPlanPricingNote,
-  CustomPlanEnquiryForm,
-  CustomPlanFaq,
-  CustomPlanCta,
-} from "@/components/marketing/custom-plan";
+  BoldHero,
+  BoldNumbers,
+  BoldAudiences,
+  BoldDeliverables,
+  BoldMigration,
+  BoldSteps,
+  BoldCompare,
+  BoldSupport,
+} from "@/components/sections/CustomV5/CustomBold";
+import { BrandCanvas } from "@/components/sections/CustomV5/BrandCanvas";
 
 export async function generateMetadata(): Promise<Metadata> {
   const hiddenMeta = await guardMetadata("custom-lms");
@@ -28,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const DEFAULT_TITLE = "Custom LMS Development & White-Label Setup | LMS Domain";
 const DEFAULT_DESCRIPTION =
-  "Get your custom branded learning platform built and set up for you. Setup, content migration, staff training, and dedicated ongoing support included.";
+  "A custom LMS set up for you: your branded academy on your own domain, migration from your old platform, staff training, custom features and ongoing support.";
 
 async function baseMetadata(): Promise<Metadata> {
   const [seo, pageData] = await Promise.all([
@@ -106,40 +107,23 @@ export default async function CustomPlanPage() {
       />
       <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
 
-      <div className="min-h-screen bg-white font-urbanist">
-        {/* 1. Hero with Brand Preview Signature Element */}
-        <CustomPlanHero hero={pageData.hero} />
-
-        {/* 2. Audiences (Two cards) */}
-        {pageData.audiences && <CustomPlanAudiences audiences={pageData.audiences} />}
-
-        {/* 3. Deliverables Bento Grid */}
-        {pageData.deliverables && (
-          <CustomPlanDeliverables deliverables={pageData.deliverables} />
-        )}
-
-        {/* 4. Launch Timeline (Signature GSAP Motion on Desktop, Vertical on Mobile) */}
-        {pageData.timeline && <CustomPlanTimeline timeline={pageData.timeline} />}
-
-        {/* 5. Comparison: Building it yourself vs LMS Domain Custom Plan */}
-        {pageData.comparison && <CustomPlanComparison comparison={pageData.comparison} />}
-
-        {/* 6. Services After Launch */}
-        {pageData.services && <CustomPlanServices services={pageData.services} />}
-
-        {/* 7. Pricing Note */}
-        {pageData.pricingNote && (
-          <CustomPlanPricingNote pricingNote={pageData.pricingNote} />
-        )}
-
-        {/* 8. Enquiry Form (Anchor #plan, 3-step animated flow) */}
+      <div className="v5 relative bg-white font-sans text-[#0A0A0B] selection:bg-[#0A0A0B] selection:text-white">
+        <BoldHero hero={pageData.hero} />
+        <BoldNumbers />
+        <BrandCanvas />
+        {pageData.audiences && <BoldAudiences audiences={pageData.audiences} />}
+        {pageData.deliverables && <BoldDeliverables d={pageData.deliverables} />}
+        <BoldMigration />
+        {pageData.timeline && <BoldSteps t={pageData.timeline} />}
+        {pageData.comparison && <BoldCompare c={pageData.comparison} />}
+        {(pageData.services || pageData.pricingNote) && <BoldSupport s={pageData.services} p={pageData.pricingNote} />}
         <CustomPlanEnquiryForm formConfig={pageData.form} />
-
-        {/* 9. FAQ (Landing FAQ card style + FAQPage JSON-LD) */}
-        {pageData.faq && <CustomPlanFaq faq={pageData.faq} />}
-
-        {/* 10. Final CTA */}
-        {pageData.cta && <CustomPlanCta cta={pageData.cta} />}
+        {pageData.faq && pageData.faq.items?.length > 0 && (
+          <FAQ id="custom-faq" minimal eyebrow="FAQs" title={pageData.faq.title || "Frequently asked questions"} subtitle="About the Custom Plan, setup and support." items={pageData.faq.items} />
+        )}
+        <div className="pt-[clamp(72px,9vw,120px)]" />
+        {pageData.cta && <CustomCta cta={pageData.cta} />}
+        <ScrollReveal />
       </div>
     </BrandPreviewProvider>
   );
