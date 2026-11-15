@@ -1418,3 +1418,18 @@ input[type="number"]::-webkit-inner-spin-button {
   0%, 100% { stroke-dashoffset: 258; }
   50% { stroke-dashoffset: 190; }
 }
+
+/* Legal pages: section dividers and smaller sub-headings on top of .v5-article */
+.legal-article { font-size: 16.5px; }
+.legal-article h2 { margin-top: 2.6em; padding-top: 1.6em; border-top: 1px solid #ECECF0; font-size: clamp(24px, 2.2vw, 30px); }
+.legal-article > h2:first-child, .legal-article > p:first-child + h2 { border-top: 0; }
+.legal-article h3 { font-size: 20px; }
+.legal-article h4 { margin-top: 1.5em; font-family: var(--font-urbanist), sans-serif; font-size: 17px; font-weight: 600; color: #0A0A0B; }
+.legal-article h4 span { font-size: 13px; font-weight: 400; color: #9A9AA6; }
+.legal-article > p:first-child { font-size: 18.5px; line-height: 1.7; color: #27272A; }
+@media print {
+  .legal-article { font-size: 12pt; color: #000; }
+  .legal-article h2 { border-top: 0; padding-top: 0; }
+  .legal-article a { color: #000; text-decoration: none; }
+  .legal-article ul > li::before { background: #000; }
+}
