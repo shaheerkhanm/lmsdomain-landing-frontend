@@ -75,20 +75,21 @@ export function PricingCard({
   return (
     <div
       style={{ "--rv-delay": `${120 + index * 120}ms` } as React.CSSProperties}
-      className={`rv-v4 pc-rise relative isolate flex h-full flex-col overflow-hidden rounded-[28px] p-6 font-sans transition-[translate,box-shadow] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:-translate-y-1.5 sm:p-7 ${
+      className={`rv-v4 pc-rise relative isolate flex h-full flex-col rounded-[28px] p-6 font-sans transition-[translate,box-shadow] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:-translate-y-1.5 sm:p-7 ${
         pop
           ? "bg-[linear-gradient(170deg,#1C1538_0%,#130F26_45%,#2B1B7A_100%)] ring-1 ring-white/10 shadow-[0_1px_2px_rgba(16,16,24,0.1),0_34px_64px_-28px_rgba(19,15,38,0.7)] hover:shadow-[0_1px_2px_rgba(16,16,24,0.1),0_44px_74px_-28px_rgba(19,15,38,0.75)] lg:pt-9 lg:pb-9"
           : "border border-[#ECECF1] bg-white shadow-[0_1px_2px_rgba(16,16,24,0.04),0_20px_44px_-30px_rgba(16,16,24,0.3)] hover:shadow-[0_1px_2px_rgba(16,16,24,0.04),0_30px_56px_-28px_rgba(16,16,24,0.35)]"
       }`}
     >
       {/* Name, popular tag, who it's for */}
+      {pop && (
+        <span className="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#161616] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm ring-[3px] ring-white">
+          <span className="text-[#F3CF74]" aria-hidden="true">✦</span>
+          Most popular
+        </span>
+      )}
       <div className="flex min-h-[30px] items-center justify-between gap-3">
         <h3 className={`font-urbanist text-[24px] font-semibold tracking-[-0.015em] ${t.title}`}>{plan.name}</h3>
-        {pop && (
-          <span className="whitespace-nowrap rounded-full bg-[#6C4BFF] px-3 py-1 text-[12px] font-semibold text-white">
-            Most popular
-          </span>
-        )}
       </div>
       <p className={`mt-1 min-h-[44px] text-[14px] leading-[1.5] ${t.body}`}>
         {plan.audience ? `For ${plan.audience.charAt(0).toLowerCase()}${plan.audience.slice(1)}` : plan.tagline}
@@ -152,7 +153,7 @@ export function PricingCard({
         onClick={handleCtaClick}
         className={`group mt-6 inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full text-[14.5px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
           pop
-            ? "bg-[#6C4BFF] text-white hover:bg-[#7B5CFF] focus-visible:outline-white"
+            ? "bg-white text-[#0A0A0B] shadow-[0_10px_24px_-12px_rgba(0,0,0,0.6)] hover:bg-[#F1EDFF] focus-visible:outline-white"
             : "bg-[#0A0A0B] text-white hover:bg-[#27272A] focus-visible:outline-[#6C4BFF]"
         }`}
       >

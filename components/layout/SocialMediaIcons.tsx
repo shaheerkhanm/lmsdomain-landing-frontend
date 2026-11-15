@@ -25,7 +25,7 @@ function getSafeSocialUrl(href: string, key: string): string {
   }
 }
 
-export default function SocialMediaIcons({ data }: { data: any }) {
+export default function SocialMediaIcons({ data, tone = 'light' }: { data: any; tone?: 'light' | 'dark' }) {
   if (!data) return null;
 
   const socialLinks = [
@@ -61,7 +61,11 @@ export default function SocialMediaIcons({ data }: { data: any }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={item.label}
-            className="size-9 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-slate-500 hover:text-MainColor hover:border-MainColor/40 transition-colors shadow-xs"
+            className={
+              tone === 'dark'
+                ? "size-10 rounded-full border border-white/10 bg-white/[0.04] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-white/30 hover:bg-white/10 transition-colors"
+                : "size-9 rounded-lg border border-slate-200 bg-white flex items-center justify-center text-slate-500 hover:text-MainColor hover:border-MainColor/40 transition-colors shadow-xs"
+            }
           >
             <IconComponent className="size-4 fill-current" />
           </a>
