@@ -62,7 +62,7 @@ function CallArt() {
 }
 
 /* Step 2: setup and migration checklist */
-function SetupArt() {
+export function SetupArt() {
   const rows = [
     { t: "Courses imported", m: "48 of 48", done: true },
     { t: "Learners moved", m: "1,240", done: true },

@@ -53,8 +53,8 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>(null);
   const [showDemoModal, setShowDemoModal] = useState(false);
-  // Homepage: full-width transparent bar at the top that morphs into the floating pill on scroll
-  const morphOnScroll = pathname === "/";
+  // Homepage and pricing: full-width transparent bar at the top that morphs into the floating pill on scroll
+  const morphOnScroll = pathname === "/" || pathname === "/pricing";
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {

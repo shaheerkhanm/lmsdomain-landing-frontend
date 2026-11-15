@@ -23,7 +23,7 @@ export function DemoButton({
         type="button"
         onClick={() => setOpen(true)}
         className={cn(
-          "group inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-[10px] px-5 text-[14.5px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C4BFF]",
+          "group inline-flex h-11 cursor-pointer items-center justify-center gap-2 rounded-full px-5 text-[14.5px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C4BFF]",
           variant === "dark"
             ? "bg-[#0A0A0B] text-white hover:bg-[#27272A]"
             : "bg-white text-[#0A0A0B] hover:bg-[#F4F4F5]",

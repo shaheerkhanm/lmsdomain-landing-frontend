@@ -73,7 +73,7 @@ function Avatar({ src, size = 36, className }: { src: string; size?: number; cla
   );
 }
 
-function BentoCard({
+export function BentoCard({
   title,
   description,
   href,
@@ -162,7 +162,7 @@ function CoursesArt() {
 }
 
 /* ---------------- 2. Live classes: instructor card with a stacked card behind ---------------- */
-function LiveArt() {
+export function LiveArt() {
   return (
     <div className="absolute inset-0 flex justify-center pt-9">
       <div className="absolute top-[52px] h-[200px] w-[296px] scale-[0.94] rounded-[18px] border border-[#EDEDF1] bg-white/60" />
@@ -297,7 +297,7 @@ function TestsArt() {
 }
 
 /* ---------------- 5. Payments: staggered transaction rows (finerrr style) ---------------- */
-function PaymentsArt() {
+export function PaymentsArt() {
   const rows = [
     { title: "Course sale · Stripe", date: "Today, 10:42", amount: "+$59.00", tone: "green" as const },
     { title: "Live batch seat · Razorpay", date: "Today, 09:15", amount: "+₹4,999", tone: "violet" as const },
@@ -326,7 +326,7 @@ function PaymentsArt() {
 }
 
 /* ---------------- 6. Brand: academy website + magnifier on the domain (Wiza style) ---------------- */
-function BrandArt() {
+export function BrandArt() {
   return (
     <div className="absolute inset-0">
       <Panel className="v5-pop v5-lift absolute left-[44%] right-[-56px] top-9 overflow-hidden rounded-[18px] sm:left-[30%]">

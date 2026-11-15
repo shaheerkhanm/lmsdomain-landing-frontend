@@ -59,182 +59,139 @@ export function PricingCard({
     return String(val);
   };
 
-  const ctaLabel = isCustomPrice ? "Talk to us" : `Start ${trialDays}-day free trial`;
+  const ctaLabel = isCustomPrice ? "Talk to sales" : `Start ${trialDays}-day free trial`;
+  const pop = Boolean(plan.isPopular);
+  void formatLimit; // limits live in the comparison table, not on the card
+
+  const FEATURE_COUNT = 5;
+  const features = plan.features.slice(0, FEATURE_COUNT);
+  const more = plan.features.length - features.length;
+
+  // Text colours flip on the highlighted (filled) card
+  const t = pop
+    ? { title: "text-white", body: "text-[#B9B6C8]", muted: "text-[#A09CB3]", price: "text-white", rule: "border-white/10" }
+    : { title: "text-[#0A0A0B]", body: "text-[#52525B]", muted: "text-[#71717A]", price: "text-[#0A0A0B]", rule: "border-[#ECECF1]" };
 
   return (
-    <motion.div
-      initial={false}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.35, delay: index * 0.05, ease: "easeOut" }}
-      className={`rounded-[32px] bg-white p-6 sm:p-7 flex flex-col justify-between relative transition-all duration-300 font-urbanist h-full ${
-        plan.isPopular
-          ? "border-2 border-[#161616] lg:-translate-y-2.5 shadow-xl z-10"
-          : "border border-[#ECEDEF] shadow-sm hover:shadow-md z-0"
+    <div
+      style={{ "--rv-delay": `${120 + index * 120}ms` } as React.CSSProperties}
+      className={`rv-v4 pc-rise relative isolate flex h-full flex-col overflow-hidden rounded-[28px] p-6 font-sans transition-[translate,box-shadow] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] hover:-translate-y-1.5 sm:p-7 ${
+        pop
+          ? "bg-[linear-gradient(170deg,#1C1538_0%,#130F26_45%,#2B1B7A_100%)] ring-1 ring-white/10 shadow-[0_1px_2px_rgba(16,16,24,0.1),0_34px_64px_-28px_rgba(19,15,38,0.7)] hover:shadow-[0_1px_2px_rgba(16,16,24,0.1),0_44px_74px_-28px_rgba(19,15,38,0.75)] lg:pt-9 lg:pb-9"
+          : "border border-[#ECECF1] bg-white shadow-[0_1px_2px_rgba(16,16,24,0.04),0_20px_44px_-30px_rgba(16,16,24,0.3)] hover:shadow-[0_1px_2px_rgba(16,16,24,0.04),0_30px_56px_-28px_rgba(16,16,24,0.35)]"
       }`}
     >
-      <div>
-        {/* Popular Pill */}
-        {plan.isPopular && (
-          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#161616] text-white text-[11px] font-bold uppercase tracking-wider shadow-sm flex items-center gap-1.5 whitespace-nowrap">
-            <span className="text-[#F3CF74]">✦</span>
-            <span>Most Popular</span>
-          </div>
+      {/* Name, popular tag, who it's for */}
+      <div className="flex min-h-[30px] items-center justify-between gap-3">
+        <h3 className={`font-urbanist text-[24px] font-semibold tracking-[-0.015em] ${t.title}`}>{plan.name}</h3>
+        {pop && (
+          <span className="whitespace-nowrap rounded-full bg-[#6C4BFF] px-3 py-1 text-[12px] font-semibold text-white">
+            Most popular
+          </span>
         )}
+      </div>
+      <p className={`mt-1 min-h-[44px] text-[14px] leading-[1.5] ${t.body}`}>
+        {plan.audience ? `For ${plan.audience.charAt(0).toLowerCase()}${plan.audience.slice(1)}` : plan.tagline}
+      </p>
 
-        {/* Header: Plan Name & Audience Line */}
-        <div className="mb-4 text-left">
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="text-[22px] font-bold text-[#161616] tracking-tight">
-              {plan.name}
-            </h3>
+      {/* Price */}
+      <div style={{ "--d": "60ms" } as React.CSSProperties} className="v5-pop relative mt-5 min-h-[78px]">
+        {isCustomPrice ? (
+          <div>
+            <span className={`block font-urbanist text-[44px] font-semibold leading-none tracking-[-0.035em] ${t.price}`}>Custom</span>
+            <span className={`mt-2 block text-[13px] ${t.muted}`}>Priced for your academy</span>
           </div>
-          {plan.audience && (
-            <p className="text-[13px] font-medium text-[#5925DC] mt-0.5">
-              {plan.audience}
-            </p>
-          )}
-          {plan.tagline && (
-            <p className="text-[13px] text-[#6B6F76] leading-snug mt-1.5">
-              {plan.tagline}
-            </p>
-          )}
-        </div>
-
-        {/* Price Display */}
-        <div className="mb-5 min-h-[82px] flex flex-col items-start justify-center text-left relative">
-          {isCustomPrice ? (
-            <div>
-              <span className="text-[34px] sm:text-[38px] font-semibold text-[#161616] tracking-tight block">
-                Talk to us
-              </span>
-              <span className="text-[12px] font-medium text-[#6B6F76]">
-                Custom capacity & terms
-              </span>
-            </div>
-          ) : (
-            displayPrice !== null && (
-              <>
-                <div className={`pricing-card-price-content w-full ${!isResolved ? "invisible" : ""}`}>
-                  <div className="flex flex-wrap items-baseline gap-x-1" aria-live="polite">
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.div
-                        key={`${displayPrice}-${currency}-${period}`}
-                        initial={shouldReduceMotion ? false : { opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={shouldReduceMotion ? undefined : { opacity: 0 }}
-                        transition={{ duration: shouldReduceMotion ? 0 : 0.18, ease: "easeInOut" }}
-                        className="font-bold text-[38px] sm:text-[44px] text-[#161616] tracking-[-0.02em] tabular-nums"
-                      >
-                        {formatPrice(displayPrice, currency)}
-                      </motion.div>
-                    </AnimatePresence>
-
-                    <span className="text-[13px] sm:text-[14px] font-semibold text-[#6B6F76] ml-0.5 whitespace-nowrap">
-                      {period === "yearly" ? "/mo" : "/month"}
-                      <span className="ml-1 text-[11px] font-normal text-[#5F6368]">{taxLabel}</span>
-                    </span>
-                  </div>
-
+        ) : (
+          displayPrice !== null && (
+            <>
+              <div className={`pricing-card-price-content w-full ${!isResolved ? "invisible" : ""}`}>
+                <div className="flex items-baseline gap-1.5" aria-live="polite">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.span
+                      key={`${displayPrice}-${currency}-${period}`}
+                      initial={shouldReduceMotion ? false : { opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={shouldReduceMotion ? undefined : { opacity: 0, y: -6 }}
+                      transition={{ duration: shouldReduceMotion ? 0 : 0.2, ease: "easeOut" }}
+                      className={`font-urbanist font-semibold leading-none tracking-[-0.04em] tabular-nums ${t.price} ${pop ? "text-[52px]" : "text-[44px]"}`}
+                    >
+                      {formatPrice(displayPrice, currency)}
+                    </motion.span>
+                  </AnimatePresence>
+                  <span className={`text-[14px] ${t.muted}`}>/ month</span>
+                </div>
+                <div className={`mt-2 flex flex-wrap items-center gap-2 text-[12.5px] ${t.muted}`}>
                   {isYearly && pricing.yearly !== null ? (
-                    <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[12px] text-[#6B6F76]">
-                      <span>Billed yearly: {formatPrice(pricing.yearly, currency)}</span>
-                      <span className="px-2 py-0.5 rounded-full bg-[#F3CF74]/40 text-amber-900 text-[10px] font-bold uppercase tracking-wider">
+                    <>
+                      <span>
+                        {formatPrice(pricing.yearly, currency)} billed yearly {taxLabel}
+                      </span>
+                      <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${pop ? "bg-[#6C4BFF]/25 text-[#C9BFFF]" : "bg-[#EDE9FF] text-[#6C4BFF]"}`}>
                         {pricing.yearlySavingsLabel}
                       </span>
-                    </div>
+                    </>
                   ) : (
-                    <div className="text-[12px] font-medium text-[#6B6F76] mt-0.5">
-                      Billed monthly
-                    </div>
+                    <span>Billed monthly {taxLabel}</span>
                   )}
                 </div>
-
-                {!isResolved && (
-                  <div className="pricing-card-shimmer absolute inset-0 py-1 flex flex-col justify-center pointer-events-none" aria-hidden="true">
-                    <div className="h-10 w-36 bg-[#ECEDEF] rounded-xl animate-pulse" />
-                    <div className="h-3.5 w-24 bg-[#F1F3F5] rounded mt-2.5 animate-pulse" />
-                  </div>
-                )}
-              </>
-            )
-          )}
-        </div>
-
-        {/* CTA Button */}
-        <div className="mb-6">
-          <button
-            type="button"
-            onClick={handleCtaClick}
-            className={`w-full py-3 px-4 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-xs active:scale-[0.98] inline-flex items-center justify-center gap-1.5 ${
-              plan.isPopular
-                ? "bg-[#161616] hover:bg-black text-white"
-                : "bg-white hover:bg-[#F3F4F6] text-[#161616] border border-[#ECEDEF]"
-            }`}
-          >
-            <span>{ctaLabel}</span>
-            <ArrowRight className="w-4 h-4 opacity-70" />
-          </button>
-        </div>
-
-        {/* 1px Divider */}
-        <div className="h-[1px] bg-[#ECEDEF] mb-5" />
-
-        {/* Limits Block */}
-        <div className="mb-5 space-y-1.5 text-left text-xs bg-[#F8FAFC] p-3 rounded-2xl border border-[#F1F3F5]">
-          <div className="flex items-center justify-between py-0.5">
-            <span className="text-[#6B6F76]">Active Learners</span>
-            <span className="font-semibold text-[#161616]">
-              {formatLimit("Learners", plan.limits.activeLearners, "")}
-            </span>
-          </div>
-          <div className="flex items-center justify-between py-0.5">
-            <span className="text-[#6B6F76]">Team Seats</span>
-            <span className="font-semibold text-[#161616]">
-              {formatLimit("Seats", plan.limits.teamSeats, "seats")}
-            </span>
-          </div>
-          <div className="flex items-center justify-between py-0.5">
-            <span className="text-[#6B6F76]">Storage</span>
-            <span className="font-semibold text-[#161616]">
-              {formatLimit("Storage", plan.limits.storageGb, "GB")}
-            </span>
-          </div>
-          <div className="flex items-center justify-between py-0.5">
-            <span className="text-[#6B6F76]">Bandwidth</span>
-            <span className="font-semibold text-[#161616]">
-              {formatLimit("Bandwidth", plan.limits.bandwidthGbPerMonth, "GB/mo")}
-            </span>
-          </div>
-        </div>
-
-        {/* Features List */}
-        <div className="space-y-2.5 text-left pb-4">
-          {plan.includesPrevious && previousPlanName ? (
-            <span className="text-[11px] font-bold text-[#5925DC] block">
-              Everything in {previousPlanName}, plus:
-            </span>
-          ) : (
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6368] block">
-              What&apos;s included
-            </span>
-          )}
-          <ul className="space-y-2">
-            {plan.features.map((feat, fIdx) => (
-              <li
-                key={fIdx}
-                className="flex items-start gap-2 text-xs sm:text-[13px] text-[#161616] leading-snug"
-              >
-                <div className="size-4 rounded-full bg-[#EEE9FF] text-[#7B5CF5] flex items-center justify-center shrink-0 mt-0.5">
-                  <Check className="w-2.5 h-2.5 stroke-[3]" />
+              </div>
+              {!isResolved && (
+                <div className="pricing-card-shimmer pointer-events-none absolute inset-0" aria-hidden="true">
+                  <div className={`h-10 w-32 animate-pulse rounded-xl ${pop ? "bg-white/20" : "bg-[#ECECEF]"}`} />
+                  <div className={`mt-2.5 h-3.5 w-24 animate-pulse rounded ${pop ? "bg-white/15" : "bg-[#F1F1F4]"}`} />
                 </div>
-                <span>{feat}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+              )}
+            </>
+          )
+        )}
       </div>
-    </motion.div>
+
+      {/* CTA */}
+      <button
+        type="button"
+        onClick={handleCtaClick}
+        className={`group mt-6 inline-flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full text-[14.5px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 ${
+          pop
+            ? "bg-[#6C4BFF] text-white hover:bg-[#7B5CFF] focus-visible:outline-white"
+            : "bg-[#0A0A0B] text-white hover:bg-[#27272A] focus-visible:outline-[#6C4BFF]"
+        }`}
+      >
+        {ctaLabel}
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </button>
+
+      {/* Key features */}
+      <div className={`mt-7 border-t pt-6 ${t.rule}`}>
+        <p className={`text-[13px] font-semibold ${t.title}`}>
+          {plan.includesPrevious && previousPlanName ? `Everything in ${previousPlanName}, plus:` : "Key features:"}
+        </p>
+        <ul className="mt-3.5 space-y-3">
+          {features.map((feat, fIdx) => (
+            <li
+              key={fIdx}
+              style={{ "--d": `${200 + fIdx * 70}ms` } as React.CSSProperties}
+              className={`v5-pop flex items-start gap-2.5 text-[14px] leading-[1.45] ${pop ? "text-[#E4E2EE]" : "text-[#3F3F46]"}`}>
+              <span
+                className={`mt-0.5 grid h-[18px] w-[18px] shrink-0 place-items-center rounded-full ${
+                  pop ? "bg-[#6C4BFF] text-white" : "bg-[#F1EDFF] text-[#6C4BFF]"
+                }`}
+              >
+                <Check className="h-2.5 w-2.5" strokeWidth={3.5} />
+              </span>
+              <span>{feat}</span>
+            </li>
+          ))}
+        </ul>
+        {more > 0 && (
+          <a
+            href="#compare"
+            className={`mt-4 inline-block text-[13px] font-semibold hover:underline ${pop ? "text-[#B9A9FF]" : "text-[#6C4BFF]"}`}
+          >
+            + {more} more {more === 1 ? "feature" : "features"}
+          </a>
+        )}
+      </div>
+    </div>
   );
 }
 

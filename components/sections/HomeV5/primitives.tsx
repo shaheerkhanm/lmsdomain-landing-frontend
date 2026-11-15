@@ -81,4 +81,4 @@ export function UiChip({ className, children }: { className?: string; children: 
 }
 
 export const secondaryButtonClass =
-  "inline-flex h-11 items-center justify-center gap-2 rounded-[10px] border border-[#E4E4E7] bg-white px-5 text-[14.5px] font-semibold text-[#0A0A0B] transition-colors hover:border-[#D4D4D8] hover:bg-[#FAFAFA] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C4BFF]";
+  "inline-flex h-11 items-center justify-center gap-2 rounded-full border border-[#E4E4E7] bg-white px-5 text-[14.5px] font-semibold text-[#0A0A0B] transition-colors hover:border-[#D4D4D8] hover:bg-[#FAFAFA] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#6C4BFF]";

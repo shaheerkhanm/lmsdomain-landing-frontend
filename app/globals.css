@@ -1136,3 +1136,56 @@ input[type="number"]::-webkit-inner-spin-button {
     width: 0;
   }
 }
+
+/* Pricing plan finder slider */
+.plan-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #8b70ff 0%, #6c4bff var(--p, 50%), rgba(255, 255, 255, 0.12) var(--p, 50%));
+  outline: none;
+}
+.plan-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: #fff;
+  border: 6px solid #6c4bff;
+  box-shadow: 0 0 0 6px rgba(108, 75, 255, 0.25), 0 6px 16px rgba(0, 0, 0, 0.4);
+  transition: box-shadow 0.15s ease;
+}
+.plan-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 6px solid #6c4bff;
+  box-shadow: 0 0 0 6px rgba(108, 75, 255, 0.25), 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+.plan-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 8px rgba(169, 155, 255, 0.55), 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+.plan-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 8px rgba(169, 155, 255, 0.55), 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Pricing cards: rise in one after another (skipped for reduced motion) */
+@media (prefers-reduced-motion: no-preference) {
+  .v5 .rv-v4.pc-rise {
+    transform: translateY(56px) scale(0.97);
+    transition: opacity 0.9s cubic-bezier(0.2, 0.7, 0.2, 1), transform 1s cubic-bezier(0.2, 0.7, 0.2, 1),
+      translate 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.5s ease;
+    transition-delay: var(--rv-delay, 0ms), var(--rv-delay, 0ms), 0ms, 0ms;
+  }
+  .v5 .rv-v4.pc-rise.in {
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pf-swap {
+    animation: v5-rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}

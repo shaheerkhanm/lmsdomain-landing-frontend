@@ -35,7 +35,7 @@ export function PricingBand({
     "0% commission on every sale",
     "Your own domain on every plan",
     `${trialDays}-day free trial on every plan`,
-    "Setup and migration help included",
+    "Setup help from our team",
   ];
 
   return (
@@ -76,7 +76,7 @@ export function PricingBand({
             <div className="flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/pricing"
-                className="group inline-flex h-11 items-center justify-center gap-2 rounded-[10px] bg-[#0A0A0B] px-5 text-[14.5px] font-semibold text-white transition-colors hover:bg-[#27272A]"
+                className="group inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[#0A0A0B] px-5 text-[14.5px] font-semibold text-white transition-colors hover:bg-[#27272A]"
               >
                 Compare plans
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
