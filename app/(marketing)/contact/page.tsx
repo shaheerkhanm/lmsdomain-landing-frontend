@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getContactPage, getSiteContact, fetchSeo } from "@/lib/api/content";
-import { ContactView } from "@/components/marketing";
+import { ContactV5 } from "@/components/sections/ContactV5/ContactV5";
 import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
@@ -8,7 +8,7 @@ import { officialSocialProfiles } from "@/content/entity";
 
 const DEFAULT_TITLE = "Contact Us: Sales, Onboarding & Support | LMS Domain";
 const DEFAULT_DESCRIPTION =
-  "Speak with the LMS Domain team in India for sales inquiries, academy onboarding, technical support, migration assistance, or platform walkthroughs.";
+  "Talk to the LMS Domain team about plans, a demo, setting up your academy, moving from another platform or support. Real people reply to every message.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const hiddenMeta = await guardMetadata("contact");
@@ -75,7 +75,7 @@ export default async function ContactPage() {
   return (
     <>
       <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
-      <ContactView data={data} />
+      <ContactV5 data={data} />
     </>
   );
 }

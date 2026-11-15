@@ -1,10 +1,10 @@
 import type { ContactHero, ContactFormConfig, ContactTopic } from "@/types/content";
 
 export const DEFAULT_CONTACT_HERO: ContactHero = {
-  eyebrow: "✦ CONTACT",
-  title: "Talk to the LMS Domain team",
+  eyebrow: "Contact",
+  title: "Let's talk about your academy",
   subtitle:
-    "Get in touch with our team about learning platforms, pricing plans, or technical questions.",
+    "Questions about plans, a demo, moving from another platform or getting set up? Send us a message and our team will get back to you.",
 };
 
 export const DEFAULT_CONTACT_FORM_CONFIG: ContactFormConfig = {
