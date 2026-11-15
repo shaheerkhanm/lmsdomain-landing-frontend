@@ -31,7 +31,6 @@ export function AboutStory({
             {/* Left Column: H2 + Rich Text Body (max 560px) */}
             <div className="flex-1 max-w-[560px] text-left">
               <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-4">
-                <span>✦</span>
                 <span>Our Origin</span>
               </div>
 

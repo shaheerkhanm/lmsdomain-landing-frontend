@@ -42,7 +42,6 @@ export function FeatureRow({
       >
         {eyebrow && (
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#7B5CF5]">
-            <span>✦</span>
             <span>{eyebrow}</span>
           </div>
         )}

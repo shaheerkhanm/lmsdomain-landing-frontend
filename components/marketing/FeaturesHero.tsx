@@ -60,7 +60,6 @@ export function FeaturesHero({
           {/* Eyebrow */}
           <motion.div variants={itemVariants} className="mb-4">
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#F3F4F6] text-[#7B5CF5] text-xs font-semibold uppercase tracking-[0.08em]">
-              <span>✦</span>
               <span>{eyebrow}</span>
             </div>
           </motion.div>

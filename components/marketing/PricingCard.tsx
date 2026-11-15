@@ -84,7 +84,6 @@ export function PricingCard({
       {/* Name, popular tag, who it's for */}
       {pop && (
         <span className="absolute -top-3.5 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 whitespace-nowrap rounded-full bg-[#161616] px-3.5 py-1 text-[11px] font-bold uppercase tracking-wider text-white shadow-sm ring-[3px] ring-white">
-          <span className="text-[#F3CF74]" aria-hidden="true">✦</span>
           Most popular
         </span>
       )}

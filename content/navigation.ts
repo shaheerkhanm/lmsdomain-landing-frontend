@@ -34,43 +34,43 @@ export const navigationConfig: NavigationConfig = {
         {
           label: "Teach",
           href: "/platform/teach",
-          description: "Recorded courses, drip release and Zoom live classes",
+          description: "Courses, drip release and live classes",
         },
         {
           label: "Assess",
           href: "/platform/assess",
-          description: "Quizzes, assignments with review and certificates",
+          description: "Quizzes, mock tests and certificates",
         },
         {
           label: "Manage",
           href: "/platform/manage",
-          description: "Batches, attendance, learners, RBAC and notifications",
+          description: "Batches, attendance and learners",
         },
         {
           label: "Sell",
           href: "/platform/sell",
-          description: "Multi-currency checkout, Stripe, Razorpay and coupons",
+          description: "Checkout in any currency, with coupons",
         },
         {
           label: "Brand",
           href: "/platform/brand",
-          description: "Your own custom domain, white-label academy and theme",
+          description: "Your domain, logo and colours",
         },
         {
           label: "Domie AI",
           href: "/platform/ai",
-          badge: "Premium",
-          description: "Grounded AI assistant for learners and creators",
+          badge: "Pro",
+          description: "Answers learners from your lessons",
         },
         {
           label: "Security",
           href: "/platform/security",
-          description: "Data protection, device limits and encrypted video",
+          description: "Device limits and protected video",
         },
         {
           label: "All features",
           href: "/platform",
-          description: "Explore the full LMS Domain capabilities",
+          description: "Everything LMS Domain does, on one page",
         },
       ],
     },
@@ -80,22 +80,22 @@ export const navigationConfig: NavigationConfig = {
         {
           label: "Coaching institutes",
           href: "/solutions/coaching-institutes",
-          description: "For tuition centers, exam prep, and scheduled live shifts",
+          description: "Exam prep, live batches and fee collection",
         },
         {
           label: "Language & test-prep academies",
           href: "/solutions/language-test-prep-academies",
-          description: "For IELTS, PTE and language academies teaching in batches",
+          description: "IELTS, PTE and language batches with mock tests",
         },
         {
           label: "Training companies",
           href: "/solutions/training-companies",
-          description: "For cohorts, corporate packages, bootcamps and tutor booking",
+          description: "Cohorts, corporate packages and bootcamps",
         },
         {
           label: "Solo educators & creators",
           href: "/solutions/solo-educators",
-          description: "For tutors selling on-demand courses, cohorts, and 1:1 sessions",
+          description: "Sell courses, cohorts and 1:1 sessions",
         },
       ],
     },
@@ -113,7 +113,7 @@ export const navigationConfig: NavigationConfig = {
         {
           label: "Blog",
           href: "/resources/blog",
-          description: "Guides, tutorials and academy growth playbooks",
+          description: "Practical guides for running an academy",
         },
         {
           label: "Roadmap",
@@ -123,12 +123,12 @@ export const navigationConfig: NavigationConfig = {
         {
           label: "About",
           href: "/about",
-          description: "Our story, mission and the team behind LMS Domain",
+          description: "Our story and the people behind LMS Domain",
         },
         {
           label: "Contact",
           href: "/contact",
-          description: "Talk to our specialists or get support",
+          description: "Talk to our team or get support",
         },
       ],
     },

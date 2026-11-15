@@ -27,7 +27,7 @@ export function CustomPlanServices({ services }: CustomPlanServicesProps) {
       <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
         <div className="text-center max-w-xl mx-auto mb-12 sm:mb-14">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-3">
-            ✦ Post-Launch Partnership
+            Post-Launch Partnership
           </span>
           <h2 className="text-[28px] sm:text-[38px] font-bold text-[#161616] tracking-tight">
             {title}

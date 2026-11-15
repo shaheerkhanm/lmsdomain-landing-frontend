@@ -33,7 +33,6 @@ export function AboutView({ data }: AboutViewProps) {
         topStrip={
           data.isSample ? (
             <div className="bg-[#F3CF74] text-[#161616] px-4 py-1.5 rounded-full text-xs font-semibold shadow-xs border border-amber-300 flex items-center gap-1.5">
-              <span className="text-amber-800">✦</span>
               <span>Sample about content for design preview. Not real information.</span>
             </div>
           ) : undefined

@@ -15,7 +15,7 @@ interface CustomPlanHeroProps {
 export function CustomPlanHero({ hero }: CustomPlanHeroProps) {
   const [showDemoModal, setShowDemoModal] = useState(false);
 
-  const eyebrow = hero.eyebrow || "✦ CUSTOM PLAN";
+  const eyebrow = hero.eyebrow || "CUSTOM PLAN";
   const title = hero.title || "Your own LMS, set up for you";
   const highlightedWords = hero.highlightedWords || "set up for you";
   const subtitle =
@@ -77,7 +77,6 @@ export function CustomPlanHero({ hero }: CustomPlanHeroProps) {
           <div className="lg:col-span-6 text-center lg:text-left">
             {/* Eyebrow Pill */}
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-[0.08em] mb-6">
-              <span>✦</span>
               <span>{eyebrow.replace(/^✦\s*/, "")}</span>
             </div>
 

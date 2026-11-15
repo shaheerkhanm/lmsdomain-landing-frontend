@@ -29,7 +29,6 @@ export function AboutCareers({ data }: AboutCareersProps) {
           <div className="rounded-[32px] sm:rounded-[40px] bg-[#F8FAFC] border border-[#ECEDEF] p-8 sm:p-12 lg:p-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xs text-left">
             <div className="space-y-2 max-w-xl">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-[11px] font-bold uppercase tracking-wider">
-                <span>✦</span>
                 <span>Careers</span>
               </div>
               <h3 className="text-[24px] sm:text-[30px] font-bold text-[#161616] tracking-tight leading-snug">

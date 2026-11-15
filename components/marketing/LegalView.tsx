@@ -72,7 +72,7 @@ export function LegalView({ page }: LegalViewProps) {
     <div className="w-full bg-white font-urbanist min-h-screen">
       {/* Legal Hero without buttons */}
       <PageHero
-        eyebrow="✦ LEGAL"
+        eyebrow="LEGAL"
         title={page.title}
         subtitle={subtitle}
         className="pb-8 lg:pb-12"

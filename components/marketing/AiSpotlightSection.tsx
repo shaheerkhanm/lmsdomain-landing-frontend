@@ -44,7 +44,6 @@ export function AiSpotlightSection({ features, media, heading = DEFAULT_HEADING 
         <div className="text-left max-w-2xl mb-12 lg:mb-16">
           <div className="flex items-center gap-2 mb-3.5">
             <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5]">
-              <span>✦</span>
               <span>{heading.eyebrow}</span>
             </span>
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-[#EEE9FF] text-[#7B5CF5]">

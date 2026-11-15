@@ -26,7 +26,7 @@ export function CustomPlanComparison({ comparison }: CustomPlanComparisonProps) 
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-3">
-            ✦ Honest Comparison
+            Honest Comparison
           </span>
           <h2 className="text-[30px] sm:text-[40px] font-bold text-[#161616] tracking-tight">
             {title}

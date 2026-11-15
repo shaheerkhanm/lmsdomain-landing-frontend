@@ -46,7 +46,7 @@ export function CustomPlanCta({ cta }: CustomPlanCtaProps) {
 
             <div className="relative z-10 max-w-2xl mx-auto space-y-5">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 text-[#161616] text-xs font-semibold uppercase tracking-wider shadow-2xs">
-                ✦ Get Started Today
+                Get Started Today
               </span>
 
               <h2 className="text-[34px] sm:text-[46px] lg:text-[52px] font-bold text-[#161616] tracking-tight leading-[1.1]">

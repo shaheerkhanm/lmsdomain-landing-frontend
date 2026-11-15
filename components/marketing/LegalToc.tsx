@@ -65,7 +65,6 @@ export function LegalToc({ headings }: LegalTocProps) {
           aria-expanded={mobileOpen}
         >
           <span className="flex items-center gap-2">
-            <span className="text-[#7B5CF5]">✦</span>
             <span>On this page</span>
           </span>
           <ChevronDown

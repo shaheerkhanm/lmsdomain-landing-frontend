@@ -1,50 +1,48 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { AlertCircle, RotateCcw } from "lucide-react";
 
-export default function GlobalError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+/** Last-resort error page. It replaces the root layout, so it uses inline styles only. */
+export default function GlobalError({ reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <html lang="en">
-      <body className="font-sans bg-white text-[#161616] antialiased">
-        <div className="min-h-screen flex flex-col items-center justify-center text-center px-4 py-16">
-          <div className="max-w-md mx-auto flex flex-col items-center">
-            <div className="size-16 rounded-2xl bg-[#161616] flex items-center justify-center mb-6 shadow-md">
-              <span className="text-white text-2xl font-bold">✦</span>
-            </div>
-
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF1F2] text-[#E11D48] text-xs font-semibold uppercase tracking-wider mb-4 border border-[#FFE4E6]">
-              <AlertCircle className="w-3.5 h-3.5" />
-              <span>Application Error</span>
-            </div>
-
-            <h1 className="text-3xl font-semibold tracking-tight text-[#161616] mb-3">
-              Something went wrong
-            </h1>
-
-            <p className="text-base text-[#6B6F76] max-w-sm mx-auto mb-8 leading-relaxed">
-              An unexpected error occurred. Please try reloading the page.
-            </p>
-
-            <button
-              type="button"
-              onClick={() => reset()}
-              className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-[#161616] text-white text-sm font-semibold hover:bg-black transition-all cursor-pointer"
+      <body style={{ margin: 0, fontFamily: "system-ui, -apple-system, Segoe UI, sans-serif", background: "#fff", color: "#0A0A0B" }}>
+        <main style={{ minHeight: "100vh", display: "grid", placeItems: "center", padding: "32px 16px" }}>
+          <div style={{ width: "100%", maxWidth: 520, textAlign: "center" }}>
+            <div
+              aria-hidden="true"
+              style={{
+                borderRadius: 28,
+                background: "radial-gradient(120% 90% at 20% 0%, rgba(108,75,255,0.45), transparent 60%), #0B0A12",
+                padding: "48px 24px",
+                color: "#fff",
+                fontSize: 96,
+                fontWeight: 600,
+                letterSpacing: "-0.06em",
+                lineHeight: 1,
+              }}
             >
-              <RotateCcw className="w-4 h-4" />
-              <span>Reload Application</span>
-            </button>
+              Oops
+            </div>
+            <h1 style={{ margin: "32px 0 0", fontSize: 36, fontWeight: 600, letterSpacing: "-0.03em" }}>Something went wrong</h1>
+            <p style={{ margin: "12px auto 0", maxWidth: 380, fontSize: 17, lineHeight: 1.55, color: "#52525B" }}>
+              The page hit an unexpected error. Please reload, or come back in a moment.
+            </p>
+            <div style={{ marginTop: 28, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <button
+                type="button"
+                onClick={() => reset()}
+                style={{ cursor: "pointer", border: 0, borderRadius: 999, background: "#0A0A0B", color: "#fff", padding: "12px 24px", fontSize: 15, fontWeight: 600 }}
+              >
+                Reload page
+              </button>
+              <a href="/" style={{ borderRadius: 999, background: "#F4F5F8", color: "#0A0A0B", padding: "12px 24px", fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
+                Back to home
+              </a>
+            </div>
           </div>
-        </div>
+        </main>
       </body>
     </html>
   );
 }
-

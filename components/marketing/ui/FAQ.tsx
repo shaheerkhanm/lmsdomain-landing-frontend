@@ -82,7 +82,6 @@ export function FAQ({
             <div className="lg:col-span-5 text-left flex flex-col justify-between">
               <div>
                 <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-[#6C4BFF]">
-                  {!minimal && <span>✦</span>}
                   <span>{eyebrow}</span>
                 </div>
 

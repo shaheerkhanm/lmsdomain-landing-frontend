@@ -39,7 +39,6 @@ export function PricingEmptyState({
 
           <div className="relative z-10 flex flex-col items-center">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-5">
-              <span>✦</span>
               <span>{eyebrow}</span>
             </div>
 

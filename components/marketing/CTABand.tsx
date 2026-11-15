@@ -22,7 +22,6 @@ export function CTABand({
       <div className="w-full bg-[#161616] rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 lg:p-16 text-center text-white relative overflow-hidden font-urbanist shadow-xl">
         <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[#F3CF74] text-xs font-semibold uppercase tracking-wider mb-5">
-            <span>✦</span>
             <span>Get Started</span>
           </div>
 

@@ -77,7 +77,7 @@ export function AuthSignupForm({ copy, signupUrl }: AuthSignupFormProps) {
       {/* Selected Plan Indicator Chip */}
       {selectedPlan && (
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#EEE9FF] border border-[#DDD6FE] text-xs font-semibold text-[#6C4BFF]">
-          <span>✦ Plan:</span>
+          <span>Plan:</span>
           <span className="capitalize">{selectedPlan}</span>
           {selectedBilling && (
             <span className="text-[#6B6F76] font-normal">({selectedBilling})</span>

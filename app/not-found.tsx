@@ -1,10 +1,9 @@
 import React from "react";
-import Link from "next/link";
-import { getSiteSettings } from "@/lib/api/content";
-import { NotFoundVisual } from "@/components/marketing/NotFoundVisual";
-import { NotFoundActions } from "@/components/marketing/NotFoundActions";
+import { NotFoundActions, NotFoundLinks } from "@/components/marketing/NotFoundActions";
+import { ErrorScene } from "@/components/marketing/ErrorScene";
+import { Container } from "@/components/sections/HomeV5/primitives";
+import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { getMetadataBase } from "@/lib/site";
-import BrandLogo from "@/components/brand/BrandLogo";
 
 export const metadata = {
   metadataBase: getMetadataBase(),
@@ -13,40 +12,44 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function NotFound() {
-  const settings = await getSiteSettings().catch(() => null);
-  const heading = settings?.footer?.heading || "Page not found";
+const BIG = "font-urbanist font-semibold tracking-[-0.05em] leading-[0.95]";
 
+export default function NotFound() {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-4 font-urbanist pt-36 sm:pt-44 pb-24 sm:pb-32 relative overflow-hidden bg-white">
-      {/* Background Visual Cards (opacity 0.4, slow float) */}
-      <NotFoundVisual />
+    <div className="v5 relative bg-white font-sans text-[#0A0A0B]">
+      <section className="pb-[clamp(72px,9vw,120px)] pt-[120px] min-[900px]:pt-[150px]">
+        <Container>
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+            <div>
+              <p className="v5-rise inline-flex items-center gap-2 rounded-full bg-[#F4F5F8] px-3 py-1 text-[13px] font-medium text-[#3F3F46]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#6C4BFF]" /> Error 404
+              </p>
+              <h1 style={{ "--d": "80ms" } as React.CSSProperties} className={`v5-rise mt-6 text-[clamp(52px,6.4vw,88px)] ${BIG}`}>
+                This page
+                <br />
+                <span className="text-[#C4C4CC]">wandered off.</span>
+              </h1>
+              <p style={{ "--d": "160ms" } as React.CSSProperties} className="v5-rise mt-6 max-w-[440px] text-[18px] leading-[1.55] text-[#52525B]">
+                The link may be old, or the page has moved. Everything else is right where you left it.
+              </p>
+              <div style={{ "--d": "240ms" } as React.CSSProperties} className="v5-rise mt-8">
+                <NotFoundActions />
+              </div>
+            </div>
+            <div className="v5-rise" style={{ "--d": "200ms" } as React.CSSProperties}>
+              <ErrorScene />
+            </div>
+          </div>
 
-      <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center">
-        {/* Brand Wordmark */}
-        <div className="mb-6 flex justify-center">
-          <BrandLogo variant="wordmark" tone="light" height={34} />
-        </div>
-
-        {/* Eyebrow Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-4">
-          <span>✦</span>
-          <span>404 Error</span>
-        </div>
-
-        {/* H1 Heading */}
-        <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[#161616] mb-4">
-          {heading}
-        </h1>
-
-        {/* Short Line / Subtitle */}
-        <p className="text-base sm:text-lg text-[#6B6F76] max-w-md mx-auto mb-8 leading-relaxed">
-          The page you are looking for doesn&apos;t exist, was removed, or has moved to a new URL.
-        </p>
-
-        {/* Two Action Buttons */}
-        <NotFoundActions />
-      </div>
+          <div className="mt-[clamp(56px,7vw,96px)]">
+            <p className="rv-v4 text-[13px] font-semibold uppercase tracking-[0.16em] text-[#9A9AA6]">Popular pages</p>
+            <div className="mt-4">
+              <NotFoundLinks />
+            </div>
+          </div>
+        </Container>
+      </section>
+      <ScrollReveal />
     </div>
   );
 }

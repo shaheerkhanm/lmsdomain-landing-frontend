@@ -55,11 +55,7 @@ export function Eyebrow({
     );
   }
 
-  const defaultIcon = icon ?? (
-    <span aria-hidden="true" className="shrink-0 text-[10px]">
-      ✦
-    </span>
-  );
+  const defaultIcon = icon ?? <span aria-hidden="true" className="h-1.5 w-1.5 shrink-0 rounded-full bg-current opacity-60" />;
 
   return (
     <div

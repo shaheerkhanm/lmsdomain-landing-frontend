@@ -110,7 +110,6 @@ export function JourneyStrip({ content = DEFAULT_JOURNEY }: { content?: JourneyC
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-center max-w-xl mx-auto mb-10">
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-2">
-            <span>✦</span>
             <span>{content.eyebrow}</span>
           </div>
           <h2 className="text-[24px] sm:text-[30px] font-semibold text-[#161616] tracking-tight">

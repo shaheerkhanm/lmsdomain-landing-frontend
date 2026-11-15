@@ -84,9 +84,9 @@ export function AdminDashboardDark({
     { label: "Offline payments to approve", count: 2 },
   ],
   domieBrief = [
-    "✦ Enrolments are up 24.6%. Batch B is almost full, so open Batch C for next month.",
-    "✦ WELCOME10 brought 38 sales this month and expires Friday. Extend it to keep the momentum.",
-    "✦ Full-Stack Web Engineering learners are 82% through. Schedule the final live class.",
+    "Enrolments are up 24.6%. Batch B is almost full, so open Batch C for next month.",
+    "WELCOME10 brought 38 sales this month and expires Friday. Extend it to keep the momentum.",
+    "Full-Stack Web Engineering learners are 82% through. Schedule the final live class.",
   ],
   upcomingLessons = [
     { time: "10:00", title: "Frontend React · Batch A" },
@@ -207,12 +207,12 @@ export function AdminDashboardDark({
               </em>
             </span>
 
-            {/* Glowing Ask Domie ✦ */}
+            {/* Glowing Ask Domie */}
             <span className="bg-[#6C4BFF] text-white rounded-[9px] px-3 py-1 font-semibold text-[12px] flex items-center gap-1.5 shadow-[0_0_16px_rgba(108,75,255,0.6)]">
               <span className="w-4 h-4 rounded-full overflow-hidden shrink-0 relative flex items-center justify-center">
                 <DomieOrb size={16} surface="dark" still />
               </span>
-              Ask Domie ✦
+              Ask Domie
             </span>
 
             {/* Bell */}
@@ -470,7 +470,7 @@ export function AdminDashboardDark({
               <div className="border border-[#5B47C9] bg-gradient-to-b from-[#1A1630] to-[#16141F] shadow-[0_0_0_1px_rgba(123,92,255,0.25)] rounded-[14px] p-3.5 px-4">
                 <div className="flex justify-between items-start gap-2.5 mb-2">
                   <div>
-                    <b className="text-[14px] block text-white">✦ Domie&apos;s brief for today</b>
+                    <b className="text-[14px] block text-white">Domie&apos;s brief for today</b>
                     <small className="text-[#8C8C98] text-[11.5px]">Written by Domie AI from your activity</small>
                   </div>
                 </div>

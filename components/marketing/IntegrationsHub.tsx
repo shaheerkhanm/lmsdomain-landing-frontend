@@ -157,7 +157,6 @@ export function IntegrationsHub({ eyebrow = "Integrations", heading, subtitle, i
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-center max-w-2xl mx-auto mb-10 lg:mb-14">
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-3.5">
-            <span>✦</span>
             <span>{eyebrow}</span>
           </span>
           <h2 className="text-[30px] sm:text-[38px] lg:text-[46px] font-semibold leading-[1.12] tracking-tight text-[#161616] mb-4">

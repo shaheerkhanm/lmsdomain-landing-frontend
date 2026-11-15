@@ -53,7 +53,6 @@ export function AudienceSwitcher({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-2.5">
-              <span>✦</span>
               <span>{heading.eyebrow}</span>
             </div>
             <h2 className="text-[26px] sm:text-[34px] font-semibold text-[#161616] tracking-tight">

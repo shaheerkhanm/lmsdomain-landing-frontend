@@ -2,65 +2,56 @@
 
 import React, { useEffect } from "react";
 import Link from "next/link";
-import { AlertCircle, RotateCcw } from "lucide-react";
-import BrandLogo from "@/components/brand/BrandLogo";
+import { ArrowRight, RotateCcw } from "lucide-react";
+import { ErrorScene } from "@/components/marketing/ErrorScene";
+import { Container } from "@/components/sections/HomeV5/primitives";
 
-export default function MarketingError({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
+const BIG = "font-urbanist font-semibold tracking-[-0.05em] leading-[0.95]";
+
+export default function MarketingError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
-    // Log error to monitoring if needed
     console.error("Marketing route error boundary caught:", error);
   }, [error]);
 
   return (
-    <div className="min-h-[75vh] flex flex-col items-center justify-center text-center px-4 font-urbanist pt-32 pb-24 relative overflow-hidden bg-white">
-      <div className="relative z-10 max-w-lg mx-auto flex flex-col items-center">
-        {/* Brand Wordmark */}
-        <div className="mb-6 flex justify-center">
-          <BrandLogo variant="wordmark" tone="light" height={34} />
-        </div>
-
-        {/* Eyebrow Badge */}
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF1F2] text-[#E11D48] text-xs font-semibold uppercase tracking-wider mb-4 border border-[#FFE4E6]">
-          <AlertCircle className="w-3.5 h-3.5" />
-          <span>Temporary Connection Issue</span>
-        </div>
-
-        {/* Main Heading */}
-        <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-[#161616] mb-3">
-          Unable to Load Page Content
-        </h1>
-
-        {/* Subtitle Message */}
-        <p className="text-base text-[#6B6F76] max-w-md mx-auto mb-8 leading-relaxed">
-          We&apos;re currently unable to retrieve content from the server. This may be due to a temporary maintenance window or network disruption.
-        </p>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-          <button
-            type="button"
-            onClick={() => reset()}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full bg-[#161616] text-white text-sm font-semibold hover:bg-black transition-all shadow-xs hover:shadow-md active:scale-95 cursor-pointer"
-          >
-            <RotateCcw className="w-4 h-4" />
-            <span>Try Again</span>
-          </button>
-
-          <Link
-            href="/"
-            className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-3 rounded-full bg-white text-[#161616] text-sm font-semibold border border-[#ECEDEF] hover:border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
-          >
-            Return to Homepage
-          </Link>
-        </div>
-      </div>
+    <div className="v5 relative bg-white font-sans text-[#0A0A0B]">
+      <section className="pb-[clamp(72px,9vw,120px)] pt-[120px] min-[900px]:pt-[150px]">
+        <Container>
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+            <div>
+              <p className="v5-rise inline-flex items-center gap-2 rounded-full bg-[#F4F5F8] px-3 py-1 text-[13px] font-medium text-[#3F3F46]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#F59E0B]" /> Temporary issue
+              </p>
+              <h1 style={{ "--d": "80ms" } as React.CSSProperties} className={`v5-rise mt-6 text-[clamp(52px,6.4vw,88px)] ${BIG}`}>
+                Something
+                <br />
+                <span className="text-[#C4C4CC]">didn&apos;t load.</span>
+              </h1>
+              <p style={{ "--d": "160ms" } as React.CSSProperties} className="v5-rise mt-6 max-w-[440px] text-[18px] leading-[1.55] text-[#52525B]">
+                We couldn&apos;t load this page just now. It&apos;s usually brief, so please try again in a moment.
+              </p>
+              <div style={{ "--d": "240ms" } as React.CSSProperties} className="v5-rise mt-8 flex flex-wrap items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => reset()}
+                  className="inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#0A0A0B] px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#27272A]"
+                >
+                  <RotateCcw className="h-4 w-4" /> Try again
+                </button>
+                <Link
+                  href="/"
+                  className="group inline-flex items-center gap-2 rounded-full bg-[#F4F5F8] px-6 py-3 text-[15px] font-semibold text-[#0A0A0B] transition-colors hover:bg-[#ECEDF1]"
+                >
+                  Back to home <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </div>
+            </div>
+            <div className="v5-rise" style={{ "--d": "200ms" } as React.CSSProperties}>
+              <ErrorScene code="500" path="lmsdomain.com" ringLabel="Reloading" />
+            </div>
+          </div>
+        </Container>
+      </section>
     </div>
   );
 }
-

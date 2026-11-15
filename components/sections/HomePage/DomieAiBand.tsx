@@ -444,7 +444,7 @@ export function DomieAiBand() {
           {/* Eyebrow */}
           <div className="flex items-center justify-center mb-3">
             <span className="inline-flex items-center gap-1.5 bg-white/10 border border-white/15 rounded-full px-3 py-1 text-xs text-[#D9D3FF]">
-              ✦ Pro plan · Domie AI
+              Pro plan · Domie AI
             </span>
           </div>
 

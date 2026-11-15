@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, Globe, Quote, Rocket, Sparkles, Wrench } from "lucide-react";
+import { ArrowRight, Check, Globe, MousePointerClick, Quote, Rocket, Wrench } from "lucide-react";
 import { Container, SectionHeading } from "@/components/sections/HomeV5/primitives";
 import { CountUp } from "@/components/sections/HomeV5/CountUp";
 import { Mini } from "@/components/sections/SolutionsV5/MiniCard";
@@ -131,7 +131,7 @@ export function DemoQuote({ quote, name, role, photo }: { quote: string; name: s
 }
 
 const AFTER = [
-  { i: Sparkles, t: "Start your free trial", b: "Try any plan free, with no credit card needed." },
+  { i: MousePointerClick, t: "Start your free trial", b: "Try any plan free, with no credit card needed." },
   { i: Wrench, t: "We set it up with you", b: "Our team helps with your courses, domain and payments." },
   { i: Globe, t: "Go live on your domain", b: "Your branded academy opens to learners on your own website." },
   { i: Rocket, t: "Grow with support", b: "Real people help you whenever you need it." },

@@ -9,7 +9,6 @@ import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
 import { PricingBand } from "@/components/sections/HomeV5/PricingBand";
 import { DEFAULT_PRICING_V2 } from "@/config/pricing";
 import { FAQ } from "@/components/marketing/ui";
-import { DomieLauncher } from "@/components/ai/DomieLauncher";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { homeFaqItems } from "@/content/faq";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
@@ -92,7 +91,6 @@ export async function HomePage() {
         {/* 9. Final CTA */}
         <FinalCta />
 
-        <DomieLauncher />
         <ScrollReveal />
       </div>
     </PageContentProvider>

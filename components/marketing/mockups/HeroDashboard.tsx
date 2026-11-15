@@ -253,7 +253,7 @@ export function HeroDashboard() {
                   </span>
                   <span className="bg-white text-[#151517] rounded-[10px] px-3.5 py-2 font-semibold text-[12.5px] flex items-center gap-1.5 shadow-xs select-none">
                     <DomieOrb size={16} surface="light" still />
-                    Ask Domie ✦
+                    Ask Domie
                   </span>
                   <span
                     className="w-[34px] h-[34px] rounded-full shrink-0"
@@ -478,7 +478,7 @@ export function HeroDashboard() {
                   >
                     <div>
                       <h4 className="text-[16px] font-semibold tracking-[-0.01em] text-white">
-                        ✦ Domie&apos;s brief for today
+                        Domie&apos;s brief for today
                       </h4>
                       <p className="text-[#B4B4C0] text-[12.5px] mt-2 max-w-[30ch] leading-relaxed">
                         Batch B is almost full, so open Batch C. WELCOME10 brought 38 sales and expires Friday.
