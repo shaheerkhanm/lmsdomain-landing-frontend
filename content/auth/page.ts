@@ -3,7 +3,7 @@ import type { AuthCopy } from "@/types/content";
 export const DEFAULT_AUTH_COPY: AuthCopy = {
   login: {
     title: "Log in to your academy",
-    subtitle: "Access your courses, student analytics, and instructor portal.",
+    subtitle: "Manage your courses, learners and live classes.",
     submitLabel: "Continue to LMS App",
     signupPrompt: "Don't have an academy account?",
     signupLinkLabel: "Sign up",
@@ -27,15 +27,14 @@ export const DEFAULT_AUTH_COPY: AuthCopy = {
     backLabel: "Back to log in",
   },
   sidePanel: {
-    title: "Your complete academy platform",
+    title: "Your whole academy, in one place",
     subtitle:
-      "One unified system for live cohort courses, video hosting, interactive assessments, and AI-powered learning.",
+      "Courses, live classes, tests and payments on your own branded website, ready for learners anywhere.",
     bullets: [
-      "Course builder with lessons and drip release",
+      "Courses with drip release",
       "Zoom live classes",
       "Tests and question banks",
-      "Branded certificates",
-      "Payments with GST invoices",
+      "Payments and invoices",
     ],
   },
 };

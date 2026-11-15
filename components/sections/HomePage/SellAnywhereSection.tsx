@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { Eyebrow } from "@/components/marketing/ui";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 import {
   RazorpayLogo,
   StripeLogo,
@@ -584,7 +584,7 @@ export function SellAnywhereSection() {
 
       {/* Demo Modal */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden bg-white border border-[#E8E8EC] rounded-[24px]">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm />
         </DialogContent>
       </Dialog>

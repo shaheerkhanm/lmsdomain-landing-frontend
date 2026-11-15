@@ -1381,3 +1381,16 @@ input[type="number"]::-webkit-inner-spin-button {
 .v5-article th { background: #F4F5F8; text-align: left; font-weight: 600; color: #0A0A0B; }
 .v5-article th, .v5-article td { padding: 0.75em 1em; border-bottom: 1px solid #ECECF1; }
 .v5-article tr:last-child td { border-bottom: 0; }
+
+/* Demo popup fields: gradient border on focus, matching the popup's dark panel glow */
+.field-grad {
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+.field-grad:focus,
+.field-grad:focus-visible {
+  border-color: transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(110deg, #8B5CFF 0%, #5B3BF0 50%, #2F6BFF 100%) border-box;
+  box-shadow: 0 0 0 4px rgba(108, 75, 255, 0.1), 0 8px 24px -12px rgba(59, 91, 255, 0.45);
+}

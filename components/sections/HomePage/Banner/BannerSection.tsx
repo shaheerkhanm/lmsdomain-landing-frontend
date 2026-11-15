@@ -8,7 +8,7 @@ import { ChevronRight } from "lucide-react";
 import { DomieOrb } from "@/components/ai/DomieOrb";
 import MainHeading from "./MainHeading";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
 import { aiSectionContent } from "@/content/home/ai";
 import { useSectionContent } from "@/components/content/PageContent";
@@ -246,7 +246,7 @@ export function BannerSection({
 
       {/* Demo Enquiry Modal Dialog */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-xl bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowDemoModal(false)} />
         </DialogContent>
       </Dialog>

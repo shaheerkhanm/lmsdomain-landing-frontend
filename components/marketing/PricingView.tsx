@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 import BillingToggle from "./BillingToggle";
 import PricingCard from "./PricingCard";
 import PricingEmptyState from "./PricingEmptyState";
@@ -484,7 +484,7 @@ export function PricingView({
           else setShowDemoModal(true);
         }}
       >
-        <DialogContent className="max-w-xl bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm
             onClose={handleCloseDemoModal}
             initialPlan={selectedPlanForDemo}

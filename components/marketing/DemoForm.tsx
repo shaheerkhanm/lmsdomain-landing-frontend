@@ -193,15 +193,15 @@ export function DemoForm({
   const isModal = variant === "modal";
 
   const labelClass = isModal
-    ? "text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+    ? "block text-[13px] font-medium text-[#3F3F46]"
     : "block text-[13px] font-semibold uppercase text-[#6B6F76] tracking-wider";
 
   const getInputClass = (hasError: boolean) =>
     isModal
-      ? `w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition ${
+      ? `w-full h-11 px-3.5 text-[15px] rounded-[12px] bg-[#F4F5F8] border-2 text-[#0A0A0B] placeholder:text-[#9A9AA6] focus:outline-none focus:bg-white transition ${
           hasError
             ? "border-red-500 focus:ring-2 focus:ring-red-100"
-            : "border-slate-300 focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/10"
+            : "field-grad border-transparent"
         }`
       : `w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
           hasError ? "border-red-500 ring-2 ring-red-100" : ""
@@ -209,10 +209,10 @@ export function DemoForm({
 
   const getSelectClass = (hasError: boolean) =>
     isModal
-      ? `w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 focus:outline-none transition appearance-none cursor-pointer ${
+      ? `w-full h-11 px-3.5 pr-9 text-[15px] rounded-[12px] bg-[#F4F5F8] border-2 text-[#0A0A0B] focus:outline-none focus:bg-white transition appearance-none cursor-pointer ${
           hasError
             ? "border-red-500 focus:ring-2 focus:ring-red-100"
-            : "border-slate-300 focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/10"
+            : "field-grad border-transparent"
         }`
       : `w-full h-[48px] px-3.5 pr-10 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all appearance-none cursor-pointer ${
           hasError ? "border-red-500 ring-2 ring-red-100" : ""
@@ -220,10 +220,10 @@ export function DemoForm({
 
   const getTextareaClass = (hasError: boolean) =>
     isModal
-      ? `w-full px-3.5 py-2.5 text-sm rounded-lg border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none transition resize-none ${
+      ? `w-full min-h-[84px] p-3.5 text-[15px] rounded-[12px] bg-[#F4F5F8] border-2 text-[#0A0A0B] placeholder:text-[#9A9AA6] focus:outline-none focus:bg-white transition resize-none ${
           hasError
             ? "border-red-500 focus:ring-2 focus:ring-red-100"
-            : "border-slate-300 focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/10"
+            : "field-grad border-transparent"
         }`
       : `w-full min-h-[96px] p-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all resize-none ${
           hasError ? "border-red-500 ring-2 ring-red-100" : ""
@@ -289,12 +289,12 @@ export function DemoForm({
             transition={{ duration: 0.4 }}
             onSubmit={handleSubmit(onSubmit, onError)}
             noValidate
-            className={isModal ? "space-y-4 text-left" : "space-y-5 text-left"}
+            className={isModal ? "grid gap-x-3 gap-y-4 text-left sm:grid-cols-2" : "space-y-5 text-left"}
           >
             {/* Active Plan Indicator Badge (if ?plan= is present) */}
             {activePlan && (
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#EEE9FF] border border-[#DDD6FE] text-xs font-semibold text-[#7B5CF5]">
-                <span>✦ Inquiring about plan:</span>
+              <div className="sm:col-span-2 inline-flex w-fit items-center gap-2 px-3 py-1.5 rounded-full bg-[#F1EDFF] text-xs font-semibold text-[#6C4BFF]">
+                <span>Plan:</span>
                 <span className="capitalize">{activePlan}</span>
               </div>
             )}
@@ -304,7 +304,7 @@ export function DemoForm({
               <div
                 role="alert"
                 aria-live="assertive"
-                className="p-4 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700 flex items-start gap-2.5"
+                className="sm:col-span-2 p-4 rounded-xl bg-red-50 border border-red-200 text-sm text-red-700 flex items-start gap-2.5"
               >
                 <AlertCircle className="size-4 shrink-0 mt-0.5" />
                 <span className="leading-snug">{networkError}</span>
@@ -324,9 +324,9 @@ export function DemoForm({
             </div>
 
             {/* 1. Full Name */}
-            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+            <div className={isModal ? "space-y-1.5" : "space-y-1.5"}>
               <label htmlFor="field-name" className={labelClass}>
-                Full Name {isModal ? "*" : <span className="text-red-500">*</span>}
+                Full name {isModal ? "*" : <span className="text-red-500">*</span>}
               </label>
               <input
                 id="field-name"
@@ -349,9 +349,9 @@ export function DemoForm({
             </div>
 
             {/* 2. Work Email */}
-            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+            <div className={isModal ? "space-y-1.5" : "space-y-1.5"}>
               <label htmlFor="field-email" className={labelClass}>
-                Work Email {isModal ? "*" : <span className="text-red-500">*</span>}
+                Work email {isModal ? "*" : <span className="text-red-500">*</span>}
               </label>
               <input
                 id="field-email"
@@ -377,7 +377,7 @@ export function DemoForm({
             </div>
 
             {/* 3. Phone / WhatsApp */}
-            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+            <div className={isModal ? "space-y-1.5 sm:col-span-2" : "space-y-1.5"}>
               <label htmlFor="field-phoneNumber" className={labelClass}>
                 Phone / WhatsApp {isModal ? "*" : <span className="text-red-500">*</span>}
               </label>
@@ -434,9 +434,9 @@ export function DemoForm({
             </div>
 
             {/* 4. Academy Name */}
-            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+            <div className={isModal ? "space-y-1.5" : "space-y-1.5"}>
               <label htmlFor="field-organizationName" className={labelClass}>
-                Academy Name {isModal ? "*" : <span className="text-red-500">*</span>}
+                Academy name {isModal ? "*" : <span className="text-red-500">*</span>}
               </label>
               <input
                 id="field-organizationName"
@@ -458,9 +458,9 @@ export function DemoForm({
             </div>
 
             {/* 5. Active Learners */}
-            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+            <div className={isModal ? "space-y-1.5" : "space-y-1.5"}>
               <label htmlFor="field-learners" className={labelClass}>
-                Active Learners {isModal ? "*" : <span className="text-red-500">*</span>}
+                Active learners {isModal ? "*" : <span className="text-red-500">*</span>}
               </label>
               <div className="relative">
                 <select
@@ -491,7 +491,7 @@ export function DemoForm({
             </div>
 
             {/* 6. Message (Optional) */}
-            <div className={isModal ? "space-y-1" : "space-y-1.5"}>
+            <div className={isModal ? "space-y-1.5 sm:col-span-2" : "space-y-1.5"}>
               <label htmlFor="field-message" className={labelClass}>
                 Message <span className="text-xs font-normal text-[#8F94A0] normal-case">(optional)</span>
               </label>
@@ -506,14 +506,14 @@ export function DemoForm({
 
             {/* Privacy Note */}
             {privacyNote && (
-              <p className="text-xs text-[#8F94A0] leading-relaxed">
+              <p className="sm:col-span-2 text-xs text-[#8F94A0] leading-relaxed">
                 {privacyNote}
               </p>
             )}
 
             {/* Action Bar */}
-            <div className={isModal ? "flex items-center justify-end gap-3 pt-3" : "pt-2 flex items-center justify-end gap-3"}>
-              {isModal && onClose && (
+            <div className={isModal ? "sm:col-span-2 pt-2" : "pt-2 flex items-center justify-end gap-3"}>
+              {!isModal && onClose && (
                 <button
                   type="button"
                   onClick={onClose}
@@ -527,7 +527,7 @@ export function DemoForm({
                 disabled={isSubmitting}
                 className={
                   isModal
-                    ? "px-6 py-2.5 text-sm font-semibold text-white bg-[#161616] hover:bg-black rounded-full shadow-sm transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
+                    ? "w-full h-12 text-[15px] font-semibold text-white bg-[#0A0A0B] hover:bg-[#27272A] rounded-full transition-all active:scale-[0.99] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
                     : "w-full sm:w-auto h-[48px] px-8 rounded-full bg-[#161616] hover:bg-black text-white text-sm font-semibold shadow-xs hover:shadow-md transition-all active:scale-[0.98] disabled:opacity-60 cursor-pointer flex items-center justify-center gap-2"
                 }
               >

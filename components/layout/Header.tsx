@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import { ChevronDown, ArrowRight, X, Menu } from "lucide-react";
 import { Dialog, DialogContent } from "../ui/dialog";
-import EnquiryForm from "./common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "./common/EnquiryForm";
 import { navigationConfig, type NavItem, type NavDropdownItem } from "@/content/navigation";
 import { usePageVisibility } from "@/lib/pages-context";
 import BrandLogo from "@/components/brand/BrandLogo";
@@ -480,7 +480,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
 
       {/* Demo Enquiry Modal */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-[560px] p-6 sm:p-8 bg-white rounded-2xl shadow-xl border border-slate-200">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowDemoModal(false)} />
         </DialogContent>
       </Dialog>

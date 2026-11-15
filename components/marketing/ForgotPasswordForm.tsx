@@ -35,11 +35,11 @@ interface ForgotPasswordFormProps {
 }
 
 const inputClass = (hasError: boolean) =>
-  `w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
+  `w-full h-12 px-4 text-[16px] rounded-[12px] bg-[#F4F5F8] border border-transparent text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#6C4BFF] focus:ring-4 focus:ring-[#6C4BFF]/10 focus:bg-white transition-all ${
     hasError ? "border-red-500 ring-2 ring-red-100" : ""
   }`;
 
-const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7B5CF5] focus-visible:ring-offset-2";
+const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6C4BFF] focus-visible:ring-offset-2";
 
 export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: ForgotPasswordFormProps) {
   const { isPathVisible } = usePageVisibility();
@@ -110,7 +110,7 @@ export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: Forgo
   const backLink = isPathVisible("/login") ? (
     <Link
       href="/login"
-      className={`inline-flex items-center gap-1.5 text-sm text-[#7B5CF5] font-semibold hover:underline cursor-pointer rounded ${focusRing}`}
+      className={`inline-flex items-center gap-1.5 text-sm text-[#6C4BFF] font-semibold hover:underline cursor-pointer rounded ${focusRing}`}
     >
       <span aria-hidden="true">←</span>
       {text.backLabel}
@@ -127,7 +127,7 @@ export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: Forgo
       <Script {...recaptcha.scriptProps} />
 
       <div className="space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-tight">{text.title}</h1>
+        <h1 className="font-urbanist text-[clamp(34px,4vw,44px)] font-semibold text-[#0A0A0B] tracking-[-0.035em] leading-[1.05]">{text.title}</h1>
         <p className="text-base text-[#6B6F76] leading-relaxed">{text.subtitle}</p>
       </div>
 
@@ -148,7 +148,7 @@ export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: Forgo
       {/* Kept mounted (hidden once sent) so the reCAPTCHA widget isn't torn down */}
       <form onSubmit={onSubmit} hidden={sentMessage !== null} className="pt-2 space-y-4">
         <div className="space-y-1.5">
-          <label htmlFor="forgot-email" className="block text-sm font-semibold text-[#161616]">
+          <label htmlFor="forgot-email" className="block text-[13px] font-medium text-[#3F3F46]">
             Email
           </label>
           <input
@@ -194,7 +194,7 @@ export function ForgotPasswordForm({ copy, centralUrl, recaptchaSiteKey }: Forgo
         <button
           type="submit"
           disabled={sending || recaptcha.state !== "ready"}
-          className={`w-full h-[48px] rounded-xl bg-[#161616] hover:bg-black text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-xs hover:shadow-md cursor-pointer disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:cursor-not-allowed disabled:active:scale-100 ${focusRing}`}
+          className={`w-full h-12 rounded-full bg-[#0A0A0B] hover:bg-[#27272A] text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-xs hover:shadow-md cursor-pointer disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:cursor-not-allowed disabled:active:scale-100 ${focusRing}`}
         >
           {sending && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
           {text.submitLabel}

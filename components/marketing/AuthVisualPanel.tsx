@@ -1,138 +1,136 @@
-"use client";
-
 import React from "react";
-import { motion, useReducedMotion } from "motion/react";
+import Image from "next/image";
+import { ArrowDownLeft, Check, Lock, Users, Video } from "lucide-react";
 import type { AuthSidePanelCopy } from "@/types/content";
-import { Sparkles, Check, GraduationCap } from "lucide-react";
 
-interface AuthVisualPanelProps {
-  sidePanel: AuthSidePanelCopy;
-}
+const shade = "shadow-[0_2px_4px_rgba(0,0,0,0.15),0_30px_60px_-24px_rgba(0,0,0,0.6)]";
 
-export function AuthVisualPanel({ sidePanel }: AuthVisualPanelProps) {
-  const shouldReduceMotion = useReducedMotion();
-
+/**
+ * Login / signup side panel: the site's dark premium panel with a layered academy
+ * dashboard (sample data) and the admin-editable copy. No AI-style decoration.
+ */
+export function AuthVisualPanel({ sidePanel }: { sidePanel: AuthSidePanelCopy }) {
   return (
-    <motion.div
-      initial={shouldReduceMotion ? false : { opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-      aria-label="Illustration"
+    <div
       role="region"
-      className="w-full h-full rounded-[32px] bg-[#F3F4F6] border border-[#ECEDEF] p-8 xl:p-12 flex flex-col justify-between items-center relative overflow-hidden select-none"
+      aria-label="LMS Domain overview"
+      className="relative isolate flex h-full w-full select-none flex-col justify-between overflow-hidden rounded-[32px] bg-[#0B0A12] p-10 text-white xl:p-14"
     >
-      {/* Background Accent glow */}
-      <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] bg-[#DDD6FE]/40 rounded-full blur-[80px] pointer-events-none"
-        aria-hidden="true"
-      />
-
-      {/* Top / Center Visual Stage with 3D perspective and slow float */}
-      <div className="w-full flex-1 flex items-center justify-center py-6 [perspective:1200px]">
-        <motion.div
-          animate={
-            shouldReduceMotion
-              ? undefined
-              : {
-                  y: [-6, 6, -6],
-                }
-          }
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          style={
-            shouldReduceMotion
-              ? undefined
-              : {
-                  transform: "rotateX(8deg) rotateZ(-3deg)",
-                  transformStyle: "preserve-3d",
-                }
-          }
-          className="w-full max-w-[420px] relative transition-transform"
-        >
-          {/* Main Dark Device Frame */}
-          <div className="rounded-[24px] bg-[#161616] border border-[#2B2B2B] p-5 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.3)] text-white relative">
-            {/* Browser Chrome Header */}
-            <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#282828] text-xs">
-              <div className="flex items-center gap-1.5">
-                <span className="size-2.5 rounded-full bg-[#374151]" />
-                <span className="size-2.5 rounded-full bg-[#374151]" />
-                <span className="size-2.5 rounded-full bg-[#374151]" />
-              </div>
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-[#222222] border border-[#2E2E2E] font-mono text-[11px] text-[#9CA3AF]">
-                <span className="text-[#7B5CF5]">✦</span>
-                <span>lmsdomain.com</span>
-              </div>
-              <span className="size-2 rounded-full bg-emerald-400" />
-            </div>
-
-            {/* UI Card 1: Cohort Learning Overview */}
-            <div className="rounded-xl bg-white p-4 text-[#161616] border border-slate-100 shadow-sm mb-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#EEE9FF] text-[#7B5CF5] font-semibold text-[11px]">
-                  <GraduationCap className="size-3" />
-                  Live Cohort
-                </span>
-                <span className="text-[11px] text-[#6B6F76] font-medium">Curriculum Track</span>
-              </div>
-              <p className="text-sm font-semibold text-[#161616] mb-2 tracking-tight">
-                Structured Course Sequence
-              </p>
-              <div className="space-y-1.5">
-                <div className="flex justify-between text-[11px] text-[#6B6F76]">
-                  <span>Progress</span>
-                  <span className="font-medium text-[#7B5CF5]">In Progress</span>
-                </div>
-                <div className="w-full bg-[#E5E7EB] h-2 rounded-full overflow-hidden">
-                  <div className="bg-[#7B5CF5] h-full w-2/3 rounded-full" />
-                </div>
-              </div>
-            </div>
-
-            {/* UI Card 2: AI Tool Card (Catalog Aligned) */}
-            <div className="rounded-xl bg-white p-4 text-[#161616] border border-slate-100 shadow-md">
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-1.5 text-[#7B5CF5]">
-                  <Sparkles className="size-3.5" />
-                  <span className="text-xs font-semibold">Domie AI Content Generator</span>
-                </div>
-                <span className="px-2 py-0.5 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-[10px] font-semibold">
-                  AI Tool
-                </span>
-              </div>
-              <p className="text-xs text-[#4B5563] leading-relaxed">
-                Draft course titles, descriptions, and learning outcomes with AI assistance.
-              </p>
-            </div>
-          </div>
-        </motion.div>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+        <div className="ai-blob ai-blob-1 left-[-10%] top-[-10%] h-[460px] w-[560px] bg-[#5B3BF0] opacity-45" />
+        <div className="ai-blob ai-blob-2 bottom-[-15%] right-[-10%] h-[420px] w-[520px] bg-[#2F5BFF] opacity-25" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:radial-gradient(ellipse_75%_70%_at_50%_40%,#000,transparent_85%)]" />
       </div>
 
-      {/* Bottom Text & Feature Highlights */}
-      <div className="w-full max-w-[440px] pt-4 text-left">
-        <h2 className="text-2xl xl:text-[28px] font-semibold text-[#161616] tracking-tight leading-snug">
-          {sidePanel.title}
-        </h2>
-        <p className="text-sm text-[#6B6F76] mt-2 leading-relaxed">
-          {sidePanel.subtitle}
-        </p>
-
-        {sidePanel.bullets && sidePanel.bullets.length > 0 && (
-          <ul className="mt-5 space-y-2.5">
-            {sidePanel.bullets.map((bullet, idx) => (
-              <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#374151]">
-                <div className="size-4 rounded-full bg-[#EEE9FF] text-[#7B5CF5] flex items-center justify-center shrink-0 mt-0.5">
-                  <Check className="size-2.5 stroke-[3]" />
+      {/* Scene */}
+      <div aria-hidden="true" className="relative mx-auto mt-2 h-[400px] w-full max-w-[520px] origin-top xl:scale-[1.08] min-[1600px]:scale-[1.18]">
+        {/* dashboard */}
+        <div className={`v5-rise absolute left-0 top-6 w-[380px] overflow-hidden rounded-[18px] bg-white text-[#18181B] ${shade}`} style={{ "--d": "150ms" } as React.CSSProperties}>
+          <div className="flex items-center gap-1.5 border-b border-[#F1F1F4] px-4 py-2.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
+            <span className="ml-2 flex items-center gap-1 text-[11px] text-[#71717A]">
+              <Lock className="h-2.5 w-2.5 text-[#16A34A]" /> learn.apexacademy.com/admin
+            </span>
+          </div>
+          <div className="p-4">
+            <p className="text-[12px] text-[#71717A]">Good morning, Sarah</p>
+            <p className="font-urbanist text-[18px] font-semibold">Apex Academy today</p>
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {[
+                ["248", "Learners"],
+                ["6", "Classes today"],
+                ["$1,486", "This week"],
+              ].map(([v, l]) => (
+                <div key={l} className="rounded-[10px] bg-[#F8F8FA] p-2.5">
+                  <p className="font-urbanist text-[17px] font-semibold">{v}</p>
+                  <p className="text-[10px] text-[#71717A]">{l}</p>
                 </div>
-                <span className="leading-snug">{bullet}</span>
+              ))}
+            </div>
+            <p className="mt-3 text-[10.5px] font-medium text-[#71717A]">Enrolments, last 7 days</p>
+            <div className="mt-1.5 flex h-12 items-end gap-1.5">
+              {[40, 58, 46, 72, 64, 86, 78].map((h, i) => (
+                <span key={i} className="flex-1 rounded-t-[3px]" style={{ height: `${h}%`, background: i === 5 ? "#6C4BFF" : "#E4E4E7" }} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* live class */}
+        <div className="mo-float absolute right-0 top-0" style={{ "--fd": "0s" } as React.CSSProperties}>
+          <div className={`v5-rise w-[220px] rounded-[16px] bg-white p-3.5 text-[#18181B] ${shade}`} style={{ "--d": "450ms" } as React.CSSProperties}>
+            <div className="flex items-center gap-2.5">
+              <Image src="/assets/img/home/participant_alex.jpg" alt="" width={72} height={72} className="h-9 w-9 rounded-full object-cover object-top" />
+              <div className="min-w-0">
+                <p className="flex items-center gap-1.5 truncate text-[12.5px] font-semibold">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#DC2626]" /> Live now
+                </p>
+                <p className="truncate text-[10.5px] text-[#71717A]">Algebra · Batch B</p>
+              </div>
+            </div>
+            <p className="mt-2.5 flex items-center justify-between rounded-[9px] bg-[#F8F8FA] px-2.5 py-1.5 text-[11px]">
+              <span className="flex items-center gap-1.5 text-[#52525B]">
+                <Users className="h-3 w-3" /> 23 of 24 joined
+              </span>
+              <Video className="h-3 w-3 text-[#71717A]" />
+            </p>
+          </div>
+        </div>
+
+        {/* learner progress */}
+        <div className="mo-float absolute bottom-2 left-6" style={{ "--fd": "-1.5s" } as React.CSSProperties}>
+          <div className={`v5-rise w-[230px] rounded-[14px] bg-white p-3 text-[#18181B] ${shade}`} style={{ "--d": "750ms" } as React.CSSProperties}>
+            <div className="flex items-center gap-2.5">
+              <Image src="/assets/img/home/participant_mia.jpg" alt="" width={64} height={64} className="h-8 w-8 rounded-full object-cover object-top" />
+              <div className="min-w-0">
+                <p className="truncate text-[12px] font-semibold">Mia finished Module 3</p>
+                <p className="text-[10.5px] text-[#71717A]">Web Design Basics</p>
+              </div>
+            </div>
+            <div className="mt-2.5 flex items-center gap-2">
+              <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-[#F1F1F4]">
+                <span className="block h-full w-[75%] rounded-full bg-[#6C4BFF]" />
+              </span>
+              <span className="text-[10.5px] font-semibold text-[#52525B]">75%</span>
+            </div>
+          </div>
+        </div>
+
+        {/* sale */}
+        <div className="mo-float absolute bottom-20 right-0" style={{ "--fd": "-3s" } as React.CSSProperties}>
+          <div className={`v5-rise flex w-[240px] items-center gap-2.5 rounded-[14px] bg-white p-3 text-[#18181B] ${shade}`} style={{ "--d": "600ms" } as React.CSSProperties}>
+            <span className="grid h-8 w-8 place-items-center rounded-[9px] bg-[#E8F7EF] text-[#15803D]">
+              <ArrowDownLeft className="h-4 w-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[12px] font-semibold">Course sale · Stripe</p>
+              <p className="text-[10.5px] text-[#71717A]">Just now</p>
+            </div>
+            <span className="text-[12.5px] font-semibold text-[#15803D]">+$59</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Copy (from Admin) */}
+      <div className="relative max-w-[480px]">
+        <h2 className="font-urbanist text-[clamp(28px,2.6vw,38px)] font-semibold leading-[1.08] tracking-[-0.03em] [text-wrap:balance]">{sidePanel.title}</h2>
+        {sidePanel.subtitle && <p className="mt-3 text-[15.5px] leading-[1.6] text-white/65">{sidePanel.subtitle}</p>}
+        {sidePanel.bullets && sidePanel.bullets.length > 0 && (
+          <ul className="mt-6 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
+            {sidePanel.bullets.map((b) => (
+              <li key={b} className="flex items-start gap-2.5 text-[14px] text-white/85">
+                <span className="mt-0.5 grid h-4.5 w-4.5 shrink-0 place-items-center rounded-full bg-[#6C4BFF] p-0.5">
+                  <Check className="h-3 w-3" strokeWidth={3} />
+                </span>
+                {b}
               </li>
             ))}
           </ul>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
