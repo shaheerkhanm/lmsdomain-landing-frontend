@@ -25,18 +25,18 @@ const PILLARS = [
 
 export function BuiltForBatchesSection() {
   return (
-    <section className="py-[clamp(72px,9vw,128px)] font-sans" id="how">
-      <div className="max-w-[1080px] mx-auto px-5">
-        <div className="rv-v4 bg-[#0E0E11] text-white rounded-[28px] pt-[clamp(36px,6vw,72px)] px-[clamp(20px,5vw,64px)] pb-0 relative overflow-hidden isolate" style={{ backgroundColor: "#0E0E11" }}>
+    <section className="py-[clamp(56px,7vw,96px)] font-sans" id="how">
+      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
+        <div className="bg-[#0E0E11] text-white rounded-[28px] pt-[clamp(36px,5vw,64px)] px-[clamp(20px,5vw,64px)] pb-[48px] relative overflow-hidden isolate">
           {/* Orange -> Pink -> Violet Bottom Glow */}
           <div
             aria-hidden="true"
             className="pointer-events-none absolute left-1/2 -bottom-[260px] -translate-x-1/2 w-[110%] h-[520px] bg-[radial-gradient(closest-side,rgba(242,137,74,0.55),rgba(226,83,155,0.35)_45%,rgba(123,92,255,0.18)_70%,transparent)] -z-10 blur-[10px]"
           />
 
-          {/* Eyebrow */}
-          <div className="text-left">
-            <Eyebrow tone="gradient">Built for batches</Eyebrow>
+          {/* Eyebrow with pink accent dot */}
+          <div className="rv-v4 text-left">
+            <Eyebrow dotColor="#E2539B">Built for batches</Eyebrow>
             <h2 className="text-[clamp(32px,4.4vw,50px)] font-bold text-white tracking-[-0.035em] leading-[1.04] max-w-[20ch] mt-2">
               One platform for every batch, class and test.
             </h2>
@@ -45,9 +45,9 @@ export function BuiltForBatchesSection() {
             </p>
           </div>
 
-          {/* Pillar Chips Row */}
+          {/* Restored Pillar Chips Row (tightened to 20px below subtitle) */}
           <div
-            className="flex flex-wrap xl:flex-nowrap justify-center gap-2 sm:gap-2.5 mt-8 sm:mt-10 max-w-[520px] xl:max-w-none mx-auto"
+            className="rv-v4 flex flex-wrap xl:flex-nowrap justify-center gap-2 sm:gap-2.5 mt-5 max-w-[520px] xl:max-w-none mx-auto"
             aria-hidden="true"
           >
             {PILLARS.map((pillar) => {
@@ -64,8 +64,8 @@ export function BuiltForBatchesSection() {
             })}
           </div>
 
-          {/* Funnel SVG */}
-          <div className="flex justify-center mt-4.5" aria-hidden="true">
+          {/* Restored Funnel SVG Animation */}
+          <div className="flex justify-center mt-3.5" aria-hidden="true">
             <svg
               viewBox="0 0 520 60"
               fill="none"
@@ -81,8 +81,8 @@ export function BuiltForBatchesSection() {
             </svg>
           </div>
 
-          {/* Glow Frame containing AdminDashboardDark */}
-          <div className="relative mt-1 max-w-[900px] mx-auto rounded-t-[16px] p-2.5 pb-0 bg-gradient-to-b from-white/[0.18] to-white/[0.04] shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_-20px_80px_-20px_rgba(242,137,74,0.45)]">
+          {/* Glow Frame containing AdminDashboardDark (tightened to 32px below funnel, cropped to 560px with soft 120px bottom fade) */}
+          <div className="rv-v4 relative mt-8 max-w-[1040px] mx-auto rounded-t-[16px] p-2.5 pb-0 bg-gradient-to-b from-white/[0.18] to-white/[0.04] shadow-[0_0_0_1px_rgba(255,255,255,0.12),0_-20px_80px_-20px_rgba(242,137,74,0.45)]">
             {/* Window Dots */}
             <div className="flex items-center gap-1.5 px-1.5 pb-2.5" aria-hidden="true">
               <span className="w-[9px] h-[9px] rounded-full bg-white/30" />
@@ -90,8 +90,10 @@ export function BuiltForBatchesSection() {
               <span className="w-[9px] h-[9px] rounded-full bg-white/30" />
             </div>
 
-            {/* Dashboard Component */}
-            <AdminDashboardDark />
+            {/* Dashboard Component Cropped with Soft Bottom Fade into Dark Panel */}
+            <div className="max-h-[560px] max-[640px]:max-h-[420px] overflow-hidden [mask-image:linear-gradient(to_bottom,#000_calc(100%-120px),transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_calc(100%-120px),transparent_100%)]">
+              <AdminDashboardDark />
+            </div>
           </div>
         </div>
       </div>

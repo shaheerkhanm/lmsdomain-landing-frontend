@@ -39,7 +39,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       points: [
         "Institutes that run structured morning, evening, and weekend batches with automated attendance.",
         "Academies that need built-in GST tax invoices and direct payouts via Razorpay, Paytm, and Stripe.",
-        "Educators who want direct guidance and hands-on onboarding from an engineering team in Kerala, India.",
+        "Educators who want direct guidance and hands-on onboarding from a team in India.",
         "Schools and training companies that prefer predictable subscription pricing without platform commission cuts.",
       ],
     },
@@ -235,7 +235,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       {
         title: "Local Indian support team",
         description:
-          "Get prompt, direct assistance from an engineering team based in Kozhikode, Kerala, during your local business hours.",
+          "Get prompt, direct assistance from our team in India.",
       },
     ],
     faqs: [

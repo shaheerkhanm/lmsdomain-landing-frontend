@@ -5,13 +5,14 @@ import { usePathname } from "next/navigation";
 import React, { useEffect, useState, useRef } from "react";
 import { ChevronDown, ArrowRight, X, Menu } from "lucide-react";
 import { Dialog, DialogContent } from "../ui/dialog";
-import EnquiryForm from "./common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "./common/EnquiryForm";
 import { navigationConfig, type NavItem, type NavDropdownItem } from "@/content/navigation";
 import { usePageVisibility } from "@/lib/pages-context";
 import BrandLogo from "@/components/brand/BrandLogo";
+import { NavMegaContent, megaWidth, iconFor, type FeaturedGuide } from "./NavMegaMenu";
 import { cn } from "@/lib/utils";
 
-export function Header({ siteNav }: { siteNav?: NavItem[] }) {
+export function Header({ siteNav, featuredGuide = null }: { siteNav?: NavItem[]; featuredGuide?: FeaturedGuide }) {
   const { isPathVisible } = usePageVisibility();
   const pathname = usePathname();
   const isAuth =
@@ -53,8 +54,34 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>(null);
   const [showDemoModal, setShowDemoModal] = useState(false);
+  // Every page: full-width transparent bar at the top that morphs into the floating pill on scroll
+  const morphOnScroll = true;
+  // Pages whose hero is dark: the transparent bar uses light text and the white logo until it morphs (desktop only)
+  const darkTop = pathname === "/platform/ai";
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!morphOnScroll) return;
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [morphOnScroll]);
+
+  const compact = !morphOnScroll || scrolled;
+  const onDark = darkTop && !compact;
 
   const navRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = null;
+  };
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 160);
+  };
+  useEffect(() => () => cancelClose(), []);
   const activeTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   // Close menus on route change
@@ -126,6 +153,8 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
     return false;
   };
 
+  const openItem = visibleNav.find((i) => i.label === openDropdown && i.children && i.children.length > 0) ?? null;
+
   return (
     <>
       {/* =========================================================================
@@ -134,13 +163,28 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           ========================================================================= */}
       <header
         ref={navRef}
-        className="fixed top-4 inset-x-0 z-50 justify-center font-urbanist hidden min-[900px]:flex pointer-events-none"
+        className={`fixed inset-x-0 z-50 justify-center font-urbanist hidden min-[900px]:flex pointer-events-none transition-[top] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
+          compact ? "top-4" : darkTop ? "top-6" : "top-0"
+        }`}
       >
-        <div className="pointer-events-auto inline-flex items-center gap-5 lg:gap-7 bg-white/95 backdrop-blur-md px-5 sm:px-6 py-2.5 rounded-full border border-[#EAE8E2] shadow-[0_10px_30px_-5px_rgba(22,22,22,0.08)]">
+        <div
+          onMouseEnter={cancelClose}
+          onMouseLeave={scheduleClose}
+          className={
+            "relative " +
+            (morphOnScroll
+              ? `pointer-events-auto flex w-[calc(100%-32px)] items-center justify-between gap-5 lg:gap-7 rounded-full border px-5 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
+                  compact
+                    ? "max-w-[960px] py-2.5 bg-white/85 backdrop-blur-md border-[#EAE8E2] shadow-[0_10px_30px_-5px_rgba(22,22,22,0.08)]"
+                    : "max-w-[1200px] py-5 bg-transparent border-transparent shadow-none"
+                }`
+              : "pointer-events-auto inline-flex items-center gap-5 lg:gap-7 bg-white/95 backdrop-blur-md px-5 sm:px-6 py-2.5 rounded-full border border-[#EAE8E2] shadow-[0_10px_30px_-5px_rgba(22,22,22,0.08)]")
+          }
+        >
           {/* Brand Logo */}
           <Link href="/" aria-label="LMS Domain home" className="flex items-center shrink-0">
             <span className="hidden min-[1120px]:inline-flex items-center">
-              <BrandLogo variant="wordmark" tone="light" height={26} />
+              <BrandLogo variant="wordmark" tone={onDark ? "dark" : "light"} height={26} />
             </span>
             <span className="inline-flex min-[1120px]:hidden items-center">
               <BrandLogo variant="mark" height={26} />
@@ -148,7 +192,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           </Link>
 
           {/* Navigation Items */}
-          <nav className="flex items-center gap-1 sm:gap-2 text-[13px] font-medium text-[#6B6F76]">
+          <nav className={cn("flex items-center gap-1 sm:gap-2 text-[13px] font-medium transition-colors duration-500", onDark ? "text-white/75" : "text-[#6B6F76]")}>
             {visibleNav.map((item) => {
               const active = isItemActive(item);
               const hasDropdown = Boolean(item.children && item.children.length > 0);
@@ -161,13 +205,22 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
                       type="button"
                       aria-expanded={isOpen}
                       aria-haspopup="true"
+                      aria-controls="nav-mega"
                       onClick={(e) => toggleDropdown(item.label, e)}
-                      onMouseEnter={() => setOpenDropdown(item.label)}
+                      onMouseEnter={(e) => {
+                        cancelClose();
+                        activeTriggerRef.current = e.currentTarget;
+                        setOpenDropdown(item.label);
+                      }}
                       className={cn(
                         "px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 select-none cursor-pointer focus-visible:outline-2 focus-visible:outline-[#7B5CF5]",
                         active || isOpen
-                          ? "text-[#161616] font-semibold bg-[#F4F4F1]/60"
-                          : "hover:text-[#161616] hover:bg-[#F9F9F7]"
+                          ? onDark
+                            ? "text-white font-semibold bg-white/10"
+                            : "text-[#161616] font-semibold bg-[#F4F4F1]/60"
+                          : onDark
+                            ? "hover:text-white hover:bg-white/10"
+                            : "hover:text-[#161616] hover:bg-[#F9F9F7]"
                       )}
                     >
                       <span>{item.label}</span>
@@ -179,56 +232,6 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
                       />
                     </button>
 
-                    {/* Dropdown Menu */}
-                    {isOpen && (
-                      <div
-                        role="menu"
-                        aria-label={item.label}
-                        onMouseLeave={() => setOpenDropdown(null)}
-                        className={cn(
-                          "absolute top-full left-0 mt-3 bg-white rounded-2xl border border-[#EAE8E2] shadow-xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150",
-                          item.label === "Platform"
-                            ? "w-[340px] sm:w-[380px] grid grid-cols-1 gap-1"
-                            : "w-[280px] sm:w-[320px] flex flex-col gap-1"
-                        )}
-                      >
-                        {item.children!.map((child) => {
-                          const childActive =
-                            pathname === child.href ||
-                            (child.href !== "/" && pathname?.startsWith(`${child.href}/`));
-                          return (
-                            <Link
-                              key={child.href}
-                              href={child.href}
-                              role="menuitem"
-                              onClick={() => setOpenDropdown(null)}
-                              className={cn(
-                                "p-2.5 rounded-xl transition-all flex flex-col text-left group focus-visible:outline-2 focus-visible:outline-[#7B5CF5]",
-                                childActive
-                                  ? "bg-[#EEE9FF]/50 text-[#7B5CF5]"
-                                  : "hover:bg-[#FAF9F6] text-[#161616]"
-                              )}
-                            >
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm font-semibold tracking-tight group-hover:text-[#7B5CF5] transition-colors">
-                                  {child.label}
-                                </span>
-                                {child.badge && (
-                                  <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#EEE9FF] text-[#7B5CF5] border border-[#DDD6FE]">
-                                    {child.badge}
-                                  </span>
-                                )}
-                              </div>
-                              {child.description && (
-                                <span className="text-xs text-[#6B6F76] mt-0.5 line-clamp-1 leading-normal font-normal">
-                                  {child.description}
-                                </span>
-                              )}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
                   </div>
                 );
               }
@@ -238,11 +241,16 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
                 <Link
                   key={item.label}
                   href={item.href || "/"}
+                  onMouseEnter={() => setOpenDropdown(null)}
                   className={cn(
                     "px-3 py-1.5 rounded-full transition-colors flex items-center gap-1.5 focus-visible:outline-2 focus-visible:outline-[#7B5CF5]",
                     active
-                      ? "text-[#161616] font-semibold bg-[#F4F4F1]/60"
-                      : "hover:text-[#161616] hover:bg-[#F9F9F7]"
+                      ? onDark
+                        ? "text-white font-semibold bg-white/10"
+                        : "text-[#161616] font-semibold bg-[#F4F4F1]/60"
+                      : onDark
+                        ? "hover:text-white hover:bg-white/10"
+                        : "hover:text-[#161616] hover:bg-[#F9F9F7]"
                   )}
                 >
                   <span>{item.label}</span>
@@ -258,7 +266,10 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
             {showLogin && (
               <Link
                 href="/login"
-                className="px-3 py-1.5 text-[#6B6F76] hover:text-[#161616] transition-colors focus-visible:outline-2 focus-visible:outline-[#7B5CF5] rounded-full"
+                className={cn(
+                  "px-3 py-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-[#7B5CF5] rounded-full",
+                  onDark ? "text-white/75 hover:text-white" : "text-[#6B6F76] hover:text-[#161616]"
+                )}
               >
                 Log in
               </Link>
@@ -269,10 +280,30 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
-            className="px-5 py-2 rounded-full bg-[#161616] hover:bg-black text-white text-[13px] font-semibold transition-all shadow-xs active:scale-95 cursor-pointer shrink-0 whitespace-nowrap"
+            className={cn(
+              "px-5 py-2 rounded-full text-[13px] font-semibold transition-all shadow-xs active:scale-95 cursor-pointer shrink-0 whitespace-nowrap",
+              onDark ? "bg-white text-[#161616] hover:bg-[#F4F4F5]" : "bg-[#161616] hover:bg-black text-white"
+            )}
           >
             Book a demo
           </button>
+
+          {/* Mega menu: one shared panel that resizes between menus */}
+          {openItem && (
+            <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3">
+              <div
+                id="nav-mega"
+                role="region"
+                aria-label={`${openItem.label} menu`}
+                style={{ width: `min(${megaWidth(openItem.label)}px, calc(100vw - 32px))` }}
+                className="nav-panel-in rounded-[24px] border border-[#ECECF0] bg-white p-2 font-sans text-left shadow-[0_2px_6px_rgba(16,16,24,0.05),0_40px_90px_-30px_rgba(16,16,24,0.35)] transition-[width] duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
+              >
+                <div key={openItem.label} className="nav-swap">
+                  <NavMegaContent item={openItem} pathname={pathname} featured={featuredGuide} onNavigate={() => setOpenDropdown(null)} />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </header>
 
@@ -280,7 +311,17 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           MOBILE / TABLET TOP BAR (< 900px)
           Fixed top header with logo, CTA button and hamburger toggle
           ========================================================================= */}
-      <header className="w-full absolute top-0 inset-x-0 z-40 font-urbanist flex min-[900px]:hidden items-center justify-between px-4 sm:px-6 h-20">
+      <header
+        className={`w-full top-0 inset-x-0 z-40 font-urbanist flex min-[900px]:hidden items-center justify-between px-4 sm:px-6 ${
+          morphOnScroll
+            ? `fixed transition-all duration-300 ${
+                scrolled
+                  ? "h-16 bg-white/90 backdrop-blur-md border-b border-[#EAE8E2] shadow-[0_6px_20px_-10px_rgba(22,22,22,0.12)]"
+                  : "h-20 bg-transparent border-b border-transparent"
+              }`
+            : "absolute h-20"
+        }`}
+      >
         <Link href="/" aria-label="LMS Domain home" className="min-w-[44px] min-h-[44px] flex items-center shrink-0">
           <span className="inline-flex items-center">
             <BrandLogo variant="wordmark" tone="light" height={24} />
@@ -291,7 +332,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
-            className="min-h-[40px] px-4 py-2 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center justify-center cursor-pointer active:scale-95 whitespace-nowrap shrink-0"
+            className="min-h-[44px] px-4 py-2 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center justify-center cursor-pointer active:scale-95 whitespace-nowrap shrink-0"
           >
             Book a demo
           </button>
@@ -365,18 +406,31 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
                       </button>
 
                       {isExpanded && (
-                        <div className="pl-3 pb-3 space-y-1 animate-in slide-in-from-top-2 duration-150">
-                          {item.children!.map((child) => (
-                            <Link
-                              key={child.href}
-                              href={child.href}
-                              onClick={() => setShowMobileMenu(false)}
-                              className="py-2 px-3 rounded-lg flex items-center justify-between text-sm sm:text-base font-medium text-[#6B6F76] hover:text-[#161616] hover:bg-[#FAF9F6] transition-colors"
-                            >
-                              <span>{child.label}</span>
-                              <ArrowRight className="size-3.5 opacity-40" />
-                            </Link>
-                          ))}
+                        <div className="pb-3 space-y-0.5 nav-swap">
+                          {item.children!.map((child) => {
+                            const Icon = iconFor(child.href);
+                            return (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                onClick={() => setShowMobileMenu(false)}
+                                className="flex items-center gap-3 rounded-[14px] p-2 font-sans transition-colors hover:bg-[#F5F5F8]"
+                              >
+                                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[11px] border border-[#ECECF0] bg-white text-[#0A0A0B] shadow-[0_1px_2px_rgba(16,16,24,0.06)]">
+                                  <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} />
+                                </span>
+                                <span className="min-w-0 flex-1">
+                                  <span className="flex items-center gap-2 text-[15px] font-semibold text-[#0A0A0B]">
+                                    {child.label}
+                                    {child.badge && (
+                                      <span className="rounded-full bg-[#0A0A0B] px-1.5 py-px text-[10px] font-semibold text-white">{child.badge}</span>
+                                    )}
+                                  </span>
+                                  {child.description && <span className="block truncate text-[12.5px] text-[#71717A]">{child.description}</span>}
+                                </span>
+                              </Link>
+                            );
+                          })}
                         </div>
                       )}
                     </div>
@@ -428,7 +482,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
 
       {/* Demo Enquiry Modal */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-[560px] p-6 sm:p-8 bg-white rounded-2xl shadow-xl border border-slate-200">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowDemoModal(false)} />
         </DialogContent>
       </Dialog>

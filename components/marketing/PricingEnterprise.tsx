@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import LogoMark from "./LogoMark";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 import type { PricingEnterprise as PricingEnterpriseType } from "@/types/content";
 
 interface PricingEnterpriseProps {
@@ -85,7 +85,7 @@ export function PricingEnterprise({ data }: PricingEnterpriseProps) {
 
       {/* Demo Modal with ?plan=enterprise */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-xl bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm
             onClose={() => setShowDemoModal(false)}
             initialPlan="enterprise"

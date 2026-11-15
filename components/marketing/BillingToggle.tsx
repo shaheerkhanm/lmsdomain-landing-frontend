@@ -9,6 +9,7 @@ interface BillingToggleProps {
   activePeriod: BillingPeriodId;
   onChange: (period: BillingPeriodId) => void;
   yearlySavingsLabel?: string;
+  tone?: "light" | "dark";
 }
 
 export function BillingToggle({
@@ -17,7 +18,9 @@ export function BillingToggle({
   onChange,
   // Shown only when the backend provides it; no invented discount.
   yearlySavingsLabel,
+  tone = "light",
 }: BillingToggleProps) {
+  const dark = tone === "dark";
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleKeyDown = (e: React.KeyboardEvent, idx: number) => {
@@ -34,12 +37,12 @@ export function BillingToggle({
   };
 
   return (
-    <div className="flex justify-center my-8 font-urbanist select-none">
+    <div className="flex justify-center font-sans select-none">
       <div
         ref={containerRef}
         role="radiogroup"
         aria-label="Billing frequency options"
-        className="inline-flex items-center bg-white border border-[#ECEDEF] rounded-full p-1 shadow-xs"
+        className={`inline-flex items-center rounded-full p-1 ${dark ? "border border-white/10 bg-white/[0.05] backdrop-blur" : "bg-[#F1F1F4]"}`}
       >
         {periods.map((period, idx) => {
           const isActive = activePeriod === period.id;
@@ -53,8 +56,8 @@ export function BillingToggle({
               tabIndex={isActive ? 0 : -1}
               onKeyDown={(e) => handleKeyDown(e, idx)}
               onClick={() => onChange(period.id)}
-              className={`relative px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-colors duration-200 cursor-pointer flex items-center gap-2 ${
-                isActive ? "text-white" : "text-[#6B6F76] hover:text-[#161616]"
+              className={`relative px-4 sm:px-5 py-2 rounded-full text-[13.5px] font-semibold transition-colors duration-200 cursor-pointer flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-[#6C4BFF] ${
+                isActive ? "text-[#0A0A0B]" : dark ? "text-[#A1A1AA] hover:text-white" : "text-[#71717A] hover:text-[#0A0A0B]"
               }`}
             >
               {isActive && (
@@ -65,7 +68,7 @@ export function BillingToggle({
                     stiffness: 400,
                     damping: 32,
                   }}
-                  className="absolute inset-0 bg-[#161616] rounded-full shadow-sm z-0"
+                  className="absolute inset-0 bg-white rounded-full shadow-[0_1px_2px_rgba(10,10,11,0.08),0_2px_8px_-2px_rgba(10,10,11,0.08)] z-0"
                 />
               )}
 
@@ -73,10 +76,8 @@ export function BillingToggle({
 
               {isYearly && yearlySavingsLabel && (
                 <span
-                  className={`relative z-10 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-colors ${
-                    isActive
-                      ? "bg-[#F3CF74] text-slate-950 shadow-xs"
-                      : "bg-[#F3CF74]/30 text-amber-900 border border-amber-300/40"
+                  className={`relative z-10 px-2 py-0.5 rounded-full text-[11px] font-semibold transition-colors ${
+                    isActive ? "bg-[#6C4BFF] text-white" : dark ? "bg-[#6C4BFF]/20 text-[#C9BFFF]" : "bg-[#EDE9FF] text-[#6C4BFF]"
                   }`}
                 >
                   {yearlySavingsLabel}

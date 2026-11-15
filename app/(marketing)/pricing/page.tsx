@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { headers } from "next/headers";
-import { getPricingPage, fetchSeo } from "@/lib/api/content";
+import { getPricingPage, getHomeClients, fetchSeo } from "@/lib/api/content";
 import { PricingView } from "@/components/marketing";
 import { fullTitle, getMetadataBase, getSiteUrl, applySeo } from "@/lib/site";
 import { guardPage, guardMetadata } from "@/lib/pages";
@@ -79,7 +79,7 @@ export default async function PricingPage({
   searchParams?: Promise<{ mode?: string; currency?: string; [key: string]: string | undefined }>;
 }) {
   await guardPage("pricing");
-  const data = await getPricingPage();
+  const [data, clients] = await Promise.all([getPricingPage(), getHomeClients().catch(() => null)]);
   const sp = searchParams ? await searchParams : {};
   if (sp?.mode === "percent" && data.pricingV2) {
     data.pricingV2 = { ...data.pricingV2, annualMode: "percent" };
@@ -123,6 +123,7 @@ export default async function PricingPage({
           data={data}
           initialCurrency={initialCurrency}
           serverCountryCurrency={serverCountryCurrency}
+          logos={clients?.logos || []}
         />
       </Suspense>
     </>

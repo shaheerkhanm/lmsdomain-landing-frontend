@@ -121,7 +121,7 @@ export function CustomPlanTimeline({ timeline }: CustomPlanTimelineProps) {
         <div className="flex items-start justify-between gap-6 pb-6 border-b border-white/10 shrink-0">
           <div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[#A78BFA] text-xs font-semibold uppercase tracking-wider mb-3">
-              ✦ Launch Timeline
+              Launch Timeline
             </span>
             <h2 className="text-3xl xl:text-4xl font-bold tracking-tight text-white mb-2">
               {title}
@@ -240,7 +240,7 @@ export function CustomPlanTimeline({ timeline }: CustomPlanTimelineProps) {
       <div className="lg:hidden py-16 sm:py-20 px-4 sm:px-6 max-w-xl mx-auto">
         <div className="text-left mb-10">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[#A78BFA] text-xs font-semibold uppercase tracking-wider mb-3">
-            ✦ Launch Timeline
+            Launch Timeline
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
             {title}

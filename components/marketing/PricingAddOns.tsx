@@ -18,7 +18,6 @@ export function PricingAddOns({
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="text-left max-w-2xl mb-12 lg:mb-16">
           <span className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#5925DC] mb-3.5">
-            <span>✦</span>
             <span>MODULAR CAPACITY</span>
           </span>
           <h2 className="text-[30px] sm:text-[40px] lg:text-[46px] font-semibold leading-[1.15] tracking-tight text-[#161616] mb-3">

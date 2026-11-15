@@ -8,11 +8,11 @@ export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
     shareImage: "",
   },
   hero: {
-    eyebrow: "✦ CUSTOM PLAN",
+    eyebrow: "Custom plan",
     title: "Your own LMS, set up for you",
     highlightedWords: "set up for you",
     subtitle:
-      "LMS Domain builds and deploys customized learning management systems for established coaching institutes, training organizations, and academies in India. Get your own white-label platform configured with custom branding, batch workflows, live Zoom integration, domestic payment gateways, and dedicated onboarding support from our engineering team.",
+      "For established academies, institutes and companies that want it done for them. We set up your branded academy on your own domain, move your courses and learners, connect payments, train your team and build any extra features you need.",
     primaryCta: { label: "Plan my custom LMS", href: "#plan" },
     secondaryCta: { label: "Book a 20-minute call", action: "demo" },
     proofChips: [
@@ -67,9 +67,9 @@ export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
       },
       {
         icon: "Sparkles",
-        title: "Domie AI built in",
-        text: "AI tutor for learners, AI content drafts for creators and AI insights for admins, ready from day one.",
-        tag: "AI",
+        title: "Domie AI, on your terms",
+        text: "Domie AI answers learner questions from your courses and drafts course descriptions, set up for your academy.",
+        tag: "Optional",
       },
       {
         icon: "Database",
@@ -142,7 +142,7 @@ export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
       {
         topic: "Features",
         left: "Only what you can afford to build",
-        right: "38 ready features plus Domie AI",
+        right: "Every LMS Domain feature, ready to use",
       },
       {
         topic: "After launch",
@@ -172,7 +172,7 @@ export const DEFAULT_CUSTOM_PLAN_PAGE_DATA: CustomPlanPageData = {
       {
         icon: "ShieldCheck",
         title: "Secure hosting",
-        text: "Hosting, SSL, backups and monitoring handled for you.",
+        text: "Managed hosting with SSL on your own domain.",
       },
       {
         icon: "Zap",

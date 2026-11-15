@@ -44,7 +44,7 @@ All plans come with a 15-day free trial, 0% commission on your sales (gateway pr
 
 ## Company & Contact
 
-- [About Us](${origin}/about): Built by Techiegram, based in Kozhikode, Kerala, India. Founded in 2024 by Shaheer Khan and Anoop Sha.
+- [About Us](${origin}/about): Built by Techiegram in India. Founded in 2024 by Shaheer Khan and Anoop Sha.
 - [Contact Us](${origin}/contact): Book a 20-minute live demo or reach our support team at ${entity.facts.supportEmail}.
 - [Product Roadmap](${origin}/roadmap): Transparent overview of upcoming features currently in development.
 `;

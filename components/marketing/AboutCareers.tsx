@@ -6,7 +6,7 @@ import { ArrowRight } from "lucide-react";
 import type { AboutCareers as AboutCareersType } from "@/types/content";
 import { usePageVisibility } from "@/lib/pages-context";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 
 interface AboutCareersProps {
   data?: AboutCareersType;
@@ -29,7 +29,6 @@ export function AboutCareers({ data }: AboutCareersProps) {
           <div className="rounded-[32px] sm:rounded-[40px] bg-[#F8FAFC] border border-[#ECEDEF] p-8 sm:p-12 lg:p-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xs text-left">
             <div className="space-y-2 max-w-xl">
               <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-[11px] font-bold uppercase tracking-wider">
-                <span>✦</span>
                 <span>Careers</span>
               </div>
               <h3 className="text-[24px] sm:text-[30px] font-bold text-[#161616] tracking-tight leading-snug">
@@ -65,7 +64,7 @@ export function AboutCareers({ data }: AboutCareersProps) {
       </section>
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="max-w-[560px] p-6 sm:p-8 bg-white rounded-2xl shadow-xl border border-slate-200">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowModal(false)} />
         </DialogContent>
       </Dialog>

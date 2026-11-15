@@ -3,14 +3,33 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import { ChevronRight } from "lucide-react";
+import { DomieOrb } from "@/components/ai/DomieOrb";
 import MainHeading from "./MainHeading";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
 import { aiSectionContent } from "@/content/home/ai";
 import { useSectionContent } from "@/components/content/PageContent";
 import { liveOr } from "@/lib/claims";
 import type { ClientLogoItem } from "@/components/marketing/ui/ProofStrip";
+import { PARTNER_LOGOS } from "@/components/logos/PartnerLogos";
+import HeroDashboard from "@/components/marketing/mockups/HeroDashboard";
+
+// Dynamic import with ssr: false so SSR renders server H1 directly (LCP untouched)
+const ParticleWave = dynamic(
+  () => import("@/components/visual/ParticleWave"),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="hero-dot-grid absolute inset-0 -z-10 select-none opacity-30"
+        aria-hidden="true"
+      />
+    ),
+  }
+);
 
 // Integration logos (NEVER integration-10 / PayPal)
 const INTEGRATION_LOGOS = [
@@ -50,31 +69,76 @@ export function BannerSection({
   const hasClientLogos = validClientLogos.length > 0;
 
   return (
-    <section className="pt-[clamp(120px,15vw,144px)] min-[900px]:pt-[clamp(88px,8vw,104px)] pb-0 font-sans">
-      <div className="max-w-[1080px] mx-auto px-5 sm:px-6">
-        {/* Badge above H1 */}
-        <div className="mb-5 sm:mb-[22px]">
+    <section id="hero" className="relative pt-[112px] min-[900px]:pt-[126px] pb-0 font-sans overflow-x-clip bg-white isolate">
+      {/* 3D Particle Wave Background (V1k §1, V1l §1e): covers entire hero down to client-logo row with soft ellipse mask fading behind frame */}
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 bottom-[80px] -z-10 select-none overflow-hidden"
+        style={{
+          maskImage:
+            "radial-gradient(ellipse 720px 420px at 50% 70%, transparent 40%, black 85%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 720px 420px at 50% 70%, transparent 40%, black 85%)",
+        }}
+        aria-hidden="true"
+      >
+        <ParticleWave className="w-full h-full" mode="hero" />
+      </div>
+
+      {/* Soft white radial behind text to preserve crisp readability (V1k §1c) */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 w-[980px] h-[520px] -z-10 select-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 65% 55% at 50% 36%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0) 100%)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] text-center flex flex-col items-center">
+        {/* Compact Gradient Hairline Badge above H1 (56px below nav on desktop, 32px on mobile; 28px/20px to H1) */}
+        <div className="mb-[20px] min-[900px]:mb-[28px]">
           <Link
-            href="/ai"
-            className="inline-flex items-center gap-2 text-[12.5px] text-[#535361] hover:text-[#151517] transition-colors flex-wrap"
+            href="/platform/ai"
+            className="group inline-flex items-center gap-2 h-[32px] pl-1 pr-3 rounded-[999px] text-[13px] font-[500] text-[#151517] shadow-[0_4px_14px_-6px_rgba(20,20,40,0.18)] hover:shadow-[0_6px_20px_-4px_rgba(20,20,40,0.24)] transition-all duration-200 focus-visible:outline-2 focus-visible:outline-[#7B5CFF] focus-visible:outline-offset-2 whitespace-nowrap"
+            style={{
+              border: "1px solid transparent",
+              background:
+                "linear-gradient(#FFFFFF, #FFFFFF) padding-box, linear-gradient(135deg, #E2539B 0%, #F2894A 50%, #7B5CFF 100%) border-box",
+            }}
           >
-            <span className="inline-flex items-center gap-1.5 bg-[#151517] text-white rounded-[7px] px-2.5 py-1 font-semibold text-[11.5px]">
-              New <span className="bg-gradient-to-r from-[#E2539B] via-[#F2894A] to-[#7B5CFF] bg-clip-text text-transparent not-italic font-bold">Domie AI</span> ›
+            {/* Left: 24px circle with animated Domie orb */}
+            <span className="w-6 h-6 rounded-full overflow-hidden shrink-0 flex items-center justify-center bg-[#0E0E11]">
+              <DomieOrb size={24} surface="dark" />
             </span>
-            <span>{aiSectionContent.title}</span>
+
+            {/* Phrase 1 */}
+            <span className="text-[#151517] font-[500]">Meet Domie AI</span>
+
+            {/* Hairline Divider & Phrase 2 (dropped below 400px to guarantee 1-line fit on 390px) */}
+            <span className="hidden min-[400px]:inline-block w-[1px] h-3 bg-[#E8E8EC]" aria-hidden="true" />
+            <span className="hidden min-[400px]:inline text-[#535361] font-normal">
+              AI that works inside your academy
+            </span>
+
+            {/* Chevron Right 14px */}
+            <ChevronRight
+              className="w-3.5 h-3.5 text-[#535361] shrink-0 transition-transform duration-200 group-hover:translate-x-[2px]"
+              strokeWidth={1.75}
+              aria-hidden="true"
+            />
           </Link>
         </div>
 
         {/* H1 Headline */}
         <MainHeading data={data} />
 
-        {/* Subtitle */}
-        <p className="mt-4 sm:mt-5 text-[15px] sm:text-[16px] text-[#535361] leading-[1.55] max-w-[62ch]">
+        {/* Subtitle (24px below H1 on desktop, 16px on mobile; max-width 600px, 18px/1.6, muted) */}
+        <p className="mt-[16px] min-[900px]:mt-[24px] text-[15px] min-[900px]:text-[18px] text-[#535361] leading-[1.6] max-w-[600px] mx-auto text-center">
           {effectiveSubtitle}
         </p>
 
-        {/* CTAs */}
-        <div className="mt-7 sm:mt-8 flex flex-wrap items-center gap-3">
+        {/* CTAs (36px below subtitle on desktop, 28px on mobile) */}
+        <div className="mt-[28px] min-[900px]:mt-[36px] flex flex-wrap items-center justify-center gap-3">
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
@@ -107,19 +171,24 @@ export function BannerSection({
           </Link>
         </div>
 
-        {/* Hand note */}
-        <p className="font-hand text-[19px] leading-[1.2] text-[#55555F] mt-3 sm:mt-3.5 flex items-center gap-1.5">
+        {/* Hand note (18px below buttons on desktop, 14px on mobile) */}
+        <p className="font-hand text-[19px] leading-[1.2] text-[#55555F] mt-[14px] min-[900px]:mt-[18px] flex items-center justify-center gap-1.5 text-center">
           {heroContent.microcopy || "Your own domain on every plan · Set up with our team"}
         </p>
       </div>
 
-      {/* Marquee Section */}
-      <div className="mt-[clamp(56px,7vw,84px)] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
-        {hasClientLogos && (
-          <p className="text-center text-[12.5px] text-[#8A8A96] mb-5 sm:mb-[22px]">
-            Academies teaching with LMS Domain
-          </p>
-        )}
+      {/* Hero Dashboard Assembly Frame (64px below hand note on desktop, 40px on mobile) */}
+      <div className="mt-[40px] min-[900px]:mt-[64px]">
+        <HeroDashboard />
+      </div>
+
+      {/* Marquee Section (Directly Below Dashboard, >= 72px space above & below) */}
+      <div className="mt-[72px] mb-[72px] overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)] [-webkit-mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
+        <p className="text-center text-[13px] font-medium text-[#71717A] tracking-[-0.01em] mb-7 sm:mb-8">
+          {hasClientLogos
+            ? "Academies teaching with LMS Domain"
+            : "Connects with the tools your academy uses every day"}
+        </p>
         <div className="animate-marquee-v4 flex gap-16 items-center shrink-0" aria-hidden="true">
           {hasClientLogos ? (
             <>
@@ -129,8 +198,8 @@ export function BannerSection({
                     src={client.logo!}
                     alt={client.name || "Client academy"}
                     width={140}
-                    height={34}
-                    className="h-[34px] w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+                    height={24}
+                    className="h-6 w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
                   />
                 </div>
               ))}
@@ -140,36 +209,36 @@ export function BannerSection({
                     src={client.logo!}
                     alt={client.name || "Client academy"}
                     width={140}
-                    height={34}
-                    className="h-[34px] w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
+                    height={24}
+                    className="h-6 w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
                   />
                 </div>
               ))}
             </>
           ) : (
             <>
-              {INTEGRATION_LOGOS.map((logo, idx) => (
-                <div key={`logo-1-${idx}`} className="shrink-0 flex items-center justify-center">
-                  <Image
-                    src={logo.src}
-                    alt={logo.name}
-                    width={120}
-                    height={34}
-                    className="h-[34px] w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
-                  />
-                </div>
-              ))}
-              {INTEGRATION_LOGOS.map((logo, idx) => (
-                <div key={`logo-2-${idx}`} className="shrink-0 flex items-center justify-center">
-                  <Image
-                    src={logo.src}
-                    alt={logo.name}
-                    width={120}
-                    height={34}
-                    className="h-[34px] w-auto object-contain filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200"
-                  />
-                </div>
-              ))}
+              {PARTNER_LOGOS.map((logo, idx) => {
+                const LogoComponent = logo.component;
+                return (
+                  <div
+                    key={`partner-1-${idx}`}
+                    className="shrink-0 flex items-center justify-center filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200 cursor-pointer"
+                  >
+                    <LogoComponent />
+                  </div>
+                );
+              })}
+              {PARTNER_LOGOS.map((logo, idx) => {
+                const LogoComponent = logo.component;
+                return (
+                  <div
+                    key={`partner-2-${idx}`}
+                    className="shrink-0 flex items-center justify-center filter grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-200 cursor-pointer"
+                  >
+                    <LogoComponent />
+                  </div>
+                );
+              })}
             </>
           )}
         </div>
@@ -177,7 +246,7 @@ export function BannerSection({
 
       {/* Demo Enquiry Modal Dialog */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-xl bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowDemoModal(false)} />
         </DialogContent>
       </Dialog>

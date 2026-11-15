@@ -89,7 +89,7 @@ export const roadmapPageData: RoadmapPageData = {
   ],
   ctaTitle: "Need one of these capabilities for your academy?",
   ctaSubtitle:
-    "Talk to our engineering team. We prioritize roadmap features based on active academy customer requirements.",
+    "Tell us what you need. We prioritise the roadmap around what academies using LMS Domain ask for most.",
   ctaButtonText: "Talk to us",
 };
 

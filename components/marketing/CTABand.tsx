@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 
 export interface CTABandProps {
   title?: string;
@@ -22,7 +22,6 @@ export function CTABand({
       <div className="w-full bg-[#161616] rounded-[32px] sm:rounded-[40px] p-8 sm:p-12 lg:p-16 text-center text-white relative overflow-hidden font-urbanist shadow-xl">
         <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-[#F3CF74] text-xs font-semibold uppercase tracking-wider mb-5">
-            <span>✦</span>
             <span>Get Started</span>
           </div>
 
@@ -45,7 +44,7 @@ export function CTABand({
       </div>
 
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="max-w-[560px] p-6 sm:p-8 bg-white rounded-2xl shadow-xl border border-slate-200">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowModal(false)} />
         </DialogContent>
       </Dialog>

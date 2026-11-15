@@ -14,7 +14,7 @@ export default async function AuthLayout({
 
   return (
     <ContentSource id="auth-copy" source={source}>
-    <div className="min-h-screen w-full bg-white font-urbanist flex flex-col lg:flex-row antialiased">
+    <div className="min-h-screen w-full bg-white font-sans flex flex-col lg:flex-row antialiased">
       {/* Left 45% Column */}
       <div className="w-full lg:w-[45%] flex flex-col justify-between p-6 sm:p-10 lg:p-12 xl:p-14 min-h-screen bg-white">
         {/* Header Bar */}
@@ -29,7 +29,7 @@ export default async function AuthLayout({
 
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold text-[#161616] bg-white border border-[#ECEDEF] hover:bg-[#F3F4F6] transition-all cursor-pointer shadow-2xs"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-medium text-[#0A0A0B] bg-[#F4F5F8] hover:bg-[#ECEDF1] transition-colors cursor-pointer"
           >
             <span>←</span>
             <span>Back to site</span>

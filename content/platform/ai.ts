@@ -2,15 +2,14 @@ import { PlatformPageData } from "./types";
 
 export const aiPlatformData: PlatformPageData = {
   slug: "ai",
-  eyebrow: "DOMIE AI",
+  eyebrow: "Domie AI",
+  heroAccent: "knows your courses",
   badge: "Pro",
-  title: "Domie AI: a teaching assistant grounded in your own courses.",
-  subtitle:
-    "LMS Domain offers Domie AI on the Pro plan for academies, coaching institutes, and training organizations in India. Provide a HelpDesk student tutor grounded in your academy's own course content, generate drafts for course titles and descriptions, see analytics, and consult the Ask Domie assistant daily.",
-  metaTitle: "Domie AI Teaching Assistant & Course Tools | LMS Domain",
-  metaDescription:
-    "Support learners 24/7 with a Domie AI teaching assistant grounded in your course content. Draft curriculum metadata and view academy analytics with ease.",
-  sectionHeading: "How does Domie AI support teaching and operations in LMS Domain?",
+  title: "Domie AI, a study helper that knows your courses",
+  subtitle: "Domie AI answers learner questions from your academy's own lessons, at any hour. It also drafts course descriptions for your team and shows which learners need attention. Included in Pro within fair-use limits, and in Enterprise.",
+  metaTitle: "Domie AI: AI Teaching Assistant for Your Academy | LMS Domain",
+  metaDescription: "Domie AI answers learner questions from your own course content, drafts course descriptions and flags learners falling behind. Available on LMS Domain Pro.",
+  sectionHeading: "What Domie AI does for your team",
   frameTitle: "Domie AI Assistant & Tutor",
   frameAlt: "Domie AI: a teaching assistant grounded in your own courses",
   features: [

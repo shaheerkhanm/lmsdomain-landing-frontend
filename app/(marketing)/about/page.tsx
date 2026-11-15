@@ -1,17 +1,23 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { Eyebrow, CTABand } from "@/components/marketing/ui";
 import { getSiteAbout, fetchSeo } from "@/lib/api/content";
-import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
+import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { guardMetadata } from "@/lib/pages";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
-import { officialSocialProfiles } from "@/content/entity";
-import { Linkedin, Building2, MapPin, Calendar, Users, Award, BookOpen, Video, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Linkedin, MapPin, CalendarDays, Building2 } from "lucide-react";
+import { ScrollReveal } from "@/components/marketing/ScrollReveal";
+import { Container, SectionHeading, secondaryButtonClass } from "@/components/sections/HomeV5/primitives";
+import { DemoButton } from "@/components/sections/HomeV5/DemoButton";
+import { NumbersBento } from "@/components/sections/CustomersV5/NumbersBento";
+import { AboutCollage, WhyWeBuilt, PRINCIPLES } from "@/components/sections/AboutV5/AboutParts";
+import { FounderCards, FounderLetter } from "@/components/sections/AboutV5/FounderLetter";
+import { GlobalOrbit } from "@/components/sections/AboutV5/GlobalOrbit";
 
-const DEFAULT_ABOUT_TITLE = "About LMS Domain: Built for Serious Educators | LMS Domain";
+const DEFAULT_ABOUT_TITLE = "About LMS Domain: The LMS Built for Academies | LMS Domain";
 const DEFAULT_ABOUT_DESCRIPTION =
-  "Learn how LMS Domain helps training institutes, coaching centres, and solo educators build independent, branded online academies with zero sales commission.";
+  "LMS Domain is built by Techiegram to help academies, coaching institutes, training companies and educators run their own branded academy, with 0% commission.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const hiddenMeta = await guardMetadata("about");
@@ -43,216 +49,245 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
+function Person({ m, big = false }: { m: { name: string; role: string; photo?: string; bio?: string; linkedinUrl?: string }; big?: boolean }) {
+  return (
+    <div className="rv-v4 group flex flex-col overflow-hidden rounded-[28px] bg-[#F4F5F8] transition-[translate] duration-500 hover:-translate-y-1">
+      <div className={cn("relative overflow-hidden", m.photo ? (big ? "h-[320px]" : "h-[240px]") : big ? "h-[200px]" : "h-[160px]")}>
+        {m.photo ? (
+          <Image src={m.photo} alt={m.name} fill sizes="(min-width: 640px) 500px, 100vw" className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]" />
+        ) : (
+          <div className="grid h-full place-items-center bg-[radial-gradient(#DCDCE3_1px,transparent_1px)] bg-[size:16px_16px]">
+            <span className={cn("grid place-items-center rounded-full bg-[#0A0A0B] font-urbanist font-semibold text-white", big ? "h-28 w-28 text-[36px]" : "h-20 w-20 text-[26px]")}>
+              {getInitials(m.name)}
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="flex flex-1 items-start justify-between gap-3 p-6">
+        <div>
+          <h3 className="font-urbanist text-[21px] font-semibold tracking-[-0.015em]">{m.name}</h3>
+          <p className="mt-0.5 text-[14px] text-[#6C4BFF]">{m.role}</p>
+          {m.bio && <p className="mt-2.5 text-[14.5px] leading-[1.55] text-[#52525B]">{m.bio}</p>}
+        </div>
+        {m.linkedinUrl && (
+          <a
+            href={m.linkedinUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`${m.name} on LinkedIn`}
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-[#52525B] transition-colors hover:bg-[#0A66C2] hover:text-white"
+          >
+            <Linkedin className="h-4 w-4" />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default async function AboutRoute() {
   const about = await getSiteAbout();
-  const siteOrigin = getSiteUrl() || PRODUCTION_ORIGIN;
 
   const founders = (about.team || [])
     .filter((m) => m.visible !== false && m.group === "founders")
     .sort((a, b) => (a.order || 0) - (b.order || 0));
-
   const teamMembers = (about.team || [])
     .filter((m) => m.visible !== false && m.group === "team")
     .sort((a, b) => (a.order || 0) - (b.order || 0));
 
   const breadcrumbs = [
     { name: "Home", path: "/" },
-    { name: "About Us", path: "/about" },
+    { name: "About us", path: "/about" },
   ];
+  const title = about.heroTitle.replace(/\.$/, "");
+  const accent = "academies run on";
+  const ai = title.toLowerCase().indexOf(accent);
 
   return (
-    <>
+    <div className="v5 relative bg-white font-sans text-[#0A0A0B] selection:bg-[#0A0A0B] selection:text-white">
       <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
-      <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
-        {/* 1. Hero & Outcome H1 */}
-        <section className="relative pt-[130px] sm:pt-[150px] pb-12 sm:pb-16 overflow-x-clip bg-[#FAF9F6]">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
-            <Eyebrow tone="violet">OUR MISSION</Eyebrow>
 
-            {/* Single H1 on page */}
-            <h1 className="type-h1 text-[#161616] tracking-tight mt-4 max-w-3xl">
-              {about.heroTitle}
-            </h1>
-
-            {/* Mission (two sentences) */}
-            <p className="type-body text-[#6B6F76] mt-6 max-w-2xl leading-relaxed text-lg sm:text-xl">
-              {about.mission}
-            </p>
+      {/* 1. Hero */}
+      <section className="relative isolate overflow-hidden bg-white pb-10 pt-[120px] min-[900px]:pt-[168px]">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-[-260px] h-[620px] w-[1100px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(108,75,255,0.20),transparent)] blur-2xl" />
+          <div className="absolute left-[8%] top-[60px] h-[360px] w-[420px] rounded-full bg-[radial-gradient(closest-side,rgba(143,168,255,0.22),transparent)] blur-2xl" />
+          <div className="absolute right-[6%] top-[120px] h-[340px] w-[420px] rounded-full bg-[radial-gradient(closest-side,rgba(196,181,253,0.28),transparent)] blur-2xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,10,11,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,10,11,0.04)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_10%,#000_20%,transparent_75%)]" />
+        </div>
+        <Container className="text-center">
+          <nav aria-label="Breadcrumb" className="v5-rise text-[13px] text-[#71717A]">
+            <ol className="inline-flex items-center gap-1.5">
+              <li>
+                <Link href="/" className="hover:text-[#0A0A0B]">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page" className="font-medium text-[#0A0A0B]">
+                About us
+              </li>
+            </ol>
+          </nav>
+          <h1
+            style={{ "--d": "90ms" } as React.CSSProperties}
+            className="v5-rise mx-auto mt-5 max-w-[900px] font-urbanist text-[clamp(38px,6vw,72px)] font-semibold leading-[1.02] tracking-[-0.04em] [text-wrap:balance]"
+          >
+            {ai >= 0 ? (
+              <>
+                {title.slice(0, ai)}
+                <span className="bg-gradient-to-r from-[#6C4BFF] via-[#8B5CF6] to-[#3B5BFF] bg-clip-text text-transparent">{title.slice(ai, ai + accent.length)}</span>
+                {title.slice(ai + accent.length)}
+              </>
+            ) : (
+              title
+            )}
+          </h1>
+          <p
+            style={{ "--d": "180ms" } as React.CSSProperties}
+            className="v5-rise mx-auto mt-5 max-w-[700px] text-[16.5px] leading-[1.6] text-[#52525B] sm:text-[18px] [text-wrap:pretty]"
+          >
+            {about.mission}
+          </p>
+          <div style={{ "--d": "270ms" } as React.CSSProperties} className="v5-rise mt-8 flex flex-wrap items-center justify-center gap-2 text-[13px] text-[#3F3F46]">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E4E7] bg-white px-3.5 py-1.5">
+              <Building2 className="h-3.5 w-3.5" /> A product of {about.companyLegalName}
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E4E7] bg-white px-3.5 py-1.5">
+              <MapPin className="h-3.5 w-3.5" /> Headquartered in {about.country}
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E4E4E7] bg-white px-3.5 py-1.5">
+              <CalendarDays className="h-3.5 w-3.5" /> Founded in {about.yearFounded}
+            </span>
           </div>
-        </section>
+        </Container>
+        <Container className="v5-shot relative mt-14 sm:mt-16">
+          <AboutCollage country={about.country} year={about.yearFounded} />
+        </Container>
+      </section>
 
-        {/* 2. Company Facts */}
-        <section className="py-12 sm:py-16 border-y border-[#EAE8E2] bg-white">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <div className="rounded-3xl bg-[#FAF9F6] border border-[#EAE8E2] p-8 sm:p-10 shadow-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#EAE8E2]">
-                <div>
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#7B5CF5]">
-                    Company details
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-bold text-[#161616] mt-1">
-                    {about.productName} is a product of {about.companyLegalName}
-                  </h2>
-                </div>
-                <div className="flex items-center gap-3 text-xs sm:text-sm font-medium text-[#6B6F76]">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#EAE8E2]">
-                    <MapPin className="size-3.5 text-[#7B5CF5]" />
-                    <span>{about.city}, {about.region}, {about.country}</span>
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-[#EAE8E2]">
-                    <Calendar className="size-3.5 text-[#7B5CF5]" />
-                    <span>Founded in {about.yearFounded}</span>
-                  </span>
-                </div>
-              </div>
-
-              <p className="type-body text-[#6B6F76] mt-6 leading-relaxed">
-                {about.companyBlurb}
+      {/* 2. Why we built it */}
+      <section className="bg-white pt-[clamp(72px,9vw,120px)]">
+        <Container>
+          <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+            <div className="rv-v4">
+              <p className="inline-flex items-center rounded-full border border-[#E4E4E7] bg-white px-3.5 py-1 text-[13px] font-medium text-[#27272A]">Our story</p>
+              <h2 className="mt-5 font-urbanist text-[clamp(30px,3.8vw,46px)] font-semibold leading-[1.06] tracking-[-0.03em] [text-wrap:balance]">
+                Academies teach people, not playlists
+              </h2>
+              <p className="mt-5 text-[16.5px] leading-[1.65] text-[#52525B]">
+                Most course platforms are built to sell recorded videos on someone else&apos;s marketplace. But academies teach in batches, run live
+                classes, give tests and chase fees, every week.
+              </p>
+              <p className="mt-4 text-[16.5px] leading-[1.65] text-[#52525B]">
+                So we built LMS Domain around how academies really work, and gave every academy its own website, its own brand and every rupee,
+                dollar and euro of its sales.
               </p>
             </div>
+            <WhyWeBuilt />
           </div>
-        </section>
+        </Container>
+      </section>
 
-        {/* 3. Approved Numbers Strip */}
-        <section className="py-12 bg-[#FAF9F6] border-b border-[#EAE8E2] text-center">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#7B5CF5] mb-4">
-              PLATFORM SCALE
-            </p>
-            <div className="inline-flex flex-wrap items-center justify-center gap-3 px-6 py-3 rounded-full bg-white border border-[#EAE8E2] text-sm sm:text-base font-bold text-[#161616] shadow-2xs">
-              <span>2,000+ learners</span>
-              <span className="text-[#D5D2CA]">·</span>
-              <span>100+ courses</span>
-              <span className="text-[#D5D2CA]">·</span>
-              <span>300+ lessons</span>
-              <span className="text-[#D5D2CA]">·</span>
-              <span>100+ live classes</span>
-            </div>
-          </div>
-        </section>
-
-        {/* 4. Founders */}
-        <section className="py-16 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-            <Eyebrow tone="violet">LEADERSHIP</Eyebrow>
-            <h2 className="type-h2 text-[#161616] mt-3">Founding Team</h2>
-            <p className="type-body text-[#6B6F76] mt-2">
-              Building the learning infrastructure for the next generation of academies.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
-            {founders.map((member, idx) => (
-              <div
-                key={idx}
-                className="rounded-3xl bg-white border border-[#EAE8E2] p-8 flex flex-col items-center text-center shadow-xs hover:border-[#161616] hover:shadow-md transition-all duration-200"
-              >
-                {/* Photo or Initials Avatar */}
-                {member.photo ? (
-                  <div className="size-24 rounded-full overflow-hidden mb-5 border-2 border-[#EAE8E2] relative">
-                    <Image
-                      src={member.photo}
-                      alt={member.name}
-                      width={96}
-                      height={96}
-                      className="object-cover size-full"
-                    />
-                  </div>
-                ) : (
-                  <div className="size-24 rounded-full bg-[#F3F0FF] text-[#7B5CF5] border-2 border-[#EAE8E2] flex items-center justify-center text-2xl font-bold tracking-wider mb-5">
-                    {getInitials(member.name)}
-                  </div>
-                )}
-
-                <h3 className="text-xl font-bold text-[#161616]">{member.name}</h3>
-                <p className="text-sm font-semibold text-[#7B5CF5] mt-1">{member.role}</p>
-
-                {member.bio && (
-                  <p className="text-sm text-[#6B6F76] mt-3 leading-relaxed">
-                    {member.bio}
-                  </p>
-                )}
-
-                {member.linkedinUrl && (
-                  <Link
-                    href={member.linkedinUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#6B6F76] hover:text-[#0A66C2] transition-colors"
-                  >
-                    <Linkedin className="size-4" />
-                    <span>LinkedIn</span>
-                  </Link>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 5. Team (hidden if none) */}
-        {teamMembers.length > 0 && (
-          <section className="py-16 sm:py-20 px-4 sm:px-6 max-w-5xl mx-auto border-t border-[#EAE8E2]">
-            <div className="text-center max-w-2xl mx-auto mb-12">
-              <Eyebrow tone="emerald">THE TEAM</Eyebrow>
-              <h2 className="type-h2 text-[#161616] mt-3">Team & Engineering</h2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {teamMembers.map((member, idx) => (
+      {/* 3. What we believe (dark) */}
+      <section className="px-2 pt-[clamp(80px,10vw,136px)] sm:px-3">
+        <div className="relative isolate overflow-hidden rounded-[28px] bg-[#0A0A0B] py-[clamp(64px,8vw,104px)] text-white sm:rounded-[40px]">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:22px_22px] [mask-image:radial-gradient(ellipse_60%_70%_at_50%_0%,#000,transparent_75%)]" />
+          <Container>
+            <SectionHeading tone="dark" eyebrow="What we believe" title="Four ideas behind everything we build" />
+            <div className="mt-12 grid gap-px overflow-hidden rounded-[24px] bg-white/10 sm:grid-cols-2 lg:mt-16">
+              {PRINCIPLES.map((p, i) => (
                 <div
-                  key={idx}
-                  className="rounded-3xl bg-white border border-[#EAE8E2] p-6 flex flex-col items-center text-center shadow-xs"
+                  key={p.n}
+                  style={{ "--rv-delay": `${i * 100}ms` } as React.CSSProperties}
+                  className="rv-v4 group bg-[#0A0A0B] p-7 transition-colors duration-500 hover:bg-[#121214] sm:p-9"
                 >
-                  {member.photo ? (
-                    <div className="size-20 rounded-full overflow-hidden mb-4 border border-[#EAE8E2] relative">
-                      <Image
-                        src={member.photo}
-                        alt={member.name}
-                        width={80}
-                        height={80}
-                        className="object-cover size-full"
-                      />
-                    </div>
-                  ) : (
-                    <div className="size-20 rounded-full bg-[#F3F0FF] text-[#7B5CF5] border border-[#EAE8E2] flex items-center justify-center text-xl font-bold mb-4">
-                      {getInitials(member.name)}
-                    </div>
-                  )}
-
-                  <h3 className="text-lg font-bold text-[#161616]">{member.name}</h3>
-                  <p className="text-xs font-semibold text-[#7B5CF5] mt-0.5">{member.role}</p>
-
-                  {member.bio && (
-                    <p className="text-xs text-[#6B6F76] mt-2 leading-relaxed">
-                      {member.bio}
-                    </p>
-                  )}
-
-                  {member.linkedinUrl && (
-                    <Link
-                      href={member.linkedinUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-3 inline-flex items-center gap-1 text-xs text-[#6B6F76] hover:text-[#0A66C2] transition-colors"
-                    >
-                      <Linkedin className="size-3.5" />
-                      <span>LinkedIn</span>
-                    </Link>
-                  )}
+                  <span className="font-urbanist text-[44px] font-semibold leading-none tracking-[-0.04em] text-white/15 transition-colors duration-500 group-hover:text-[#8B6CFF]">
+                    {p.n}
+                  </span>
+                  <h3 className="mt-6 font-urbanist text-[22px] font-semibold tracking-[-0.015em]">{p.t}</h3>
+                  <p className="mt-2 max-w-[440px] text-[15px] leading-[1.6] text-[#A1A1AA]">{p.b}</p>
                 </div>
               ))}
             </div>
-          </section>
-        )}
+          </Container>
+        </div>
+      </section>
 
-        {/* 6. CTABand */}
-        <CTABand
-          title="See your academy running on LMS Domain."
-          subtitle="Book a 20-minute demo. We'll show you how batches, courses, and checkouts work."
-          buttonText="Book a demo"
-          tone="dark"
-        />
-      </div>
-    </>
+      {/* 4. Numbers */}
+      <section className="bg-white pt-[clamp(80px,10vw,136px)]">
+        <Container>
+          <SectionHeading eyebrow="So far" title="LMS Domain in numbers" />
+          <div className="mt-12 lg:mt-16">
+            <NumbersBento />
+          </div>
+        </Container>
+      </section>
+
+      {/* 4b. Built for academies everywhere */}
+      <GlobalOrbit />
+
+      {/* 5. Founders and team (from Admin > About) */}
+      {founders.length > 0 && (
+        <section className="bg-white pt-[clamp(80px,10vw,136px)]">
+          <Container>
+            <SectionHeading eyebrow="The founders" title="Meet the people building LMS Domain" subtitle="Two founders with one goal: give every academy a platform that is truly its own." />
+            <div className="mt-12 lg:mt-16">
+              <FounderCards founders={founders} company={about.companyLegalName} />
+            </div>
+            <div className="mt-16 lg:mt-20">
+              <FounderLetter founders={founders} />
+            </div>
+            {teamMembers.length > 0 && (
+              <>
+                <p className="rv-v4 mt-16 text-center font-urbanist text-[22px] font-semibold tracking-[-0.015em]">The team</p>
+                <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {teamMembers.map((m) => (
+                    <Person key={m.name} m={m} />
+                  ))}
+                </div>
+              </>
+            )}
+          </Container>
+        </section>
+      )}
+
+      {/* 6. Company */}
+      <section className="bg-white pt-[clamp(80px,10vw,136px)]">
+        <Container>
+          <div className="rv-v4 grid overflow-hidden rounded-[28px] bg-[#F4F5F8] lg:grid-cols-[1.2fr_1fr]">
+            <div className="p-8 sm:p-12">
+              <p className="inline-flex items-center rounded-full border border-[#E4E4E7] bg-white px-3.5 py-1 text-[13px] font-medium text-[#27272A]">The company</p>
+              <h2 className="mt-5 font-urbanist text-[clamp(26px,3vw,36px)] font-semibold leading-[1.1] tracking-[-0.025em]">
+                {about.productName} is a product of {about.companyLegalName}
+              </h2>
+              <p className="mt-4 text-[16px] leading-[1.65] text-[#52525B]">{about.companyBlurb}</p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <DemoButton label="Book a demo" className="w-full sm:w-auto" />
+                <Link href="/contact" className={cn(secondaryButtonClass, "w-full sm:w-auto")}>
+                  Contact us
+                </Link>
+              </div>
+            </div>
+            <dl className="grid grid-cols-2 gap-px bg-[#E4E4E7] lg:grid-cols-1 lg:grid-rows-4">
+              {[
+                ["Company", about.companyLegalName],
+                ["Headquarters", about.country],
+                ["Founded", String(about.yearFounded)],
+                ["Customers", "Academies around the world"],
+              ].map(([k, v]) => (
+                <div key={k} className="flex flex-col justify-center bg-[#F4F5F8] px-8 py-6">
+                  <dt className="text-[12.5px] text-[#71717A]">{k}</dt>
+                  <dd className="mt-1 font-urbanist text-[18px] font-semibold tracking-[-0.01em]">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </Container>
+      </section>
+
+      <div className="pb-[clamp(72px,9vw,120px)]" />
+      <ScrollReveal />
+    </div>
   );
 }

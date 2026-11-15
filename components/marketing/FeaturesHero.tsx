@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 import { usePageVisibility } from "@/lib/pages-context";
 import { ArrowRight } from "lucide-react";
 
@@ -60,7 +60,6 @@ export function FeaturesHero({
           {/* Eyebrow */}
           <motion.div variants={itemVariants} className="mb-4">
             <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#F3F4F6] text-[#7B5CF5] text-xs font-semibold uppercase tracking-[0.08em]">
-              <span>✦</span>
               <span>{eyebrow}</span>
             </div>
           </motion.div>
@@ -109,7 +108,7 @@ export function FeaturesHero({
 
       {/* Demo Modal Dialog */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-[560px] p-6 sm:p-8 bg-white rounded-2xl shadow-xl border border-slate-200">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowDemoModal(false)} />
         </DialogContent>
       </Dialog>

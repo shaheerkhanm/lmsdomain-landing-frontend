@@ -7,7 +7,7 @@ import { FeatureIcon } from "./FeatureIcon";
 import { ScrollTrigger } from "@/lib/gsap";
 import { Search, X, Sparkles, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 
 const DEFAULT_LABELS = {
   premiumLabel: "Premium",
@@ -383,7 +383,7 @@ export function CategoryOverviewNav({ categories, labels = DEFAULT_LABELS }: Cat
 
       {/* Demo Modal Dialog */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-[560px] p-6 sm:p-8 bg-white rounded-2xl shadow-xl border border-slate-200">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowDemoModal(false)} />
         </DialogContent>
       </Dialog>

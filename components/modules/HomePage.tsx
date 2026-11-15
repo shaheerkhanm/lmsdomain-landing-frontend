@@ -1,119 +1,98 @@
 import React from "react";
-import BannerSection from "@/components/sections/HomePage/Banner/BannerSection";
-import BuiltForBatchesSection from "@/components/sections/HomePage/BuiltForBatchesSection";
-import HomeStatsSection from "@/components/sections/HomePage/HomeStatsSection";
-import HowAcademyRunsSection from "@/components/sections/HomePage/HowAcademyRunsSection";
-import SellAnywhereSection from "@/components/sections/HomePage/SellAnywhereSection";
-import YourBrandSection from "@/components/sections/HomePage/YourBrandSection";
-import DomieAiBand from "@/components/sections/HomePage/DomieAiBand";
-import WhyChooseUsSection from "@/components/sections/HomePage/WhyChooseUsSection";
-import HomeSolutionsSection from "@/components/sections/HomePage/HomeSolutionsSection";
-import PricingTeaserSection from "@/components/sections/HomePage/PricingTeaserSection";
-import { ProofStrip, FAQ, CTABand } from "@/components/marketing/ui";
-import { BatchFlowScreen } from "@/components/marketing/mockups/screens";
-import { DomieLauncher } from "@/components/ai/DomieLauncher";
+import { HeroV5 } from "@/components/sections/HomeV5/HeroV5";
+import { FeatureBento } from "@/components/sections/HomeV5/FeatureBento";
+import { SetupSteps } from "@/components/sections/HomeV5/SetupSteps";
+import { AiSection } from "@/components/sections/HomeV5/AiSection";
+import { AudienceCards } from "@/components/sections/HomeV5/AudienceCards";
+import { Testimonials, DEMO_TESTIMONIALS } from "@/components/sections/HomeV5/Testimonials";
+import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
+import { PricingBand } from "@/components/sections/HomeV5/PricingBand";
+import { DEFAULT_PRICING_V2 } from "@/config/pricing";
+import { FAQ } from "@/components/marketing/ui";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
+import { DomieLauncher } from "@/components/ai/DomieLauncher";
 import { homeFaqItems } from "@/content/faq";
-import { getSection, getHomeClients, getPricingPage } from "@/lib/api/content";
-import { keepLive } from "@/lib/claims";
+import { heroContent as defaultHeroContent } from "@/content/home/hero";
+import { getSection, getHomeClients, getPricingPage, getHomeTestimonials } from "@/lib/api/content";
+import { keepLive, liveOr } from "@/lib/claims";
+import { isProductionSite } from "@/lib/site";
 import { ContentSource } from "@/components/content/ContentSource";
 import { PageContentProvider } from "@/components/content/PageContent";
 
 export async function HomePage() {
-  const [hero, clients, pricingPage] = await Promise.all([
+  const [hero, clients, pricingPage, testimonials] = await Promise.all([
     getSection("home-hero"),
     getHomeClients().catch(() => null),
     getPricingPage().catch(() => null),
+    getHomeTestimonials().catch(() => []),
   ]);
 
   const content = {
     "home-hero": hero.content,
   };
 
-  // Find lowest monthly plan price from pricing source
-  const paidPlans = (pricingPage?.plans || [])
-    .filter(
-      (p) =>
-        !p.isCustom &&
-        typeof p.prices?.monthly === "number" &&
-        p.prices.monthly > 0
-    )
-    .sort((a, b) => (a.prices.monthly ?? 0) - (b.prices.monthly ?? 0));
+  const heroTitle =
+    liveOr(hero.content?.title, defaultHeroContent.title) ||
+    defaultHeroContent.title ||
+    "Run your academy's batches, live classes and tests in one place.";
 
-  const lowestPlan = paidPlans[0];
-  const lowestMonthlyPrice = lowestPlan?.prices?.monthly ?? 3999;
-  const lowestMonthlyPriceUsd = pricingPage?.pricingV2?.plans?.[0]?.priceMonthly?.USD ?? 49;
-  const planCurrency = lowestPlan?.currency || pricingPage?.plans?.[0]?.currency;
+  // Lowest paid plan price for the compact pricing block (full plans live on /pricing)
+  const pricingV2 = pricingPage?.pricingV2 || DEFAULT_PRICING_V2;
+  const paidPlans = (pricingV2.plans || [])
+    .filter((p) => p.active !== false && !p.isCustom)
+    .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+  const minOf = (cur: "INR" | "USD") => {
+    const vals = paidPlans.map((p) => p.priceMonthly?.[cur]).filter((v): v is number => typeof v === "number" && v > 0);
+    return vals.length ? Math.min(...vals) : null;
+  };
+  const fromPrice = { INR: minOf("INR"), USD: minOf("USD") };
+
+  // Real testimonials from admin win. Demo ones only outside production, never on the live site.
+  const useDemoTestimonials = testimonials.length === 0 && !isProductionSite();
+  const testimonialItems = useDemoTestimonials ? DEMO_TESTIMONIALS : testimonials;
 
   return (
     <PageContentProvider value={content}>
       <div
         id="home-page-root"
-        className="relative font-urbanist selection:bg-[#161616] selection:text-white transition-[background-color] duration-700 ease-out"
-        style={{ backgroundColor: "var(--page-bg, #FAFAFA)" }}
+        className="v5 relative bg-white font-sans text-[#0A0A0B] selection:bg-[#0A0A0B] selection:text-white"
       >
-        {/* 1. HERO (Single H1 on the page + Logo Marquee) */}
+        {/* 1. Hero: headline, product view, customer logos, real numbers */}
         <ContentSource id="home-hero" source={hero.source}>
-          <BannerSection clientLogos={clients?.logos || []} />
+          <HeroV5 title={heroTitle} logos={clients?.logos || []} />
         </ContentSource>
 
-        {/* 2. GIANT PRODUCT SCREEN */}
-        <section className="mt-[clamp(56px,7vw,88px)] max-w-[1160px] mx-auto px-5" aria-label="Course batch flow demo">
-          <BatchFlowScreen />
-        </section>
+        {/* 2. Feature bento grid */}
+        <FeatureBento />
 
-        {/* 3. BUILT FOR BATCHES DARK PANEL & ADMIN DASHBOARD */}
-        <BuiltForBatchesSection />
+        {/* 3. Setup in three steps */}
+        <SetupSteps />
 
-        {/* 4. STATS (Proof Strip Proof Numbers) */}
-        <HomeStatsSection />
+        {/* 4. Domie AI: the only dark section */}
+        <AiSection />
 
-        {/* 5. DOMIE AI */}
-        <DomieAiBand />
+        {/* 5. Who it's for */}
+        <AudienceCards />
 
-        {/* 6. HOW AN ACADEMY RUNS ON LMS DOMAIN */}
-        <HowAcademyRunsSection />
+        {/* 6. Testimonials (admin data, or demo outside production) */}
+        <Testimonials items={testimonialItems} isDemo={useDemoTestimonials} />
 
-        {/* 7. SELL ANYWHERE */}
-        <SellAnywhereSection />
+        {/* 7. Pricing: compact block, full plans on /pricing */}
+        <PricingBand fromPrice={fromPrice} trialDays={pricingV2.trialDays ?? 15} />
 
-        {/* 8. YOUR BRAND, YOUR DOMAIN */}
-        <YourBrandSection />
-
-        {/* 9. WHY ACADEMIES CHOOSE LMS DOMAIN */}
-        <WhyChooseUsSection />
-
-        {/* 10. SOLUTIONS PHOTO CARDS */}
-        <HomeSolutionsSection />
-
-        {/* 11. PRICING TEASER */}
-        <PricingTeaserSection
-          pricingV2={pricingPage?.pricingV2}
-          heroTitle={pricingPage?.hero?.title}
-          heroSubtitle={pricingPage?.hero?.subtitle}
-        />
-
-        {/* 12. FAQ (Sendr Dark Panel Style) */}
+        {/* 8. FAQ */}
         <FAQ
           items={keepLive(homeFaqItems, (item) => [item.question, item.answer])}
           title="Frequently asked questions"
           eyebrow="FAQs"
-          variant="dark-panel"
           contactHref="/contact"
+          minimal
         />
 
-        {/* 13. FINAL CTA */}
-        <CTABand
-          title="See your academy running on LMS Domain."
-          subtitle="Book a 20-minute demo. We'll show it with your own course structure."
-          buttonText="Book a demo"
-          tone="light"
-        />
+        {/* 9. Final CTA */}
+        <FinalCta />
 
-        {/* 14. FLOATING DOMIE LAUNCHER */}
         <DomieLauncher />
-
-        {/* 15. SCROLL REVEAL OBSERVER */}
         <ScrollReveal />
       </div>
     </PageContentProvider>

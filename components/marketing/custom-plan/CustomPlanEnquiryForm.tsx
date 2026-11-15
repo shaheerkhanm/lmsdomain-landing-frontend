@@ -196,13 +196,13 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
     }
   };
 
-  const successMessage = (formConfig.successMessage || "Thanks, {name}. We've got your request and will reply within one working day.").replace(
+  const successMessage = (formConfig.successMessage || "Thanks, {name}. We've got your request and will be in touch soon.").replace(
     "{name}",
     name || "there"
   );
 
   return (
-    <section id="plan" className="py-20 sm:py-24 bg-white font-urbanist relative overflow-hidden border-b border-[#ECEDEF]">
+    <section id="plan" className="scroll-mt-24 py-20 sm:py-24 bg-white font-sans relative overflow-hidden">
       {/* Background Soft Glow */}
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#7B5CF5]/5 rounded-full blur-[140px] pointer-events-none"
@@ -212,14 +212,14 @@ export function CustomPlanEnquiryForm({ formConfig }: CustomPlanEnquiryFormProps
       <div className="max-w-[760px] mx-auto px-4 sm:px-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-3">
-            ✦ Get Your Plan &amp; Quote
+          <span className="mb-5 inline-flex items-center rounded-full border border-[#E4E4E7] bg-white px-3.5 py-1 text-[13px] font-medium text-[#27272A]">
+            Get your plan and quote
           </span>
-          <h2 className="text-[30px] sm:text-[40px] font-bold text-[#161616] tracking-tight mb-3">
+          <h2 className="mb-3 font-urbanist text-[clamp(32px,4.4vw,50px)] font-semibold leading-[1.06] tracking-[-0.03em] text-[#0A0A0B]">
             {formConfig.title || "Tell us about your academy"}
           </h2>
           <p className="text-sm sm:text-base text-[#6B6F76] max-w-lg mx-auto">
-            {formConfig.subtitle || "Takes two minutes. We reply within one working day with a plan and quote."}
+            {formConfig.subtitle || "Takes two minutes. We reply after our call with a plan and quote."}
           </p>
         </div>
 

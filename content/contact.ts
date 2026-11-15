@@ -14,12 +14,10 @@ export const defaultContactDetails: ContactDetails = {
   email: "support@lmsdomain.com",
   phone: "+91 9539825916",
   whatsappNumber: "+91 9539825916",
-  addressLines: [
-    "3rd floor, Malabar Gate Hotel",
-    "17/1491-D-15, Ram Mohan Rd, Palayam",
-  ],
-  city: "Kozhikode",
-  postalCode: "673004",
+  // Country only: the exact address is never published (site rule).
+  addressLines: [],
+  city: "",
+  postalCode: "",
   country: "India",
   mapUrl: "",
   hours: "",

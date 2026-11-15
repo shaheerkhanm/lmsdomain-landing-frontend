@@ -60,7 +60,7 @@ export function AuthLoginForm({ copy, loginUrl, forgotUrl }: AuthLoginFormProps)
     >
       {/* Title & Subtitle */}
       <div className="space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-tight">
+        <h1 className="font-urbanist text-[clamp(34px,4vw,44px)] font-semibold text-[#0A0A0B] tracking-[-0.035em] leading-[1.05]">
           {copy.title}
         </h1>
         <p className="text-base text-[#6B6F76] leading-relaxed">
@@ -75,7 +75,7 @@ export function AuthLoginForm({ copy, loginUrl, forgotUrl }: AuthLoginFormProps)
             <button
               type="button"
               disabled
-              className="w-full h-[48px] rounded-xl bg-slate-200 text-slate-400 font-semibold text-sm cursor-not-allowed flex items-center justify-center"
+              className="w-full h-12 rounded-full bg-slate-200 text-slate-400 font-semibold text-sm cursor-not-allowed flex items-center justify-center"
             >
               {copy.submitLabel}
             </button>
@@ -88,7 +88,7 @@ export function AuthLoginForm({ copy, loginUrl, forgotUrl }: AuthLoginFormProps)
         ) : (
           <a
             href={targetUrl}
-            className="w-full h-[48px] rounded-xl bg-[#161616] hover:bg-black text-white font-semibold text-sm flex items-center justify-center transition-all active:scale-[0.98] shadow-xs hover:shadow-md cursor-pointer"
+            className="w-full h-12 rounded-full bg-[#0A0A0B] hover:bg-[#27272A] text-white font-semibold text-sm flex items-center justify-center transition-all active:scale-[0.98] shadow-xs hover:shadow-md cursor-pointer"
           >
             {copy.submitLabel}
           </a>
@@ -114,7 +114,7 @@ export function AuthLoginForm({ copy, loginUrl, forgotUrl }: AuthLoginFormProps)
             {copy.signupPrompt}{" "}
             <Link
               href="/signup"
-              className="text-[#7B5CF5] font-semibold hover:underline cursor-pointer"
+              className="text-[#6C4BFF] font-semibold hover:underline cursor-pointer"
             >
               {copy.signupLinkLabel}
             </Link>

@@ -1,29 +1,78 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { Eyebrow, CTABand } from "@/components/marketing/ui";
+import { MessageCircle } from "lucide-react";
+import { Moments } from "@/components/sections/CustomersV5/Moments";
+import { WhyChoose } from "@/components/sections/CustomersV5/WhyChoose";
+import { NumbersBento } from "@/components/sections/CustomersV5/NumbersBento";
 import { customersPageData } from "@/content/customers";
-import { getHomeClients } from "@/lib/api/content";
-import { fullTitle, getMetadataBase } from "@/lib/site";
+import { getHomeClients, getHomeTestimonials } from "@/lib/api/content";
+import { getMetadataBase, isProductionSite } from "@/lib/site";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
-import { Sparkles, FileText, ArrowRight } from "lucide-react";
+import { ScrollReveal } from "@/components/marketing/ScrollReveal";
+import { Container, SectionHeading, secondaryButtonClass } from "@/components/sections/HomeV5/primitives";
+import { DemoButton } from "@/components/sections/HomeV5/DemoButton";
+import { Testimonials, DEMO_TESTIMONIALS } from "@/components/sections/HomeV5/Testimonials";
+import { AcademyShowcase, type ShowcaseAcademy } from "@/components/sections/CustomersV5/AcademyShowcase";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   metadataBase: getMetadataBase(),
-  title: "Customer Stories & Academy Case Studies | LMS Domain",
+  title: "Customers: Academies Using LMS Domain | LMS Domain",
   description:
-    "See how test prep academies, language institutes, and professional training companies across India run live batches and scale on LMS Domain platform.",
+    "See the coaching institutes, language schools, training companies and independent educators who teach, sell and run live classes on LMS Domain.",
   alternates: { canonical: "/customers" },
 };
 
+
+// Each type of academy: outcomes, a sample person and stat (sample data), demo from its Solutions page
+const ACADEMIES: ShowcaseAcademy[] = [
+  {
+    key: "coaching",
+    name: "Coaching institutes",
+    href: "/solutions/coaching-institutes",
+    body: "Run morning, evening and weekend batches with live classes, mock tests and fees in one place.",
+    points: ["Batch timetables and drip release", "Attendance logged from Zoom", "Mock tests with instant ranks", "Online fees and reminders"],
+    stat: { v: "23/24", l: "joined today" },
+    person: { name: "Daniel Reyes", role: "Maths teacher, coaching institute", photo: "/assets/img/home/participant_alex.jpg" },
+  },
+  {
+    key: "language",
+    name: "Language academies",
+    href: "/solutions/language-test-prep-academies",
+    body: "Prepare learners for any language or exam with practice tests and private feedback on their writing.",
+    points: ["Timed practice tests", "Essay reviews with private feedback", "Scores in every learner's profile", "Fees in many currencies"],
+    stat: { v: "7/9", l: "latest essay" },
+    person: { name: "Mia Collins", role: "English teacher, language academy", photo: "/assets/img/home/participant_mia.jpg" },
+  },
+  {
+    key: "training",
+    name: "Training companies",
+    href: "/solutions/training-companies",
+    body: "Deliver private programmes for each client, certify the people who finish and report on progress.",
+    points: ["A private batch per client", "Project reviews by trainers", "Branded certificates", "Completion reports in a click"],
+    stat: { v: "28", l: "certified" },
+    person: { name: "Sarah Lee", role: "Head of training delivery", photo: "/assets/img/home/testimonials/author-5.jpg" },
+  },
+  {
+    key: "solo",
+    name: "Solo educators",
+    href: "/solutions/solo-educators",
+    body: "Sell courses, workshops, 1:1 sessions and ebooks on your own website, and keep every sale.",
+    points: ["Your own branded academy", "Paid 1:1 bookings", "Live workshops on Zoom", "0% commission on sales"],
+    stat: { v: "$1,486", l: "this week" },
+    person: { name: "Priya Sharma", role: "Independent data tutor", photo: "/assets/img/home/testimonials/author-1.jpg" },
+  },
+];
+
 export default async function CustomersRoute() {
-  const clientsData = await getHomeClients().catch(() => null);
-  // Same filter as homepage: exclude unapproved placeholder client names
-  const validLogos = (clientsData?.logos || []).filter((l) => {
-    if (!l || !l.logo) return false;
-    const name = (l.name || "").toLowerCase();
-    return !/^client\s*-?\s*\d+/i.test(name);
-  });
+  const [clientsData, testimonials] = await Promise.all([
+    getHomeClients().catch(() => null),
+    getHomeTestimonials().catch(() => []),
+  ]);
+  const logos = (clientsData?.logos || []).filter((l) => l?.logo && l.name && !/^client\s*-?\s*\d+/i.test(l.name));
+  // Real testimonials from admin win. Demo ones only outside production, never on the live site.
+  const useDemo = testimonials.length === 0 && !isProductionSite();
+  const stories = useDemo ? DEMO_TESTIMONIALS : testimonials;
 
   const breadcrumbs = [
     { name: "Home", path: "/" },
@@ -31,104 +80,150 @@ export default async function CustomersRoute() {
   ];
 
   return (
-    <div className="relative font-urbanist bg-[#FAF9F6] selection:bg-[#161616] selection:text-white">
+    <div className="v5 relative bg-white font-sans text-[#0A0A0B] selection:bg-[#0A0A0B] selection:text-white">
       <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
-      {/* 1. Hero & Outcome H1 */}
-      <section className="relative pt-[130px] sm:pt-[150px] pb-12 sm:pb-16 overflow-x-clip bg-[#FAF9F6]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center text-center">
-          <Eyebrow tone="violet">{customersPageData.eyebrow}</Eyebrow>
 
-          {/* Single H1 on the page */}
-          <h1 className="type-h1 text-[#161616] max-w-4xl tracking-tight mt-4">
-            {customersPageData.title}
+      {/* 1. Hero */}
+      <section className="relative isolate overflow-hidden bg-white pt-[120px] min-[900px]:pt-[168px]">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-[-260px] h-[620px] w-[1100px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(108,75,255,0.20),transparent)] blur-2xl" />
+          <div className="absolute left-[8%] top-[60px] h-[360px] w-[420px] rounded-full bg-[radial-gradient(closest-side,rgba(143,168,255,0.22),transparent)] blur-2xl" />
+          <div className="absolute right-[6%] top-[120px] h-[340px] w-[420px] rounded-full bg-[radial-gradient(closest-side,rgba(196,181,253,0.28),transparent)] blur-2xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(10,10,11,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(10,10,11,0.04)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_10%,#000_20%,transparent_75%)]" />
+        </div>
+        <Container className="text-center">
+          <nav aria-label="Breadcrumb" className="v5-rise text-[13px] text-[#71717A]">
+            <ol className="inline-flex items-center gap-1.5">
+              <li>
+                <Link href="/" className="hover:text-[#0A0A0B]">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page" className="font-medium text-[#0A0A0B]">
+                Customers
+              </li>
+            </ol>
+          </nav>
+          <h1
+            style={{ "--d": "90ms" } as React.CSSProperties}
+            className="v5-rise mx-auto mt-5 max-w-[900px] font-urbanist text-[clamp(36px,5.6vw,68px)] font-semibold leading-[1.03] tracking-[-0.04em] [text-wrap:balance]"
+          >
+            Academies that{" "}
+            <span className="bg-gradient-to-r from-[#6C4BFF] via-[#8B5CF6] to-[#3B5BFF] bg-clip-text text-transparent">teach and grow</span> with LMS
+            Domain
           </h1>
-
-          <p className="type-body text-[#6B6F76] mt-4 max-w-2xl leading-relaxed">
+          <p
+            style={{ "--d": "180ms" } as React.CSSProperties}
+            className="v5-rise mx-auto mt-5 max-w-[660px] text-[16.5px] leading-[1.6] text-[#52525B] sm:text-[18px] [text-wrap:pretty]"
+          >
             {customersPageData.subtitle}
           </p>
-
-          {/* Approved Metrics Line */}
-          <div className="mt-8 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-[#EAE8E2] text-xs sm:text-sm font-semibold text-[#161616] shadow-2xs">
-            <span className="size-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>{customersPageData.metricsLine}</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. Customer Logo Wall */}
-      <section className="py-12 sm:py-16 border-y border-[#EAE8E2] bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10">
-            <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.1em] text-[#7B5CF5]">
-              ACADEMY PARTNERS
-            </p>
-          </div>
-
-          {validLogos.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto">
-              {validLogos.map((client, idx) => (
-                <div
-                  key={client.id || idx}
-                  className="rounded-3xl bg-[#FAF9F6] border border-[#EAE8E2] p-8 flex flex-col items-center justify-center text-center shadow-xs hover:border-[#161616] hover:shadow-md transition-all duration-200"
-                >
-                  <div className="relative h-12 w-full max-w-[180px] flex items-center justify-center mb-4">
-                    <Image
-                      src={client.logo!}
-                      alt={client.name || "Academy customer"}
-                      width={180}
-                      height={48}
-                      className="h-full w-auto object-contain max-h-12"
-                    />
-                  </div>
-                  {client.name && (
-                    <span className="text-sm font-bold text-[#161616]">
-                      {client.name}
-                    </span>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="py-8 text-center text-sm text-[#8F94A0]">
-              {/* TODO(content): client logos loaded from CMS */}
-              <span>Academy partner logos will appear here as they are published.</span>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* 3. Case Studies Note Card */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 max-w-4xl mx-auto">
-        <div className="rounded-3xl bg-white border border-[#EAE8E2] p-8 sm:p-12 text-center shadow-xs">
-          <div className="size-12 rounded-2xl bg-[#F3F0FF] text-[#7B5CF5] flex items-center justify-center mx-auto mb-4">
-            <FileText className="size-6" />
-          </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-[#161616] mb-2">
-            In-depth case studies coming soon
-          </h2>
-          <p className="type-body text-[#6B6F76] max-w-xl mx-auto">
-            {customersPageData.caseStudiesNote} We are documenting batch schedules,
-            exam pass rates, and transition journeys with our partner academies.
-          </p>
-          <div className="mt-6">
-            <Link
-              href="/demo"
-              className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#7B5CF5] hover:text-[#6842ED] transition-colors"
-            >
-              <span>Speak with our academy team to hear live customer stories</span>
-              <ArrowRight className="size-4" />
+          <div style={{ "--d": "270ms" } as React.CSSProperties} className="v5-rise mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <DemoButton label="Book a demo" className="w-full sm:w-auto" />
+            <Link href="/pricing" className={cn(secondaryButtonClass, "w-full sm:w-auto")}>
+              See pricing
             </Link>
           </div>
+        </Container>
+
+        {/* Everyday moments on LMS Domain */}
+        <div style={{ "--d": "420ms" } as React.CSSProperties} className="v5-rise mt-14 sm:mt-16">
+          <Moments />
+        </div>
+
+        {/* Real numbers, each with a graphic */}
+        <Container className="relative mt-12 sm:mt-14">
+          <NumbersBento />
+        </Container>
+
+        {/* Real customer logos (from admin) */}
+        {logos.length > 0 && (
+          <Container className="py-14 text-center sm:py-16">
+            <p className="rv-v4 text-[13px] font-medium text-[#71717A]">Academies teaching with LMS Domain</p>
+            <div className="rv-v4 mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              {logos.map((l) => {
+                const card = (
+                  <span className="group flex h-[96px] items-center justify-center rounded-[20px] bg-[#F4F5F8] px-6 transition-colors duration-300 hover:bg-[#EFF0F4]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={l.logo}
+                      alt={l.name}
+                      className="max-h-10 w-auto object-contain opacity-70 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                      loading="lazy"
+                    />
+                  </span>
+                );
+                return l.url ? (
+                  <a key={l.name} href={l.url} target="_blank" rel="noopener noreferrer">
+                    {card}
+                  </a>
+                ) : (
+                  <span key={l.name}>{card}</span>
+                );
+              })}
+            </div>
+          </Container>
+        )}
+      </section>
+
+      {/* 2. Every kind of academy */}
+      <section className={cn("px-2 sm:px-3", logos.length ? "" : "pt-[clamp(72px,9vw,120px)]")}>
+        <div className="rounded-[28px] bg-[#F4F5F8] py-[clamp(64px,8vw,104px)] sm:rounded-[40px]">
+          <Container>
+            <SectionHeading
+              eyebrow="Who uses it"
+              title="Built for every kind of academy"
+              subtitle="Different ways of teaching, one platform. Pick a type of academy and watch it run."
+            />
+            <div className="rv-v4 mt-12 lg:mt-16">
+              <AcademyShowcase academies={ACADEMIES} />
+            </div>
+          </Container>
         </div>
       </section>
 
-      {/* 4. CTABand */}
-      <CTABand
-        title={customersPageData.ctaTitle}
-        subtitle={customersPageData.ctaSubtitle}
-        buttonText={customersPageData.ctaButtonText}
-        tone="dark"
-      />
+      {/* 2b. Why academies choose LMS Domain */}
+      <WhyChoose />
+
+      {/* 3. Stories (admin testimonials; demo only outside production) */}
+      <Testimonials items={stories} isDemo={useDemo} showAll title="What academies say about LMS Domain" />
+
+      {/* 4. Talk to us about customer stories */}
+      <section className={cn("bg-white", stories.length ? "" : "pt-[clamp(80px,10vw,136px)]")}>
+        <Container>
+          <div className="rv-v4 relative isolate overflow-hidden rounded-[28px] bg-[#0A0A0B] px-6 py-12 text-white sm:px-12 sm:py-14">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[size:22px_22px] [mask-image:radial-gradient(ellipse_60%_80%_at_85%_50%,#000,transparent_70%)]" />
+            <div className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
+              <div>
+                <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1 text-[13px] font-medium text-[#E4E4E7]">
+                  <MessageCircle className="h-3.5 w-3.5" /> Customer stories
+                </p>
+                <h2 className="mt-5 font-urbanist text-[clamp(26px,3.2vw,38px)] font-semibold leading-[1.1] tracking-[-0.03em] [text-wrap:balance]">
+                  Want to hear how an academy like yours runs on LMS Domain?
+                </h2>
+                <p className="mt-3 max-w-[520px] text-[15.5px] leading-[1.6] text-[#A1A1AA]">
+                  Detailed case studies are on the way. In the meantime, book a call and our team will walk you through real setups for
+                  academies like yours.
+                </p>
+              </div>
+              <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+                <DemoButton label="Book a demo" variant="light" className="w-full sm:w-auto" />
+                <Link
+                  href="/contact"
+                  className="inline-flex h-11 items-center justify-center rounded-full border border-white/20 px-5 text-[14.5px] font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/5"
+                >
+                  Contact us
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <div className="pb-[clamp(72px,9vw,120px)]" />
+
+      <ScrollReveal />
     </div>
   );
 }

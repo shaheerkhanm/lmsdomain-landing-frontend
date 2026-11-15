@@ -42,11 +42,11 @@ type View =
   | { name: "handoff"; redirect: CentralRedirect; academyName?: string };
 
 const inputClass = (hasError: boolean) =>
-  `w-full h-[48px] px-3.5 text-[16px] rounded-[12px] bg-[#F4F5F7] border border-[#ECEDEF] text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#7B5CF5] focus:ring-2 focus:ring-[#7B5CF5]/15 focus:bg-white transition-all ${
+  `w-full h-12 px-4 text-[16px] rounded-[12px] bg-[#F4F5F8] border border-transparent text-[#161616] placeholder:text-[#8F94A0] focus:outline-none focus:border-[#6C4BFF] focus:ring-4 focus:ring-[#6C4BFF]/10 focus:bg-white transition-all ${
     hasError ? "border-red-500 ring-2 ring-red-100" : ""
   }`;
 
-const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7B5CF5] focus-visible:ring-offset-2";
+const focusRing = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6C4BFF] focus-visible:ring-offset-2";
 
 function initials(name: string): string {
   return name
@@ -71,7 +71,7 @@ function AcademyAvatar({ academy }: { academy: CentralAcademy }) {
         loading="lazy"
         referrerPolicy="no-referrer"
         onError={() => setFailed(true)}
-        className="size-10 shrink-0 rounded-full object-cover bg-[#F4F5F7] border border-[#ECEDEF]"
+        className="size-10 shrink-0 rounded-full object-cover bg-[#F4F5F8] border border-transparent"
       />
     );
   }
@@ -268,7 +268,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
 
       {/* Title & Subtitle */}
       <div className="space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-semibold text-[#161616] tracking-tight leading-tight">
+        <h1 className="font-urbanist text-[clamp(34px,4vw,44px)] font-semibold text-[#0A0A0B] tracking-[-0.035em] leading-[1.05]">
           {copy.title}
         </h1>
         <p className="text-base text-[#6B6F76] leading-relaxed">{copy.subtitle}</p>
@@ -277,7 +277,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
       {/* View 1: sign-in form (kept mounted so the reCAPTCHA widget survives view changes) */}
       <form onSubmit={onSubmit} hidden={view.name !== "form"} className="pt-2 space-y-4">
         <div className="space-y-1.5">
-          <label htmlFor="central-email" className="block text-sm font-semibold text-[#161616]">
+          <label htmlFor="central-email" className="block text-[13px] font-medium text-[#3F3F46]">
             Email
           </label>
           <input
@@ -302,7 +302,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label htmlFor="central-password" className="block text-sm font-semibold text-[#161616]">
+            <label htmlFor="central-password" className="block text-[13px] font-medium text-[#3F3F46]">
               Password
             </label>
             <Link
@@ -376,7 +376,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
         <button
           type="submit"
           disabled={submitDisabled}
-          className={`w-full h-[48px] rounded-xl bg-[#161616] hover:bg-black text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-xs hover:shadow-md cursor-pointer disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:cursor-not-allowed disabled:active:scale-100 ${focusRing}`}
+          className={`w-full h-12 rounded-full bg-[#0A0A0B] hover:bg-[#27272A] text-white font-semibold text-sm flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-xs hover:shadow-md cursor-pointer disabled:bg-slate-200 disabled:text-slate-400 disabled:shadow-none disabled:cursor-not-allowed disabled:active:scale-100 ${focusRing}`}
         >
           {submitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
           {submitting ? "Signing in…" : copy.centralSubmitLabel || DEFAULT_SUBMIT_LABEL}
@@ -408,7 +408,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
                 >
                   <AcademyAvatar academy={academy} />
                   <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-[#161616] truncate">{academy.name}</span>
+                    <span className="block text-[13px] font-medium text-[#3F3F46] truncate">{academy.name}</span>
                     <span className="block text-xs text-[#6B6F76] truncate">{academy.domain}</span>
                   </span>
                   {choosingId === academy.id && (
@@ -423,7 +423,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
             <button
               type="button"
               onClick={resetAll}
-              className={`text-sm text-[#7B5CF5] font-semibold hover:underline cursor-pointer rounded ${focusRing}`}
+              className={`text-sm text-[#6C4BFF] font-semibold hover:underline cursor-pointer rounded ${focusRing}`}
             >
               Use a different account
             </button>
@@ -448,7 +448,7 @@ export function CentralLoginForm({ copy, centralUrl, recaptchaSiteKey }: Central
         <div className="pt-6 border-t border-slate-100 text-center">
           <p className="text-sm text-[#6B6F76]">
             {copy.signupPrompt}{" "}
-            <Link href="/signup" className="text-[#7B5CF5] font-semibold hover:underline cursor-pointer">
+            <Link href="/signup" className="text-[#6C4BFF] font-semibold hover:underline cursor-pointer">
               {copy.signupLinkLabel}
             </Link>
           </p>

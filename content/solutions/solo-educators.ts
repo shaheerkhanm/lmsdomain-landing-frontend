@@ -2,20 +2,18 @@ import { SolutionPageData } from "./types";
 
 export const soloEducatorsData: SolutionPageData = {
   slug: "solo-educators",
-  eyebrow: "SOLO EDUCATORS & CREATORS",
-  title: "Sell courses, live cohorts and 1:1 sessions under your own brand.",
-  subtitle:
-    "LMS Domain is an online course platform for independent educators, subject tutors, and content creators in India. Deliver recorded courses with drip release, host live cohort workshops on Zoom, offer 1:1 paid tutor bookings, sell downloadable ebooks, and collect payments directly to your bank account with GST invoices.",
+  eyebrow: "Solo educators",
+  title: "Sell courses, live workshops and 1:1 sessions under your own brand",
+  subtitle: "LMS Domain gives independent educators and course creators their own academy website, with recorded courses, live Zoom workshops, paid 1:1 sessions and ebooks. Payments go straight to your account, with 0% commission.",
   metaTitle: "LMS for Solo Educators & Course Creators | LMS Domain",
-  metaDescription:
-    "Sell courses, run Zoom live classes, and host 1:1 bookings under your own brand with 0% platform transaction fees. Built for independent educators in India.",
+  metaDescription: "Sell courses, live Zoom workshops, paid 1:1 sessions and ebooks on your own branded website. Payments go straight to you, with 0% commission.",
   sectionHeading: "How does LMS Domain empower solo educators and independent tutors?",
   features: [
     {
       title: "Recorded courses & drip lessons",
       tagline: "Structured chapters with video, PDF, and text materials.",
       description:
-        "Build self-paced or drip-scheduled courses with rich multimedia. Protect video playback with dynamic viewer watermarks and enforce maximum device sign-in limits.",
+        "Build self-paced or drip-scheduled courses with rich multimedia. Protect videos with viewer watermarks (Growth and up) and device limits (Pro and up).",
       icon: "BookOpen",
     },
     {
@@ -29,7 +27,7 @@ export const soloEducatorsData: SolutionPageData = {
       title: "1:1 paid tutor booking",
       tagline: "Private office hours and paid consultations.",
       description:
-        "Define your available consultation slots, connect your meeting calendar, and let students book and pay for 1:1 advisory sessions on your storefront.",
+        "Set your available times and let learners book and pay for private 1:1 sessions on your website. Available on Growth and up.",
       icon: "UserCheck",
     },
     {
@@ -80,7 +78,7 @@ export const soloEducatorsData: SolutionPageData = {
     {
       question: "How do payments and payouts work for solo educators?",
       answer:
-        "You connect your own Razorpay, Paytm, Stripe, or DOKU merchant account. Student fees deposit directly into your business bank account, and the platform generates automated GST invoices.",
+        "You connect your own Razorpay, Paytm, Stripe, or DOKU merchant account. Payments go straight to your own account and LMS Domain takes 0% commission. Educators in India also get automatic GST invoices.",
     },
     {
       question: "Can I sell ebooks and study guides alongside my courses?",
@@ -107,5 +105,68 @@ export const soloEducatorsData: SolutionPageData = {
   ctaSubtitle:
     "Book a 20-minute demo. We'll show you how course building, 1:1 booking, and payment checkouts operate under your own brand.",
   ctaButtonText: "Book a demo",
+  v5: {
+    heroAccent: "your own brand",
+    pains: [
+      { before: "A marketplace takes a cut of every sale you make", after: "Payments go straight to your account, with 0% commission" },
+      { before: "Courses on one app, bookings on another, ebooks somewhere else", after: "Courses, workshops, 1:1 sessions and ebooks on one website" },
+      { before: "Your learners belong to someone else's platform", after: "Your own domain, your brand and your learner list" },
+      { before: "Manually sending Zoom links before every workshop", after: "Learners join live workshops from your academy" },
+    ],
+    weekTitle: "A week as a solo educator",
+    weekSubtitle: "How one independent tutor teaches and earns on LMS Domain.",
+    week: [
+      {
+        day: "Mon",
+        title: "Course sales come in",
+        body: "Learners buy from your own website. Each payment goes straight to your account.",
+        card: {
+          title: "Python for Beginners",
+          meta: "Recorded course · $59",
+          rows: [
+            { label: "Sold this week", value: "14" },
+            { label: "Coupon EARLYBIRD", value: "6 used", tone: "brand" },
+            { label: "Commission", value: "0%", tone: "ok" },
+          ],
+        },
+      },
+      {
+        day: "Wed",
+        title: "Live workshop",
+        body: "A small cohort joins your Zoom workshop from your academy, and the recording is saved for them.",
+        card: {
+          title: "Data cleaning masterclass",
+          meta: "Live · 90 min",
+          progress: { label: "21 of 22 joined", value: 95 },
+          chip: { label: "Recording saved", tone: "ok" },
+        },
+      },
+      {
+        day: "Thu",
+        title: "1:1 sessions",
+        body: "Learners book your open times and pay upfront for private sessions.",
+        card: {
+          title: "1:1 sessions this week",
+          meta: "45 min · $40",
+          rows: [
+            { label: "Thu 11:30 · Sofia", value: "Paid", tone: "ok" },
+            { label: "Thu 15:00 · Lucas", value: "Paid", tone: "ok" },
+            { label: "Fri 09:00", value: "Open", tone: "muted" },
+          ],
+        },
+      },
+      {
+        day: "Sun",
+        title: "Your week in numbers",
+        body: "See sales across courses, workshops, sessions and ebooks in one place.",
+        card: {
+          title: "This week",
+          meta: "Paid to your Stripe account",
+          progress: { label: "$1,486 of $1,500 goal", value: 99 },
+          chip: { label: "0% commission", tone: "brand" },
+        },
+      },
+    ],
+  },
 };
 

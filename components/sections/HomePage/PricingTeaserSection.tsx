@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Eyebrow } from "@/components/marketing/ui";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
 import {
   computePlanPricing,
   formatPrice,
@@ -43,9 +43,9 @@ export function PricingTeaserSection({
 
   return (
     <section className="py-[clamp(72px,9vw,128px)] pt-0 font-sans" id="plans">
-      <div className="max-w-[1080px] mx-auto px-5">
+      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)]">
         <div className="rv-v4">
-          <Eyebrow tone="gradient">Pricing</Eyebrow>
+          <Eyebrow dotColor="#12A27A">Pricing</Eyebrow>
           <h2 className="type-h2-v4 text-[#151517] mt-1">
             {title}
           </h2>
@@ -55,7 +55,7 @@ export function PricingTeaserSection({
         </div>
 
         {/* Large White Sendr-Style Pricing Card */}
-        <div className="rv-v4 mt-10 bg-white border border-[#E8E8EC] rounded-[24px] p-2.5 sm:p-3 shadow-[0_40px_80px_-50px_rgba(20,20,40,0.35)]">
+        <div className="rv-v4 mt-10 bg-white border border-[rgba(15,15,20,0.08)] rounded-[24px] p-2.5 sm:p-3">
           {/* Top Toggles Bar */}
           <div className="flex flex-wrap items-center justify-between gap-3 p-3 sm:px-3.5 pb-4">
             {/* Monthly / Yearly Switch */}
@@ -251,7 +251,7 @@ export function PricingTeaserSection({
 
       {/* Demo Enquiry Modal Dialog */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
-        <DialogContent className="max-w-xl bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-2xl">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowDemoModal(false)} />
         </DialogContent>
       </Dialog>

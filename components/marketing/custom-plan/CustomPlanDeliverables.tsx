@@ -136,7 +136,7 @@ export function CustomPlanDeliverables({ deliverables }: CustomPlanDeliverablesP
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-14 sm:mb-16">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-3">
-            ✦ Complete Deliverables
+            Complete Deliverables
           </span>
           <h2 className="text-[30px] sm:text-[40px] lg:text-[46px] font-bold text-[#161616] tracking-tight leading-tight mb-4">
             {title}

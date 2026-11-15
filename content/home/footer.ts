@@ -1,7 +1,5 @@
 import { FooterContent } from "@/types/content";
-import { entity } from "@/content/entity";
 
 export const footerContent: FooterContent = {
-  description: entity.oneLine,
+  description: "The all-in-one learning platform to teach, sell and grow your online academy, on your own domain.",
 };
-

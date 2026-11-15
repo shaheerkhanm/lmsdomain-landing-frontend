@@ -1,77 +1,88 @@
 import type { FaqItem } from "@/types/content";
 
+// Answer-first wording: the first sentence answers the question on its own, so search
+// engines and AI assistants can quote it. Admin > Pricing FAQ overrides this list when set.
 export function getPricingFaqs(trialDays: number = 15): FaqItem[] {
   return [
     {
+      id: "pricing-overview",
+      question: "How much does LMS Domain cost?",
+      answer:
+        "LMS Domain has four plans: Starter, Growth, Pro and Enterprise. Starter, Growth and Pro have a fixed monthly price shown on this page, and Enterprise is priced to your needs. Every plan includes your own domain, live classes and 0% commission on your sales.",
+    },
+    {
       id: "free-trial",
       question: "Is there a free trial?",
-      answer: `Yes, you can try any plan free for ${trialDays} days with full feature access. No credit card is required to start your trial.`,
-    },
-    {
-      id: "switch-plans",
-      question: "Can I switch plans later?",
-      answer:
-        "Yes, you can upgrade or downgrade your plan at any time. Contact our team when you are ready to switch, and we will adjust your billing and account limits.",
-    },
-    {
-      id: "usd-billing",
-      question: "Do you charge in USD?",
-      answer:
-        "Yes, academies and training companies outside India can pay in USD. You can toggle currency at the top of the pricing table.",
+      answer: `Yes. You can try any plan free for ${trialDays} days, with no credit card needed to start.`,
     },
     {
       id: "sales-commission",
-      question: "Do you charge a commission on my sales?",
+      question: "Does LMS Domain take a commission on my course sales?",
       answer:
-        "No. LMS Domain charges 0% commission on your sales across every plan. You keep 100% of your earnings; standard gateway fees still apply based on your payment processor.",
+        "No. LMS Domain charges 0% commission on every plan, so you keep 100% of your course revenue. Your payment gateway (such as Stripe or Razorpay) still charges its own standard fees.",
+    },
+    {
+      id: "currency",
+      question: "Which currency will I pay in?",
+      answer:
+        "Academies in India pay in Indian rupees (INR), and academies everywhere else pay in US dollars (USD). This page shows prices in your currency automatically.",
+    },
+    {
+      id: "yearly",
+      question: "Is yearly billing cheaper?",
+      answer:
+        "Yes. Paying yearly gives you a discount compared with paying monthly. Switch to Yearly at the top of this page to see the yearly price for each plan.",
+    },
+    {
+      id: "switch-plans",
+      question: "Can I change my plan later?",
+      answer:
+        "Yes. You can upgrade or downgrade at any time. Tell our team and we will adjust your billing and plan limits.",
     },
     {
       id: "active-learners",
       question: "What counts as an active learner?",
       // TODO(confirm): active learner definition is a learner who logs in during the billing month
-      answer:
-        "An active learner is any learner who logs into your academy portal at least once during your billing month.",
+      answer: "An active learner is any learner who logs in to your academy at least once during your billing month.",
     },
     {
       id: "limit-overage",
-      question: "What happens if I go over my limits?",
+      question: "What happens if I go over my plan limits?",
       answer:
-        "If your active learners, storage, or bandwidth exceed your plan quota, we will contact you to move to the next plan tier or add extra capacity. We do not automatically bill unexpected charges.",
+        "We contact you before anything changes. If your learners, storage or bandwidth go over your plan, we help you move to the next plan or add capacity. We never add surprise charges.",
     },
     {
       id: "custom-domain",
-      question: "Can I use my own domain?",
-      answer: "Yes. Every plan from Starter upward includes your own custom domain with free automatic SSL.",
+      question: "Can I use my own domain name?",
+      answer: "Yes. Every plan, including Starter, lets you run your academy on your own domain with free SSL.",
     },
     {
       id: "payment-gateways",
-      question: "Which payment gateways do you support?",
+      question: "Which payment gateways can I use?",
       answer:
-        "Razorpay, Paytm, Stripe and DOKU, subject to your gateway account's country and currency.",
+        "You can sell with Stripe, Razorpay, Paytm and DOKU, depending on the country and currency of your gateway account. Payments go straight to your own account.",
     },
     {
       id: "live-classes",
-      question: "Can I run live classes?",
-      answer:
-        "Yes. Zoom live classes are included from Starter, with schedules and recordings organized with each batch.",
+      question: "Are live classes included?",
+      answer: "Yes. Live classes on Zoom are included from Starter, with schedules and recordings kept with each batch.",
     },
     {
       id: "ai-tools",
-      question: "Are the AI tools included?",
-      answer:
-        "Domie AI is included on the Pro plan within fair-use limits, and on custom terms for Enterprise.",
+      question: "Is Domie AI included?",
+      answer: "Domie AI is included in the Pro plan within fair-use limits, and on custom terms in Enterprise.",
     },
     {
       id: "course-migration",
-      question: "Can you move my existing courses and students?",
+      question: "Can you move my existing courses and learners?",
       answer:
-        "Yes. Free migration is included on Enterprise, and our technical team assists academies transitioning from other learning platforms.",
+        "Yes. Our team helps academies move over from other platforms, and full migration is included free on Enterprise.",
     },
     {
       id: "mobile-app",
       question: "Is there a mobile app?",
       answer:
-        'Learners access your academy via any modern mobile browser with full responsive support. Dedicated native mobile apps are on our <a href="/roadmap" class="text-[#7B5CF5] underline underline-offset-2 hover:text-[#6842ED]">roadmap</a>.',
+        'Learners can use your academy on any phone through the mobile browser. Native mobile apps are on our <a href="/roadmap" class="text-[#6C4BFF] underline underline-offset-2">roadmap</a>.',
     },
   ];
 }

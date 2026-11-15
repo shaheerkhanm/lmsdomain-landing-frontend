@@ -50,7 +50,6 @@ export function CustomPlanFaq({ faq }: CustomPlanFaqProps) {
             {/* Left Column: Title & Subtitle */}
             <div className="lg:col-span-5 space-y-4 text-left">
               <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5]">
-                <span>✦</span>
                 <span>FAQS</span>
               </div>
 

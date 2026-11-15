@@ -2,11 +2,17 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import EnquiryForm from "@/components/layout/common/EnquiryForm";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
+
+const ParticleWave = dynamic(
+  () => import("@/components/visual/ParticleWave"),
+  { ssr: false }
+);
 
 export interface CTABandProps {
   title?: string;
@@ -54,8 +60,19 @@ export function CTABand({
           className="pointer-events-none absolute left-1/2 -bottom-[220px] -translate-x-1/2 w-[900px] h-[440px] bg-[radial-gradient(closest-side,rgba(242,137,74,0.35),rgba(226,83,155,0.22)_50%,rgba(123,92,255,0.12)_75%,transparent)] -z-10"
         />
 
-        <div className="rv-v4 max-w-[1080px] mx-auto px-4 sm:px-6 relative z-10 text-center flex flex-col items-center">
-          <span className="eyebrow inline-block font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-grad-v4 mb-3.5 select-none">
+        {/* Faint signature slice of particle wave (V1j §1h) */}
+        {!isDark && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-[0.35]"
+          >
+            <ParticleWave mode="cta" opacity={0.5} />
+          </div>
+        )}
+
+        <div className="rv-v4 max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] relative z-10 text-center flex flex-col items-center">
+          <span className="inline-flex items-center gap-2 font-sans font-semibold text-[11.5px] uppercase tracking-[0.12em] text-[#535361] mb-3.5 select-none">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#151517] shrink-0" aria-hidden="true" />
             Book a demo
           </span>
 
@@ -107,7 +124,7 @@ export function CTABand({
 
       {/* Demo Enquiry Modal */}
       <Dialog open={showModal} onOpenChange={setShowModal}>
-        <DialogContent className="max-w-[560px] p-6 sm:p-8 bg-white rounded-2xl shadow-xl border border-slate-200">
+        <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowModal(false)} />
         </DialogContent>
       </Dialog>

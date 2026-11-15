@@ -28,7 +28,7 @@ export function CustomPlanAudiences({ audiences }: CustomPlanAudiencesProps) {
         {audiences.title && (
           <div className="text-center max-w-xl mx-auto mb-12">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEE9FF] text-[#7B5CF5] text-xs font-semibold uppercase tracking-wider mb-3">
-              ✦ Built For Growth
+              Built For Growth
             </span>
             <h2 className="text-[28px] sm:text-[36px] font-bold text-[#161616] tracking-tight">
               {audiences.title}

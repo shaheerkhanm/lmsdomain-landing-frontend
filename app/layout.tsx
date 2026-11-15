@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { getPageVisibility } from "@/lib/pages";
 import { PageVisibilityProvider } from "@/lib/pages-context";
 import { getSiteNavigation } from "@/lib/api/content";
+import { BLOG_POSTS } from "@/content/blog/posts";
 import { MotionConfig } from "motion/react";
 import DemoHashListener from "@/components/marketing/DemoHashListener";
 
@@ -40,7 +41,7 @@ const urbanist = localFont({
   ],
   variable: "--font-urbanist",
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 const inter = localFont({
@@ -155,6 +156,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const latest = Object.values(BLOG_POSTS).sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+  const latestGuide = latest ? { title: latest.title, slug: latest.slug, readingTime: latest.readingTime } : null;
   const [visibility, siteNav, brand] = await Promise.all([
     getPageVisibility(),
     getSiteNavigation().catch(() => null),
@@ -162,13 +165,16 @@ export default async function RootLayout({
   ]);
 
   return (
-    <html lang="en">
-      <body className={`${urbanist.variable} ${inter.variable} ${manrope.variable} ${caveat.variable} ${jetbrainsMono.variable} font-sans bg-[#FAFAFA] text-[#151517] antialiased !mr-0`}>
+    <html lang="en" style={{ overflowX: "clip" }}>
+      <body
+        style={{ overflowX: "clip" }}
+        className={`${urbanist.variable} ${inter.variable} ${manrope.variable} ${caveat.variable} ${jetbrainsMono.variable} font-sans bg-[#FAFAFA] text-[#151517] antialiased !mr-0 overflow-x-clip`}
+      >
         <BrandProvider brand={brand}>
           <PageVisibilityProvider visibility={visibility}>
             <MotionConfig reducedMotion="user">
               <Canonical />
-              <Header siteNav={siteNav?.marketingNav} />
+              <Header siteNav={siteNav?.marketingNav} featuredGuide={latestGuide} />
               <SmoothScroll>
                 {children}
               </SmoothScroll>

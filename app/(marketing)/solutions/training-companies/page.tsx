@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { SolutionPage } from "@/components/marketing/solutions/SolutionPage";
+import { SolutionV5Page } from "@/components/sections/SolutionsV5/SolutionV5Page";
+import { TrainingHero } from "@/components/sections/SolutionsV5/training/TrainingHero";
 import { trainingCompaniesData } from "@/content/solutions/training-companies";
 import { fullTitle, getMetadataBase } from "@/lib/site";
 
@@ -11,5 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function TrainingCompaniesRoute() {
-  return <SolutionPage data={trainingCompaniesData} />;
+  return <SolutionV5Page data={trainingCompaniesData} Hero={TrainingHero} pageName="Training companies" />;
 }

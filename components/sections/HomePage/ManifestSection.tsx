@@ -113,7 +113,6 @@ export function ManifestSection({
       >
         {eyebrow && (
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-6">
-            <span>✦</span>
             <span>{eyebrow.replace(/^✦\s*/, "")}</span>
           </div>
         )}
@@ -136,7 +135,6 @@ export function ManifestSection({
       >
         {eyebrow && (
           <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-[#7B5CF5] mb-4">
-            <span>✦</span>
             <span>{eyebrow.replace(/^✦\s*/, "")}</span>
           </div>
         )}

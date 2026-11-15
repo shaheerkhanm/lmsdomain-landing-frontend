@@ -2,14 +2,13 @@ import { PlatformPageData } from "./types";
 
 export const sellPlatformData: PlatformPageData = {
   slug: "sell",
-  eyebrow: "MONETIZATION & PAYMENTS",
-  title: "Collect fees in any currency, on your own checkout.",
-  subtitle:
-    "LMS Domain is an e-commerce platform to sell courses online in India with GST invoices, custom discount coupons, and offline bank transfer reviews. Connect Razorpay, Paytm, Stripe, or DOKU to accept student fees in INR and major currencies with direct payouts to your business bank account.",
-  metaTitle: "Sell Courses Online with GST Invoices | LMS Domain",
-  metaDescription:
-    "Sell courses with Razorpay, Paytm, Stripe, and DOKU. Offer coupons, approve offline payments, and generate automated GST invoices on your own checkout.",
-  sectionHeading: "How does fee collection and checkout work in LMS Domain?",
+  eyebrow: "Sell",
+  heroAccent: "0% commission",
+  title: "Sell courses in any currency, with 0% commission",
+  subtitle: "LMS Domain gives your academy its own checkout with Stripe, Razorpay, Paytm or DOKU. Learners pay in their currency, money goes straight to your account, and we never take a cut.",
+  metaTitle: "Sell Courses Online with 0% Commission | LMS Domain",
+  metaDescription: "Sell courses on your own checkout with Stripe, Razorpay, Paytm or DOKU. Multi-currency prices, coupons, invoices and offline payments, with 0% commission.",
+  sectionHeading: "Everything you need to get paid",
   frameTitle: "Storefront & Multi-Gateway Checkout",
   frameAlt: "Collect fees in any currency, on your own checkout",
   features: [
@@ -34,7 +33,7 @@ export const sellPlatformData: PlatformPageData = {
     {
       title: "Multi-currency checkout",
       description:
-        "Charge learners in INR or major currencies depending on your connected gateway capabilities.",
+        "Charge learners in USD, EUR, GBP, INR and other currencies your connected gateway supports.",
       icon: "Globe",
     },
     {
@@ -42,6 +41,7 @@ export const sellPlatformData: PlatformPageData = {
       description:
         "Accept direct bank transfers and payment receipts with one-click administrative review and enrollment approval.",
       icon: "Receipt",
+      plan: "Growth",
     },
     {
       title: "Instructor payouts & reports",

@@ -2,14 +2,14 @@ import { PlatformPageData } from "./types";
 
 export const teachPlatformData: PlatformPageData = {
   slug: "teach",
-  eyebrow: "TEACHING & CURRICULUM",
-  title: "Teach recorded courses and live batches from one place.",
-  subtitle:
-    "LMS Domain provides live class software with Zoom and structured course delivery for coaching institutes, tutors, and training academies. Create video lessons with drip scheduling, run scheduled morning and evening batches, launch cohort bootcamps, and let students book 1:1 tutor sessions with recordings saved alongside the curriculum.",
-  metaTitle: "Live Classes & Course Builder Software | LMS Domain",
-  metaDescription:
-    "Deliver recorded video courses with drip release, schedule live Zoom classes for batches, and host cohort bootcamps and 1:1 tutor sessions with LMS Domain.",
-  sectionHeading: "How do live classes and courses work in LMS Domain?",
+  eyebrow: "Teach",
+  heroAccent: "live classes",
+  aiNote: "With Domie AI (Pro), draft course titles, descriptions and learning outcomes in seconds.",
+  title: "Teach recorded courses and live classes from one place",
+  subtitle: "LMS Domain lets you build courses from video, PDF and text lessons, release them on a schedule, and run live Zoom classes for every batch. Recordings are saved to the course automatically.",
+  metaTitle: "Online Course Builder & Live Zoom Classes | LMS Domain",
+  metaDescription: "Build video and PDF courses with drip release, run live Zoom classes for each batch, and host bootcamps and 1:1 tutor sessions on your own branded academy.",
+  sectionHeading: "Everything you need to teach online",
   frameTitle: "Course Builder & Batch Manager",
   frameAlt: "Teach recorded courses and live batches from one place",
   features: [
@@ -36,12 +36,14 @@ export const teachPlatformData: PlatformPageData = {
       description:
         "Deliver intensive group training with cohort start dates, shared project milestones, and structured review stages.",
       icon: "Users",
+      plan: "Growth",
     },
     {
       title: "1:1 tutor booking",
       description:
         "Enable learners to book private coaching sessions and personal consultation hours with assigned faculty.",
       icon: "UserCheck",
+      plan: "Growth",
     },
   ],
   usedFor: [

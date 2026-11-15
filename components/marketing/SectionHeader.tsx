@@ -29,7 +29,6 @@ export function SectionHeader({
             isCenter ? "justify-center" : "justify-start"
           }`}
         >
-          <span>✦</span>
           <span>{eyebrow}</span>
         </div>
       )}

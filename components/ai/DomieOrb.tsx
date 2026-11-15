@@ -1,91 +1,154 @@
 "use client";
 
-import React from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { DOMIE_MASCOT } from "@/content/ai/mascot";
+import React, { useEffect, useRef, useState } from "react";
 
 export interface DomieOrbProps {
   /** Size in pixels (both width and height) */
   size: number;
-  /** "lg" uses 360px transparent asset; "sm" uses 96px cropped transparent asset. Defaults to "sm" if size <= 64, else "lg" */
-  variant?: "lg" | "sm";
-  /** Optional surface prop retained for backward compatibility if any, but unused (no background box/disc) */
+  /** Surface: "light" places a dark #0E0E11 circle behind the orb so the navy glow reads against white backgrounds */
   surface?: "dark" | "light";
-  /** Soft pulse animation while Domie is generating / answering */
-  thinking?: boolean;
-  /** Accessible label. If omitted, marked decorative (aria-hidden) */
+  /** Explicit override for the dark disc */
+  darkDisc?: boolean;
+  /** Optional accessible label. If omitted, marked aria-hidden */
   label?: string;
   /** Custom className */
   className?: string;
-  /** Eager loading above the fold (e.g. /ai hero) */
+  /** Optional priority/eager hint */
   eager?: boolean;
+  /** Whether to render the still poster image instead of video */
+  still?: boolean;
 }
 
 export function DomieOrb({
   size,
-  variant,
-  surface,
-  thinking = false,
+  surface = "dark",
+  darkDisc,
   label,
   className = "",
-  eager = false,
+  still = false,
 }: DomieOrbProps) {
-  const motionReduced = useReducedMotion();
-  const [isReduced, setIsReduced] = React.useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isReduced, setIsReduced] = useState(false);
+  const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-      setIsReduced(mq.matches);
-      const handler = (e: MediaQueryListEvent) => setIsReduced(e.matches);
-      mq.addEventListener("change", handler);
-      return () => mq.removeEventListener("change", handler);
+  const showDarkDisc = darkDisc !== undefined ? darkDisc : surface === "light";
+  const isSmall = size <= 160;
+
+  useEffect(() => {
+    if (typeof window === "undefined" || still) return;
+
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) {
+      setIsReduced(true);
+      return;
     }
-  }, []);
+    const handler = (e: MediaQueryListEvent) => setIsReduced(e.matches);
+    mq.addEventListener("change", handler);
 
-  const shouldReduceMotion = isReduced || Boolean(motionReduced);
-  const isSmall = (variant ?? (size <= 64 ? "sm" : "lg")) === "sm";
+    // Ensure video does not start before hero H1 is painted
+    let isCancelled = false;
+    let obs: IntersectionObserver | undefined;
 
-  const stillSrc = isSmall ? DOMIE_MASCOT.smStill : DOMIE_MASCOT.lgStill;
-  const animSrc = isSmall ? DOMIE_MASCOT.sm : DOMIE_MASCOT.lg;
+    const startObserver = () => {
+      if (isCancelled || !containerRef.current) return;
 
-  // Thinking pulse animation: 1 -> 1.06 -> 1, 1.2s ease-in-out, repeating
-  const animatePulse =
-    !shouldReduceMotion && thinking
-      ? {
-          scale: [1, 1.06, 1],
-          transition: {
-            duration: 1.2,
-            repeat: Infinity,
-            ease: "easeInOut" as const,
-          },
-        }
-      : { scale: 1 };
+      obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setShouldLoadVideo(true);
+              videoRef.current?.play().catch(() => {});
+            } else {
+              videoRef.current?.pause();
+            }
+          });
+        },
+        { threshold: 0.05 }
+      );
+
+      obs.observe(containerRef.current);
+    };
+
+    if ("requestIdleCallback" in window) {
+      const id = (window as Window & { requestIdleCallback: (cb: () => void) => number }).requestIdleCallback(() => {
+        startObserver();
+      });
+      return () => {
+        isCancelled = true;
+        obs?.disconnect();
+        mq.removeEventListener("change", handler);
+      };
+    } else {
+      const timer = setTimeout(() => {
+        startObserver();
+      }, 100);
+      return () => {
+        isCancelled = true;
+        clearTimeout(timer);
+        obs?.disconnect();
+        mq.removeEventListener("change", handler);
+      };
+    }
+  }, [still]);
+
+  const videoWebm = isSmall
+    ? "/images/domie/domie-orb-sm.webm"
+    : "/images/domie/domie-orb.webm";
+  const videoMp4 = isSmall
+    ? "/images/domie/domie-orb-sm.mp4"
+    : "/images/domie/domie-orb.mp4";
+  const poster = "/images/domie/domie-orb-poster.webp";
+
+  const maskStyle: React.CSSProperties = {
+    WebkitMaskImage: "radial-gradient(circle, #000 52%, transparent 70%)",
+    maskImage: "radial-gradient(circle, #000 52%, transparent 70%)",
+  };
 
   return (
-    <motion.span
-      animate={animatePulse}
-      className={`inline-flex items-center justify-center shrink-0 select-none pointer-events-none ${className}`}
+    <div
+      ref={containerRef}
+      className={`inline-flex items-center justify-center shrink-0 select-none pointer-events-none relative rounded-full ${
+        showDarkDisc ? "bg-[#0E0E11]" : ""
+      } ${className}`}
       style={{ width: size, height: size }}
       aria-hidden={label ? undefined : true}
       role={label ? "img" : undefined}
       aria-label={label || undefined}
     >
-      <picture className="contents">
-        <source srcSet={stillSrc} media="(prefers-reduced-motion: reduce)" />
+      {isReduced || still ? (
         <img
-          src={shouldReduceMotion ? stillSrc : animSrc}
+          src={poster}
           alt={label || ""}
           width={size}
           height={size}
-          decoding="async"
-          loading={eager ? "eager" : "lazy"}
-          fetchPriority={eager ? "high" : "auto"}
-          className="block select-none pointer-events-none object-contain"
-          style={{ width: size, height: size }}
+          className="w-full h-full object-cover rounded-full"
+          style={maskStyle}
+          loading="lazy"
         />
-      </picture>
-    </motion.span>
+      ) : (
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload={shouldLoadVideo ? "auto" : "none"}
+          poster={poster}
+          width={size}
+          height={size}
+          className="w-full h-full object-cover rounded-full block"
+          style={{ ...maskStyle, width: `${size}px`, height: `${size}px` }}
+        >
+          {shouldLoadVideo && (
+            <>
+              <source src={videoWebm} type="video/webm" />
+              <source src={videoMp4} type="video/mp4" />
+            </>
+          )}
+        </video>
+      )}
+    </div>
   );
 }
 

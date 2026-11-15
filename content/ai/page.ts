@@ -142,7 +142,7 @@ export const DEFAULT_COMMAND_BAR_EXAMPLES: CommandBarExample[] = [
 
 export const DEFAULT_AI_PAGE_DATA: AiPageData = {
   hero: {
-    eyebrow: "✦ DOMIE AI",
+    eyebrow: "DOMIE AI",
     title: "AI Grounded in Your Courses, Built for Your Entire Academy",
     subtitle:
       "Assist learners with course-grounded answers, help creators draft content faster, and surface key operational alerts for administrators.",

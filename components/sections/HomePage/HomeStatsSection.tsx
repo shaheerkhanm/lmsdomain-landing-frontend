@@ -118,14 +118,9 @@ export function HomeStatsSection() {
     <section
       ref={sectionRef}
       id="stats-section"
-      className="pt-10 md:pt-12 pb-20 md:pb-24 font-sans transition-colors duration-700"
+      className="pt-10 md:pt-12 pb-20 md:pb-24 font-sans"
     >
-      <div className="max-w-[1080px] mx-auto px-5 text-center">
-        {/* Caption in brand gradient with tightened top spacing (~48px desktop / 40px mobile) */}
-        <p className="text-[14px] font-semibold text-grad-v4 mb-8 tracking-normal select-none">
-          Academies teaching with LMS Domain
-        </p>
-
+      <div className="max-w-[1320px] mx-auto px-[clamp(20px,4vw,48px)] text-center">
         {/* 4 equal columns on desktop, 2x2 on mobile, no outer card */}
         <div className="grid grid-cols-2 md:grid-cols-4 relative">
           {STATS_DATA.map((stat, idx) => {
@@ -142,10 +137,6 @@ export function HomeStatsSection() {
                     className={`absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-[75%] stat-divider-line pointer-events-none ${
                       idx === 2 ? "hidden md:block" : ""
                     }`}
-                    style={{
-                      background:
-                        "linear-gradient(transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
-                    }}
                   />
                 )}
 
@@ -154,10 +145,6 @@ export function HomeStatsSection() {
                   <div
                     aria-hidden="true"
                     className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 w-[1px] h-[75%] stat-divider-line pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(transparent, #E4E4EA 25%, #E4E4EA 75%, transparent)",
-                    }}
                   />
                 )}
 
@@ -179,13 +166,13 @@ export function HomeStatsSection() {
                 </div>
 
                 {/* Number: 52px desktop / 38px mobile Inter 700 -0.04em */}
-                <b className="block font-inter font-bold text-[38px] md:text-[52px] tracking-[-0.04em] leading-none text-[#151517] stat-text-ink transition-colors duration-700">
+                <b className="block font-inter font-bold text-[38px] md:text-[52px] tracking-[-0.04em] leading-none text-[#151517] stat-text-ink">
                   {formatNumber(counts[stat.id] ?? stat.target, stat.hasComma)}
                   {stat.suffix}
                 </b>
 
                 {/* Label: 16px #535361 */}
-                <span className="text-[#535361] stat-text-muted text-[16px] font-normal mt-2.5 block transition-colors duration-700">
+                <span className="text-[#535361] stat-text-muted text-[16px] font-normal mt-2.5 block">
                   {stat.label}
                 </span>
               </div>
