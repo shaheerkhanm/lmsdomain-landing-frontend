@@ -14,13 +14,52 @@ import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
 import PlanFinder from "./PlanFinder";
 import { CountUp } from "@/components/sections/HomeV5/CountUp";
 import { SectionHeading } from "@/components/sections/HomeV5/primitives";
-import { BentoCard, LiveArt, PaymentsArt, BrandArt } from "@/components/sections/HomeV5/FeatureBento";
-import { SetupArt } from "@/components/sections/HomeV5/SetupSteps";
+import { ArrowUpRight } from "lucide-react";
 import { formatPrice } from "@/config/pricing";
 import type { PricingPageModel, BillingPeriodId } from "@/types/content";
 import { DEFAULT_PRICING_V2 } from "@/config/pricing";
 import { resolveCurrency, type PricingCurrency } from "@/lib/currency";
 import { ContentSource } from "@/components/content/ContentSource";
+
+// Included on every plan. Claims match the plan data (Starter includes all of these).
+const INCLUDED = [
+  {
+    value: "0",
+    accent: "%",
+    title: "Commission on your sales",
+    body: "Payments go straight to your own Stripe, Razorpay, Paytm or DOKU account. We never take a cut.",
+    chip: "You keep 100% of sales",
+    dot: "bg-[#16A34A]",
+    href: "/platform/sell",
+  },
+  {
+    value: ".com",
+    accent: "",
+    title: "Your own domain, with SSL",
+    body: "Run your academy on your own web address with free SSL, your logo and your colours.",
+    chip: "academy.yourname.com",
+    dot: "bg-[#16A34A]",
+    href: "/platform/brand",
+  },
+  {
+    value: "Live",
+    accent: ".",
+    title: "Live classes on Zoom",
+    body: "Schedule classes by batch, send reminders and keep recordings with the course.",
+    chip: "Batch B · Today, 18:00",
+    dot: "bg-[#6C4BFF]",
+    href: "/platform/teach",
+  },
+  {
+    value: "1:1",
+    accent: "",
+    title: "Setup help from our team",
+    body: "We help you get your courses, domain and payments ready so you can launch quickly.",
+    chip: "Domain, payments, courses",
+    dot: "bg-[#6C4BFF]",
+    href: "/contact",
+  },
+];
 
 interface PricingViewProps {
   data: PricingPageModel;
@@ -354,46 +393,45 @@ export function PricingView({
         />
       )}
 
-      {/* 4. Included in every plan (same card style as the homepage) */}
+      {/* 4. Included in every plan: big-value cards on a grey band (distinct from the homepage bento) */}
       {hasPlans && (
-        <section className="bg-white py-[clamp(56px,7vw,96px)]">
-          <div className="mx-auto max-w-[1200px] px-[clamp(16px,4vw,40px)]">
-            <SectionHeading eyebrow="Every plan" title="Included in every plan, from Starter up" />
-            <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:mt-16 lg:grid-cols-12">
-              <BentoCard
-                className="lg:col-span-5"
-                href="/platform/sell"
-                title="0% commission on sales"
-                description="Payments go straight to your Stripe or Razorpay account. We never take a cut."
-              >
-                <PaymentsArt />
-              </BentoCard>
-              <BentoCard
-                className="lg:col-span-7"
-                delay={90}
-                href="/platform/brand"
-                title="Your own domain, with SSL"
-                description="Run your academy on your own web address from day one."
-              >
-                <BrandArt />
-              </BentoCard>
-              <BentoCard
-                className="lg:col-span-7"
-                href="/platform/teach"
-                title="Live classes on Zoom"
-                description="Schedule classes by batch, with reminders and recordings saved to the course."
-              >
-                <LiveArt />
-              </BentoCard>
-              <BentoCard
-                className="lg:col-span-5"
-                delay={90}
-                href="/contact"
-                title="Setup help from our team"
-                description="We help you get your courses, domain and payments ready so you can launch quickly."
-              >
-                <SetupArt />
-              </BentoCard>
+        <section className="px-2 pt-[clamp(56px,7vw,96px)] sm:px-3">
+          <div className="rounded-[28px] bg-[#F4F5F8] py-[clamp(56px,7vw,96px)] sm:rounded-[40px]">
+            <div className="mx-auto max-w-[1200px] px-[clamp(16px,4vw,40px)]">
+              <SectionHeading
+                eyebrow="Every plan"
+                title="Included in every plan, from Starter up"
+                subtitle="No add-ons to unlock the basics. Every academy gets these from day one."
+              />
+              <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+                {INCLUDED.map((item, i) => (
+                  <a
+                    key={item.title}
+                    href={item.href}
+                    style={{ "--rv-delay": `${i * 90}ms` } as React.CSSProperties}
+                    className="rv-v4 group relative flex flex-col rounded-[24px] border border-[#ECECF1] bg-white p-6 shadow-[0_1px_2px_rgba(16,16,24,0.04)] transition-[translate,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_24px_48px_-28px_rgba(16,16,24,0.3)] sm:p-7"
+                  >
+                    <p className="font-urbanist text-[52px] font-semibold leading-none tracking-[-0.045em] text-[#0A0A0B]">
+                      {item.value}
+                      {item.accent && <span className="text-[#6C4BFF]">{item.accent}</span>}
+                    </p>
+                    <p className="mt-6 font-urbanist text-[19px] font-semibold leading-[1.25] tracking-[-0.01em] text-[#0A0A0B]">
+                      {item.title}
+                    </p>
+                    <p className="mt-2 text-[14.5px] leading-[1.55] text-[#6B6B76]">{item.body}</p>
+                    <div className="mt-auto pt-6">
+                      <span className="inline-flex max-w-full items-center gap-2 rounded-full bg-[#F4F5F8] px-3 py-1.5 text-[12.5px] font-medium text-[#3F3F46]">
+                        <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${item.dot}`} aria-hidden="true" />
+                        <span className="truncate">{item.chip}</span>
+                      </span>
+                    </div>
+                    <ArrowUpRight
+                      className="absolute right-6 top-7 h-5 w-5 text-[#C4C4CC] transition-colors group-hover:text-[#0A0A0B]"
+                      aria-hidden="true"
+                    />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         </section>
