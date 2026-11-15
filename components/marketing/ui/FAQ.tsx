@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight, Minus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import EnquiryForm, { DEMO_DIALOG_CLASS } from "@/components/layout/common/EnquiryForm";
@@ -24,10 +26,13 @@ export interface FAQProps {
   contactHref?: string;
   ctaText?: string;
   defaultOpenIndex?: number;
-  /** Quieter style: no sparkle, neutral open border, light outlined icon. */
+  /** Kept for compatibility; the v5 design is the same either way. */
   minimal?: boolean;
 }
 
+const FACES = ["/assets/img/home/participant_mia.jpg", "/assets/img/home/participant_alex.jpg", "/assets/img/home/testimonials/author-1.jpg"];
+
+/** Shared v5 FAQ: sticky heading with a help card, card accordion (open card turns dark), FAQPage JSON-LD. */
 export function FAQ({
   items = [],
   title = "Frequently asked questions",
@@ -39,179 +44,133 @@ export function FAQ({
   contactHref = "/contact",
   ctaText = "Book a demo",
   defaultOpenIndex,
-  minimal = false,
 }: FAQProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(
-    typeof defaultOpenIndex === "number" ? defaultOpenIndex : null
-  );
+  const [openIndex, setOpenIndex] = useState<number | null>(typeof defaultOpenIndex === "number" ? defaultOpenIndex : 0);
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   if (!items || items.length === 0) return null;
 
-  const toggle = (idx: number) => {
-    setOpenIndex(openIndex === idx ? null : idx);
-  };
-
-  // Generate FAQPage JSON-LD for rich snippets
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer.replace(/<[^>]*>/g, ""),
-      },
+      acceptedAnswer: { "@type": "Answer", text: item.answer.replace(/<[^>]*>/g, "") },
     })),
   };
 
   return (
-    <section id={id} className={cn("bg-white py-16 sm:py-20 lg:py-24 font-sans border-b border-[#ECEDEF]", className)}>
-      {showJsonLd && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-        />
-      )}
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6">
-        {/* Large Rounded Enclosure Card (Matching /pricing FAQ layout & structure) */}
-        <div className="rounded-[28px] sm:rounded-[36px] bg-[#FAFAFA] border border-[#ECECEC] p-6 sm:p-10 lg:p-12 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.04)]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-            {/* Left Column: Heading, Subtitle, CTA Button */}
-            <div className="lg:col-span-5 text-left flex flex-col justify-between">
-              <div>
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.1em] text-[#6C4BFF]">
-                  <span>{eyebrow}</span>
+    <section id={id} className={cn("bg-white py-[clamp(72px,9vw,128px)] font-sans text-[#0A0A0B]", className)}>
+      {showJsonLd && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />}
+
+      <div className="mx-auto w-full max-w-[1200px] px-[clamp(16px,4vw,40px)]">
+        <div className="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          {/* Left: heading + help card */}
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <p className="inline-flex items-center gap-2 rounded-full bg-[#F4F5F8] px-3 py-1 text-[13px] font-medium text-[#3F3F46]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#6C4BFF]" /> {eyebrow}
+            </p>
+            <h2 className="mt-5 font-urbanist text-[clamp(38px,4.6vw,60px)] font-semibold leading-[1] tracking-[-0.045em] [text-wrap:balance]">{title}</h2>
+            {subtitle && <p className="mt-5 max-w-[420px] text-[17px] leading-[1.6] text-[#52525B]">{subtitle}</p>}
+
+            <div className="mt-9 rounded-[24px] bg-[#F4F5F8] p-6 sm:p-7">
+              <div className="flex items-center gap-3">
+                <div className="flex">
+                  {FACES.map((f, i) => (
+                    <Image key={f} src={f} alt="" width={72} height={72} className={cn("h-10 w-10 rounded-full object-cover object-top ring-[3px] ring-[#F4F5F8]", i > 0 && "-ml-3")} />
+                  ))}
                 </div>
-
-                <h2 className="text-[30px] sm:text-[36px] lg:text-[44px] font-semibold text-[#151517] tracking-tight leading-[1.1] mt-3">
-                  {title}
-                </h2>
-
-                <p className="text-[15px] sm:text-[16px] text-[#535361] leading-relaxed font-normal mt-3 max-w-[38ch]">
-                  {subtitle}
+                <p className="text-[13px] leading-[1.4] text-[#71717A]">
+                  Real people from our team
+                  <br />
+                  read every message
                 </p>
-
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowDemoModal(true)}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#151517] text-white text-[13px] font-semibold hover:bg-black transition-all active:scale-95 shadow-xs cursor-pointer"
-                  >
-                    <span>{ctaText}</span>
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </button>
-
-                  <Link
-                    href={contactHref}
-                    className="text-[13.5px] font-semibold text-[#535361] hover:text-[#151517] transition-colors"
-                  >
-                    Contact us →
-                  </Link>
-                </div>
               </div>
-
-              {/* Helper Microcopy at bottom of left column */}
-              <p className="hidden lg:block text-xs text-[#8A8A96] mt-8">
-                Need help choosing? Our team is available 7 days a week.
-              </p>
+              <p className="mt-5 font-urbanist text-[24px] font-semibold leading-[1.15] tracking-[-0.02em]">Still have questions?</p>
+              <p className="mt-1.5 text-[14.5px] leading-[1.55] text-[#52525B]">See LMS Domain with your own courses, or send us a message.</p>
+              <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
+                <button
+                  type="button"
+                  onClick={() => setShowDemoModal(true)}
+                  className="group inline-flex cursor-pointer items-center gap-2 rounded-full bg-[#0A0A0B] px-5 py-2.5 text-[14px] font-semibold text-white transition-colors hover:bg-[#27272A]"
+                >
+                  {ctaText} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </button>
+                <Link href={contactHref} className="text-[14px] font-semibold text-[#0A0A0B] underline-offset-4 hover:underline">
+                  Contact us
+                </Link>
+              </div>
             </div>
+          </div>
 
-            {/* Right Column: Clean Accordion Items with Dark Round + Button & Gradient Active Border */}
-            <div className="lg:col-span-7 flex flex-col gap-2.5 text-left">
-              {items.map((item, idx) => {
-                const isOpen = openIndex === idx;
-                const panelId = `faq-answer-${idx}`;
-                const triggerId = `faq-trigger-${idx}`;
-
-                return (
-                  <div
-                    key={idx}
-                    className={cn(
-                      "rounded-[16px] transition-all duration-200 overflow-hidden",
-                      isOpen
-                        ? minimal
-                          ? "bg-white border border-[#0A0A0B]"
-                          : "shadow-[0_8px_24px_-6px_rgba(123,92,255,0.14)]"
-                        : "bg-white border border-[#E8E8EC] hover:border-[#D4D4DC]"
-                    )}
-                    style={
-                      isOpen && !minimal
-                        ? {
-                            border: "1px solid transparent",
-                            background:
-                              "linear-gradient(#FFFFFF, #FFFFFF) padding-box, linear-gradient(135deg, #7B5CFF 0%, #E2539B 50%, #F2894A 100%) border-box",
-                          }
-                        : {}
-                    }
-                  >
+          {/* Right: card accordion; the open card turns dark */}
+          <ul className="flex flex-col gap-3">
+            {items.map((item, idx) => {
+              const isOpen = openIndex === idx;
+              const panelId = `${id}-answer-${idx}`;
+              const triggerId = `${id}-trigger-${idx}`;
+              return (
+                <li
+                  key={item.id ?? idx}
+                  className={cn(
+                    "relative isolate overflow-hidden rounded-[22px] border transition-[background-color,border-color,box-shadow] duration-300",
+                    isOpen
+                      ? "border-transparent bg-[#0B0A12] text-white shadow-[0_30px_60px_-30px_rgba(11,10,18,0.6)]"
+                      : "border-[#ECECF0] bg-white hover:border-[#D4D4D8] hover:shadow-[0_10px_30px_-18px_rgba(16,16,24,0.25)]"
+                  )}
+                >
+                  <span aria-hidden="true" className={cn("pointer-events-none absolute inset-0 -z-10 transition-opacity duration-500", isOpen ? "opacity-100" : "opacity-0")}>
+                    <span className="absolute -left-16 -top-24 h-[240px] w-[320px] rounded-full bg-[#6C4BFF] opacity-40 blur-3xl" />
+                    <span className="absolute -bottom-24 -right-10 h-[220px] w-[300px] rounded-full bg-[#2F5BFF] opacity-25 blur-3xl" />
+                  </span>
+                  <h3>
                     <button
                       type="button"
                       id={triggerId}
                       aria-expanded={isOpen}
                       aria-controls={panelId}
-                      onClick={() => toggle(idx)}
-                      className="group w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer select-none"
+                      onClick={() => setOpenIndex(isOpen ? null : idx)}
+                      className="group flex w-full cursor-pointer items-center gap-4 rounded-[22px] px-5 py-5 text-left outline-none focus-visible:ring-2 focus-visible:ring-[#6C4BFF] sm:px-7 sm:py-6"
                     >
-                      <span className="text-[15px] sm:text-[16px] font-medium text-[#151517] group-hover:text-[#7B5CFF] transition-colors">
-                        {item.question}
-                      </span>
-
-                      {/* Dark round button with white '+' rotating 45° to '×' (200ms) (§4c) */}
+                      <span className="flex-1 font-urbanist text-[clamp(17px,1.5vw,20px)] font-semibold leading-[1.3] tracking-[-0.015em]">{item.question}</span>
                       <span
+                        aria-hidden="true"
                         className={cn(
-                          "w-[32px] h-[32px] sm:w-[34px] sm:h-[34px] rounded-full grid place-items-center shrink-0 transition-transform duration-200 group-hover:scale-105",
-                          minimal ? "border border-[#E4E4E7] bg-white text-[#0A0A0B]" : "text-white bg-[#151517] shadow-xs"
+                          "grid h-9 w-9 shrink-0 place-items-center rounded-full transition-colors duration-300",
+                          isOpen ? "bg-white text-[#0A0A0B]" : "bg-[#F4F5F8] text-[#0A0A0B] group-hover:bg-[#0A0A0B] group-hover:text-white"
                         )}
                       >
-                        <span
-                          className={cn(
-                            minimal ? "text-[#0A0A0B]" : "text-white",
-                            "text-[20px] font-light leading-none mb-0.5 inline-block transition-transform duration-200 motion-reduce:transition-none",
-                            isOpen && "rotate-45"
-                          )}
-                          aria-hidden="true"
-                        >
-                          +
-                        </span>
+                        {isOpen ? <Minus className="h-4 w-4" strokeWidth={2} /> : <Plus className="h-4 w-4" strokeWidth={2} />}
                       </span>
                     </button>
-
-                    {/* Smooth height animation via CSS grid-template-rows (250ms) (§4d) */}
-                    <div
-                      id={panelId}
-                      role="region"
-                      aria-labelledby={triggerId}
-                      className="grid transition-[grid-template-rows] duration-250 ease-out motion-reduce:transition-none"
-                      style={{
-                        gridTemplateRows: isOpen ? "1fr" : "0fr",
-                      }}
-                    >
-                      <div className="overflow-hidden">
-                        <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-[14px] sm:text-[14.5px] text-[#535361] leading-relaxed max-w-[65ch]">
-                          {item.answer.includes("<") ? (
-                            <div
-                              className="prose prose-sm max-w-none text-[#535361]"
-                              dangerouslySetInnerHTML={{ __html: item.answer }}
-                            />
-                          ) : (
-                            <p>{item.answer}</p>
-                          )}
-                        </div>
+                  </h3>
+                  <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={triggerId}
+                    className="grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)] motion-reduce:transition-none"
+                    style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+                  >
+                    <div className="overflow-hidden">
+                      <div
+                        className={cn(
+                          "max-w-[62ch] px-5 pb-6 text-[15.5px] leading-[1.7] text-white/70 transition-opacity duration-300 sm:px-7 sm:pb-7",
+                          "[&_a]:font-medium [&_a]:text-white [&_a]:underline [&_a]:underline-offset-2 [&_li]:mt-1 [&_ol]:list-decimal [&_ol]:pl-5 [&_p+p]:mt-3 [&_strong]:font-semibold [&_strong]:text-white [&_ul]:mt-2 [&_ul]:list-disc [&_ul]:pl-5",
+                          isOpen ? "opacity-100" : "opacity-0"
+                        )}
+                      >
+                        {item.answer.includes("<") ? <div dangerouslySetInnerHTML={{ __html: item.answer }} /> : <p>{item.answer}</p>}
                       </div>
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
 
-      {/* Demo Enquiry Modal Dialog */}
       <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
         <DialogContent className={DEMO_DIALOG_CLASS}>
           <EnquiryForm onClose={() => setShowDemoModal(false)} />

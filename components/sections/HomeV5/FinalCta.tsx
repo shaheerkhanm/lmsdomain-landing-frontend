@@ -10,7 +10,7 @@ export function FinalCta() {
         <div className="rv-v4 relative overflow-hidden rounded-[28px] bg-[#F4F5F8] px-6 py-16 text-center sm:px-12 sm:py-20">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(#E4E4E7_1px,transparent_1px)] bg-[size:16px_16px] [mask-image:radial-gradient(ellipse_60%_70%_at_50%_50%,transparent_30%,#000_90%)]"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(#D0D0D7_1.2px,transparent_1.2px)] bg-[size:18px_18px] [mask-image:radial-gradient(ellipse_62%_72%_at_50%_50%,rgba(0,0,0,0.15)_25%,#000_85%)]"
           />
           <div className="relative">
             <h2 className="mx-auto max-w-[680px] font-urbanist text-[clamp(30px,4.2vw,48px)] font-semibold leading-[1.08] tracking-[-0.025em] text-[#0A0A0B] [text-wrap:balance]">
