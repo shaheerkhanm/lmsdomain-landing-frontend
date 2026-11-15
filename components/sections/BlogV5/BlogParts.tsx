@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 
 export const BLOG_META: Record<string, { category: string; tone: string; ink: string; art: "start" | "lms" | "sell" }> = {
   "how-to-start-an-online-academy-in-india": { category: "Getting started", tone: "#F1EDFF", ink: "#6C4BFF", art: "start" },
-  "what-is-an-lms-guide-for-coaching-institutes": { category: "LMS basics", tone: "#E6F4F1", ink: "#0F766E", art: "lms" },
-  "how-to-sell-courses-online-in-india-with-gst-invoices": { category: "Selling courses", tone: "#FFF1E8", ink: "#C2410C", art: "sell" },
+  "what-is-an-lms-guide-for-coaching-institutes": { category: "LMS basics", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
+  "how-to-sell-courses-online-in-india-with-gst-invoices": { category: "Selling courses", tone: "#FFF1E8", ink: "#EA580C", art: "sell" },
 };
 export const metaFor = (slug: string) => BLOG_META[slug] || { category: "Guide", tone: "#F4F5F8", ink: "#0A0A0B", art: "lms" as const };
 
@@ -102,7 +102,9 @@ function BigScene({ kind, ink }: { kind: "start" | "lms" | "sell"; ink: string }
           <div className="p-4">
             <p className="text-[11px] text-[#9A9AA6]">Your order</p>
             <div className="mt-2 flex items-center gap-3">
-              <span className="h-11 w-14 shrink-0 rounded-[9px]" style={{ background: ink }} />
+              <span className="relative h-11 w-14 shrink-0 overflow-hidden rounded-[9px]">
+                <Image src="/images/features/cohort-workshop.webp" alt="" fill sizes="112px" className="object-cover" />
+              </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-[13px] font-semibold text-[#18181B]">Data Analysis Bootcamp</p>
                 <p className="text-[10.5px] text-[#9A9AA6]">8 weeks · Live + recorded</p>
@@ -242,10 +244,13 @@ export function BlogCover({ slug, big = false }: { slug: string; big?: boolean }
   const m = metaFor(slug);
   if (big)
     return (
-      <div aria-hidden="true" className="relative h-[340px] overflow-hidden sm:h-[460px]" style={{ background: m.ink }}>
-        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.14)_1px,transparent_1px)] bg-[size:20px_20px] [mask-image:radial-gradient(ellipse_75%_75%_at_50%_50%,#000,transparent_85%)]" />
-        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/25 to-transparent" />
-        <span className="absolute left-6 top-6 z-10 rounded-full bg-white px-3.5 py-1.5 text-[12.5px] font-semibold" style={{ color: m.ink }}>
+      <div aria-hidden="true" className="relative h-[340px] overflow-hidden bg-[#0B0A12] sm:h-[460px]">
+        {/* soft hint of the topic colour, low and to the side */}
+        <div className="absolute -left-24 -top-24 h-[380px] w-[420px] rounded-full bg-[#6C4BFF] opacity-30 blur-3xl" />
+        <div className="absolute -bottom-32 right-[-60px] h-[360px] w-[420px] rounded-full bg-[#3B5BFF] opacity-[0.12] blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.045)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_70%_75%_at_50%_50%,#000,transparent_85%)]" />
+        <span className="absolute left-6 top-6 z-10 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-[12.5px] font-semibold text-white backdrop-blur">
+          <span className="h-1.5 w-1.5 rounded-full" style={{ background: m.ink }} />
           {m.category}
         </span>
         <div className="absolute left-1/2 top-1/2 origin-center -translate-x-1/2 -translate-y-1/2 scale-[0.7] transition-transform duration-700 group-hover:scale-[0.73] sm:scale-[0.95] sm:group-hover:scale-[0.98] lg:scale-100 lg:group-hover:scale-[1.03]">

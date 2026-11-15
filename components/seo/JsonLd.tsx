@@ -30,10 +30,6 @@ export function getOrganizationJsonLd() {
     })),
     address: {
       "@type": "PostalAddress",
-      streetAddress: entity.facts.address.streetAddress,
-      addressLocality: entity.facts.address.addressLocality,
-      addressRegion: entity.facts.address.addressRegion,
-      postalCode: entity.facts.address.postalCode,
       addressCountry: entity.facts.address.addressCountry,
     },
     contactPoint: {
