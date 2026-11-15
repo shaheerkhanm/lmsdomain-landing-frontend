@@ -1350,3 +1350,4 @@ input[type="number"]::-webkit-inner-spin-button {
   66% { left: 46%; top: 64%; }
   100% { left: 40%; top: 34%; }
 }
+@keyframes sc-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }

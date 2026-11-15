@@ -4,6 +4,7 @@ import { Quote } from "lucide-react";
 import type { HomeTestimonial } from "@/lib/api/content";
 import { Container, SectionHeading } from "./primitives";
 import { TestimonialVideo } from "./TestimonialVideo";
+import { TestimonialsMore } from "./TestimonialsMore";
 
 export interface ShowcaseTestimonial extends HomeTestimonial {
   /** Large photo for the featured story (falls back to avatar). */
@@ -88,7 +89,18 @@ function Avatar({ t, size = 44 }: { t: ShowcaseTestimonial; size?: number }) {
   );
 }
 
-export function Testimonials({ items, isDemo = false }: { items: ShowcaseTestimonial[]; isDemo?: boolean }) {
+export function Testimonials({
+  items,
+  isDemo = false,
+  showAll = false,
+  title = "Educators who run their academy on LMS Domain",
+}: {
+  items: ShowcaseTestimonial[];
+  isDemo?: boolean;
+  /** Customers page: every published review, 6 at a time with "Show more". Homepage keeps 6. */
+  showAll?: boolean;
+  title?: string;
+}) {
   if (!items.length) return null;
   const [featured, ...rest] = items;
   const others = rest.slice(0, 6);
@@ -97,7 +109,7 @@ export function Testimonials({ items, isDemo = false }: { items: ShowcaseTestimo
   return (
     <section id="testimonials" className="bg-white py-[clamp(80px,10vw,136px)]">
       <Container>
-        <SectionHeading eyebrow="Customers" title="Educators who run their academy on LMS Domain" />
+        <SectionHeading eyebrow="Customers" title={title} />
         {isDemo && (
           <p className="mt-4 text-center text-[12px] font-medium text-[#DC2626]">
             Demo testimonials (preview only, hidden on the live site)
@@ -149,7 +161,12 @@ export function Testimonials({ items, isDemo = false }: { items: ShowcaseTestimo
         </figure>
 
         {/* More customers */}
-        {others.length > 0 && (
+        {showAll && rest.length > 0 && (
+          <TestimonialsMore
+            items={rest.map((t) => ({ id: t.id, name: t.name, role: t.role, quote: t.quote, avatar: t.avatar }))}
+          />
+        )}
+        {!showAll && others.length > 0 && (
           <div className="mt-4 grid gap-4 md:grid-cols-3">
             {others.map((t, i) => (
               <figure
