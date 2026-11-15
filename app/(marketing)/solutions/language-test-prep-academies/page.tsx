@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { SolutionPage } from "@/components/marketing/solutions/SolutionPage";
+import { SolutionV5Page } from "@/components/sections/SolutionsV5/SolutionV5Page";
+import { LanguageHero } from "@/components/sections/SolutionsV5/language/LanguageHero";
 import { languageTestPrepData } from "@/content/solutions/language-test-prep";
 import { getHomeClients } from "@/lib/api/content";
 import { fullTitle, getMetadataBase } from "@/lib/site";
@@ -19,8 +20,10 @@ export default async function LanguageAcademiesRoute() {
     clientsData?.logos?.[0];
 
   return (
-    <SolutionPage
+    <SolutionV5Page
       data={languageTestPrepData}
+      Hero={LanguageHero}
+      pageName="Language & test-prep academies"
       clientLogo={ieltsLogo ? { name: ieltsLogo.name, logo: ieltsLogo.logo, url: ieltsLogo.url } : undefined}
     />
   );

@@ -2,13 +2,11 @@ import { SolutionPageData } from "./types";
 
 export const coachingInstitutesData: SolutionPageData = {
   slug: "coaching-institutes",
-  eyebrow: "COACHING INSTITUTES & TUTORS",
-  title: "The LMS built for coaching institutes that teach live batches.",
-  subtitle:
-    "LMS Domain is an all-in-one learning management system for coaching institutes, competitive exam centers, and tuition academies in India. Run scheduled morning and evening batches, teach live on Zoom with automatic attendance, conduct timed mock tests, and collect fees with GST invoices on your own custom domain.",
-  metaTitle: "LMS for Coaching Institutes & Test Centres | LMS Domain",
-  metaDescription:
-    "All-in-one software for coaching institutes in India. Deliver live Zoom batches, full-length test series, study materials, and automated GST fee receipts.",
+  eyebrow: "Coaching institutes",
+  title: "The LMS for coaching institutes that teach in batches",
+  subtitle: "LMS Domain helps coaching institutes and tuition centres run morning, evening and weekend batches, teach live on Zoom with attendance logged automatically, run timed mock tests and collect fees online, all on your own website.",
+  metaTitle: "LMS for Coaching Institutes & Tuition Centres | LMS Domain",
+  metaDescription: "Run batches, live Zoom classes with automatic attendance, timed mock tests and online fee collection for your coaching institute, on your own branded website.",
   sectionHeading: "How does LMS Domain support coaching institutes and tuition centers?",
   features: [
     {
@@ -29,7 +27,7 @@ export const coachingInstitutesData: SolutionPageData = {
       title: "Mock tests & question banks",
       tagline: "Chapter-wise quizzes and timed competitive exams.",
       description:
-        "Build deep question banks organized by subject and difficulty. Administer timed mock exams with automated score calculation, negative marking options, and instant student rank reports.",
+        "Build deep question banks organized by subject and difficulty. Run timed mock exams with automatic scoring and instant rank reports.",
       icon: "CheckSquare",
     },
     {
@@ -40,7 +38,7 @@ export const coachingInstitutesData: SolutionPageData = {
       icon: "CreditCard",
     },
     {
-      title: "Student & parent alerts",
+      title: "Student alerts",
       tagline: "Automated transactional email and SMS class notifications.",
       description:
         "Send batch schedule updates, unexpected cancellation alerts, and fee due reminders directly through transactional emails and optional SMS broadcasts.",
@@ -66,9 +64,9 @@ export const coachingInstitutesData: SolutionPageData = {
       description: "Configure timed mock exams and automated student scoring.",
     },
     {
-      title: "Sell & GST Invoices",
+      title: "Sell & Fees",
       href: "/platform/sell",
-      description: "Accept local payment methods with GST tax receipts and offline approvals.",
+      description: "Collect fees online through your own gateway, with coupons and offline payment approvals.",
     },
   ],
   faqs: [
@@ -80,7 +78,7 @@ export const coachingInstitutesData: SolutionPageData = {
     {
       question: "How do live Zoom classes work with attendance tracking?",
       answer:
-        "Live sessions launch directly through our Zoom integration without sharing separate external meeting IDs. The platform logs each learner's join and exit timestamps automatically for staff review.",
+        "Live sessions launch directly through our Zoom integration without sharing separate external meeting IDs. Attendance is logged automatically when learners join, and you can export it for any session.",
     },
     {
       question: "Can we create chapter-wise mock tests and question banks?",
@@ -88,9 +86,9 @@ export const coachingInstitutesData: SolutionPageData = {
         "Yes, you can upload question banks organized by topic and difficulty level. You can generate timed chapter quizzes or full-length mock examinations with automated scoring and answer explanations.",
     },
     {
-      question: "How do fee collection and GST invoices work?",
+      question: "How does fee collection work?",
       answer:
-        "Students can pay fees online via UPI, debit cards, net banking, or payment gateways including Razorpay and Paytm. Automated GST tax invoices are generated instantly with your academy GSTIN details.",
+        "Learners pay online through your own Stripe, Razorpay, Paytm or DOKU account, and you keep 100% of the fees. Academies in India also get automatic GST invoices.",
     },
     {
       question: "Can we send SMS and email alerts to students?",
@@ -107,5 +105,68 @@ export const coachingInstitutesData: SolutionPageData = {
   ctaSubtitle:
     "Book a 20-minute demo. We'll show you how batch schedules, live Zoom classes, and timed mock tests operate on your custom domain.",
   ctaButtonText: "Book a demo",
+  v5: {
+    heroAccent: "teach in batches",
+    pains: [
+      { before: "Class links shared in chat groups, and lost every week", after: "Learners join live classes from your academy with one click" },
+      { before: "Attendance taken by hand at the start of every class", after: "Attendance logged automatically when learners join on Zoom" },
+      { before: "Mock tests on paper, marked over the weekend", after: "Timed online tests with instant scores and ranks" },
+      { before: "Fees chased one learner at a time", after: "Online fee payments and email reminders to whole batches" },
+    ],
+    weekTitle: "A week at your institute",
+    weekSubtitle: "How one batch runs on LMS Domain, from Monday to Saturday.",
+    week: [
+      {
+        day: "Mon",
+        title: "New batch starts",
+        body: "Learners are added to the evening batch, and Module 1 unlocks for everyone on the same day.",
+        card: {
+          title: "Grade 10 Maths · Evening",
+          meta: "Mon, Wed, Fri · 18:00",
+          rows: [
+            { label: "Learners", value: "24" },
+            { label: "Module 1", value: "Unlocked", tone: "ok" },
+            { label: "Module 2", value: "Unlocks Mon 10 Mar", tone: "brand" },
+          ],
+        },
+      },
+      {
+        day: "Wed",
+        title: "Live class on Zoom",
+        body: "Learners join from your academy. Attendance is recorded for you, and the recording is saved to the course.",
+        card: {
+          title: "Quadratic equations",
+          meta: "Live · Daniel Reyes",
+          progress: { label: "23 of 24 joined", value: 96 },
+          chip: { label: "Recording saved", tone: "ok" },
+        },
+      },
+      {
+        day: "Fri",
+        title: "Weekly mock test",
+        body: "A timed test from your question bank, scored automatically, with a rank for every learner.",
+        card: {
+          title: "Mock test 4 · Algebra",
+          meta: "30 questions · 60 min",
+          rows: [
+            { label: "1. Sofia Rossi", value: "94%", tone: "ok" },
+            { label: "2. Lucas Martin", value: "88%" },
+            { label: "3. Priya Sharma", value: "82%" },
+          ],
+        },
+      },
+      {
+        day: "Sat",
+        title: "Fees and follow-ups",
+        body: "See who has paid this month and send a reminder to the rest of the batch in one go.",
+        card: {
+          title: "March fees",
+          meta: "Grade 10 Maths · Evening",
+          progress: { label: "18 of 24 paid", value: 75 },
+          chip: { label: "Reminder sent to 6", tone: "brand" },
+        },
+      },
+    ],
+  },
 };
 
