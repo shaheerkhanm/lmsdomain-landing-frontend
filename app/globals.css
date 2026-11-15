@@ -1351,3 +1351,12 @@ input[type="number"]::-webkit-inner-spin-button {
   100% { left: 40%; top: 34%; }
 }
 @keyframes sc-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* About: currency / gateway orbit */
+@media (prefers-reduced-motion: no-preference) {
+  .orbit-spin { animation: orbit 60s linear infinite; }
+  .orbit-counter { display: inline-flex; animation: orbit 60s linear infinite reverse; }
+  .orbit-spin-rev { animation: orbit 45s linear infinite reverse; }
+  .orbit-counter-rev { animation: orbit 45s linear infinite; }
+}
+@keyframes orbit { to { rotate: 360deg; } }
