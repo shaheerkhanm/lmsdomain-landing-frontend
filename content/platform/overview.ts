@@ -122,7 +122,7 @@ export const platformSectionsV5: PlatformSectionV5[] = [
       "Timed tests and mock exams from question banks",
       "Assignments with private teacher review",
       "Quiz checkpoints inside video lessons",
-      "Branded certificates sent by email",
+      "Branded PDF certificates on completion",
     ],
   },
   {
@@ -133,8 +133,8 @@ export const platformSectionsV5: PlatformSectionV5[] = [
     body: "Keep batch rosters, attendance and progress in one dashboard, give your team the right access, and remind learners before every class.",
     points: [
       "Batch rosters and learner progress",
-      "Attendance for every live class",
-      "Admin, teacher and staff roles",
+      "Attendance logged automatically for live classes",
+      "Admin and instructor roles",
       "Email reminders, plus SMS on Growth and up",
     ],
   },
@@ -147,7 +147,7 @@ export const platformSectionsV5: PlatformSectionV5[] = [
     points: [
       "Stripe, Razorpay, Paytm and DOKU checkout",
       "Multi-currency prices and coupons",
-      "Automatic invoices for every sale",
+      "Automatic GST invoices for Indian academies",
       "0% commission on every plan",
     ],
   },

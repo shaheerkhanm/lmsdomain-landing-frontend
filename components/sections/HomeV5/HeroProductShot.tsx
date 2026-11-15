@@ -43,9 +43,9 @@ export function HeroProductShot() {
           {/* Top bar */}
           <div className="flex items-center gap-3 border-b border-[#ECECEF] bg-white px-4 py-3">
             <div className="flex gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#E4E4E7]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#E4E4E7]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#E4E4E7]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" />
+              <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" />
             </div>
             <div className="mx-auto hidden h-7 w-[320px] items-center gap-2 rounded-[8px] bg-[#F4F4F5] px-3 text-[12px] text-[#71717A] sm:flex">
               <Search className="h-3.5 w-3.5" />

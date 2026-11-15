@@ -2,14 +2,14 @@ import { PlatformPageData } from "./types";
 
 export const assessPlatformData: PlatformPageData = {
   slug: "assess",
-  eyebrow: "ASSESSMENTS & EVALUATION",
-  title: "Test learners and certify the ones who finish.",
-  subtitle:
-    "LMS Domain is an online assessment and testing platform for coaching institutes, test-prep centers, and training companies. Create timed mock tests from custom question banks, review student assignments with private feedback, check comprehension with in-video questions, and issue branded PDF completion certificates when learners pass your course requirements.",
-  metaTitle: "Mock Tests & Question Banks Software | LMS Domain",
-  metaDescription:
-    "Create timed mock tests from custom question banks, review assignments, and issue branded PDF completion certificates with LMS Domain's assessment tools.",
-  sectionHeading: "How do mock tests and assessments work in LMS Domain?",
+  eyebrow: "Assess",
+  heroAccent: "certify",
+  aiNote: "With Domie AI (Pro), learners get instant answers from your own lessons while they revise, even when teachers are offline.",
+  title: "Test learners and certify the ones who finish",
+  subtitle: "LMS Domain lets you run timed tests from your own question banks, review written assignments, add quiz checkpoints inside videos and send certificates automatically when a learner completes a course.",
+  metaTitle: "Online Tests, Question Banks & Certificates | LMS Domain",
+  metaDescription: "Create timed tests and mock exams from question banks, review assignments, add in-video quizzes and issue branded certificates automatically with LMS Domain.",
+  sectionHeading: "Everything you need to test and certify",
   frameTitle: "Gradebook & Assessment Center",
   frameAlt: "Test learners and certify the ones who finish",
   features: [

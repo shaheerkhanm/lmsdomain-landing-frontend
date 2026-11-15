@@ -1189,3 +1189,164 @@ input[type="number"]::-webkit-inner-spin-button {
     animation: v5-rise 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
 }
+
+/* ==========================================================================
+   v5 micro-motion inside product cards (looping, subtle; off for reduced motion)
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  /* gentle float for small cards on a stage */
+  .mo-float {
+    animation: mo-float 6s ease-in-out infinite;
+    animation-delay: var(--fd, 0s);
+  }
+  /* soft ring that breathes around a dot or badge */
+  .mo-ping {
+    position: relative;
+  }
+  .mo-ping::after {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 9999px;
+    border: 2px solid currentColor;
+    opacity: 0;
+    animation: mo-ping 2.4s cubic-bezier(0.2, 0.7, 0.2, 1) infinite;
+    animation-delay: var(--pd, 0s);
+  }
+  /* video progress that keeps moving */
+  .mo-progress {
+    animation: mo-progress 12s linear infinite;
+  }
+  /* blinking text caret */
+  .mo-caret {
+    animation: mo-caret 1.1s steps(1) infinite;
+  }
+  /* a highlighted row that softly glows in turn */
+  .mo-glow {
+    animation: mo-glow 4s ease-in-out infinite;
+    animation-delay: var(--gd, 0s);
+  }
+  /* bars that rise and fall like live audio */
+  .mo-eq {
+    transform-origin: bottom;
+    animation: mo-eq 1.2s ease-in-out infinite;
+    animation-delay: var(--ed, 0s);
+  }
+}
+@keyframes mo-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -8px; }
+}
+@keyframes mo-ping {
+  0% { opacity: 0.55; transform: scale(0.9); }
+  80%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes mo-progress {
+  from { width: 22%; }
+  to { width: 78%; }
+}
+@keyframes mo-caret {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+@keyframes mo-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(108, 75, 255, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(108, 75, 255, 0.12); }
+}
+@keyframes mo-eq {
+  0%, 100% { transform: scaleY(0.35); }
+  50% { transform: scaleY(1); }
+}
+
+/* Scripted demo cursor (assess hero) */
+@media (prefers-reduced-motion: no-preference) {
+  .mo-swap {
+    animation: mo-swap 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .mo-ripple {
+    animation: mo-ripple 0.6s ease-out forwards;
+  }
+}
+@keyframes mo-swap {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mo-ripple {
+  from { opacity: 0.5; transform: translate(-50%, -50%) scale(0.3); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(1.6); }
+}
+
+/* ==========================================================================
+   Domie AI dark panel: slowly drifting light + flow diagram motion
+   (all motion off for reduced-motion users; blobs stay as a static glow)
+   ========================================================================== */
+.ai-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ai-blob-1 { animation: ai-drift-1 26s ease-in-out infinite alternate; }
+  .ai-blob-2 { animation: ai-drift-2 32s ease-in-out infinite alternate; }
+  .ai-blob-3 { animation: ai-drift-3 22s ease-in-out infinite alternate; }
+  .mo-flow {
+    background-image: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.35) 0 8px, transparent 8px 16px);
+    background-size: 32px 2px;
+    animation: mo-flow 1.2s linear infinite;
+  }
+  .mo-flow-y {
+    background-image: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0 8px, transparent 8px 16px);
+    background-size: 2px 32px;
+    animation: mo-flow-y 1.2s linear infinite;
+  }
+  .mo-travel { animation: mo-travel 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; animation-delay: var(--td, 0s); }
+  .mo-travel-y { animation: mo-travel-y 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; animation-delay: var(--td, 0s); }
+  .mo-scan { animation: mo-scan 2.6s ease-in-out infinite; }
+}
+@keyframes ai-drift-1 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(18vw, 8vh) scale(1.15); }
+  100% { transform: translate(6vw, 22vh) scale(0.95); }
+}
+@keyframes ai-drift-2 {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-16vw, -10vh) scale(1.2); }
+  100% { transform: translate(-6vw, 14vh) scale(1); }
+}
+@keyframes ai-drift-3 {
+  0% { transform: translate(0, 0) scale(0.9); }
+  100% { transform: translate(12vw, -16vh) scale(1.15); }
+}
+@keyframes mo-flow { to { background-position: 32px 0; } }
+@keyframes mo-flow-y { to { background-position: 0 32px; } }
+@keyframes mo-travel {
+  0% { left: 0; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { left: 100%; opacity: 0; }
+}
+@keyframes mo-travel-y {
+  0% { top: 0; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes mo-scan {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(68px); }
+}
+.mo-flow { background-image: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0 8px, transparent 8px 16px); }
+.mo-flow-y { background-image: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0 8px, transparent 8px 16px); }
+
+/* Security: watermark that changes position during playback */
+@media (prefers-reduced-motion: no-preference) {
+  .mo-wm { animation: mo-wm 9s steps(1) infinite; }
+}
+@keyframes mo-wm {
+  0% { left: 40%; top: 34%; }
+  33% { left: 8%; top: 62%; }
+  66% { left: 46%; top: 64%; }
+  100% { left: 40%; top: 34%; }
+}

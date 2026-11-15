@@ -2,14 +2,13 @@ import { PlatformPageData } from "./types";
 
 export const securityPlatformData: PlatformPageData = {
   slug: "security",
-  eyebrow: "SECURITY & DATA PROTECTION",
-  title: "Protect your courses and your learners' data.",
-  subtitle:
-    "LMS Domain delivers secure cloud hosting and content protection for coaching institutes and enterprise training companies in India. Safeguard course lecture videos with dynamic learner watermarks, enforce simultaneous device login limits, assign Admin and Instructor access controls, and retain full ownership with complete data export capabilities.",
-  metaTitle: "Secure Cloud LMS & Video Watermarking | LMS Domain",
-  metaDescription:
-    "Protect courses with dynamic video watermarks, learner device sign-in limits, staff role permissions, and secure cloud hosting on your own domain.",
-  sectionHeading: "How does content and data protection work in LMS Domain?",
+  eyebrow: "Security",
+  heroAccent: "your courses",
+  title: "Protect your courses and your learners' data",
+  subtitle: "LMS Domain helps stop course sharing with video watermarks and learner device limits, gives your team role-based access, and runs on managed cloud hosting with TLS encryption.",
+  metaTitle: "Secure LMS with Video Watermarking & Device Limits | LMS Domain",
+  metaDescription: "Protect course videos with learner watermarks and device limits, control team access with roles, and keep academy data on secure managed hosting with LMS Domain.",
+  sectionHeading: "Everything you need to keep content safe",
   frameTitle: "Security, Watermarking & Access Controls",
   frameAlt: "Protect your courses and your learners' data",
   features: [
@@ -18,18 +17,21 @@ export const securityPlatformData: PlatformPageData = {
       description:
         "Discourage unauthorized video screen recording with dynamic, viewer-specific watermarks stamped across playback.",
       icon: "ShieldAlert",
+      plan: "Growth",
     },
     {
       title: "Learner device limits",
       description:
         "Manage account sharing by enforcing a maximum number of authorized sign-in devices per registered student.",
       icon: "Smartphone",
+      plan: "Pro",
     },
     {
       title: "Role-based access control (RBAC)",
       description:
         "Enforce strict least-privilege security with granular permissions for administrators, instructors, and evaluators.",
       icon: "Lock",
+      plan: "Custom roles on Pro",
     },
     {
       title: "Managed cloud hosting",

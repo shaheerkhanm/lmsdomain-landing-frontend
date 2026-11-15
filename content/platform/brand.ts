@@ -2,14 +2,13 @@ import { PlatformPageData } from "./types";
 
 export const brandPlatformData: PlatformPageData = {
   slug: "brand",
-  eyebrow: "WHITE-LABEL BRANDING",
-  title: "Your academy, on your own domain.",
-  subtitle:
-    "LMS Domain is a white-label academy website builder for coaching institutes, training companies, and independent educators in India. Launch your learning portal on your own custom web domain with free automated SSL, upload your own brand logo, colors, and custom fonts, publish blogs and knowledge base articles, and sell downloadable ebooks.",
-  metaTitle: "White-Label LMS on Your Own Custom Domain | LMS Domain",
-  metaDescription:
-    "Launch your academy on your custom domain with your logo, colors, and typography. Deliver a completely branded learning experience without vendor badges.",
-  sectionHeading: "How does custom branding work in LMS Domain?",
+  eyebrow: "Brand",
+  heroAccent: "your own domain",
+  title: "Run your academy on your own domain",
+  subtitle: "LMS Domain gives you a fully branded academy website on your own domain, with free SSL, your logo, colours and fonts, an easy homepage builder and built-in SEO settings.",
+  metaTitle: "White-Label LMS on Your Own Domain | LMS Domain",
+  metaDescription: "Launch a white-label academy on your own domain with free SSL, your logo, colours and fonts, a no-code homepage builder, SEO settings and a built-in blog.",
+  sectionHeading: "Everything you need to look like your own brand",
   frameTitle: "Brand & Domain Configuration",
   frameAlt: "Your academy, on your own domain",
   features: [
@@ -26,9 +25,9 @@ export const brandPlatformData: PlatformPageData = {
       icon: "LayoutTemplate",
     },
     {
-      title: "Per-school branding",
+      title: "Your logo and colours",
       description:
-        "Upload light and dark wordmarks, browser favicons, and customize brand colors and fonts across all student touchpoints.",
+        "Upload light and dark logos and a favicon, and set your brand colours across every learner touchpoint. Custom fonts are available on Growth and up.",
       icon: "Palette",
     },
     {

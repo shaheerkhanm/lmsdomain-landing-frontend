@@ -331,9 +331,9 @@ export function BrandArt() {
     <div className="absolute inset-0">
       <Panel className="v5-pop v5-lift absolute left-[44%] right-[-56px] top-9 overflow-hidden rounded-[18px] sm:left-[30%]">
         <div className="flex items-center gap-2 border-b border-[#F1F1F4] px-4 py-2.5">
-          <span className="h-2 w-2 rounded-full bg-[#E4E4E7]" />
-          <span className="h-2 w-2 rounded-full bg-[#E4E4E7]" />
-          <span className="h-2 w-2 rounded-full bg-[#E4E4E7]" />
+          <span className="h-2 w-2 rounded-full bg-[#FF5F57]" />
+          <span className="h-2 w-2 rounded-full bg-[#FEBC2E]" />
+          <span className="h-2 w-2 rounded-full bg-[#28C840]" />
           <span className="ml-3 rounded-[6px] bg-[#F4F4F5] px-2.5 py-0.5 text-[11px] text-[#9A9AA6]">academy.northwind.com</span>
         </div>
         <div className="flex items-center justify-between px-5 py-3">

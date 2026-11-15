@@ -64,7 +64,7 @@ export function SceneCanvas({ children, dark = false }: { children: React.ReactN
     <div
       aria-hidden="true"
       className={cn(
-        "rv-v4 relative h-[400px] overflow-hidden rounded-[32px] sm:h-[460px]",
+        "scene-canvas rv-v4 relative h-[400px] overflow-hidden rounded-[32px] sm:h-[460px]",
         dark ? "border border-white/10 bg-white/[0.04]" : "bg-[#F4F5F8]"
       )}
     >
@@ -232,8 +232,8 @@ export function AssessScene() {
           <Check className="h-4 w-4" strokeWidth={3} />
         </span>
         <div>
-          <p className="text-[12.5px] font-semibold text-[#18181B]">Certificate sent</p>
-          <p className="text-[10.5px] text-[#9A9AA6]">Priya S. · by email</p>
+          <p className="text-[12.5px] font-semibold text-[#18181B]">Certificate issued</p>
+          <p className="text-[10.5px] text-[#9A9AA6]">Priya S. · PDF</p>
         </div>
       </Panel>
     </SceneCanvas>
@@ -245,7 +245,7 @@ export function ManageScene() {
   const rows = [
     { n: "Priya Sharma", p: PEOPLE.a1, prog: 86, s: "Present" },
     { n: "Lucas Martin", p: PEOPLE.a2, prog: 72, s: "Present" },
-    { n: "Amara Okafor", p: PEOPLE.a3, prog: 64, s: "Late" },
+    { n: "Amara Okafor", p: PEOPLE.a3, prog: 64, s: "Present" },
     { n: "Kenji Tanaka", p: PEOPLE.a4, prog: 41, s: "Absent" },
     { n: "Sofia Rossi", p: PEOPLE.a5, prog: 93, s: "Present" },
   ];
@@ -357,9 +357,9 @@ export function BrandScene() {
     <SceneCanvas>
       <Panel className="v5-pop v5-lift absolute left-6 right-[-64px] top-8 overflow-hidden rounded-[20px] sm:left-10">
         <div className="flex items-center gap-2 border-b border-[#F1F1F4] px-4 py-2.5">
-          <span className="h-2 w-2 rounded-full bg-[#E4E4E7]" />
-          <span className="h-2 w-2 rounded-full bg-[#E4E4E7]" />
-          <span className="h-2 w-2 rounded-full bg-[#E4E4E7]" />
+          <span className="h-2 w-2 rounded-full bg-[#FF5F57]" />
+          <span className="h-2 w-2 rounded-full bg-[#FEBC2E]" />
+          <span className="h-2 w-2 rounded-full bg-[#28C840]" />
           <span className="ml-3 inline-flex items-center gap-1 rounded-[6px] bg-[#F4F4F5] px-2.5 py-0.5 text-[11px] text-[#71717A]">
             <Lock className="h-2.5 w-2.5 text-[#16A34A]" /> academy.northwind.com
           </span>

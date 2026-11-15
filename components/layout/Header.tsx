@@ -53,8 +53,10 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>(null);
   const [showDemoModal, setShowDemoModal] = useState(false);
-  // Homepage and pricing: full-width transparent bar at the top that morphs into the floating pill on scroll
-  const morphOnScroll = pathname === "/" || pathname === "/pricing" || pathname === "/platform";
+  // Every page: full-width transparent bar at the top that morphs into the floating pill on scroll
+  const morphOnScroll = true;
+  // Pages whose hero is dark: the transparent bar uses light text and the white logo until it morphs (desktop only)
+  const darkTop = pathname === "/platform/ai";
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -66,6 +68,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
   }, [morphOnScroll]);
 
   const compact = !morphOnScroll || scrolled;
+  const onDark = darkTop && !compact;
 
   const navRef = useRef<HTMLDivElement>(null);
   const activeTriggerRef = useRef<HTMLButtonElement | null>(null);
@@ -148,7 +151,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
       <header
         ref={navRef}
         className={`fixed inset-x-0 z-50 justify-center font-urbanist hidden min-[900px]:flex pointer-events-none transition-[top] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
-          compact ? "top-4" : "top-0"
+          compact ? "top-4" : darkTop ? "top-6" : "top-0"
         }`}
       >
         <div
@@ -165,7 +168,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           {/* Brand Logo */}
           <Link href="/" aria-label="LMS Domain home" className="flex items-center shrink-0">
             <span className="hidden min-[1120px]:inline-flex items-center">
-              <BrandLogo variant="wordmark" tone="light" height={26} />
+              <BrandLogo variant="wordmark" tone={onDark ? "dark" : "light"} height={26} />
             </span>
             <span className="inline-flex min-[1120px]:hidden items-center">
               <BrandLogo variant="mark" height={26} />
@@ -173,7 +176,7 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           </Link>
 
           {/* Navigation Items */}
-          <nav className="flex items-center gap-1 sm:gap-2 text-[13px] font-medium text-[#6B6F76]">
+          <nav className={cn("flex items-center gap-1 sm:gap-2 text-[13px] font-medium transition-colors duration-500", onDark ? "text-white/75" : "text-[#6B6F76]")}>
             {visibleNav.map((item) => {
               const active = isItemActive(item);
               const hasDropdown = Boolean(item.children && item.children.length > 0);
@@ -191,8 +194,12 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
                       className={cn(
                         "px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 select-none cursor-pointer focus-visible:outline-2 focus-visible:outline-[#7B5CF5]",
                         active || isOpen
-                          ? "text-[#161616] font-semibold bg-[#F4F4F1]/60"
-                          : "hover:text-[#161616] hover:bg-[#F9F9F7]"
+                          ? onDark
+                            ? "text-white font-semibold bg-white/10"
+                            : "text-[#161616] font-semibold bg-[#F4F4F1]/60"
+                          : onDark
+                            ? "hover:text-white hover:bg-white/10"
+                            : "hover:text-[#161616] hover:bg-[#F9F9F7]"
                       )}
                     >
                       <span>{item.label}</span>
@@ -266,8 +273,12 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
                   className={cn(
                     "px-3 py-1.5 rounded-full transition-colors flex items-center gap-1.5 focus-visible:outline-2 focus-visible:outline-[#7B5CF5]",
                     active
-                      ? "text-[#161616] font-semibold bg-[#F4F4F1]/60"
-                      : "hover:text-[#161616] hover:bg-[#F9F9F7]"
+                      ? onDark
+                        ? "text-white font-semibold bg-white/10"
+                        : "text-[#161616] font-semibold bg-[#F4F4F1]/60"
+                      : onDark
+                        ? "hover:text-white hover:bg-white/10"
+                        : "hover:text-[#161616] hover:bg-[#F9F9F7]"
                   )}
                 >
                   <span>{item.label}</span>
@@ -283,7 +294,10 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
             {showLogin && (
               <Link
                 href="/login"
-                className="px-3 py-1.5 text-[#6B6F76] hover:text-[#161616] transition-colors focus-visible:outline-2 focus-visible:outline-[#7B5CF5] rounded-full"
+                className={cn(
+                  "px-3 py-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-[#7B5CF5] rounded-full",
+                  onDark ? "text-white/75 hover:text-white" : "text-[#6B6F76] hover:text-[#161616]"
+                )}
               >
                 Log in
               </Link>
@@ -294,7 +308,10 @@ export function Header({ siteNav }: { siteNav?: NavItem[] }) {
           <button
             type="button"
             onClick={() => setShowDemoModal(true)}
-            className="px-5 py-2 rounded-full bg-[#161616] hover:bg-black text-white text-[13px] font-semibold transition-all shadow-xs active:scale-95 cursor-pointer shrink-0 whitespace-nowrap"
+            className={cn(
+              "px-5 py-2 rounded-full text-[13px] font-semibold transition-all shadow-xs active:scale-95 cursor-pointer shrink-0 whitespace-nowrap",
+              onDark ? "bg-white text-[#161616] hover:bg-[#F4F4F5]" : "bg-[#161616] hover:bg-black text-white"
+            )}
           >
             Book a demo
           </button>

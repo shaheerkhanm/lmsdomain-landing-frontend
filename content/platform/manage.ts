@@ -2,14 +2,14 @@ import { PlatformPageData } from "./types";
 
 export const managePlatformData: PlatformPageData = {
   slug: "manage",
-  eyebrow: "ACADEMY OPERATIONS",
-  title: "Know every batch, learner and class at a glance.",
-  subtitle:
-    "LMS Domain is an academy operations and batch management software designed for coaching institutes, training companies, and educational organizations in India. Track student attendance for every live class, oversee batch schedules and drip lessons, assign Admin and Instructor staff permissions, and send automated email and SMS class notifications.",
-  metaTitle: "Batch Management & Academy Operations | LMS Domain",
-  metaDescription:
-    "Manage student cohorts, track attendance for every live class, assign staff roles, and broadcast automated email and SMS notices on LMS Domain.",
-  sectionHeading: "How does batch and operations management work in LMS Domain?",
+  eyebrow: "Manage",
+  heroAccent: "at a glance",
+  aiNote: "With Domie AI (Pro), see which learners are falling behind on progress or attendance before it becomes a problem.",
+  title: "See every batch, learner and class at a glance",
+  subtitle: "LMS Domain keeps batch rosters, learner progress and attendance for every live class in one dashboard, with roles for your team and automatic reminders for learners.",
+  metaTitle: "Batch Management, Attendance & Learner Tracking | LMS Domain",
+  metaDescription: "Manage batches, track attendance for every live class, follow learner progress, set team roles and send email and SMS reminders from one LMS Domain dashboard.",
+  sectionHeading: "Everything you need to run your academy",
   frameTitle: "Operations Dashboard & Roster",
   frameAlt: "Know every batch, learner and class at a glance",
   features: [
@@ -28,19 +28,20 @@ export const managePlatformData: PlatformPageData = {
     {
       title: "Attendance tracking",
       description:
-        "Attendance for every live class.",
+        "Attendance is logged automatically when learners join a live class, and you can export the sheet for any session.",
       icon: "ClipboardCheck",
     },
     {
       title: "Roles and permissions (RBAC)",
       description:
-        "Protect operational integrity with distinct access levels for administrators, instructors, and evaluators.",
+        "Give admins full control and limit instructors to their own courses, batches and reviews.",
       icon: "ShieldAlert",
+      plan: "Custom roles on Pro",
     },
     {
       title: "Email & SMS notifications",
       description:
-        "Send broadcast announcements, class reminders, and enrollment notices via automated email and SMS channels.",
+        "Send announcements, class reminders and enrolment notices by email automatically. SMS is available on Growth and up.",
       icon: "Bell",
     },
   ],
@@ -61,7 +62,7 @@ export const managePlatformData: PlatformPageData = {
       title: "Coaching institutes",
       href: "/solutions/coaching-institutes",
       description:
-        "Schedule multiple shifts, take live Zoom attendance, and notify parents and students via SMS.",
+        "Run several batch timings, get Zoom attendance logged automatically, and remind students by email or SMS.",
     },
   ],
   faqs: [
