@@ -79,7 +79,11 @@ export async function applySeo<T extends Record<string, any>>(
   if (options.overrideText && seo?.metatitle) out.title = fullTitle(seo.metatitle);
   if (options.overrideText && seo?.metadescription) out.description = seo.metadescription;
   const title = typeof out.title === "string" ? out.title : SITE_NAME;
-  const image = seo?.ogImage || (await getSiteIdentity()).shareImage || shareImageUrl(options.page || "home", title);
+  // The generated image is served by this deployment, so staging previews show
+  // staging's image (the canonical/metadataBase stays on production).
+  const generated = shareImageUrl(options.page || "home", title);
+  const image =
+    seo?.ogImage || (await getSiteIdentity()).shareImage || (getSiteUrl() ? `${getSiteUrl()}${generated}` : generated);
   out.openGraph = { ...(out.openGraph || {}), images: [image] };
   out.twitter = { ...(out.twitter || {}), card: "summary_large_image", images: [image] };
   if (!isProductionSite()) {
