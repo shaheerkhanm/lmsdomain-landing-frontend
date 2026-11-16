@@ -13,6 +13,9 @@
 //      Missing ones are not created (the site then shows its own v5 text).
 //   0. Editable fields: an entry the admin can't edit (no "fields" list) gets the
 //      list of inputs it should have. Only the list is added; no text changes.
+//   5. Blog posts (Admin > Website > Blog): creates missing posts; with OVERWRITE,
+//      replaces the text of posts with the same address. Once any post exists in
+//      the admin, the site shows exactly the admin's posts.
 //   4. SEO per page: creates missing entries with the v5 title and description;
 //      with OVERWRITE, replaces old titles/descriptions. Share image, keywords and
 //      noindex are never changed.
@@ -43,6 +46,7 @@ const TEXT = /*__TEXT__*/[];
 const FACTS = /*__FACTS__*/[];
 const LEGAL = /*__LEGAL__*/[];
 const SEO = /*__SEO__*/[];
+const BLOG = /*__BLOG__*/[];
 
 const now = new Date();
 const backups = db.getCollection("cms_backup_v5");
@@ -125,6 +129,14 @@ for (const entry of SEO) {
   const existing = db.seos.findOne({ slug: entry.slug });
   if (!existing) create("seos", { ...entry, metakeyword: [], othermetatag: [], ogImage: "", noindex: entry.slug === "login" || entry.slug === "signup" });
   else if (OVERWRITE) update("seos", existing, { metatitle: entry.metatitle, metadescription: entry.metadescription });
+  else { counts.skip++; print("   - exists  " + entry.slug + " (OVERWRITE to replace)"); }
+}
+
+print("\n== 5. Blog posts (blogposts)");
+for (const entry of BLOG) {
+  const existing = db.blogposts.findOne({ slug: entry.slug, isDeleted: { $ne: true } });
+  if (!existing) create("blogposts", entry);
+  else if (OVERWRITE) { const { slug, ...set } = entry; update("blogposts", existing, set); }
   else { counts.skip++; print("   - exists  " + entry.slug + " (OVERWRITE to replace)"); }
 }
 

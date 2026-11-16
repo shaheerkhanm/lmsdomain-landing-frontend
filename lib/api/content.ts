@@ -12,6 +12,7 @@ import { DEFAULT_PRICING_V2, computePlanPricing, PricingV2Data, formatPrice } fr
 import { getPricingFaqs, DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
 import { defaultAboutContent, AboutContent } from "@/content/about";
 import { defaultContactDetails, ContactDetails } from "@/content/contact";
+import { BLOG_POSTS, BLOG_COVER_STYLES, readingTimeFor, tocFromHtml, type BlogPost, type BlogCoverStyle } from "@/content/blog/posts";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
@@ -1471,3 +1472,55 @@ export const getRoadmapPage = cache(async (): Promise<RoadmapContent> => {
   if (!content.faq.items.length) content.faq.items = ROADMAP_DEFAULTS.faq.items;
   return content;
 });
+
+// ----------------------------------------------------------------------------
+// Blog (Admin > Website > Blog, POST /api/blog). Until a post has ever been saved
+// in the admin ("managed" false) or when the backend can't be reached, the
+// built-in posts are shown. Newest date first.
+// ----------------------------------------------------------------------------
+const DEFAULT_AUTHOR = "LMS Domain Editorial Team";
+
+type ApiBlogPost = Partial<Omit<BlogPost, "toc">> & { slug?: string; title?: string };
+
+const toBlogPost = (p: ApiBlogPost): BlogPost | null => {
+  const slug = String(p.slug || "").trim();
+  const title = String(p.title || "").trim();
+  if (!slug || !title) return null;
+  const content = String(p.content || "");
+  const faqs = (Array.isArray(p.faqs) ? p.faqs : [])
+    .map((f) => ({ question: String(f?.question || "").trim(), answer: String(f?.answer || "").trim() }))
+    .filter((f) => f.question && f.answer);
+  const subtitle = String(p.subtitle || "").trim();
+  return {
+    slug,
+    title,
+    subtitle,
+    metaTitle: String(p.metaTitle || "").trim() || title,
+    metaDescription: String(p.metaDescription || "").trim() || subtitle,
+    date: String(p.date || "").trim(),
+    readingTime: String(p.readingTime || "").trim() || readingTimeFor(content),
+    author: String(p.author || "").trim() || DEFAULT_AUTHOR,
+    toc: tocFromHtml(content, faqs.length > 0),
+    content,
+    faqs,
+    category: String(p.category || "").trim() || undefined,
+    cover: BLOG_COVER_STYLES.includes(p.cover as BlogCoverStyle) ? (p.cover as BlogCoverStyle) : undefined,
+  };
+};
+
+const byDateDesc = (a: BlogPost, b: BlogPost) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+
+export const getBlogPosts = cache(async (): Promise<BlogPost[]> => {
+  const res = await fetchApi<{ status?: boolean; data?: { managed?: boolean; posts?: ApiBlogPost[] } }>("/api/blog", {
+    method: "POST",
+    tags: ["blog"],
+    revalidate: 300,
+  }).catch(() => null);
+  const data = res?.data;
+  if (!data || !data.managed || !Array.isArray(data.posts)) return Object.values(BLOG_POSTS).sort(byDateDesc);
+  return data.posts.map(toBlogPost).filter((p): p is BlogPost => !!p).sort(byDateDesc);
+});
+
+export async function getBlogPost(slug: string): Promise<BlogPost | null> {
+  return (await getBlogPosts()).find((p) => p.slug === slug) || null;
+}

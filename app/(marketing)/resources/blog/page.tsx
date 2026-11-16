@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { fullTitle, getMetadataBase } from "@/lib/site";
-import { BLOG_POSTS } from "@/content/blog/posts";
+import { getBlogPosts } from "@/lib/api/content";
 import { Container } from "@/components/sections/HomeV5/primitives";
 import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
-import { BlogCard, BlogCover, DraftNotice, fmtDate, metaFor } from "@/components/sections/BlogV5/BlogParts";
+import { BlogCard, BlogCover, fmtDate, metaFor } from "@/components/sections/BlogV5/BlogParts";
 import { cn } from "@/lib/utils";
 import { pageMetadata } from "@/lib/seo";
 
@@ -16,7 +16,6 @@ const baseMetadata: Metadata = {
   description:
     "Practical guides for running an online academy: starting out, choosing an LMS, teaching live batches and selling courses on your own website.",
   alternates: { canonical: "/resources/blog" },
-  robots: { index: false, follow: false },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,10 +24,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const BIG = "font-urbanist font-semibold tracking-[-0.05em] leading-[0.95]";
 
-export default function BlogIndexRoute() {
-  const posts = Object.values(BLOG_POSTS).sort((a, b) => (a.date < b.date ? 1 : -1));
+export default async function BlogIndexRoute() {
+  const posts = await getBlogPosts();
   const [featured, ...rest] = posts;
-  const categories = Array.from(new Set(posts.map((p) => metaFor(p.slug).category)));
+  const categories = Array.from(new Set(posts.map((p) => metaFor(p).category)));
 
   return (
     <div className="v5 relative bg-white font-sans text-[#0A0A0B] selection:bg-[#0A0A0B] selection:text-white">
@@ -57,8 +56,7 @@ export default function BlogIndexRoute() {
               </h1>
             </div>
             <div style={{ "--d": "180ms" } as React.CSSProperties} className="v5-rise max-w-[400px] lg:pb-3">
-              <DraftNotice />
-              <p className="mt-4 text-[17px] leading-[1.6] text-[#52525B]">
+              <p className="text-[17px] leading-[1.6] text-[#52525B]">
                 Practical, plain-English guides on starting, running and growing an online academy.
               </p>
               <div className="mt-5 flex flex-wrap gap-2">
@@ -82,7 +80,7 @@ export default function BlogIndexRoute() {
               className="v5-rise group grid overflow-hidden rounded-[32px] bg-[#F4F5F8] transition-[translate] duration-500 hover:-translate-y-1 lg:grid-cols-[1.2fr_1fr]"
               style={{ "--d": "260ms" } as React.CSSProperties}
             >
-              <BlogCover slug={featured.slug} big />
+              <BlogCover post={featured} big />
               <div className="flex flex-col justify-center p-8 sm:p-12">
                 <p className="text-[13px] font-semibold uppercase tracking-[0.14em] text-[#6C4BFF]">Featured guide</p>
                 <h2 className="mt-4 font-urbanist text-[clamp(28px,3.2vw,42px)] font-semibold leading-[1.08] tracking-[-0.03em] [text-wrap:balance]">

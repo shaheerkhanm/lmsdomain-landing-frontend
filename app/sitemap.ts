@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getLegalPages, getLegalPage } from "@/lib/api/content";
+import { getLegalPages, getLegalPage, getBlogPosts, fetchSeo } from "@/lib/api/content";
 import { getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { getPageVisibility, isPathVisibleWithMap } from "@/lib/pages";
 import { SITEMAP_LAST_MODIFIED } from "@/content/sitemap-dates";
@@ -159,9 +159,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  // Excludes /login, /signup, /forgot-password, and /resources/blog (until posts exist)
+  // Blog (Admin > Blog): the list and every post, except pages set to noindex in Admin > SEO
+  const posts = await getBlogPosts().catch(() => []);
+  const noindex = await Promise.all(
+    ["blog", ...posts.map((p) => `blog-${p.slug}`)].map((slug) => fetchSeo(slug).then((s) => !!s?.noindex).catch(() => false))
+  );
+  const blogRoutes: MetadataRoute.Sitemap = [
+    ...(noindex[0] || !posts.length
+      ? []
+      : [{ url: `${baseUrl}/resources/blog`, lastModified: new Date(posts[0].date || "2026-11-07"), changeFrequency: "weekly" as const, priority: 0.6 }]),
+    ...posts
+      .filter((_, i) => !noindex[i + 1])
+      .map((p) => ({ url: `${baseUrl}/resources/blog/${p.slug}`, lastModified: new Date(p.date || "2026-11-07"), changeFrequency: "monthly" as const, priority: 0.6 })),
+  ];
+
+  // Excludes /login, /signup and /forgot-password
   const visibility = await getPageVisibility();
-  return [...staticMarketingRoutes, ...legalRoutes].filter((route) =>
+  return [...staticMarketingRoutes, ...legalRoutes, ...blogRoutes].filter((route) =>
     isPathVisibleWithMap(route.url, visibility)
   );
 }

@@ -10,6 +10,35 @@ export interface BlogPost {
   toc: { id: string; title: string }[];
   content: string; // HTML format for rich formatting
   faqs: { question: string; answer: string }[];
+  /** Label on the cover and blog list (Admin > Blog). Built-in posts: see BLOG_META. */
+  category?: string;
+  /** Cover design: "start" (steps), "lms" (course screen) or "sell" (checkout). */
+  cover?: BlogCoverStyle;
+}
+
+export type BlogCoverStyle = "start" | "lms" | "sell";
+
+/** Cover and label of the built-in posts (posts from the admin carry their own). */
+export const BLOG_META: Record<string, { category: string; tone: string; ink: string; art: BlogCoverStyle }> = {
+  "how-to-start-an-online-academy-in-india": { category: "Getting started", tone: "#F1EDFF", ink: "#6C4BFF", art: "start" },
+  "what-is-an-lms-guide-for-coaching-institutes": { category: "LMS basics", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
+  "how-to-sell-courses-online-in-india-with-gst-invoices": { category: "Selling courses", tone: "#FFF1E8", ink: "#EA580C", art: "sell" },
+};
+export const BLOG_COVER_STYLES: BlogCoverStyle[] = ["start", "lms", "sell"];
+
+const decode = (s: string) =>
+  s.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&#0?39;|&apos;/g, "'").replace(/&quot;/g, '"').trim();
+
+/** Contents list from the article's section headings (<h2 id="...">), plus the FAQ when there is one. */
+export function tocFromHtml(html: string, hasFaqs: boolean): { id: string; title: string }[] {
+  const toc = Array.from(String(html || "").matchAll(/<h2[^>]*\sid="([^"]+)"[^>]*>([\s\S]*?)<\/h2>/g)).map((m) => ({ id: m[1], title: decode(m[2]) }));
+  return hasFaqs ? [...toc, { id: "faqs", title: "Frequently asked questions" }] : toc;
+}
+
+/** "6 min read" from the article length (about 220 words a minute). */
+export function readingTimeFor(html: string): string {
+  const words = decode(String(html || "")).split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(words / 220))} min read`;
 }
 
 export const BLOG_POSTS: Record<string, BlogPost> = {

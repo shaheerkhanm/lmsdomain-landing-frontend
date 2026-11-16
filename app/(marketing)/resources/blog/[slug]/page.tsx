@@ -6,8 +6,9 @@ import { fullTitle, getMetadataBase, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib
 import { ArrowLeft, ArrowRight, Clock, Calendar, List } from "lucide-react";
 import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
-import { BlogCard, BlogCover, DraftNotice, fmtDate, metaFor } from "@/components/sections/BlogV5/BlogParts";
+import { BlogCard, BlogCover, fmtDate, metaFor } from "@/components/sections/BlogV5/BlogParts";
 import { BLOG_POSTS } from "@/content/blog/posts";
+import { getBlogPost, getBlogPosts } from "@/lib/api/content";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { pageMetadata } from "@/lib/seo";
 
@@ -16,12 +17,14 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  return Object.keys(BLOG_POSTS).map((slug) => ({ slug }));
+  // Built at deploy time; posts added later in Admin > Blog are rendered on first visit
+  const posts = await getBlogPosts();
+  return Array.from(new Set([...posts.map((p) => p.slug), ...Object.keys(BLOG_POSTS)])).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = BLOG_POSTS[slug];
+  const post = await getBlogPost(slug);
   if (!post) {
     return { title: "Article Not Found | LMS Domain", robots: { index: false, follow: false } };
   }
@@ -31,13 +34,12 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     title: fullTitle(post.metaTitle),
     description: post.metaDescription,
     alternates: { canonical: `/resources/blog/${slug}` },
-    robots: { index: false, follow: false },
   }, { seo: `blog-${slug}`, guard: "blog", image: "blog" });
 }
 
 export default async function BlogPostTemplatePage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = BLOG_POSTS[slug];
+  const post = await getBlogPost(slug);
   if (!post) {
     notFound();
   }
@@ -67,8 +69,8 @@ export default async function BlogPostTemplatePage({ params }: BlogPostPageProps
     { name: post.title, path: `/resources/blog/${slug}` },
   ];
 
-  const m = metaFor(post.slug);
-  const more = Object.values(BLOG_POSTS).filter((p) => p.slug !== post.slug).slice(0, 2);
+  const m = metaFor(post);
+  const more = (await getBlogPosts()).filter((p) => p.slug !== post.slug).slice(0, 2);
 
   return (
     <>
@@ -87,7 +89,6 @@ export default async function BlogPostTemplatePage({ params }: BlogPostPageProps
               <span className="rounded-full px-3 py-1 text-[12.5px] font-semibold" style={{ background: m.tone, color: m.ink }}>
                 {m.category}
               </span>
-              <DraftNotice />
             </div>
             <h1
               style={{ "--d": "80ms" } as React.CSSProperties}
@@ -113,7 +114,7 @@ export default async function BlogPostTemplatePage({ params }: BlogPostPageProps
           </div>
           <div style={{ "--d": "300ms" } as React.CSSProperties} className="v5-rise mx-auto mt-10 max-w-[1200px] px-[clamp(16px,4vw,40px)]">
             <div className="overflow-hidden rounded-[32px]">
-              <BlogCover slug={post.slug} big />
+              <BlogCover post={post} big />
             </div>
           </div>
         </header>
