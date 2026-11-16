@@ -3,6 +3,7 @@ import { PlatformPage } from "@/components/marketing/platform";
 import { assessPlatformData } from "@/content/platform/assess";
 import { fullTitle, getMetadataBase } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
+import { getPlatformPage } from "@/lib/api/content";
 
 const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
@@ -15,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata(baseMetadata, { seo: "platform-assess", guard: "platform" });
 }
 
-export default function AssessRoute() {
-  return <PlatformPage data={assessPlatformData} />;
+export default async function AssessRoute() {
+  const content = await getPlatformPage("assess");
+  return <PlatformPage data={assessPlatformData} content={content} />;
 }

@@ -27,6 +27,8 @@ import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, type CustomersSection } from "@/co
 import { DEMO_DEFAULTS, DEMO_SLUGS, type DemoSection } from "@/content/demo";
 import { SOLUTION_PAGES, solutionDefaults, type SolutionKey } from "@/content/solutions/editable";
 import { HOME_DEFAULTS, HOME_SLUGS, type HomeSection } from "@/content/home-sections";
+import { PLATFORM_PAGES, platformDefaults, type PlatformKey } from "@/content/platform/editable";
+import { PLATFORM_OVERVIEW_DEFAULTS, PLATFORM_OVERVIEW_SLUG } from "@/content/platform/overview-editable";
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(name);
@@ -129,6 +131,13 @@ for (const key of Object.keys(DEMO_SLUGS) as DemoSection[]) {
 for (const key of Object.keys(HOME_SLUGS) as HomeSection[]) {
   const { slug, label } = HOME_SLUGS[key];
   text.push(withFields({ slug, pageSlug: "home", cmsTitle: label, title: label.replace(/^(Home|All pages): /, ""), data: clone(HOME_DEFAULTS[key]) }, true));
+}
+
+// Platform: the overview and one entry per page (admin page "platform")
+text.push(withFields({ slug: PLATFORM_OVERVIEW_SLUG.slug, pageSlug: "platform", cmsTitle: PLATFORM_OVERVIEW_SLUG.label, title: "Platform overview", data: clone(PLATFORM_OVERVIEW_DEFAULTS) }, true));
+for (const key of Object.keys(PLATFORM_PAGES) as PlatformKey[]) {
+  const { slug, label, pageName } = PLATFORM_PAGES[key];
+  text.push(withFields({ slug, pageSlug: "platform", cmsTitle: label, title: pageName, data: clone(platformDefaults(key)) }, true));
 }
 
 // Solutions pages: one entry per page (admin page "solutions")

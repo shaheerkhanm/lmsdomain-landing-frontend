@@ -3,6 +3,7 @@ import { BookOpen, Check, FileText, Lock, PlayCircle, Type, Upload } from "lucid
 import { cn } from "@/lib/utils";
 import { Card, Panel, Field, Face, d, fadeRight } from "../bento";
 import { BrandMark } from "@/components/brand/PartnerMarks";
+import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
 
 /*
  * Teach feature cards in the Wiza / finerrr style: grey card, a small product UI on top
@@ -301,44 +302,46 @@ function TutorArt() {
   );
 }
 
-export function TeachBento() {
+/** Six cards (layout and pictures by position); text from Admin > Website > Platform. */
+export function TeachBento({ cards = PLATFORM_CARDS.teach }: { cards?: PlatformCard[] } = {}) {
+  const card = (i: number) => cards[i] || PLATFORM_CARDS.teach[i];
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
       <Card
         className="md:col-span-2 lg:col-span-7"
-        title="Courses with video, PDF and text"
-        body="Build modules from video lessons, PDF guides and text pages, then publish when you are ready."
+        title={card(0).title}
+        body={card(0).text}
       >
         <CoursesArt />
       </Card>
       <Card
         className="lg:col-span-5"
         delay={90}
-        title="Drip release on a schedule"
-        body="Unlock lessons by date or by enrolment day, so a whole batch moves forward together."
+        title={card(1).title}
+        body={card(1).text}
       >
         <DripArt />
       </Card>
       <Card
         className="lg:col-span-5"
-        title="Live classes on Zoom"
-        body="Schedule classes for each batch. Learners get reminders and join from your academy."
+        title={card(2).title}
+        body={card(2).text}
       >
         <LiveArt />
       </Card>
       <Card
         className="md:col-span-2 lg:col-span-7"
         delay={90}
-        title="Recordings saved to the course"
-        body="Every live class recording lands in the right module, ready for learners who missed it."
+        title={card(3).title}
+        body={card(3).text}
       >
         <RecordingsArt />
       </Card>
       <Card
         className="lg:col-span-6"
         plan="Growth"
-        title="Cohort bootcamps"
-        body="Run fixed-date cohorts with project milestones and review stages for every learner."
+        title={card(4).title}
+        body={card(4).text}
       >
         <BootcampArt />
       </Card>
@@ -346,8 +349,8 @@ export function TeachBento() {
         className="lg:col-span-6"
         delay={90}
         plan="Growth"
-        title="1:1 tutor booking"
-        body="Learners pick a tutor, day and time, and pay for private sessions on your site."
+        title={card(5).title}
+        body={card(5).text}
       >
         <TutorArt />
       </Card>

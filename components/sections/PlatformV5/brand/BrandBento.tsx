@@ -3,6 +3,7 @@ import { Check, Globe, GripVertical, Lock, Mail, Award, LayoutDashboard, FileTex
 import { cn } from "@/lib/utils";
 import { Card, Panel, d } from "../bento";
 import { LmsDomainMark } from "@/components/brand/PartnerMarks";
+import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
 
 /* Sample data only. Claims match content/platform/brand.ts. */
 
@@ -222,51 +223,53 @@ function BlogArt() {
   );
 }
 
-export function BrandBento() {
+/** Six cards (layout and pictures by position); text from Admin > Website > Platform. */
+export function BrandBento({ cards = PLATFORM_CARDS.brand }: { cards?: PlatformCard[] } = {}) {
+  const card = (i: number) => cards[i] || PLATFORM_CARDS.brand[i];
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
       <Card
         className="md:col-span-2 lg:col-span-7"
-        title="Your own domain, with free SSL"
-        body="Connect your domain on any plan. SSL certificates are issued and renewed for you automatically."
+        title={card(0).title}
+        body={card(0).text}
       >
         <DomainArt />
       </Card>
       <Card
         className="lg:col-span-5"
         delay={90}
-        title="Homepage builder"
-        body="Arrange featured courses, faculty and announcements on your homepage without code."
+        title={card(1).title}
+        body={card(1).text}
       >
         <BuilderArt />
       </Card>
       <Card
         className="lg:col-span-5"
-        title="Logo, colours and fonts"
-        body="Upload light and dark logos and a favicon, and set your colours. Custom fonts on Growth and up."
+        title={card(2).title}
+        body={card(2).text}
       >
         <KitArt />
       </Card>
       <Card
         className="md:col-span-2 lg:col-span-7"
         delay={90}
-        title="Your brand everywhere"
-        body="Your branding shows on the website, learner portal, emails and certificates. Remove “Powered by LMS Domain” on Pro."
+        title={card(3).title}
+        body={card(3).text}
       >
         <EverywhereArt />
       </Card>
       <Card
         className="lg:col-span-6"
-        title="SEO settings for every page"
-        body="Set meta titles, descriptions and share images for your homepage, courses and catalogue."
+        title={card(4).title}
+        body={card(4).text}
       >
         <SeoArt />
       </Card>
       <Card
         className="lg:col-span-6"
         delay={90}
-        title="Blog and help articles"
-        body="Publish blog posts, announcements and help articles to reach new learners and support current ones."
+        title={card(5).title}
+        body={card(5).text}
       >
         <BlogArt />
       </Card>

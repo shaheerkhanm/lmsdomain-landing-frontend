@@ -3,6 +3,7 @@ import { PlatformPage } from "@/components/marketing/platform";
 import { managePlatformData } from "@/content/platform/manage";
 import { fullTitle, getMetadataBase } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
+import { getPlatformPage } from "@/lib/api/content";
 
 const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
@@ -15,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata(baseMetadata, { seo: "platform-manage", guard: "platform" });
 }
 
-export default function ManageRoute() {
-  return <PlatformPage data={managePlatformData} />;
+export default async function ManageRoute() {
+  const content = await getPlatformPage("manage");
+  return <PlatformPage data={managePlatformData} content={content} />;
 }

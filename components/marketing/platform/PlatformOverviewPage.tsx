@@ -18,13 +18,10 @@ import {
   SecurityScene,
   AiScene,
 } from "@/components/sections/PlatformV5/Scenes";
-import {
-  platformOverviewSeo,
-  platformSectionsV5,
-  platformAiSectionV5,
-  platformFaqsV5,
-  type PlatformSectionV5,
-} from "@/content/platform/overview";
+import { platformSectionsV5, platformAiSectionV5, type PlatformSectionV5 } from "@/content/platform/overview";
+import { PLATFORM_OVERVIEW_DEFAULTS, type PlatformOverviewContent } from "@/content/platform/overview-editable";
+import { CUSTOMERS_DEFAULTS } from "@/content/customers";
+import { linkedAnswerHtml } from "@/content/merge";
 
 const SCENES: Record<string, React.ComponentType> = {
   teach: TeachScene,
@@ -35,18 +32,7 @@ const SCENES: Record<string, React.ComponentType> = {
   security: SecurityScene,
 };
 
-const NAV = [
-  ...platformSectionsV5.slice(0, 4).map((s) => ({ id: s.slug, label: s.name })),
-  { id: "ai", label: "Domie AI" },
-  ...platformSectionsV5.slice(4).map((s) => ({ id: s.slug, label: s.name })),
-];
 
-const STATS = [
-  ["2,000+", "Learners"],
-  ["100+", "Courses"],
-  ["300+", "Lessons"],
-  ["100+", "Live classes"],
-];
 
 function Points({ items, dark = false }: { items: string[]; dark?: boolean }) {
   return (
@@ -105,8 +91,8 @@ function SectionRow({ s, index, flip }: { s: PlatformSectionV5; index: number; f
   );
 }
 
-function AiRow() {
-  const s = platformAiSectionV5;
+function AiRow({ c }: { c: PlatformOverviewContent }) {
+  const s = { ...platformAiSectionV5, title: c.aiTitle, body: c.aiText, points: c.aiPoints, note: c.aiNote };
   return (
     <section id="ai" aria-labelledby="ai-title" className="scroll-mt-40 px-2 py-[clamp(24px,3vw,40px)] sm:px-3">
       <div className="relative isolate overflow-hidden rounded-[28px] bg-[#0B0A12] py-[clamp(56px,7vw,96px)] text-white sm:rounded-[40px]">
@@ -148,39 +134,35 @@ function AiRow() {
 }
 
 /** "Before / after": the separate tools an academy usually juggles, versus one platform. */
-function ToolStack() {
-  const before = [
-    { t: "Website builder", r: "-rotate-[4deg]", x: "ml-2" },
-    { t: "Video hosting", r: "rotate-[3deg]", x: "ml-16" },
-    { t: "Form tool for tests", r: "-rotate-[2deg]", x: "ml-6" },
-    { t: "Spreadsheet for batches", r: "rotate-[4deg]", x: "ml-20" },
-    { t: "Payment links", r: "-rotate-[3deg]", x: "ml-0" },
-    { t: "Class links shared in chat", r: "rotate-[2deg]", x: "ml-12" },
-  ];
-  const after = [
-    "Courses and live classes",
-    "Tests and certificates",
-    "Batches and attendance",
-    "Checkout and invoices",
-    "Your branded website",
-    "One login for your team and learners",
-  ];
+// Tilt and offset of the "without" chips, by position
+const CHIP_STYLE = [
+  { r: "-rotate-[4deg]", x: "ml-2" },
+  { r: "rotate-[3deg]", x: "ml-16" },
+  { r: "-rotate-[2deg]", x: "ml-6" },
+  { r: "rotate-[4deg]", x: "ml-20" },
+  { r: "-rotate-[3deg]", x: "ml-0" },
+  { r: "rotate-[2deg]", x: "ml-12" },
+];
+
+function ToolStack({ c }: { c: PlatformOverviewContent }) {
+  const before = c.withoutItems.map((t, i) => ({ t, ...CHIP_STYLE[i % CHIP_STYLE.length] }));
+  const after = c.withItems;
   return (
     <section className="bg-white py-[clamp(80px,10vw,136px)]">
       <Container>
         <SectionHeading
-          eyebrow="Why one platform"
-          title="Replace a stack of tools with one platform"
-          subtitle="Most academies run on five or six separate tools. LMS Domain puts teaching, testing, payments and your website in one place."
+          eyebrow={c.whyEyebrow}
+          title={c.whyTitle}
+          subtitle={c.whySubtitle}
         />
         <div className="mt-12 grid gap-4 lg:mt-16 lg:grid-cols-2">
           <div className="rv-v4 relative overflow-hidden rounded-[28px] bg-[#F4F5F8] p-7 sm:p-9">
-            <p className="text-[14px] font-semibold text-[#71717A]">Without LMS Domain</p>
-            <p className="mt-1 font-urbanist text-[22px] font-semibold text-[#0A0A0B]">Six tools, six logins</p>
+            <p className="text-[14px] font-semibold text-[#71717A]">{c.withoutLabel}</p>
+            <p className="mt-1 font-urbanist text-[22px] font-semibold text-[#0A0A0B]">{c.withoutTitle}</p>
             <div className="mt-7 space-y-3">
               {before.map((b, i) => (
                 <div
-                  key={b.t}
+                  key={`${b.t}-${i}`}
                   style={{ "--d": `${i * 70}ms` } as React.CSSProperties}
                   className={`v5-pop flex w-fit items-center gap-2.5 rounded-full border border-[#E4E4E7] bg-white py-2 pl-2 pr-4 text-[14px] text-[#52525B] shadow-[0_6px_16px_-10px_rgba(16,16,24,0.25)] ${b.r} ${b.x}`}
                 >
@@ -196,12 +178,12 @@ function ToolStack() {
             style={{ "--rv-delay": "120ms" } as React.CSSProperties}
             className="rv-v4 relative overflow-hidden rounded-[28px] bg-[#0A0A0B] p-7 text-white sm:p-9"
           >
-            <p className="text-[14px] font-semibold text-[#A99BFF]">With LMS Domain</p>
-            <p className="mt-1 font-urbanist text-[22px] font-semibold">One platform, one login</p>
+            <p className="text-[14px] font-semibold text-[#A99BFF]">{c.withLabel}</p>
+            <p className="mt-1 font-urbanist text-[22px] font-semibold">{c.withTitle}</p>
             <div className="mt-7 rounded-[20px] border border-white/10 bg-white/[0.05] p-2">
               {after.map((a, i) => (
                 <div
-                  key={a}
+                  key={`${a}-${i}`}
                   style={{ "--d": `${200 + i * 70}ms` } as React.CSSProperties}
                   className="v5-pop flex items-center gap-3 rounded-[14px] px-3 py-2.5 text-[14.5px] text-[#E4E4E7]"
                 >
@@ -213,7 +195,7 @@ function ToolStack() {
               ))}
             </div>
             <p className="mt-5 text-[13.5px] leading-[1.55] text-[#A1A1AA]">
-              Zoom and your payment gateway connect inside LMS Domain, so learners never leave your academy.
+              {c.withNote}
             </p>
           </div>
         </div>
@@ -222,7 +204,22 @@ function ToolStack() {
   );
 }
 
-export function PlatformOverviewPage() {
+export function PlatformOverviewPage({
+  content: c = PLATFORM_OVERVIEW_DEFAULTS,
+  stats = CUSTOMERS_DEFAULTS.numbers.items,
+}: {
+  /** Text from Admin > Website > Platform > Overview. */
+  content?: PlatformOverviewContent;
+  /** The Customers page numbers (Admin > Website > Customers > Numbers). */
+  stats?: { value: string; label: string }[];
+} = {}) {
+  // Six areas: scenes, anchors and links by position; text from the admin
+  const areas: PlatformSectionV5[] = platformSectionsV5.map((s, i) => ({ ...s, name: c.areas[i]?.name || s.name, title: c.areas[i]?.title || s.title, body: c.areas[i]?.text || s.body, points: c.areas[i]?.points || s.points }));
+  const nav = [
+    ...areas.slice(0, 4).map((s) => ({ id: s.slug, label: s.name })),
+    { id: "ai", label: "Domie AI" },
+    ...areas.slice(4).map((s) => ({ id: s.slug, label: s.name })),
+  ];
   const breadcrumbs = [
     { name: "Home", path: "/" },
     { name: "Platform", path: "/platform" },
@@ -258,32 +255,32 @@ export function PlatformOverviewPage() {
             style={{ "--d": "90ms" } as React.CSSProperties}
             className="v5-rise mx-auto mt-5 max-w-[920px] font-urbanist text-[clamp(38px,6vw,72px)] font-semibold leading-[1.02] tracking-[-0.04em] [text-wrap:balance]"
           >
-            Everything your academy needs to{" "}
+            {c.titleBefore}{" "}
             <span className="bg-gradient-to-r from-[#6C4BFF] via-[#8B5CF6] to-[#3B5BFF] bg-clip-text text-transparent">
-              teach, test and get paid
+              {c.titleHighlight}
             </span>
           </h1>
           <p
             style={{ "--d": "180ms" } as React.CSSProperties}
             className="v5-rise mx-auto mt-5 max-w-[640px] text-[16.5px] leading-[1.6] text-[#52525B] sm:text-[18px] [text-wrap:pretty]"
           >
-            {platformOverviewSeo.heroAnswer}
+            {c.subtitle}
           </p>
           <div
             style={{ "--d": "270ms" } as React.CSSProperties}
             className="v5-rise mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
           >
-            <DemoButton label="Book a demo" className="w-full sm:w-auto" />
+            <DemoButton label={c.primaryButton} className="w-full sm:w-auto" />
             <Link href="/pricing" className={`${secondaryButtonClass} w-full sm:w-auto`}>
-              See pricing
+              {c.secondaryButton}
             </Link>
           </div>
           <dl
             style={{ "--d": "360ms" } as React.CSSProperties}
             className="v5-rise mx-auto mt-14 grid max-w-[880px] grid-cols-2 gap-y-6 sm:grid-cols-4"
           >
-            {STATS.map(([v, l]) => (
-              <div key={l}>
+            {stats.map(({ value: v, label: l }, i) => (
+              <div key={`${l}-${i}`}>
                 <dt className="sr-only">{l}</dt>
                 <dd className="font-urbanist text-[30px] font-semibold tracking-[-0.03em] text-[#0A0A0B]">
                   <CountUp value={v} />
@@ -297,19 +294,19 @@ export function PlatformOverviewPage() {
 
       {/* 2. Sections, with a sticky jump bar */}
       <div className="relative pt-8">
-        <SectionNav items={NAV} />
-        {platformSectionsV5.slice(0, 4).map((s, i) => (
+        <SectionNav items={nav} />
+        {areas.slice(0, 4).map((s, i) => (
           <SectionRow key={s.slug} s={s} index={i + 1} flip={i % 2 === 1} />
         ))}
-        <AiRow />
-        {platformSectionsV5.slice(4).map((s, i) => (
+        <AiRow c={c} />
+        {areas.slice(4).map((s, i) => (
           <SectionRow key={s.slug} s={s} index={i + 6} flip={i % 2 === 1} />
         ))}
       </div>
 
       <Container>
         <p className="pb-4 text-center text-[13.5px] text-[#71717A]">
-          Some features depend on your plan.{" "}
+          {c.planNote}{" "}
           <Link href="/pricing#compare" className="font-semibold text-[#0A0A0B] underline-offset-4 hover:underline">
             Compare plans
           </Link>
@@ -317,16 +314,16 @@ export function PlatformOverviewPage() {
       </Container>
 
       {/* 3. Why one platform */}
-      <ToolStack />
+      <ToolStack c={c} />
 
       {/* 4. FAQ */}
       <FAQ
         id="platform-faq"
         minimal
         eyebrow="FAQs"
-        title="Questions about the platform"
-        subtitle="Quick answers about what LMS Domain does and who it is for."
-        items={platformFaqsV5}
+        title={c.faqTitle}
+        subtitle={c.faqSubtitle}
+        items={c.faqs.map((q) => ({ question: q.question, answer: linkedAnswerHtml(q.answer) }))}
       />
 
       {/* 5. Final CTA */}
