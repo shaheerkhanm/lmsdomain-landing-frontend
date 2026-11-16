@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { roadmapPageData } from "@/content/roadmap";
+import { getRoadmapPage } from "@/lib/api/content";
 import { RoadmapV5 } from "@/components/sections/RoadmapV5/RoadmapV5";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { getMetadataBase } from "@/lib/site";
@@ -18,7 +18,8 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata(baseMetadata, { seo: "roadmap", guard: "roadmap" });
 }
 
-export default function RoadmapRoute() {
+export default async function RoadmapRoute() {
+  const data = await getRoadmapPage();
   const breadcrumbs = [
     { name: "Home", path: "/" },
     { name: "Roadmap", path: "/roadmap" },
@@ -26,13 +27,7 @@ export default function RoadmapRoute() {
   return (
     <>
       <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
-      <RoadmapV5
-        items={roadmapPageData.items}
-        note={roadmapPageData.note}
-        ctaTitle={roadmapPageData.ctaTitle}
-        ctaSubtitle={roadmapPageData.ctaSubtitle}
-        ctaButtonText={roadmapPageData.ctaButtonText}
-      />
+      <RoadmapV5 data={data} />
       <ScrollReveal />
     </>
   );

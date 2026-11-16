@@ -21,6 +21,7 @@ import { DEFAULT_CUSTOM_PLAN_PAGE_DATA } from "@/content/custom-plan/page";
 import { defaultAboutContent } from "@/content/about";
 import { defaultContactDetails } from "@/content/contact";
 import { DEFAULT_LEGAL_PAGES } from "@/content/legal";
+import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, type RoadmapSection } from "@/content/roadmap";
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(name);
@@ -34,7 +35,17 @@ const clone = <T>(v: T): T => JSON.parse(JSON.stringify(v));
 const get = (obj: any, p: string) => p.split(".").reduce((o, k) => (o == null ? o : o[k]), obj);
 
 // 1. v5 page text --------------------------------------------------------------
-type Entry = { slug: string; pageSlug: string; cmsTitle: string; [k: string]: unknown };
+type Entry = { slug: string; pageSlug: string; cmsTitle: string; fields?: string[]; [k: string]: unknown };
+
+// Inputs the admin shows for an entry (Admin > ... > edit). Without "fields" an
+// entry opens with nothing to edit, so every entry lists the texts it holds plus
+// "data" for its structured content.
+const TOP_LEVEL_EDITABLE = ["title", "subTitle", "heading", "description", "content", "buttonText", "tags"];
+const withFields = (e: Entry, dataOnly = false): Entry => {
+  const top = dataOnly ? [] : TOP_LEVEL_EDITABLE.filter((k) => e[k] !== undefined);
+  const hasData = !!e.data && typeof e.data === "object" && Object.keys(e.data as object).length > 0;
+  return { ...e, fields: [...top, ...(hasData ? ["data"] : [])] };
+};
 const text: Entry[] = [];
 
 // Sections read through getSection() by v5 pages
@@ -58,18 +69,18 @@ for (const key of SECTION_KEYS) {
     if (!p.includes(".") && data && typeof data === "object") delete data[p];
   }
   entry.data = data;
-  text.push(entry);
+  text.push(withFields(entry));
 }
 
 // Pricing hero (read field by field in getPricingPage)
-text.push({
+text.push(withFields({
   slug: "pricing-hero",
   pageSlug: "pricing",
   cmsTitle: "Pricing: hero",
   title: DEFAULT_PRICING_HERO.title,
   subTitle: DEFAULT_PRICING_HERO.subtitle,
   tags: [DEFAULT_PRICING_HERO.eyebrow],
-});
+}));
 
 // Custom LMS page: one entry per section, the section object in `data`
 const CUSTOM: [keyof typeof DEFAULT_CUSTOM_PLAN_PAGE_DATA, string, string][] = [
@@ -88,14 +99,20 @@ const CUSTOM: [keyof typeof DEFAULT_CUSTOM_PLAN_PAGE_DATA, string, string][] = [
 for (const [key, slug, cmsTitle] of CUSTOM) {
   const data: any = clone(DEFAULT_CUSTOM_PLAN_PAGE_DATA[key]);
   if (!data) continue;
-  text.push({ slug, pageSlug: "custom", cmsTitle, title: typeof data.title === "string" ? data.title : cmsTitle, data });
+  text.push(withFields({ slug, pageSlug: "custom", cmsTitle, title: typeof data.title === "string" ? data.title : cmsTitle, data }, true));
+}
+
+// Roadmap page: one entry per section, the section object in `data`
+for (const key of Object.keys(ROADMAP_SLUGS) as RoadmapSection[]) {
+  const { slug, label } = ROADMAP_SLUGS[key];
+  text.push(withFields({ slug, pageSlug: "roadmap", cmsTitle: label, title: label.replace(/^Roadmap: /, ""), data: clone(ROADMAP_DEFAULTS[key]) }, true));
 }
 
 // 2. Company facts: never replace what is filled in --------------------------------
 const facts: Entry[] = [
   { slug: "site-about", pageSlug: "about", cmsTitle: "About page (company facts, mission, founders and team)", title: "About page", data: clone(defaultAboutContent) },
   { slug: "site-contact", pageSlug: "contact", cmsTitle: "Contact details", title: "Contact details", data: clone(defaultContactDetails) },
-];
+].map((e) => withFields(e, true));
 
 // 3. Legal pages: only updated where the database already has a copy -----------------
 const legal = ["privacy-policy", "terms", "refund-policy"].map((slug) => ({

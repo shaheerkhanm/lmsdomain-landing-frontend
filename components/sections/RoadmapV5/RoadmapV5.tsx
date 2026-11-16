@@ -4,10 +4,10 @@ import Image from "next/image";
 import { ArrowRight, Check, Clock, FileText, Link2, Lock, MessageCircle, PlayCircle, ShieldCheck } from "lucide-react";
 import { Container } from "@/components/sections/HomeV5/primitives";
 import { DemoButton } from "@/components/sections/HomeV5/DemoButton";
-import type { RoadmapItem } from "@/content/roadmap";
+import { roadmapAnswerHtml, type RoadmapContent } from "@/content/roadmap";
 import { FAQ } from "@/components/marketing/ui/FAQ";
 import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
-import { RoadmapBoard, RoadmapProcess, ROADMAP_FAQS } from "./RoadmapExtras";
+import { RoadmapBoard, RoadmapProcess } from "./RoadmapExtras";
 import { cn } from "@/lib/utils";
 
 /* v5 Roadmap: big type, themed groups, a small preview of each planned feature. Previews are illustrative. */
@@ -142,37 +142,17 @@ function Preview({ title }: { title: string }) {
   return <PlayCircle className="h-10 w-10 text-[#B4B4BE]" />;
 }
 
-/* ---------- themes ---------- */
-const THEMES = [
-  { name: "Learn anywhere", sub: "Apps and live classes", match: ["android", "webrtc", "meet"] },
-  { name: "Reach learners", sub: "Messages and protection", match: ["whatsapp", "drm"] },
-  { name: "Grow sales", sub: "New ways to sell", match: ["membership", "subscription", "affiliate", "funnel"] },
-  { name: "Domie AI", sub: "Planned for Pro", match: ["quiz"] },
-];
-
-const TODAY = [
-  "Zoom live classes",
-  "Batches and drip release",
-  "Tests and question banks",
-  "Certificates",
-  "Video watermarking",
-  "Device limits",
-  "Your own domain",
-  "Stripe, Razorpay, Paytm, DOKU",
-  "Coupons",
-  "1:1 tutor booking",
-  "Email and SMS notices",
-  "Domie AI on Pro",
-];
-
-export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }: { items: RoadmapItem[]; note: string; ctaTitle: string; ctaSubtitle: string; ctaButtonText: string }) {
-  const grouped = THEMES.map((th) => ({
-    ...th,
-    items: items.filter((it) => th.match.some((m) => it.title.toLowerCase().includes(m))),
-  })).filter((g) => g.items.length);
-  const used = new Set(grouped.flatMap((g) => g.items.map((i) => i.title)));
-  const rest = items.filter((i) => !used.has(i.title));
-  if (rest.length) grouped.push({ name: "More", sub: "Also planned", match: [], items: rest });
+export function RoadmapV5({ data }: { data: RoadmapContent }) {
+  const { hero, planned, today, request, faq } = data;
+  const items = planned.features;
+  // Features grouped as set in the admin ("group" = a group name); the rest go under "More"
+  const key = (v: string) => v.trim().toLowerCase();
+  const grouped = planned.groups
+    .map((g) => ({ name: g.name, sub: g.subtitle, items: items.filter((it) => key(it.group) === key(g.name)) }))
+    .filter((g) => g.items.length);
+  const used = new Set(grouped.flatMap((g) => g.items));
+  const rest = items.filter((i) => !used.has(i));
+  if (rest.length) grouped.push({ name: "More", sub: "Also planned", items: rest });
 
   const loop = [...items, ...items];
 
@@ -195,15 +175,15 @@ export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }:
             </ol>
           </nav>
           <h1 style={{ "--d": "80ms" } as React.CSSProperties} className={cn("v5-rise mx-auto mt-6 text-[clamp(52px,10vw,150px)]", BIG)}>
-            What&apos;s next.
+            {hero.title}
             <br />
-            <span className="text-[#C4C4CC]">In the open.</span>
+            <span className="text-[#C4C4CC]">{hero.titleMuted}</span>
           </h1>
           <p style={{ "--d": "180ms" } as React.CSSProperties} className="v5-rise mx-auto mt-8 max-w-[560px] text-[18px] leading-[1.55] text-[#52525B] sm:text-[20px]">
-            The features we&apos;re planning for LMS Domain, shared openly so you can plan with us.
+            {hero.subtitle}
           </p>
           <p style={{ "--d": "240ms" } as React.CSSProperties} className="v5-rise mt-6 inline-flex items-center gap-2 rounded-full border border-[#ECECF1] px-4 py-2 text-[13.5px] text-[#52525B]">
-            <Clock className="h-4 w-4" /> {note}
+            <Clock className="h-4 w-4" /> {hero.note}
           </p>
         </Container>
         {/* planned items gliding by */}
@@ -218,7 +198,7 @@ export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }:
           </div>
         </div>
         <div style={{ "--d": "380ms" } as React.CSSProperties} className="v5-rise mt-12 px-4 pb-6 sm:mt-16">
-          <RoadmapBoard planned={items.map((i) => ({ title: i.title, category: i.category }))} />
+          <RoadmapBoard planned={items.map((i) => ({ title: i.title, category: i.category }))} shipped={today.features.slice(0, 5)} />
         </div>
       </section>
 
@@ -226,11 +206,11 @@ export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }:
       <section className="bg-white py-[clamp(80px,10vw,136px)]">
         <Container>
           <div className="rv-v4 mb-12 lg:mb-16">
-            <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-[#6C4BFF]">Planned</p>
+            <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-[#6C4BFF]">{planned.eyebrow}</p>
             <h2 className={cn("mt-5 text-[clamp(44px,6.5vw,92px)]", BIG)}>
-              Coming to
+              {planned.title}
               <br />
-              <span className="text-[#C4C4CC]">LMS Domain.</span>
+              <span className="text-[#C4C4CC]">{planned.titleMuted}</span>
             </h2>
           </div>
           <div className="space-y-4">
@@ -249,7 +229,7 @@ export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }:
                 <div className={cn("grid gap-4", g.items.length >= 3 ? "md:grid-cols-3" : g.items.length === 2 ? "md:grid-cols-2" : "")}>
                   {g.items.map((it, i) => (
                     <article
-                      key={it.title}
+                      key={`${it.title}-${i}`}
                       style={{ "--rv-delay": `${i * 100}ms` } as React.CSSProperties}
                       className="rv-v4 group flex flex-col overflow-hidden rounded-[24px] bg-white transition-[translate,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(16,16,24,0.3)]"
                     >
@@ -274,11 +254,11 @@ export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }:
               </div>
             ))}
           </div>
-          <p className="rv-v4 mt-6 text-center text-[13px] text-[#9A9AA6]">Previews show the idea, not the final design.</p>
+          {planned.footnote && <p className="rv-v4 mt-6 text-center text-[13px] text-[#9A9AA6]">{planned.footnote}</p>}
         </Container>
       </section>
 
-      <RoadmapProcess />
+      <RoadmapProcess data={data.process} />
 
       {/* Available today */}
       <section className="px-2 sm:px-3">
@@ -286,17 +266,17 @@ export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }:
           <Container>
             <div className="rv-v4 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-end">
               <div>
-                <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-white/55">Already in LMS Domain</p>
+                <p className="text-[13px] font-semibold uppercase tracking-[0.16em] text-white/55">{today.eyebrow}</p>
                 <h2 className={cn("mt-5 text-[clamp(44px,7vw,100px)]", BIG)}>
-                  Ready today.
+                  {today.title}
                   <br />
-                  <span className="text-white/35">No waiting.</span>
+                  <span className="text-white/35">{today.titleMuted}</span>
                 </h2>
               </div>
               <ul className="flex flex-wrap gap-2">
-                {TODAY.map((t, i) => (
+                {today.features.map((t, i) => (
                   <li
-                    key={t}
+                    key={`${t}-${i}`}
                     style={{ "--d": `${i * 50}ms` } as React.CSSProperties}
                     className="v5-pop inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-[14px] text-white/85"
                   >
@@ -309,7 +289,7 @@ export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }:
               </ul>
             </div>
             <Link href="/platform" className="rv-v4 group mt-10 inline-flex items-center gap-2 text-[15px] font-semibold text-white hover:text-[#C9BFFF]">
-              Explore the platform <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              {today.linkText} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Container>
         </div>
@@ -325,20 +305,27 @@ export function RoadmapV5({ items, note, ctaTitle, ctaSubtitle, ctaButtonText }:
                   <Image key={f} src={`/assets/img/home/${f}`} alt="" width={80} height={80} className={cn("h-11 w-11 rounded-full object-cover object-top ring-4 ring-[#F1EDFF]", i > 0 && "-ml-3")} />
                 ))}
               </div>
-              <h2 className={cn("mt-6 text-[clamp(32px,4vw,52px)]", BIG)}>{ctaTitle.replace(/\.$/, "")}</h2>
-              <p className="mt-4 max-w-[520px] text-[16.5px] leading-[1.6] text-[#52525B]">{ctaSubtitle}</p>
+              <h2 className={cn("mt-6 text-[clamp(32px,4vw,52px)]", BIG)}>{request.title.replace(/\.$/, "")}</h2>
+              <p className="mt-4 max-w-[520px] text-[16.5px] leading-[1.6] text-[#52525B]">{request.subtitle}</p>
             </div>
             <div className="flex flex-col gap-3 lg:items-end">
-              <DemoButton label={ctaButtonText} className="h-14 w-full px-7 text-[16px] lg:w-auto" />
+              <DemoButton label={request.buttonText} className="h-14 w-full px-7 text-[16px] lg:w-auto" />
               <Link href="/contact" className="inline-flex items-center gap-2 text-[14.5px] font-semibold text-[#0A0A0B] hover:text-[#6C4BFF]">
-                <MessageCircle className="h-4 w-4" /> Or send us a message
+                <MessageCircle className="h-4 w-4" /> {request.linkText}
               </Link>
             </div>
           </div>
         </Container>
       </section>
 
-      <FAQ id="roadmap-faq" minimal eyebrow="FAQs" title="Questions about the roadmap" subtitle="How we plan, build and release new features." items={ROADMAP_FAQS} />
+      <FAQ
+        id="roadmap-faq"
+        minimal
+        eyebrow="FAQs"
+        title={faq.title}
+        subtitle={faq.subtitle}
+        items={faq.items.map((q) => ({ question: q.question, answer: roadmapAnswerHtml(q.answer) }))}
+      />
       <div className="pt-[clamp(72px,9vw,120px)]">
         <FinalCta />
       </div>
