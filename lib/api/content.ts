@@ -15,6 +15,7 @@ import { defaultContactDetails, ContactDetails } from "@/content/contact";
 import { BLOG_POSTS, BLOG_COVER_STYLES, readingTimeFor, tocFromHtml, type BlogPost, type BlogCoverStyle } from "@/content/blog/posts";
 import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, mergeCustomersSection, type CustomersContent, type CustomersSection } from "@/content/customers";
 import { DEMO_DEFAULTS, DEMO_SLUGS, mergeDemoSection, type DemoContent, type DemoSection } from "@/content/demo";
+import { SOLUTION_PAGES, mergeSolution, type SolutionContent, type SolutionKey } from "@/content/solutions/editable";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
@@ -1589,4 +1590,14 @@ export const getDemoPage = cache(async (): Promise<DemoContent> => {
   c.after.steps = rows(c.after.steps.map((s) => ({ title: str(s?.title), text: str(s?.text) })), (s) => !!s.title, DEMO_DEFAULTS.after.steps);
   c.faq.items = rows(c.faq.items.map((q) => ({ question: str(q?.question), answer: str(q?.answer) })), (q) => !!q.question && !!q.answer, DEMO_DEFAULTS.faq.items);
   return c;
+});
+
+// ----------------------------------------------------------------------------
+// Solutions pages (Admin > Website > Solutions): one CMS entry per page, the
+// page's text in `data`. Missing, hidden or empty entries use the built-in text.
+// ----------------------------------------------------------------------------
+export const getSolutionPage = cache(async (key: SolutionKey): Promise<SolutionContent> => {
+  const { slug } = SOLUTION_PAGES[key];
+  const doc = await fetchCms(slug, ["cms", `cms:${slug}`, "solutions", key]).catch(() => null);
+  return mergeSolution(key, doc?.data);
 });
