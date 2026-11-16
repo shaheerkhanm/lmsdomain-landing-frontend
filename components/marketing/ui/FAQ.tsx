@@ -45,7 +45,7 @@ export function FAQ({
   ctaText = "Book a demo",
   defaultOpenIndex,
 }: FAQProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(typeof defaultOpenIndex === "number" ? defaultOpenIndex : 0);
+  const [openIndex, setOpenIndex] = useState<number | null>(typeof defaultOpenIndex === "number" ? defaultOpenIndex : null);
   const [showDemoModal, setShowDemoModal] = useState(false);
 
   if (!items || items.length === 0) return null;

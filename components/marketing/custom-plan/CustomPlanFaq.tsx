@@ -10,7 +10,7 @@ interface CustomPlanFaqProps {
 }
 
 export function CustomPlanFaq({ faq }: CustomPlanFaqProps) {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   if (!faq || !faq.items || faq.items.length === 0) return null;
 
