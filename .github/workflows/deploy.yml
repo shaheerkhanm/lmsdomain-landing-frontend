@@ -1,0 +1,45 @@
+# Deploys the website with /opt/lmsdomain/deploy.sh on the server.
+#   push to feature/multipage  -> staging (automatic)
+#   Actions > Deploy > Run workflow -> staging or live (live promotes the staging build)
+# The SSH key can only run deploy.sh (forced command on the server), nothing else.
+name: Deploy
+
+on:
+  push:
+    branches: [feature/multipage]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Where to deploy"
+        type: choice
+        options: [staging, live]
+        default: staging
+
+# One deploy at a time (staging and live share the server)
+concurrency:
+  group: deploy-frontend
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Deploy on the server
+        env:
+          TARGET: ${{ github.event_name == 'workflow_dispatch' && inputs.target || 'staging' }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          set -euo pipefail
+          case "$TARGET" in staging|live) ;; *) echo "Unknown target: $TARGET"; exit 1 ;; esac
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          echo "Deploying $TARGET (commit ${GITHUB_SHA::7})"
+          ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ServerAliveInterval=30 "$DEPLOY_USER@$DEPLOY_HOST" "$TARGET"
