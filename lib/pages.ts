@@ -9,29 +9,31 @@ export interface PageDefinition {
   locked?: boolean;
 }
 
-// Phase 2 copy is code-owned until cutover; core pages are unconditionally locked/visible.
+// Must match DEFAULT_PAGE_ITEMS in the admin backend (utils/pageVisibility.ts).
+// Only home and the two legal pages are locked; admins can hide every other page.
+// A path also covers its child routes (/platform covers /platform/teach...).
 export const SITE_PAGES: readonly PageDefinition[] = [
   { slug: "home", path: "/", locked: true },
-  { slug: "privacy-policy", path: "/privacy-policy", locked: true },
-  { slug: "terms", path: "/terms", locked: true },
-  { slug: "pricing", path: "/pricing", locked: true },
-  { slug: "contact", path: "/contact", locked: true },
-  { slug: "about", path: "/about", locked: true },
-  { slug: "platform", path: "/platform", locked: true },
-  { slug: "customers", path: "/customers", locked: true },
-  { slug: "roadmap", path: "/roadmap", locked: true },
-  { slug: "coaching-institutes", path: "/solutions/coaching-institutes", locked: true },
-  { slug: "language-test-prep-academies", path: "/solutions/language-test-prep-academies", locked: true },
-  { slug: "training-companies", path: "/solutions/training-companies", locked: true },
-  { slug: "solo-educators", path: "/solutions/solo-educators", locked: true },
-  { slug: "features", path: "/features" },
-  { slug: "ai", path: "/ai" },
+  { slug: "platform", path: "/platform" },
+  { slug: "coaching-institutes", path: "/solutions/coaching-institutes" },
+  { slug: "language-test-prep-academies", path: "/solutions/language-test-prep-academies" },
+  { slug: "training-companies", path: "/solutions/training-companies" },
+  { slug: "solo-educators", path: "/solutions/solo-educators" },
+  { slug: "pricing", path: "/pricing" },
   { slug: "custom-lms", path: "/custom-lms" },
+  { slug: "customers", path: "/customers" },
+  { slug: "roadmap", path: "/roadmap" },
+  { slug: "blog", path: "/resources/blog" },
+  { slug: "compare", path: "/compare" },
+  { slug: "about", path: "/about" },
+  { slug: "contact", path: "/contact" },
+  { slug: "demo", path: "/demo" },
   { slug: "login", path: "/login" },
   { slug: "signup", path: "/signup" },
+  { slug: "privacy-policy", path: "/privacy-policy", locked: true },
+  { slug: "terms", path: "/terms", locked: true },
   { slug: "refund-policy", path: "/refund-policy" },
   { slug: "dpa", path: "/dpa" },
-  { slug: "demo", path: "/demo" },
 ] as const;
 
 export interface PageVisibilityState {

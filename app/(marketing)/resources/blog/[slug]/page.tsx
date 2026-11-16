@@ -9,6 +9,7 @@ import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { BlogCard, BlogCover, DraftNotice, fmtDate, metaFor } from "@/components/sections/BlogV5/BlogParts";
 import { BLOG_POSTS } from "@/content/blog/posts";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
+import { pageMetadata } from "@/lib/seo";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -25,13 +26,13 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     return { title: "Article Not Found | LMS Domain", robots: { index: false, follow: false } };
   }
 
-  return {
+  return pageMetadata({
     metadataBase: getMetadataBase(),
     title: fullTitle(post.metaTitle),
     description: post.metaDescription,
     alternates: { canonical: `/resources/blog/${slug}` },
     robots: { index: false, follow: false },
-  };
+  }, { seo: `blog-${slug}`, guard: "blog", image: "blog" });
 }
 
 export default async function BlogPostTemplatePage({ params }: BlogPostPageProps) {

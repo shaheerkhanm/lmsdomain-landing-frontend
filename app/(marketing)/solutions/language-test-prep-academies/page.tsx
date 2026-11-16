@@ -4,13 +4,18 @@ import { LanguageHero } from "@/components/sections/SolutionsV5/language/Languag
 import { languageTestPrepData } from "@/content/solutions/language-test-prep";
 import { getHomeClients } from "@/lib/api/content";
 import { fullTitle, getMetadataBase } from "@/lib/site";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
   title: languageTestPrepData.metaTitle || fullTitle("Language & Test-Prep Academies | Solutions"),
   description: languageTestPrepData.metaDescription || languageTestPrepData.title,
   alternates: { canonical: "/solutions/language-test-prep-academies" },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata(baseMetadata, { seo: "language-test-prep-academies", guard: "language-test-prep-academies" });
+}
 
 export default async function LanguageAcademiesRoute() {
   const clientsData = await getHomeClients().catch(() => null);

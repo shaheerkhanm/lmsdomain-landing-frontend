@@ -219,8 +219,9 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     // Settings > App links (appLoginUrl, appSignupUrl, appForgotPasswordUrl,
     // centralLoginEnabled, lmsCentralUrl, recaptchaSiteKey)
     fetchCms("app-links", ["cms", "settings", "app-links"]),
-    // Settings > Pages (page visibility list)
-    fetchCms("pages", ["cms", "settings", "pages"]).catch(() => null),
+    // Settings > Pages (page visibility list). The backend serves it as "page-visibility"
+    // (and copies it into app-links, which may not exist on every server).
+    fetchCms("page-visibility", ["cms", "settings", "pages", "cms:page-visibility"]).catch(() => null),
     fetchCms("site-pages", ["cms", "settings", "site-pages", "pages"]).catch(() => null),
   ]);
 
