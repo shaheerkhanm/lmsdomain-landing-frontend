@@ -8,8 +8,9 @@ import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { BlogCard, BlogCover, DraftNotice, fmtDate, metaFor } from "@/components/sections/BlogV5/BlogParts";
 import { cn } from "@/lib/utils";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
   title: fullTitle("Blog & Guides"),
   description:
@@ -17,6 +18,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/resources/blog" },
   robots: { index: false, follow: false },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata(baseMetadata, { seo: "blog", guard: "blog" });
+}
 
 const BIG = "font-urbanist font-semibold tracking-[-0.05em] leading-[0.95]";
 

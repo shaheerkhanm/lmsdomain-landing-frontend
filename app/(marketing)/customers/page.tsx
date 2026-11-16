@@ -14,14 +14,19 @@ import { DemoButton } from "@/components/sections/HomeV5/DemoButton";
 import { Testimonials, DEMO_TESTIMONIALS } from "@/components/sections/HomeV5/Testimonials";
 import { AcademyShowcase, type ShowcaseAcademy } from "@/components/sections/CustomersV5/AcademyShowcase";
 import { cn } from "@/lib/utils";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
   title: "Customers: Academies Using LMS Domain | LMS Domain",
   description:
     "See the coaching institutes, language schools, training companies and independent educators who teach, sell and run live classes on LMS Domain.",
   alternates: { canonical: "/customers" },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata(baseMetadata, { seo: "customers", guard: "customers" });
+}
 
 
 // Each type of academy: outcomes, a sample person and stat (sample data), demo from its Solutions page

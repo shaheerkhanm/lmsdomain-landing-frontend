@@ -7,6 +7,7 @@ import { fullTitle, getMetadataBase } from "@/lib/site";
 import { ArrowLeft, Check, AlertTriangle, ShieldCheck, Zap, Globe, Sparkles } from "lucide-react";
 import { COMPARE_PAGES } from "@/content/compare/data";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
+import { pageMetadata } from "@/lib/seo";
 
 interface ComparePageProps {
   params: Promise<{ slug: string }>;
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: ComparePageProps): Promise<Me
     return { title: "Comparison Not Found | LMS Domain", robots: { index: false, follow: false } };
   }
 
-  return {
+  return pageMetadata({
     metadataBase: getMetadataBase(),
     title: fullTitle(page.metaTitle),
     description: page.metaDescription,
@@ -32,7 +33,7 @@ export async function generateMetadata({ params }: ComparePageProps): Promise<Me
       index: false,
       follow: false,
     },
-  };
+  }, { seo: `compare-${slug}`, guard: "compare", image: "compare" });
 }
 
 export default async function ComparePageRoute({ params }: ComparePageProps) {

@@ -14,14 +14,19 @@ import { getHomeClients, getHomeTestimonials } from "@/lib/api/content";
 import { isProductionSite } from "@/lib/site";
 import { DEMO_TESTIMONIALS } from "@/components/sections/HomeV5/Testimonials";
 import { DemoProof, DemoWhatYouSee, DemoQuote, DemoAfter } from "@/components/sections/DemoV5/DemoSections";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
   title: "Book a Free 20-Minute LMS Domain Demo | LMS Domain",
   description:
     "Book a free 20-minute demo of LMS Domain. See batches, live classes, tests, payments and your own branded academy, shown with your courses.",
   alternates: { canonical: "/demo" },
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  return pageMetadata(baseMetadata, { seo: "demo", guard: "demo" });
+}
 
 const AGENDA = [
   { t: "0–5 min", h: "Your academy", b: "How you teach today and what you want to change." },
