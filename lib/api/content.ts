@@ -14,6 +14,7 @@ import { defaultAboutContent, AboutContent } from "@/content/about";
 import { defaultContactDetails, ContactDetails } from "@/content/contact";
 import { BLOG_POSTS, BLOG_COVER_STYLES, readingTimeFor, tocFromHtml, type BlogPost, type BlogCoverStyle } from "@/content/blog/posts";
 import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, mergeCustomersSection, type CustomersContent, type CustomersSection } from "@/content/customers";
+import { DEMO_DEFAULTS, DEMO_SLUGS, mergeDemoSection, type DemoContent, type DemoSection } from "@/content/demo";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
@@ -1559,5 +1560,33 @@ export const getCustomersPage = cache(async (): Promise<CustomersContent> => {
   if (!c.academies.items.length) c.academies.items = CUSTOMERS_DEFAULTS.academies.items;
   c.why.items = c.why.items.map((w) => ({ title: str(w?.title), text: str(w?.text) })).filter((w) => w.title);
   if (!c.why.items.length) c.why.items = CUSTOMERS_DEFAULTS.why.items;
+  return c;
+});
+
+// ----------------------------------------------------------------------------
+// Demo page (Admin > Website > Demo): one CMS entry per section, the section in
+// `data`. Missing, hidden or empty entries use the built-in text.
+// ----------------------------------------------------------------------------
+export const getDemoPage = cache(async (): Promise<DemoContent> => {
+  const keys = Object.keys(DEMO_SLUGS) as DemoSection[];
+  const docs = await Promise.all(
+    keys.map((k) => fetchCms(DEMO_SLUGS[k].slug, ["cms", `cms:${DEMO_SLUGS[k].slug}`, "demo"]).catch(() => null))
+  );
+  const out = {} as Record<DemoSection, unknown>;
+  keys.forEach((k, i) => {
+    out[k] = mergeDemoSection(DEMO_DEFAULTS[k] as unknown as Record<string, unknown>, docs[i]?.data);
+  });
+  const c = out as unknown as DemoContent;
+  const str = (v: unknown) => String(v ?? "").trim();
+  // Lists edited in the admin: drop empty rows; an emptied list uses the built-in one
+  const rows = <T,>(list: T[], keep: (x: T) => boolean, fallback: T[]) => {
+    const kept = list.filter(keep);
+    return kept.length ? kept : fallback;
+  };
+  c.hero.checks = rows(c.hero.checks.map(str), Boolean, DEMO_DEFAULTS.hero.checks);
+  c.agenda.steps = rows(c.agenda.steps.map((s) => ({ time: str(s?.time), title: str(s?.title), text: str(s?.text) })), (s) => !!s.title, DEMO_DEFAULTS.agenda.steps);
+  c.see.items = rows(c.see.items.map((s) => ({ title: str(s?.title), text: str(s?.text) })), (s) => !!s.title, DEMO_DEFAULTS.see.items);
+  c.after.steps = rows(c.after.steps.map((s) => ({ title: str(s?.title), text: str(s?.text) })), (s) => !!s.title, DEMO_DEFAULTS.after.steps);
+  c.faq.items = rows(c.faq.items.map((q) => ({ question: str(q?.question), answer: str(q?.answer) })), (q) => !!q.question && !!q.answer, DEMO_DEFAULTS.faq.items);
   return c;
 });
