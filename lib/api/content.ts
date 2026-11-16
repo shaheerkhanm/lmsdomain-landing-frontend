@@ -17,6 +17,8 @@ import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, mergeCustomersSection, type Custom
 import { DEMO_DEFAULTS, DEMO_SLUGS, mergeDemoSection, type DemoContent, type DemoSection } from "@/content/demo";
 import { SOLUTION_PAGES, mergeSolution, type SolutionContent, type SolutionKey } from "@/content/solutions/editable";
 import { HOME_SLUGS, mergeHomeSection, type HomeSections, type HomeSection } from "@/content/home-sections";
+import { PLATFORM_PAGES, mergePlatform, type PlatformContent, type PlatformKey } from "@/content/platform/editable";
+import { PLATFORM_OVERVIEW_SLUG, mergePlatformOverview, type PlatformOverviewContent } from "@/content/platform/overview-editable";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
@@ -1611,4 +1613,20 @@ export const getHomeSection = cache(async <K extends HomeSection>(key: K): Promi
   const { slug } = HOME_SLUGS[key];
   const doc = await fetchCms(slug, ["cms", `cms:${slug}`, key === "finalCta" ? "site" : "home"]).catch(() => null);
   return mergeHomeSection(key, doc?.data);
+});
+
+// ----------------------------------------------------------------------------
+// Platform pages (Admin > Website > Platform): one CMS entry per page, the page's
+// text in `data`. Missing, hidden or empty entries use the built-in text.
+// ----------------------------------------------------------------------------
+export const getPlatformPage = cache(async (key: PlatformKey): Promise<PlatformContent> => {
+  const { slug } = PLATFORM_PAGES[key];
+  const doc = await fetchCms(slug, ["cms", `cms:${slug}`, "platform", `platform-${key}`]).catch(() => null);
+  return mergePlatform(key, doc?.data);
+});
+
+export const getPlatformOverview = cache(async (): Promise<PlatformOverviewContent> => {
+  const { slug } = PLATFORM_OVERVIEW_SLUG;
+  const doc = await fetchCms(slug, ["cms", `cms:${slug}`, "platform"]).catch(() => null);
+  return mergePlatformOverview(doc?.data);
 });

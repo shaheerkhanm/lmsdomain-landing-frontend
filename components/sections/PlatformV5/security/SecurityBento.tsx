@@ -3,6 +3,7 @@ import { Check, Download, FileSpreadsheet, KeyRound, Laptop, Lock, Server, Shiel
 import { cn } from "@/lib/utils";
 import { Card, Panel, Face, d } from "../bento";
 import { Countdown } from "../assess/Countdown";
+import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
 
 /* Sample data only. Claims match content/platform/security.ts. */
 
@@ -209,14 +210,16 @@ function DataArt() {
   );
 }
 
-export function SecurityBento() {
+/** Six cards (layout and pictures by position); text from Admin > Website > Platform. */
+export function SecurityBento({ cards = PLATFORM_CARDS.security }: { cards?: PlatformCard[] } = {}) {
+  const card = (i: number) => cards[i] || PLATFORM_CARDS.security[i];
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
       <Card
         className="md:col-span-2 lg:col-span-7"
         plan="Growth"
-        title="A watermark on every video"
-        body="Each learner's email and ID move across the video, so any screen recording shows who shared it."
+        title={card(0).title}
+        body={card(0).text}
       >
         <WatermarkArt />
       </Card>
@@ -224,39 +227,39 @@ export function SecurityBento() {
         className="lg:col-span-5"
         delay={90}
         plan="Pro"
-        title="Device limits per learner"
-        body="Set how many devices each learner can use. Older sessions sign out or new sign-ins are blocked."
+        title={card(1).title}
+        body={card(1).text}
       >
         <DevicesArt />
       </Card>
       <Card
         className="lg:col-span-5"
         plan="Custom roles on Pro"
-        title="The right access for each role"
-        body="Instructors see their own batches, materials and grading, but not revenue or payment reports."
+        title={card(2).title}
+        body={card(2).text}
       >
         <RolesArt />
       </Card>
       <Card
         className="md:col-span-2 lg:col-span-7"
         delay={90}
-        title="Time-limited video links"
-        body="Videos stream through links that expire, so a copied link can't be passed around for long."
+        title={card(3).title}
+        body={card(3).text}
       >
         <TokenArt />
       </Card>
       <Card
         className="lg:col-span-6"
-        title="Managed, encrypted hosting"
-        body="We run the hosting for you, with HTTPS on your domain and TLS encryption for your data."
+        title={card(4).title}
+        body={card(4).text}
       >
         <HostingArt />
       </Card>
       <Card
         className="lg:col-span-6"
         delay={90}
-        title="Your data stays yours"
-        body="You own 100% of your courses and learner records, and can export them as CSV at any time."
+        title={card(5).title}
+        body={card(5).text}
       >
         <DataArt />
       </Card>

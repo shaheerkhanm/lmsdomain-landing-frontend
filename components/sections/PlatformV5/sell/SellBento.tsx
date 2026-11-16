@@ -3,6 +3,7 @@ import { ArrowDownLeft, Check, ImageIcon, ShoppingBag, Tag, X } from "lucide-rea
 import { cn } from "@/lib/utils";
 import { Card, Panel, Face, d } from "../bento";
 import { BrandMark, LmsDomainMark, type BrandName } from "@/components/brand/PartnerMarks";
+import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
 
 /* Sample data only. Claims match content/platform/sell.ts. */
 
@@ -227,52 +228,54 @@ function ReportsArt() {
   );
 }
 
-export function SellBento() {
+/** Six cards (layout and pictures by position); text from Admin > Website > Platform. */
+export function SellBento({ cards = PLATFORM_CARDS.sell }: { cards?: PlatformCard[] } = {}) {
+  const card = (i: number) => cards[i] || PLATFORM_CARDS.sell[i];
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
       <Card
         className="md:col-span-2 lg:col-span-7"
-        title="Your own course store"
-        body="A catalogue and cart on your website, so learners can browse, add courses and check out in one go."
+        title={card(0).title}
+        body={card(0).text}
       >
         <CatalogueArt />
       </Card>
       <Card
         className="lg:col-span-5"
         delay={90}
-        title="Coupons and offers"
-        body="Create percentage or flat discount codes with expiry dates, minimum orders and usage limits."
+        title={card(1).title}
+        body={card(1).text}
       >
         <CouponArt />
       </Card>
       <Card
         className="lg:col-span-5"
-        title="Stripe, Razorpay, Paytm and DOKU"
-        body="Connect your own gateway account. Payments go straight to you, with 0% commission from us."
+        title={card(2).title}
+        body={card(2).text}
       >
         <GatewaysArt />
       </Card>
       <Card
         className="md:col-span-2 lg:col-span-7"
         delay={90}
-        title="Sell in many currencies"
-        body="Charge in USD, EUR, GBP, INR and more. Indian academies also get GST invoices automatically."
+        title={card(3).title}
+        body={card(3).text}
       >
         <CurrencyArt />
       </Card>
       <Card
         className="lg:col-span-6"
         plan="Growth"
-        title="Offline payments with approval"
-        body="Learners can upload a bank transfer receipt. You check it and approve the enrolment in one click."
+        title={card(4).title}
+        body={card(4).text}
       >
         <OfflineArt />
       </Card>
       <Card
         className="lg:col-span-6"
         delay={90}
-        title="Sales reports and payouts"
-        body="Track sales over time, work out instructor revenue splits and export financial reports."
+        title={card(5).title}
+        body={card(5).text}
       >
         <ReportsArt />
       </Card>

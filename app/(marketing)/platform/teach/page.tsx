@@ -3,6 +3,7 @@ import { PlatformPage } from "@/components/marketing/platform";
 import { teachPlatformData } from "@/content/platform/teach";
 import { fullTitle, getMetadataBase } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
+import { getPlatformPage } from "@/lib/api/content";
 
 const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
@@ -15,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata(baseMetadata, { seo: "platform-teach", guard: "platform" });
 }
 
-export default function TeachRoute() {
-  return <PlatformPage data={teachPlatformData} />;
+export default async function TeachRoute() {
+  const content = await getPlatformPage("teach");
+  return <PlatformPage data={teachPlatformData} content={content} />;
 }

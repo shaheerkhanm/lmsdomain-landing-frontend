@@ -3,6 +3,7 @@ import { Check, FileText, Layers, Pause, Shuffle, Download, RotateCcw } from "lu
 import { cn } from "@/lib/utils";
 import { Card, Panel, Face, d } from "../bento";
 import { LmsDomainMark } from "@/components/brand/PartnerMarks";
+import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
 
 /* Sample data only. Claims match content/platform/assess.ts. */
 
@@ -260,51 +261,53 @@ function CertificateArt() {
   );
 }
 
-export function AssessBento() {
+/** Six cards (layout and pictures by position); text from Admin > Website > Platform. */
+export function AssessBento({ cards = PLATFORM_CARDS.assess }: { cards?: PlatformCard[] } = {}) {
+  const card = (i: number) => cards[i] || PLATFORM_CARDS.assess[i];
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
       <Card
         className="md:col-span-2 lg:col-span-7"
-        title="Question banks"
-        body="Build banks by topic and level, then pull questions into any test in a random order."
+        title={card(0).title}
+        body={card(0).text}
       >
         <BanksArt />
       </Card>
       <Card
         className="lg:col-span-5"
         delay={90}
-        title="Timed tests with your rules"
-        body="Set a time limit, pass mark and number of attempts for every quiz or mock exam."
+        title={card(1).title}
+        body={card(1).text}
       >
         <RulesArt />
       </Card>
       <Card
         className="lg:col-span-5"
-        title="Instant scores and rank"
-        body="Multiple-choice tests are marked automatically, so learners see their score and rank right away."
+        title={card(2).title}
+        body={card(2).text}
       >
         <ResultsArt />
       </Card>
       <Card
         className="md:col-span-2 lg:col-span-7"
         delay={90}
-        title="Assignments with private review"
-        body="Learners upload their work. Teachers give private feedback and a score, or ask for a revision."
+        title={card(3).title}
+        body={card(3).text}
       >
         <ReviewArt />
       </Card>
       <Card
         className="lg:col-span-6"
-        title="Quiz checkpoints inside videos"
-        body="Add a question at any point in a recorded lesson. The video waits until the learner answers."
+        title={card(4).title}
+        body={card(4).text}
       >
         <CheckpointArt />
       </Card>
       <Card
         className="lg:col-span-6"
         delay={90}
-        title="Branded certificates"
-        body="When a learner finishes, they get a PDF certificate with your logo, their name and the course."
+        title={card(5).title}
+        body={card(5).text}
       >
         <CertificateArt />
       </Card>

@@ -34,9 +34,14 @@ import { SecurityHero } from "@/components/sections/PlatformV5/security/Security
 import { SecurityBento } from "@/components/sections/PlatformV5/security/SecurityBento";
 import { PlatformPageData } from "@/content/platform/types";
 import { cn } from "@/lib/utils";
+import { linkedAnswerHtml } from "@/content/merge";
+import { platformDefaults, type PlatformContent, type PlatformKey } from "@/content/platform/editable";
+import type { PlatformCard } from "@/content/platform/cards";
 
 export interface PlatformPageProps {
   data: PlatformPageData;
+  /** Text from Admin > Website > Platform over the built-in text. */
+  content?: PlatformContent;
 }
 
 const SCENES: Record<string, React.ComponentType> = {
@@ -50,7 +55,7 @@ const SCENES: Record<string, React.ComponentType> = {
 };
 
 // Pages redesigned one by one get their own hero visual and feature cards.
-const CUSTOM: Record<string, { Hero: React.ComponentType; Bento: React.ComponentType; Extra?: React.ComponentType }> = {
+const CUSTOM: Record<string, { Hero: React.ComponentType; Bento: React.ComponentType<{ cards?: PlatformCard[] }>; Extra?: React.ComponentType }> = {
   teach: { Hero: TeachHero, Bento: TeachBento },
   assess: { Hero: AssessHero, Bento: AssessBento },
   manage: { Hero: ManageHero, Bento: ManageBento },
@@ -95,7 +100,8 @@ function PlanBadge({ plan }: { plan: string }) {
   );
 }
 
-export function PlatformPage({ data }: PlatformPageProps) {
+export function PlatformPage({ data, content }: PlatformPageProps) {
+  const c = content || platformDefaults(data.slug as PlatformKey);
   const isAi = data.slug === "ai";
   const area = AREAS.find((a) => a.slug === data.slug);
   const pageName = area?.name || data.eyebrow;
@@ -167,7 +173,7 @@ export function PlatformPage({ data }: PlatformPageProps) {
               style={{ "--d": "90ms" } as React.CSSProperties}
               className="v5-rise mx-auto mt-5 max-w-[900px] font-urbanist text-[clamp(36px,5.6vw,68px)] font-semibold leading-[1.03] tracking-[-0.04em] [text-wrap:balance]"
             >
-              <HeroTitle title={data.title} accent={data.heroAccent} dark={isAi} />
+              <HeroTitle title={c.title} accent={c.titleHighlight} dark={isAi} />
             </h1>
             <p
               style={{ "--d": "180ms" } as React.CSSProperties}
@@ -176,13 +182,13 @@ export function PlatformPage({ data }: PlatformPageProps) {
                 isAi ? "text-[#A1A1AA]" : "text-[#52525B]"
               )}
             >
-              {data.subtitle}
+              {c.subtitle}
             </p>
             <div
               style={{ "--d": "270ms" } as React.CSSProperties}
               className="v5-rise mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row"
             >
-              <DemoButton label="Book a demo" variant={isAi ? "light" : "dark"} className="w-full sm:w-auto" />
+              <DemoButton label={c.primaryButton} variant={isAi ? "light" : "dark"} className="w-full sm:w-auto" />
               <Link
                 href="/pricing"
                 className={cn(
@@ -191,7 +197,7 @@ export function PlatformPage({ data }: PlatformPageProps) {
                   isAi && "border-white/15 bg-transparent text-white hover:border-white/40 hover:bg-white/5"
                 )}
               >
-                See pricing
+                {c.secondaryButton}
               </Link>
             </div>
           </Container>
@@ -247,9 +253,9 @@ export function PlatformPage({ data }: PlatformPageProps) {
 
             <section className="pt-[clamp(80px,10vw,136px)]">
               <Container>
-                <SectionHeading tone="dark" eyebrow="For your team" title={data.sectionHeading || "What Domie AI does for your team"} />
+                <SectionHeading tone="dark" eyebrow={c.featuresEyebrow} title={c.featuresTitle} />
                 <div className="mt-12 lg:mt-16">
-                  <custom.Bento />
+                  <custom.Bento cards={c.cards} />
                 </div>
                 <p className="rv-v4 mt-8 text-center text-[14.5px] text-[#A1A1AA]">
                   Included in Pro within fair-use limits, and in Enterprise.{" "}
@@ -260,20 +266,20 @@ export function PlatformPage({ data }: PlatformPageProps) {
               </Container>
             </section>
 
-            {data.usedFor && data.usedFor.length > 0 && (
+            {c.usedFor.length > 0 && (
               <section className="pt-[clamp(80px,10vw,136px)]">
                 <Container>
-                  <SectionHeading tone="dark" eyebrow="Who it's for" title={`How academies use ${pageName}`} />
+                  <SectionHeading tone="dark" eyebrow={c.usedForEyebrow} title={c.usedForTitle} />
                   <div
                     className={cn(
                       "mt-12 grid gap-4",
-                      data.usedFor.length >= 3 ? "md:grid-cols-3" : data.usedFor.length === 2 ? "md:grid-cols-2" : "mx-auto max-w-[480px]"
+                      c.usedFor.length >= 3 ? "md:grid-cols-3" : c.usedFor.length === 2 ? "md:grid-cols-2" : "mx-auto max-w-[480px]"
                     )}
                   >
-                    {data.usedFor.map((u, i) => (
+                    {c.usedFor.map((u, i) => (
                       <Link
-                        key={u.href + u.title}
-                        href={u.href}
+                        key={`${u.link}-${i}`}
+                        href={u.link}
                         style={{ "--rv-delay": `${i * 90}ms` } as React.CSSProperties}
                         className="rv-v4 group relative flex min-h-[220px] flex-col rounded-[24px] bg-white/[0.04] p-7 ring-1 ring-inset ring-white/10 transition-colors duration-500 hover:bg-white"
                       >
@@ -288,7 +294,7 @@ export function PlatformPage({ data }: PlatformPageProps) {
                         <h3 className="mt-12 font-urbanist text-[22px] font-semibold leading-[1.2] tracking-[-0.015em] text-white transition-colors group-hover:text-[#0A0A0B]">
                           {u.title}
                         </h3>
-                        <p className="mt-2 text-[15px] leading-[1.6] text-[#A1A1AA] transition-colors group-hover:text-[#52525B]">{u.description}</p>
+                        <p className="mt-2 text-[15px] leading-[1.6] text-[#A1A1AA] transition-colors group-hover:text-[#52525B]">{u.text}</p>
                       </Link>
                     ))}
                   </div>
@@ -305,14 +311,14 @@ export function PlatformPage({ data }: PlatformPageProps) {
       {custom && !isAi && (
         <section className="bg-white py-[clamp(80px,10vw,136px)]">
           <Container>
-            <SectionHeading eyebrow="Features" title={data.sectionHeading || `Everything in ${pageName}`} />
+            <SectionHeading eyebrow={c.featuresEyebrow} title={c.featuresTitle} />
             <div className="mt-12 lg:mt-16">
-              <custom.Bento />
+              <custom.Bento cards={c.cards} />
             </div>
             <div className="rv-v4 mt-8 flex flex-col items-center gap-3 text-center text-[14.5px] text-[#52525B]">
-              {data.aiNote && (
+              {c.aiNote && (
                 <p className="max-w-[820px] [text-wrap:balance]">
-                  {data.aiNote}{" "}
+                  {c.aiNote}{" "}
                   <Link href="/platform/ai" className="font-semibold text-[#0A0A0B] underline-offset-4 hover:underline">
                     About Domie AI
                   </Link>
@@ -398,28 +404,28 @@ export function PlatformPage({ data }: PlatformPageProps) {
       )}
 
       {/* 3. Who uses it */}
-      {!isAi && data.usedFor && data.usedFor.length > 0 && (
+      {!isAi && c.usedFor.length > 0 && (
         <section className="px-2 sm:px-3">
           <div className="rounded-[28px] bg-[#F4F5F8] py-[clamp(64px,8vw,104px)] sm:rounded-[40px]">
             <Container>
               <div className="rv-v4 mx-auto max-w-[720px] text-center">
                 <p className="inline-flex items-center rounded-full border border-[#E4E4E7] bg-white px-3.5 py-1 text-[13px] font-medium text-[#27272A]">
-                  Who it&apos;s for
+                  {c.usedForEyebrow}
                 </p>
                 <h2 className="mt-5 font-urbanist text-[clamp(30px,3.8vw,46px)] font-semibold leading-[1.06] tracking-[-0.03em] [text-wrap:balance]">
-                  How academies use {pageName}
+                  {c.usedForTitle}
                 </h2>
               </div>
               <div
                 className={cn(
                   "mt-12 grid gap-4",
-                  data.usedFor.length >= 3 ? "md:grid-cols-3" : data.usedFor.length === 2 ? "md:grid-cols-2" : "mx-auto max-w-[480px]"
+                  c.usedFor.length >= 3 ? "md:grid-cols-3" : c.usedFor.length === 2 ? "md:grid-cols-2" : "mx-auto max-w-[480px]"
                 )}
               >
-                {data.usedFor.map((u, i) => (
+                {c.usedFor.map((u, i) => (
                   <Link
-                    key={u.href + u.title}
-                    href={u.href}
+                    key={`${u.link}-${i}`}
+                    href={u.link}
                     style={{ "--rv-delay": `${i * 90}ms` } as React.CSSProperties}
                     className="rv-v4 group relative flex min-h-[240px] flex-col overflow-hidden rounded-[24px] bg-white p-7 shadow-[0_1px_2px_rgba(16,16,24,0.04)] transition-colors duration-500 hover:bg-[#0A0A0B]"
                   >
@@ -435,7 +441,7 @@ export function PlatformPage({ data }: PlatformPageProps) {
                       {u.title}
                     </h3>
                     <p className="mt-2 text-[15px] leading-[1.6] text-[#52525B] transition-colors group-hover:text-[#A1A1AA]">
-                      {u.description}
+                      {u.text}
                     </p>
                   </Link>
                 ))}
@@ -446,14 +452,14 @@ export function PlatformPage({ data }: PlatformPageProps) {
       )}
 
       {/* 4. FAQ */}
-      {data.faqs && data.faqs.length > 0 && (
+      {c.faqs.length > 0 && (
         <FAQ
           id={`${data.slug}-faq`}
           minimal
           eyebrow="FAQs"
-          title={`Questions about ${pageName}`}
-          subtitle="Short answers to what academies ask us most."
-          items={data.faqs}
+          title={c.faqTitle}
+          subtitle={c.faqSubtitle}
+          items={c.faqs.map((q) => ({ question: q.question, answer: linkedAnswerHtml(q.answer) }))}
         />
       )}
 
