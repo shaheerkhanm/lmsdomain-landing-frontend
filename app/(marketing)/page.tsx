@@ -7,9 +7,9 @@ import { getSiteIdentity } from "@/lib/siteIdentity";
 import { entity } from "@/content/entity";
 import { getWebSiteJsonLd, getSoftwareApplicationJsonLd } from "@/components/seo/JsonLd";
 
-const DEFAULT_HOME_TITLE = "Online Academy Platform & LMS in India | LMS Domain";
+const DEFAULT_HOME_TITLE = "LMS for Online Academies & Course Creators | LMS Domain";
 const DEFAULT_HOME_DESCRIPTION =
-  "All-in-one LMS for coaching institutes and academies. Run live Zoom classes, drip video courses, mock tests, and collect fees with 0% commission on sales.";
+  "Run your online academy on your own website: courses, live Zoom classes, tests and payments in any currency, with 0% commission on your sales.";
 
 export async function generateMetadata(): Promise<Metadata> {
   // Share image and noindex from Admin > SEO
@@ -32,8 +32,9 @@ async function baseMetadata(): Promise<Metadata> {
     description,
     keywords: seo?.metakeyword || [
       "LMS Domain",
-      "AI LMS",
-      "Online Academy Platform",
+      "LMS for academies",
+      "online academy platform",
+      "white-label LMS",
     ],
     alternates: {
       canonical: "/",
