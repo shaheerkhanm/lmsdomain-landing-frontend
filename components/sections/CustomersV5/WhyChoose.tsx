@@ -117,22 +117,20 @@ function OnePlatformArt() {
   );
 }
 
-const REASONS = [
-  { t: "0% commission", b: "Payments go straight to your account. We never take a cut of your sales.", Art: CommissionArt },
-  { t: "Your own domain", b: "Every plan runs on your own web address, with your logo and colours.", Art: DomainArt },
-  { t: "Setup help from our team", b: "We help you get courses, domain and payments ready, so you launch fast.", Art: SetupArt },
-  { t: "One platform, not five", b: "Teaching, tests, payments and your website in one place, with one login.", Art: OnePlatformArt },
-];
+// Pictures by position; text from Admin > Customers
+const ARTS = [CommissionArt, DomainArt, SetupArt, OnePlatformArt];
 
-export function WhyChoose() {
+export function WhyChoose({ eyebrow, title, items }: { eyebrow: string; title: string; items: { title: string; text: string }[] }) {
   return (
     <section className="bg-white pt-[clamp(80px,10vw,136px)]">
       <Container>
-        <SectionHeading eyebrow="Why academies switch" title="Why academies choose LMS Domain" />
+        <SectionHeading eyebrow={eyebrow} title={title} />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-          {REASONS.map(({ t, b, Art }, i) => (
+          {items.map(({ title: t, text: b }, i) => {
+            const Art = ARTS[i % ARTS.length];
+            return (
             <div
-              key={t}
+              key={`${t}-${i}`}
               style={{ "--rv-delay": `${i * 110}ms` } as React.CSSProperties}
               className="rv-v4 group flex flex-col overflow-hidden rounded-[28px] bg-[#F4F5F8] transition-[translate] duration-500 hover:-translate-y-1"
             >
@@ -144,7 +142,8 @@ export function WhyChoose() {
                 <p className="mt-1.5 text-[14px] leading-[1.55] text-[#6B6B76]">{b}</p>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </Container>
     </section>

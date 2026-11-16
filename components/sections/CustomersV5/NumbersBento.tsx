@@ -121,19 +121,17 @@ function LiveArt() {
   );
 }
 
-const ITEMS = [
-  { v: "2,000+", l: "Learners", s: "learning on academies built with LMS Domain", Art: LearnersArt },
-  { v: "100+", l: "Courses", s: "published by educators on the platform", Art: CoursesArt },
-  { v: "300+", l: "Lessons", s: "of video, PDF and quizzes delivered", Art: LessonsArt },
-  { v: "100+", l: "Live classes", s: "taught on Zoom from LMS Domain", Art: LiveArt },
-];
+// Pictures by position (Learners, Courses, Lessons, Live classes); text from Admin > Customers
+const ARTS = [LearnersArt, CoursesArt, LessonsArt, LiveArt];
 
-export function NumbersBento() {
+export function NumbersBento({ items }: { items: { value: string; label: string; text: string }[] }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      {ITEMS.map(({ v, l, s, Art }, i) => (
+      {items.map(({ value: v, label: l, text: s }, i) => {
+        const Art = ARTS[i % ARTS.length];
+        return (
         <div
-          key={l}
+          key={`${l}-${i}`}
           style={{ "--rv-delay": `${i * 100}ms` } as React.CSSProperties}
           className="rv-v4 group flex flex-col overflow-hidden rounded-[28px] bg-[#F4F5F8] transition-[translate] duration-500 hover:-translate-y-1"
         >
@@ -148,7 +146,8 @@ export function NumbersBento() {
             <p className="mt-0.5 text-[13px] leading-[1.5] text-[#71717A]">{s}</p>
           </div>
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }

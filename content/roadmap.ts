@@ -5,6 +5,8 @@
 // inactive or empty entry falls back to the text below.
 // ============================================================================
 
+import { mergeSection } from "./merge";
+
 export interface RoadmapFeature {
   title: string;
   category: string;
@@ -195,20 +197,8 @@ export const ROADMAP_DEFAULTS: RoadmapContent = {
   },
 };
 
-/** Merges an admin section over its default: filled text wins, non-empty lists replace. */
-export function mergeRoadmapSection<T extends Record<string, unknown>>(base: T, admin: unknown): T {
-  if (!admin || typeof admin !== "object" || Array.isArray(admin)) return base;
-  const out: Record<string, unknown> = { ...base };
-  for (const [key, def] of Object.entries(base)) {
-    const v = (admin as Record<string, unknown>)[key];
-    if (Array.isArray(def)) {
-      if (Array.isArray(v) && v.length) out[key] = v;
-    } else if (typeof def === "string") {
-      if (typeof v === "string" && v.trim()) out[key] = v.trim();
-    }
-  }
-  return out as T;
-}
+/** Merges an admin section over its default (see content/merge.ts). */
+export const mergeRoadmapSection = mergeSection;
 
 /**
  * FAQ answers: plain text with optional links written as [text](/path) or

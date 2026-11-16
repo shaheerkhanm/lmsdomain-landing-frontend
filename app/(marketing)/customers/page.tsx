@@ -4,8 +4,8 @@ import { MessageCircle } from "lucide-react";
 import { Moments } from "@/components/sections/CustomersV5/Moments";
 import { WhyChoose } from "@/components/sections/CustomersV5/WhyChoose";
 import { NumbersBento } from "@/components/sections/CustomersV5/NumbersBento";
-import { customersPageData } from "@/content/customers";
-import { getHomeClients, getHomeTestimonials } from "@/lib/api/content";
+import { CUSTOMERS_DEFAULTS } from "@/content/customers";
+import { getHomeClients, getHomeTestimonials, getCustomersPage } from "@/lib/api/content";
 import { getMetadataBase, isProductionSite } from "@/lib/site";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
@@ -29,51 +29,32 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 
-// Each type of academy: outcomes, a sample person and stat (sample data), demo from its Solutions page
-const ACADEMIES: ShowcaseAcademy[] = [
-  {
-    key: "coaching",
-    name: "Coaching institutes",
-    href: "/solutions/coaching-institutes",
-    body: "Run morning, evening and weekend batches with live classes, mock tests and fees in one place.",
-    points: ["Batch timetables and drip release", "Attendance logged from Zoom", "Mock tests with instant ranks", "Online fees and reminders"],
-    stat: { v: "23/24", l: "joined today" },
-    person: { name: "Daniel Reyes", role: "Maths teacher, coaching institute", photo: "/assets/img/home/participant_alex.jpg" },
-  },
-  {
-    key: "language",
-    name: "Language academies",
-    href: "/solutions/language-test-prep-academies",
-    body: "Prepare learners for any language or exam with practice tests and private feedback on their writing.",
-    points: ["Timed practice tests", "Essay reviews with private feedback", "Scores in every learner's profile", "Fees in many currencies"],
-    stat: { v: "7/9", l: "latest essay" },
-    person: { name: "Mia Collins", role: "English teacher, language academy", photo: "/assets/img/home/participant_mia.jpg" },
-  },
-  {
-    key: "training",
-    name: "Training companies",
-    href: "/solutions/training-companies",
-    body: "Deliver private programmes for each client, certify the people who finish and report on progress.",
-    points: ["A private batch per client", "Project reviews by trainers", "Branded certificates", "Completion reports in a click"],
-    stat: { v: "28", l: "certified" },
-    person: { name: "Sarah Lee", role: "Head of training delivery", photo: "/assets/img/home/testimonials/author-5.jpg" },
-  },
-  {
-    key: "solo",
-    name: "Solo educators",
-    href: "/solutions/solo-educators",
-    body: "Sell courses, workshops, 1:1 sessions and ebooks on your own website, and keep every sale.",
-    points: ["Your own branded academy", "Paid 1:1 bookings", "Live workshops on Zoom", "0% commission on sales"],
-    stat: { v: "$1,486", l: "this week" },
-    person: { name: "Priya Sharma", role: "Independent data tutor", photo: "/assets/img/home/testimonials/author-1.jpg" },
-  },
+// The four academy types match the four demos (and photos), in this order
+const ACADEMY_KEYS: ShowcaseAcademy["key"][] = ["coaching", "language", "training", "solo"];
+const ACADEMY_PHOTOS = [
+  "/assets/img/home/participant_alex.jpg",
+  "/assets/img/home/participant_mia.jpg",
+  "/assets/img/home/testimonials/author-5.jpg",
+  "/assets/img/home/testimonials/author-1.jpg",
 ];
+const DEFAULT_LINKS = CUSTOMERS_DEFAULTS.academies.items.map((a) => a.link);
 
 export default async function CustomersRoute() {
-  const [clientsData, testimonials] = await Promise.all([
+  const [clientsData, testimonials, page] = await Promise.all([
     getHomeClients().catch(() => null),
     getHomeTestimonials().catch(() => []),
+    getCustomersPage(),
   ]);
+  const { hero, numbers, academies, why, stories: headings, cta } = page;
+  const showcase: ShowcaseAcademy[] = academies.items.slice(0, ACADEMY_KEYS.length).map((a, i) => ({
+    key: ACADEMY_KEYS[i],
+    name: a.name,
+    href: a.link || DEFAULT_LINKS[i],
+    body: a.text,
+    points: a.points,
+    stat: { v: a.statValue, l: a.statLabel },
+    person: { name: a.personName, role: a.personRole, photo: ACADEMY_PHOTOS[i] },
+  }));
   const logos = (clientsData?.logos || []).filter((l) => l?.logo && l.name && !/^client\s*-?\s*\d+/i.test(l.name));
   // Real testimonials from admin win. Demo ones only outside production, never on the live site.
   const useDemo = testimonials.length === 0 && !isProductionSite();
@@ -114,20 +95,20 @@ export default async function CustomersRoute() {
             style={{ "--d": "90ms" } as React.CSSProperties}
             className="v5-rise mx-auto mt-5 max-w-[900px] font-urbanist text-[clamp(36px,5.6vw,68px)] font-semibold leading-[1.03] tracking-[-0.04em] [text-wrap:balance]"
           >
-            Academies that{" "}
-            <span className="bg-gradient-to-r from-[#6C4BFF] via-[#8B5CF6] to-[#3B5BFF] bg-clip-text text-transparent">teach and grow</span> with LMS
-            Domain
+            {hero.titleBefore}{" "}
+            <span className="bg-gradient-to-r from-[#6C4BFF] via-[#8B5CF6] to-[#3B5BFF] bg-clip-text text-transparent">{hero.titleHighlight}</span>{" "}
+            {hero.titleAfter}
           </h1>
           <p
             style={{ "--d": "180ms" } as React.CSSProperties}
             className="v5-rise mx-auto mt-5 max-w-[660px] text-[16.5px] leading-[1.6] text-[#52525B] sm:text-[18px] [text-wrap:pretty]"
           >
-            {customersPageData.subtitle}
+            {hero.subtitle}
           </p>
           <div style={{ "--d": "270ms" } as React.CSSProperties} className="v5-rise mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <DemoButton label="Book a demo" className="w-full sm:w-auto" />
+            <DemoButton label={hero.primaryButton} className="w-full sm:w-auto" />
             <Link href="/pricing" className={cn(secondaryButtonClass, "w-full sm:w-auto")}>
-              See pricing
+              {hero.secondaryButton}
             </Link>
           </div>
         </Container>
@@ -139,13 +120,13 @@ export default async function CustomersRoute() {
 
         {/* Real numbers, each with a graphic */}
         <Container className="relative mt-12 sm:mt-14">
-          <NumbersBento />
+          <NumbersBento items={numbers.items} />
         </Container>
 
         {/* Real customer logos (from admin) */}
         {logos.length > 0 && (
           <Container className="py-14 text-center sm:py-16">
-            <p className="rv-v4 text-[13px] font-medium text-[#71717A]">Academies teaching with LMS Domain</p>
+            <p className="rv-v4 text-[13px] font-medium text-[#71717A]">{headings.logosHeading}</p>
             <div className="rv-v4 mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
               {logos.map((l) => {
                 const card = (
@@ -176,23 +157,19 @@ export default async function CustomersRoute() {
       <section className={cn("px-2 sm:px-3", logos.length ? "" : "pt-[clamp(72px,9vw,120px)]")}>
         <div className="rounded-[28px] bg-[#F4F5F8] py-[clamp(64px,8vw,104px)] sm:rounded-[40px]">
           <Container>
-            <SectionHeading
-              eyebrow="Who uses it"
-              title="Built for every kind of academy"
-              subtitle="Different ways of teaching, one platform. Pick a type of academy and watch it run."
-            />
+            <SectionHeading eyebrow={academies.eyebrow} title={academies.title} subtitle={academies.subtitle} />
             <div className="rv-v4 mt-12 lg:mt-16">
-              <AcademyShowcase academies={ACADEMIES} />
+              <AcademyShowcase academies={showcase} />
             </div>
           </Container>
         </div>
       </section>
 
       {/* 2b. Why academies choose LMS Domain */}
-      <WhyChoose />
+      <WhyChoose eyebrow={why.eyebrow} title={why.title} items={why.items} />
 
       {/* 3. Stories (admin testimonials; demo only outside production) */}
-      <Testimonials items={stories} isDemo={useDemo} showAll title="What academies say about LMS Domain" />
+      <Testimonials items={stories} isDemo={useDemo} showAll title={headings.testimonialsTitle} />
 
       {/* 4. Talk to us about customer stories */}
       <section className={cn("bg-white", stories.length ? "" : "pt-[clamp(80px,10vw,136px)]")}>
@@ -202,23 +179,22 @@ export default async function CustomersRoute() {
             <div className="grid items-center gap-8 lg:grid-cols-[1.4fr_1fr]">
               <div>
                 <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1 text-[13px] font-medium text-[#E4E4E7]">
-                  <MessageCircle className="h-3.5 w-3.5" /> Customer stories
+                  <MessageCircle className="h-3.5 w-3.5" /> {cta.eyebrow}
                 </p>
                 <h2 className="mt-5 font-urbanist text-[clamp(26px,3.2vw,38px)] font-semibold leading-[1.1] tracking-[-0.03em] [text-wrap:balance]">
-                  Want to hear how an academy like yours runs on LMS Domain?
+                  {cta.title}
                 </h2>
                 <p className="mt-3 max-w-[520px] text-[15.5px] leading-[1.6] text-[#A1A1AA]">
-                  Detailed case studies are on the way. In the meantime, book a call and our team will walk you through real setups for
-                  academies like yours.
+                  {cta.text}
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-                <DemoButton label="Book a demo" variant="light" className="w-full sm:w-auto" />
+                <DemoButton label={cta.primaryButton} variant="light" className="w-full sm:w-auto" />
                 <Link
                   href="/contact"
                   className="inline-flex h-11 items-center justify-center rounded-full border border-white/20 px-5 text-[14.5px] font-semibold text-white transition-colors hover:border-white/50 hover:bg-white/5"
                 >
-                  Contact us
+                  {cta.secondaryButton}
                 </Link>
               </div>
             </div>
