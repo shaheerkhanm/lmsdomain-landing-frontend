@@ -26,7 +26,7 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 75
     steps:
       - name: Deploy on the server
         env:
@@ -42,4 +42,19 @@ jobs:
           printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key && chmod 600 ~/.ssh/deploy_key
           printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
           echo "Deploying $TARGET (commit ${GITHUB_SHA::7})"
-          ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ServerAliveInterval=30 "$DEPLOY_USER@$DEPLOY_HOST" "$TARGET"
+          # The server runs one deploy at a time (website and admin share it). If another
+          # deploy is running, wait and try again for up to 30 minutes.
+          for attempt in $(seq 1 60); do
+            set +e
+            ssh -i ~/.ssh/deploy_key -o BatchMode=yes -o ServerAliveInterval=30 "$DEPLOY_USER@$DEPLOY_HOST" "$TARGET" 2>&1 | tee /tmp/deploy.out
+            status=${PIPESTATUS[0]}
+            set -e
+            if [ "$status" -ne 0 ] && grep -q "another deploy is running" /tmp/deploy.out; then
+              echo "Another deploy is running on the server; waiting 30 seconds (attempt $attempt of 60)"
+              sleep 30
+              continue
+            fi
+            exit "$status"
+          done
+          echo "Gave up: the server was busy for 30 minutes"
+          exit 1
