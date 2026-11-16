@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { Container, SectionHeading } from "./primitives";
+import { HOME_DEFAULTS, type HomeSections } from "@/content/home-sections";
 
 const AUDIENCES = [
   {
@@ -31,17 +32,20 @@ const AUDIENCES = [
   },
 ];
 
-export function AudienceCards() {
+/** Four cards (photo and link by position); text from Admin > Home > Who it's for. */
+export function AudienceCards({ data = HOME_DEFAULTS.audiences }: { data?: HomeSections["audiences"] }) {
   return (
     <section id="solutions" className="bg-white py-[clamp(72px,9vw,120px)]">
       <Container>
         <SectionHeading
-          eyebrow="Who it's for"
-          title="Built for every kind of educator"
-          subtitle="Any subject, any format: live batches, self-paced courses or a mix of both."
+          eyebrow={data.eyebrow}
+          title={data.title}
+          subtitle={data.subtitle}
         />
         <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
-          {AUDIENCES.map((a, i) => (
+          {AUDIENCES.map((base, i) => {
+            const a = { ...base, ...(data.items[i] ? { title: data.items[i].title, body: data.items[i].text } : {}) };
+            return (
             <Link
               key={a.title}
               href={a.href}
@@ -68,7 +72,8 @@ export function AudienceCards() {
                 />
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
       </Container>
     </section>

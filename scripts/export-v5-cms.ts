@@ -26,6 +26,7 @@ import { BLOG_POSTS, BLOG_META } from "@/content/blog/posts";
 import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, type CustomersSection } from "@/content/customers";
 import { DEMO_DEFAULTS, DEMO_SLUGS, type DemoSection } from "@/content/demo";
 import { SOLUTION_PAGES, solutionDefaults, type SolutionKey } from "@/content/solutions/editable";
+import { HOME_DEFAULTS, HOME_SLUGS, type HomeSection } from "@/content/home-sections";
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(name);
@@ -122,6 +123,12 @@ for (const key of Object.keys(CUSTOMERS_SLUGS) as CustomersSection[]) {
 for (const key of Object.keys(DEMO_SLUGS) as DemoSection[]) {
   const { slug, label } = DEMO_SLUGS[key];
   text.push(withFields({ slug, pageSlug: "demo", cmsTitle: label, title: label.replace(/^Demo: /, ""), data: clone(DEMO_DEFAULTS[key]) }, true));
+}
+
+// Home sections below the hero, and the closing call to action on every page (admin page "home")
+for (const key of Object.keys(HOME_SLUGS) as HomeSection[]) {
+  const { slug, label } = HOME_SLUGS[key];
+  text.push(withFields({ slug, pageSlug: "home", cmsTitle: label, title: label.replace(/^(Home|All pages): /, ""), data: clone(HOME_DEFAULTS[key]) }, true));
 }
 
 // Solutions pages: one entry per page (admin page "solutions")
