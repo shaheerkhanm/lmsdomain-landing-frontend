@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ArrowUpRight, BookOpen, Check, CreditCard, Eye, Globe, Lock, PlayCircle, Users, Video } from "lucide-react";
 import type { BlogPost } from "@/content/blog/posts";
 import { cn } from "@/lib/utils";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /* Blog building blocks: typographic covers with a small product visual (no stock or AI art). */
 
@@ -127,7 +128,7 @@ function BigScene({ kind, ink }: { kind: "start" | "lms" | "sell"; ink: string }
         <div className={cn("mo-float absolute right-0 top-0 w-[200px] rounded-[16px] bg-white p-3.5", shade)} style={{ "--fd": "-1s" } as React.CSSProperties}>
           <p className="text-[10.5px] text-[#9A9AA6]">Payment received</p>
           <p className="font-urbanist text-[24px] font-semibold text-[#15803D]">+₹4,999</p>
-          <p className="text-[10.5px] text-[#71717A]">Razorpay · to your account</p>
+          <p className="inline-flex items-center gap-1.5 text-[10.5px] text-[#71717A]"><BrandMark name="Razorpay" size={12} className="rounded-[3px]" /> Razorpay · to your account</p>
         </div>
         {/* invoice */}
         <div className={cn("mo-float absolute -bottom-4 -right-4 w-[180px] rotate-[3deg] rounded-[14px] bg-white p-3.5", shade)} style={{ "--fd": "-3s" } as React.CSSProperties}>
@@ -219,7 +220,7 @@ function BigScene({ kind, ink }: { kind: "start" | "lms" | "sell"; ink: string }
       <div className={cn("mo-float absolute right-0 top-0 w-[190px] rounded-[16px] bg-white p-3.5", shade)}>
         <p className="text-[10.5px] text-[#9A9AA6]">Attendance today</p>
         <p className="font-urbanist text-[24px] font-semibold text-[#18181B]">23/24</p>
-        <p className="text-[10.5px] text-[#71717A]">Logged from Zoom</p>
+        <p className="inline-flex items-center gap-1.5 text-[10.5px] text-[#71717A]"><BrandMark name="Zoom" size={12} className="rounded-[3px]" /> Logged from Zoom</p>
       </div>
       <div className={cn("mo-float absolute bottom-0 right-8 w-[200px] rotate-[2deg] rounded-[14px] bg-white p-3", shade)} style={{ "--fd": "-3s" } as React.CSSProperties}>
         <p className="text-[11px] font-semibold text-[#18181B]">Mock test 4 · Results</p>

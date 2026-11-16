@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Check, Globe, Loader2, Lock, Upload, CircleCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DemoCursor, pointIn, type DemoPos } from "../DemoCursor";
+import { LmsDomainMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Brand hero window with a scripted demo: an admin uploads a logo, picks a brand colour,
@@ -137,11 +138,10 @@ export function BrandDemo() {
               <span
                 className={cn(
                   "grid h-11 w-11 place-items-center rounded-[10px] border text-[15px] font-bold transition-colors duration-500",
-                  logo ? "border-transparent text-white" : "border-dashed border-[#D4D4D8] text-[#B4B4BE]"
+                  logo ? "border-[#EDEDF1] bg-white" : "border-dashed border-[#D4D4D8] text-[#B4B4BE]"
                 )}
-                style={logo ? { background: theme.c } : undefined}
               >
-                {logo ? "N" : "?"}
+                {logo ? <LmsDomainMark size={32} /> : "?"}
               </span>
               <span
                 ref={uploadRef}
@@ -227,11 +227,10 @@ export function BrandDemo() {
                 <span
                   className={cn(
                     "grid h-6 w-6 place-items-center rounded-[6px] text-[11px] font-bold transition-colors duration-500",
-                    logo ? "text-white" : "border border-dashed border-[#D4D4D8] text-[#B4B4BE]"
+                    logo ? "" : "border border-dashed border-[#D4D4D8] text-[#B4B4BE]"
                   )}
-                  style={logo ? { background: theme.c } : undefined}
                 >
-                  {logo ? "N" : "?"}
+                  {logo ? <LmsDomainMark size={24} /> : "?"}
                 </span>
                 <p className="text-[12.5px] font-semibold text-[#18181B]">{logo ? "Northwind Academy" : "Your academy"}</p>
               </div>

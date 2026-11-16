@@ -9,6 +9,7 @@ import { ContentSource } from "@/components/content/ContentSource";
 import { Container, SectionHeading } from "@/components/sections/HomeV5/primitives";
 import type { ContactPageModel, ContactChannel } from "@/types/content";
 import { cn } from "@/lib/utils";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 const ICON: Record<ContactChannel["type"], React.ElementType> = {
   email: Mail,
@@ -27,9 +28,15 @@ function Channel({ c, i }: { c: ContactChannel; i: number }) {
   const Icon = ICON[c.type] || Mail;
   const inner = (
     <>
-      <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#0A0A0B] text-white">
-        <Icon className="h-[18px] w-[18px]" />
-      </span>
+      {c.type === "whatsapp" ? (
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white">
+          <BrandMark name="WhatsApp" size={26} />
+        </span>
+      ) : (
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#0A0A0B] text-white">
+          <Icon className="h-[18px] w-[18px]" />
+        </span>
+      )}
       <div className="min-w-0 flex-1">
         <p className="text-[12.5px] font-medium text-[#71717A]">{c.title}</p>
         <p className="truncate font-urbanist text-[18px] font-semibold tracking-[-0.01em] text-[#0A0A0B]">{c.value}</p>

@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import { Check, Lock, PlayCircle, Video } from "lucide-react";
+import { LmsDomainMark } from "@/components/brand/PartnerMarks";
 
 const BRAND = "#6C4BFF";
 
@@ -20,9 +21,7 @@ function LaptopScreen() {
       </div>
       <div className="flex items-center justify-between px-4 py-2">
         <div className="flex items-center gap-1.5">
-          <span className="grid h-5 w-5 place-items-center rounded-[5px] text-[8px] font-bold text-white" style={{ background: BRAND }}>
-            AA
-          </span>
+          <LmsDomainMark size={20} />
           <span className="text-[10px] font-semibold text-[#18181B]">Apex Academy</span>
         </div>
         <div className="flex gap-3 text-[8px] text-[#71717A]">
@@ -95,9 +94,7 @@ function PhoneScreen() {
   return (
     <div className="h-full w-full overflow-hidden bg-white">
       <div className="flex items-center gap-1 px-2 pb-1.5 pt-3">
-        <span className="grid h-4 w-4 place-items-center rounded-[4px] text-[6px] font-bold text-white" style={{ background: BRAND }}>
-          AA
-        </span>
+        <LmsDomainMark size={16} />
         <span className="text-[7.5px] font-semibold text-[#18181B]">Apex Academy</span>
       </div>
       <div className="mx-2 rounded-[7px] p-2" style={{ background: BRAND }}>

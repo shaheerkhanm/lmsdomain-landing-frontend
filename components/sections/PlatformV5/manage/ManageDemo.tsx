@@ -2,9 +2,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Bell, Download, Video, CircleCheck } from "lucide-react";
+import { Bell, Download, CircleCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DemoCursor, pointIn, type DemoPos } from "../DemoCursor";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Manage hero window with a scripted demo: an admin opens Attendance, exports the sheet,
@@ -247,7 +248,7 @@ export function ManageDemo() {
                     <p className="truncate text-[11px] text-[#9A9AA6]">{c.who} · Batch B</p>
                   </div>
                   <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[10.5px] font-semibold text-[#3F3F46]">
-                    <Video className="h-3 w-3" /> Zoom
+                    <BrandMark name="Zoom" size={12} className="rounded-[3px]" /> Zoom
                   </span>
                 </div>
               ))}

@@ -2,6 +2,7 @@ import React from "react";
 import { Check, Globe, GripVertical, Lock, Mail, Award, LayoutDashboard, FileText, Eye } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, Panel, d } from "../bento";
+import { LmsDomainMark } from "@/components/brand/PartnerMarks";
 
 /* Sample data only. Claims match content/platform/brand.ts. */
 
@@ -91,13 +92,13 @@ function KitArt() {
         <p className="text-[12px] font-semibold text-[#18181B]">Brand kit</p>
         <div className="mt-3 grid grid-cols-3 gap-2">
           <div className="grid h-14 place-items-center rounded-[10px] border border-[#EDEDF1]">
-            <span className="grid h-7 w-7 place-items-center rounded-[7px] text-[12px] font-bold text-white" style={{ background: TEAL }}>N</span>
+            <LmsDomainMark size={28} />
           </div>
           <div className="grid h-14 place-items-center rounded-[10px] bg-[#18181B]">
-            <span className="grid h-7 w-7 place-items-center rounded-[7px] bg-white text-[12px] font-bold" style={{ color: TEAL }}>N</span>
+            <LmsDomainMark size={28} className="ring-2 ring-white/10" />
           </div>
           <div className="grid h-14 place-items-center rounded-[10px] border border-[#EDEDF1]">
-            <span className="grid h-4 w-4 place-items-center rounded-[4px] text-[8px] font-bold text-white" style={{ background: TEAL }}>N</span>
+            <LmsDomainMark size={16} />
           </div>
         </div>
         <div className="mt-1.5 grid grid-cols-3 text-center text-[10px] text-[#9A9AA6]">

@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Check, Lock, Tag, CircleCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DemoCursor, pointIn, type DemoPos } from "../DemoCursor";
+import { BrandMark, type BrandName } from "@/components/brand/PartnerMarks";
 
 /*
  * Sell hero window with a scripted demo: a learner types a coupon, applies it,
@@ -11,11 +12,11 @@ import { DemoCursor, pointIn, type DemoPos } from "../DemoCursor";
  * Decorative only (aria-hidden on the parent). Static for reduced motion. Sample data only.
  */
 
-const GATEWAYS = [
-  { n: "Razorpay", c: "#0C2451", m: "Cards and local methods" },
-  { n: "Stripe", c: "#635BFF", m: "Cards and wallets" },
-  { n: "Paytm", c: "#00BAF2", m: "Wallet and local methods" },
-  { n: "DOKU", c: "#E1251B", m: "Local payment methods" },
+const GATEWAYS: { n: BrandName; m: string }[] = [
+  { n: "Razorpay", m: "Cards and local methods" },
+  { n: "Stripe", m: "Cards and wallets" },
+  { n: "Paytm", m: "Wallet and local methods" },
+  { n: "DOKU", m: "Local payment methods" },
 ];
 
 const CODE = "EARLYBIRD";
@@ -203,9 +204,7 @@ export function SellDemo() {
                 >
                   {gw === i && <span className="h-1.5 w-1.5 rounded-full bg-[#0A0A0B]" />}
                 </span>
-                <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full text-[10px] font-bold text-white" style={{ background: g.c }}>
-                  {g.n[0]}
-                </span>
+                <BrandMark name={g.n} size={24} />
                 <span className="min-w-0 flex-1">
                   <span className="block text-[12.5px] font-semibold text-[#18181B]">{g.n}</span>
                   <span className="block truncate text-[10.5px] text-[#9A9AA6]">{g.m}</span>

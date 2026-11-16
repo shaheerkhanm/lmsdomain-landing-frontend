@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Container, SectionHeading } from "../../HomeV5/primitives";
 import { Card, Panel, d } from "../bento";
 import { AiExplain } from "./AiExplain";
+import { DomieMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Domie AI page: how it helps learners (four everyday moments) and how it works (three steps).
@@ -25,11 +26,7 @@ function Avatar({ src, size = 24 }: { src: string; size?: number }) {
 }
 
 function Domie({ size = 24 }: { size?: number }) {
-  return (
-    <span className="grid shrink-0 place-items-center rounded-full bg-[#0A0A0B] font-urbanist text-[10px] font-bold text-white" style={{ width: size, height: size }}>
-      D
-    </span>
-  );
+  return <DomieMark size={size} />;
 }
 
 function Me({ children, delay = 0, photo }: { children: React.ReactNode; delay?: number; photo: string }) {

@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowDownLeft, Check, ImageIcon, ShoppingBag, Tag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, Panel, Face, d } from "../bento";
+import { BrandMark, LmsDomainMark, type BrandName } from "@/components/brand/PartnerMarks";
 
 /* Sample data only. Claims match content/platform/sell.ts. */
 
@@ -90,18 +91,18 @@ function CouponArt() {
 /* 3. Gateways: brand chips joined by a bracket (Wiza style) */
 function GatewaysArt() {
   const g = [
-    { n: "Stripe", c: "#635BFF", side: "justify-end" },
-    { n: "Razorpay", c: "#0C2451", side: "justify-start" },
-    { n: "Paytm", c: "#00BAF2", side: "justify-end" },
-    { n: "DOKU", c: "#E1251B", side: "justify-center" },
-  ];
+    { n: "Stripe", side: "justify-end" },
+    { n: "Razorpay", side: "justify-start" },
+    { n: "Paytm", side: "justify-end" },
+    { n: "DOKU", side: "justify-center" },
+  ] satisfies { n: BrandName; side: string }[];
   return (
     <div className="absolute inset-0 flex justify-center pt-6">
       <div className="relative w-[236px]">
         <div className="absolute inset-x-[18px] top-[20px] h-[168px] rounded-[18px] border border-[#DCDCE3]" />
         <div className="v5-pop relative flex justify-center">
           <Panel className="flex h-10 items-center gap-2 rounded-full pl-2 pr-4">
-            <span className="grid h-6 w-6 place-items-center rounded-full bg-[#0A0A0B] text-[11px] font-bold text-white">N</span>
+            <LmsDomainMark size={24} />
             <span className="text-[13.5px] font-semibold text-[#18181B]">Your academy</span>
           </Panel>
         </div>
@@ -111,9 +112,7 @@ function GatewaysArt() {
               style={{ "--fd": `${i * -1.5}s` } as React.CSSProperties}
               className="mo-float flex h-10 items-center gap-2 rounded-full pl-2 pr-4"
             >
-              <span className="grid h-6 w-6 place-items-center rounded-full text-[11px] font-bold text-white" style={{ background: x.c }}>
-                {x.n[0]}
-              </span>
+              <BrandMark name={x.n} size={24} />
               <span className="text-[13.5px] font-semibold text-[#18181B]">{x.n}</span>
             </Panel>
           </div>

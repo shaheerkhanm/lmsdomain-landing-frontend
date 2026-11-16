@@ -17,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BrandMark, DomieMark, LmsDomainMark, type BrandName } from "@/components/brand/PartnerMarks";
 
 /*
  * Product scenes for the platform overview. Same visual language as the homepage cards:
@@ -297,11 +298,11 @@ export function ManageScene() {
 /* ---------------- Sell: checkout + payout ---------------- */
 export function SellScene() {
   const gateways = [
-    { n: "Stripe", c: "#635BFF" },
-    { n: "Razorpay", c: "#0C2451" },
-    { n: "Paytm", c: "#00BAF2" },
-    { n: "DOKU", c: "#E1251B" },
-  ];
+    { n: "Stripe" },
+    { n: "Razorpay" },
+    { n: "Paytm" },
+    { n: "DOKU" },
+  ] satisfies { n: BrandName }[];
   return (
     <SceneCanvas>
       <Panel className="v5-pop v5-lift absolute left-6 right-6 top-8 rounded-[20px] p-5 sm:left-10 sm:right-28">
@@ -333,7 +334,7 @@ export function SellScene() {
                 i === 0 ? "border-[#0A0A0B] text-[#18181B]" : "border-[#EDEDF1] text-[#52525B]"
               )}
             >
-              <span className="h-2 w-2 rounded-full" style={{ background: g.c }} />
+              <BrandMark name={g.n} size={14} className="rounded-[4px]" />
               {g.n}
             </span>
           ))}
@@ -342,7 +343,7 @@ export function SellScene() {
       </Panel>
 
       <Panel style={d(300)} className="v5-pop absolute bottom-5 right-4 hidden w-[232px] rotate-[3deg] rounded-[16px] p-3 sm:right-6 sm:block">
-        <p className="text-[11px] text-[#9A9AA6]">Paid to your Stripe account</p>
+        <p className="inline-flex items-center gap-1.5 text-[11px] text-[#9A9AA6]"><BrandMark name="Stripe" size={12} className="rounded-[3px]" /> Paid to your Stripe account</p>
         <p className="mt-0.5 font-urbanist text-[22px] font-semibold tabular-nums text-[#15803D]">+$199.00</p>
         <p className="mt-1 inline-block rounded-full bg-[#F1EDFF] px-2 py-0.5 text-[10.5px] font-semibold text-[#6C4BFF]">0% commission</p>
       </Panel>
@@ -366,7 +367,7 @@ export function BrandScene() {
         </div>
         <div className="flex items-center justify-between px-5 py-3">
           <div className="flex items-center gap-2">
-            <span className="grid h-6 w-6 place-items-center rounded-[6px] bg-[#0F766E] text-[11px] font-bold text-white">N</span>
+            <LmsDomainMark size={24} />
             <p className="text-[13px] font-semibold text-[#18181B]">Northwind Academy</p>
           </div>
           <div className="mr-16 hidden gap-4 text-[11.5px] text-[#71717A] sm:flex">
@@ -472,7 +473,7 @@ export function AiScene() {
           <Face src={PEOPLE.a1} size={28} />
         </div>
         <div style={d(200)} className="v5-pop flex max-w-[400px] items-start gap-2">
-          <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#6C4BFF] text-[11px] font-bold text-white">D</span>
+          <DomieMark size={28} />
           <div className="rounded-[16px] rounded-tl-[6px] border border-white/10 bg-white/[0.08] px-3.5 py-3 text-[13px] leading-[1.55] text-[#E4E4E7]">
             Your loop checks <span className="rounded bg-white/10 px-1 font-mono text-[12px] text-white">count &lt; 10</span>, but{" "}
             <span className="font-mono text-[12px] text-white">count</span> never goes up. Add{" "}

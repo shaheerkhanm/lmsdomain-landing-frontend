@@ -2,6 +2,7 @@ import React from "react";
 import { Check, FileText, Layers, Pause, Shuffle, Download, RotateCcw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, Panel, Face, d } from "../bento";
+import { LmsDomainMark } from "@/components/brand/PartnerMarks";
 
 /* Sample data only. Claims match content/platform/assess.ts. */
 
@@ -230,7 +231,7 @@ function CertificateArt() {
         <Panel className="v5-pop v5-lift relative rounded-[16px] p-1.5">
           <div className="rounded-[12px] border border-[#ECECF1] px-5 py-4 text-center">
             <div className="flex items-center justify-center gap-1.5">
-              <span className="grid h-5 w-5 place-items-center rounded-[5px] bg-[#0F766E] text-[10px] font-bold text-white">N</span>
+              <LmsDomainMark size={20} />
               <span className="text-[11.5px] font-semibold text-[#18181B]">Northwind Academy</span>
             </div>
             <p className="mt-2.5 text-[9.5px] font-semibold uppercase tracking-[0.18em] text-[#9A9AA6]">Certificate of completion</p>

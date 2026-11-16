@@ -1,16 +1,17 @@
 import React from "react";
 import Image from "next/image";
 import { ArrowDownLeft, Award, CalendarCheck, ListChecks, MessageSquare, PlayCircle, Video } from "lucide-react";
+import { BrandMark, type BrandName } from "@/components/brand/PartnerMarks";
 
 /*
  * Two rows of small product "moments" gliding in opposite directions.
  * Shows the everyday things academies do on LMS Domain. Sample data only. Static for reduced motion.
  */
 
-type M = { i: React.ElementType; t: string; m: string; face?: string; brand?: { c: string; l: string }; tag?: string };
+type M = { i: React.ElementType; t: string; m: string; face?: string; brand?: BrandName; tag?: string };
 
-const STRIPE = { c: "#635BFF", l: "S" };
-const RAZORPAY = { c: "#0C2451", l: "R" };
+const STRIPE: BrandName = "Stripe";
+const RAZORPAY: BrandName = "Razorpay";
 
 const ROW_A: M[] = [
   { i: Video, t: "Live class started", m: "Maths · Evening batch", face: "/assets/img/home/participant_alex.jpg", tag: "23 joined" },
@@ -36,9 +37,7 @@ function Chip({ x }: { x: M }) {
         {x.face ? (
           <Image src={x.face} alt="" width={80} height={80} className="h-10 w-10 rounded-full object-cover object-top" />
         ) : (
-          <span className="grid h-10 w-10 place-items-center rounded-full text-[14px] font-bold text-white" style={{ background: x.brand?.c }}>
-            {x.brand?.l}
-          </span>
+          x.brand && <BrandMark name={x.brand} size={40} round />
         )}
         <span className="absolute -bottom-0.5 -right-0.5 grid h-[18px] w-[18px] place-items-center rounded-full bg-[#0A0A0B] text-white ring-2 ring-white">
           <x.i className="h-2.5 w-2.5" strokeWidth={2.5} />

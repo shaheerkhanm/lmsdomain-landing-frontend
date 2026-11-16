@@ -11,6 +11,7 @@ import {
   Bell,
   TrendingUp,
 } from "lucide-react";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 // Sample data only: a calm, light view of the admin dashboard for the hero.
 const KPIS = [
@@ -150,7 +151,7 @@ export function HeroProductShot() {
                         {c.live ? (
                           <span className="rounded-full bg-[#6C4BFF] px-2 py-0.5 text-[10.5px] font-semibold text-white">Live</span>
                         ) : (
-                          <span className="text-[11px] text-[#A1A1AA]">Zoom</span>
+                          <span className="inline-flex items-center gap-1 text-[11px] text-[#A1A1AA]"><BrandMark name="Zoom" size={12} className="rounded-[3px]" /> Zoom</span>
                         )}
                       </div>
                     ))}
