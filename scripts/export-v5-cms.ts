@@ -22,6 +22,7 @@ import { defaultAboutContent } from "@/content/about";
 import { defaultContactDetails } from "@/content/contact";
 import { DEFAULT_LEGAL_PAGES } from "@/content/legal";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, type RoadmapSection } from "@/content/roadmap";
+import { BLOG_POSTS, BLOG_META } from "@/content/blog/posts";
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(name);
@@ -133,6 +134,22 @@ const seo = Object.entries(seoRaw).map(([slug, v]) => {
   };
 });
 
+// 5. Blog posts (Admin > Website > Blog) ------------------------------------------------
+const blog = Object.values(BLOG_POSTS).map((p) => ({
+  slug: p.slug,
+  title: p.title,
+  subtitle: p.subtitle,
+  metaTitle: p.metaTitle.replace(/\s*\|\s*LMS Domain\s*$/i, "").trim(),
+  metaDescription: p.metaDescription,
+  date: p.date,
+  author: p.author,
+  readingTime: p.readingTime,
+  category: BLOG_META[p.slug]?.category || "",
+  cover: BLOG_META[p.slug]?.art || "lms",
+  content: p.content.trim(),
+  faqs: p.faqs,
+}));
+
 // Write the mongosh script ------------------------------------------------------------
 const template = fs.readFileSync(path.join(process.cwd(), "scripts", "load-v5-content.template.js"), "utf8");
 const json = (v: unknown) => JSON.stringify(v, null, 2);
@@ -140,6 +157,7 @@ const out = template
   .replace("/*__TEXT__*/[]", json(text))
   .replace("/*__FACTS__*/[]", json(facts))
   .replace("/*__LEGAL__*/[]", json(legal))
-  .replace("/*__SEO__*/[]", json(seo));
+  .replace("/*__SEO__*/[]", json(seo))
+  .replace("/*__BLOG__*/[]", json(blog));
 fs.writeFileSync(outFile, out);
-console.log(`Wrote ${outFile}: ${text.length} text entries, ${facts.length} facts, ${legal.length} legal pages, ${seo.length} SEO pages`);
+console.log(`Wrote ${outFile}: ${text.length} text entries, ${facts.length} facts, ${legal.length} legal pages, ${seo.length} SEO pages, ${blog.length} blog posts`);

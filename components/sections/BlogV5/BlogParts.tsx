@@ -2,18 +2,26 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowUpRight, BookOpen, Check, CreditCard, Eye, Globe, Lock, PlayCircle, Users, Video } from "lucide-react";
-import type { BlogPost } from "@/content/blog/posts";
+import { BLOG_META, type BlogPost, type BlogCoverStyle } from "@/content/blog/posts";
+export { BLOG_META };
 import { cn } from "@/lib/utils";
 import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /* Blog building blocks: typographic covers with a small product visual (no stock or AI art). */
 
-export const BLOG_META: Record<string, { category: string; tone: string; ink: string; art: "start" | "lms" | "sell" }> = {
-  "how-to-start-an-online-academy-in-india": { category: "Getting started", tone: "#F1EDFF", ink: "#6C4BFF", art: "start" },
-  "what-is-an-lms-guide-for-coaching-institutes": { category: "LMS basics", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
-  "how-to-sell-courses-online-in-india-with-gst-invoices": { category: "Selling courses", tone: "#FFF1E8", ink: "#EA580C", art: "sell" },
+// Colours per cover design
+const COVER_STYLE: Record<BlogCoverStyle, { tone: string; ink: string }> = {
+  start: { tone: "#F1EDFF", ink: "#6C4BFF" },
+  lms: { tone: "#E6F4F1", ink: "#0D9488" },
+  sell: { tone: "#FFF1E8", ink: "#EA580C" },
 };
-export const metaFor = (slug: string) => BLOG_META[slug] || { category: "Guide", tone: "#F4F5F8", ink: "#0A0A0B", art: "lms" as const };
+type CoverInput = Pick<BlogPost, "slug"> & Partial<Pick<BlogPost, "category" | "cover">>;
+/** Cover and label for a post: its own settings (Admin > Blog), else the built-in ones, else defaults. */
+export const metaFor = (post: CoverInput) => {
+  const base = BLOG_META[post.slug];
+  const art: BlogCoverStyle = post.cover && COVER_STYLE[post.cover] ? post.cover : base?.art || "lms";
+  return { category: post.category || base?.category || "Guide", art, ...COVER_STYLE[art] };
+};
 
 const panel = "rounded-[12px] border border-[#EDEDF1] bg-white shadow-[0_1px_2px_rgba(16,16,24,0.05),0_14px_30px_-16px_rgba(16,16,24,0.28)]";
 
@@ -241,8 +249,8 @@ function BigScene({ kind, ink }: { kind: "start" | "lms" | "sell"; ink: string }
   );
 }
 
-export function BlogCover({ slug, big = false }: { slug: string; big?: boolean }) {
-  const m = metaFor(slug);
+export function BlogCover({ post, big = false }: { post: CoverInput; big?: boolean }) {
+  const m = metaFor(post);
   if (big)
     return (
       <div aria-hidden="true" className="relative h-[340px] overflow-hidden bg-[#0B0A12] sm:h-[460px]">
@@ -279,7 +287,7 @@ export { fmtDate };
 
 /** Magazine-style card: full topic colour, big title, product visual at the bottom; turns dark on hover. */
 export function BlogCard({ post, tall = false }: { post: BlogPost; tall?: boolean }) {
-  const m = metaFor(post.slug);
+  const m = metaFor(post);
   return (
     <Link
       href={`/resources/blog/${post.slug}`}
