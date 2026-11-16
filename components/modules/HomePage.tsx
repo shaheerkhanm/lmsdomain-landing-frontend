@@ -13,18 +13,25 @@ import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { DomieLauncher } from "@/components/ai/DomieLauncher";
 import { homeFaqItems } from "@/content/faq";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
-import { getSection, getHomeClients, getPricingPage, getHomeTestimonials } from "@/lib/api/content";
+import { getSection, getHomeClients, getPricingPage, getHomeTestimonials, getHomeSection } from "@/lib/api/content";
+import { linkedAnswerHtml } from "@/content/merge";
 import { keepLive, liveOr } from "@/lib/claims";
 import { isProductionSite } from "@/lib/site";
 import { ContentSource } from "@/components/content/ContentSource";
 import { PageContentProvider } from "@/components/content/PageContent";
 
 export async function HomePage() {
-  const [hero, clients, pricingPage, testimonials] = await Promise.all([
+  const [hero, clients, pricingPage, testimonials, features, setup, ai, audiences, pricing, faq] = await Promise.all([
     getSection("home-hero"),
     getHomeClients().catch(() => null),
     getPricingPage().catch(() => null),
     getHomeTestimonials().catch(() => []),
+    getHomeSection("features"),
+    getHomeSection("setup"),
+    getHomeSection("ai"),
+    getHomeSection("audiences"),
+    getHomeSection("pricing"),
+    getHomeSection("faq"),
   ]);
 
   const content = {
@@ -63,27 +70,30 @@ export async function HomePage() {
         </ContentSource>
 
         {/* 2. Feature bento grid */}
-        <FeatureBento />
+        <FeatureBento data={features} />
 
         {/* 3. Setup in three steps */}
-        <SetupSteps />
+        <SetupSteps data={setup} />
 
         {/* 4. Domie AI: the only dark section */}
-        <AiSection />
+        <AiSection data={ai} />
 
         {/* 5. Who it's for */}
-        <AudienceCards />
+        <AudienceCards data={audiences} />
 
         {/* 6. Testimonials (admin data, or demo outside production) */}
         <Testimonials items={testimonialItems} isDemo={useDemoTestimonials} />
 
         {/* 7. Pricing: compact block, full plans on /pricing */}
-        <PricingBand fromPrice={fromPrice} trialDays={pricingV2.trialDays ?? 15} />
+        <PricingBand fromPrice={fromPrice} trialDays={pricingV2.trialDays ?? 15} data={pricing} />
 
         {/* 8. FAQ */}
         <FAQ
-          items={keepLive(homeFaqItems, (item) => [item.question, item.answer])}
-          title="Frequently asked questions"
+          items={keepLive(
+            faq.items.map((q, i) => ({ id: `home-faq-${i}`, question: q.question, answer: linkedAnswerHtml(q.answer) })),
+            (item) => [item.question, item.answer]
+          )}
+          title={faq.title}
           eyebrow="FAQs"
           contactHref="/contact"
           minimal

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CalendarDays, Check, Loader2, Lock, ArrowDownLeft, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container, SectionHeading } from "./primitives";
+import { HOME_DEFAULTS, type HomeSections } from "@/content/home-sections";
 
 // Sample data only, same visual language as the feature cards.
 const shadow = "shadow-[0_1px_2px_rgba(16,16,24,0.05),0_12px_32px_-14px_rgba(16,16,24,0.18)]";
@@ -135,35 +136,17 @@ function LaunchArt() {
   );
 }
 
-const STEPS = [
-  {
-    n: "1",
-    title: "Tell us how you teach",
-    body: "A 20-minute call about your courses, batches and payments. We show you LMS Domain with your own structure.",
-    Art: CallArt,
-  },
-  {
-    n: "2",
-    title: "We set it up with you",
-    body: "Our team moves your courses and learners, connects your domain and payment gateway, and trains your staff.",
-    Art: SetupArt,
-  },
-  {
-    n: "3",
-    title: "Launch and start selling",
-    body: "Open enrolments on your own website. Teach live, run tests and get paid from day one.",
-    Art: LaunchArt,
-  },
-];
+// Pictures by position; text from Admin > Home > How it works
+const STEP_ARTS = [CallArt, SetupArt, LaunchArt];
 
-export function SetupSteps() {
+export function SetupSteps({ data = HOME_DEFAULTS.setup }: { data?: HomeSections["setup"] }) {
   return (
     <section id="how-it-works" className="bg-white pb-[clamp(80px,10vw,136px)]">
       <Container>
         <SectionHeading
-          eyebrow="How it works"
-          title="Live in days, not months"
-          subtitle="No developers or IT team needed. We do the setup with you."
+          eyebrow={data.eyebrow}
+          title={data.title}
+          subtitle={data.subtitle}
         />
         <ol className="relative mt-12 grid gap-4 lg:mt-24 lg:grid-cols-3">
           {/* dashed connector behind the step badges */}
@@ -171,9 +154,12 @@ export function SetupSteps() {
             aria-hidden="true"
             className="rv-v4 v5-draw absolute left-[16%] right-[16%] top-[-22px] hidden border-t border-dashed border-[#D4D4D8] lg:block"
           />
-          {STEPS.map(({ n, title, body, Art }, i) => (
+          {data.steps.map(({ title, text: body }, i) => {
+            const n = String(i + 1);
+            const Art = STEP_ARTS[i % STEP_ARTS.length];
+            return (
             <li
-              key={n}
+              key={`${title}-${i}`}
               style={{ "--rv-delay": `${i * 160}ms` } as React.CSSProperties}
               className="rv-v4 relative flex flex-col"
             >
@@ -193,7 +179,8 @@ export function SetupSteps() {
                 </div>
               </div>
             </li>
-          ))}
+            );
+          })}
         </ol>
       </Container>
     </section>

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container, SectionHeading } from "./primitives";
+import { HOME_DEFAULTS, type HomeSections } from "@/content/home-sections";
 import { BrandMark, LmsDomainMark, type BrandName } from "@/components/brand/PartnerMarks";
 
 /*
@@ -353,18 +354,20 @@ export function BrandArt() {
   );
 }
 
-export function FeatureBento() {
+/** Six fixed card slots (layout and pictures by position); text from Admin > Home > Features. */
+export function FeatureBento({ data = HOME_DEFAULTS.features }: { data?: HomeSections["features"] }) {
+  const card = (i: number) => data.cards[i] || HOME_DEFAULTS.features.cards[i];
   return (
     <section id="features" className="bg-white py-[clamp(80px,10vw,136px)]">
       <Container>
-        <SectionHeading eyebrow="Features" title="Everything you need to run your academy" />
+        <SectionHeading eyebrow={data.eyebrow} title={data.title} />
 
         <div className="mt-12 grid grid-cols-1 gap-4 md:grid-cols-2 lg:mt-16 lg:grid-cols-12">
           <BentoCard
             className="md:col-span-2 lg:col-span-5"
             href="/platform/teach"
-            title="Build courses your way"
-            description="Video, PDF and quiz lessons in modules. Release them weekly or all at once."
+            title={card(0).title}
+            description={card(0).text}
           >
             <CoursesArt />
           </BentoCard>
@@ -372,8 +375,8 @@ export function FeatureBento() {
             className="lg:col-span-4"
             delay={90}
             href="/platform/teach"
-            title="Teach live on Zoom"
-            description="Schedule classes by batch. Reminders go out and recordings are saved to the course."
+            title={card(1).title}
+            description={card(1).text}
           >
             <LiveArt />
           </BentoCard>
@@ -381,8 +384,8 @@ export function FeatureBento() {
             className="lg:col-span-3"
             delay={180}
             href="/features"
-            title="Connects with your tools"
-            description="Zoom, Stripe, Razorpay, Zapier and more."
+            title={card(2).title}
+            description={card(2).text}
           >
             <IntegrationsArt />
           </BentoCard>
@@ -390,8 +393,8 @@ export function FeatureBento() {
           <BentoCard
             className="lg:col-span-3"
             href="/platform/assess"
-            title="Tests and certificates"
-            description="Timed mock tests, instant grading, rankings and certificates."
+            title={card(3).title}
+            description={card(3).text}
           >
             <TestsArt />
           </BentoCard>
@@ -399,8 +402,8 @@ export function FeatureBento() {
             className="lg:col-span-4"
             delay={90}
             href="/platform/sell"
-            title="Get paid in any currency"
-            description="Sell worldwide with Stripe or Razorpay. You keep 100% of every sale."
+            title={card(4).title}
+            description={card(4).text}
           >
             <PaymentsArt />
           </BentoCard>
@@ -408,8 +411,8 @@ export function FeatureBento() {
             className="md:col-span-2 lg:col-span-5"
             delay={180}
             href="/platform/brand"
-            title="Your brand, your domain"
-            description="Your logo, colours and web address. Learners never see our name."
+            title={card(5).title}
+            description={card(5).text}
           >
             <BrandArt />
           </BentoCard>

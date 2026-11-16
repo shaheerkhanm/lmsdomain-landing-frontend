@@ -1,9 +1,14 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Container, secondaryButtonClass } from "./primitives";
 import { DemoButton } from "./DemoButton";
+import { useFinalCta } from "./FinalCtaContext";
 
+/** Closing call to action on every page; text from Admin (see FinalCtaContext). */
 export function FinalCta() {
+  const cta = useFinalCta();
   return (
     <section id="cta" className="bg-white pb-[clamp(72px,9vw,120px)]">
       <Container>
@@ -14,15 +19,15 @@ export function FinalCta() {
           />
           <div className="relative">
             <h2 className="mx-auto max-w-[680px] font-urbanist text-[clamp(30px,4.2vw,48px)] font-semibold leading-[1.08] tracking-[-0.025em] text-[#0A0A0B] [text-wrap:balance]">
-              See your academy running on LMS Domain
+              {cta.title}
             </h2>
             <p className="mx-auto mt-4 max-w-[520px] text-[16px] leading-[1.6] text-[#52525B] sm:text-[17px]">
-              Book a 20-minute demo. We&apos;ll walk you through it using your own courses.
+              {cta.text}
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <DemoButton label="Book a demo" className="w-full sm:w-auto" />
+              <DemoButton label={cta.primaryButton} className="w-full sm:w-auto" />
               <Link href="/pricing" className={`${secondaryButtonClass} w-full sm:w-auto`}>
-                See pricing
+                {cta.secondaryButton}
               </Link>
             </div>
           </div>

@@ -16,6 +16,7 @@ import { BLOG_POSTS, BLOG_COVER_STYLES, readingTimeFor, tocFromHtml, type BlogPo
 import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, mergeCustomersSection, type CustomersContent, type CustomersSection } from "@/content/customers";
 import { DEMO_DEFAULTS, DEMO_SLUGS, mergeDemoSection, type DemoContent, type DemoSection } from "@/content/demo";
 import { SOLUTION_PAGES, mergeSolution, type SolutionContent, type SolutionKey } from "@/content/solutions/editable";
+import { HOME_SLUGS, mergeHomeSection, type HomeSections, type HomeSection } from "@/content/home-sections";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
@@ -1600,4 +1601,14 @@ export const getSolutionPage = cache(async (key: SolutionKey): Promise<SolutionC
   const { slug } = SOLUTION_PAGES[key];
   const doc = await fetchCms(slug, ["cms", `cms:${slug}`, "solutions", key]).catch(() => null);
   return mergeSolution(key, doc?.data);
+});
+
+// ----------------------------------------------------------------------------
+// Home sections below the hero, and the closing call to action on every page
+// (Admin > Website > Home > Sections). Missing or empty entries use the built-in text.
+// ----------------------------------------------------------------------------
+export const getHomeSection = cache(async <K extends HomeSection>(key: K): Promise<HomeSections[K]> => {
+  const { slug } = HOME_SLUGS[key];
+  const doc = await fetchCms(slug, ["cms", `cms:${slug}`, key === "finalCta" ? "site" : "home"]).catch(() => null);
+  return mergeHomeSection(key, doc?.data);
 });

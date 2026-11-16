@@ -11,7 +11,8 @@ import Canonical from "@/components/layout/Canonical";
 import { Toaster } from "@/components/ui/sonner";
 import { getPageVisibility } from "@/lib/pages";
 import { PageVisibilityProvider } from "@/lib/pages-context";
-import { getSiteNavigation, getBlogPosts } from "@/lib/api/content";
+import { getSiteNavigation, getBlogPosts, getHomeSection } from "@/lib/api/content";
+import { FinalCtaProvider } from "@/components/sections/HomeV5/FinalCtaContext";
 import { MotionConfig } from "motion/react";
 import DemoHashListener from "@/components/marketing/DemoHashListener";
 
@@ -157,10 +158,11 @@ export default async function RootLayout({
 }>) {
   const latest = (await getBlogPosts().catch(() => []))[0];
   const latestGuide = latest ? { title: latest.title, slug: latest.slug, readingTime: latest.readingTime } : null;
-  const [visibility, siteNav, brand] = await Promise.all([
+  const [visibility, siteNav, brand, finalCta] = await Promise.all([
     getPageVisibility(),
     getSiteNavigation().catch(() => null),
     getBrand(),
+    getHomeSection("finalCta"),
   ]);
 
   return (
@@ -171,6 +173,7 @@ export default async function RootLayout({
       >
         <BrandProvider brand={brand}>
           <PageVisibilityProvider visibility={visibility}>
+            <FinalCtaProvider value={finalCta}>
             <MotionConfig reducedMotion="user">
               <Canonical />
               <Header siteNav={siteNav?.marketingNav} featuredGuide={latestGuide} />
@@ -181,6 +184,7 @@ export default async function RootLayout({
               <Toaster position="bottom-right" />
               <Footer />
             </MotionConfig>
+            </FinalCtaProvider>
           </PageVisibilityProvider>
         </BrandProvider>
       </body>

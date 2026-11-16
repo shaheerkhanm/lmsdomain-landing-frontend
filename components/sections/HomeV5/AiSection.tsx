@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DomieOrb } from "@/components/ai/DomieOrb";
+import { HOME_DEFAULTS, type HomeSections } from "@/content/home-sections";
 
 /** The only dark section on the homepage: Domie AI, shown as a live product window. */
 
@@ -273,7 +274,9 @@ function scrollToY(y: number) {
   else window.scrollTo({ top: y, behavior: "smooth" });
 }
 
-export function AiSection() {
+/** Domie AI (Pro). Text from Admin > Home > Domie AI; the three tools keep their scenes by position. */
+export function AiSection({ data = HOME_DEFAULTS.ai }: { data?: HomeSections["ai"] }) {
+  const tabs = TABS.map((t, i) => ({ ...t, label: data.tools[i]?.label || t.label, desc: data.tools[i]?.text || t.desc }));
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState<TabId>("helpdesk");
   const [pinned, setPinned] = useState(false); // desktop: scroll drives the tabs
@@ -366,21 +369,21 @@ export function AiSection() {
                 </div>
               </div>
               <p className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.04] px-3.5 py-1 text-[13px] font-medium text-[#E4E4E7] lg:ml-3 lg:align-[14px]">
-                Domie AI · included in Pro
+                {data.badge}
               </p>
               <h2 className="mt-5 font-urbanist text-[clamp(34px,4vw,50px)] font-semibold leading-[1.05] tracking-[-0.03em] [text-wrap:balance]">
-                Meet Domie, the assistant{" "}
+                {data.titleBefore}{" "}
                 <span className="bg-gradient-to-r from-[#CFC7FF] via-[#A99BFF] to-[#7C9BFF] bg-clip-text text-transparent">
-                  inside your academy
+                  {data.titleHighlight}
                 </span>
               </h2>
               <p className="mx-auto mt-4 max-w-[520px] text-[16px] leading-[1.6] text-[#A1A1AA] lg:mx-0">
-                Built into LMS Domain and trained on nothing but your own courses.
+                {data.subtitle}
               </p>
 
               {/* Desktop: vertical tabs with scroll progress */}
               <div role="tablist" aria-label="Domie AI tools" className="mt-8 hidden flex-col gap-2 lg:flex">
-                {TABS.map(({ id, label, desc, icon: Icon }, i) => {
+                {tabs.map(({ id, label, desc, icon: Icon }, i) => {
                   const isActive = id === active;
                   const activeIdx = TABS.findIndex((x) => x.id === active);
                   const fill = !pinned ? (isActive ? 1 : 0) : i < activeIdx ? 1 : isActive ? segment : 0;
@@ -430,7 +433,7 @@ export function AiSection() {
               {/* Phones / tablets: horizontal tabs */}
               <div className="mt-8 flex justify-center lg:hidden">
                 <div role="tablist" aria-label="Domie AI tools" className="inline-flex max-w-full gap-1 overflow-x-auto rounded-[14px] border border-white/10 bg-white/[0.04] p-1">
-                  {TABS.map(({ id, label, icon: Icon }) => {
+                  {tabs.map(({ id, label, icon: Icon }) => {
                     const isActive = id === active;
                     return (
                       <button
