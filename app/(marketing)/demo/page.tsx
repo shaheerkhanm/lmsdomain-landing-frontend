@@ -10,7 +10,8 @@ import { Container } from "@/components/sections/HomeV5/primitives";
 import { getMetadataBase } from "@/lib/site";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { cn } from "@/lib/utils";
-import { getHomeClients, getHomeTestimonials } from "@/lib/api/content";
+import { getHomeClients, getHomeTestimonials, getDemoPage, getCustomersPage } from "@/lib/api/content";
+import { linkedAnswerHtml } from "@/content/merge";
 import { isProductionSite } from "@/lib/site";
 import { DEMO_TESTIMONIALS } from "@/components/sections/HomeV5/Testimonials";
 import { DemoProof, DemoWhatYouSee, DemoQuote, DemoAfter } from "@/components/sections/DemoV5/DemoSections";
@@ -27,26 +28,6 @@ const baseMetadata: Metadata = {
 export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata(baseMetadata, { seo: "demo", guard: "demo" });
 }
-
-const AGENDA = [
-  { t: "0–5 min", h: "Your academy", b: "How you teach today and what you want to change." },
-  { t: "5–15 min", h: "LMS Domain, with your courses", b: "Batches, live classes, tests, payments and your branded site." },
-  { t: "15–20 min", h: "Plan and next steps", b: "The right plan for you and how setup works." },
-];
-
-const FAQS = [
-  { question: "Is the demo free?", answer: "Yes. The demo is free and there is no obligation to buy." },
-  { question: "How long is the demo?", answer: "About 20 minutes, with time for your questions at the end." },
-  {
-    question: "Do I need to prepare anything?",
-    answer: "No. It helps to know roughly how many learners and courses you have, but we can cover everything on the call.",
-  },
-  { question: "Can my team join the demo?", answer: "Yes. Invite anyone who will help run your academy, such as teachers or admin staff." },
-  {
-    question: "Can I try LMS Domain without a demo?",
-    answer: 'Yes. Every plan comes with a free trial. See the <a href="/pricing" class="text-[#6C4BFF] underline underline-offset-2">pricing page</a> to get started.',
-  },
-];
 
 /** Video-call mockup: what the demo looks like. Sample people only. */
 function CallVisual() {
@@ -110,7 +91,13 @@ function CallVisual() {
 }
 
 export default async function DemoPage() {
-  const [clients, testimonials] = await Promise.all([getHomeClients().catch(() => null), getHomeTestimonials().catch(() => [])]);
+  const [clients, testimonials, page, customers] = await Promise.all([
+    getHomeClients().catch(() => null),
+    getHomeTestimonials().catch(() => []),
+    getDemoPage(),
+    getCustomersPage(),
+  ]);
+  const { hero, form, agenda, proof, see, after, faq } = page;
   const logos = (clients?.logos || []).filter((l): l is typeof l & { name: string; logo: string } => Boolean(l?.logo && l.name) && !/^client\s*-?\s*\d+/i.test(l.name || ""));
   // Real testimonial from Admin; demo one only outside production
   const story = testimonials[0] || (!isProductionSite() ? DEMO_TESTIMONIALS[1] : undefined);
@@ -151,14 +138,15 @@ export default async function DemoPage() {
                 style={{ "--d": "90ms" } as React.CSSProperties}
                 className="v5-rise mt-5 font-urbanist text-[clamp(36px,5vw,60px)] font-semibold leading-[1.04] tracking-[-0.04em] [text-wrap:balance]"
               >
-                See your academy on LMS Domain in{" "}
-                <span className="bg-gradient-to-r from-[#6C4BFF] via-[#8B5CF6] to-[#3B5BFF] bg-clip-text text-transparent">20 minutes</span>
+                {hero.titleBefore}{" "}
+                <span className="bg-gradient-to-r from-[#6C4BFF] via-[#8B5CF6] to-[#3B5BFF] bg-clip-text text-transparent">{hero.titleHighlight}</span>
+                {hero.titleAfter ? ` ${hero.titleAfter}` : ""}
               </h1>
               <p style={{ "--d": "180ms" } as React.CSSProperties} className="v5-rise mt-5 max-w-[520px] text-[17px] leading-[1.6] text-[#52525B]">
-                A free, live walkthrough with our team. We show you LMS Domain using your own courses and the way you teach.
+                {hero.subtitle}
               </p>
               <ul style={{ "--d": "240ms" } as React.CSSProperties} className="v5-rise mt-6 flex flex-wrap gap-x-5 gap-y-2 text-[14px] text-[#3F3F46]">
-                {["Free, no obligation", "With your own courses", "Bring your team"].map((t) => (
+                {hero.checks.map((t) => (
                   <li key={t} className="flex items-center gap-1.5">
                     <Check className="h-4 w-4 text-[#6C4BFF]" strokeWidth={2.5} /> {t}
                   </li>
@@ -174,17 +162,17 @@ export default async function DemoPage() {
               {/* Agenda */}
               <div className="rv-v4 mt-8 rounded-[22px] bg-[#F4F5F8] p-5 sm:p-6">
                 <p className="flex items-center gap-2 text-[13px] font-semibold text-[#18181B]">
-                  <Users className="h-4 w-4" /> What we cover
+                  <Users className="h-4 w-4" /> {agenda.heading}
                 </p>
                 <ol className="relative mt-4 space-y-4">
                   <span aria-hidden="true" className="absolute bottom-2 left-[5px] top-2 w-px bg-[#D4D4D8]" />
-                  {AGENDA.map((a) => (
-                    <li key={a.t} className="relative flex gap-4 pl-6">
+                  {agenda.steps.map((a, i) => (
+                    <li key={`${a.title}-${i}`} className="relative flex gap-4 pl-6">
                       <span className="absolute left-0 top-1.5 h-[11px] w-[11px] rounded-full border-2 border-[#F4F5F8] bg-[#0A0A0B]" />
                       <div>
-                        <p className="text-[12px] font-semibold text-[#6C4BFF]">{a.t}</p>
-                        <p className="text-[15px] font-semibold text-[#18181B]">{a.h}</p>
-                        <p className="text-[13.5px] text-[#71717A]">{a.b}</p>
+                        {a.time && <p className="text-[12px] font-semibold text-[#6C4BFF]">{a.time}</p>}
+                        <p className="text-[15px] font-semibold text-[#18181B]">{a.title}</p>
+                        {a.text && <p className="text-[13.5px] text-[#71717A]">{a.text}</p>}
                       </div>
                     </li>
                   ))}
@@ -196,11 +184,11 @@ export default async function DemoPage() {
             {/* Right: the form */}
             <div style={{ "--d": "200ms" } as React.CSSProperties} id="book" className="v5-rise order-2 scroll-mt-28 lg:sticky lg:top-[110px] lg:col-start-2 lg:row-span-2 lg:row-start-1">
               <div className="rounded-[28px] border border-[#ECECF1] bg-white p-6 shadow-[0_1px_2px_rgba(16,16,24,0.04),0_40px_80px_-40px_rgba(16,16,24,0.35)] sm:p-9">
-                <p className="font-urbanist text-[24px] font-semibold tracking-[-0.02em]">Book your free demo</p>
-                <p className="mt-1 text-[14px] text-[#71717A]">Takes less than a minute. We&apos;ll get back to you to pick a time.</p>
+                <p className="font-urbanist text-[24px] font-semibold tracking-[-0.02em]">{form.title}</p>
+                <p className="mt-1 text-[14px] text-[#71717A]">{form.subtitle}</p>
                 <div className="mt-6">
                   <Suspense fallback={<div className="h-[480px] w-full animate-pulse rounded-2xl bg-[#F4F5F8]" />}>
-                    <DemoForm variant="page" submitLabel="Book my free demo" />
+                    <DemoForm variant="page" submitLabel={form.submitLabel} />
                   </Suspense>
                 </div>
               </div>
@@ -209,13 +197,20 @@ export default async function DemoPage() {
         </Container>
       </section>
 
-      <DemoProof logos={logos} />
-      <DemoWhatYouSee />
+      <DemoProof logos={logos} heading={proof.heading} stats={customers.numbers.items} />
+      <DemoWhatYouSee eyebrow={see.eyebrow} title={see.title} subtitle={see.subtitle} items={see.items} />
       {story && <DemoQuote quote={story.quote} name={story.name} role={story.role} photo={story.avatar} />}
-      <DemoAfter />
+      <DemoAfter data={after} />
 
       <div className="pt-[clamp(48px,6vw,80px)]" />
-      <FAQ id="demo-faq" minimal eyebrow="FAQs" title="Questions about the demo" subtitle="Everything you need to know before you book." items={FAQS} />
+      <FAQ
+        id="demo-faq"
+        minimal
+        eyebrow="FAQs"
+        title={faq.title}
+        subtitle={faq.subtitle}
+        items={faq.items.map((q) => ({ question: q.question, answer: linkedAnswerHtml(q.answer) }))}
+      />
       <div className="pb-[clamp(48px,6vw,80px)]" />
       <ScrollReveal />
     </div>

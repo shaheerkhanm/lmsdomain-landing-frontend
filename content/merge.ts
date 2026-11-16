@@ -14,3 +14,22 @@ export function mergeSection<T extends Record<string, unknown>>(base: T, admin: 
   return out as T;
 }
 
+
+/**
+ * FAQ answers: plain text with optional links written as [text](/path) or
+ * [text](https://…). Everything else is escaped, so no HTML gets through.
+ */
+export function linkedAnswerHtml(text: string): string {
+  const raw = String(text || "");
+  // No link: return the text as is (the FAQ shows text without "<" as plain text)
+  if (!/\[[^\]]+\]\((\/|https:\/\/)/.test(raw)) return raw.replace(/</g, "‹");
+  const escaped = raw
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+  return escaped.replace(
+    /\[([^\]]+)\]\((\/[^)\s]*|https:\/\/[^)\s]+)\)/g,
+    (_m, label: string, href: string) => `<a href="${href}" class="text-[#6C4BFF] underline underline-offset-2">${label}</a>`
+  );
+}

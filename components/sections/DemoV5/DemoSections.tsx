@@ -10,28 +10,31 @@ import { languageTestPrepData } from "@/content/solutions/language-test-prep";
 import { soloEducatorsData } from "@/content/solutions/solo-educators";
 import { trainingCompaniesData } from "@/content/solutions/training-companies";
 import { cn } from "@/lib/utils";
+import type { DemoContent } from "@/content/demo";
 
 /* Sections under the demo form: proof, what you'll see, a customer's words, what happens after. */
 
-const STATS = [
-  ["2,000+", "Learners"],
-  ["100+", "Courses"],
-  ["300+", "Lessons"],
-  ["100+", "Live classes"],
-];
-
-export function DemoProof({ logos }: { logos: { name: string; logo: string }[] }) {
+// Numbers: the Customers page numbers (Admin > Website > Customers > Numbers)
+export function DemoProof({
+  logos,
+  heading,
+  stats,
+}: {
+  logos: { name: string; logo: string }[];
+  heading: string;
+  stats: { value: string; label: string }[];
+}) {
   return (
     <section className="bg-white">
       <Container>
         <div className="rv-v4 grid items-center gap-8 rounded-[28px] border border-[#ECECF1] px-6 py-8 sm:px-10 lg:grid-cols-[auto_1fr] lg:gap-14">
           <p className="max-w-[220px] font-urbanist text-[20px] font-semibold leading-[1.2] tracking-[-0.015em]">
-            Academies already teaching on LMS Domain
+            {heading}
           </p>
           <div>
             <dl className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-              {STATS.map(([v, l]) => (
-                <div key={l}>
+              {stats.map(({ value: v, label: l }, i) => (
+                <div key={`${l}-${i}`}>
                   <dt className="sr-only">{l}</dt>
                   <dd className="font-urbanist text-[34px] font-semibold leading-none tracking-[-0.04em]">
                     <CountUp value={v} />
@@ -56,40 +59,37 @@ export function DemoProof({ logos }: { logos: { name: string; logo: string }[] }
 }
 
 // One real product card from each kind of academy (data from the Solutions pages)
-const SEE = [
-  { t: "Live classes and attendance", b: "Join on Zoom from your academy. Attendance is logged for you.", card: coachingInstitutesData.v5!.week[1].card },
-  { t: "Tests and instant results", b: "Timed tests from your question bank, scored the moment they close.", card: coachingInstitutesData.v5!.week[2].card },
-  { t: "Feedback on written work", b: "Learners upload work, teachers reply with a score and private comments.", card: languageTestPrepData.v5!.week[2].card },
-  { t: "Certificates and reports", b: "Branded certificates when learners finish, and reports in a click.", card: trainingCompaniesData.v5!.week[3].card },
-  { t: "Sales with 0% commission", b: "Your own checkout. Payments go straight to your account.", card: soloEducatorsData.v5!.week[0].card },
-  { t: "Fees and reminders", b: "See who has paid and remind the rest of the batch in one go.", card: coachingInstitutesData.v5!.week[3].card },
+// Cards by position; text from Admin > Website > Demo
+const SEE_CARDS = [
+  coachingInstitutesData.v5!.week[1].card,
+  coachingInstitutesData.v5!.week[2].card,
+  languageTestPrepData.v5!.week[2].card,
+  trainingCompaniesData.v5!.week[3].card,
+  soloEducatorsData.v5!.week[0].card,
+  coachingInstitutesData.v5!.week[3].card,
 ];
 
-export function DemoWhatYouSee() {
+export function DemoWhatYouSee({ eyebrow, title, subtitle, items }: { eyebrow: string; title: string; subtitle: string; items: { title: string; text: string }[] }) {
   return (
     <section className="px-2 pt-[clamp(80px,10vw,136px)] sm:px-3">
       <div className="rounded-[28px] bg-[#F4F5F8] py-[clamp(64px,8vw,104px)] sm:rounded-[40px]">
         <Container>
-          <SectionHeading
-            eyebrow="In your demo"
-            title="What you'll see, with your own courses"
-            subtitle="We tailor the walkthrough to how you teach. These are some of the things academies ask to see most."
-          />
+          <SectionHeading eyebrow={eyebrow} title={title} subtitle={subtitle} />
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
-            {SEE.map((s, i) => (
+            {items.map((s, i) => (
               <div
-                key={s.t}
+                key={`${s.title}-${i}`}
                 style={{ "--rv-delay": `${(i % 3) * 100}ms` } as React.CSSProperties}
                 className="rv-v4 group flex flex-col overflow-hidden rounded-[28px] bg-white p-3 transition-[translate,box-shadow] duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(16,16,24,0.3)]"
               >
                 <div aria-hidden="true" className="relative h-[220px] overflow-hidden rounded-[20px] bg-[#F4F5F8] p-4">
                   <div className="transition-transform duration-500 group-hover:-translate-y-1 group-hover:rotate-[-1deg]">
-                    <Mini card={s.card} />
+                    <Mini card={SEE_CARDS[i % SEE_CARDS.length]} />
                   </div>
                 </div>
                 <div className="px-3 pb-3 pt-5">
-                  <p className="font-urbanist text-[19px] font-semibold tracking-[-0.01em]">{s.t}</p>
-                  <p className="mt-1.5 text-[14px] leading-[1.55] text-[#6B6B76]">{s.b}</p>
+                  <p className="font-urbanist text-[19px] font-semibold tracking-[-0.01em]">{s.title}</p>
+                  <p className="mt-1.5 text-[14px] leading-[1.55] text-[#6B6B76]">{s.text}</p>
                 </div>
               </div>
             ))}
@@ -130,22 +130,20 @@ export function DemoQuote({ quote, name, role, photo }: { quote: string; name: s
   );
 }
 
-const AFTER = [
-  { i: MousePointerClick, t: "Start your free trial", b: "Try any plan free, with no credit card needed." },
-  { i: Wrench, t: "We set it up with you", b: "Our team helps with your courses, domain and payments." },
-  { i: Globe, t: "Go live on your domain", b: "Your branded academy opens to learners on your own website." },
-  { i: Rocket, t: "Grow with support", b: "Real people help you whenever you need it." },
-];
+// Icons by position; text from Admin > Website > Demo
+const AFTER_ICONS = [MousePointerClick, Wrench, Globe, Rocket];
 
-export function DemoAfter() {
+export function DemoAfter({ data }: { data: DemoContent["after"] }) {
   return (
     <section className="bg-white pt-[clamp(80px,10vw,136px)]">
       <Container>
-        <SectionHeading eyebrow="After your demo" title="From demo to your own academy" />
+        <SectionHeading eyebrow={data.eyebrow} title={data.title} />
         <ol className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
           <span aria-hidden="true" className="rv-v4 v5-draw absolute left-[12%] right-[12%] top-[28px] hidden border-t-2 border-dashed border-[#D4D4D8] lg:block" />
-          {AFTER.map(({ i: Icon, t, b }, idx) => (
-            <li key={t} style={{ "--rv-delay": `${idx * 120}ms` } as React.CSSProperties} className="rv-v4 relative">
+          {data.steps.map(({ title: t, text: b }, idx) => {
+            const Icon = AFTER_ICONS[idx % AFTER_ICONS.length];
+            return (
+            <li key={`${t}-${idx}`} style={{ "--rv-delay": `${idx * 120}ms` } as React.CSSProperties} className="rv-v4 relative">
               <span className="v5-badge relative z-10 grid h-14 w-14 place-items-center rounded-full bg-[#0A0A0B] text-white ring-8 ring-white">
                 <Icon className="h-5 w-5" />
               </span>
@@ -153,18 +151,19 @@ export function DemoAfter() {
               <p className="mt-1 font-urbanist text-[19px] font-semibold tracking-[-0.01em]">{t}</p>
               <p className="mt-1.5 text-[14px] leading-[1.55] text-[#6B6B76]">{b}</p>
             </li>
-          ))}
+            );
+          })}
         </ol>
         <div className="rv-v4 mt-12 flex flex-col items-center justify-between gap-4 rounded-[24px] bg-[#F4F5F8] px-6 py-6 sm:flex-row sm:px-8">
           <p className="flex items-center gap-2 text-[15px] font-medium text-[#27272A]">
-            <Check className="h-4 w-4 text-[#16A34A]" strokeWidth={3} /> Ready to book? It takes less than a minute.
+            <Check className="h-4 w-4 text-[#16A34A]" strokeWidth={3} /> {data.readyText}
           </p>
           <div className="flex gap-3">
             <a href="#book" className={cn("inline-flex h-11 items-center gap-2 rounded-full bg-[#0A0A0B] px-5 text-[14px] font-semibold text-white hover:bg-[#27272A]")}>
-              Book my demo <ArrowRight className="h-4 w-4" />
+              {data.primaryButton} <ArrowRight className="h-4 w-4" />
             </a>
             <Link href="/pricing" className="inline-flex h-11 items-center rounded-full border border-[#E4E4E7] bg-white px-5 text-[14px] font-semibold text-[#0A0A0B] hover:border-[#0A0A0B]">
-              See pricing
+              {data.secondaryButton}
             </Link>
           </div>
         </div>

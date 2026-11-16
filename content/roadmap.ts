@@ -5,7 +5,7 @@
 // inactive or empty entry falls back to the text below.
 // ============================================================================
 
-import { mergeSection } from "./merge";
+import { mergeSection, linkedAnswerHtml } from "./merge";
 
 export interface RoadmapFeature {
   title: string;
@@ -200,21 +200,5 @@ export const ROADMAP_DEFAULTS: RoadmapContent = {
 /** Merges an admin section over its default (see content/merge.ts). */
 export const mergeRoadmapSection = mergeSection;
 
-/**
- * FAQ answers: plain text with optional links written as [text](/path) or
- * [text](https://…). Everything else is escaped, so no HTML gets through.
- */
-export function roadmapAnswerHtml(text: string): string {
-  const raw = String(text || "");
-  // No link: return the text as is (the FAQ shows text without "<" as plain text)
-  if (!/\[[^\]]+\]\((\/|https:\/\/)/.test(raw)) return raw.replace(/</g, "‹");
-  const escaped = raw
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-  return escaped.replace(
-    /\[([^\]]+)\]\((\/[^)\s]*|https:\/\/[^)\s]+)\)/g,
-    (_m, label: string, href: string) => `<a href="${href}" class="text-[#6C4BFF] underline underline-offset-2">${label}</a>`
-  );
-}
+/** FAQ answers with [text](/path) links (see content/merge.ts). */
+export const roadmapAnswerHtml = linkedAnswerHtml;
