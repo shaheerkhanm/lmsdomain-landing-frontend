@@ -12,6 +12,7 @@ import { DEFAULT_PRICING_V2, computePlanPricing, PricingV2Data, formatPrice } fr
 import { getPricingFaqs, DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
 import { defaultAboutContent, AboutContent } from "@/content/about";
 import { defaultContactDetails, ContactDetails } from "@/content/contact";
+import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
   PricingPlan,
@@ -1439,3 +1440,34 @@ export async function getSiteContact(): Promise<ContactDetails> {
     return defaultContactDetails;
   }
 }
+
+// ----------------------------------------------------------------------------
+// Roadmap page (Admin > Website > Roadmap): one CMS entry per section, the
+// section in `data`. Missing, hidden or empty entries use the built-in text.
+// ----------------------------------------------------------------------------
+export const getRoadmapPage = cache(async (): Promise<RoadmapContent> => {
+  const keys = Object.keys(ROADMAP_SLUGS) as RoadmapSection[];
+  const docs = await Promise.all(
+    keys.map((k) => fetchCms(ROADMAP_SLUGS[k].slug, ["cms", `cms:${ROADMAP_SLUGS[k].slug}`, "roadmap"]).catch(() => null))
+  );
+  const out = { ...ROADMAP_DEFAULTS } as Record<RoadmapSection, unknown>;
+  keys.forEach((k, i) => {
+    out[k] = mergeRoadmapSection(ROADMAP_DEFAULTS[k] as unknown as Record<string, unknown>, docs[i]?.data);
+  });
+  const content = out as unknown as RoadmapContent;
+  // Lists edited in the admin: drop rows left empty
+  content.planned.features = content.planned.features
+    .map((f) => ({ title: String(f?.title || "").trim(), category: String(f?.category || "").trim(), group: String(f?.group || "").trim(), description: String(f?.description || "").trim() }))
+    .filter((f) => f.title);
+  content.planned.groups = content.planned.groups.filter((g) => String(g?.name || "").trim());
+  content.process.steps = content.process.steps.filter((s) => String(s?.title || "").trim());
+  content.today.features = content.today.features.map((t) => String(t || "").trim()).filter(Boolean);
+  content.faq.items = content.faq.items.filter((q) => String(q?.question || "").trim() && String(q?.answer || "").trim());
+  // A list left with only empty rows falls back to the built-in list
+  if (!content.planned.features.length) content.planned.features = ROADMAP_DEFAULTS.planned.features;
+  if (!content.planned.groups.length) content.planned.groups = ROADMAP_DEFAULTS.planned.groups;
+  if (!content.process.steps.length) content.process.steps = ROADMAP_DEFAULTS.process.steps;
+  if (!content.today.features.length) content.today.features = ROADMAP_DEFAULTS.today.features;
+  if (!content.faq.items.length) content.faq.items = ROADMAP_DEFAULTS.faq.items;
+  return content;
+});

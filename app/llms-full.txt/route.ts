@@ -11,7 +11,7 @@ import { languageTestPrepData } from "@/content/solutions/language-test-prep";
 import { trainingCompaniesData } from "@/content/solutions/training-companies";
 import { coachingInstitutesData } from "@/content/solutions/coaching-institutes";
 import { soloEducatorsData } from "@/content/solutions/solo-educators";
-import { roadmapPageData } from "@/content/roadmap";
+import { ROADMAP_DEFAULTS } from "@/content/roadmap";
 import { PRODUCTION_ORIGIN, getSiteUrl } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -109,11 +109,8 @@ ${allFaqs.map((faq) => `### ${faq.question}\n\n${faq.answer}\n`).join("\n")}
 
 These features are not live today and are currently in development on our roadmap:
 
-${roadmapPageData.items
-  .map(
-    (item) =>
-      `- **${item.title}** (${item.category} — ${item.badge}): ${item.description}`
-  )
+${ROADMAP_DEFAULTS.planned.features
+  .map((item) => `- **${item.title}** (${item.category}, planned): ${item.description}`)
   .join("\n")}
 `;
 

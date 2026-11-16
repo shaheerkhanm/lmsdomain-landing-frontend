@@ -11,6 +11,8 @@
 //      OVERWRITE, only fills fields that are empty. Never replaces filled-in facts.
 //   3. Legal pages: with OVERWRITE, updates the text where the database has a copy.
 //      Missing ones are not created (the site then shows its own v5 text).
+//   0. Editable fields: an entry the admin can't edit (no "fields" list) gets the
+//      list of inputs it should have. Only the list is added; no text changes.
 //   4. SEO per page: creates missing entries with the v5 title and description;
 //      with OVERWRITE, replaces old titles/descriptions. Share image, keywords and
 //      noindex are never changed.
@@ -78,12 +80,24 @@ function update(collection, existing, set) {
 
 print("Database: " + db.getName() + "   " + (APPLY ? "[APPLY]" : "[DRY RUN: nothing is written]") + (OVERWRITE ? " [OVERWRITE]" : "") + (AT_LAUNCH ? " [AT_LAUNCH]" : ""));
 
+print("\n== 0. Editable fields (cms): entries the admin could not edit");
+for (const entry of [...TEXT, ...FACTS]) {
+  if (!entry.fields || !entry.fields.length) continue;
+  const existing = db.cms.findOne({ slug: entry.slug });
+  if (!existing || (Array.isArray(existing.fields) && existing.fields.length)) continue;
+  counts.update++;
+  print("   ~ fields  " + entry.slug + ": " + entry.fields.join(", "));
+  if (!APPLY) continue;
+  backup("cms", existing);
+  db.cms.updateOne({ _id: existing._id }, { $set: { fields: entry.fields, updatedAt: now } });
+}
+
 print("\n== 1. v5 page text (cms)");
 for (const entry of TEXT) {
   if (blocked("cms", entry.slug)) { counts.skip++; print("   - skip    " + entry.slug + " (old live site reads it; AT_LAUNCH)"); continue; }
   const existing = db.cms.findOne({ slug: entry.slug });
   if (!existing) create("cms", entry);
-  else if (OVERWRITE) { const { slug, ...set } = entry; update("cms", existing, set); }
+  else if (OVERWRITE) { const { slug, fields, ...set } = entry; update("cms", existing, set); }
   else { counts.skip++; print("   - exists  " + entry.slug + " (OVERWRITE to replace)"); }
 }
 
