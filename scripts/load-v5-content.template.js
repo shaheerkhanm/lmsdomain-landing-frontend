@@ -17,7 +17,9 @@
 // Never touched: prices, testimonials, client logos, site identity, app links,
 // address, footer, Settings > Pages.
 //
-// Every document it changes is copied to the "cms_backup_v5" collection first.
+// Every document it changes is copied to the "cms_backup_v5" collection first, and
+// every document it creates is noted there. undo-v5-content.js reverses the latest
+// run (puts changed entries back, removes created ones) without touching anything else.
 //
 // The current live site (old frontend) shares this database until the v5 launch.
 // Entries it reads (LIVE_SITE_READS) are left alone unless AT_LAUNCH = true.
@@ -54,7 +56,9 @@ const counts = { create: 0, update: 0, skip: 0 };
 function create(collection, doc) {
   counts.create++;
   print("   + create " + doc.slug);
-  if (APPLY) db.getCollection(collection).insertOne({ ...doc, isActive: true, isDeleted: false, createdAt: now, updatedAt: now });
+  if (!APPLY) return;
+  db.getCollection(collection).insertOne({ ...doc, isActive: true, isDeleted: false, createdAt: now, updatedAt: now });
+  backups.insertOne({ collection, slug: doc.slug, savedAt: now, created: true }); // undo deletes it
 }
 
 function update(collection, existing, set) {
