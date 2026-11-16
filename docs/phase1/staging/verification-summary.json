@@ -1,0 +1,38 @@
+{
+  "step1_homepage": {
+    "h1Text": "Meet all-in-one platform",
+    "h1Matches": false,
+    "hasMobileAppsSection": false,
+    "hasCustomPlanBand": false,
+    "hasAnitaDev": false,
+    "hasClient4": false
+  },
+  "step2_pricing": {
+    "monthlyCardCount": 4,
+    "gstCount": 3,
+    "pricesDiffer": true,
+    "yearlySavingsVisible": true,
+    "modalOpenedWithPlan": true,
+    "finalUrlWithPlan": "https://staging.lmsdomain.online/pricing?billing=yearly&plan=basic",
+    "faqVisible": true,
+    "pricingHeroSubtitle": "Choose the right plan for your academy and get everything you need to create courses, engage learners, manage your training business, and grow—all from one powerful learning platform.",
+    "pricingHeroHasLorem": false
+  },
+  "step3_custom_lms": {
+    "forbiddenFound": [],
+    "clean": true
+  },
+  "step4_demo_form": {
+    "submitted": true,
+    "confirmationVisible": true
+  },
+  "step5_headers_robots": {
+    "robotsDisallowsAll": true,
+    "robotsText": "User-Agent: *\nDisallow: /"
+  },
+  "step6_forbidden_terms": {
+    "Homepage": [],
+    "Pricing": [],
+    "Custom LMS": []
+  }
+}

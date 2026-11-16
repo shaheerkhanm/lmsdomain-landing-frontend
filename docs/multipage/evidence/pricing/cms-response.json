@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-10-22T00:08:00+05:30",
+  "endpoints": {
+    "POST /api/pricing": {
+      "status": true,
+      "data": [],
+      "note": "0 active plans exist in MongoDB pricings collection. No currency field exists in backend schema."
+    },
+    "POST /api/pricing/faq": {
+      "status": true,
+      "data": [],
+      "note": "0 FAQ items returned for pricing."
+    },
+    "POST /api/cms (slug: pricing-hero)": {
+      "result": null,
+      "note": "Not configured in CMS yet; uses DEFAULT_PRICING_HERO fallback."
+    },
+    "POST /api/cms (slug: pricing-empty)": {
+      "result": null,
+      "note": "Not configured in CMS yet; uses DEFAULT_PRICING_EMPTY_STATE fallback."
+    }
+  },
+  "page_source_price_verification": {
+    "hardcoded_prices_found": false,
+    "invented_prices_found": false,
+    "invented_discounts_found": false,
+    "guessed_currencies_found": false,
+    "notes": "Verified zero prices exist in page source. When 0 plans exist in CMS, /pricing renders the complete empty state card with 'Request a Demo' modal and 'Contact sales' link. Neutral fixtures with price 0 are strictly guarded behind CMS_USE_FIXTURES=true."
+  }
+}
+

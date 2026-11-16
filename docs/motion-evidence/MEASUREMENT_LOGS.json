@@ -1,0 +1,927 @@
+{
+  "hero": [
+    {
+      "size": {
+        "width": 1280,
+        "height": 800
+      },
+      "measurements": {
+        "viewport": {
+          "width": 1280,
+          "height": 800
+        },
+        "btnBottom": 417,
+        "cards": [
+          {
+            "index": 1,
+            "left": 166,
+            "right": 628,
+            "top": 474,
+            "bottom": 756,
+            "width": 462,
+            "height": 282
+          },
+          {
+            "index": 2,
+            "left": 713,
+            "right": 1177,
+            "top": 471,
+            "bottom": 756,
+            "width": 464,
+            "height": 285
+          },
+          {
+            "index": 3,
+            "left": 173,
+            "right": 630,
+            "top": 774,
+            "bottom": 1013,
+            "width": 457,
+            "height": 239
+          },
+          {
+            "index": 4,
+            "left": 710,
+            "right": 1168,
+            "top": 774,
+            "bottom": 1015,
+            "width": 458,
+            "height": 241
+          },
+          {
+            "index": 5,
+            "left": 32,
+            "right": 1248,
+            "top": 1448,
+            "bottom": 1968,
+            "width": 1216,
+            "height": 520
+          },
+          {
+            "index": 6,
+            "left": 758,
+            "right": 1098,
+            "top": 1629,
+            "bottom": 1847,
+            "width": 340,
+            "height": 219
+          },
+          {
+            "index": 7,
+            "left": 32,
+            "right": 1248,
+            "top": 1888,
+            "bottom": 2408,
+            "width": 1216,
+            "height": 520
+          },
+          {
+            "index": 8,
+            "left": 798,
+            "right": 1138,
+            "top": 2071,
+            "bottom": 2285,
+            "width": 340,
+            "height": 215
+          },
+          {
+            "index": 9,
+            "left": 32,
+            "right": 1248,
+            "top": 1934,
+            "bottom": 2454,
+            "width": 1216,
+            "height": 520
+          },
+          {
+            "index": 10,
+            "left": 798,
+            "right": 1138,
+            "top": 2127,
+            "bottom": 2321,
+            "width": 340,
+            "height": 194
+          },
+          {
+            "index": 11,
+            "left": 132,
+            "right": 1148,
+            "top": 7124,
+            "bottom": 7514,
+            "width": 1016,
+            "height": 390
+          },
+          {
+            "index": 12,
+            "left": 132,
+            "right": 452,
+            "top": 7124,
+            "bottom": 7514,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 13,
+            "left": 480,
+            "right": 800,
+            "top": 7124,
+            "bottom": 7514,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 14,
+            "left": 828,
+            "right": 1148,
+            "top": 7124,
+            "bottom": 7514,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 15,
+            "left": 191,
+            "right": 1089,
+            "top": 8868,
+            "bottom": 9058,
+            "width": 898,
+            "height": 190
+          },
+          {
+            "index": 16,
+            "left": 0,
+            "right": 1280,
+            "top": 8944,
+            "bottom": 9084,
+            "width": 1280,
+            "height": 140
+          },
+          {
+            "index": 17,
+            "left": 422,
+            "right": 846,
+            "top": 8957,
+            "bottom": 9072,
+            "width": 425,
+            "height": 115
+          },
+          {
+            "index": 18,
+            "left": 436,
+            "right": 860,
+            "top": 8961,
+            "bottom": 9076,
+            "width": 425,
+            "height": 115
+          },
+          {
+            "index": 19,
+            "left": 430,
+            "right": 850,
+            "top": 8977,
+            "bottom": 9063,
+            "width": 420,
+            "height": 86
+          }
+        ]
+      }
+    },
+    {
+      "size": {
+        "width": 1440,
+        "height": 900
+      },
+      "measurements": {
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "btnBottom": 417,
+        "cards": [
+          {
+            "index": 1,
+            "left": 266,
+            "right": 718,
+            "top": 484,
+            "bottom": 754,
+            "width": 452,
+            "height": 270
+          },
+          {
+            "index": 2,
+            "left": 784,
+            "right": 1239,
+            "top": 481,
+            "bottom": 755,
+            "width": 456,
+            "height": 274
+          },
+          {
+            "index": 3,
+            "left": 264,
+            "right": 716,
+            "top": 772,
+            "bottom": 1004,
+            "width": 452,
+            "height": 232
+          },
+          {
+            "index": 4,
+            "left": 784,
+            "right": 1238,
+            "top": 773,
+            "bottom": 1007,
+            "width": 453,
+            "height": 234
+          },
+          {
+            "index": 5,
+            "left": 80,
+            "right": 1360,
+            "top": 1448,
+            "bottom": 1968,
+            "width": 1280,
+            "height": 520
+          },
+          {
+            "index": 6,
+            "left": 854,
+            "right": 1194,
+            "top": 1629,
+            "bottom": 1847,
+            "width": 340,
+            "height": 219
+          },
+          {
+            "index": 7,
+            "left": 80,
+            "right": 1360,
+            "top": 1888,
+            "bottom": 2408,
+            "width": 1280,
+            "height": 520
+          },
+          {
+            "index": 8,
+            "left": 894,
+            "right": 1234,
+            "top": 2071,
+            "bottom": 2285,
+            "width": 340,
+            "height": 215
+          },
+          {
+            "index": 9,
+            "left": 80,
+            "right": 1360,
+            "top": 1934,
+            "bottom": 2454,
+            "width": 1280,
+            "height": 520
+          },
+          {
+            "index": 10,
+            "left": 894,
+            "right": 1234,
+            "top": 2127,
+            "bottom": 2321,
+            "width": 340,
+            "height": 194
+          },
+          {
+            "index": 11,
+            "left": 212,
+            "right": 1228,
+            "top": 7464,
+            "bottom": 7854,
+            "width": 1016,
+            "height": 390
+          },
+          {
+            "index": 12,
+            "left": 212,
+            "right": 532,
+            "top": 7464,
+            "bottom": 7854,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 13,
+            "left": 560,
+            "right": 880,
+            "top": 7464,
+            "bottom": 7854,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 14,
+            "left": 908,
+            "right": 1228,
+            "top": 7464,
+            "bottom": 7854,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 15,
+            "left": 214,
+            "right": 1226,
+            "top": 9316,
+            "bottom": 9530,
+            "width": 1012,
+            "height": 214
+          },
+          {
+            "index": 16,
+            "left": 0,
+            "right": 1440,
+            "top": 9404,
+            "bottom": 9544,
+            "width": 1440,
+            "height": 140
+          },
+          {
+            "index": 17,
+            "left": 502,
+            "right": 926,
+            "top": 9417,
+            "bottom": 9532,
+            "width": 425,
+            "height": 115
+          },
+          {
+            "index": 18,
+            "left": 516,
+            "right": 940,
+            "top": 9421,
+            "bottom": 9536,
+            "width": 425,
+            "height": 115
+          },
+          {
+            "index": 19,
+            "left": 510,
+            "right": 930,
+            "top": 9437,
+            "bottom": 9523,
+            "width": 420,
+            "height": 86
+          }
+        ]
+      }
+    },
+    {
+      "size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "measurements": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "btnBottom": 417,
+        "cards": [
+          {
+            "index": 1,
+            "left": 533,
+            "right": 972,
+            "top": 498,
+            "bottom": 752,
+            "width": 439,
+            "height": 253
+          },
+          {
+            "index": 2,
+            "left": 1009,
+            "right": 1450,
+            "top": 496,
+            "bottom": 752,
+            "width": 442,
+            "height": 257
+          },
+          {
+            "index": 3,
+            "left": 526,
+            "right": 968,
+            "top": 768,
+            "bottom": 986,
+            "width": 442,
+            "height": 217
+          },
+          {
+            "index": 4,
+            "left": 1013,
+            "right": 1457,
+            "top": 769,
+            "bottom": 990,
+            "width": 444,
+            "height": 221
+          },
+          {
+            "index": 5,
+            "left": 320,
+            "right": 1600,
+            "top": 1448,
+            "bottom": 1968,
+            "width": 1280,
+            "height": 520
+          },
+          {
+            "index": 6,
+            "left": 1094,
+            "right": 1434,
+            "top": 1629,
+            "bottom": 1847,
+            "width": 340,
+            "height": 219
+          },
+          {
+            "index": 7,
+            "left": 320,
+            "right": 1600,
+            "top": 1888,
+            "bottom": 2408,
+            "width": 1280,
+            "height": 520
+          },
+          {
+            "index": 8,
+            "left": 1134,
+            "right": 1474,
+            "top": 2071,
+            "bottom": 2285,
+            "width": 340,
+            "height": 215
+          },
+          {
+            "index": 9,
+            "left": 320,
+            "right": 1600,
+            "top": 1934,
+            "bottom": 2454,
+            "width": 1280,
+            "height": 520
+          },
+          {
+            "index": 10,
+            "left": 1134,
+            "right": 1474,
+            "top": 2127,
+            "bottom": 2321,
+            "width": 340,
+            "height": 194
+          },
+          {
+            "index": 11,
+            "left": 452,
+            "right": 1468,
+            "top": 8076,
+            "bottom": 8466,
+            "width": 1016,
+            "height": 390
+          },
+          {
+            "index": 12,
+            "left": 452,
+            "right": 772,
+            "top": 8076,
+            "bottom": 8466,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 13,
+            "left": 800,
+            "right": 1120,
+            "top": 8076,
+            "bottom": 8466,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 14,
+            "left": 1148,
+            "right": 1468,
+            "top": 8076,
+            "bottom": 8466,
+            "width": 320,
+            "height": 390
+          },
+          {
+            "index": 15,
+            "left": 285,
+            "right": 1635,
+            "top": 10109,
+            "bottom": 10393,
+            "width": 1349,
+            "height": 285
+          },
+          {
+            "index": 16,
+            "left": 0,
+            "right": 1920,
+            "top": 10232,
+            "bottom": 10372,
+            "width": 1920,
+            "height": 140
+          },
+          {
+            "index": 17,
+            "left": 742,
+            "right": 1166,
+            "top": 10245,
+            "bottom": 10360,
+            "width": 425,
+            "height": 115
+          },
+          {
+            "index": 18,
+            "left": 756,
+            "right": 1180,
+            "top": 10249,
+            "bottom": 10364,
+            "width": 425,
+            "height": 115
+          },
+          {
+            "index": 19,
+            "left": 750,
+            "right": 1170,
+            "top": 10265,
+            "bottom": 10351,
+            "width": 420,
+            "height": 86
+          }
+        ]
+      }
+    }
+  ],
+  "wall": [
+    {
+      "width": 375,
+      "metrics": {
+        "innerWidth": 375,
+        "scrollWidth": 375,
+        "hasHorizontalScroll": false,
+        "headline": {
+          "left": 50,
+          "right": 325,
+          "width": 275,
+          "fontSize": "58px",
+          "fontWeight": "600",
+          "fitsInside": true
+        }
+      }
+    },
+    {
+      "width": 768,
+      "metrics": {
+        "innerWidth": 768,
+        "scrollWidth": 768,
+        "hasHorizontalScroll": false,
+        "headline": {
+          "left": 50,
+          "right": 718,
+          "width": 668,
+          "fontSize": "141px",
+          "fontWeight": "600",
+          "fitsInside": true
+        }
+      }
+    },
+    {
+      "width": 1280,
+      "metrics": {
+        "innerWidth": 1280,
+        "scrollWidth": 1280,
+        "hasHorizontalScroll": false,
+        "headline": {
+          "left": 191,
+          "right": 1089,
+          "width": 898,
+          "fontSize": "237px",
+          "fontWeight": "600",
+          "fitsInside": true
+        }
+      }
+    },
+    {
+      "width": 1440,
+      "metrics": {
+        "innerWidth": 1440,
+        "scrollWidth": 1440,
+        "hasHorizontalScroll": false,
+        "headline": {
+          "left": 214,
+          "right": 1226,
+          "width": 1012,
+          "fontSize": "267px",
+          "fontWeight": "600",
+          "fitsInside": true
+        }
+      }
+    },
+    {
+      "width": 1920,
+      "metrics": {
+        "innerWidth": 1920,
+        "scrollWidth": 1920,
+        "hasHorizontalScroll": false,
+        "headline": {
+          "left": 285,
+          "right": 1635,
+          "width": 1349,
+          "fontSize": "356px",
+          "fontWeight": "600",
+          "fitsInside": true
+        }
+      }
+    }
+  ],
+  "mobileAudit": [
+    {
+      "name": "mobile_375",
+      "viewportWidth": 375,
+      "scrollWidth": 375,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 1,
+      "overflowExamples": [
+        {
+          "tag": "BUTTON",
+          "id": "",
+          "className": "px-4 py-2.5 min-h-[44px] flex items-center justify",
+          "right": 399,
+          "width": 111
+        }
+      ],
+      "header": {
+        "menuBtnVisible": true,
+        "menuBtnWidth": 44,
+        "menuBtnHeight": 44,
+        "menuBtnTapTargetGe44": true,
+        "demoBtnTapTargetGe44": true
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": false
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": []
+    },
+    {
+      "name": "mobile_414",
+      "viewportWidth": 414,
+      "scrollWidth": 414,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": true,
+        "menuBtnWidth": 44,
+        "menuBtnHeight": 44,
+        "menuBtnTapTargetGe44": true,
+        "demoBtnTapTargetGe44": true
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": false
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": []
+    },
+    {
+      "name": "tablet_768",
+      "viewportWidth": 768,
+      "scrollWidth": 768,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": true,
+        "menuBtnWidth": 44,
+        "menuBtnHeight": 44,
+        "menuBtnTapTargetGe44": true,
+        "demoBtnTapTargetGe44": true
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": false
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": []
+    },
+    {
+      "name": "tablet_1024",
+      "viewportWidth": 1024,
+      "scrollWidth": 1024,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": true,
+        "menuBtnWidth": 44,
+        "menuBtnHeight": 44,
+        "menuBtnTapTargetGe44": true,
+        "demoBtnTapTargetGe44": true
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": true
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": [
+        "relative w-full flex justify-center items-center py-4 overflow-visible",
+        "manifesto",
+        "relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible font-urbanist",
+        "relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
+      ]
+    },
+    {
+      "name": "desktop_1280",
+      "viewportWidth": 1280,
+      "scrollWidth": 1280,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": false,
+        "menuBtnWidth": 0,
+        "menuBtnHeight": 0,
+        "menuBtnTapTargetGe44": false,
+        "demoBtnTapTargetGe44": false
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": true
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": [
+        "relative w-full flex justify-center items-center py-4 overflow-visible",
+        "manifesto",
+        "relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible font-urbanist",
+        "relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
+      ]
+    },
+    {
+      "name": "desktop_1440",
+      "viewportWidth": 1440,
+      "scrollWidth": 1440,
+      "scrollWidthEqualsInnerWidth": true,
+      "hasSidewaysScroll": false,
+      "overflowCount": 0,
+      "overflowExamples": [],
+      "header": {
+        "menuBtnVisible": false,
+        "menuBtnWidth": 0,
+        "menuBtnHeight": 0,
+        "menuBtnTapTargetGe44": false,
+        "demoBtnTapTargetGe44": false
+      },
+      "hero": {
+        "stackedCardsCount": 4,
+        "isOnePerRow": true
+      },
+      "features": {
+        "stackedCardsCount": 3,
+        "hasImagesBelowText": true
+      },
+      "manifesto": {
+        "isPinned": true
+      },
+      "aiSection": {
+        "hasHorizontalTabsRow": true,
+        "tabsCount": 4
+      },
+      "benefits": {
+        "stackedCardsCount": 3
+      },
+      "wallOfLove": {
+        "hasMobileHeader": true,
+        "headerText": "Wall of love",
+        "mobileCardsCount": 3
+      },
+      "activePins": [
+        "relative w-full flex justify-center items-center py-4 overflow-visible",
+        "manifesto",
+        "relative max-w-5xl mx-auto w-full flex flex-col items-center justify-center min-h-[480px] sm:min-h-[520px] overflow-visible font-urbanist",
+        "relative w-full h-[420px] lg:h-[440px] hidden lg:flex items-center justify-center overflow-hidden"
+      ]
+    }
+  ],
+  "gapAfterWall": [
+    {
+      "width": 1280,
+      "card3Bottom": 263,
+      "faqH2Top": 384,
+      "gapToH2": 121,
+      "faqCardTop": 343,
+      "gapToCard": 80
+    },
+    {
+      "width": 1440,
+      "card3Bottom": 263,
+      "faqH2Top": 377,
+      "gapToH2": 114,
+      "faqCardTop": 336,
+      "gapToCard": 73
+    }
+  ]
+}

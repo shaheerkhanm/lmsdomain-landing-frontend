@@ -1,152 +1,93 @@
-'use client'
+"use client";
 
-import React from 'react'
-import { fetchData } from '@/utils/api';
-import { apiRoutes } from '@/utils/api/apiRoutes';
-import { BACKEND_URL } from '@/utils/constants/constant';
-import { useForm, SubmitHandler } from "react-hook-form";
-import { toast } from 'sonner';
-import { DialogTitle } from '@radix-ui/react-dialog';
+import React from "react";
+import Image from "next/image";
+import { DialogTitle, DialogDescription } from "@radix-ui/react-dialog";
+import { Check, Clock } from "lucide-react";
+import { DemoForm } from "@/components/marketing/DemoForm";
 
-type EnquiryInputs = {
-    firstName: string,
-    email: string,
-    phoneNumber: string,
-    organizationName: string,
-    subject: string,
-};
+/** Shared size and look for every "Book a demo" dialog on the site. */
+export const DEMO_DIALOG_CLASS =
+  "w-[calc(100%-24px)] max-w-[960px] sm:max-w-[960px] max-h-[94vh] overflow-y-auto gap-0 rounded-[28px] border-0 bg-white p-0 shadow-[0_40px_120px_-30px_rgba(10,10,11,0.55)] [&>[data-slot=dialog-close]]:z-10 [&>[data-slot=dialog-close]]:grid [&>[data-slot=dialog-close]]:h-9 [&>[data-slot=dialog-close]]:w-9 [&>[data-slot=dialog-close]]:place-items-center [&>[data-slot=dialog-close]]:rounded-full [&>[data-slot=dialog-close]]:bg-white/90 [&>[data-slot=dialog-close]]:text-[#0A0A0B] [&>[data-slot=dialog-close]]:opacity-100 [&>[data-slot=dialog-close]]:shadow-sm";
 
-function EnquiryForm({ onClose }: { onClose: () => void }) {
+const POINTS = ["A live walkthrough with your own courses", "The right plan for how you teach", "Answers to every question you have"];
+const FACES = ["/assets/img/home/participant_mia.jpg", "/assets/img/home/participant_alex.jpg", "/assets/img/home/testimonials/author-1.jpg"];
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<EnquiryInputs>();
-
-    const onSubmit: SubmitHandler<EnquiryInputs> = data => submitData(data);
-
-    const submitData = async (data: any) => {
-        try {
-            const url = BACKEND_URL + apiRoutes.getEnquiry;
-            const body = {
-                ...data,
-                type: 1,
-            };
-            const response: any = await fetchData({ url, body });
-
-            if (response) {
-                toast.success(
-                    <div className="leading-tight">
-                        Enquiry submitted <br /> successfully
-                    </div>,
-                    {
-                        richColors: true
-
-                    }
-                )
-                reset();
-                onClose();
-                // setSelectedOption("");
-            }
-        } catch (error) {
-            // console.log(error);
-            toast.error(
-                <div className="leading-tight">
-                    Something went wrong<br />while sending enquiry
-                </div>,
-                {
-                    richColors: true
-
-                }
-            );
-        }
-    };
-
-    return (
-        <div className='font-manrope'>
-            <div className="top-section">
-                <DialogTitle >
-                    <span className='md:text-[30px] text-[24px] font-bold'>Request A Demo</span>
-                </DialogTitle>
-                {/* <h2 className='' >Request A Demo</h2> */}
-                <p className='leading-tight mt-1 md:w-[80%] w-[100%]'>Submit the below details and our team will connect with you to schedule a live demo walkthrough.</p>
-            </div>
-            <form onSubmit={handleSubmit(onSubmit)} className='mt-5'>
-                <div className="grid md:grid-cols-2 grid-cols-1 gap-x-[20px] gap-y-[10px]">
-                    <div className="input-div flex flex-col">
-                        <label className='text-black text-[14px] font-semibold mb-1'>Full Name</label>
-                        <input
-                            type="text"
-                            className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                            placeholder="Enter your full name"
-                            {...register("firstName", { required: "Name Not Entered" })}
-                        />
-                        {errors?.firstName?.message && (
-                            <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                                {errors?.firstName?.message}
-                            </span>
-                        )}
-                    </div>
-                    <div className="input-div flex flex-col">
-                        <label className='text-black text-[14px] font-semibold mb-1'>Email</label>
-                        <input
-                            type="email"
-                            className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                            placeholder="Enter your email"
-                            {...register("email", { required: "Email Not Entered" })}
-                        />
-                        {errors?.email?.message && (
-                            <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                                {errors?.email?.message}
-                            </span>
-                        )}
-                    </div>
-                    <div className="input-div flex flex-col">
-                        <label className='text-black text-[14px] font-semibold mb-1'>Phone</label>
-                        <input
-                            type="tel"
-                            className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                            placeholder="Enter your phone number"
-                            {...register("phoneNumber", { required: "Phone Number Not Entered" })}
-                        />
-                        {errors?.phoneNumber?.message && (
-                            <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                                {errors?.phoneNumber?.message}
-                            </span>
-                        )}
-                    </div>
-                    <div className="input-div flex flex-col">
-                        <label className='text-black text-[14px] font-semibold mb-1'>Organisation</label>
-                        <input
-                            type="text"
-                            className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                            placeholder="Enter your organisation"
-                            {...register("organizationName", { required: "Organization Not Entered" })}
-                        />
-                        {errors?.organizationName?.message && (
-                            <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                                {errors?.organizationName?.message}
-                            </span>
-                        )}
-                    </div>
-                </div>
-
-                <div className="input-div flex flex-col mt-[10px]">
-                    <label className='text-black text-[14px] font-semibold mb-1'>Subject</label>
-                    <textarea
-                        rows={5}
-                        className='border border-[#00000050] outline-none px-[15px] py-[10px] rounded-[10px] placeholder:text-[14px]'
-                        placeholder="Enter subject or message details"
-                        {...register("subject", { required: "Subject Not Entered" })}
-                    ></textarea>
-                    {errors?.subject?.message && (
-                        <span className="2xl:text-[14px] text-[12px] text-red-500 sst-roman">
-                            {errors?.subject?.message}
-                        </span>
-                    )}
-                </div>
-
-                <button type="submit" className='cursor-pointer w-full py-[15px] font-semibold rounded-[10px] text-white mt-[10px] bg-MainColor'>Submit</button>
-            </form>
+export function EnquiryForm({
+  onClose,
+  initialSubject,
+  initialTopic,
+  initialPlan,
+  initialBilling,
+  initialCurrency,
+}: {
+  onClose?: () => void;
+  initialSubject?: string;
+  initialTopic?: string;
+  initialPlan?: string;
+  initialBilling?: string;
+  initialCurrency?: string;
+}) {
+  return (
+    <div className="grid font-sans md:grid-cols-[0.85fr_1.15fr]">
+      {/* Left: what you get (dark) */}
+      <div className="relative isolate overflow-hidden bg-[#0B0A12] p-7 text-white sm:p-9 md:rounded-l-[28px]">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute -left-24 -top-24 h-[340px] w-[340px] rounded-full bg-[#6C4BFF] opacity-35 blur-3xl" />
+          <div className="absolute -bottom-28 -right-16 h-[280px] w-[320px] rounded-full bg-[#3B5BFF] opacity-20 blur-3xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_30%_20%,#000,transparent_85%)]" />
         </div>
-    )
+
+        <p className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1 text-[12px] font-medium text-white/80">
+          <Clock className="h-3.5 w-3.5" /> Free · 20 minutes
+        </p>
+        <DialogTitle className="mt-5 font-urbanist text-[clamp(26px,3vw,34px)] font-semibold leading-[1.08] tracking-[-0.03em]">
+          See your academy on LMS Domain
+        </DialogTitle>
+        <DialogDescription className="mt-3 text-[14.5px] leading-[1.6] text-white/65">
+          Tell us a little about your academy. Our team will get in touch to book a time that suits you.
+        </DialogDescription>
+
+        <ul className="mt-7 hidden space-y-3 md:block">
+          {POINTS.map((p) => (
+            <li key={p} className="flex items-start gap-3 text-[14.5px] text-white/85">
+              <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#6C4BFF]">
+                <Check className="h-3 w-3" strokeWidth={3} />
+              </span>
+              {p}
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-8 hidden items-center gap-3 border-t border-white/10 pt-6 md:flex">
+          <div className="flex">
+            {FACES.map((f, i) => (
+              <Image key={f} src={f} alt="" width={72} height={72} className={`h-9 w-9 rounded-full object-cover object-top ring-2 ring-[#0B0A12] ${i ? "-ml-2.5" : ""}`} />
+            ))}
+          </div>
+          <p className="text-[13px] leading-[1.45] text-white/65">
+            Real people from our team
+            <br />
+            read every request
+          </p>
+        </div>
+      </div>
+
+      {/* Right: form */}
+      <div className="p-6 sm:p-9">
+        <DemoForm
+          onClose={onClose}
+          initialSubject={initialSubject}
+          initialTopic={initialTopic}
+          initialPlan={initialPlan}
+          initialBilling={initialBilling}
+          initialCurrency={initialCurrency}
+          variant="modal"
+          submitLabel="Book my free demo"
+        />
+      </div>
+    </div>
+  );
 }
 
-export default EnquiryForm
+export default EnquiryForm;

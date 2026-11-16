@@ -1,0 +1,102 @@
+{
+  "numberMetrics": {
+    "n1": {
+      "text": "01",
+      "fontSize": "12px",
+      "fontWeight": "500",
+      "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+      "color": "rgb(17, 17, 17)",
+      "bottom": "40px",
+      "left": "35px"
+    },
+    "n2": {
+      "text": "02",
+      "fontSize": "12px",
+      "fontWeight": "500",
+      "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+      "color": "rgb(17, 17, 17)",
+      "bottom": "40px",
+      "left": "35px"
+    },
+    "n3": {
+      "text": "03",
+      "fontSize": "12px",
+      "fontWeight": "500",
+      "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+      "color": "rgb(17, 17, 17)",
+      "bottom": "40px",
+      "left": "35px"
+    }
+  },
+  "c3ArrivingMetrics": {
+    "c2Bottom": 764.40625,
+    "c3Bottom": 842.40625,
+    "underlapStrip": 78,
+    "c3ContentOpacity": "0.35",
+    "c3Tile1Opacity": "0.85",
+    "c3Tile2Opacity": "0.85",
+    "numberVisibleInStrip": {
+      "text": "03",
+      "color": "rgb(17, 17, 17)",
+      "fontSize": "12px",
+      "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
+      "rect": {}
+    }
+  },
+  "c3HeldMetrics": {
+    "card3Height": 612,
+    "tile1": {
+      "width": 299.969970703125,
+      "height": 219.97799682617188,
+      "heightRatioOfCard": "35.9%",
+      "borderRadius": "16px",
+      "topRelativeToCard": 80.9949951171875,
+      "leftRelativeToCard": 663.6822509765625
+    },
+    "tile2": {
+      "width": 299.72998046875,
+      "height": 219.802001953125,
+      "heightRatioOfCard": "35.9%",
+      "borderRadius": "16px",
+      "topRelativeToCard": 271.31939697265625,
+      "leftRelativeToCard": 933.481689453125
+    },
+    "diagonalOverlap": {
+      "horizontalOverlapPx": 30.1705322265625,
+      "verticalOverlapPx": 29.653594970703125
+    },
+    "chipMia": {
+      "text": "M Mia Lewis",
+      "bgColor": "rgb(17, 17, 17)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": "13px",
+      "avatarInitial": "M",
+      "topRelativeToTile1": 134.90640258789062,
+      "leftRelativeToTile1": 244.646484375
+    },
+    "chipAlex": {
+      "text": "A Alex Peterson",
+      "bgColor": "rgb(17, 17, 17)",
+      "color": "rgb(255, 255, 255)",
+      "fontSize": "13px",
+      "avatarInitial": "A",
+      "topRelativeToTile2": 154.58197021484375,
+      "leftRelativeToTile2": -70.21112060546875
+    },
+    "connectorLine": {
+      "present": true,
+      "stroke": "#9CA3AF",
+      "strokeDasharray": "3 3"
+    },
+    "bookingChip": {
+      "text": "Tomorrow, 10:00 1-on-1 Zoom",
+      "topRelativeToTile2": 11.931396484375
+    },
+    "number3": {
+      "text": "03",
+      "color": "rgb(17, 17, 17)",
+      "fontSize": "12px",
+      "fontFamily": "ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\""
+    }
+  }
+}

@@ -1,18 +1,32 @@
-import React from 'react'
-import HeadingAnimateText from './HeadingAnimateText'
+"use client";
 
-function MainHeading({ data }: any) {
-    return (
-        <div className='flex flex-col items-center mt-[10px]'>
-            <h1 className='xl:text-[52px] md:text-[38px] text-[24px] font-bold text-black w-[100%] leading-tight text-center font-manrope flex flex-col items-center'>
-                <span className='leading-tight flex'>
-                    <HeadingAnimateText data={data} />
-                    <span className='ms-4'>{data?.title || "Your Branded"}</span>
-                </span>
-                <span> {data?.subTitle || "Learning Hub Starts Here."}</span>
-            </h1>
-        </div>
-    )
+import React from "react";
+import { heroContent as defaultHeroContent } from "@/content/home/hero";
+import { useSectionContent } from "@/components/content/PageContent";
+import { liveOr } from "@/lib/claims";
+
+export function MainHeading({ data }: { data?: any }) {
+  const heroContent = useSectionContent("home-hero", defaultHeroContent);
+  const title = liveOr(heroContent.title, defaultHeroContent.title);
+
+  const defaultPhrase = "Run your academy’s batches, live classes and tests in one place.";
+  const effectiveTitle = title || defaultHeroContent.title || defaultPhrase;
+  const isDefaultTitle =
+    effectiveTitle.trim().replace(/\.$/, "").replace(/'/g, "’").toLowerCase() ===
+    defaultPhrase.replace(/\.$/, "").replace(/'/g, "’").toLowerCase();
+
+  return (
+    <h1 className="text-[clamp(34px,8.5vw,38px)] min-[640px]:text-[clamp(38px,4.4vw,64px)] font-semibold font-urbanist tracking-[-0.025em] leading-[1.06] text-[#151517] text-center max-w-[840px] mx-auto [text-wrap:balance]">
+      {isDefaultTitle ? (
+        <>
+          Run your academy’s batches,
+          <br className="hidden min-[1024px]:inline" /> live classes and tests in one place.
+        </>
+      ) : (
+        effectiveTitle
+      )}
+    </h1>
+  );
 }
 
-export default MainHeading
+export default MainHeading;

@@ -1,0 +1,831 @@
+{
+  "sitemapCount": 23,
+  "sitemapUrls": [
+    "https://lmsdomain.com",
+    "https://lmsdomain.com/platform",
+    "https://lmsdomain.com/platform/teach",
+    "https://lmsdomain.com/platform/assess",
+    "https://lmsdomain.com/platform/manage",
+    "https://lmsdomain.com/platform/sell",
+    "https://lmsdomain.com/platform/brand",
+    "https://lmsdomain.com/platform/ai",
+    "https://lmsdomain.com/platform/security",
+    "https://lmsdomain.com/solutions/language-test-prep-academies",
+    "https://lmsdomain.com/solutions/training-companies",
+    "https://lmsdomain.com/solutions/coaching-institutes",
+    "https://lmsdomain.com/solutions/solo-educators",
+    "https://lmsdomain.com/customers",
+    "https://lmsdomain.com/roadmap",
+    "https://lmsdomain.com/pricing",
+    "https://lmsdomain.com/custom-lms",
+    "https://lmsdomain.com/about",
+    "https://lmsdomain.com/contact",
+    "https://lmsdomain.com/demo",
+    "https://lmsdomain.com/privacy-policy",
+    "https://lmsdomain.com/terms",
+    "https://lmsdomain.com/refund-policy"
+  ],
+  "routeAudits": [
+    {
+      "route": "/",
+      "status": 200,
+      "title": "Online Academy Platform &amp; LMS in India | LMS Domain",
+      "titleLen": 55,
+      "desc": "All-in-one LMS for coaching institutes and academies. Run live Zoom classes, drip video courses, mock tests, and collect fees with 0% commission on sales.",
+      "descLen": 154,
+      "canonical": "https://lmsdomain.com",
+      "h1Count": 1,
+      "h1Texts": [
+        "Run your academy&#x27;s batches, live classes and tests in one place."
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/home?t=Online%20Academy%20Platform%20%26%20LMS%20in%20India&amp;s=PJc1NUs15sBTBR5RpIaOLo",
+      "jsonLdTypes": [
+        "Organization",
+        "WebSite",
+        "SoftwareApplication",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/pricing",
+      "status": 200,
+      "title": "Academy LMS Pricing: 0% Platform Commission | LMS Domain",
+      "titleLen": 56,
+      "desc": "Simple academy pricing with zero commission on sales. Includes custom domain, live Zoom classes, batch schedules, GST invoices, and a 15-day free trial.",
+      "descLen": 152,
+      "canonical": "https://lmsdomain.com/pricing",
+      "h1Count": 1,
+      "h1Texts": [
+        "Simple pricing. 0% commission on every plan."
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/pricing?t=Academy%20LMS%20Pricing%3A%200%25%20Platform%20Commission&amp;s=H0P130pIYT8fpeBDz82Q8a",
+      "jsonLdTypes": [
+        "Organization",
+        "SoftwareApplication",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/platform",
+      "status": 200,
+      "title": "All-in-One Online Academy Platform &amp; LMS | LMS Domain",
+      "titleLen": 57,
+      "desc": "Run courses, live Zoom classes, mock test series, learner batches, and billing from one unified system. Built for serious coaching institutes and academies.",
+      "descLen": 156,
+      "canonical": "https://lmsdomain.com/platform",
+      "h1Count": 1,
+      "h1Texts": [
+        "Everything an academy needs to teach, test and get paid."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/platform/teach",
+      "status": 200,
+      "title": "Live Classes &amp; Course Builder Software | LMS Domain",
+      "titleLen": 55,
+      "desc": "Deliver recorded video courses with drip release, schedule live Zoom classes for batches, and host cohort bootcamps and 1:1 tutor sessions with LMS Domain.",
+      "descLen": 155,
+      "canonical": "https://lmsdomain.com/platform/teach",
+      "h1Count": 1,
+      "h1Texts": [
+        "Teach recorded courses and live batches from one place."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/platform/assess",
+      "status": 200,
+      "title": "Mock Tests &amp; Question Banks Software | LMS Domain",
+      "titleLen": 53,
+      "desc": "Create timed mock tests from custom question banks, review assignments, and issue branded PDF completion certificates with LMS Domain&#x27;s assessment tools.",
+      "descLen": 158,
+      "canonical": "https://lmsdomain.com/platform/assess",
+      "h1Count": 1,
+      "h1Texts": [
+        "Test learners and certify the ones who finish."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/platform/manage",
+      "status": 200,
+      "title": "Batch Management &amp; Academy Operations | LMS Domain",
+      "titleLen": 54,
+      "desc": "Manage student cohorts, track attendance for every live class, assign staff roles, and broadcast automated email and SMS notices on LMS Domain.",
+      "descLen": 143,
+      "canonical": "https://lmsdomain.com/platform/manage",
+      "h1Count": 1,
+      "h1Texts": [
+        "Know every batch, learner and class at a glance."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/platform/sell",
+      "status": 200,
+      "title": "Sell Courses Online with GST Invoices | LMS Domain",
+      "titleLen": 50,
+      "desc": "Sell courses with Razorpay, Paytm, Stripe, and DOKU. Offer coupons, approve offline payments, and generate automated GST invoices on your own checkout.",
+      "descLen": 151,
+      "canonical": "https://lmsdomain.com/platform/sell",
+      "h1Count": 1,
+      "h1Texts": [
+        "Collect fees in any currency, on your own checkout."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/platform/brand",
+      "status": 200,
+      "title": "White-Label LMS on Your Own Custom Domain | LMS Domain",
+      "titleLen": 54,
+      "desc": "Launch your academy on your custom domain with your logo, colors, and typography. Deliver a completely branded learning experience without vendor badges.",
+      "descLen": 153,
+      "canonical": "https://lmsdomain.com/platform/brand",
+      "h1Count": 1,
+      "h1Texts": [
+        "Your academy, on your own domain."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/platform/ai",
+      "status": 200,
+      "title": "Domie AI Teaching Assistant &amp; Course Tools | LMS Domain",
+      "titleLen": 59,
+      "desc": "Support learners 24/7 with a Domie AI teaching assistant grounded in your course content. Draft curriculum metadata and view academy analytics with ease.",
+      "descLen": 153,
+      "canonical": "https://lmsdomain.com/platform/ai",
+      "h1Count": 1,
+      "h1Texts": [
+        "Domie AI: a teaching assistant grounded in your own courses."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/platform/security",
+      "status": 200,
+      "title": "Secure Cloud LMS &amp; Video Watermarking | LMS Domain",
+      "titleLen": 54,
+      "desc": "Protect courses with dynamic video watermarks, learner device sign-in limits, staff role permissions, and secure cloud hosting on your own domain.",
+      "descLen": 146,
+      "canonical": "https://lmsdomain.com/platform/security",
+      "h1Count": 1,
+      "h1Texts": [
+        "Protect your courses and your learners&#x27; data."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/solutions/coaching-institutes",
+      "status": 200,
+      "title": "LMS for Coaching Institutes &amp; Test Centres | LMS Domain",
+      "titleLen": 59,
+      "desc": "All-in-one software for coaching institutes in India. Deliver live Zoom batches, full-length test series, study materials, and automated GST fee receipts.",
+      "descLen": 154,
+      "canonical": "https://lmsdomain.com/solutions/coaching-institutes",
+      "h1Count": 1,
+      "h1Texts": [
+        "The LMS built for coaching institutes that teach live batches."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/solutions/language-test-prep-academies",
+      "status": 200,
+      "title": "LMS for IELTS &amp; Language Test Preparation | LMS Domain",
+      "titleLen": 58,
+      "desc": "Prepare students for IELTS, TOEFL, and competitive exams with timed section tests, live speaking cohorts, recorded lessons, and personalized evaluations.",
+      "descLen": 153,
+      "canonical": "https://lmsdomain.com/solutions/language-test-prep-academies",
+      "h1Count": 1,
+      "h1Texts": [
+        "Built for IELTS, PTE and language academies that teach in batches."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/solutions/solo-educators",
+      "status": 200,
+      "title": "LMS for Solo Educators &amp; Course Creators | LMS Domain",
+      "titleLen": 57,
+      "desc": "Sell courses, run Zoom live classes, and host 1:1 bookings under your own brand with 0% platform transaction fees. Built for independent educators in India.",
+      "descLen": 156,
+      "canonical": "https://lmsdomain.com/solutions/solo-educators",
+      "h1Count": 1,
+      "h1Texts": [
+        "Sell courses, live cohorts and 1:1 sessions under your own brand."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/solutions/training-companies",
+      "status": 200,
+      "title": "LMS for Training Companies &amp; Upskilling | LMS Domain",
+      "titleLen": 56,
+      "desc": "Deliver cohort training programs, track attendance and assessments, and issue automated corporate B2B GST invoices on your white-label academy platform.",
+      "descLen": 152,
+      "canonical": "https://lmsdomain.com/solutions/training-companies",
+      "h1Count": 1,
+      "h1Texts": [
+        "Deliver cohorts and client batches, teach them live, and certify the people who finish."
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/customers",
+      "status": 200,
+      "title": "Customer Stories &amp; Academy Case Studies | LMS Domain",
+      "titleLen": 56,
+      "desc": "See how test prep academies, language institutes, and professional training companies across India run live batches and scale on LMS Domain platform.",
+      "descLen": 149,
+      "canonical": "https://lmsdomain.com/customers",
+      "h1Count": 1,
+      "h1Texts": [
+        "Academies teaching with LMS Domain"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/roadmap",
+      "status": 200,
+      "title": "Product Roadmap &amp; Confirmed LMS Features | LMS Domain",
+      "titleLen": 57,
+      "desc": "Track LMS Domain upcoming features, live batch management enhancements, assessment engine releases, and newly confirmed learning platform capabilities.",
+      "descLen": 151,
+      "canonical": "https://lmsdomain.com/roadmap",
+      "h1Count": 1,
+      "h1Texts": [
+        "What we&#x27;re building next"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/custom-lms",
+      "status": 200,
+      "title": "Custom LMS Development &amp; White-Label Setup | LMS Domain",
+      "titleLen": 59,
+      "desc": "Get your custom branded learning platform built and set up for you. Setup, content migration, staff training, and dedicated ongoing support included.",
+      "descLen": 149,
+      "canonical": "https://lmsdomain.com/custom-lms",
+      "h1Count": 1,
+      "h1Texts": [
+        "Your own LMS, set up for you"
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/home?t=Custom%20LMS%20Development%20%26%20White-Label%20Setup&amp;s=sTzP9GvsbHaA-pmBKiryaX",
+      "jsonLdTypes": [
+        "Organization",
+        "Service",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/about",
+      "status": 200,
+      "title": "About LMS Domain: Built for Serious Educators | LMS Domain",
+      "titleLen": 58,
+      "desc": "Learn how LMS Domain helps training institutes, coaching centres, and solo educators build independent, branded online academies with zero sales commission.",
+      "descLen": 156,
+      "canonical": "https://lmsdomain.com/about",
+      "h1Count": 1,
+      "h1Texts": [
+        "We build the platform academies run on."
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/about?t=About%20LMS%20Domain%3A%20Built%20for%20Serious%20Educators&amp;s=BHJdKorCmQWa1kduwhY_Z7",
+      "jsonLdTypes": [
+        "Organization",
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/contact",
+      "status": 200,
+      "title": "Contact Us: Sales, Onboarding &amp; Support | LMS Domain",
+      "titleLen": 56,
+      "desc": "Speak with the LMS Domain team in India for sales inquiries, academy onboarding, technical support, migration assistance, or platform walkthroughs.",
+      "descLen": 147,
+      "canonical": "https://lmsdomain.com/contact",
+      "h1Count": 1,
+      "h1Texts": [
+        "Talk to the LMS Domain team"
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/contact?t=Contact%20Us%3A%20Sales%2C%20Onboarding%20%26%20Support&amp;s=iRXoAJ0vGZz79iSTElwcH0",
+      "jsonLdTypes": [
+        "Organization",
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/demo",
+      "status": 200,
+      "title": "Schedule an LMS Platform Walkthrough Demo | LMS Domain",
+      "titleLen": 54,
+      "desc": "Book an interactive walkthrough of LMS Domain. See how live Zoom batches, mock tests, student management, and branded course selling work firsthand.",
+      "descLen": 148,
+      "canonical": "https://lmsdomain.com/demo",
+      "h1Count": 1,
+      "h1Texts": [
+        "Book a 20-minute academy demo"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/privacy-policy",
+      "status": 200,
+      "title": "Privacy Policy &amp; Data Protection Terms | LMS Domain",
+      "titleLen": 55,
+      "desc": "Official privacy policy for LMS Domain. Learn how we collect, protect, and handle academy and student personal data under Indian and international privacy laws.",
+      "descLen": 160,
+      "canonical": "https://lmsdomain.com/privacy-policy",
+      "h1Count": 1,
+      "h1Texts": [
+        "Privacy Policy"
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/privacy-policy?t=Privacy%20Policy%20%26%20Data%20Protection%20Terms&amp;s=CA9dRZB8ypvQk23mBE6Rbt",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/terms",
+      "status": 200,
+      "title": "Terms of Service &amp; Customer Agreement | LMS Domain",
+      "titleLen": 54,
+      "desc": "Official Terms of Service and master customer agreement for LMS Domain. Read our software subscription terms, acceptable use policies, and billing terms.",
+      "descLen": 153,
+      "canonical": "https://lmsdomain.com/terms",
+      "h1Count": 1,
+      "h1Texts": [
+        "Terms of Service"
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/terms?t=Terms%20of%20Service%20%26%20Customer%20Agreement&amp;s=F5yzdIsNOUrrhc6Bm7Wq4G",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/refund-policy",
+      "status": 200,
+      "title": "Subscription Refund Policy &amp; Guarantees | LMS Domain",
+      "titleLen": 56,
+      "desc": "Official subscription refund and cancellation policy for LMS Domain. Understand trial periods, billing cycles, cancellation terms, and refund eligibility.",
+      "descLen": 154,
+      "canonical": "https://lmsdomain.com/refund-policy",
+      "h1Count": 1,
+      "h1Texts": [
+        "Refund &amp; Cancellation Policy"
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/refund-policy?t=Subscription%20Refund%20Policy%20%26%20Guarantees&amp;s=5iMGHYrhb0jRxcfONs2tDx",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList"
+      ],
+      "robots": "",
+      "inSitemap": true
+    },
+    {
+      "route": "/features",
+      "status": 308,
+      "redirectLocation": "/platform",
+      "isRedirect": true,
+      "inSitemap": false
+    },
+    {
+      "route": "/compare/graphy-alternative",
+      "status": 200,
+      "title": "Graphy Alternative: White-Label Academy LMS | LMS Domain",
+      "titleLen": 56,
+      "desc": "Explore LMS Domain as a Graphy alternative. Run live Zoom batches, conduct timed mock exams, sell with GST invoices, and maintain full brand control on your own domain.",
+      "descLen": 168,
+      "canonical": "https://lmsdomain.com/compare/graphy-alternative",
+      "h1Count": 1,
+      "h1Texts": [
+        "Looking for a Graphy alternative for your online academy?"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/compare/classplus-alternative",
+      "status": 404,
+      "title": "Page Not Found | LMS Domain",
+      "titleLen": 27,
+      "desc": "The requested page could not be found.",
+      "descLen": 38,
+      "canonical": "",
+      "h1Count": 0,
+      "h1Texts": [],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [],
+      "robots": "noindex",
+      "inSitemap": false
+    },
+    {
+      "route": "/compare/teachmint-alternative",
+      "status": 404,
+      "title": "Page Not Found | LMS Domain",
+      "titleLen": 27,
+      "desc": "The requested page could not be found.",
+      "descLen": 38,
+      "canonical": "",
+      "h1Count": 0,
+      "h1Texts": [],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [],
+      "robots": "noindex",
+      "inSitemap": false
+    },
+    {
+      "route": "/compare/learnyst-alternative",
+      "status": 200,
+      "title": "Learnyst Alternative: Modern Academy Platform | LMS Domain",
+      "titleLen": 58,
+      "desc": "Considering a Learnyst alternative? LMS Domain offers live Zoom classes, batch scheduling, question bank mock tests, GST invoices, and dynamic video watermarking.",
+      "descLen": 162,
+      "canonical": "https://lmsdomain.com/compare/learnyst-alternative",
+      "h1Count": 1,
+      "h1Texts": [
+        "Looking for a modern Learnyst alternative for your institute?"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/compare/edmingle-alternative",
+      "status": 200,
+      "title": "Edmingle Alternative: Academy &amp; Batch LMS | LMS Domain",
+      "titleLen": 58,
+      "desc": "Looking for an Edmingle alternative in India? LMS Domain provides scheduled live Zoom batches, mock tests, GST invoices, and dedicated onboarding on your own domain.",
+      "descLen": 165,
+      "canonical": "https://lmsdomain.com/compare/edmingle-alternative",
+      "h1Count": 1,
+      "h1Texts": [
+        "Looking for an Edmingle alternative for your academy?"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/compare/teachable-alternative",
+      "status": 200,
+      "title": "Teachable Alternative for India: GST &amp; Batches | LMS Domain",
+      "titleLen": 63,
+      "desc": "A localized Teachable alternative for Indian academies. Built for live Zoom classes, scheduled batches, question bank mock tests, and checkouts with GST invoices.",
+      "descLen": 162,
+      "canonical": "https://lmsdomain.com/compare/teachable-alternative",
+      "h1Count": 1,
+      "h1Texts": [
+        "Looking for a Teachable alternative built for live batch teaching?"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/compare/kajabi-alternative",
+      "status": 200,
+      "title": "Kajabi Alternative: Batch &amp; Academy LMS | LMS Domain",
+      "titleLen": 56,
+      "desc": "Looking for a cost-effective Kajabi alternative in India? LMS Domain provides live Zoom classes, batch rosters, mock tests, and GST invoices on your own domain.",
+      "descLen": 160,
+      "canonical": "https://lmsdomain.com/compare/kajabi-alternative",
+      "h1Count": 1,
+      "h1Texts": [
+        "Looking for a focused, cost-effective Kajabi alternative?"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/resources/blog",
+      "status": 200,
+      "title": "Blog &amp; Guides | LMS Domain",
+      "titleLen": 30,
+      "desc": "Practical guides, operational blueprints, and strategy playbooks for running successful online academies and coaching institutes in India.",
+      "descLen": 138,
+      "canonical": "https://lmsdomain.com/resources/blog",
+      "h1Count": 1,
+      "h1Texts": [
+        "Academy guides &amp; operational blueprints"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/resources/blog/how-to-start-an-online-academy-in-india",
+      "status": 200,
+      "title": "How to Start an Online Academy in India | LMS Domain",
+      "titleLen": 52,
+      "desc": "A practical, step-by-step guide to starting an online academy in India. Learn about curriculum structuring, live Zoom classes, GST compliance, and platform setup.",
+      "descLen": 162,
+      "canonical": "https://lmsdomain.com/resources/blog/how-to-start-an-online-academy-in-india",
+      "h1Count": 1,
+      "h1Texts": [
+        "How to start an online academy in India: a step-by-step guide"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/resources/blog/what-is-an-lms-guide-for-coaching-institutes",
+      "status": 200,
+      "title": "What is an LMS? Guide for Coaching Institutes | LMS Domain",
+      "titleLen": 58,
+      "desc": "A plain-language guide explaining what a learning management system (LMS) is, how it works, and why Indian coaching institutes use it to manage batches and live classes.",
+      "descLen": 169,
+      "canonical": "https://lmsdomain.com/resources/blog/what-is-an-lms-guide-for-coaching-institutes",
+      "h1Count": 1,
+      "h1Texts": [
+        "What is an LMS? A plain guide for coaching institutes"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/resources/blog/how-to-sell-courses-online-in-india-with-gst-invoices",
+      "status": 200,
+      "title": "Sell Courses Online in India with GST Invoices | LMS Domain",
+      "titleLen": 59,
+      "desc": "Learn how to sell online courses in India with GST compliance. Step-by-step guide to Razorpay, Paytm, Stripe integrations, GST invoices, and coupon setup.",
+      "descLen": 154,
+      "canonical": "https://lmsdomain.com/resources/blog/how-to-sell-courses-online-in-india-with-gst-invoices",
+      "h1Count": 1,
+      "h1Texts": [
+        "How to sell courses online in India with GST invoices"
+      ],
+      "ogImage": false,
+      "ogImageSrc": "",
+      "jsonLdTypes": [
+        "Organization",
+        "Article",
+        "BreadcrumbList",
+        "FAQPage"
+      ],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/login",
+      "status": 200,
+      "title": "Log In | LMS Domain",
+      "titleLen": 19,
+      "desc": "Log in to your LMS Domain academy platform.",
+      "descLen": 43,
+      "canonical": "",
+      "h1Count": 1,
+      "h1Texts": [
+        "Log in to your academy"
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/login?t=Log%20In&amp;s=inWNK9-vi6LTRkuM7TYxvt",
+      "jsonLdTypes": [],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/signup",
+      "status": 200,
+      "title": "Sign Up | LMS Domain",
+      "titleLen": 20,
+      "desc": "Start your LMS Domain academy platform.",
+      "descLen": 39,
+      "canonical": "",
+      "h1Count": 1,
+      "h1Texts": [
+        "Start your academy"
+      ],
+      "ogImage": true,
+      "ogImageSrc": "https://lmsdomain.com/og/signup?t=Sign%20Up&amp;s=sb5A3lHETIw5vO5y47MjyB",
+      "jsonLdTypes": [],
+      "robots": "noindex, nofollow",
+      "inSitemap": false
+    },
+    {
+      "route": "/forgot-password",
+      "status": 307,
+      "redirectLocation": "/login",
+      "isRedirect": true,
+      "inSitemap": false
+    }
+  ],
+  "crawlCount": 30,
+  "brokenLinks": [],
+  "redirectChains": [],
+  "orphanRoutes": [
+    "/features",
+    "/compare/graphy-alternative",
+    "/compare/classplus-alternative",
+    "/compare/teachmint-alternative",
+    "/compare/learnyst-alternative",
+    "/compare/edmingle-alternative",
+    "/compare/teachable-alternative",
+    "/compare/kajabi-alternative",
+    "/resources/blog",
+    "/resources/blog/how-to-start-an-online-academy-in-india",
+    "/resources/blog/what-is-an-lms-guide-for-coaching-institutes",
+    "/resources/blog/how-to-sell-courses-online-in-india-with-gst-invoices",
+    "/forgot-password"
+  ]
+}

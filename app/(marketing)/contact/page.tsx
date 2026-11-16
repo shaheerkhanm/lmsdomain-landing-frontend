@@ -1,0 +1,81 @@
+import type { Metadata } from "next";
+import { getContactPage, getSiteContact, fetchSeo } from "@/lib/api/content";
+import { ContactV5 } from "@/components/sections/ContactV5/ContactV5";
+import { fullTitle, getMetadataBase, applySeo, getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
+import { guardPage, guardMetadata } from "@/lib/pages";
+import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
+import { officialSocialProfiles } from "@/content/entity";
+
+const DEFAULT_TITLE = "Contact Us: Sales, Onboarding & Support | LMS Domain";
+const DEFAULT_DESCRIPTION =
+  "Talk to the LMS Domain team about plans, a demo, setting up your academy, moving from another platform or support. Real people reply to every message.";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const hiddenMeta = await guardMetadata("contact");
+  if (hiddenMeta) return hiddenMeta;
+  // Share image and noindex from Admin > SEO
+  return applySeo(await baseMetadata(), await fetchSeo("contact").catch(() => null), { page: "contact" });
+}
+
+async function baseMetadata(): Promise<Metadata> {
+  const [seo, pageData] = await Promise.all([
+    fetchSeo("contact").catch(() => null),
+    getContactPage().catch(() => null),
+  ]);
+
+  const rawTitle =
+    (seo?.metatitle && seo.metatitle.length >= 40)
+      ? seo.metatitle
+      : DEFAULT_TITLE;
+  const title = fullTitle(rawTitle);
+
+  const description =
+    (seo?.metadescription && seo.metadescription.length >= 100)
+      ? seo.metadescription
+      : DEFAULT_DESCRIPTION;
+
+  return {
+    metadataBase: getMetadataBase(),
+    title,
+    description,
+    keywords: seo?.metakeyword || [
+      "Contact LMS Domain",
+      "Request LMS Demo",
+      "Learning Management Walkthrough",
+      "Enterprise Academy Consultation",
+    ],
+    alternates: {
+      canonical: "/contact",
+    },
+    openGraph: {
+      title,
+      description,
+      url: "/contact",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
+}
+
+export default async function ContactPage() {
+  await guardPage("contact");
+  const [data, siteContact] = await Promise.all([
+    getContactPage(),
+    getSiteContact(),
+  ]);
+  const breadcrumbs = [
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" },
+  ];
+
+  return (
+    <>
+      <JsonLdScript data={getBreadcrumbListJsonLd(breadcrumbs)} />
+      <ContactV5 data={data} />
+    </>
+  );
+}

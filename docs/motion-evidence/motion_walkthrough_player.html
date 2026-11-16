@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LMS Domain — Motion Walkthrough Frame Scrub Player</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0D0E12; color: #E2E8F0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; padding: 24px; }
+    .header { width: 100%; max-width: 1200px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1E293B; padding-bottom: 12px; }
+    .title { font-size: 20px; font-weight: 700; color: #FFFFFF; }
+    .badge { background: #7C3AED; color: white; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .viewport-box { position: relative; width: 100%; max-width: 1200px; aspect-ratio: 1440 / 900; background: #000; border-radius: 12px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); border: 1px solid #334155; }
+    .viewport-box img { width: 100%; height: 100%; object-fit: contain; }
+    .overlay-info { position: absolute; bottom: 16px; left: 16px; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); padding: 8px 16px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 13px; line-height: 1.4; }
+    .overlay-info .sec { font-weight: 600; color: #C4B5FD; }
+    .overlay-info .meta { color: #94A3B8; font-size: 11px; font-family: monospace; }
+    .controls { width: 100%; max-width: 1200px; margin-top: 16px; background: #1E293B; border-radius: 12px; padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
+    .slider-row { display: flex; align-items: center; gap: 16px; width: 100%; }
+    .slider { flex: 1; height: 8px; border-radius: 4px; background: #334155; outline: none; -webkit-appearance: none; cursor: pointer; }
+    .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #A78BFA; cursor: pointer; box-shadow: 0 0 10px #7C3AED; }
+    .buttons-row { display: flex; justify-content: space-between; align-items: center; }
+    .btn-group { display: flex; gap: 8px; }
+    button { background: #334155; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+    button:hover { background: #475569; }
+    button.primary { background: #7C3AED; }
+    button.primary:hover { background: #6D28D9; }
+    .status-text { font-family: monospace; font-size: 12px; color: #A78BFA; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">LMS Domain — Motion Walkthrough Scrub Player</div>
+    <div class="badge">92 Checkpoints • 1440x900 • Reverse Scrub</div>
+  </div>
+
+  <div class="viewport-box">
+    <img id="playerImg" src="walkthrough_frames/frame_000_down.jpg" alt="Walkthrough frame" />
+    <div class="overlay-info">
+      <div class="sec" id="secText">Hero Convergence & Nav Transformation</div>
+      <div class="meta" id="metaText">Frame 1 / 92 • Scroll Y: 0px (0%) • Direction: Down</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="slider-row">
+      <span style="font-family: monospace; font-size: 12px; color: #94A3B8;">0%</span>
+      <input type="range" min="0" max="91" value="0" class="slider" id="scrubber" />
+      <span style="font-family: monospace; font-size: 12px; color: #94A3B8;">100%</span>
+    </div>
+    <div class="buttons-row">
+      <div class="btn-group">
+        <button id="playBtn" class="primary">▶ Play (Forward + Reverse)</button>
+        <button id="prevBtn">⏮ Prev</button>
+        <button id="nextBtn">Next ⏭</button>
+        <button id="speedBtn">Speed: 1x</button>
+      </div>
+      <div class="status-text" id="statusText">Ready • Drag slider to scrub</div>
+    </div>
+  </div>
+
+  <script>
+    const frames = ["frame_000_down.jpg","frame_001_down.jpg","frame_002_down.jpg","frame_003_down.jpg","frame_004_down.jpg","frame_005_down.jpg","frame_006_down.jpg","frame_007_down.jpg","frame_008_down.jpg","frame_009_down.jpg","frame_010_down.jpg","frame_011_down.jpg","frame_012_down.jpg","frame_013_down.jpg","frame_014_down.jpg","frame_015_down.jpg","frame_016_down.jpg","frame_017_down.jpg","frame_018_down.jpg","frame_019_down.jpg","frame_020_down.jpg","frame_021_down.jpg","frame_022_down.jpg","frame_023_down.jpg","frame_024_down.jpg","frame_025_down.jpg","frame_026_down.jpg","frame_027_down.jpg","frame_028_down.jpg","frame_029_down.jpg","frame_030_down.jpg","frame_031_down.jpg","frame_032_down.jpg","frame_033_down.jpg","frame_034_down.jpg","frame_035_down.jpg","frame_036_down.jpg","frame_037_down.jpg","frame_038_down.jpg","frame_039_down.jpg","frame_040_down.jpg","frame_041_down.jpg","frame_042_down.jpg","frame_043_down.jpg","frame_044_down.jpg","frame_045_down.jpg","frame_046_down.jpg","frame_047_down.jpg","frame_048_down.jpg","frame_049_down.jpg","frame_050_down.jpg","frame_051_down.jpg","frame_052_down.jpg","frame_053_down.jpg","frame_054_down.jpg","frame_055_down.jpg","frame_056_down.jpg","frame_057_down.jpg","frame_058_down.jpg","frame_059_down.jpg","frame_060_down.jpg","frame_061_up.jpg","frame_062_up.jpg","frame_063_up.jpg","frame_064_up.jpg","frame_065_up.jpg","frame_066_up.jpg","frame_067_up.jpg","frame_068_up.jpg","frame_069_up.jpg","frame_070_up.jpg","frame_071_up.jpg","frame_072_up.jpg","frame_073_up.jpg","frame_074_up.jpg","frame_075_up.jpg","frame_076_up.jpg","frame_077_up.jpg","frame_078_up.jpg","frame_079_up.jpg","frame_080_up.jpg","frame_081_up.jpg","frame_082_up.jpg","frame_083_up.jpg","frame_084_up.jpg","frame_085_up.jpg","frame_086_up.jpg","frame_087_up.jpg","frame_088_up.jpg","frame_089_up.jpg","frame_090_up.jpg","frame_091_up.jpg"];
+    const meta = [{"index":0,"dir":"down","y":0,"section":"Hero Convergence & Nav Transformation","progress":"0%"},{"index":1,"dir":"down","y":201,"section":"Hero Convergence & Nav Transformation","progress":"2%"},{"index":2,"dir":"down","y":402,"section":"Hero Convergence & Nav Transformation","progress":"3%"},{"index":3,"dir":"down","y":603,"section":"Stacking Feature Cards","progress":"5%"},{"index":4,"dir":"down","y":804,"section":"Stacking Feature Cards","progress":"7%"},{"index":5,"dir":"down","y":1005,"section":"Stacking Feature Cards","progress":"8%"},{"index":6,"dir":"down","y":1206,"section":"Stacking Feature Cards","progress":"10%"},{"index":7,"dir":"down","y":1407,"section":"Stacking Feature Cards","progress":"12%"},{"index":8,"dir":"down","y":1609,"section":"Stacking Feature Cards","progress":"13%"},{"index":9,"dir":"down","y":1810,"section":"Stacking Feature Cards","progress":"15%"},{"index":10,"dir":"down","y":2011,"section":"Stacking Feature Cards","progress":"17%"},{"index":11,"dir":"down","y":2212,"section":"Stacking Feature Cards","progress":"18%"},{"index":12,"dir":"down","y":2413,"section":"Stacking Feature Cards","progress":"20%"},{"index":13,"dir":"down","y":2614,"section":"Stacking Feature Cards","progress":"22%"},{"index":14,"dir":"down","y":2815,"section":"Editorial Manifesto Word Illumination","progress":"23%"},{"index":15,"dir":"down","y":3016,"section":"Editorial Manifesto Word Illumination","progress":"25%"},{"index":16,"dir":"down","y":3217,"section":"Editorial Manifesto Word Illumination","progress":"27%"},{"index":17,"dir":"down","y":3418,"section":"Editorial Manifesto Word Illumination","progress":"28%"},{"index":18,"dir":"down","y":3619,"section":"Editorial Manifesto Word Illumination","progress":"30%"},{"index":19,"dir":"down","y":3820,"section":"Editorial Manifesto Word Illumination","progress":"32%"},{"index":20,"dir":"down","y":4021,"section":"Interactive Product Showcase","progress":"33%"},{"index":21,"dir":"down","y":4222,"section":"Interactive Product Showcase","progress":"35%"},{"index":22,"dir":"down","y":4423,"section":"Interactive Product Showcase","progress":"37%"},{"index":23,"dir":"down","y":4625,"section":"Interactive Product Showcase","progress":"38%"},{"index":24,"dir":"down","y":4826,"section":"Interactive Product Showcase","progress":"40%"},{"index":25,"dir":"down","y":5027,"section":"3D Isometric Benefits Deck","progress":"42%"},{"index":26,"dir":"down","y":5228,"section":"3D Isometric Benefits Deck","progress":"43%"},{"index":27,"dir":"down","y":5429,"section":"3D Isometric Benefits Deck","progress":"45%"},{"index":28,"dir":"down","y":5630,"section":"3D Isometric Benefits Deck","progress":"47%"},{"index":29,"dir":"down","y":5831,"section":"Wall of Love Testimonials Deck","progress":"48%"},{"index":30,"dir":"down","y":6032,"section":"Wall of Love Testimonials Deck","progress":"50%"},{"index":31,"dir":"down","y":6233,"section":"Wall of Love Testimonials Deck","progress":"52%"},{"index":32,"dir":"down","y":6434,"section":"Wall of Love Testimonials Deck","progress":"53%"},{"index":33,"dir":"down","y":6635,"section":"Wall of Love Testimonials Deck","progress":"55%"},{"index":34,"dir":"down","y":6836,"section":"Wall of Love Testimonials Deck","progress":"57%"},{"index":35,"dir":"down","y":7037,"section":"FAQ Enclosure & Accordion","progress":"58%"},{"index":36,"dir":"down","y":7238,"section":"FAQ Enclosure & Accordion","progress":"60%"},{"index":37,"dir":"down","y":7439,"section":"FAQ Enclosure & Accordion","progress":"62%"},{"index":38,"dir":"down","y":7641,"section":"FAQ Enclosure & Accordion","progress":"63%"},{"index":39,"dir":"down","y":7842,"section":"FAQ Enclosure & Accordion","progress":"65%"},{"index":40,"dir":"down","y":8043,"section":"FAQ Enclosure & Accordion","progress":"67%"},{"index":41,"dir":"down","y":8244,"section":"FAQ Enclosure & Accordion","progress":"68%"},{"index":42,"dir":"down","y":8445,"section":"FAQ Enclosure & Accordion","progress":"70%"},{"index":43,"dir":"down","y":8646,"section":"FAQ Enclosure & Accordion","progress":"72%"},{"index":44,"dir":"down","y":8847,"section":"FAQ Enclosure & Accordion","progress":"73%"},{"index":45,"dir":"down","y":9048,"section":"FAQ Enclosure & Accordion","progress":"75%"},{"index":46,"dir":"down","y":9249,"section":"FAQ Enclosure & Accordion","progress":"77%"},{"index":47,"dir":"down","y":9450,"section":"FAQ Enclosure & Accordion","progress":"78%"},{"index":48,"dir":"down","y":9651,"section":"FAQ Enclosure & Accordion","progress":"80%"},{"index":49,"dir":"down","y":9852,"section":"FAQ Enclosure & Accordion","progress":"82%"},{"index":50,"dir":"down","y":10053,"section":"FAQ Enclosure & Accordion","progress":"83%"},{"index":51,"dir":"down","y":10254,"section":"FAQ Enclosure & Accordion","progress":"85%"},{"index":52,"dir":"down","y":10455,"section":"FAQ Enclosure & Accordion","progress":"87%"},{"index":53,"dir":"down","y":10657,"section":"FAQ Enclosure & Accordion","progress":"88%"},{"index":54,"dir":"down","y":10858,"section":"FAQ Enclosure & Accordion","progress":"90%"},{"index":55,"dir":"down","y":11059,"section":"FAQ Enclosure & Accordion","progress":"92%"},{"index":56,"dir":"down","y":11260,"section":"FAQ Enclosure & Accordion","progress":"93%"},{"index":57,"dir":"down","y":11461,"section":"FAQ Enclosure & Accordion","progress":"95%"},{"index":58,"dir":"down","y":11662,"section":"FAQ Enclosure & Accordion","progress":"97%"},{"index":59,"dir":"down","y":11863,"section":"FAQ Enclosure & Accordion","progress":"98%"},{"index":60,"dir":"down","y":12064,"section":"FAQ Enclosure & Accordion","progress":"100%"},{"index":61,"dir":"up (reversed)","y":12064,"section":"FAQ Enclosure & Accordion","progress":"100%"},{"index":62,"dir":"up (reversed)","y":11662,"section":"FAQ Enclosure & Accordion","progress":"97%"},{"index":63,"dir":"up (reversed)","y":11260,"section":"FAQ Enclosure & Accordion","progress":"93%"},{"index":64,"dir":"up (reversed)","y":10858,"section":"FAQ Enclosure & Accordion","progress":"90%"},{"index":65,"dir":"up (reversed)","y":10455,"section":"FAQ Enclosure & Accordion","progress":"87%"},{"index":66,"dir":"up (reversed)","y":10053,"section":"FAQ Enclosure & Accordion","progress":"83%"},{"index":67,"dir":"up (reversed)","y":9651,"section":"FAQ Enclosure & Accordion","progress":"80%"},{"index":68,"dir":"up (reversed)","y":9249,"section":"FAQ Enclosure & Accordion","progress":"77%"},{"index":69,"dir":"up (reversed)","y":8847,"section":"FAQ Enclosure & Accordion","progress":"73%"},{"index":70,"dir":"up (reversed)","y":8445,"section":"FAQ Enclosure & Accordion","progress":"70%"},{"index":71,"dir":"up (reversed)","y":8043,"section":"FAQ Enclosure & Accordion","progress":"67%"},{"index":72,"dir":"up (reversed)","y":7641,"section":"FAQ Enclosure & Accordion","progress":"63%"},{"index":73,"dir":"up (reversed)","y":7238,"section":"FAQ Enclosure & Accordion","progress":"60%"},{"index":74,"dir":"up (reversed)","y":6836,"section":"Wall of Love Testimonials Deck","progress":"57%"},{"index":75,"dir":"up (reversed)","y":6434,"section":"Wall of Love Testimonials Deck","progress":"53%"},{"index":76,"dir":"up (reversed)","y":6032,"section":"Wall of Love Testimonials Deck","progress":"50%"},{"index":77,"dir":"up (reversed)","y":5630,"section":"3D Isometric Benefits Deck","progress":"47%"},{"index":78,"dir":"up (reversed)","y":5228,"section":"3D Isometric Benefits Deck","progress":"43%"},{"index":79,"dir":"up (reversed)","y":4826,"section":"Interactive Product Showcase","progress":"40%"},{"index":80,"dir":"up (reversed)","y":4423,"section":"Interactive Product Showcase","progress":"37%"},{"index":81,"dir":"up (reversed)","y":4021,"section":"Interactive Product Showcase","progress":"33%"},{"index":82,"dir":"up (reversed)","y":3619,"section":"Editorial Manifesto Word Illumination","progress":"30%"},{"index":83,"dir":"up (reversed)","y":3217,"section":"Editorial Manifesto Word Illumination","progress":"27%"},{"index":84,"dir":"up (reversed)","y":2815,"section":"Editorial Manifesto Word Illumination","progress":"23%"},{"index":85,"dir":"up (reversed)","y":2413,"section":"Stacking Feature Cards","progress":"20%"},{"index":86,"dir":"up (reversed)","y":2011,"section":"Stacking Feature Cards","progress":"17%"},{"index":87,"dir":"up (reversed)","y":1609,"section":"Stacking Feature Cards","progress":"13%"},{"index":88,"dir":"up (reversed)","y":1206,"section":"Stacking Feature Cards","progress":"10%"},{"index":89,"dir":"up (reversed)","y":804,"section":"Stacking Feature Cards","progress":"7%"},{"index":90,"dir":"up (reversed)","y":402,"section":"Hero Convergence & Nav Transformation","progress":"3%"},{"index":91,"dir":"up (reversed)","y":0,"section":"Hero Convergence & Nav Transformation","progress":"0%"}];
+    let currentIndex = 0;
+    let isPlaying = false;
+    let playInterval = null;
+    let speed = 80;
+
+    const img = document.getElementById('playerImg');
+    const scrubber = document.getElementById('scrubber');
+    const secText = document.getElementById('secText');
+    const metaText = document.getElementById('metaText');
+    const playBtn = document.getElementById('playBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const speedBtn = document.getElementById('speedBtn');
+    const statusText = document.getElementById('statusText');
+
+    function updateFrame(idx) {
+      currentIndex = Math.max(0, Math.min(frames.length - 1, idx));
+      scrubber.value = currentIndex;
+      img.src = 'walkthrough_frames/' + frames[currentIndex];
+      secText.textContent = meta[currentIndex].section;
+      metaText.textContent = 'Frame ' + (currentIndex + 1) + ' / ' + frames.length + ' • Scroll Y: ' + meta[currentIndex].y + 'px (' + meta[currentIndex].progress + ') • Direction: ' + meta[currentIndex].dir;
+    }
+
+    scrubber.addEventListener('input', (e) => {
+      pause();
+      updateFrame(parseInt(e.target.value, 10));
+    });
+
+    prevBtn.addEventListener('click', () => { pause(); updateFrame(currentIndex - 1); });
+    nextBtn.addEventListener('click', () => { pause(); updateFrame(currentIndex + 1); });
+
+    function play() {
+      isPlaying = true;
+      playBtn.textContent = '⏸ Pause';
+      statusText.textContent = 'Playing...';
+      playInterval = setInterval(() => {
+        if (currentIndex >= frames.length - 1) {
+          updateFrame(0);
+        } else {
+          updateFrame(currentIndex + 1);
+        }
+      }, speed);
+    }
+
+    function pause() {
+      isPlaying = false;
+      playBtn.textContent = '▶ Play';
+      statusText.textContent = 'Paused';
+      if (playInterval) clearInterval(playInterval);
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (isPlaying) pause(); else play();
+    });
+
+    speedBtn.addEventListener('click', () => {
+      if (speed === 80) { speed = 40; speedBtn.textContent = 'Speed: 2x'; }
+      else if (speed === 40) { speed = 160; speedBtn.textContent = 'Speed: 0.5x'; }
+      else { speed = 80; speedBtn.textContent = 'Speed: 1x'; }
+      if (isPlaying) { pause(); play(); }
+    });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === ' ' || e.code === 'Space') {
+        e.preventDefault();
+        if (isPlaying) pause(); else play();
+      } else if (e.key === 'ArrowRight') {
+        pause(); updateFrame(currentIndex + 1);
+      } else if (e.key === 'ArrowLeft') {
+        pause(); updateFrame(currentIndex - 1);
+      }
+    });
+  </script>
+</body>
+</html>

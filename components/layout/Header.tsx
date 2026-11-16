@@ -1,163 +1,493 @@
 "use client";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { Sheet, SheetContent } from "../ui/sheet";
-import MobileMenu from "./MobileMenu";
-import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState, useRef } from "react";
+import { ChevronDown, ArrowRight, X, Menu } from "lucide-react";
+import { Dialog, DialogContent } from "../ui/dialog";
+import EnquiryForm, { DEMO_DIALOG_CLASS } from "./common/EnquiryForm";
+import { navigationConfig, type NavItem, type NavDropdownItem } from "@/content/navigation";
+import { usePageVisibility } from "@/lib/pages-context";
+import BrandLogo from "@/components/brand/BrandLogo";
+import { NavMegaContent, megaWidth, iconFor, type FeaturedGuide } from "./NavMegaMenu";
+import { cn } from "@/lib/utils";
 
-function Header() {
-    const [showMenu, setShowMenu] = useState(false);
-    const [isScrolled, setIsScrolled] = useState(false);
+export function Header({ siteNav, featuredGuide = null }: { siteNav?: NavItem[]; featuredGuide?: FeaturedGuide }) {
+  const { isPathVisible } = usePageVisibility();
+  const pathname = usePathname();
+  const isAuth =
+    pathname?.startsWith("/login") ||
+    pathname?.startsWith("/signup") ||
+    pathname?.startsWith("/forgot-password");
 
-    const [lastScrollY, setLastScrollY] = useState(0);
+  // Use CMS siteNav if provided with dropdown hierarchy; if legacy flat nav is returned, use navigationConfig
+  const isLegacyFlatCmsNav =
+    siteNav &&
+    siteNav.length > 0 &&
+    !siteNav.some((item) => item.children && item.children.length > 0);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
+  const baseNav =
+    siteNav && siteNav.length > 0 && !isLegacyFlatCmsNav
+      ? siteNav
+      : navigationConfig.marketingNav;
 
-            if (currentScrollY > lastScrollY && currentScrollY > 40) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
-            setLastScrollY(currentScrollY);
-        };
+  // Filter dropdown children through page visibility
+  const visibleNav = baseNav
+    .map((item) => {
+      if (item.children) {
+        const filteredChildren = item.children.filter((child) => isPathVisible(child.href));
+        return { ...item, children: filteredChildren };
+      }
+      return item;
+    })
+    .filter((item) => {
+      if (item.children) {
+        return item.children.length > 0;
+      }
+      return item.href ? isPathVisible(item.href) : true;
+    });
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [lastScrollY]);
+  const showLogin = isPathVisible("/login");
 
-    // ✅ Nav links with href
-    const navLinks = [
-        { label: "Features", href: "features" },
-        { label: "Pricing", href: "pricing" },
-        { label: "About", href: "about" },
-    ];
+  // State
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>(null);
+  const [showDemoModal, setShowDemoModal] = useState(false);
+  // Every page: full-width transparent bar at the top that morphs into the floating pill on scroll
+  const morphOnScroll = true;
+  // Pages whose hero is dark: the transparent bar uses light text and the white logo until it morphs (desktop only)
+  const darkTop = pathname === "/platform/ai";
+  const [scrolled, setScrolled] = useState(false);
 
-    // ✅ Buttons
-    const buttons = [
-        {
-            text: "Login",
-            href: "#",
-            className:
-                "px-6 md:py-2 py-2 2xl:text-[18px] md:text-[16px] text-[16px] leading-tight font-medium md:rounded-lg rounded-sm bg-white border border-ScndColor text-ScndColor hover:bg-MainColor hover:border-transparent hover:text-white common-transition flex w-fit",
-        },
-        {
-            text: "Start A Free Trial",
-            href: "#",
-            className:
-                "px-6 md:py-2 py-2 2xl:text-[18px] md:text-[16px] text-[16px] leading-tight font-medium md:rounded-lg rounded-sm bg-ScndColor text-white hover:bg-MainColor common-transition flex w-fit",
-        },
-    ];
+  useEffect(() => {
+    if (!morphOnScroll) return;
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [morphOnScroll]);
 
-    return (
+  const compact = !morphOnScroll || scrolled;
+  const onDark = darkTop && !compact;
+
+  const navRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = null;
+  };
+  const scheduleClose = () => {
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 160);
+  };
+  useEffect(() => () => cancelClose(), []);
+  const activeTriggerRef = useRef<HTMLButtonElement | null>(null);
+
+  // Close menus on route change
+  useEffect(() => {
+    setOpenDropdown(null);
+    setShowMobileMenu(false);
+  }, [pathname]);
+
+  // Lock body scroll and stop Lenis while mobile menu is open
+  useEffect(() => {
+    if (showMobileMenu) {
+      document.body.style.overflow = "hidden";
+      (window as any).lenis?.stop?.();
+    } else {
+      document.body.style.overflow = "";
+      (window as any).lenis?.start?.();
+    }
+    return () => {
+      document.body.style.overflow = "";
+      (window as any).lenis?.start?.();
+    };
+  }, [showMobileMenu]);
+
+  // Escape key closes open dropdown or mobile menu
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (openDropdown) {
+          setOpenDropdown(null);
+          activeTriggerRef.current?.focus();
+        } else if (showMobileMenu) {
+          setShowMobileMenu(false);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [openDropdown, showMobileMenu]);
+
+  // Click outside listener for desktop dropdowns
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  if (isAuth) {
+    return null;
+  }
+
+  const toggleDropdown = (label: string, e: React.MouseEvent<HTMLButtonElement>) => {
+    activeTriggerRef.current = e.currentTarget;
+    setOpenDropdown((prev) => (prev === label ? null : label));
+  };
+
+  const isItemActive = (item: NavItem): boolean => {
+    if (item.href) {
+      return pathname === item.href || (item.href !== "/" && pathname?.startsWith(`${item.href}/`));
+    }
+    if (item.children) {
+      return item.children.some(
+        (child) => pathname === child.href || (child.href !== "/" && pathname?.startsWith(`${child.href}/`))
+      );
+    }
+    return false;
+  };
+
+  const openItem = visibleNav.find((i) => i.label === openDropdown && i.children && i.children.length > 0) ?? null;
+
+  return (
+    <>
+      {/* =========================================================================
+          DESKTOP NAVIGATION (>= 900px)
+          State-B floating pill with accessible dropdown menus
+          ========================================================================= */}
+      <header
+        ref={navRef}
+        className={`fixed inset-x-0 z-50 justify-center font-urbanist hidden min-[900px]:flex pointer-events-none transition-[top] duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
+          compact ? "top-4" : darkTop ? "top-6" : "top-0"
+        }`}
+      >
         <div
-            className={`fixed md:w-full w-full top-[25px] flex justify-center z-[49] 2xl:px-[240px] xl:px-[80px] md:px-[40px] px-[20px] transition-all duration-500 ease-in-out ${isScrolled ? "!-top-[110px]" : "top-[25px]"
-                }`}
+          onMouseEnter={cancelClose}
+          onMouseLeave={scheduleClose}
+          className={
+            "relative " +
+            (morphOnScroll
+              ? `pointer-events-auto flex w-[calc(100%-32px)] items-center justify-between gap-5 lg:gap-7 rounded-full border px-5 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.2,0.7,0.2,1)] ${
+                  compact
+                    ? "max-w-[960px] py-2.5 bg-white/85 backdrop-blur-md border-[#EAE8E2] shadow-[0_10px_30px_-5px_rgba(22,22,22,0.08)]"
+                    : "max-w-[1200px] py-5 bg-transparent border-transparent shadow-none"
+                }`
+              : "pointer-events-auto inline-flex items-center gap-5 lg:gap-7 bg-white/95 backdrop-blur-md px-5 sm:px-6 py-2.5 rounded-full border border-[#EAE8E2] shadow-[0_10px_30px_-5px_rgba(22,22,22,0.08)]")
+          }
         >
-            <nav className="bg-white w-full md:rounded-[15px] rounded-[10px] border-gray-200 shadow-[0_0_20px_#00000020]">
-                <div className="flex flex-wrap items-center justify-between mx-4 md:py-4 py-3">
-                    {/* Menu Button & Logo */}
-                    <div className="flex md:flex-row flex-row-reverse md:justify-start justify-between gap-3 md:w-fit w-full">
-                        <button
-                            onClick={() => setShowMenu(true)}
-                            type="button"
-                            className="inline-flex items-center md:p-2 md:size-10 size-7 justify-center text-sm text-gray-500 rounded-lg lg:hidden"
-                        >
-                            <svg
-                                className="w-5 h-5"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 17 14"
-                            >
-                                <path
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M1 1h15M1 7h15M1 13h15"
-                                />
-                            </svg>
-                        </button>
-                        <motion.a
-                            initial={{ scale: 0, opacity: 0 }}
-                            whileInView={{ scale: 1, opacity: 1 }}
-                            transition={{
-                                delay: 0.2,
-                                duration: 0.3,
-                                type: "tween",
-                            }}
-                            viewport={{ once: true }}
-                            href="/"
-                            className="flex items-center space-x-3 rtl:space-x-reverse origin-left"
-                        >
-                            <img
-                                src="/assets/img/logo/logo.svg"
-                                className="lg:h-[40px] h-[30px] py-[3px] ps-3"
-                                alt="LMS Domain Logo"
-                                title="logo image"
-                            />
-                        </motion.a>
-                    </div>
+          {/* Brand Logo */}
+          <Link href="/" aria-label="LMS Domain home" className="flex items-center shrink-0">
+            <span className="hidden min-[1120px]:inline-flex items-center">
+              <BrandLogo variant="wordmark" tone={onDark ? "dark" : "light"} height={26} />
+            </span>
+            <span className="inline-flex min-[1120px]:hidden items-center">
+              <BrandLogo variant="mark" height={26} />
+            </span>
+          </Link>
 
-                    {/* Desktop Nav Links */}
-                    <div className="hidden w-full lg:block md:w-auto ps-20">
-                        <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white font-manrope">
-                            {navLinks?.map((link, index) => (
-                                <motion.li
-                                    key={link.label}
-                                    initial={{ opacity: 0, x: 40 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    transition={{
-                                        delay: 0.3 + index * 0.15,
-                                        duration: 0.3,
-                                        ease: "easeOut",
-                                    }}
-                                    viewport={{ once: true }}
-                                >
-                                    <a
-                                        href={link.href}
-                                        className="block py-2 px-0 2xl:text-[18px] text-[16px] hover:text-MainColor transition"
-                                    >
-                                        {link.label}
-                                    </a>
-                                </motion.li>
-                            ))}
-                        </ul>
-                    </div>
+          {/* Navigation Items */}
+          <nav className={cn("flex items-center gap-1 sm:gap-2 text-[13px] font-medium transition-colors duration-500", onDark ? "text-white/75" : "text-[#6B6F76]")}>
+            {visibleNav.map((item) => {
+              const active = isItemActive(item);
+              const hasDropdown = Boolean(item.children && item.children.length > 0);
+              const isOpen = openDropdown === item.label;
 
-                    {/* Buttons */}
-                    <div className="button-section md:flex hidden gap-[10px] font-manrope">
-                        {buttons?.map((btn, index) => (
-                            <motion.div
-                                key={btn.text}
-                                initial={{ opacity: 0, x: -40 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{
-                                    delay: 0.4 + index * -0.2,
-                                    duration: 0.3,
-                                    ease: "easeOut",
-                                }}
-                                viewport={{ once: true }}
-                            >
-                                <Link href={btn.href} className={btn.className}>
-                                    {btn.text}
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
+              if (hasDropdown) {
+                return (
+                  <div key={item.label} className="relative">
+                    <button
+                      type="button"
+                      aria-expanded={isOpen}
+                      aria-haspopup="true"
+                      aria-controls="nav-mega"
+                      onClick={(e) => toggleDropdown(item.label, e)}
+                      onMouseEnter={(e) => {
+                        cancelClose();
+                        activeTriggerRef.current = e.currentTarget;
+                        setOpenDropdown(item.label);
+                      }}
+                      className={cn(
+                        "px-3 py-1.5 rounded-full transition-colors flex items-center gap-1 select-none cursor-pointer focus-visible:outline-2 focus-visible:outline-[#7B5CF5]",
+                        active || isOpen
+                          ? onDark
+                            ? "text-white font-semibold bg-white/10"
+                            : "text-[#161616] font-semibold bg-[#F4F4F1]/60"
+                          : onDark
+                            ? "hover:text-white hover:bg-white/10"
+                            : "hover:text-[#161616] hover:bg-[#F9F9F7]"
+                      )}
+                    >
+                      <span>{item.label}</span>
+                      <ChevronDown
+                        className={cn(
+                          "size-3.5 opacity-60 transition-transform duration-200",
+                          isOpen ? "rotate-180" : ""
+                        )}
+                      />
+                    </button>
+
+                  </div>
+                );
+              }
+
+              // Direct Link
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href || "/"}
+                  onMouseEnter={() => setOpenDropdown(null)}
+                  className={cn(
+                    "px-3 py-1.5 rounded-full transition-colors flex items-center gap-1.5 focus-visible:outline-2 focus-visible:outline-[#7B5CF5]",
+                    active
+                      ? onDark
+                        ? "text-white font-semibold bg-white/10"
+                        : "text-[#161616] font-semibold bg-[#F4F4F1]/60"
+                      : onDark
+                        ? "hover:text-white hover:bg-white/10"
+                        : "hover:text-[#161616] hover:bg-[#F9F9F7]"
+                  )}
+                >
+                  <span>{item.label}</span>
+                  {item.badge && (
+                    <span className="bg-[#EEE9FF] text-[#7B5CF5] font-semibold text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border border-[#DDD6FE]">
+                      {item.badge}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+
+            {showLogin && (
+              <Link
+                href="/login"
+                className={cn(
+                  "px-3 py-1.5 transition-colors focus-visible:outline-2 focus-visible:outline-[#7B5CF5] rounded-full",
+                  onDark ? "text-white/75 hover:text-white" : "text-[#6B6F76] hover:text-[#161616]"
+                )}
+              >
+                Log in
+              </Link>
+            )}
+          </nav>
+
+          {/* Book a Demo CTA */}
+          <button
+            type="button"
+            onClick={() => setShowDemoModal(true)}
+            className={cn(
+              "px-5 py-2 rounded-full text-[13px] font-semibold transition-all shadow-xs active:scale-95 cursor-pointer shrink-0 whitespace-nowrap",
+              onDark ? "bg-white text-[#161616] hover:bg-[#F4F4F5]" : "bg-[#161616] hover:bg-black text-white"
+            )}
+          >
+            Book a demo
+          </button>
+
+          {/* Mega menu: one shared panel that resizes between menus */}
+          {openItem && (
+            <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-3">
+              <div
+                id="nav-mega"
+                role="region"
+                aria-label={`${openItem.label} menu`}
+                style={{ width: `min(${megaWidth(openItem.label)}px, calc(100vw - 32px))` }}
+                className="nav-panel-in rounded-[24px] border border-[#ECECF0] bg-white p-2 font-sans text-left shadow-[0_2px_6px_rgba(16,16,24,0.05),0_40px_90px_-30px_rgba(16,16,24,0.35)] transition-[width] duration-300 ease-[cubic-bezier(0.2,0.7,0.2,1)]"
+              >
+                <div key={openItem.label} className="nav-swap">
+                  <NavMegaContent item={openItem} pathname={pathname} featured={featuredGuide} onNavigate={() => setOpenDropdown(null)} />
                 </div>
-            </nav>
-
-            {/* Mobile Menu */}
-            <Sheet open={showMenu} onOpenChange={() => setShowMenu(false)}>
-                <SheetContent className="w-[85%] z-99">
-                    <MobileMenu navLinks={navLinks} buttons={buttons} />
-                </SheetContent>
-            </Sheet>
+              </div>
+            </div>
+          )}
         </div>
-    );
+      </header>
+
+      {/* =========================================================================
+          MOBILE / TABLET TOP BAR (< 900px)
+          Fixed top header with logo, CTA button and hamburger toggle
+          ========================================================================= */}
+      <header
+        className={`w-full top-0 inset-x-0 z-40 font-urbanist flex min-[900px]:hidden items-center justify-between px-4 sm:px-6 ${
+          morphOnScroll
+            ? `fixed transition-all duration-300 ${
+                scrolled
+                  ? "h-16 bg-white/90 backdrop-blur-md border-b border-[#EAE8E2] shadow-[0_6px_20px_-10px_rgba(22,22,22,0.12)]"
+                  : "h-20 bg-transparent border-b border-transparent"
+              }`
+            : "absolute h-20"
+        }`}
+      >
+        <Link href="/" aria-label="LMS Domain home" className="min-w-[44px] min-h-[44px] flex items-center shrink-0">
+          <span className="inline-flex items-center">
+            <BrandLogo variant="wordmark" tone="light" height={24} />
+          </span>
+        </Link>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setShowDemoModal(true)}
+            className="min-h-[44px] px-4 py-2 rounded-full bg-[#161616] text-white text-xs sm:text-sm font-semibold shadow-xs flex items-center justify-center cursor-pointer active:scale-95 whitespace-nowrap shrink-0"
+          >
+            Book a demo
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowMobileMenu(true)}
+            aria-label="Open navigation menu"
+            className="min-w-[44px] min-h-[44px] p-2 text-[#161616] hover:bg-[#F3F4F6] rounded-xl transition flex items-center justify-center cursor-pointer active:scale-95"
+          >
+            <Menu className="size-6" />
+          </button>
+        </div>
+      </header>
+
+      {/* =========================================================================
+          MOBILE FULL-SCREEN DRAWER (< 900px)
+          Collapsible dropdown sections + standalone routes
+          ========================================================================= */}
+      {showMobileMenu && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation menu"
+          className="fixed inset-0 z-50 bg-white flex flex-col justify-between p-6 font-urbanist animate-in fade-in duration-200 overflow-y-auto"
+        >
+          <div>
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between pb-6 border-b border-[#EAE8E2]">
+              <Link
+                href="/"
+                aria-label="LMS Domain home"
+                onClick={() => setShowMobileMenu(false)}
+                className="min-w-[44px] min-h-[44px] flex items-center shrink-0"
+              >
+                <BrandLogo variant="wordmark" tone="light" height={24} />
+              </Link>
+              <button
+                type="button"
+                onClick={() => setShowMobileMenu(false)}
+                aria-label="Close menu"
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center p-2 text-[#6B6F76] hover:text-[#161616] rounded-lg cursor-pointer"
+              >
+                <X className="size-6" />
+              </button>
+            </div>
+
+            {/* Mobile Nav Links & Accordions */}
+            <div className="flex flex-col pt-3">
+              {visibleNav.map((item) => {
+                const hasChildren = Boolean(item.children && item.children.length > 0);
+                const isExpanded = mobileExpandedSection === item.label;
+
+                if (hasChildren) {
+                  return (
+                    <div key={item.label} className="border-b border-[#F0EFEA]">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setMobileExpandedSection((prev) => (prev === item.label ? null : item.label))
+                        }
+                        className="w-full text-xl sm:text-2xl font-semibold text-[#161616] py-3.5 flex items-center justify-between text-left cursor-pointer"
+                      >
+                        <span>{item.label}</span>
+                        <ChevronDown
+                          className={cn(
+                            "size-5 text-[#8F94A0] transition-transform duration-200",
+                            isExpanded ? "rotate-180 text-[#161616]" : ""
+                          )}
+                        />
+                      </button>
+
+                      {isExpanded && (
+                        <div className="pb-3 space-y-0.5 nav-swap">
+                          {item.children!.map((child) => {
+                            const Icon = iconFor(child.href);
+                            return (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                onClick={() => setShowMobileMenu(false)}
+                                className="flex items-center gap-3 rounded-[14px] p-2 font-sans transition-colors hover:bg-[#F5F5F8]"
+                              >
+                                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[11px] border border-[#ECECF0] bg-white text-[#0A0A0B] shadow-[0_1px_2px_rgba(16,16,24,0.06)]">
+                                  <Icon className="h-[18px] w-[18px]" strokeWidth={1.8} />
+                                </span>
+                                <span className="min-w-0 flex-1">
+                                  <span className="flex items-center gap-2 text-[15px] font-semibold text-[#0A0A0B]">
+                                    {child.label}
+                                    {child.badge && (
+                                      <span className="rounded-full bg-[#0A0A0B] px-1.5 py-px text-[10px] font-semibold text-white">{child.badge}</span>
+                                    )}
+                                  </span>
+                                  {child.description && <span className="block truncate text-[12.5px] text-[#71717A]">{child.description}</span>}
+                                </span>
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                // Direct standalone item
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href || "/"}
+                    onClick={() => setShowMobileMenu(false)}
+                    className="text-xl sm:text-2xl font-semibold text-[#161616] py-3.5 border-b border-[#F0EFEA] hover:text-[#7B5CF5] transition-colors flex items-center justify-between"
+                  >
+                    <span>{item.label}</span>
+                    <ArrowRight className="size-4 text-[#8F94A0]" />
+                  </Link>
+                );
+              })}
+
+              {showLogin && (
+                <Link
+                  href="/login"
+                  onClick={() => setShowMobileMenu(false)}
+                  className="text-lg font-medium text-[#6B6F76] py-3.5 border-b border-[#F0EFEA] hover:text-[#161616] transition-colors"
+                >
+                  Log in
+                </Link>
+              )}
+            </div>
+          </div>
+
+          {/* Drawer Footer CTA */}
+          <div className="pt-6 pb-2">
+            <button
+              type="button"
+              onClick={() => {
+                setShowMobileMenu(false);
+                setShowDemoModal(true);
+              }}
+              className="w-full py-4 rounded-full bg-[#161616] hover:bg-black text-white text-base font-semibold shadow-md active:scale-95 transition-all cursor-pointer flex items-center justify-center gap-2"
+            >
+              <span>Book a demo</span>
+              <ArrowRight className="size-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Demo Enquiry Modal */}
+      <Dialog open={showDemoModal} onOpenChange={setShowDemoModal}>
+        <DialogContent className={DEMO_DIALOG_CLASS}>
+          <EnquiryForm onClose={() => setShowDemoModal(false)} />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }
 
 export default Header;

@@ -1,0 +1,132 @@
+{
+ "home": {
+  "path": "/",
+  "metatitle": "LMS for Online Academies & Course Creators",
+  "metadescription": "Run your online academy on your own website: courses, live Zoom classes, tests and payments in any currency, with 0% commission on your sales."
+ },
+ "platform": {
+  "path": "/platform",
+  "metatitle": "All-in-One LMS Platform for Academies & Course Creators",
+  "metadescription": "One platform to teach courses and live Zoom classes, run tests, manage batches, sell in any currency and brand your academy on your own domain. 0% commission."
+ },
+ "platform-teach": {
+  "path": "/platform/teach",
+  "metatitle": "Online Course Builder & Live Zoom Classes",
+  "metadescription": "Build video and PDF courses with drip release, run live Zoom classes for each batch, and host bootcamps and 1:1 tutor sessions on your own branded academy."
+ },
+ "platform-assess": {
+  "path": "/platform/assess",
+  "metatitle": "Online Tests, Question Banks & Certificates",
+  "metadescription": "Create timed tests and mock exams from question banks, review assignments, add in-video quizzes and issue branded certificates automatically with LMS Domain."
+ },
+ "platform-manage": {
+  "path": "/platform/manage",
+  "metatitle": "Batch Management, Attendance & Learner Tracking",
+  "metadescription": "Manage batches, track attendance for every live class, follow learner progress, set team roles and send email and SMS reminders from one LMS Domain dashboard."
+ },
+ "platform-sell": {
+  "path": "/platform/sell",
+  "metatitle": "Sell Courses Online with 0% Commission",
+  "metadescription": "Sell courses on your own checkout with Stripe, Razorpay, Paytm or DOKU. Multi-currency prices, coupons, invoices and offline payments, with 0% commission."
+ },
+ "platform-brand": {
+  "path": "/platform/brand",
+  "metatitle": "White-Label LMS on Your Own Domain",
+  "metadescription": "Launch a white-label academy on your own domain with free SSL, your logo, colours and fonts, a no-code homepage builder, SEO settings and a built-in blog."
+ },
+ "platform-ai": {
+  "path": "/platform/ai",
+  "metatitle": "Domie AI: AI Teaching Assistant for Your Academy",
+  "metadescription": "Domie AI answers learner questions from your own course content, drafts course descriptions and flags learners falling behind. Available on LMS Domain Pro."
+ },
+ "platform-security": {
+  "path": "/platform/security",
+  "metatitle": "Secure LMS with Video Watermarking & Device Limits",
+  "metadescription": "Protect course videos with learner watermarks and device limits, control team access with roles, and keep academy data on secure managed hosting with LMS Domain."
+ },
+ "coaching-institutes": {
+  "path": "/solutions/coaching-institutes",
+  "metatitle": "LMS for Coaching Institutes & Tuition Centres",
+  "metadescription": "Run batches, live Zoom classes with automatic attendance, timed mock tests and online fee collection for your coaching institute, on your own branded website."
+ },
+ "language-test-prep-academies": {
+  "path": "/solutions/language-test-prep-academies",
+  "metatitle": "LMS for Language Schools & Test-Prep Academies",
+  "metadescription": "Run language and exam-prep batches with live Zoom classes, timed practice tests, essay reviews with private feedback, certificates and multi-currency fees on your own site."
+ },
+ "training-companies": {
+  "path": "/solutions/training-companies",
+  "metatitle": "LMS for Training Companies & Corporate Cohorts",
+  "metadescription": "Run private client batches and bootcamps, teach live on Zoom, review projects, issue branded certificates and export completion reports on your own white-label LMS."
+ },
+ "solo-educators": {
+  "path": "/solutions/solo-educators",
+  "metatitle": "LMS for Solo Educators & Course Creators",
+  "metadescription": "Sell courses, live Zoom workshops, paid 1:1 sessions and ebooks on your own branded website. Payments go straight to you, with 0% commission."
+ },
+ "pricing": {
+  "path": "/pricing",
+  "metatitle": "LMS Pricing Plans: 0% Commission, Free Trial",
+  "metadescription": "Compare LMS Domain plans for academies and course creators. Every plan includes your own domain, live classes and 0% commission. Try free for 15 days."
+ },
+ "custom-lms": {
+  "path": "/custom-lms",
+  "metatitle": "Custom LMS Development & White-Label Setup",
+  "metadescription": "A custom LMS set up for you: your branded academy on your own domain, migration from your old platform, staff training, custom features and ongoing support."
+ },
+ "customers": {
+  "path": "/customers",
+  "metatitle": "Customers: Academies Using LMS Domain | LMS Domain",
+  "metadescription": "See the coaching institutes, language schools, training companies and independent educators who teach, sell and run live classes on LMS Domain."
+ },
+ "roadmap": {
+  "path": "/roadmap",
+  "metatitle": "LMS Domain Product Roadmap: What We're Building Next | LMS Domain",
+  "metadescription": "See the features planned for LMS Domain: branded mobile apps, WhatsApp notifications, memberships, affiliates, sales funnels and more, plus everything available today."
+ },
+ "blog": {
+  "path": "/resources/blog",
+  "metatitle": "Blog & Guides",
+  "metadescription": "Practical guides for running an online academy: starting out, choosing an LMS, teaching live batches and selling courses on your own website."
+ },
+ "about": {
+  "path": "/about",
+  "metatitle": "About LMS Domain: The LMS Built for Academies | LMS Domain",
+  "metadescription": "LMS Domain is built by Techiegram to help academies, coaching institutes, training companies and educators run their own branded academy, with 0% commission."
+ },
+ "contact": {
+  "path": "/contact",
+  "metatitle": "Contact Us: Sales, Onboarding & Support",
+  "metadescription": "Talk to the LMS Domain team about plans, a demo, setting up your academy, moving from another platform or support. Real people reply to every message."
+ },
+ "demo": {
+  "path": "/demo",
+  "metatitle": "Book a Free 20-Minute LMS Domain Demo | LMS Domain",
+  "metadescription": "Book a free 20-minute demo of LMS Domain. See batches, live classes, tests, payments and your own branded academy, shown with your courses."
+ },
+ "login": {
+  "path": "/login",
+  "metatitle": "Log In",
+  "metadescription": "Log in to your LMS Domain academy platform."
+ },
+ "signup": {
+  "path": "/signup",
+  "metatitle": "Sign Up",
+  "metadescription": "Start your LMS Domain academy platform."
+ },
+ "privacy-policy": {
+  "path": "/privacy-policy",
+  "metatitle": "Privacy Policy & Data Protection Terms",
+  "metadescription": "Official privacy policy for LMS Domain. Learn how we collect, protect, and handle academy and student personal data under Indian and international privacy laws."
+ },
+ "terms": {
+  "path": "/terms",
+  "metatitle": "Terms of Service & Customer Agreement",
+  "metadescription": "Official Terms of Service and master customer agreement for LMS Domain. Read our software subscription terms, acceptable use policies, and billing terms."
+ },
+ "refund-policy": {
+  "path": "/refund-policy",
+  "metatitle": "Subscription Refund Policy & Guarantees",
+  "metadescription": "Official subscription refund and cancellation policy for LMS Domain. Understand trial periods, billing cycles, cancellation terms, and refund eligibility."
+ }
+}

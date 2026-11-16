@@ -1,0 +1,148 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { motion, useReducedMotion } from "motion/react";
+import type { AuthSignupCopy } from "@/types/content";
+import { usePageVisibility } from "@/lib/pages-context";
+
+interface AuthSignupFormProps {
+  copy: AuthSignupCopy;
+  /** Resolved server-side: from admin site settings → APP_SIGNUP_URL env → undefined */
+  signupUrl?: string;
+}
+
+export function AuthSignupForm({ copy, signupUrl }: AuthSignupFormProps) {
+  const { isPathVisible } = usePageVisibility();
+  const searchParams = useSearchParams();
+  const shouldReduceMotion = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+
+  const isDev = process.env.NODE_ENV !== "production";
+  const isMissingEnv = !signupUrl;
+
+  const selectedPlan = searchParams?.get("plan");
+  const selectedBilling = searchParams?.get("billing");
+
+  useEffect(() => {
+    setMounted(true);
+    if (isMissingEnv) {
+      console.error(
+        "[auth/signup] No signup URL configured. Set APP_SIGNUP_URL server env or configure appSignupUrl in admin site settings."
+      );
+    }
+  }, [isMissingEnv]);
+
+  // Build the target signup redirect URL, forwarding ?plan= and ?billing= if present
+  const getTargetUrl = () => {
+    if (!signupUrl) return "#";
+    try {
+      const url = new URL(signupUrl, typeof window !== "undefined" ? window.location.origin : "https://app.lmsdomain.com");
+      if (selectedPlan) url.searchParams.set("plan", selectedPlan);
+      if (selectedBilling) url.searchParams.set("billing", selectedBilling);
+      return url.toString();
+    } catch {
+      const params = new URLSearchParams();
+      if (selectedPlan) params.set("plan", selectedPlan);
+      if (selectedBilling) params.set("billing", selectedBilling);
+      const qs = params.toString();
+      if (qs) {
+        const sep = signupUrl.includes("?") ? "&" : "?";
+        return `${signupUrl}${sep}${qs}`;
+      }
+      return signupUrl;
+    }
+  };
+
+  const targetUrl = mounted ? getTargetUrl() : signupUrl || "#";
+
+  return (
+    <motion.div
+      initial={shouldReduceMotion ? false : { opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="space-y-6 text-left"
+    >
+      {/* Title & Subtitle */}
+      <div className="space-y-2">
+        <h1 className="font-urbanist text-[clamp(34px,4vw,44px)] font-semibold text-[#0A0A0B] tracking-[-0.035em] leading-[1.05]">
+          {copy.title}
+        </h1>
+        <p className="text-base text-[#6B6F76] leading-relaxed">
+          {copy.subtitle}
+        </p>
+      </div>
+
+      {/* Selected Plan Indicator Chip */}
+      {selectedPlan && (
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#EEE9FF] border border-[#DDD6FE] text-xs font-semibold text-[#6C4BFF]">
+          <span>Plan:</span>
+          <span className="capitalize">{selectedPlan}</span>
+          {selectedBilling && (
+            <span className="text-[#6B6F76] font-normal">({selectedBilling})</span>
+          )}
+        </div>
+      )}
+
+      {/* Mode A Primary Action */}
+      <div className="pt-2 space-y-4">
+        {isMissingEnv ? (
+          <div className={isDev ? "p-3 rounded-xl border-2 border-dashed border-red-500 bg-red-50/50 text-center space-y-1.5" : ""}>
+            <button
+              type="button"
+              disabled
+              className="w-full h-12 rounded-full bg-slate-200 text-slate-400 font-semibold text-sm cursor-not-allowed flex items-center justify-center"
+            >
+              {copy.submitLabel}
+            </button>
+            {isDev && (
+              <span className="text-xs text-red-600 block font-mono">
+                Missing APP_SIGNUP_URL (server env) or admin appSignupUrl setting
+              </span>
+            )}
+          </div>
+        ) : (
+          <a
+            href={targetUrl}
+            className="w-full h-12 rounded-full bg-[#0A0A0B] hover:bg-[#27272A] text-white font-semibold text-sm flex items-center justify-center transition-all active:scale-[0.98] shadow-xs hover:shadow-md cursor-pointer"
+          >
+            {copy.submitLabel}
+          </a>
+        )}
+
+        {/* Terms and Privacy note */}
+        {copy.termsNote && (
+          <p className="text-xs text-[#8F94A0] text-center leading-relaxed">
+            By signing up, you agree to our{" "}
+            <Link href="/terms" className="text-[#6B6F76] underline hover:text-[#161616]">
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link href="/privacy-policy" className="text-[#6B6F76] underline hover:text-[#161616]">
+              Privacy Policy
+            </Link>
+            .
+          </p>
+        )}
+      </div>
+
+      {/* Switch to Login Prompt */}
+      {isPathVisible("/login") && (
+        <div className="pt-6 border-t border-slate-100 text-center">
+          <p className="text-sm text-[#6B6F76]">
+            {copy.loginPrompt}{" "}
+            <Link
+              href="/login"
+              className="text-[#6C4BFF] font-semibold hover:underline cursor-pointer"
+            >
+              {copy.loginLinkLabel}
+            </Link>
+          </p>
+        </div>
+      )}
+    </motion.div>
+  );
+}
+
+export default AuthSignupForm;
