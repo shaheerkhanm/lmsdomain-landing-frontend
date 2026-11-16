@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Award, Check, Lock, Mail, PlayCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { LmsDomainMark } from "@/components/brand/PartnerMarks";
 
 const BRANDS = [
   { c: "#6C4BFF", soft: "#F1EDFF", n: "Violet" },
@@ -97,9 +98,7 @@ export function BrandCanvas() {
             </div>
             <div className="flex items-center justify-between px-5 py-3">
               <div className="flex items-center gap-2">
-                <span className={cn("grid h-7 w-7 place-items-center rounded-[8px] text-[11px] font-bold text-white", tx)} style={{ background: b.c }}>
-                  AA
-                </span>
+                <LmsDomainMark size={28} />
                 <span className="text-[14px] font-semibold text-[#18181B]">Apex Academy</span>
               </div>
               <div className="hidden gap-4 text-[12px] text-[#71717A] sm:flex">
@@ -144,9 +143,7 @@ export function BrandCanvas() {
           <div className="relative z-20 mx-auto mt-8 w-[200px] lg:absolute lg:bottom-[48px] lg:left-[70px] lg:mt-0 lg:w-[210px]">
             <div className={cn("-rotate-[4deg] overflow-hidden rounded-[32px] border-[7px] border-[#1C1A26] bg-white", shadow)}>
               <div className="flex items-center gap-1.5 px-3.5 pb-2 pt-4">
-                <span className={cn("grid h-6 w-6 place-items-center rounded-[7px] text-[9px] font-bold text-white", tx)} style={{ background: b.c }}>
-                  AA
-                </span>
+                <LmsDomainMark size={24} />
                 <span className="text-[11px] font-semibold text-[#18181B]">Apex Academy</span>
               </div>
               <div className={cn("mx-3 rounded-[12px] p-3", tx)} style={{ background: b.c }}>
@@ -170,9 +167,7 @@ export function BrandCanvas() {
           {/* Login (left top) */}
           <div className={cn("absolute left-[60px] top-[80px] z-0 hidden w-[230px] rotate-[-3deg] rounded-[18px] bg-white p-4 xl:block", shadow)}>
             <div className="flex items-center gap-2">
-              <span className={cn("grid h-7 w-7 place-items-center rounded-[8px] text-[10px] font-bold text-white", tx)} style={{ background: b.c }}>
-                AA
-              </span>
+              <LmsDomainMark size={28} />
               <p className="text-[13px] font-semibold">Sign in to Apex</p>
             </div>
             <span className="mt-3 block h-8 rounded-[8px] border border-[#ECECF1]" />
@@ -192,9 +187,7 @@ export function BrandCanvas() {
                 <p className="mt-1.5 font-urbanist text-[22px] font-semibold text-[#18181B]">Priya Sharma</p>
                 <p className="text-[11.5px] text-[#71717A]">Data Analysis Bootcamp</p>
                 <div className="mt-3 flex items-center justify-center gap-1.5">
-                  <span className={cn("grid h-5 w-5 place-items-center rounded-[5px] text-[8px] font-bold text-white", tx)} style={{ background: b.c }}>
-                    AA
-                  </span>
+                  <LmsDomainMark size={20} />
                   <span className="text-[11px] font-semibold text-[#18181B]">Apex Academy</span>
                 </div>
               </div>

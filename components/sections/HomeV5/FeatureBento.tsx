@@ -12,10 +12,10 @@ import {
   TrendingUp,
   ArrowDownLeft,
   Search,
-  Video,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container, SectionHeading } from "./primitives";
+import { BrandMark, LmsDomainMark, type BrandName } from "@/components/brand/PartnerMarks";
 
 /*
  * Feature cards modelled on the reference designs (Wiza / finerrr):
@@ -185,7 +185,7 @@ export function LiveArt() {
             </span>
           </div>
           <span className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#0A0A0B] px-3 py-1.5 text-[11.5px] font-semibold text-white">
-            <Video className="h-3.5 w-3.5" /> Join on Zoom
+            <BrandMark name="Zoom" size={14} className="rounded-[4px]" /> Join on Zoom
           </span>
         </div>
       </Panel>
@@ -197,24 +197,10 @@ export function LiveArt() {
 }
 
 /* ---------------- 3. Integrations: brand chips joined by bracket lines (Wiza style) ---------------- */
-const BRANDS: Record<string, { color: string; mark: React.ReactNode }> = {
-  "LMS Domain": { color: "#0A0A0B", mark: "L" },
-  Zoom: { color: "#2D8CFF", mark: <Video className="h-3 w-3" /> },
-  Stripe: { color: "#635BFF", mark: "S" },
-  Razorpay: { color: "#0C2451", mark: "R" },
-  Zapier: { color: "#FF4F00", mark: "Z" },
-};
-
-function BrandChip({ name, className }: { name: string; className?: string }) {
-  const b = BRANDS[name];
+function BrandChip({ name, className }: { name: "LMS Domain" | BrandName; className?: string }) {
   return (
     <Panel className={cn("flex h-10 w-fit items-center gap-2 rounded-full pl-2 pr-4", className)}>
-      <span
-        className="grid h-6 w-6 place-items-center rounded-full text-[11px] font-bold text-white"
-        style={{ background: b.color }}
-      >
-        {b.mark}
-      </span>
+      {name === "LMS Domain" ? <LmsDomainMark size={24} /> : <BrandMark name={name} size={24} />}
       <span className="text-[13.5px] font-semibold text-[#18181B]">{name}</span>
     </Panel>
   );
@@ -338,7 +324,7 @@ export function BrandArt() {
         </div>
         <div className="flex items-center justify-between px-5 py-3">
           <div className="flex items-center gap-2">
-            <span className="grid h-6 w-6 place-items-center rounded-[6px] bg-[#0F766E] text-[11px] font-bold text-white">N</span>
+            <LmsDomainMark size={24} />
             <p className="whitespace-nowrap text-[13px] font-semibold text-[#18181B]">Northwind Academy</p>
           </div>
         </div>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowUp, BookOpen, Check, FileText, ListChecks, PlayCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DemoCursor, pointIn, type DemoPos } from "../DemoCursor";
+import { DomieMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Domie AI hero window with a scripted demo: a learner asks a question inside the course,
@@ -52,14 +53,7 @@ const A2: Msg = {
 };
 
 function DomieAvatar({ size = 26 }: { size?: number }) {
-  return (
-    <span
-      className="grid shrink-0 place-items-center rounded-full bg-[#0A0A0B] font-urbanist text-[11px] font-bold text-white"
-      style={{ width: size, height: size }}
-    >
-      D
-    </span>
-  );
+  return <DomieMark size={size} />;
 }
 
 export function AiDemo() {

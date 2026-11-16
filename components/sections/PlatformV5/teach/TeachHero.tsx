@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import { Video, CalendarClock } from "lucide-react";
+import { CalendarClock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { TeachDemo } from "./TeachDemo";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Teach hero: a learner's course player (lesson video + lesson list), fully contained,
@@ -60,7 +61,7 @@ export function TeachHero() {
             </div>
           </div>
           <span className="mt-3 flex items-center justify-center gap-1.5 rounded-full bg-[#0A0A0B] py-2 text-[12px] font-semibold text-white">
-            <Video className="h-3.5 w-3.5" /> Join on Zoom
+            <BrandMark name="Zoom" size={14} className="rounded-[4px]" /> Join on Zoom
           </span>
         </div>
       </div>

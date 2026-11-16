@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowDownLeft, BookOpen, CalendarCheck, FileText, Users, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DemoCursor, pointIn, type DemoPos } from "../../PlatformV5/DemoCursor";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Solo educator hero: a creator's dashboard for one week.
@@ -242,7 +243,7 @@ export function SoloDemo() {
             {tab === "Payouts" && (
               <div key="payouts" className="mo-swap">
                 <div className="rounded-[14px] border border-[#ECECF1] p-4">
-                  <p className="text-[11px] text-[#9A9AA6]">Paid to your Stripe account</p>
+                  <p className="inline-flex items-center gap-1.5 text-[11px] text-[#9A9AA6]"><BrandMark name="Stripe" size={12} className="rounded-[3px]" /> Paid to your Stripe account</p>
                   <p className="font-urbanist text-[30px] font-semibold tabular-nums text-[#15803D]">+${earn.toLocaleString("en-US")}</p>
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     <span className="rounded-full bg-[#F1EDFF] px-2.5 py-0.5 text-[10.5px] font-semibold text-[#6C4BFF]">0% commission</span>

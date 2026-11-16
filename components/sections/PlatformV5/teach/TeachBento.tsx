@@ -1,7 +1,8 @@
 import React from "react";
-import { BookOpen, Check, FileText, Lock, PlayCircle, Type, Video, Upload } from "lucide-react";
+import { BookOpen, Check, FileText, Lock, PlayCircle, Type, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, Panel, Field, Face, d, fadeRight } from "../bento";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Teach feature cards in the Wiza / finerrr style: grey card, a small product UI on top
@@ -120,7 +121,7 @@ function LiveArt() {
         <div className="flex items-center justify-between">
           <p className="text-[13.5px] font-semibold text-[#18181B]">This week · Batch B</p>
           <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#71717A]">
-            <Video className="h-3 w-3" /> Zoom
+            <BrandMark name="Zoom" size={12} className="rounded-[3px]" /> Zoom
           </span>
         </div>
         <div className="mt-2.5 space-y-1">

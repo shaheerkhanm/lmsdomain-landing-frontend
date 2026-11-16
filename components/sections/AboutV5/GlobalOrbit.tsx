@@ -2,39 +2,19 @@ import React from "react";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { Container } from "@/components/sections/HomeV5/primitives";
+import { BrandMark, LmsDomainMark } from "@/components/brand/PartnerMarks";
 
 /*
  * "Built for academies everywhere": currencies and gateways orbiting the platform.
  * Gateways and currencies match the Sell page (Stripe, Razorpay, Paytm, DOKU; USD, EUR, GBP, INR and more).
  */
 
-// Real logo files for Stripe and Razorpay; brand-colour wordmarks for Paytm and DOKU
+// Official logos (public/brands)
 const OUTER: { l: string; a: number; mark: React.ReactNode }[] = [
-  {
-    l: "Stripe",
-    a: 0,
-    mark: <Image src="/assets/img/integration/integration-8.png" alt="Stripe" width={72} height={72} className="h-12 w-12 rounded-full" />,
-  },
-  {
-    l: "Razorpay",
-    a: 90,
-    mark: <Image src="/assets/img/integration/integration-1.png" alt="Razorpay" width={72} height={72} className="h-12 w-12 rounded-full" />,
-  },
-  {
-    l: "Paytm",
-    a: 180,
-    mark: (
-      <span className="font-sans text-[19px] font-extrabold lowercase leading-none tracking-[-0.04em]">
-        <span className="text-[#002E6E]">pay</span>
-        <span className="text-[#00BAF2]">tm</span>
-      </span>
-    ),
-  },
-  {
-    l: "DOKU",
-    a: 270,
-    mark: <span className="font-sans text-[18px] font-black leading-none tracking-[0.02em] text-[#E1251B]">DOKU</span>,
-  },
+  { l: "Stripe", a: 0, mark: <BrandMark name="Stripe" size={44} /> },
+  { l: "Razorpay", a: 90, mark: <BrandMark name="Razorpay" size={44} /> },
+  { l: "Paytm", a: 180, mark: <Image src="/brands/paytm.svg" alt="Paytm" width={64} height={20} className="h-5 w-auto" /> },
+  { l: "DOKU", a: 270, mark: <BrandMark name="DOKU" size={44} /> },
 ];
 const INNER = [
   { l: "$", a: 45 },
@@ -82,7 +62,7 @@ function Orbit() {
 
       <div className="absolute left-1/2 top-1/2 grid h-[96px] w-[96px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-[26px] bg-white text-center shadow-[0_24px_60px_-20px_rgba(108,75,255,0.7)]">
         <div>
-          <span className="mx-auto grid h-9 w-9 place-items-center rounded-[10px] bg-[#0A0A0B] font-urbanist text-[17px] font-bold text-white">L</span>
+          <LmsDomainMark size={36} className="mx-auto block" />
           <p className="mt-1.5 text-[10.5px] font-semibold text-[#18181B]">Your academy</p>
         </div>
       </div>

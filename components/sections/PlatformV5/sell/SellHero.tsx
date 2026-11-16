@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowDownLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SellDemo } from "./SellDemo";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Sell hero: the academy's own checkout with a scripted cursor demo,
@@ -25,7 +26,7 @@ export function SellHero() {
           style={{ "--d": "900ms" } as React.CSSProperties}
           className={cn("v5-rise w-[236px] rotate-[2deg] rounded-[16px] border border-[#ECECF1] bg-white p-3.5", shadow)}
         >
-          <p className="text-[11px] text-[#9A9AA6]">Paid to your Stripe account</p>
+          <p className="inline-flex items-center gap-1.5 text-[11px] text-[#9A9AA6]"><BrandMark name="Stripe" size={12} className="rounded-[3px]" /> Paid to your Stripe account</p>
           <p className="font-urbanist text-[24px] font-semibold tabular-nums text-[#15803D]">+$199.00</p>
           <span className="mt-1 inline-block rounded-full bg-[#F1EDFF] px-2 py-0.5 text-[10.5px] font-semibold text-[#6C4BFF]">0% commission</span>
         </div>

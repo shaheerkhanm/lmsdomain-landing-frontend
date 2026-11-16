@@ -2,9 +2,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Bell, CircleCheck, ListChecks, Video, Wallet } from "lucide-react";
+import { Bell, CircleCheck, ListChecks, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DemoCursor, pointIn, type DemoPos } from "../../PlatformV5/DemoCursor";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /*
  * Coaching institute hero: this week's batch timetable with a detail panel.
@@ -238,7 +239,7 @@ export function CoachingDemo() {
                 <div className="h-full rounded-full bg-[#0A0A0B] transition-[width] duration-150" style={{ width: `${(joined / 24) * 100}%` }} />
               </div>
               <span className="mt-4 flex items-center justify-center gap-1.5 rounded-full bg-[#0A0A0B] py-2 text-[12px] font-semibold text-white">
-                <Video className="h-3.5 w-3.5" /> Join on Zoom
+                <BrandMark name="Zoom" size={14} className="rounded-[4px]" /> Join on Zoom
               </span>
             </div>
           )}

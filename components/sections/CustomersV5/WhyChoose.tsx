@@ -2,6 +2,7 @@ import React from "react";
 import { Check, Lock, Loader2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Container, SectionHeading } from "@/components/sections/HomeV5/primitives";
+import { BrandMark, LmsDomainMark } from "@/components/brand/PartnerMarks";
 
 /*
  * "Why academies choose LMS Domain": four reasons, each with a small animated product visual.
@@ -15,7 +16,7 @@ function CommissionArt() {
   return (
     <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5 px-5">
       <div style={d(100)} className={cn("v5-pop flex w-full max-w-[250px] items-center gap-2.5 p-2.5", panel)}>
-        <span className="grid h-8 w-8 place-items-center rounded-full bg-[#635BFF] text-[12px] font-bold text-white">S</span>
+        <BrandMark name="Stripe" size={32} round />
         <span className="flex-1 text-[12px] font-semibold text-[#18181B]">Course sale · Stripe</span>
         <span className="text-[13px] font-semibold tabular-nums">$249.00</span>
       </div>
@@ -108,7 +109,7 @@ function OnePlatformArt() {
       <span className="mo-flow h-[2px] w-6 shrink-0 rounded-full" />
       <div style={d(450)} className="v5-pop grid h-[92px] w-[92px] place-items-center rounded-[22px] bg-[#0A0A0B] text-center text-white shadow-[0_20px_40px_-18px_rgba(10,10,11,0.6)]">
         <div>
-          <span className="mx-auto grid h-7 w-7 place-items-center rounded-[8px] bg-white font-urbanist text-[13px] font-bold text-[#0A0A0B]">L</span>
+          <LmsDomainMark size={28} className="mx-auto block" />
           <p className="mt-1.5 text-[10.5px] font-semibold leading-tight">One login</p>
         </div>
       </div>

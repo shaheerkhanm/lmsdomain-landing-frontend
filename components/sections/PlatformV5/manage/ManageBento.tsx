@@ -2,6 +2,7 @@ import React from "react";
 import { BookOpen, Check, Download, FileSpreadsheet, Mail, MessageSquare, Minus, Send, Video } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, Panel, Face, d, fadeRight } from "../bento";
+import { BrandMark } from "@/components/brand/PartnerMarks";
 
 /* Sample data only. Claims match content/platform/manage.ts. */
 
@@ -106,7 +107,7 @@ function AttendanceArt() {
         <div className="flex items-center justify-between">
           <p className="text-[13.5px] font-semibold text-[#18181B]">Today · Batch B</p>
           <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#71717A]">
-            <Video className="h-3 w-3" /> Zoom
+            <BrandMark name="Zoom" size={12} className="rounded-[3px]" /> Zoom
           </span>
         </div>
         <div className="relative mt-3 space-y-2.5">
