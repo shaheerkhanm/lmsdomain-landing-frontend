@@ -23,6 +23,7 @@ import { defaultContactDetails } from "@/content/contact";
 import { DEFAULT_LEGAL_PAGES } from "@/content/legal";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, type RoadmapSection } from "@/content/roadmap";
 import { BLOG_POSTS, BLOG_META } from "@/content/blog/posts";
+import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, type CustomersSection } from "@/content/customers";
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(name);
@@ -107,6 +108,12 @@ for (const [key, slug, cmsTitle] of CUSTOM) {
 for (const key of Object.keys(ROADMAP_SLUGS) as RoadmapSection[]) {
   const { slug, label } = ROADMAP_SLUGS[key];
   text.push(withFields({ slug, pageSlug: "roadmap", cmsTitle: label, title: label.replace(/^Roadmap: /, ""), data: clone(ROADMAP_DEFAULTS[key]) }, true));
+}
+
+// Customers page: one entry per section (admin page "customers-page")
+for (const key of Object.keys(CUSTOMERS_SLUGS) as CustomersSection[]) {
+  const { slug, label } = CUSTOMERS_SLUGS[key];
+  text.push(withFields({ slug, pageSlug: "customers-page", cmsTitle: label, title: label.replace(/^Customers: /, ""), data: clone(CUSTOMERS_DEFAULTS[key]) }, true));
 }
 
 // 2. Company facts: never replace what is filled in --------------------------------

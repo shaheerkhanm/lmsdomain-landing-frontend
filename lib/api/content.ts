@@ -13,6 +13,7 @@ import { getPricingFaqs, DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
 import { defaultAboutContent, AboutContent } from "@/content/about";
 import { defaultContactDetails, ContactDetails } from "@/content/contact";
 import { BLOG_POSTS, BLOG_COVER_STYLES, readingTimeFor, tocFromHtml, type BlogPost, type BlogCoverStyle } from "@/content/blog/posts";
+import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, mergeCustomersSection, type CustomersContent, type CustomersSection } from "@/content/customers";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
@@ -1524,3 +1525,39 @@ export const getBlogPosts = cache(async (): Promise<BlogPost[]> => {
 export async function getBlogPost(slug: string): Promise<BlogPost | null> {
   return (await getBlogPosts()).find((p) => p.slug === slug) || null;
 }
+
+// ----------------------------------------------------------------------------
+// Customers page (Admin > Website > Customers): one CMS entry per section, the
+// section in `data`. Missing, hidden or empty entries use the built-in text.
+// ----------------------------------------------------------------------------
+export const getCustomersPage = cache(async (): Promise<CustomersContent> => {
+  const keys = Object.keys(CUSTOMERS_SLUGS) as CustomersSection[];
+  const docs = await Promise.all(
+    keys.map((k) => fetchCms(CUSTOMERS_SLUGS[k].slug, ["cms", `cms:${CUSTOMERS_SLUGS[k].slug}`, "customers-page"]).catch(() => null))
+  );
+  const out = {} as Record<CustomersSection, unknown>;
+  keys.forEach((k, i) => {
+    out[k] = mergeCustomersSection(CUSTOMERS_DEFAULTS[k] as unknown as Record<string, unknown>, docs[i]?.data);
+  });
+  const c = out as unknown as CustomersContent;
+  const str = (v: unknown) => String(v ?? "").trim();
+  // Lists edited in the admin: drop empty rows; an emptied list uses the built-in one
+  c.numbers.items = c.numbers.items.map((n) => ({ value: str(n?.value), label: str(n?.label), text: str(n?.text) })).filter((n) => n.value && n.label);
+  if (!c.numbers.items.length) c.numbers.items = CUSTOMERS_DEFAULTS.numbers.items;
+  c.academies.items = c.academies.items
+    .map((a) => ({
+      name: str(a?.name),
+      text: str(a?.text),
+      points: (Array.isArray(a?.points) ? a.points : []).map(str).filter(Boolean),
+      statValue: str(a?.statValue),
+      statLabel: str(a?.statLabel),
+      personName: str(a?.personName),
+      personRole: str(a?.personRole),
+      link: /^\/[a-z0-9/_-]*$/i.test(str(a?.link)) ? str(a?.link) : "",
+    }))
+    .filter((a) => a.name);
+  if (!c.academies.items.length) c.academies.items = CUSTOMERS_DEFAULTS.academies.items;
+  c.why.items = c.why.items.map((w) => ({ title: str(w?.title), text: str(w?.text) })).filter((w) => w.title);
+  if (!c.why.items.length) c.why.items = CUSTOMERS_DEFAULTS.why.items;
+  return c;
+});

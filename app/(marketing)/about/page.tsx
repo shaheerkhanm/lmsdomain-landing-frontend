@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { getSiteAbout, fetchSeo } from "@/lib/api/content";
+import { getSiteAbout, fetchSeo, getCustomersPage } from "@/lib/api/content";
 import { fullTitle, getMetadataBase, applySeo } from "@/lib/site";
 import { guardMetadata } from "@/lib/pages";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
@@ -86,7 +86,8 @@ function Person({ m, big = false }: { m: { name: string; role: string; photo?: s
 }
 
 export default async function AboutRoute() {
-  const about = await getSiteAbout();
+  // Numbers: the same as the Customers page (Admin > Website > Customers > Numbers)
+  const [about, customers] = await Promise.all([getSiteAbout(), getCustomersPage()]);
 
   const founders = (about.team || [])
     .filter((m) => m.visible !== false && m.group === "founders")
@@ -219,7 +220,7 @@ export default async function AboutRoute() {
         <Container>
           <SectionHeading eyebrow="So far" title="LMS Domain in numbers" />
           <div className="mt-12 lg:mt-16">
-            <NumbersBento />
+            <NumbersBento items={customers.numbers.items} />
           </div>
         </Container>
       </section>
