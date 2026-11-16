@@ -4,6 +4,7 @@ import { TrainingHero } from "@/components/sections/SolutionsV5/training/Trainin
 import { trainingCompaniesData } from "@/content/solutions/training-companies";
 import { fullTitle, getMetadataBase } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
+import { getSolutionPage } from "@/lib/api/content";
 
 const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
@@ -16,6 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata(baseMetadata, { seo: "training-companies", guard: "training-companies" });
 }
 
-export default function TrainingCompaniesRoute() {
-  return <SolutionV5Page data={trainingCompaniesData} Hero={TrainingHero} pageName="Training companies" />;
+export default async function TrainingCompaniesRoute() {
+  const content = await getSolutionPage("training-companies");
+  return <SolutionV5Page data={trainingCompaniesData} content={content} Hero={TrainingHero} pageName="Training companies" />;
 }

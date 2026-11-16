@@ -25,6 +25,7 @@ import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, type RoadmapSection } from "@/content/
 import { BLOG_POSTS, BLOG_META } from "@/content/blog/posts";
 import { CUSTOMERS_DEFAULTS, CUSTOMERS_SLUGS, type CustomersSection } from "@/content/customers";
 import { DEMO_DEFAULTS, DEMO_SLUGS, type DemoSection } from "@/content/demo";
+import { SOLUTION_PAGES, solutionDefaults, type SolutionKey } from "@/content/solutions/editable";
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(name);
@@ -121,6 +122,12 @@ for (const key of Object.keys(CUSTOMERS_SLUGS) as CustomersSection[]) {
 for (const key of Object.keys(DEMO_SLUGS) as DemoSection[]) {
   const { slug, label } = DEMO_SLUGS[key];
   text.push(withFields({ slug, pageSlug: "demo", cmsTitle: label, title: label.replace(/^Demo: /, ""), data: clone(DEMO_DEFAULTS[key]) }, true));
+}
+
+// Solutions pages: one entry per page (admin page "solutions")
+for (const key of Object.keys(SOLUTION_PAGES) as SolutionKey[]) {
+  const { slug, label, pageName } = SOLUTION_PAGES[key];
+  text.push(withFields({ slug, pageSlug: "solutions", cmsTitle: label, title: pageName, data: clone(solutionDefaults(key)) }, true));
 }
 
 // 2. Company facts: never replace what is filled in --------------------------------
