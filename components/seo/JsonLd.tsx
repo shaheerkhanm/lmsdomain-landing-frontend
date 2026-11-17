@@ -35,7 +35,6 @@ export function getOrganizationJsonLd() {
     contactPoint: {
       "@type": "ContactPoint",
       email: entity.facts.supportEmail,
-      telephone: entity.facts.telephone,
       contactType: "customer support",
     },
     sameAs: [...officialSocialProfiles],
