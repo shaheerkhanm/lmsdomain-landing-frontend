@@ -26,60 +26,55 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
   "edmingle-alternative": {
     slug: "edmingle-alternative",
     competitorName: "Edmingle",
-    metaTitle: "Edmingle Alternative: Academy & Batch LMS | LMS Domain",
+    metaTitle: "Edmingle Alternative for Academies | LMS Domain",
     metaDescription:
-      "Looking for an Edmingle alternative in India? LMS Domain provides scheduled live Zoom batches, mock tests, GST invoices, and dedicated onboarding on your own domain.",
+      "Comparing Edmingle? LMS Domain gives academies live classes on Zoom, batches, timed tests, payments in any currency and their own domain, with 0% commission.",
     title: "Looking for an Edmingle alternative for your academy?",
     subtitle:
-      "LMS Domain is an all-in-one learning management system built for Indian coaching institutes, test-prep centers, and training businesses. Run scheduled live Zoom batches, timed mock tests, and collect fees with automated GST invoices under your own brand.",
+      "LMS Domain is an all-in-one platform for academies, coaching institutes and training businesses anywhere. Run batches with live classes on Zoom, timed tests and certificates, and sell in any currency on your own domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description:
-        "LMS Domain is designed specifically for education businesses that teach in batches and require direct payment settlements with local Indian support.",
+        "LMS Domain is built for education businesses that teach in batches and want payments to go straight to their own account.",
       points: [
-        "Institutes that run structured morning, evening, and weekend batches with automated attendance.",
-        "Academies that need built-in GST tax invoices and direct payouts via Razorpay, Paytm, and Stripe.",
-        "Educators who want direct guidance and hands-on onboarding from a team in India.",
-        "Schools and training companies that prefer predictable subscription pricing without platform commission cuts.",
+        "Academies that run morning, evening and weekend batches, with attendance logged automatically.",
+        "Institutes that sell to learners in more than one country, through Stripe, Razorpay, Paytm or DOKU.",
+        "Teams that want hands-on help from our team to set up courses, domain and payments.",
+        "Schools and training companies that prefer a fixed plan price with 0% commission on sales.",
       ],
     },
     lmsDomainStrengths: [
       {
-        title: "Built for scheduled batch teaching",
-        description:
-          "Manage distinct student cohorts with individual start dates, Zoom live class schedules, automatic attendance tracking, and drip lesson pacing.",
+        title: "Built for batch teaching",
+        description: "Give each batch its own start date, live class schedule on Zoom, attendance log and lesson release dates.",
       },
       {
-        title: "Complete white-label on your domain",
-        description:
-          "Launch your academy portal on your own web domain (learn.yourbrand.com) with custom logos, brand color accents, and free automated SSL.",
+        title: "Your academy on your own domain",
+        description: "Run your academy on your own web address, with your logo and colours and free SSL, on every plan.",
       },
       {
-        title: "Indian payment gateways with GST",
+        title: "Payments in any currency",
         description:
-          "Collect fees via Razorpay, Paytm, Stripe, or DOKU with automated regular and B2B GST invoices and offline bank transfer approvals.",
+          "Take payments through Stripe, Razorpay, Paytm or DOKU in your learners' currencies. Academies in India also get automatic GST invoices.",
       },
       {
-        title: "Testing & branded certificates",
-        description:
-          "Conduct chapter-wise quizzes and timed mock exams from question banks, and issue branded PDF completion certificates.",
+        title: "Tests and certificates",
+        description: "Run timed tests from your question banks and send branded PDF certificates when learners finish.",
       },
     ],
     faqs: [
       {
-        question: "Can I move my existing courses and student records to LMS Domain?",
+        question: "Can I move my existing courses and learners to LMS Domain?",
         answer:
-          "Yes, our onboarding team assists with migrating course videos, student rosters, question banks, and learning materials to ensure a smooth transition.",
+          "Yes. Our team helps you move courses and learners from other platforms. Full migration is included free on [Enterprise](/pricing).",
       },
       {
-        question: "Does LMS Domain charge a commission on my course sales?",
-        answer:
-          "No, LMS Domain operates on fixed subscription pricing with zero platform transaction commissions. Standard processing fees are charged directly by your payment gateway.",
+        question: "Does LMS Domain take a commission on my sales?",
+        answer: "No. You pay a fixed plan price and keep 100% of your sales. Your payment gateway charges its usual processing fees.",
       },
       {
-        question: "Can I run live classes through Zoom?",
-        answer:
-          "Yes, LMS Domain integrates directly with Zoom so scheduled live classes launch seamlessly from the student portal, with attendance logged automatically.",
+        question: "Can I run live classes on Zoom?",
+        answer: "Yes. Schedule live classes on Zoom for each batch. Learners join from your academy, and attendance is logged automatically.",
       },
     ],
   },
@@ -87,55 +82,49 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
   "graphy-alternative": {
     slug: "graphy-alternative",
     competitorName: "Graphy",
-    metaTitle: "Graphy Alternative: White-Label Academy LMS | LMS Domain",
+    metaTitle: "Graphy Alternative for Academies | LMS Domain",
     metaDescription:
-      "Explore LMS Domain as a Graphy alternative. Run live Zoom batches, conduct timed mock exams, sell with GST invoices, and maintain full brand control on your own domain.",
+      "Comparing Graphy? LMS Domain gives academies live batches on Zoom, timed tests, certificates and payments in any currency on their own domain, with 0% commission.",
     title: "Looking for a Graphy alternative for your online academy?",
     subtitle:
-      "LMS Domain offers a complete white-label learning platform for coaching institutes and educators in India. Deliver structured courses, manage scheduled live batches on Zoom, conduct mock tests, and collect fees with GST compliance under your own domain.",
+      "LMS Domain is a white-label learning platform for academies and educators anywhere. Teach recorded courses and live batches on Zoom, run timed tests, and sell in any currency under your own brand and domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
-      description:
-        "LMS Domain is purpose-built for academies and coaching businesses that prioritize scheduled cohort teaching, mock assessments, and direct payment relationships.",
+      description: "LMS Domain is built for academies that teach in scheduled batches, test their learners and want payments paid straight to them.",
       points: [
-        "Coaching centers and tutors who teach live cohorts rather than relying solely on marketing funnels.",
-        "Institutes requiring robust question banks and timed mock exams for competitive and language tests.",
-        "Businesses wanting direct gateway settlements (Razorpay, Paytm) with automated GST invoicing.",
-        "Teams looking for dedicated onboarding and direct technical support from an Indian SaaS provider.",
+        "Academies and tutors who teach live batches, not only recorded courses.",
+        "Institutes that need question banks and timed tests for exams and language courses.",
+        "Businesses that want payments to settle straight into their own Stripe, Razorpay, Paytm or DOKU account.",
+        "Teams that want help from our team with setup and ongoing support.",
       ],
     },
     lmsDomainStrengths: [
       {
-        title: "Deep batch & timetable operations",
-        description:
-          "Coordinate multiple morning and evening shifts with distinct rosters, Zoom meeting links, and automatic attendance logs.",
+        title: "Batches and timetables",
+        description: "Run several batches of the same course, each with its own learners, Zoom links and attendance.",
       },
       {
         title: "Your domain, your brand",
-        description:
-          "Host learning entirely on your domain with automated SSL, custom styling, blog publishing, and downloadable ebooks.",
+        description: "Host your academy on your own domain with free SSL, your colours and a built-in blog.",
       },
       {
-        title: "Comprehensive assessments & certificates",
-        description:
-          "Administer timed mock exams with automated scoring, written assignment feedback, and branded PDF completion certificates.",
+        title: "Tests and certificates",
+        description: "Timed tests scored automatically, written assignments with teacher feedback, and branded PDF certificates.",
       },
       {
-        title: "Grounded AI assistance",
-        description:
-          "Domie AI on Premium provides a student HelpDesk tutor grounded strictly in your academy's published course materials without training external AI models.",
+        title: "Domie AI on Pro",
+        description: "On the Pro plan, Domie AI answers learner questions using only your own published course content.",
       },
     ],
     faqs: [
       {
-        question: "How does LMS Domain handle student payments?",
+        question: "How are learner payments handled?",
         answer:
-          "You connect your own payment gateway merchant accounts (Razorpay, Paytm, Stripe, DOKU). Student payments settle directly into your bank account with automated GST invoices.",
+          "You connect your own Stripe, Razorpay, Paytm or DOKU account, and payments go straight to you. LMS Domain charges 0% commission.",
       },
       {
-        question: "Can I connect my own custom domain?",
-        answer:
-          "Yes, you can connect your own domain or subdomain on every LMS Domain plan with automated SSL certificate provisioning included.",
+        question: "Can I use my own domain?",
+        answer: "Yes. Every plan lets you connect your own domain or subdomain, with free SSL included.",
       },
     ],
   },
@@ -143,55 +132,48 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
   "learnyst-alternative": {
     slug: "learnyst-alternative",
     competitorName: "Learnyst",
-    metaTitle: "Learnyst Alternative: Modern Academy Platform | LMS Domain",
+    metaTitle: "Learnyst Alternative for Academies | LMS Domain",
     metaDescription:
-      "Considering a Learnyst alternative? LMS Domain offers live Zoom classes, batch scheduling, question bank mock tests, GST invoices, and dynamic video watermarking.",
-    title: "Looking for a modern Learnyst alternative for your institute?",
+      "Comparing Learnyst? LMS Domain gives academies live classes on Zoom, batches, timed tests, video watermarking and payments in any currency on their own domain.",
+    title: "Looking for a Learnyst alternative for your institute?",
     subtitle:
-      "LMS Domain provides a clean, unified platform for coaching institutes and academies in India. Deliver live Zoom classes, manage scheduled batch rosters, run timed mock tests, and collect course fees with automated GST invoices on your own custom domain.",
+      "LMS Domain is one simple platform for academies and coaching institutes anywhere. Teach live classes on Zoom, manage batches, run timed tests and take payments in any currency on your own domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
-      description:
-        "LMS Domain is ideal for educators seeking a clean, intuitive interface for students and administrators with reliable batch operations.",
+      description: "LMS Domain suits academies that want a simple experience for learners and staff, with reliable batch tools.",
       points: [
-        "Institutes wanting an uncluttered, modern user experience for students on both desktop and mobile web.",
-        "Academies requiring live Zoom classes with automatic attendance and recordings saved directly in course modules.",
-        "Training companies delivering bootcamps and 1:1 tutor consultation sessions.",
-        "Educators who value hands-on migration and personalized customer support.",
+        "Institutes that want a clean, modern experience for learners on phone and desktop browsers.",
+        "Academies that teach live on Zoom, with attendance logged and recordings saved to the course.",
+        "Training companies that run bootcamps and paid 1:1 sessions.",
+        "Educators who want hands-on help moving from their current platform.",
       ],
     },
     lmsDomainStrengths: [
       {
-        title: "Modern, clean user experience",
-        description:
-          "Intuitive navigation for learners and staff, designed to maximize course completion and reduce support overhead.",
+        title: "Simple for learners and staff",
+        description: "Clear navigation for learners and your team, so they spend time learning and teaching, not looking for things.",
       },
       {
-        title: "Live Zoom integration with attendance",
-        description:
-          "Schedule classes per batch, send automatic reminders, log attendance, and archive lecture replays organized by chapter.",
+        title: "Live classes on Zoom",
+        description: "Schedule classes for each batch, send reminders, log attendance and save recordings to the right module.",
       },
       {
-        title: "Content protection safeguards",
-        description:
-          "Protect lecture videos with dynamic user watermarks and concurrent device login restrictions.",
+        title: "Content protection",
+        description: "Protect your videos with watermarks showing each learner's details (Growth and up) and device limits (Pro and up).",
       },
       {
-        title: "Local payment checkouts with GST",
-        description:
-          "Accept UPI, cards, and net banking with automated GST tax invoices and one-click offline bank transfer approvals.",
+        title: "Payments in any currency",
+        description: "Sell through Stripe, Razorpay, Paytm or DOKU, with coupons and offline payments you approve (Growth and up).",
       },
     ],
     faqs: [
       {
-        question: "Does LMS Domain support question banks and mock tests?",
-        answer:
-          "Yes, you can organize questions by subject and difficulty, set countdown timers, configure passing marks, and generate instant rank sheets.",
+        question: "Does LMS Domain have question banks and timed tests?",
+        answer: "Yes. Organise questions by subject and difficulty, set a time limit and a pass mark, and see results the moment a test closes.",
       },
       {
         question: "Is there a mobile app?",
-        answer:
-          "Students access all features seamlessly in any mobile web browser. Native mobile apps are on our product roadmap.",
+        answer: "Learners can use your academy in any phone browser today. Branded Android and iOS apps are on our [roadmap](/roadmap).",
       },
     ],
   },
@@ -199,55 +181,48 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
   "thinkific-alternative": {
     slug: "thinkific-alternative",
     competitorName: "Thinkific",
-    metaTitle: "Thinkific Alternative for India: INR & GST | LMS Domain",
+    metaTitle: "Thinkific Alternative for Live-Batch Academies | LMS Domain",
     metaDescription:
-      "Need a Thinkific alternative in India? LMS Domain provides INR pricing, UPI and Razorpay payments, automated GST invoices, live Zoom batches, and local Indian support.",
-    title: "Looking for a Thinkific alternative with native Indian payments and GST?",
+      "Comparing Thinkific? LMS Domain is built for academies that teach live batches: Zoom classes, attendance, timed tests and payments in any currency, with 0% commission.",
+    title: "Looking for a Thinkific alternative built for live batches?",
     subtitle:
-      "While global course platforms like Thinkific focus on USD subscriptions and recorded video sales, LMS Domain is built specifically for Indian academies requiring UPI payments, automated GST invoices, scheduled live Zoom batches, and local support.",
+      "LMS Domain is built for academies that teach in batches as well as selling recorded courses. Run live classes on Zoom, track attendance, test your learners and get paid in any currency through your own payment gateway.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
-      description:
-        "LMS Domain is tailored for academies in India that need domestic payment infrastructure, live batch workflows, and local rupee pricing.",
+      description: "LMS Domain suits academies whose teaching runs on a timetable, with live classes, batches and tests.",
       points: [
-        "Academies that need native UPI, net banking, and RuPay card support through Razorpay and Paytm.",
-        "Indian businesses that must issue compliant GST tax invoices with state-wise CGST, SGST, and IGST breakdowns.",
-        "Institutes that teach live cohort batches with Zoom rather than relying solely on self-paced videos.",
-        "Educators seeking affordable INR plan pricing without foreign currency exchange fluctuations.",
+        "Academies that teach live batches on Zoom, not only self-paced courses.",
+        "Institutes that sell to learners in several countries, in their own currencies.",
+        "Businesses that want payments to go straight to their own Stripe, Razorpay, Paytm or DOKU account.",
+        "Educators who want setup help from a real team, and the same support after launch.",
       ],
     },
     lmsDomainStrengths: [
       {
-        title: "Native Indian payment rails",
-        description:
-          "Accept payments via Razorpay and Paytm with full UPI support (Google Pay, PhonePe, Paytm UPI) and direct bank deposits.",
+        title: "Your choice of payment gateway",
+        description: "Connect Stripe, Razorpay, Paytm or DOKU and sell in multiple currencies. Payments go straight to you.",
       },
       {
-        title: "Automated GST tax compliance",
-        description:
-          "Generate compliant GST tax invoices showing your GSTIN and state tax breakdowns automatically on every student enrollment.",
+        title: "0% commission",
+        description: "You pay a fixed plan price and keep every sale. Academies in India also get automatic GST invoices.",
       },
       {
-        title: "Scheduled cohort batch management",
-        description:
-          "Run recurring morning and evening shifts with calendar drip pacing, Zoom attendance tracking, and faculty role permissions.",
+        title: "Batches with live classes",
+        description: "Run morning and evening batches with lesson release dates, Zoom attendance and roles for your teachers.",
       },
       {
-        title: "Local Indian support team",
-        description:
-          "Get prompt, direct assistance from our team in India.",
+        title: "Setup help from our team",
+        description: "We help you get your courses, domain and payments ready, and stay on hand after you launch.",
       },
     ],
     faqs: [
       {
-        question: "Can international students also purchase courses on LMS Domain?",
-        answer:
-          "Yes, by connecting Stripe or DOKU, you can accept international credit cards and currencies alongside domestic Indian payments.",
+        question: "Can learners from other countries buy my courses?",
+        answer: "Yes. Connect Stripe or DOKU to accept international cards and currencies, alongside any local payment methods you offer.",
       },
       {
-        question: "Can I offer 1:1 consultation sessions like coaching?",
-        answer:
-          "Yes, LMS Domain includes a Tutor Booking module allowing learners to book and pay for private 1:1 sessions on your calendar.",
+        question: "Can I sell private 1:1 sessions?",
+        answer: "Yes. With tutor booking (Growth and up), learners pick a tutor, day and time, and pay for private sessions on your site.",
       },
     ],
   },
@@ -255,55 +230,48 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
   "teachable-alternative": {
     slug: "teachable-alternative",
     competitorName: "Teachable",
-    metaTitle: "Teachable Alternative for India: GST & Batches | LMS Domain",
+    metaTitle: "Teachable Alternative for Live Teaching | LMS Domain",
     metaDescription:
-      "A localized Teachable alternative for Indian academies. Built for live Zoom classes, scheduled batches, question bank mock tests, and checkouts with GST invoices.",
+      "Comparing Teachable? LMS Domain is built for academies that teach live: batches, Zoom classes with attendance, timed tests and payments in any currency.",
     title: "Looking for a Teachable alternative built for live batch teaching?",
     subtitle:
-      "Teachable was designed primarily for asynchronous video courses in Western markets. LMS Domain gives Indian academies the tools they need for live Zoom batches, chapter mock tests, tutor bookings, and automated GST invoices on their own custom domain.",
+      "LMS Domain gives academies the tools for live teaching as well as recorded courses: batches with Zoom classes, timed tests, 1:1 bookings and payments in any currency, all on your own domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
-      description:
-        "LMS Domain is built for Indian training institutes and coaching centers that require live interaction, local tax compliance, and batch timetables.",
+      description: "LMS Domain suits academies and training institutes that teach live, test their learners and run on a timetable.",
       points: [
-        "Institutes that conduct scheduled live classes via Zoom with automated attendance logging.",
-        "Academies requiring chapter-wise mock tests and question banks with automated grading.",
-        "Businesses needing domestic UPI checkout and automated GST tax invoices.",
-        "Teams wanting white-label branding on their custom domain on every plan.",
+        "Institutes that run scheduled live classes on Zoom, with attendance logged automatically.",
+        "Academies that need question banks and timed tests with automatic scoring.",
+        "Businesses that want to sell in several currencies through their own payment gateway.",
+        "Teams that want their own domain and branding on every plan.",
       ],
     },
     lmsDomainStrengths: [
       {
-        title: "Batches, Zoom, and attendance",
-        description:
-          "Run live cohort classes with Zoom integration, log student attendance automatically, and organize lecture recordings by section.",
+        title: "Batches, Zoom and attendance",
+        description: "Run live classes for each batch on Zoom, log attendance automatically and save recordings to the course.",
       },
       {
-        title: "Domestic payments & GST invoices",
-        description:
-          "Integrate Razorpay and Paytm to accept UPI payments, and generate automated GST tax receipts for accounting compliance.",
+        title: "Payments that go straight to you",
+        description: "Use Stripe, Razorpay, Paytm or DOKU in multiple currencies, with automatic GST invoices for academies in India.",
       },
       {
-        title: "Question banks and mock tests",
-        description:
-          "Administer timed practice tests with custom passing marks, negative scoring, and instant performance analysis.",
+        title: "Question banks and timed tests",
+        description: "Build tests from your question banks with a time limit and pass mark, and see scores straight away.",
       },
       {
         title: "Your domain on every plan",
-        description:
-          "Connect your own custom domain (learn.yourbrand.in) with free SSL without requiring expensive enterprise tiers.",
+        description: "Connect your own domain with free SSL on every plan, with your logo and colours.",
       },
     ],
     faqs: [
       {
-        question: "Does LMS Domain charge a percentage of my course sales?",
-        answer:
-          "No, LMS Domain charges fixed software subscription rates with zero platform commissions. Gateway transaction fees are billed directly by your payment gateway.",
+        question: "Does LMS Domain take a percentage of my sales?",
+        answer: "No. You pay a fixed plan price with 0% commission. Your payment gateway charges its usual processing fees.",
       },
       {
-        question: "Can I sell downloadable ebooks and materials?",
-        answer:
-          "Yes, you can sell standalone PDF ebooks or bundle them with course enrollments.",
+        question: "Can I sell ebooks and downloadable materials?",
+        answer: "Yes. Sell ebooks on their own or include them with a course.",
       },
     ],
   },
@@ -311,55 +279,49 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
   "kajabi-alternative": {
     slug: "kajabi-alternative",
     competitorName: "Kajabi",
-    metaTitle: "Kajabi Alternative: Batch & Academy LMS | LMS Domain",
+    metaTitle: "Kajabi Alternative for Academies | LMS Domain",
     metaDescription:
-      "Looking for a cost-effective Kajabi alternative in India? LMS Domain provides live Zoom classes, batch rosters, mock tests, and GST invoices on your own domain.",
-    title: "Looking for a focused, cost-effective Kajabi alternative?",
+      "Comparing Kajabi? LMS Domain focuses on running an academy: batches, live Zoom classes, timed tests, certificates and payments in any currency on your own domain.",
+    title: "Looking for a Kajabi alternative focused on running an academy?",
     subtitle:
-      "Kajabi offers marketing tools tailored for solo creators in USD markets at premium pricing. LMS Domain focuses on core academy operations: structured batch scheduling, live Zoom instruction, mock exams, and Indian payment gateways with GST compliance.",
+      "LMS Domain focuses on the day-to-day work of an academy: batches and timetables, live classes on Zoom, tests and certificates, and payments in any currency through your own gateway.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description:
-        "LMS Domain is designed for established coaching institutes, language schools, and training organizations seeking operational focus and transparent INR pricing.",
+        "LMS Domain suits coaching institutes, language schools and training companies that want tools for teaching and running classes at a clear price.",
       points: [
-        "Academies that need structured batch timetables, live Zoom classes, and attendance logs.",
-        "Institutes requiring rigorous question banks, timed mock tests, and PDF certificates.",
-        "Businesses that need direct domestic payment settlements in INR with automated GST tax receipts.",
-        "Educators who want transparent software pricing without paying premium USD rates for unused marketing funnels.",
+        "Academies that need batch timetables, live Zoom classes and attendance logs.",
+        "Institutes that rely on question banks, timed tests and PDF certificates.",
+        "Businesses that want payments to settle straight into their own account, in their learners' currencies.",
+        "Educators who want a clear plan price with 0% commission on sales.",
       ],
     },
     lmsDomainStrengths: [
       {
-        title: "Focused academy operations",
-        description:
-          "Everything required to teach, test, manage, and bill students without the overhead and complexity of bloated marketing funnels.",
+        title: "Focused on running your academy",
+        description: "Teaching, tests, batches and payments in one place, so your team runs classes from one dashboard.",
       },
       {
-        title: "Live cohort teaching with Zoom",
-        description:
-          "Single-click live classroom launching with automated attendance logging and lecture recording archives.",
+        title: "Live teaching on Zoom",
+        description: "Start live classes from your academy, with attendance logged and recordings saved to the course.",
       },
       {
-        title: "Indian payment gateways with GST",
-        description:
-          "Connect Razorpay, Paytm, Stripe, or DOKU with automated tax invoicing and offline bank transfer reviews.",
+        title: "Payments in any currency",
+        description: "Connect Stripe, Razorpay, Paytm or DOKU, with coupons and offline payments you approve (Growth and up).",
       },
       {
-        title: "Dedicated onboarding and training",
-        description:
-          "Our team helps migrate your curriculum, configure your domain, and train your staff during onboarding.",
+        title: "Onboarding with our team",
+        description: "We help you move your courses, connect your domain and train your staff when you start.",
       },
     ],
     faqs: [
       {
-        question: "How does LMS Domain pricing compare?",
-        answer:
-          "LMS Domain offers transparent, affordable INR subscription pricing tailored to Indian education businesses, with your custom domain included on every tier.",
+        question: "How does LMS Domain pricing work?",
+        answer: "Each plan has a fixed price, with your own domain and 0% commission on every plan. See the [pricing page](/pricing) for details.",
       },
       {
-        question: "Can I manage multiple teachers on my platform?",
-        answer:
-          "Yes, LMS Domain includes Admin and Instructor roles with granular permissions to restrict instructors to their assigned batches.",
+        question: "Can several teachers work in my academy?",
+        answer: "Yes. Give your team Admin or Instructor roles, so each teacher sees and manages only what they need.",
       },
     ],
   },
@@ -367,57 +329,50 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
   "moodle-alternative": {
     slug: "moodle-alternative",
     competitorName: "Moodle",
-    metaTitle: "Moodle Alternative: Modern Managed LMS | LMS Domain",
+    metaTitle: "Moodle Alternative: Fully Managed LMS | LMS Domain",
     metaDescription:
-      "Tired of managing self-hosted Moodle servers? LMS Domain is a modern, fully managed cloud LMS with live Zoom classes, mock tests, and payment checkouts.",
-    title: "Looking for a modern, fully managed Moodle alternative?",
+      "Comparing Moodle? LMS Domain is a fully managed LMS: no servers or plugins to look after, with live Zoom classes, timed tests and built-in payments.",
+    title: "Looking for a fully managed Moodle alternative?",
     subtitle:
-      "While Moodle is an open-source platform requiring manual server setup, plugin maintenance, and developer support, LMS Domain is a fully managed cloud platform with modern interfaces, integrated Zoom classes, and automated payment gateways.",
+      "Moodle is open source and often self-hosted, which means looking after hosting, upgrades and plugins. LMS Domain is fully managed: live classes on Zoom, tests and payments are built in, and we look after the hosting.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
-      description:
-        "LMS Domain is built for academies and training businesses that want enterprise-grade learning management without maintaining servers or complex plugin architectures.",
+      description: "LMS Domain suits academies and training businesses that want a complete LMS without running servers or plugins.",
       points: [
-        "Institutes that want a modern, intuitive student interface that works effortlessly on mobile devices.",
-        "Organizations that want to eliminate server management, PHP upgrades, and security patching overhead.",
-        "Academies that require built-in commercial checkouts with Razorpay, Paytm, and automated GST invoices.",
-        "Teams wanting live Zoom classes with automatic attendance without installing third-party plugins.",
+        "Institutes that want a modern experience for learners that works well on phones.",
+        "Organisations that don't want to manage servers, upgrades or security patches.",
+        "Academies that want to sell courses with built-in checkout, coupons and multi-currency pricing.",
+        "Teams that want live Zoom classes with attendance, without extra plugins.",
       ],
     },
     lmsDomainStrengths: [
       {
-        title: "Zero server maintenance",
-        description:
-          "Fully managed cloud hosting with automated SSL, daily backups, and security updates handled by our team.",
+        title: "No servers to look after",
+        description: "We run the hosting, SSL and updates on managed cloud infrastructure, over HTTPS.",
       },
       {
-        title: "Built-in monetization & GST",
-        description:
-          "Sell courses immediately with domestic and international gateways without configuring custom e-commerce plugins.",
+        title: "Selling built in",
+        description: "Sell courses through Stripe, Razorpay, Paytm or DOKU in multiple currencies, with no shop plugins to set up.",
       },
       {
-        title: "Modern mobile-first design",
-        description:
-          "Clean, responsive interfaces that students and teachers enjoy opening every day on phone or desktop browsers.",
+        title: "Modern on every device",
+        description: "Clean pages that learners and teachers find easy to use on a phone or a computer.",
       },
       {
-        title: "Native batch & live class workflows",
-        description:
-          "Integrated Zoom meetings, batch timetables, and question bank testing ready right out of the box.",
+        title: "Batches and live classes ready to go",
+        description: "Zoom classes, batch timetables and question bank tests work from day one.",
       },
     ],
     faqs: [
       {
-        question: "Can we migrate our courses and question banks from Moodle?",
+        question: "Can we move our courses from Moodle?",
         answer:
-          "Yes, our engineering team assists with migrating course structures, video files, PDFs, and question banks into LMS Domain.",
+          "Yes. Our team helps you move courses and learners from other platforms. Full migration is included free on [Enterprise](/pricing).",
       },
       {
-        question: "Who owns our student and course data?",
-        answer:
-          "You retain 100% ownership of your courses, question banks, and student records. You can export complete data spreadsheets at any time.",
+        question: "Who owns our courses and learner data?",
+        answer: "You do. Your courses, question banks and learner records belong to your academy.",
       },
     ],
   },
 };
-
