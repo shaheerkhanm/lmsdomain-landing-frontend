@@ -911,7 +911,7 @@ export async function getContactPage(): Promise<ContactPageModel> {
     });
   }
 
-  const phoneVal = siteContact.phone || (settingsCms?.phone && !isPlaceholderPhone(settingsCms.phone) ? settingsCms.phone : "");
+  const phoneVal = siteContact.phone && !isPlaceholderPhone(siteContact.phone) ? siteContact.phone : "";
   if (phoneVal) {
     channels.push({
       type: "phone",
@@ -1435,8 +1435,9 @@ export async function getSiteContact(): Promise<ContactDetails> {
 
     return {
       email: text(data.email) || defaultContactDetails.email,
-      phone: text(data.phone) || defaultContactDetails.phone,
-      whatsappNumber: text(data.whatsappNumber) || defaultContactDetails.whatsappNumber,
+      // Phone and WhatsApp are optional: empty in the admin means hidden on the site.
+      phone: text(data.phone),
+      whatsappNumber: text(data.whatsappNumber),
       addressLines,
       city: text(data.city) || defaultContactDetails.city,
       postalCode: text(data.postalCode) || defaultContactDetails.postalCode,

@@ -12,8 +12,9 @@ export interface ContactDetails {
 
 export const defaultContactDetails: ContactDetails = {
   email: "support@lmsdomain.com",
-  phone: "+91 9539825916",
-  whatsappNumber: "+91 9539825916",
+  // Shown only when filled in under Admin > Contact details.
+  phone: "",
+  whatsappNumber: "",
   // Country only: the exact address is never published (site rule).
   addressLines: [],
   city: "",
