@@ -81,7 +81,7 @@ export function FAQ({
                     <Image key={f} src={f} alt="" width={72} height={72} className={cn("h-10 w-10 rounded-full object-cover object-top ring-[3px] ring-[#F4F5F8]", i > 0 && "-ml-3")} />
                   ))}
                 </div>
-                <p className="text-[13px] leading-[1.4] text-[#71717A]">
+                <p className="text-[13px] leading-[1.4] text-[#65656E]">
                   Real people from our team
                   <br />
                   read every message

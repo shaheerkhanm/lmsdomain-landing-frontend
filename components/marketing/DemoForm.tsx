@@ -493,7 +493,7 @@ export function DemoForm({
             {/* 6. Message (Optional) */}
             <div className={isModal ? "space-y-1.5 sm:col-span-2" : "space-y-1.5"}>
               <label htmlFor="field-message" className={labelClass}>
-                Message <span className="text-xs font-normal text-[#8F94A0] normal-case">(optional)</span>
+                Message <span className="text-xs font-normal text-[#6B7280] normal-case">(optional)</span>
               </label>
               <textarea
                 id="field-message"

@@ -57,7 +57,7 @@ export function BillingToggle({
               onKeyDown={(e) => handleKeyDown(e, idx)}
               onClick={() => onChange(period.id)}
               className={`relative px-4 sm:px-5 py-2 rounded-full text-[13.5px] font-semibold transition-colors duration-200 cursor-pointer flex items-center gap-2 focus-visible:outline-2 focus-visible:outline-[#6C4BFF] ${
-                isActive ? "text-[#0A0A0B]" : dark ? "text-[#A1A1AA] hover:text-white" : "text-[#71717A] hover:text-[#0A0A0B]"
+                isActive ? "text-[#0A0A0B]" : dark ? "text-[#A1A1AA] hover:text-white" : "text-[#65656E] hover:text-[#0A0A0B]"
               }`}
             >
               {isActive && (
@@ -77,7 +77,7 @@ export function BillingToggle({
               {isYearly && yearlySavingsLabel && (
                 <span
                   className={`relative z-10 px-2 py-0.5 rounded-full text-[11px] font-semibold transition-colors ${
-                    isActive ? "bg-[#6C4BFF] text-white" : dark ? "bg-[#6C4BFF]/20 text-[#C9BFFF]" : "bg-[#EDE9FF] text-[#6C4BFF]"
+                    isActive ? "bg-[#6C4BFF] text-white" : dark ? "bg-[#6C4BFF]/20 text-[#C9BFFF]" : "bg-[#EDE9FF] text-[#5B3BE8]"
                   }`}
                 >
                   {yearlySavingsLabel}
