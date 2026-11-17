@@ -1,5 +1,5 @@
 import { MetadataRoute } from "next";
-import { getLegalPages, getLegalPage, getBlogPosts, fetchSeo } from "@/lib/api/content";
+import { getLegalPages, getLegalPage, getBlogPosts, fetchSeo, getComparePages } from "@/lib/api/content";
 import { getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { getPageVisibility, isPathVisibleWithMap } from "@/lib/pages";
 import { SITEMAP_LAST_MODIFIED } from "@/content/sitemap-dates";
@@ -173,9 +173,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .map((p) => ({ url: `${baseUrl}/resources/blog/${p.slug}`, lastModified: new Date(p.date || "2026-11-07"), changeFrequency: "monthly" as const, priority: 0.6 })),
   ];
 
+  // Compare (Admin > Compare): published pages only, and /compare when there is one
+  const compare = (await getComparePages().catch(() => null))?.pages.filter((p) => p.published) || [];
+  const compareNoindex = await Promise.all(compare.map((p) => fetchSeo(`compare-${p.slug}`).then((x) => !!x?.noindex).catch(() => false)));
+  const compareRoutes: MetadataRoute.Sitemap = compare.length
+    ? [
+        { url: `${baseUrl}/compare`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 },
+        ...compare
+          .filter((_, i) => !compareNoindex[i])
+          .map((p) => ({ url: `${baseUrl}/compare/${p.slug}`, lastModified: new Date(), changeFrequency: "monthly" as const, priority: 0.5 })),
+      ]
+    : [];
+
   // Excludes /login, /signup and /forgot-password
   const visibility = await getPageVisibility();
-  return [...staticMarketingRoutes, ...legalRoutes, ...blogRoutes].filter((route) =>
+  return [...staticMarketingRoutes, ...legalRoutes, ...blogRoutes, ...compareRoutes].filter((route) =>
     isPathVisibleWithMap(route.url, visibility)
   );
 }

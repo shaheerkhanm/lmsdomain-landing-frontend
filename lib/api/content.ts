@@ -19,6 +19,7 @@ import { SOLUTION_PAGES, mergeSolution, type SolutionContent, type SolutionKey }
 import { HOME_SLUGS, mergeHomeSection, type HomeSections, type HomeSection } from "@/content/home-sections";
 import { PLATFORM_PAGES, mergePlatform, type PlatformContent, type PlatformKey } from "@/content/platform/editable";
 import { PLATFORM_OVERVIEW_SLUG, mergePlatformOverview, type PlatformOverviewContent } from "@/content/platform/overview-editable";
+import { COMPARE_SLUG, mergeCompare, type CompareContent } from "@/content/compare/editable";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
@@ -1629,4 +1630,14 @@ export const getPlatformOverview = cache(async (): Promise<PlatformOverviewConte
   const { slug } = PLATFORM_OVERVIEW_SLUG;
   const doc = await fetchCms(slug, ["cms", `cms:${slug}`, "platform"]).catch(() => null);
   return mergePlatformOverview(doc?.data);
+});
+
+// ----------------------------------------------------------------------------
+// Compare pages (Admin > Website > Compare): one CMS entry with the shared
+// headings and the list of pages, each with a Published switch.
+// ----------------------------------------------------------------------------
+export const getComparePages = cache(async (): Promise<CompareContent> => {
+  const { slug } = COMPARE_SLUG;
+  const doc = await fetchCms(slug, ["cms", `cms:${slug}`, "compare"]).catch(() => null);
+  return mergeCompare(doc?.data);
 });
