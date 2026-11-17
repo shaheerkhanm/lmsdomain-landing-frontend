@@ -14,6 +14,8 @@ export interface BlogPost {
   category?: string;
   /** Cover design: "start" (steps), "lms" (course screen) or "sell" (checkout). */
   cover?: BlogCoverStyle;
+  /** Cover photo uploaded in Admin > Blog (/uploads/... or https). Replaces the drawn cover. */
+  coverImage?: string;
 }
 
 export type BlogCoverStyle = "start" | "lms" | "sell";
