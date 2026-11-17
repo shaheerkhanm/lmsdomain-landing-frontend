@@ -97,7 +97,7 @@ function HelpdeskView() {
           </div>
         </DomieBubble>
         <div className="mt-auto flex items-center gap-3 rounded-[14px] border border-white/10 bg-white/[0.03] px-4 py-3">
-          <span className="flex-1 text-[13.5px] text-[#71717A]">Ask anything about your course…</span>
+          <span className="flex-1 text-[13.5px] text-[#8A8A94]">Ask anything about your course…</span>
           <span className="grid h-8 w-8 place-items-center rounded-[9px] bg-white text-[#0A0A0B]">
             <SendHorizontal className="h-4 w-4" />
           </span>
@@ -470,7 +470,7 @@ export function AiSection({ data = HOME_DEFAULTS.ai }: { data?: HomeSections["ai
                       <DomieOrb size={26} surface="dark" />
                     </span>
                     <p className="text-[14px] font-semibold">Domie</p>
-                    <span className="text-[13px] text-[#71717A]">· Northwind Academy</span>
+                    <span className="text-[13px] text-[#8A8A94]">· Northwind Academy</span>
                     <span className="ml-auto inline-flex items-center gap-1.5 text-[12px] text-[#A1A1AA]">
                       <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" /> Online
                     </span>

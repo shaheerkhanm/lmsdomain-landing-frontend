@@ -98,7 +98,7 @@ export function HeroProductShot() {
                     <p className="mt-1 font-urbanist text-[20px] font-semibold tracking-[-0.02em] text-[#0A0A0B] sm:text-[24px]">
                       {k.value}
                     </p>
-                    <p className="mt-0.5 flex items-center gap-1 text-[11.5px] font-medium text-[#16A34A]">
+                    <p className="mt-0.5 flex items-center gap-1 text-[11.5px] font-medium text-[#15803D]">
                       <TrendingUp className="h-3 w-3" />
                       {k.delta}
                     </p>
@@ -118,7 +118,7 @@ export function HeroProductShot() {
                       <div key={c.name} className="flex items-center gap-3">
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-[12.5px] font-medium text-[#27272A]">{c.name}</p>
-                          <p className="text-[11px] text-[#A1A1AA]">{c.learners} learners</p>
+                          <p className="text-[11px] text-[#71717A]">{c.learners} learners</p>
                         </div>
                         <div className="hidden h-1.5 w-[120px] overflow-hidden rounded-full bg-[#F4F4F5] sm:block">
                           <div
@@ -146,12 +146,12 @@ export function HeroProductShot() {
                         <p className="w-11 text-[12px] font-medium tabular-nums text-[#52525B]">{c.time}</p>
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-[12.5px] font-medium text-[#27272A]">{c.title}</p>
-                          <p className="text-[11px] text-[#A1A1AA]">{c.batch}</p>
+                          <p className="text-[11px] text-[#71717A]">{c.batch}</p>
                         </div>
                         {c.live ? (
                           <span className="rounded-full bg-[#6C4BFF] px-2 py-0.5 text-[10.5px] font-semibold text-white">Live</span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 text-[11px] text-[#A1A1AA]"><BrandMark name="Zoom" size={12} className="rounded-[3px]" /> Zoom</span>
+                          <span className="inline-flex items-center gap-1 text-[11px] text-[#71717A]"><BrandMark name="Zoom" size={12} className="rounded-[3px]" /> Zoom</span>
                         )}
                       </div>
                     ))}

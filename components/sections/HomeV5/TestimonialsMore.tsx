@@ -37,7 +37,7 @@ export function TestimonialsMore({ items, initial = 6, step = 6 }: { items: Revi
               )}
               <div>
                 <p className="text-[14.5px] font-semibold text-[#0A0A0B]">{t.name}</p>
-                {t.role && <p className="text-[13.5px] text-[#71717A]">{t.role}</p>}
+                {t.role && <p className="text-[13.5px] text-[#65656E]">{t.role}</p>}
               </div>
             </figcaption>
           </figure>

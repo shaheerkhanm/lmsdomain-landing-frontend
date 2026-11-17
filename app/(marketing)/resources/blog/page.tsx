@@ -52,7 +52,7 @@ export default async function BlogIndexRoute() {
               <h1 style={{ "--d": "80ms" } as React.CSSProperties} className={cn("v5-rise mt-6 text-[clamp(52px,9vw,128px)]", BIG)}>
                 Guides for
                 <br />
-                <span className="text-[#C4C4CC]">academies.</span>
+                <span className="text-[#8E8E98]">academies.</span>
               </h1>
             </div>
             <div style={{ "--d": "180ms" } as React.CSSProperties} className="v5-rise max-w-[400px] lg:pb-3">
@@ -91,7 +91,7 @@ export default async function BlogIndexRoute() {
                   <span className="inline-flex items-center gap-2 rounded-full bg-[#0A0A0B] px-5 py-2.5 text-[14px] font-semibold text-white">
                     Read guide <ArrowUpRight className="h-4 w-4 transition-transform group-hover:rotate-45" />
                   </span>
-                  <span className="text-[13.5px] text-[#71717A]">
+                  <span className="text-[13.5px] text-[#65656E]">
                     {fmtDate(featured.date)} · {featured.readingTime}
                   </span>
                 </div>
