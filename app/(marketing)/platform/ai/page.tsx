@@ -3,6 +3,7 @@ import { PlatformPage } from "@/components/marketing/platform";
 import { aiPlatformData } from "@/content/platform/ai";
 import { fullTitle, getMetadataBase } from "@/lib/site";
 import { pageMetadata } from "@/lib/seo";
+import { getPlatformPage } from "@/lib/api/content";
 
 const baseMetadata: Metadata = {
   metadataBase: getMetadataBase(),
@@ -15,6 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return pageMetadata(baseMetadata, { seo: "platform-ai", guard: "platform" });
 }
 
-export default function DomieAiRoute() {
-  return <PlatformPage data={aiPlatformData} />;
+export default async function DomieAiRoute() {
+  const content = await getPlatformPage("ai");
+  return <PlatformPage data={aiPlatformData} content={content} />;
 }

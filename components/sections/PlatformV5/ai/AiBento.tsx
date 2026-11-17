@@ -2,6 +2,7 @@ import React from "react";
 import { CalendarDays, Check, CornerDownLeft, PenLine, Search, ShieldCheck, TrendingDown, Users, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card, Panel, Face, d } from "../bento";
+import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
 
 /* Domie AI for your team. Plain product UI only. Claims match content/platform/ai.ts. */
 
@@ -207,14 +208,16 @@ function BoundariesArt() {
   );
 }
 
-export function AiBento() {
+/** Six cards (layout and pictures by position); text from Admin > Website > Platform. */
+export function AiBento({ cards = PLATFORM_CARDS.ai }: { cards?: PlatformCard[] } = {}) {
+  const card = (i: number) => cards[i] || PLATFORM_CARDS.ai[i];
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
       <Card
         dark
         className="md:col-span-2 lg:col-span-7"
-        title="Course drafts in seconds"
-        body="Domie drafts course titles, descriptions and learning outcomes. Your team edits and approves them."
+        title={card(0).title}
+        body={card(0).text}
       >
         <DraftsArt />
       </Card>
@@ -222,16 +225,16 @@ export function AiBento() {
         dark
         className="lg:col-span-5"
         delay={90}
-        title="Learners who need attention"
-        body="See whose progress or attendance has dropped, so teachers can step in before they fall behind."
+        title={card(1).title}
+        body={card(1).text}
       >
         <AttentionArt />
       </Card>
       <Card
         dark
         className="lg:col-span-5"
-        title="A morning summary"
-        body="Ask Domie gives admins a daily summary of enrolments, batches and upcoming classes."
+        title={card(2).title}
+        body={card(2).text}
       >
         <MorningArt />
       </Card>
@@ -239,16 +242,16 @@ export function AiBento() {
         dark
         className="md:col-span-2 lg:col-span-7"
         delay={90}
-        title="Find anything fast"
-        body="Jump to any course, batch or setting from one search bar with a keyboard shortcut."
+        title={card(3).title}
+        body={card(3).text}
       >
         <CommandArt />
       </Card>
       <Card
         dark
         className="lg:col-span-6"
-        title="Your content stays yours"
-        body="Domie works inside your academy. Your course content is never used to train outside AI models."
+        title={card(4).title}
+        body={card(4).text}
       >
         <PrivacyArt />
       </Card>
@@ -256,8 +259,8 @@ export function AiBento() {
         dark
         className="lg:col-span-6"
         delay={90}
-        title="Teachers stay in charge"
-        body="Domie helps with questions and drafts. It doesn't write full lessons, create quizzes or grade work."
+        title={card(5).title}
+        body={card(5).text}
       >
         <BoundariesArt />
       </Card>

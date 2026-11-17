@@ -3,6 +3,7 @@ import { BookOpen, Check, Download, FileSpreadsheet, Mail, MessageSquare, Minus,
 import { cn } from "@/lib/utils";
 import { Card, Panel, Face, d, fadeRight } from "../bento";
 import { BrandMark } from "@/components/brand/PartnerMarks";
+import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
 
 /* Sample data only. Claims match content/platform/manage.ts. */
 
@@ -251,28 +252,30 @@ function ExportArt() {
   );
 }
 
-export function ManageBento() {
+/** Six cards (layout and pictures by position); text from Admin > Website > Platform. */
+export function ManageBento({ cards = PLATFORM_CARDS.manage }: { cards?: PlatformCard[] } = {}) {
+  const card = (i: number) => cards[i] || PLATFORM_CARDS.manage[i];
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
       <Card
         className="md:col-span-2 lg:col-span-7"
-        title="Batches with their own schedule"
-        body="Run the same course in several batches, each with its own timings, roster, instructor and drip dates."
+        title={card(0).title}
+        body={card(0).text}
       >
         <BatchesArt />
       </Card>
       <Card
         className="lg:col-span-5"
         delay={90}
-        title="Every learner in one profile"
-        body="See each learner's courses, progress, test scores and attendance in one place."
+        title={card(1).title}
+        body={card(1).text}
       >
         <LearnerArt />
       </Card>
       <Card
         className="lg:col-span-5"
-        title="Attendance, logged for you"
-        body="When learners join a live class through your academy, attendance is recorded automatically."
+        title={card(2).title}
+        body={card(2).text}
       >
         <AttendanceArt />
       </Card>
@@ -280,23 +283,23 @@ export function ManageBento() {
         className="md:col-span-2 lg:col-span-7"
         delay={90}
         plan="Custom roles on Pro"
-        title="Roles and permissions"
-        body="Admins see everything. Instructors only see their own courses, batches and reviews."
+        title={card(3).title}
+        body={card(3).text}
       >
         <RolesArt />
       </Card>
       <Card
         className="lg:col-span-6"
-        title="Email and SMS notices"
-        body="Send class reminders and batch updates by email automatically. SMS is available on Growth and up."
+        title={card(4).title}
+        body={card(4).text}
       >
         <NoticesArt />
       </Card>
       <Card
         className="lg:col-span-6"
         delay={90}
-        title="Export anything to CSV"
-        body="Download rosters, progress, test scores and payment reports as spreadsheets at any time."
+        title={card(5).title}
+        body={card(5).text}
       >
         <ExportArt />
       </Card>
