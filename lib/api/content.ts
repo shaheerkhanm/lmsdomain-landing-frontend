@@ -1512,6 +1512,8 @@ const toBlogPost = (p: ApiBlogPost): BlogPost | null => {
     faqs,
     category: String(p.category || "").trim() || undefined,
     cover: BLOG_COVER_STYLES.includes(p.cover as BlogCoverStyle) ? (p.cover as BlogCoverStyle) : undefined,
+    // Only uploaded files or https addresses
+    coverImage: /^(\/uploads\/[\w.-]+|https:\/\/[^\s"'<>]+)$/i.test(String(p.coverImage || "").trim()) ? String(p.coverImage).trim() : undefined,
   };
 };
 

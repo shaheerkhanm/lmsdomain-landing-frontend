@@ -15,7 +15,7 @@ const COVER_STYLE: Record<BlogCoverStyle, { tone: string; ink: string }> = {
   lms: { tone: "#E6F4F1", ink: "#0D9488" },
   sell: { tone: "#FFF1E8", ink: "#EA580C" },
 };
-type CoverInput = Pick<BlogPost, "slug"> & Partial<Pick<BlogPost, "category" | "cover">>;
+type CoverInput = Pick<BlogPost, "slug"> & Partial<Pick<BlogPost, "category" | "cover" | "coverImage">>;
 /** Cover and label for a post: its own settings (Admin > Blog), else the built-in ones, else defaults. */
 export const metaFor = (post: CoverInput) => {
   const base = BLOG_META[post.slug];
@@ -251,6 +251,18 @@ function BigScene({ kind, ink }: { kind: "start" | "lms" | "sell"; ink: string }
 
 export function BlogCover({ post, big = false }: { post: CoverInput; big?: boolean }) {
   const m = metaFor(post);
+  // Uploaded cover photo (Admin > Blog) replaces the drawn cover
+  if (post.coverImage)
+    return (
+      <div aria-hidden="true" className={cn("relative overflow-hidden bg-[#F4F5F8]", big ? "h-[340px] sm:h-[460px]" : "h-[220px]")}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={post.coverImage} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+        <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-white/95 px-3.5 py-1.5 text-[12.5px] font-semibold text-[#18181B] shadow-[0_6px_18px_-8px_rgba(0,0,0,0.35)] backdrop-blur sm:left-6 sm:top-6">
+          <span className="h-1.5 w-1.5 rounded-full" style={{ background: m.ink }} />
+          {m.category}
+        </span>
+      </div>
+    );
   if (big)
     return (
       <div aria-hidden="true" className="relative h-[340px] overflow-hidden bg-[#0B0A12] sm:h-[460px]">
@@ -313,12 +325,21 @@ export function BlogCard({ post, tall = false }: { post: BlogPost; tall?: boolea
       </h3>
       <p className="mt-3 line-clamp-2 text-[14.5px] leading-[1.55] text-[#52525B] transition-colors duration-500 group-hover:text-white/65">{post.subtitle}</p>
 
-      {/* product visual */}
-      <div aria-hidden="true" className="relative mt-auto flex min-h-[170px] items-end justify-center pt-6">
-        <div className="transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-2deg]">
-          <Art kind={m.art} ink={m.ink} />
+      {/* cover photo, or the product visual */}
+      {post.coverImage ? (
+        <div aria-hidden="true" className="relative mt-auto pt-6">
+          <div className="aspect-[16/10] overflow-hidden rounded-[20px] bg-white/60 transition-transform duration-500 group-hover:-translate-y-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={post.coverImage} alt="" loading="lazy" className="h-full w-full object-cover" />
+          </div>
         </div>
-      </div>
+      ) : (
+        <div aria-hidden="true" className="relative mt-auto flex min-h-[170px] items-end justify-center pt-6">
+          <div className="transition-transform duration-500 group-hover:-translate-y-2 group-hover:rotate-[-2deg]">
+            <Art kind={m.art} ink={m.ink} />
+          </div>
+        </div>
+      )}
 
       <div className="mt-6 flex items-center justify-between border-t border-black/10 pt-5 transition-colors duration-500 group-hover:border-white/15">
         <span className="text-[13px] text-[#52525B] transition-colors duration-500 group-hover:text-white/60">{fmtDate(post.date)}</span>
