@@ -45,7 +45,7 @@ function Chip({ x }: { x: M }) {
       </span>
       <span className="text-left">
         <span className="block text-[13px] font-semibold text-[#18181B]">{x.t}</span>
-        <span className="block text-[11.5px] text-[#9A9AA6]">{x.m}</span>
+        <span className="block text-[11.5px] text-[#71717A]">{x.m}</span>
       </span>
       {x.tag && <span className="ml-1 text-[13px] font-semibold tabular-nums text-[#18181B]">{x.tag}</span>}
     </span>

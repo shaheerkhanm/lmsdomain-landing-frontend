@@ -13,9 +13,9 @@ import { type Brand, DEFAULT_BRAND } from "@/lib/brand-context";
 
 export const DEFAULT_THEME_LIGHT = "#FFFFFF";
 export const DEFAULT_THEME_DARK = "#161616";
-export const DEFAULT_LOGO_LIGHT = "/brand/logo-wordmark.png";
-export const DEFAULT_LOGO_DARK = "/brand/logo-wordmark-dark.png";
-export const DEFAULT_LOGO_MARK = "/brand/logo-mark.png";
+export const DEFAULT_LOGO_LIGHT = "/brand/logo-wordmark-96.webp";
+export const DEFAULT_LOGO_DARK = "/brand/logo-wordmark-dark-96.webp";
+export const DEFAULT_LOGO_MARK = "/brand/logo-mark-128.webp";
 export const DEFAULT_LOGO_ALT = "LMS Domain";
 export const DEFAULT_LOGO_HEIGHT = 26;
 export const DEFAULT_WORDMARK_RATIO = 1534 / 250; // 6.136

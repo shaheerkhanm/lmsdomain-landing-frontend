@@ -15,9 +15,9 @@ export interface Brand {
 }
 
 export const DEFAULT_BRAND: Brand = {
-  logoLight: "/brand/logo-wordmark.png",
-  logoDark: "/brand/logo-wordmark-dark.png",
-  logoMark: "/brand/logo-mark.png",
+  logoLight: "/brand/logo-wordmark-96.webp",
+  logoDark: "/brand/logo-wordmark-dark-96.webp",
+  logoMark: "/brand/logo-mark-128.webp",
   logoAlt: "LMS Domain",
   logoHeight: 26,
   wordmarkRatio: 1534 / 250, // 6.136

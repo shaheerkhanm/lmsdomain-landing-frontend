@@ -70,7 +70,7 @@ export function PricingComparisonTable({
   const renderCellValue = (val: boolean | string | undefined) => {
     if (val === true) {
       return (
-        <span className="inline-grid h-5 w-5 place-items-center rounded-full bg-[#6C4BFF]" aria-label="Included">
+        <span className="inline-grid h-5 w-5 place-items-center rounded-full bg-[#6C4BFF]" role="img" aria-label="Included">
           <Check className="h-3 w-3 text-white" strokeWidth={3.5} aria-hidden="true" />
         </span>
       );
@@ -197,7 +197,7 @@ export function PricingComparisonTable({
                   type="button"
                   onClick={() => setSelectedMobilePlan(plan.id)}
                   className={`flex-1 rounded-full py-2 text-[13px] font-semibold transition-all ${
-                    isSelected ? "bg-white text-[#0A0A0B] shadow-[0_1px_2px_rgba(10,10,11,0.08)]" : "text-[#71717A]"
+                    isSelected ? "bg-white text-[#0A0A0B] shadow-[0_1px_2px_rgba(10,10,11,0.08)]" : "text-[#65656E]"
                   }`}
                 >
                   {plan.name}

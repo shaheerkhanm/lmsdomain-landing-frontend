@@ -172,7 +172,7 @@ export default async function DemoPage() {
                       <div>
                         {a.time && <p className="text-[12px] font-semibold text-[#6C4BFF]">{a.time}</p>}
                         <p className="text-[15px] font-semibold text-[#18181B]">{a.title}</p>
-                        {a.text && <p className="text-[13.5px] text-[#71717A]">{a.text}</p>}
+                        {a.text && <p className="text-[13.5px] text-[#65656E]">{a.text}</p>}
                       </div>
                     </li>
                   ))}
