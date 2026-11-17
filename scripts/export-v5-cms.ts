@@ -29,6 +29,7 @@ import { SOLUTION_PAGES, solutionDefaults, type SolutionKey } from "@/content/so
 import { HOME_DEFAULTS, HOME_SLUGS, type HomeSection } from "@/content/home-sections";
 import { PLATFORM_PAGES, platformDefaults, type PlatformKey } from "@/content/platform/editable";
 import { PLATFORM_OVERVIEW_DEFAULTS, PLATFORM_OVERVIEW_SLUG } from "@/content/platform/overview-editable";
+import { COMPARE_DEFAULTS, COMPARE_SLUG } from "@/content/compare/editable";
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(name);
@@ -139,6 +140,9 @@ for (const key of Object.keys(PLATFORM_PAGES) as PlatformKey[]) {
   const { slug, label, pageName } = PLATFORM_PAGES[key];
   text.push(withFields({ slug, pageSlug: "platform", cmsTitle: label, title: pageName, data: clone(platformDefaults(key)) }, true));
 }
+
+// Compare pages: one entry with the shared headings and the list of pages (admin page "compare")
+text.push(withFields({ slug: COMPARE_SLUG.slug, pageSlug: "compare", cmsTitle: COMPARE_SLUG.label, title: "Compare pages", data: clone(COMPARE_DEFAULTS) }, true));
 
 // Solutions pages: one entry per page (admin page "solutions")
 for (const key of Object.keys(SOLUTION_PAGES) as SolutionKey[]) {
