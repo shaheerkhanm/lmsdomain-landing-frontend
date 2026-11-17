@@ -41,11 +41,19 @@ const nextConfig = {
       { key: "Content-Security-Policy", value: "frame-ancestors 'none'" },
     ];
 
+    // Images, fonts and videos in /public: browsers keep them for 7 days, then refresh in the
+    // background. Not "immutable", because some files are replaced under the same name.
+    const staticCache = [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }];
+
     return [
       {
         source: "/:path*",
         headers: globalSecurityHeaders,
       },
+      ...["assets", "brand", "brands", "fonts", "icons", "images", "og", "videos"].map((dir) => ({
+        source: `/${dir}/:path*`,
+        headers: staticCache,
+      })),
       {
         source: "/login",
         headers: authHeaders,
