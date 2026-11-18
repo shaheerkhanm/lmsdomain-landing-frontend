@@ -42,6 +42,18 @@ export const brandPlatformData: PlatformPageData = {
         "Publish educational articles, announcements, and downloadable resources to build organic reach and student interest.",
       icon: "BookOpenCheck",
     },
+    {
+      title: "Android and iOS apps",
+      description:
+        "Learners use the LMS Domain app on every plan. On Pro and Enterprise, your academy gets its own branded app in Google Play and the App Store.",
+      icon: "Smartphone",
+    },
+    {
+      title: "Your academy in any language",
+      description:
+        "Set up your academy and its learner pages in the language your learners use.",
+      icon: "Globe2",
+    },
   ],
   usedFor: [
     {
@@ -92,7 +104,7 @@ export const brandPlatformData: PlatformPageData = {
     {
       question: "Is there a mobile app under my own brand?",
       answer:
-        "Learners access your fully branded web academy through any mobile web browser today. Native mobile apps are on our product roadmap.",
+        "Yes, on Pro and Enterprise: your own branded Android and iOS app in Google Play and the App Store. On Starter and Growth, learners use the LMS Domain app for Android and iOS to open your academy.",
     },
   ],
 };

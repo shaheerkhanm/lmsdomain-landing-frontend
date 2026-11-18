@@ -1444,6 +1444,7 @@ export async function getSiteContact(): Promise<ContactDetails> {
       country: text(data.country) || defaultContactDetails.country,
       mapUrl: isHttpUrl(text(data.mapUrl)) ? text(data.mapUrl) : defaultContactDetails.mapUrl,
       hours: text(data.hours) || defaultContactDetails.hours,
+      helpCenterUrl: isHttpUrl(text(data.helpCenterUrl)) ? text(data.helpCenterUrl) : "",
     };
   } catch (e) {
     return defaultContactDetails;

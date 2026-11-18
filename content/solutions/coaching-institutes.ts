@@ -98,7 +98,7 @@ export const coachingInstitutesData: SolutionPageData = {
     {
       question: "Is there a mobile app for students?",
       answer:
-        "Students can attend live classes, watch recorded lectures, and take practice tests using any mobile web browser today. Native mobile apps are on our roadmap.",
+        "Yes. Every plan includes the LMS Domain app for Android and iOS, where learners open your academy. On Pro and Enterprise, you get your own branded app in Google Play and the App Store.",
     },
   ],
   ctaTitle: "See how LMS Domain powers your coaching institute.",

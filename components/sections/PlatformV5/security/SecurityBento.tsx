@@ -217,7 +217,7 @@ export function SecurityBento({ cards = PLATFORM_CARDS.security }: { cards?: Pla
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-12">
       <Card
         className="md:col-span-2 lg:col-span-7"
-        plan="Growth"
+        plan="Every plan"
         title={card(0).title}
         body={card(0).text}
       >

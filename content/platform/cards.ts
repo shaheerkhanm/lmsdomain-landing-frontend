@@ -18,7 +18,7 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
       "text": "Unlock lessons by date or by enrolment day, so a whole batch moves forward together."
     },
     {
-      "title": "Live classes on Zoom",
+      "title": "Live classes on Zoom, Meet or Teams",
       "text": "Schedule classes for each batch. Learners get reminders and join from your academy."
     },
     {
@@ -166,8 +166,8 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
   ],
   "security": [
     {
-      "title": "A watermark on every video",
-      "text": "Each learner's email and ID move across the video, so any screen recording shows who shared it."
+      "title": "DRM video with a watermark",
+      "text": "Videos are DRM-encrypted and carry each learner's email and ID, so any recording shows who shared it. The apps block screen recording."
     },
     {
       "title": "Device limits per learner",
@@ -183,11 +183,11 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
     },
     {
       "title": "Managed, encrypted hosting",
-      "text": "We run the hosting for you, with HTTPS on your domain and TLS encryption for your data."
+      "text": "We run the hosting for you with a certified cloud provider, with HTTPS on your domain and TLS encryption for your data."
     },
     {
       "title": "Your data stays yours",
-      "text": "You own 100% of your courses and learner records, and can export them as CSV at any time."
+      "text": "You own 100% of your courses and learner records, and can export them any time. DPDP and GDPR ready."
     }
   ]
 };

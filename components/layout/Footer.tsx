@@ -23,6 +23,7 @@ async function Footer() {
     email: siteContact?.email || (addressData as any)?.email || defaultContactDetails.email,
     // Settings > Contact details only: empty there means no phone in the footer.
     phone: siteContact?.phone || "",
+    helpCenterUrl: siteContact?.helpCenterUrl || "",
   };
 
   // Footer description: Settings > Footer content (placeholder text counts as not filled in)

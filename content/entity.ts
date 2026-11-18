@@ -25,9 +25,9 @@ export const entity = {
         "Separate cohorts for morning and evening shifts with distinct rosters and progress tracking.",
     },
     {
-      title: "Live Classes with Zoom",
+      title: "Live Classes with Zoom, Google Meet and Teams",
       description:
-        "Direct Zoom integration with automated calendar reminders and recorded lectures saved to the course timeline.",
+        "Zoom, Google Meet and Microsoft Teams integration with automated calendar reminders and recorded lectures saved to the course timeline.",
     },
     {
       title: "Cohort Bootcamps",
@@ -77,12 +77,42 @@ export const entity = {
     {
       title: "Notifications",
       description:
-        "Automated transactional email alerts and optional SMS notifications for class schedules and batch announcements.",
+        "Automated email and WhatsApp alerts on every plan, plus SMS on Growth and up, for class schedules and batch announcements.",
+    },
+    {
+      title: "Android & iOS Apps",
+      description:
+        "Learners use the LMS Domain app for Android and iOS on every plan. Pro and Enterprise academies get their own branded app in Google Play and the App Store.",
+    },
+    {
+      title: "Video Protection",
+      description:
+        "DRM-encrypted video, learner watermarks and a screen-recording block in the apps on every plan; learner device limits on Pro and up.",
+    },
+    {
+      title: "Selling Tools",
+      description:
+        "Subscriptions, course bundles, affiliates, abandoned-cart recovery and upsells on Growth and up.",
+    },
+    {
+      title: "Community & Engagement",
+      description:
+        "Course discussions, badges and gamification, and assignment grading on Growth and up.",
+    },
+    {
+      title: "Standards & Integrations",
+      description:
+        "SCORM and xAPI course import, a public API and webhooks on Growth and up; single sign-on (SSO) on Pro and up; live classes on Zoom, Google Meet or Microsoft Teams.",
+    },
+    {
+      title: "Privacy & Compliance",
+      description:
+        "DPDP and GDPR ready, full data export, hosting with a certified cloud provider. Uptime SLA on Enterprise.",
     },
     {
       title: "Domie AI (Premium)",
       description:
-        "HelpDesk student tutor grounded in your academy's published course materials without training external AI models, course title and description drafting assistance, analytics, and an Ask Domie administrative daily brief.",
+        "HelpDesk student tutor grounded in your academy's published course materials without training external AI models, course title and description drafting assistance, analytics, and an Ask Domie administrative daily brief. Pro includes 5 million AI tokens a month.",
     },
   ],
   facts: {

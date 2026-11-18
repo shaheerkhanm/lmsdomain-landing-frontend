@@ -6,7 +6,7 @@ export const teachPlatformData: PlatformPageData = {
   heroAccent: "live classes",
   aiNote: "With Domie AI (Pro), draft course titles, descriptions and learning outcomes in seconds.",
   title: "Teach recorded courses and live classes from one place",
-  subtitle: "LMS Domain lets you build courses from video, PDF and text lessons, release them on a schedule, and run live Zoom classes for every batch. Recordings are saved to the course automatically.",
+  subtitle: "LMS Domain lets you build courses from video, PDF and text lessons, release them on a schedule, and run live classes on Zoom, Google Meet or Teams for every batch. Recordings are saved to the course automatically.",
   metaTitle: "Online Course Builder & Live Zoom Classes | LMS Domain",
   metaDescription: "Build video and PDF courses with drip release, run live Zoom classes for each batch, and host bootcamps and 1:1 tutor sessions on your own branded academy.",
   sectionHeading: "Everything you need to teach online",
@@ -26,10 +26,31 @@ export const teachPlatformData: PlatformPageData = {
       icon: "CalendarClock",
     },
     {
-      title: "Zoom live classes",
+      title: "Live classes on Zoom, Google Meet or Teams",
       description:
         "Schedule live classroom sessions for each batch, notify students, and store class recordings with the course.",
       icon: "Video",
+    },
+    {
+      title: "Community and discussions",
+      description:
+        "Give each course a discussion space where learners ask questions and help each other.",
+      icon: "MessageSquare",
+      plan: "Growth",
+    },
+    {
+      title: "Badges and gamification",
+      description:
+        "Reward progress with badges, points and streaks that keep learners coming back.",
+      icon: "Award",
+      plan: "Growth",
+    },
+    {
+      title: "SCORM and xAPI import",
+      description:
+        "Bring in existing SCORM and xAPI course packages and track learner progress in LMS Domain.",
+      icon: "BookOpenCheck",
+      plan: "Growth",
     },
     {
       title: "Cohort-based bootcamps",
@@ -95,7 +116,7 @@ export const teachPlatformData: PlatformPageData = {
     {
       question: "Is there a mobile app for live classes?",
       answer:
-        "Learners can join live Zoom classes and access course lessons using any modern mobile browser. Native mobile apps are on our roadmap.",
+        "Yes. Learners join live classes and watch lessons in the Android and iOS app, or in any phone browser. On Pro and Enterprise, you get your own branded app in Google Play and the App Store.",
     },
   ],
 };
