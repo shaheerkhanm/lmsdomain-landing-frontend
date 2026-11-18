@@ -110,6 +110,18 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
     {
       "title": "Sales reports and payouts",
       "text": "Track sales over time, work out instructor revenue splits and export financial reports."
+    },
+    {
+      "title": "Subscriptions and bundles",
+      "text": "Sell monthly or yearly memberships, and bundle courses together at a better price."
+    },
+    {
+      "title": "Affiliates",
+      "text": "Partners and past learners share their own link and earn a commission on every sale it brings."
+    },
+    {
+      "title": "Abandoned carts and upsells",
+      "text": "Remind learners who left checkout, and offer a related course right after they buy."
     }
   ],
   "brand": [
