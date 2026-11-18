@@ -324,7 +324,7 @@ const PREVIEWS: Record<string, { el: () => React.ReactElement; line: string }> =
   "/platform/sell": { el: PreviewSell, line: "Checkout in your learners' own currency." },
   "/platform/brand": { el: PreviewBrand, line: "Your domain, your colours, your academy." },
   "/platform/ai": { el: PreviewAi, line: "Answers from your own lessons. On Pro." },
-  "/platform/security": { el: PreviewSecurity, line: "Device limits and watermarked video." },
+  "/platform/security": { el: PreviewSecurity, line: "DRM video, watermarks and device limits." },
 };
 
 /* ------------------------------------------------------------------ */

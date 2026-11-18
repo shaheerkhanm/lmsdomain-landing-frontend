@@ -5,25 +5,43 @@ export const securityPlatformData: PlatformPageData = {
   eyebrow: "Security",
   heroAccent: "your courses",
   title: "Protect your courses and your learners' data",
-  subtitle: "LMS Domain helps stop course sharing with video watermarks and learner device limits, gives your team role-based access, and runs on managed cloud hosting with TLS encryption.",
-  metaTitle: "Secure LMS with Video Watermarking & Device Limits | LMS Domain",
-  metaDescription: "Protect course videos with learner watermarks and device limits, control team access with roles, and keep academy data on secure managed hosting with LMS Domain.",
+  subtitle: "LMS Domain stops course sharing with DRM-encrypted video, learner watermarks, a screen-recording block in the apps and device limits. It gives your team role-based access and single sign-on, and runs on managed cloud hosting with TLS encryption.",
+  metaTitle: "Secure LMS with DRM Video, Watermarks & SSO | LMS Domain",
+  metaDescription: "Protect course videos with DRM, learner watermarks, a screen-recording block and device limits. Control access with roles and SSO, export your data any time, DPDP and GDPR ready.",
   sectionHeading: "Everything you need to keep content safe",
   frameTitle: "Security, Watermarking & Access Controls",
   frameAlt: "Protect your courses and your learners' data",
   features: [
     {
+      title: "DRM-encrypted video",
+      description:
+        "Course videos are streamed encrypted, so they can't be downloaded or played outside your academy.",
+      icon: "Lock",
+    },
+    {
       title: "Video watermarking",
       description:
-        "Discourage unauthorized video screen recording with dynamic, viewer-specific watermarks stamped across playback.",
+        "Discourage screen recording with dynamic, viewer-specific watermarks stamped across playback.",
       icon: "ShieldAlert",
-      plan: "Growth",
+    },
+    {
+      title: "Screen-recording block",
+      description:
+        "In the Android and iOS apps, screen recording and screenshots are blocked while lessons play.",
+      icon: "Smartphone",
     },
     {
       title: "Learner device limits",
       description:
         "Manage account sharing by enforcing a maximum number of authorized sign-in devices per registered student.",
       icon: "Smartphone",
+      plan: "Pro",
+    },
+    {
+      title: "Single sign-on (SSO)",
+      description:
+        "Let your team and learners sign in with the accounts they already use, managed in one place.",
+      icon: "Lock",
       plan: "Pro",
     },
     {
@@ -36,13 +54,13 @@ export const securityPlatformData: PlatformPageData = {
     {
       title: "Managed cloud hosting",
       description:
-        "Managed cloud hosting with HTTPS on every academy domain.",
+        "Hosted with a certified cloud provider, with HTTPS on every academy domain.",
       icon: "Server",
     },
     {
       title: "Your data stays yours",
       description:
-        "Your data stays yours, and you can export it.",
+        "Export your learners, courses, results and payments any time. DPDP and GDPR ready, with data deleted on request.",
       icon: "FileText",
     },
   ],
@@ -80,7 +98,7 @@ export const securityPlatformData: PlatformPageData = {
     {
       question: "Where is academy data hosted, and who owns it?",
       answer:
-        "Your academy data is hosted on secure cloud infrastructure protected with TLS encryption. You retain 100% ownership of your course content, student records, and intellectual property.",
+        "Your academy data is hosted with a certified cloud provider and protected with TLS encryption. You keep 100% ownership of your course content, student records, and intellectual property. LMS Domain is DPDP and GDPR ready: we sign a data processing agreement and delete data on request.",
     },
     {
       question: "What permissions do Instructor accounts have?",
@@ -95,7 +113,7 @@ export const securityPlatformData: PlatformPageData = {
     {
       question: "How are course videos protected from unauthorized downloading?",
       answer:
-        "Course videos are streamed with dynamic user-specific watermarks displaying the student's email and phone number on screen, time-limited playback tokens, and single-device concurrent session limits.",
+        "Course videos are DRM-encrypted and streamed with time-limited playback tokens and dynamic watermarks showing the learner's email and phone number. In the Android and iOS apps, screen recording is blocked. On Pro, you can also limit how many devices each learner signs in from.",
     },
   ],
 };

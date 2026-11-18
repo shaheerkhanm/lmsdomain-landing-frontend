@@ -39,10 +39,17 @@ export const managePlatformData: PlatformPageData = {
       plan: "Custom roles on Pro",
     },
     {
-      title: "Email & SMS notifications",
+      title: "Email, WhatsApp & SMS notifications",
       description:
-        "Send announcements, class reminders and enrolment notices by email automatically. SMS is available on Growth and up.",
+        "Send announcements, class reminders and enrolment notices by email and WhatsApp automatically. SMS is available on Growth and up.",
       icon: "Bell",
+    },
+    {
+      title: "API and webhooks",
+      description:
+        "Connect LMS Domain to your CRM, HR or accounting tools with the public API and webhooks.",
+      icon: "Command",
+      plan: "Growth",
     },
   ],
   usedFor: [
@@ -94,7 +101,7 @@ export const managePlatformData: PlatformPageData = {
     {
       question: "Is there a mobile app for academy administrators?",
       answer:
-        "The LMS Domain admin portal is fully responsive and accessible from any smartphone or tablet browser. Native mobile apps are on our roadmap.",
+        "The admin portal works in any phone or tablet browser. Learners get the LMS Domain app for Android and iOS, or your own branded app on Pro and Enterprise.",
     },
   ],
 };

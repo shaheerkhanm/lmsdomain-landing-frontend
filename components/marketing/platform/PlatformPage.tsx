@@ -258,7 +258,7 @@ export function PlatformPage({ data, content }: PlatformPageProps) {
                   <custom.Bento cards={c.cards} />
                 </div>
                 <p className="rv-v4 mt-8 text-center text-[14.5px] text-[#A1A1AA]">
-                  Included in Pro within fair-use limits, and in Enterprise.{" "}
+                  Included in Pro with 5 million AI tokens a month, and in Enterprise.{" "}
                   <Link href="/pricing#compare" className="font-semibold text-white underline-offset-4 hover:underline">
                     Compare plans
                   </Link>

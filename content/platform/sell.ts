@@ -25,6 +25,27 @@ export const sellPlatformData: PlatformPageData = {
       icon: "Tag",
     },
     {
+      title: "Subscriptions and bundles",
+      description:
+        "Sell monthly or yearly memberships and course bundles alongside single courses.",
+      icon: "CalendarRange",
+      plan: "Growth",
+    },
+    {
+      title: "Affiliates",
+      description:
+        "Let partners and past learners share referral links and earn a commission on each sale.",
+      icon: "Users",
+      plan: "Growth",
+    },
+    {
+      title: "Abandoned-cart recovery and upsells",
+      description:
+        "Remind learners who left checkout and offer a related course right after purchase.",
+      icon: "ShoppingCart",
+      plan: "Growth",
+    },
+    {
       title: "Stripe, Razorpay, Paytm & DOKU",
       description:
         "Connect your existing gateway account to receive direct payouts without platform intermediaries.",

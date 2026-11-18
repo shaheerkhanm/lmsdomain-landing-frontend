@@ -77,7 +77,7 @@ export function Card({
           <h3 className={cn("font-urbanist text-[21px] font-semibold leading-[1.2] tracking-[-0.015em]", dark ? "text-white" : "text-[#0A0A0B]")}>{title}</h3>
           {plan && (
             <span className="rounded-full border border-[#E4E4E7] bg-white px-2.5 py-0.5 text-[11.5px] font-semibold text-[#52525B]">
-              {/^custom/i.test(plan) ? plan : `${plan} and up`}
+              {/^(custom|every)/i.test(plan) ? plan : `${plan} and up`}
             </span>
           )}
         </div>

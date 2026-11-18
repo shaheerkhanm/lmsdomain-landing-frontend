@@ -27,13 +27,13 @@ export const homeFaqItems: FaqItem[] = [
   {
     id: "live-classes",
     question: "Can I run live classes?",
-    answer: "Yes, through Zoom, scheduled per batch.",
+    answer: "Yes, through Zoom, Google Meet or Microsoft Teams, scheduled per batch.",
   },
   {
     id: "mobile-app",
     question: "Is there a mobile app?",
     answer:
-      'Learners use your academy in any phone browser today. Native mobile apps are on our <a href="/roadmap" class="text-[#7B5CF5] underline underline-offset-2 hover:text-[#6842ED]">roadmap</a>.',
+      "Yes. Every plan includes the LMS Domain app for Android and iOS, where learners open your academy. On Pro and Enterprise, you get your own branded app in Google Play and the App Store.",
   },
   {
     id: "course-migration",
@@ -48,6 +48,6 @@ export const homeFaqItems: FaqItem[] = [
   {
     id: "ai-tools",
     question: "Are the AI tools included?",
-    answer: "Domie AI is included on the Pro plan within fair-use limits, and on custom terms for Enterprise.",
+    answer: "Domie AI is included on the Pro plan with 5 million AI tokens a month, and with a custom limit on Enterprise.",
   },
 ];

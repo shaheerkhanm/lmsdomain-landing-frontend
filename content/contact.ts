@@ -8,6 +8,8 @@ export interface ContactDetails {
   country: string;
   mapUrl?: string;
   hours?: string;
+  /** Help center / documentation site; the footer links to it when set */
+  helpCenterUrl?: string;
 }
 
 export const defaultContactDetails: ContactDetails = {
@@ -22,5 +24,6 @@ export const defaultContactDetails: ContactDetails = {
   country: "India",
   mapUrl: "",
   hours: "",
+  helpCenterUrl: "",
 };
 

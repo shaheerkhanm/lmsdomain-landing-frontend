@@ -11,7 +11,7 @@ export interface PlatformOverviewPillar {
 export const platformOverviewSeo = {
   title: "All-in-One LMS Platform for Academies & Course Creators | LMS Domain",
   description:
-    "One platform to teach courses and live Zoom classes, run tests, manage batches, sell in any currency and brand your academy on your own domain. 0% commission.",
+    "One platform to teach courses and live classes on Zoom, Google Meet or Teams, run tests, manage batches, sell in any currency and brand your academy on your own domain. 0% commission.",
   heroAnswer:
     "LMS Domain is an all-in-one learning platform for academies, coaching institutes and course creators. Teach recorded courses and live classes, run tests, manage batches and sell in any currency, all on your own domain.",
 };
@@ -23,7 +23,7 @@ export const platformOverviewPillars: PlatformOverviewPillar[] = [
     title: "Teach",
     tagline: "Teach recorded courses and live batches from one place.",
     description:
-      "Structured video lessons, drip releases, Zoom live classes, cohort bootcamps, and 1:1 tutor bookings.",
+      "Structured video lessons, drip releases, live classes on Zoom, Meet or Teams, cohort bootcamps, and 1:1 tutor bookings.",
     icon: "BookOpen",
   },
   {
@@ -87,7 +87,7 @@ export const platformOverviewPillars: PlatformOverviewPillar[] = [
 /* ---------------------------------------------------------------------------
  * v5 overview page: one section per area of the platform.
  * Answer-first copy: the heading says what it does, the first sentence can be quoted alone.
- * Only claims that match the live product and pricing (Zoom only, plan-gated items noted in points).
+ * Only claims that match the live product and pricing (plan-gated items noted in points).
  * ------------------------------------------------------------------------- */
 export interface PlatformSectionV5 {
   slug: string;
@@ -104,11 +104,11 @@ export const platformSectionsV5: PlatformSectionV5[] = [
     href: "/platform/teach",
     name: "Teach",
     title: "Teach recorded courses and live classes in one place",
-    body: "Build courses from video, PDF and quiz lessons, release them on a schedule, and run live classes on Zoom for each batch.",
+    body: "Build courses from video, PDF and quiz lessons, release them on a schedule, and run live classes on Zoom, Google Meet or Teams for each batch.",
     points: [
       "Video, PDF and quiz lessons in modules",
       "Drip release by date or enrolment day",
-      "Zoom live classes with saved recordings",
+      "Live classes on Zoom, Meet or Teams, with saved recordings",
       "Bootcamps and 1:1 tutor booking (Growth and up)",
     ],
   },
@@ -169,12 +169,12 @@ export const platformSectionsV5: PlatformSectionV5[] = [
     href: "/platform/security",
     name: "Security",
     title: "Protect your courses and your learners' data",
-    body: "Stop course sharing with video watermarks and device limits, control who can see what, and keep everything on managed hosting with TLS encryption.",
+    body: "Stop course sharing with DRM-encrypted video, learner watermarks and a screen-recording block in the apps, control who can see what, and keep everything on managed hosting with TLS encryption.",
     points: [
-      "Video watermarks with the learner's details (Growth and up)",
-      "Learner device limits (Pro and up)",
+      "DRM video, watermarks and screen-recording block on every plan",
+      "Learner device limits and single sign-on (Pro and up)",
       "Role-based access for your team",
-      "Managed cloud hosting over HTTPS",
+      "Data export, DPDP and GDPR ready",
     ],
   },
 ];
@@ -189,7 +189,7 @@ export const platformAiSectionV5 = {
     "Drafts course and lesson descriptions",
     "Highlights learners and batches that need attention",
   ],
-  note: "Included in Pro within fair-use limits, and in Enterprise.",
+  note: "Included in Pro with 5 million AI tokens a month, and in Enterprise.",
 };
 
 export const platformFaqsV5 = [
@@ -208,7 +208,7 @@ export const platformFaqsV5 = [
   {
     id: "live-classes",
     question: "Can I run live classes?",
-    answer: "Yes. You can schedule live classes on Zoom for each batch. Learners join from your academy, and recordings are saved to the course.",
+    answer: "Yes. You can schedule live classes on Zoom, Google Meet or Microsoft Teams for each batch. Learners join from your academy, and recordings are saved to the course.",
   },
   {
     id: "sell-currency",

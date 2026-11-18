@@ -62,64 +62,22 @@ export const ROADMAP_DEFAULTS: RoadmapContent = {
     title: "Coming to",
     titleMuted: "LMS Domain.",
     groups: [
-      { name: "Learn anywhere", subtitle: "Apps and live classes" },
-      { name: "Reach learners", subtitle: "Messages and protection" },
+      { name: "Live classes", subtitle: "Built into LMS Domain" },
       { name: "Grow sales", subtitle: "New ways to sell" },
       { name: "Domie AI", subtitle: "Planned for Pro" },
     ],
     features: [
       {
-        title: "Branded Android and iOS apps",
-        category: "Mobile Learning",
-        group: "Learn anywhere",
-        description:
-          "Dedicated native white-label mobile applications published to Google Play and Apple App Store under your academy's brand.",
-      },
-      {
-        title: "DRM video protection (Widevine & FairPlay)",
-        category: "Security & Content",
-        group: "Reach learners",
-        description:
-          "Hardware-backed digital rights management to prevent unauthorized screen capture and stream interception on supported browsers.",
-      },
-      {
-        title: "WhatsApp notifications",
-        category: "Messaging & Alerts",
-        group: "Reach learners",
-        description:
-          "Automated WhatsApp messages for batch schedule updates, live class links, payment confirmations, and reminder alerts.",
-      },
-      {
         title: "WebRTC live classes",
         category: "Classroom Technology",
-        group: "Learn anywhere",
+        group: "Live classes",
         description: "Built-in, browser-native interactive classroom rooms directly integrated without requiring external software clients.",
-      },
-      {
-        title: "Google Meet integration",
-        category: "Classroom Technology",
-        group: "Learn anywhere",
-        description: "Direct Google Meet meeting generation and automated calendar invites for scheduled batch classes.",
-      },
-      {
-        title: "Memberships & recurring subscriptions",
-        category: "Monetization",
-        group: "Grow sales",
-        description:
-          "Recurring monthly and annual subscriptions granting ongoing access to curriculum libraries, community updates, and live sessions.",
-      },
-      {
-        title: "Affiliate program management",
-        category: "Growth & Marketing",
-        group: "Grow sales",
-        description:
-          "Self-serve affiliate partner registration, custom tracking links, conversion attribution, and automated partner commission calculations.",
       },
       {
         title: "Sales funnels",
         category: "Sales Optimization",
         group: "Grow sales",
-        description: "Multi-step conversion flows with pre-checkout lead capture, checkout order bumps, and post-purchase upsell offers.",
+        description: "Multi-step conversion flows with pre-checkout lead capture and checkout order bumps.",
       },
       {
         title: "AI quiz and assessment generation",
@@ -148,18 +106,18 @@ export const ROADMAP_DEFAULTS: RoadmapContent = {
     title: "Ready today.",
     titleMuted: "No waiting.",
     features: [
-      "Zoom live classes",
+      "Android and iOS apps",
+      "DRM video protection",
+      "WhatsApp notifications",
+      "Zoom, Google Meet and Teams",
+      "Subscriptions and bundles",
+      "Affiliates",
       "Tests and question banks",
-      "Video watermarking",
-      "Your own domain",
-      "Domie AI on Pro",
-      "Batches and drip release",
       "Certificates",
-      "Device limits",
+      "Your own domain",
       "Stripe, Razorpay, Paytm, DOKU",
-      "Coupons",
-      "1:1 tutor booking",
-      "Email and SMS notices",
+      "SCORM, API and webhooks",
+      "Domie AI on Pro",
     ],
     linkText: "Explore the platform",
   },
@@ -191,7 +149,7 @@ export const ROADMAP_DEFAULTS: RoadmapContent = {
       },
       {
         question: "Is there a mobile app today?",
-        answer: "Learners can use your academy on any phone through the mobile browser today. Branded Android and iOS apps are on the roadmap.",
+        answer: "Yes. Learners use the LMS Domain app for Android and iOS on every plan. Pro and Enterprise academies get their own branded app in Google Play and the App Store.",
       },
     ],
   },

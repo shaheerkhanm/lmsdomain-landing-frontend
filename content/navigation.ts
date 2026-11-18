@@ -65,7 +65,7 @@ export const navigationConfig: NavigationConfig = {
         {
           label: "Security",
           href: "/platform/security",
-          description: "Device limits and protected video",
+          description: "DRM video, watermarks, SSO and device limits",
         },
         {
           label: "All features",

@@ -85,6 +85,11 @@ export function FooterSection({
         return publishedLegalSlugs.includes(slug);
       });
     }
+    // Admin > Contact details > Help center URL (shown only when filled in)
+    const helpCenterUrl: string = addressData?.helpCenterUrl || "";
+    if (section.title === "Resources" && /^https:\/\/\S+$/i.test(helpCenterUrl)) {
+      links = [{ title: "Help Center", href: helpCenterUrl }, ...links];
+    }
     return { ...section, links };
   }).filter((section) => section.links.length > 0);
 

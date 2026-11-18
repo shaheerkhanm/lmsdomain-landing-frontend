@@ -6,7 +6,7 @@ export const aiPlatformData: PlatformPageData = {
   heroAccent: "knows your courses",
   badge: "Pro",
   title: "Domie AI, a study helper that knows your courses",
-  subtitle: "Domie AI answers learner questions from your academy's own lessons, at any hour. It also drafts course descriptions for your team and shows which learners need attention. Included in Pro within fair-use limits, and in Enterprise.",
+  subtitle: "Domie AI answers learner questions from your academy's own lessons, at any hour. It also drafts course descriptions for your team and shows which learners need attention. Included in Pro with 5 million AI tokens a month, and in Enterprise.",
   metaTitle: "Domie AI: AI Teaching Assistant for Your Academy | LMS Domain",
   metaDescription: "Domie AI answers learner questions from your own course content, drafts course descriptions and flags learners falling behind. Available on LMS Domain Pro.",
   sectionHeading: "What Domie AI does for your team",
@@ -76,7 +76,7 @@ export const aiPlatformData: PlatformPageData = {
     {
       question: "Which plans include Domie AI?",
       answer:
-        "Domie AI features are included on the Pro plan within fair-use limits. You can enable or disable AI capabilities for specific courses and student groups.",
+        "Domie AI is included on the Pro plan with 5 million AI tokens a month. You can enable or disable AI capabilities for specific courses and student groups.",
     },
     {
       question: "Does Domie AI use my course content to train external AI models?",

@@ -70,7 +70,7 @@ export function getPricingFaqs(trialDays: number = 15): FaqItem[] {
     {
       id: "ai-tools",
       question: "Is Domie AI included?",
-      answer: "Domie AI is included in the Pro plan within fair-use limits, and on custom terms in Enterprise.",
+      answer: "Domie AI is included in the Pro plan with 5 million AI tokens a month, and with a custom limit in Enterprise.",
     },
     {
       id: "course-migration",
@@ -82,7 +82,7 @@ export function getPricingFaqs(trialDays: number = 15): FaqItem[] {
       id: "mobile-app",
       question: "Is there a mobile app?",
       answer:
-        'Learners can use your academy on any phone through the mobile browser. Native mobile apps are on our <a href="/roadmap" class="text-[#6C4BFF] underline underline-offset-2">roadmap</a>.',
+        "Yes. Every plan includes the LMS Domain app for Android and iOS, where learners open your academy. On Pro and Enterprise, you get your own branded app in Google Play and the App Store.",
     },
   ];
 }

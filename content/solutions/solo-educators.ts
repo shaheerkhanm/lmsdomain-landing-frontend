@@ -13,7 +13,7 @@ export const soloEducatorsData: SolutionPageData = {
       title: "Recorded courses & drip lessons",
       tagline: "Structured chapters with video, PDF, and text materials.",
       description:
-        "Build self-paced or drip-scheduled courses with rich multimedia. Protect videos with viewer watermarks (Growth and up) and device limits (Pro and up).",
+        "Build self-paced or drip-scheduled courses with rich multimedia. Protect videos with DRM, viewer watermarks and a screen-recording block in the apps, plus device limits (Pro and up).",
       icon: "BookOpen",
     },
     {
@@ -98,7 +98,7 @@ export const soloEducatorsData: SolutionPageData = {
     {
       question: "Is there a mobile app for learners?",
       answer:
-        "Students can log in, stream lessons, and complete mock tests seamlessly in any mobile web browser. Native mobile apps are on our roadmap.",
+        "Yes. Every plan includes the LMS Domain app for Android and iOS, where learners open your academy. On Pro and Enterprise, you get your own branded app in Google Play and the App Store.",
     },
   ],
   ctaTitle: "Ready to launch your own teaching academy?",

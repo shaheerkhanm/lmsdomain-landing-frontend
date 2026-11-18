@@ -22,8 +22,9 @@ export const assessPlatformData: PlatformPageData = {
     {
       title: "Assignments with review",
       description:
-        "Review submissions and give feedback.",
+        "Learners upload written answers or files; tutors grade them and give feedback.",
       icon: "FileCheck",
+      plan: "Growth",
     },
     {
       title: "In-video checkpoints",
@@ -87,7 +88,7 @@ export const assessPlatformData: PlatformPageData = {
     {
       question: "Is there a mobile app for taking practice tests?",
       answer:
-        "Students can take all quizzes, tests, and assignment submissions seamlessly in any mobile web browser. Native mobile apps are currently on our roadmap.",
+        "Yes. Learners take quizzes and tests in the Android and iOS app, or in any phone browser. On Pro and Enterprise, you get your own branded app in Google Play and the App Store.",
     },
   ],
 };

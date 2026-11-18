@@ -27,7 +27,7 @@ export const faqContent: FaqContent = {
     },
     {
       question: "Can I run live classes?",
-      answer: "Yes, with Zoom, including recordings, bootcamps and one-to-one tutor booking.",
+      answer: "Yes, with Zoom, Google Meet or Microsoft Teams, including recordings, bootcamps and one-to-one tutor booking.",
     },
     {
       question: "Can I sell in more than one currency or language?",

@@ -85,7 +85,7 @@ export const languageTestPrepData: SolutionPageData = {
     {
       question: "Can learners take mock tests on mobile phones?",
       answer:
-        "Yes, learners can access practice tests, video lessons, and live Zoom meetings on any mobile web browser. Branded native mobile apps are on our roadmap.",
+        "Yes. Learners take mock tests, watch lessons and join live classes in the Android and iOS app or any phone browser. On Pro and Enterprise, the app carries your own brand.",
     },
   ],
   ctaTitle: "See how LMS Domain powers your language academy.",

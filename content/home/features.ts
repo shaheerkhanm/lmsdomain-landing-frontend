@@ -32,9 +32,9 @@ export const featuresContent: FeaturesContent = {
       stepNumber: "03",
       title: "Live and cohort learning",
       summary:
-        "Live classes on Zoom, bootcamps and one-to-one tutor booking.",
+        "Live classes on Zoom, Google Meet or Teams, bootcamps and one-to-one tutor booking.",
       details: [
-        "Live classes with Zoom integration",
+        "Live classes with Zoom, Google Meet or Teams",
         "Bootcamps with milestones and cohorts",
         "One-to-one tutor booking calendar",
       ],

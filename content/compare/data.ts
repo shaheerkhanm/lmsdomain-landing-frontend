@@ -159,7 +159,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       },
       {
         title: "Content protection",
-        description: "Protect your videos with watermarks showing each learner's details (Growth and up) and device limits (Pro and up).",
+        description: "Protect your videos with DRM encryption, watermarks showing each learner's details and a screen-recording block in the apps, plus device limits (Pro and up).",
       },
       {
         title: "Payments in any currency",
@@ -173,7 +173,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       },
       {
         question: "Is there a mobile app?",
-        answer: "Learners can use your academy in any phone browser today. Branded Android and iOS apps are on our [roadmap](/roadmap).",
+        answer: "Yes. Every plan includes the LMS Domain app for Android and iOS, where learners open your academy. On Pro and Enterprise, you get your own branded app in Google Play and the App Store.",
       },
     ],
   },

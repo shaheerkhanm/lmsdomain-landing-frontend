@@ -93,9 +93,9 @@ export function PricingView({
 
   // Currency resolution:
   // If initialCurrency (from URL param or proxy/CDN country header) is known, start with it.
-  // Otherwise, default to INR for safety, but mark isCurrencyResolved as false until client resolves.
+  // Otherwise, default to USD (as on the homepage), but mark isCurrencyResolved as false until client resolves.
   const [currency, setCurrency] = useState<PricingCurrency>(
-    initialCurrency || "INR"
+    initialCurrency || "USD"
   );
   const [isCurrencyResolved, setIsCurrencyResolved] = useState<boolean>(
     Boolean(initialCurrency)
@@ -191,10 +191,14 @@ export function PricingView({
     (currency === "INR" ? "+ GST" : "+ applicable taxes");
 
   // Determine dynamic yearly savings label
+  // "percent" mode: the best yearly discount across the plans, e.g. "Save up to 20%"
+  const bestYearlyPercent = Math.max(0, ...(pricingV2.plans || []).map((p) => Number(p.annualDiscountPercent) || 0));
   const yearlySavingsLabel =
     pricingV2.annualMode === "monthsFree"
       ? `${pricingV2.monthsFree} months free`
-      : undefined;
+      : bestYearlyPercent > 0
+        ? `Save up to ${bestYearlyPercent}%`
+        : undefined;
 
   // Hero copy: plain eyebrow (no symbols), and no India-only tax wording for other currencies
   const rawEyebrow = (data.hero.eyebrow || "Pricing").replace(/[✦*]/g, "").trim();

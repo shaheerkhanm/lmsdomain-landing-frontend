@@ -2,8 +2,10 @@
  * lib/claims.ts
  *
  * Server-side claims guard that runs after CMS merge to filter out features
- * and promises that are not live today (e.g. mobile apps, DRM, WebRTC, PayPal,
- * WhatsApp, memberships, affiliates program, funnels, AI quizzes).
+ * and promises that are not live today (built-in WebRTC classes, sales funnels, PayPal,
+ * AI quiz generation, proctoring, SOC 2 / ISO 27001 certification).
+ * Live since 2026-11-18 and allowed: Android/iOS apps, DRM, WhatsApp, subscriptions,
+ * affiliates, Google Meet / Microsoft Teams, SCORM/xAPI, API and webhooks, SSO.
  *
  * NOTE: The /roadmap page is permitted to describe upcoming features ONLY
  * for its own roadmap items (labelled "Coming soon"). All other content on
@@ -11,7 +13,7 @@
  */
 
 export const NOT_LIVE_REGEX =
-  /android|\bios\b|iphone|ipad|app store|google play|play store|store listings?|mobile apps?|\bapps\b|\bDRM\b|fairplay|widevine|whatsapp|webrtc|memberships?|affiliates? program|\bfunnels?\b|paypal|ai quiz|quiz generat|assessment generat|verifi(?:ed|able).*certif|certif.*verifi|verifiable credential|verifiable digital certificat|\blorem\b|\bipsum\b/i;
+  /webrtc|\bfunnels?\b|paypal|ai quiz|quiz generat|assessment generat|proctor|SOC ?2|ISO ?27001|verifi(?:ed|able).*certif|certif.*verifi|verifiable credential|verifiable digital certificat|\blorem\b|\bipsum\b/i;
 
 /**
  * Whitelisted item IDs allowed to reference roadmap features (e.g. mobile-app FAQ linking to /roadmap)
