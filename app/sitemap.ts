@@ -58,6 +58,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/platform/mobile-app`,
+      lastModified: new Date(SITEMAP_LAST_MODIFIED["/platform/mobile-app"] || "2026-11-19"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/platform/brand`,
       lastModified: new Date(SITEMAP_LAST_MODIFIED["/platform/brand"] || "2026-11-06"),
       changeFrequency: "weekly",

@@ -8,10 +8,12 @@ import BrandLogo from "@/components/brand/BrandLogo";
  * Use these instead of coloured letter badges.
  */
 
-export type BrandName = "Zoom" | "Stripe" | "Razorpay" | "Paytm" | "DOKU" | "Zapier" | "WhatsApp";
+export type BrandName = "Zoom" | "Google Meet" | "Microsoft Teams" | "Stripe" | "Razorpay" | "Paytm" | "DOKU" | "Zapier" | "WhatsApp";
 
 const BRANDS: Record<BrandName, { src: string; tile?: boolean; inset?: number }> = {
   Zoom: { src: "/brands/zoom.svg" },
+  "Google Meet": { src: "/brands/google-meet.svg", tile: true, inset: 0.18 },
+  "Microsoft Teams": { src: "/brands/microsoft-teams.svg", tile: true, inset: 0.16 },
   Stripe: { src: "/brands/stripe.svg" },
   Zapier: { src: "/brands/zapier.svg" },
   DOKU: { src: "/brands/doku.svg" },

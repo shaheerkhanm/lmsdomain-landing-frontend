@@ -10,6 +10,9 @@ export interface ContactDetails {
   hours?: string;
   /** Help center / documentation site; the footer links to it when set */
   helpCenterUrl?: string;
+  /** Store links for the LMS Domain app; the badges link to them when set */
+  playStoreUrl?: string;
+  appStoreUrl?: string;
 }
 
 export const defaultContactDetails: ContactDetails = {
@@ -25,5 +28,7 @@ export const defaultContactDetails: ContactDetails = {
   mapUrl: "",
   hours: "",
   helpCenterUrl: "",
+  playStoreUrl: "",
+  appStoreUrl: "",
 };
 

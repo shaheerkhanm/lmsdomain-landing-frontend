@@ -6,6 +6,7 @@ import { managePlatformData } from "@/content/platform/manage";
 import { sellPlatformData } from "@/content/platform/sell";
 import { brandPlatformData } from "@/content/platform/brand";
 import { securityPlatformData } from "@/content/platform/security";
+import { mobileAppPlatformData } from "@/content/platform/mobile-app";
 import { aiPlatformData } from "@/content/platform/ai";
 import { languageTestPrepData } from "@/content/solutions/language-test-prep";
 import { trainingCompaniesData } from "@/content/solutions/training-companies";
@@ -62,6 +63,7 @@ export async function GET() {
     ...(sellPlatformData.faqs || []),
     ...(brandPlatformData.faqs || []),
     ...(securityPlatformData.faqs || []),
+    ...(mobileAppPlatformData.faqs || []),
     ...(aiPlatformData.faqs || []),
     ...(coachingInstitutesData.faqs || []),
     ...(languageTestPrepData.faqs || []),

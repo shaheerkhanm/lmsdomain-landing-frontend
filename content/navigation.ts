@@ -68,6 +68,11 @@ export const navigationConfig: NavigationConfig = {
           description: "DRM video, watermarks, SSO and device limits",
         },
         {
+          label: "Mobile apps",
+          href: "/platform/mobile-app",
+          description: "Android and iOS apps, your own on Pro",
+        },
+        {
           label: "All features",
           href: "/platform",
           description: "Everything LMS Domain does, on one page",

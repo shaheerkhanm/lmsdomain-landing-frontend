@@ -1437,3 +1437,125 @@ input[type="number"]::-webkit-inner-spin-button {
   .legal-article a { color: #000; text-decoration: none; }
   .legal-article ul > li::before { background: #000; }
 }
+
+/* ---- Home: mobile app section motion (MobileAppSection.tsx) ---- */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ma-progress { 0% { width: 18%; } 100% { width: 86%; } }
+  .ma-progress { animation: ma-progress 9s linear infinite alternate; }
+  @keyframes ma-drift {
+    0% { transform: translate(0, 0) rotate(-12deg); }
+    50% { transform: translate(64px, 46px) rotate(-12deg); }
+    100% { transform: translate(0, 0) rotate(-12deg); }
+  }
+  .ma-drift { animation: ma-drift 11s ease-in-out infinite; }
+  @keyframes ma-speak { 0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.9); } 50% { box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.9); } }
+  .ma-speak { animation: ma-speak 1.1s ease-in-out infinite; }
+  @keyframes ma-ring { from { stroke-dashoffset: 100; } }
+  .ma-ring { animation: ma-ring 1.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  @keyframes ma-spin { to { transform: rotate(360deg); } }
+  .ma-spin { animation: ma-spin 40s linear infinite; }
+  .ma-spin-rev { animation: ma-spin 60s linear infinite reverse; }
+  @keyframes ma-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .ma-fill { transform-origin: left; animation: ma-fill linear both; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ma-nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+  .ma-nudge { animation: ma-nudge 1.4s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ma-aurora { 0%, 100% { transform: translate(0, 0) scale(1); } 50% { transform: translate(30px, 24px) scale(1.15); } }
+  @keyframes ma-aurora-b { 0%, 100% { transform: translate(0, 0) scale(1.1); } 50% { transform: translate(-26px, 18px) scale(0.9); } }
+  .ma-aurora { animation: ma-aurora 9s ease-in-out infinite; }
+  .ma-aurora-b { animation: ma-aurora-b 11s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ma-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .ma-bob { animation: ma-bob 6s ease-in-out infinite; }
+  @keyframes ma-pop { 0%, 70%, 100% { transform: scale(1); } 80% { transform: scale(1.12) rotate(-4deg); } 90% { transform: scale(0.98); } }
+  .ma-pop { animation: ma-pop 4s ease-in-out infinite; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes ma-tap { 0%, 55%, 100% { transform: scale(0.4); opacity: 0; } 65% { transform: scale(1); opacity: 1; } 85% { transform: scale(1.5); opacity: 0; } }
+  .ma-tap { animation: ma-tap 3s ease-out infinite; }
+}
+/* ---- /platform/mobile-app cards (MobileAppBento.tsx). Still frame first, motion only when allowed ---- */
+.mp-lang { opacity: 0; }
+.mp-lang-first { opacity: 1; }
+.mp-installwrap, .mp-heart { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .mp-bob { animation: mp-bob 4.5s ease-in-out infinite; }
+  @keyframes mp-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+
+  .mp-sheet { animation: mp-sheet 7s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  @keyframes mp-sheet {
+    0%, 12% { transform: translate(-50%, 40px); opacity: 0; }
+    20%, 75% { transform: translate(-50%, 0); opacity: 1; }
+    85%, 100% { transform: translate(-50%, 40px); opacity: 0; }
+  }
+
+  .mp-blackout { animation: mp-blackout 6s ease-in-out infinite both; }
+  @keyframes mp-blackout { 0%, 38% { opacity: 0; } 44%, 62% { opacity: 0.96; } 70%, 100% { opacity: 0; } }
+  .mp-toast { animation: mp-toast 6s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  @keyframes mp-toast {
+    0%, 40% { transform: translate(-50%, 10px) scale(0.96); opacity: 0; }
+    47%, 80% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+    88%, 100% { transform: translate(-50%, 0) scale(0.98); opacity: 0; }
+  }
+
+  .mp-drop { animation: mp-drop 6.5s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  @keyframes mp-drop {
+    0%, 10% { transform: translate(-50%, -140%); opacity: 0; }
+    18%, 72% { transform: translate(-50%, 0); opacity: 1; }
+    82%, 100% { transform: translate(-50%, -140%); opacity: 0; }
+  }
+
+  .mp-pop2 { transform-origin: 20% 20%; animation: mp-pop2 6s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  @keyframes mp-pop2 {
+    0%, 24% { transform: scale(0.7) rotate(-4deg); opacity: 0; }
+    32% { transform: scale(1.05) rotate(2deg); opacity: 1; }
+    38%, 82% { transform: scale(1) rotate(2deg); opacity: 1; }
+    92%, 100% { transform: scale(0.95) rotate(2deg); opacity: 0; }
+  }
+
+  .mp-msg { animation: mp-msg 6.6s ease-out infinite both; }
+  @keyframes mp-msg { 0% { opacity: 0; transform: translateY(8px); } 8%, 86% { opacity: 1; transform: translateY(0); } 95%, 100% { opacity: 0; transform: translateY(0); } }
+  .mp-typing { animation: mp-typing 6.6s ease-out infinite both; }
+  @keyframes mp-typing { 0%, 48% { opacity: 0; } 54%, 86% { opacity: 1; } 92%, 100% { opacity: 0; } }
+  .mp-dot { animation: mp-dot 1s ease-in-out infinite; }
+  @keyframes mp-dot { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+  .mp-heart { animation: mp-heart 5s ease-out infinite both; }
+  @keyframes mp-heart {
+    0%, 28% { opacity: 0; transform: scale(0); }
+    34% { opacity: 1; transform: scale(1.35); }
+    42% { opacity: 1; transform: scale(1) translateY(-4px); }
+    56%, 100% { opacity: 0; transform: scale(0.9) translateY(-22px); }
+  }
+  .mp-reply { animation: mp-reply 5s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
+  @keyframes mp-reply { 0%, 44% { opacity: 0; transform: translateX(-12px); } 52%, 86% { opacity: 1; transform: translateX(0); } 95%, 100% { opacity: 0; transform: translateX(0); } }
+
+  .mp-lang { animation: mp-lang 8s ease-in-out infinite; }
+  @keyframes mp-lang { 0%, 21% { opacity: 1; transform: translateY(0); } 25%, 96% { opacity: 0; transform: translateY(-4px); } 100% { opacity: 1; transform: translateY(0); } }
+
+  .mp-install { animation: mp-install 6s linear infinite; }
+  @keyframes mp-install { 0% { stroke-dashoffset: 100; } 55%, 100% { stroke-dashoffset: 0; } }
+  .mp-installwrap { animation: mp-installwrap 6s linear infinite; }
+  @keyframes mp-installwrap { 0%, 56% { opacity: 1; } 60%, 97% { opacity: 0; } 100% { opacity: 1; } }
+  .mp-pop { animation: mp-pop 6s ease-out infinite; }
+  @keyframes mp-pop { 0%, 56% { transform: scale(0.92); filter: brightness(0.6); } 64% { transform: scale(1.12); filter: brightness(1); } 70%, 100% { transform: scale(1); filter: brightness(1); } }
+}
+/* ---- /platform/mobile-app "How you get your branded app" flow (MobileAppExtras.tsx) ---- */
+.pf-dot-x { left: 0; }
+.pf-dot-y { top: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .pf-dot-x { animation: pf-x 4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+  @keyframes pf-x { 0% { left: 0; opacity: 0; } 8% { opacity: 1; } 45%, 55% { left: 50%; } 92% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+  .pf-dot-y { animation: pf-y 4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+  @keyframes pf-y { 0% { top: 0; opacity: 0; } 8% { opacity: 1; } 45%, 55% { top: 50%; } 92% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
+  .pf-node { animation: pf-node 4s ease-in-out infinite; }
+  @keyframes pf-node { 0%, 4% { box-shadow: 0 0 0 0 rgba(15,118,110,0); background: #fff; color: #0A0A0B; border-color: #DCDCE3; } 8%, 24% { box-shadow: 0 0 0 6px rgba(15,118,110,0.15); background: #0F766E; color: #fff; border-color: #0F766E; } 32%, 100% { box-shadow: 0 0 0 0 rgba(15,118,110,0); background: #fff; color: #0A0A0B; border-color: #DCDCE3; } }
+  .pf-build { animation: pf-build 4s ease-in-out infinite; }
+  @keyframes pf-build { 0%, 30% { stroke-dashoffset: 100; } 60%, 100% { stroke-dashoffset: 0; } }
+  .pf-swatch { animation: pf-swatch 4s ease-out infinite both; }
+  @keyframes pf-swatch { 0% { transform: scale(0.6); opacity: 0; } 10%, 100% { transform: scale(1); opacity: 1; } }
+}

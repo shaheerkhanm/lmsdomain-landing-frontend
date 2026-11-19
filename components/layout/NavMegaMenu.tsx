@@ -42,6 +42,7 @@ const ICONS: Record<string, LucideIcon> = {
   "/platform/brand": Palette,
   "/platform/ai": MessageSquareText,
   "/platform/security": ShieldCheck,
+  "/platform/mobile-app": Smartphone,
   "/platform": LayoutGrid,
   "/solutions/coaching-institutes": GraduationCap,
   "/solutions/language-test-prep-academies": Languages,
@@ -278,6 +279,24 @@ function PreviewAi() {
   );
 }
 
+function PreviewMobileApp() {
+  return (
+    <div className="flex items-end gap-2.5">
+      {[0, 1].map((i) => (
+        <div key={i} className={cn("rounded-[18px] bg-[#0A0A0B] p-[4px] shadow-[0_18px_30px_-18px_rgba(0,0,0,0.8)] ring-1 ring-white/10", i === 0 ? "w-[96px]" : "w-[84px] opacity-80")}>
+          <div className={cn("overflow-hidden rounded-[14px]", i === 0 ? "h-[150px] bg-white" : "h-[130px] bg-[#0F3B37]")}>
+            <div className={cn("px-2 pt-2.5 text-[8px] font-semibold", i === 0 ? "text-[#18181B]" : "text-white")}>{i === 0 ? "LMS Domain" : "Your academy"}</div>
+            <div className={cn("mx-2 mt-2 h-10 rounded-[7px]", i === 0 ? "bg-[#1E293B]" : "bg-white/15")} />
+            <div className={cn("mx-2 mt-1.5 h-1.5 w-12 rounded-full", i === 0 ? "bg-[#E4E4E7]" : "bg-white/30")} />
+            <div className={cn("mx-2 mt-1 h-1.5 w-9 rounded-full", i === 0 ? "bg-[#E4E4E7]" : "bg-white/20")} />
+            <div className={cn("mx-2 mt-2.5 h-4 rounded-full", i === 0 ? "bg-[#0A0A0B]" : "bg-[#5EEAD4]/80")} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function PreviewSecurity() {
   return (
     <div className={cn(card, "w-[232px] p-3")}>
@@ -325,6 +344,7 @@ const PREVIEWS: Record<string, { el: () => React.ReactElement; line: string }> =
   "/platform/brand": { el: PreviewBrand, line: "Your domain, your colours, your academy." },
   "/platform/ai": { el: PreviewAi, line: "Answers from your own lessons. On Pro." },
   "/platform/security": { el: PreviewSecurity, line: "DRM video, watermarks and device limits." },
+  "/platform/mobile-app": { el: PreviewMobileApp, line: "Android and iOS apps. Your own app on Pro." },
 };
 
 /* ------------------------------------------------------------------ */

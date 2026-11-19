@@ -7,7 +7,7 @@ export interface PlatformCard {
   text: string;
 }
 
-export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "brand" | "ai" | "security", PlatformCard[]> = {
+export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "brand" | "ai" | "security" | "mobile-app", PlatformCard[]> = {
   "teach": [
     {
       "title": "Courses with video, PDF and text",
@@ -200,6 +200,40 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
     {
       "title": "Your data stays yours",
       "text": "You own 100% of your courses and learner records, and can export them any time. DPDP and GDPR ready."
+    }
+  ],
+  "mobile-app": [
+    {
+      "title": "The LMS Domain app",
+      "text": "Learners download the LMS Domain app for Android or iOS and open your academy inside it."
+    },
+    {
+      "title": "Your own branded app",
+      "text": "Your academy's name, logo and colours in Google Play and the App Store."
+    },
+    {
+      "title": "Protected video",
+      "text": "DRM video, a watermark with the learner's details, and screen recording blocked in the apps."
+    },
+    {
+      "title": "Live classes in one tap",
+      "text": "Classes on Zoom, Google Meet or Teams open from the app, with a reminder before each one."
+    },
+    {
+      "title": "Tests on the go",
+      "text": "Timed mock tests with instant scores and a rank in the batch."
+    },
+    {
+      "title": "WhatsApp reminders",
+      "text": "Class, test and homework reminders arrive on WhatsApp."
+    },
+    {
+      "title": "Community",
+      "text": "Posts and replies with the batch, inside the app."
+    },
+    {
+      "title": "Any language",
+      "text": "Learners use the app in the language they choose."
     }
   ]
 };

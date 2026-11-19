@@ -32,6 +32,9 @@ import { AiStudents } from "@/components/sections/PlatformV5/ai/AiStudents";
 import { AiBackdrop } from "@/components/sections/PlatformV5/ai/AiBackdrop";
 import { SecurityHero } from "@/components/sections/PlatformV5/security/SecurityHero";
 import { SecurityBento } from "@/components/sections/PlatformV5/security/SecurityBento";
+import { MobileAppHero } from "@/components/sections/PlatformV5/mobile-app/MobileAppHero";
+import { MobileAppBento } from "@/components/sections/PlatformV5/mobile-app/MobileAppBento";
+import { MobileAppPublish } from "@/components/sections/PlatformV5/mobile-app/MobileAppExtras";
 import { PlatformPageData } from "@/content/platform/types";
 import { cn } from "@/lib/utils";
 import { linkedAnswerHtml } from "@/content/merge";
@@ -55,7 +58,7 @@ const SCENES: Record<string, React.ComponentType> = {
 };
 
 // Pages redesigned one by one get their own hero visual and feature cards.
-const CUSTOM: Record<string, { Hero: React.ComponentType; Bento: React.ComponentType<{ cards?: PlatformCard[] }>; Extra?: React.ComponentType }> = {
+const CUSTOM: Record<string, { Hero: React.ComponentType; Bento: React.ComponentType<{ cards?: PlatformCard[] }>; Extra?: React.ComponentType; After?: React.ComponentType }> = {
   teach: { Hero: TeachHero, Bento: TeachBento },
   assess: { Hero: AssessHero, Bento: AssessBento },
   manage: { Hero: ManageHero, Bento: ManageBento },
@@ -63,6 +66,7 @@ const CUSTOM: Record<string, { Hero: React.ComponentType; Bento: React.Component
   brand: { Hero: BrandHero, Bento: BrandBento },
   ai: { Hero: AiHero, Bento: AiBento, Extra: AiStudents },
   security: { Hero: SecurityHero, Bento: SecurityBento },
+  "mobile-app": { Hero: MobileAppHero, Bento: MobileAppBento, After: MobileAppPublish },
 };
 
 const AREAS = [
@@ -73,6 +77,7 @@ const AREAS = [
   { slug: "brand", name: "Brand", href: "/platform/brand" },
   { slug: "ai", name: "Domie AI", href: "/platform/ai" },
   { slug: "security", name: "Security", href: "/platform/security" },
+  { slug: "mobile-app", name: "Mobile apps", href: "/platform/mobile-app" },
 ];
 
 /** Title with the brand gradient on one phrase. */
@@ -334,6 +339,8 @@ export function PlatformPage({ data, content }: PlatformPageProps) {
           </Container>
         </section>
       )}
+
+      {!isAi && custom?.After && <custom.After />}
 
       {/* 2. Features: sticky heading on the left, numbered list on the right */}
       {!custom && (
