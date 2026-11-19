@@ -1,0 +1,37 @@
+{
+  "_about": "Repair 2026-11-19: restores 'on Zoom' / 'with Zoom' in phrases that also name Google Meet or Teams.",
+  "pairs": [
+    [
+      "live classes, Google Meet or",
+      "live classes on Zoom, Google Meet or"
+    ],
+    [
+      "Live classes, Google Meet or",
+      "Live classes on Zoom, Google Meet or"
+    ],
+    [
+      "Live classes, Google Meet & Teams",
+      "Live classes on Zoom, Google Meet & Teams"
+    ],
+    [
+      "Live classes, Meet or Teams",
+      "Live classes on Zoom, Meet or Teams"
+    ],
+    [
+      "live classes, Meet or Teams",
+      "live classes on Zoom, Meet or Teams"
+    ],
+    [
+      "Live Classes, Google Meet and Teams",
+      "Live Classes with Zoom, Google Meet and Teams"
+    ],
+    [
+      "Teach live, Meet or Teams",
+      "Teach live on Zoom, Meet or Teams"
+    ],
+    [
+      "Live sessions, Google Meet or Teams",
+      "Live sessions on Zoom, Google Meet or Teams"
+    ]
+  ]
+}

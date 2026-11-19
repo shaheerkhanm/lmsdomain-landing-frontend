@@ -186,7 +186,7 @@ export const FEATURE_CATEGORIES: FeatureCategory[] = [
         slug: "live-classes-with-zoom",
         title: "Live Classes",
         description:
-          "Schedule live classes, Google Meet or Teams and make session recordings available where supported.",
+          "Schedule live classes on Zoom, Google Meet or Teams and make session recordings available where supported.",
         icon: "Video",
       },
       {

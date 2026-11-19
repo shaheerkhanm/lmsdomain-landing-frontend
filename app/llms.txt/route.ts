@@ -34,7 +34,7 @@ export async function GET() {
 
 ## Product
 
-- [Teach](${origin}/platform/teach): Teach recorded video lessons with drip release, run live classes, Google Meet or Teams, and schedule cohort bootcamps.
+- [Teach](${origin}/platform/teach): Teach recorded video lessons with drip release, run live classes on Zoom, Google Meet or Teams, and schedule cohort bootcamps.
 - [Assess](${origin}/platform/assess): Evaluate learners with timed mock tests from question banks and issue branded PDF completion certificates.
 - [Manage](${origin}/platform/manage): Manage batch rosters, track live class attendance, assign staff roles, and send automated notifications.
 - [Sell](${origin}/platform/sell): Collect tuition fees online via Razorpay, Paytm, Stripe, or DOKU with automated GST invoices and coupon codes.
