@@ -84,8 +84,33 @@ export function applyCentralPlans(base: PricingV2Data, api: CentralPlansResponse
       limits,
     };
   });
+  // The comparison table's "Limits & quotas" rows follow the API's limits (rows matched by label)
+  const fmt = (v: number | "Custom", kind: "learners" | "seats" | "gb" | "storage") => {
+    if (v === "Custom") return "Custom";
+    const n = v.toLocaleString("en-US");
+    if (kind === "learners") return `Up to ${n}`;
+    if (kind === "seats") return `${n} seat${v === 1 ? "" : "s"}`;
+    return kind === "storage" && v >= 1000 && v % 1000 === 0 ? `${n} GB (${v / 1000} TB)` : `${n} GB`;
+  };
+  const ROWS: [RegExp, keyof PlanLimits, "learners" | "seats" | "gb" | "storage"][] = [
+    [/learner/i, "activeLearners", "learners"],
+    [/seat/i, "teamSeats", "seats"],
+    [/storage/i, "storageGb", "storage"],
+    [/bandwidth/i, "bandwidthGbPerMonth", "gb"],
+  ];
+  const comparison = (base.comparison || []).map((row) => {
+    if (!/limit/i.test(row.group || "")) return row;
+    const hit = ROWS.find(([re]) => re.test(row.label || ""));
+    if (!hit) return row;
+    const [, key, kind] = hit;
+    const values = { ...row.values };
+    for (const plan of plans) if (plan.slug in values || byId.has(plan.slug.toLowerCase())) values[plan.slug] = fmt(plan.limits[key], kind);
+    return { ...row, values };
+  });
+
   return {
     ...base,
+    comparison,
     trialDays: typeof api.trial_days === "number" ? api.trial_days : base.trialDays,
     currencies: {
       INR: { taxLabel: api.currencies?.INR?.tax_label || base.currencies.INR.taxLabel },
