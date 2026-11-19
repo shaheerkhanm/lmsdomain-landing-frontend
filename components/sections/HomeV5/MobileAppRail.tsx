@@ -8,7 +8,9 @@ import { cn } from "@/lib/utils";
 import { Container } from "./primitives";
 import { LmsDomainMark, BrandMark } from "@/components/brand/PartnerMarks";
 import { DEMO_ACADEMY, NorthwindLogo, NorthwindMark } from "@/components/brand/DemoAcademyLogo";
-import { HOME_MOBILE_APP, type HomeMobileAppContent } from "@/content/home/mobile-app";
+import { HOME_MOBILE_APP, RAIL_STEPS, type HomeMobileAppContent as BaseContent } from "@/content/home/mobile-app";
+
+type HomeMobileAppContent = BaseContent & { steps: typeof RAIL_STEPS };
 
 /* Kept aside: sideways-scroll story (desktop) / swipe cards (phones). Not used on any page.
 
@@ -612,7 +614,7 @@ function MobileCards({ steps, tick }: { steps: HomeMobileAppContent["steps"]; ti
   );
 }
 
-export function MobileAppRail({ data = HOME_MOBILE_APP, id = "mobile-app", stores = true }: { data?: HomeMobileAppContent; id?: string; stores?: boolean }) {
+export function MobileAppRail({ data = { ...HOME_MOBILE_APP, steps: RAIL_STEPS }, id = "mobile-app", stores = true }: { data?: HomeMobileAppContent; id?: string; stores?: boolean }) {
   const [visible, setVisible] = useState(false);
   const root = useRef<HTMLElement>(null);
   const reduce = useMedia("(prefers-reduced-motion: reduce)");

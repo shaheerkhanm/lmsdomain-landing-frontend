@@ -6,6 +6,26 @@ import { PlatformPageData } from "./types";
  * DRM, watermark and screen-recording block in the apps on every plan; WhatsApp notifications on every plan;
  * community on Growth and up; device limits on Pro; any language.
  */
+/** Extra sections of the mobile apps page (editable with the page in Admin > Website > Platform). */
+export const MOBILE_APP_EXTRAS = {
+  alsoTitle: "Also in the app",
+  also: [
+    { title: "Push notifications", text: "Class, test and announcement alerts on the learner's phone." },
+    { title: "Offline downloads", text: "Learners download lessons and watch them without internet." },
+    { title: "Buy courses in the app", text: "Learners browse your catalogue and buy courses inside the app." },
+    { title: "Teacher and admin login", text: "Teachers and admins sign in with their own separate login." },
+  ],
+  stepsEyebrow: "Your own app",
+  stepsTitle: "How you get your branded app",
+  stepsSubtitle: "Included on Pro and Enterprise. We do the building and help with the store listing.",
+  /** Three steps, by position (each keeps its own picture) */
+  steps: [
+    { title: "Share your brand", text: "Send us your app name, logo and colours." },
+    { title: "We build your app", text: "Your Android and iOS app, built with your academy's name and look." },
+    { title: "Publish it your way", text: "In your own store accounts with our help, or in ours." },
+  ],
+};
+
 export const mobileAppPlatformData: PlatformPageData = {
   slug: "mobile-app",
   eyebrow: "Mobile apps",

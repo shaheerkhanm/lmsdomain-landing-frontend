@@ -7,7 +7,18 @@ export const HOME_MOBILE_APP = {
   title: "Your academy in every learner's pocket",
   subtitle:
     "Every plan includes the LMS Domain app for Android and iOS. On Pro, learners download your own branded app instead.",
-  steps: [
+  plans: [
+    { title: "LMS Domain app", plan: "Every plan" },
+    { title: "Your own branded app", plan: "Pro and up" },
+  ],
+  linkText: "See the mobile apps",
+  linkHref: "/platform/mobile-app",
+};
+
+export type HomeMobileAppContent = typeof HOME_MOBILE_APP;
+
+/** Steps of the kept-aside sideways-scroll version (MobileAppRail.tsx). Not editable, not shown. */
+export const RAIL_STEPS = [
     {
       key: "learn",
       title: "Lessons that stay yours",
@@ -32,13 +43,5 @@ export const HOME_MOBILE_APP = {
       text: "On Pro, the app carries your academy's name, logo and colours in Google Play and the App Store.",
       plan: "Pro and up",
     },
-  ],
-  plans: [
-    { title: "LMS Domain app", plan: "Every plan" },
-    { title: "Your own branded app", plan: "Pro and up" },
-  ],
-  linkText: "See the mobile apps",
-  linkHref: "/platform/mobile-app",
-};
+];
 
-export type HomeMobileAppContent = typeof HOME_MOBILE_APP;

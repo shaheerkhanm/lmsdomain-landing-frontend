@@ -12,61 +12,20 @@ import { footerContent } from "@/content/home/footer";
 import { usePageVisibility } from "@/lib/pages-context";
 import BrandLogo from "@/components/brand/BrandLogo";
 import { mentionsNotLive } from "@/lib/claims";
+import { DEFAULT_FOOTER_COLUMNS, type FooterColumn } from "@/content/navigation";
 
-const DEFAULT_FOOTER_COLUMNS = [
-  {
-    title: "Platform",
-    links: [
-      { title: "Teach & Batches", href: "/platform/teach" },
-      { title: "Assess & Certify", href: "/platform/assess" },
-      { title: "Manage & Operations", href: "/platform/manage" },
-      { title: "Sell & Checkout", href: "/platform/sell" },
-      { title: "Brand & Custom Domain", href: "/platform/brand" },
-      { title: "Domie AI", href: "/platform/ai" },
-      { title: "Security & Hosting", href: "/platform/security" },
-      { title: "Mobile Apps", href: "/platform/mobile-app" },
-      { title: "All Features", href: "/platform" },
-    ],
-  },
-  {
-    title: "Solutions",
-    links: [
-      { title: "Coaching Institutes", href: "/solutions/coaching-institutes" },
-      { title: "Language & Test-Prep Academies", href: "/solutions/language-test-prep-academies" },
-      { title: "Training Companies", href: "/solutions/training-companies" },
-      { title: "Solo Educators & Tutors", href: "/solutions/solo-educators" },
-      { title: "Enterprise LMS", href: "/custom-lms" },
-      { title: "Plans & Pricing", href: "/pricing" },
-      { title: "Customers", href: "/customers" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { title: "Product Roadmap", href: "/roadmap" },
-      { title: "About Us", href: "/about" },
-      { title: "Contact Us", href: "/contact" },
-      { title: "Product FAQs", href: "/pricing#faqSection" },
-    ],
-  },
-  {
-    title: "Legal & Compliance",
-    links: [
-      { title: "Privacy Policy", href: "/privacy-policy" },
-      { title: "Terms of Service", href: "/terms" },
-      { title: "Refund & Cancellation", href: "/refund-policy" },
-    ],
-  },
-];
 
 export function FooterSection({
   addressData,
   contentData,
   publishedLegalSlugs,
+  columns: columnsIn,
 }: {
   addressData: any;
   contentData: any;
   publishedLegalSlugs?: string[];
+  /** Footer link columns from Admin > Settings > Site navigation (built-in columns when missing) */
+  columns?: FooterColumn[];
 }) {
   const pathname = usePathname();
   const { isPathVisible } = usePageVisibility();
@@ -78,7 +37,7 @@ export function FooterSection({
   const sanitizedContent = sanitizeHtml(contentData?.content);
   const isPlaceholder = !sanitizedContent || mentionsNotLive(sanitizedContent) || /lorem\s*ipsum/i.test(sanitizedContent);
 
-  const columns = DEFAULT_FOOTER_COLUMNS.map((section) => {
+  const columns = (columnsIn && columnsIn.length ? columnsIn : DEFAULT_FOOTER_COLUMNS).map((section) => {
     let links = section.links.filter((link) => isPathVisible(link.href));
     if (section.title === "Legal & Compliance" && publishedLegalSlugs && publishedLegalSlugs.length > 0) {
       links = links.filter((link) => {

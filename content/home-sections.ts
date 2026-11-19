@@ -8,6 +8,8 @@
 
 import { mergeSection } from "./merge";
 import { homeFaqItems } from "./faq";
+import { HOME_MOBILE_APP, type HomeMobileAppContent } from "./home/mobile-app";
+import { HOME_SELL_GROW, type HomeSellGrowContent } from "./home/sell-grow";
 
 export interface HomeSections {
   features: { eyebrow: string; title: string; cards: { title: string; text: string }[] };
@@ -24,6 +26,8 @@ export interface HomeSections {
     secondaryButton: string;
   };
   faq: { title: string; items: { question: string; answer: string }[] };
+  mobile: HomeMobileAppContent;
+  sell: HomeSellGrowContent;
   finalCta: { title: string; text: string; primaryButton: string; secondaryButton: string };
 }
 
@@ -37,6 +41,8 @@ export const HOME_SLUGS: Record<HomeSection, { slug: string; label: string }> = 
   audiences: { slug: "site-home-audiences", label: "Home: Who it's for" },
   pricing: { slug: "site-home-pricing", label: "Home: Pricing" },
   faq: { slug: "site-home-faq", label: "Home: FAQ" },
+  mobile: { slug: "site-home-mobile-v5", label: "Home: Mobile apps" },
+  sell: { slug: "site-home-sell", label: "Home: Sell and grow" },
   finalCta: { slug: "site-final-cta", label: "All pages: Closing call to action" },
 };
 
@@ -114,6 +120,8 @@ export const HOME_DEFAULTS: HomeSections = {
     primaryButton: "Book a demo",
     secondaryButton: "See pricing",
   },
+  mobile: HOME_MOBILE_APP,
+  sell: HOME_SELL_GROW,
 };
 
 /** The admin's section over the built-in one, with empty list rows dropped. */

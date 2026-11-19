@@ -4,6 +4,7 @@
 // Filters: isActive === true && isDeleted !== true
 // ============================================================================
 
+import { mergeNavigation, SITE_NAV_SLUG, type SiteNavContent } from "@/content/navigation-editable";
 import { cache } from "react";
 import { fetchApi } from "./client";
 import { isPlaceholderPhone } from "@/lib/utils";
@@ -1389,15 +1390,12 @@ export async function getCustomPlanPage(): Promise<CustomPlanPageData> {
   };
 }
 
-export async function getSiteNavigation(): Promise<SiteNavigation | null> {
-  try {
-    const doc = await fetchCms("site-navigation", ["cms", "settings", "navigation"]);
-    if (!doc || doc.isActive === false || doc.isDeleted === true) return null;
-    return (doc.data as SiteNavigation) || null;
-  } catch (e) {
-    return null;
-  }
-}
+/** Top menu and footer columns (Admin > Settings > Site navigation), checked; built-in ones when missing or broken. */
+export const getSiteNavigation = cache(async (): Promise<SiteNavContent> => {
+  const doc = await fetchCms(SITE_NAV_SLUG.slug, ["cms", "settings", "navigation"]).catch(() => null);
+  if (!doc || doc.isActive === false || doc.isDeleted === true) return mergeNavigation(null);
+  return mergeNavigation(doc.data);
+});
 
 export async function getSiteAbout(): Promise<AboutContent> {
   try {

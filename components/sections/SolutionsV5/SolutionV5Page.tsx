@@ -210,7 +210,7 @@ export function SolutionV5Page({
       )}
 
       {/* 4b. Mobile app band (audience-specific) */}
-      <AppBand slug={data.slug} />
+      <AppBand slug={data.slug} content={c} />
 
       {/* 5. FAQ */}
       {c.faqs.length > 0 && (

@@ -8,14 +8,15 @@ export const HOME_SELL_GROW = {
   eyebrow: "Sell and grow",
   title: "Every sale can bring the next one",
   subtitle: "Coupons, upsells, cart reminders, affiliates and memberships are built in. Here is one order and the tools behind it.",
-  notes: {
-    store: { title: "Your course store", text: "Learners add courses to a cart on your own site.", plan: "Every plan" },
-    coupon: { title: "Coupons and offers", text: "Percentage or flat codes with expiry dates and usage limits.", plan: "Every plan" },
-    upsell: { title: "Upsells", text: "A related course offered right after payment.", plan: "Growth and up" },
-    recovery: { title: "Cart reminders", text: "An email to learners who left checkout.", plan: "Growth and up" },
-    affiliate: { title: "Affiliates", text: "Partners share their link and earn on each sale.", plan: "Growth and up" },
-    subs: { title: "Subscriptions and bundles", text: "Monthly or yearly memberships, and course bundles.", plan: "Growth and up" },
-  },
+  /** Six notes, by position: 1 store, 2 coupons, 3 upsells, 4 cart reminders, 5 affiliates, 6 subscriptions. */
+  notes: [
+    { title: "Your course store", text: "Learners add courses to a cart on your own site.", plan: "Every plan" },
+    { title: "Coupons and offers", text: "Percentage or flat codes with expiry dates and usage limits.", plan: "Every plan" },
+    { title: "Upsells", text: "A related course offered right after payment.", plan: "Growth and up" },
+    { title: "Cart reminders", text: "An email to learners who left checkout.", plan: "Growth and up" },
+    { title: "Affiliates", text: "Partners share their link and earn on each sale.", plan: "Growth and up" },
+    { title: "Subscriptions and bundles", text: "Monthly or yearly memberships, and course bundles.", plan: "Growth and up" },
+  ],
   footnote: "Paid to your own gateway account. 0% commission from LMS Domain.",
   invoiceLine: "Invoice emailed to Mia",
   alsoTitle: "Also included",
