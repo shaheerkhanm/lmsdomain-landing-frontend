@@ -11,11 +11,12 @@ import type { SolutionPageData } from "@/content/solutions/types";
 import type { SolutionContent } from "@/content/solutions/editable";
 import { linkedAnswerHtml } from "@/content/merge";
 import { Mini } from "./MiniCard";
+import { AppBand } from "./AppBand";
 import { cn } from "@/lib/utils";
 
 /*
  * v5 solution page: built around one type of academy and its week, not around features.
- * Hero (custom demo) → before/with pairs → "a week at your academy" timeline → platform parts → FAQ → CTA.
+ * Hero (custom demo) → before/with pairs → "a week at your academy" timeline → platform parts → mobile app band → FAQ → CTA.
  */
 
 export { Mini };
@@ -207,6 +208,9 @@ export function SolutionV5Page({
           </Container>
         </section>
       )}
+
+      {/* 4b. Mobile app band (audience-specific) */}
+      <AppBand slug={data.slug} />
 
       {/* 5. FAQ */}
       {c.faqs.length > 0 && (

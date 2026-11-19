@@ -1488,25 +1488,25 @@ input[type="number"]::-webkit-inner-spin-button {
 
   .mp-sheet { animation: mp-sheet 7s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
   @keyframes mp-sheet {
-    0%, 12% { transform: translate(-50%, 40px); opacity: 0; }
-    20%, 75% { transform: translate(-50%, 0); opacity: 1; }
-    85%, 100% { transform: translate(-50%, 40px); opacity: 0; }
+    0%, 12% { transform: translateY(40px); opacity: 0; }
+    20%, 75% { transform: translateY(0); opacity: 1; }
+    85%, 100% { transform: translateY(40px); opacity: 0; }
   }
 
   .mp-blackout { animation: mp-blackout 6s ease-in-out infinite both; }
   @keyframes mp-blackout { 0%, 38% { opacity: 0; } 44%, 62% { opacity: 0.96; } 70%, 100% { opacity: 0; } }
   .mp-toast { animation: mp-toast 6s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
   @keyframes mp-toast {
-    0%, 40% { transform: translate(-50%, 10px) scale(0.96); opacity: 0; }
-    47%, 80% { transform: translate(-50%, 0) scale(1); opacity: 1; }
-    88%, 100% { transform: translate(-50%, 0) scale(0.98); opacity: 0; }
+    0%, 40% { transform: translateY(10px) scale(0.96); opacity: 0; }
+    47%, 80% { transform: translateY(0) scale(1); opacity: 1; }
+    88%, 100% { transform: translateY(0) scale(0.98); opacity: 0; }
   }
 
   .mp-drop { animation: mp-drop 6.5s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
   @keyframes mp-drop {
-    0%, 10% { transform: translate(-50%, -140%); opacity: 0; }
-    18%, 72% { transform: translate(-50%, 0); opacity: 1; }
-    82%, 100% { transform: translate(-50%, -140%); opacity: 0; }
+    0%, 10% { transform: translateY(-140%); opacity: 0; }
+    18%, 72% { transform: translateY(0); opacity: 1; }
+    82%, 100% { transform: translateY(-140%); opacity: 0; }
   }
 
   .mp-pop2 { transform-origin: 20% 20%; animation: mp-pop2 6s cubic-bezier(0.22, 1, 0.36, 1) infinite both; }
