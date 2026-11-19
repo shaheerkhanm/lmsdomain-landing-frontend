@@ -3,7 +3,12 @@ import { Check, Globe, GripVertical, Lock, Mail, Award, LayoutDashboard, FileTex
 import { cn } from "@/lib/utils";
 import { Card, Panel, d } from "../bento";
 import { LmsDomainMark } from "@/components/brand/PartnerMarks";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
+import { NorthwindMark } from "@/components/brand/DemoAcademyLogo";
+import { CourseScreen, Phone } from "@/components/sections/mobile/AppScreens";
+import { AppleIcon, GooglePlayIcon } from "@/components/sections/mobile/StoreIcons";
 
 /* Sample data only. Claims match content/platform/brand.ts. */
 
@@ -223,7 +228,50 @@ function BlogArt() {
   );
 }
 
-/** Six cards (layout and pictures by position); text from Admin > Website > Platform. */
+/* 7. Your own branded app (wide card): store listing next to the academy's app on a phone */
+function BrandedAppCard({ title, body }: { title: string; body: string }) {
+  return (
+    <div className="rv-v4 group relative grid overflow-hidden rounded-[28px] bg-[#F4F5F8] md:col-span-2 md:grid-cols-[1fr_1.2fr] lg:col-span-12">
+      <div className="flex flex-col p-7 sm:p-9">
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <h3 className="font-urbanist text-[21px] font-semibold leading-[1.2] tracking-[-0.015em] text-[#0A0A0B]">{title}</h3>
+          <span className="rounded-full border border-[#E4E4E7] bg-white px-2.5 py-0.5 text-[11.5px] font-semibold text-[#52525B]">Pro and up</span>
+        </div>
+        <p className="mt-2 max-w-[46ch] text-[14.5px] leading-[1.55] text-[#6B6B76]">{body}</p>
+        <Link href="/platform/mobile-app" className="group mt-5 inline-flex items-center gap-1.5 text-[14.5px] font-semibold text-[#0A0A0B] hover:text-[#6C4BFF] md:mt-auto md:pt-10">
+          See the mobile apps <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+        </Link>
+      </div>
+      <div aria-hidden="true" className="relative h-[300px] overflow-hidden md:h-[320px]">
+        <Panel style={d(150)} className="v5-pop absolute left-4 top-10 z-10 w-[236px] rounded-[16px] p-3.5 sm:left-8 md:left-2 lg:left-[8%]">
+          <div className="flex items-center gap-3">
+            <span className="overflow-hidden rounded-[13px] shadow-[0_8px_18px_-10px_rgba(11,93,87,0.6)]"><NorthwindMark size={48} /></span>
+            <span className="leading-tight">
+              <span className="block text-[13px] font-semibold text-[#18181B]">Northwind Academy</span>
+              <span className="block text-[11px] text-[#9A9AA6]">Education</span>
+              <span className="mt-1.5 inline-block rounded-full px-3 py-0.5 text-[10.5px] font-bold text-white" style={{ background: TEAL }}>GET</span>
+            </span>
+          </div>
+          <div className="mt-3 flex items-center gap-2 border-t border-[#F1F1F4] pt-2.5 text-[11px] text-[#71717A]">
+            <span className="grid h-6 w-6 place-items-center rounded-[7px] bg-[#F4F5F8]"><GooglePlayIcon size={14} /></span>
+            <span className="grid h-6 w-6 place-items-center rounded-[7px] bg-[#F4F5F8]"><AppleIcon size={13} /></span>
+            Google Play and App Store
+          </div>
+        </Panel>
+        <div className="absolute right-[-30px] top-8 w-[248px] sm:right-8 md:right-[-20px] lg:right-[10%]">
+          <div className="v5-lift drop-shadow-[0_30px_40px_rgba(16,16,24,0.18)]">
+            <Phone>
+              <CourseScreen variant="branded" />
+            </Phone>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Seven cards (layout and pictures by position); text from Admin > Website > Platform.
+ *  Card 7 falls back to the built-in text until the admin entry has it. */
 export function BrandBento({ cards = PLATFORM_CARDS.brand }: { cards?: PlatformCard[] } = {}) {
   const card = (i: number) => cards[i] || PLATFORM_CARDS.brand[i];
   return (
@@ -273,6 +321,7 @@ export function BrandBento({ cards = PLATFORM_CARDS.brand }: { cards?: PlatformC
       >
         <BlogArt />
       </Card>
+      <BrandedAppCard title={card(6).title} body={card(6).text} />
     </div>
   );
 }

@@ -148,6 +148,10 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
     {
       "title": "Blog and help articles",
       "text": "Publish blog posts, announcements and help articles to reach new learners and support current ones."
+    },
+    {
+      "title": "Your own branded app",
+      "text": "Your academy's name, logo and colours on an Android and iOS app in Google Play and the App Store. On every plan, learners can use the LMS Domain app."
     }
   ],
   "ai": [
