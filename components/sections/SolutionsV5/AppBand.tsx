@@ -5,7 +5,8 @@ import { Container } from "@/components/sections/HomeV5/primitives";
 import { CertificateScreen, LiveCallScreen, MusicHomeScreen, Phone, TestsScreen, WhatsAppBanner } from "@/components/sections/mobile/AppScreens";
 import { AppOptions } from "@/components/sections/mobile/AppOptions";
 import { StoreBadges } from "@/components/sections/mobile/StoreBadges";
-import { APP_BANDS, type AppBandKey } from "@/content/solutions/app-band";
+import type { AppBandKey } from "@/content/solutions/app-band";
+import type { SolutionContent } from "@/content/solutions/editable";
 import { getSiteContact } from "@/lib/api/content";
 
 /*
@@ -21,11 +22,17 @@ const SCREENS: Record<AppBandKey, { Screen: React.ComponentType; dark?: boolean 
   "training-companies": { Screen: CertificateScreen },
 };
 
-export async function AppBand({ slug }: { slug: string }) {
+/** Text comes from the Solutions page's admin entry (app* fields), over the built-in text. */
+export async function AppBand({ slug, content }: { slug: string; content: SolutionContent }) {
   const key = slug as AppBandKey;
-  const c = APP_BANDS[key];
-  if (!c) return null;
+  if (!SCREENS[key]) return null;
   const { Screen, dark } = SCREENS[key];
+  const c = {
+    title: content.appTitle,
+    text: content.appText,
+    points: content.appPoints,
+    alert: { title: content.appAlertTitle, body: content.appAlertBody },
+  };
   const contact = await getSiteContact().catch(() => null);
 
   return (

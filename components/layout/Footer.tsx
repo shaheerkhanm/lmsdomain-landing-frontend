@@ -1,17 +1,18 @@
 import React from 'react';
 import FooterSection from './common/FooterSection';
-import { fetchCms, getLegalPages, getSiteContact } from '@/lib/api/content';
+import { fetchCms, getLegalPages, getSiteContact, getSiteNavigation } from '@/lib/api/content';
 import { ContentSource } from '@/components/content/ContentSource';
 import { SECTIONS } from '@/content/cms-sections';
 import { mentionsNotLive } from '@/lib/claims';
 import { defaultContactDetails } from '@/content/contact';
 
 async function Footer() {
-  const [siteContact, addressData, contentData, publishedLegalSlugs] = await Promise.all([
+  const [siteContact, addressData, contentData, publishedLegalSlugs, siteNav] = await Promise.all([
     getSiteContact().catch(() => defaultContactDetails),
     fetchCms("address").catch(() => null),
     fetchCms(SECTIONS.footer.slug).catch(() => null), // site-footer: the live site still reads "footer"
     getLegalPages().catch(() => []),
+    getSiteNavigation().catch(() => null),
   ]);
 
   const effectiveAddressData = {
@@ -37,6 +38,7 @@ async function Footer() {
           contentData={contentData || {}}
           addressData={effectiveAddressData}
           publishedLegalSlugs={publishedLegalSlugs}
+          columns={siteNav?.footerColumns}
         />
       </div>
     </ContentSource>

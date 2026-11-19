@@ -147,3 +147,55 @@ export const navigationConfig: NavigationConfig = {
     action: "modal",
   },
 };
+
+/** Footer link columns (editable in Admin > Settings > Site navigation). */
+export interface FooterColumn {
+  title: string;
+  links: { title: string; href: string }[];
+}
+
+export const DEFAULT_FOOTER_COLUMNS: FooterColumn[] = [
+  {
+    title: "Platform",
+    links: [
+      { title: "Teach & Batches", href: "/platform/teach" },
+      { title: "Assess & Certify", href: "/platform/assess" },
+      { title: "Manage & Operations", href: "/platform/manage" },
+      { title: "Sell & Checkout", href: "/platform/sell" },
+      { title: "Brand & Custom Domain", href: "/platform/brand" },
+      { title: "Domie AI", href: "/platform/ai" },
+      { title: "Security & Hosting", href: "/platform/security" },
+      { title: "Mobile Apps", href: "/platform/mobile-app" },
+      { title: "All Features", href: "/platform" },
+    ],
+  },
+  {
+    title: "Solutions",
+    links: [
+      { title: "Coaching Institutes", href: "/solutions/coaching-institutes" },
+      { title: "Language & Test-Prep Academies", href: "/solutions/language-test-prep-academies" },
+      { title: "Training Companies", href: "/solutions/training-companies" },
+      { title: "Solo Educators & Tutors", href: "/solutions/solo-educators" },
+      { title: "Enterprise LMS", href: "/custom-lms" },
+      { title: "Plans & Pricing", href: "/pricing" },
+      { title: "Customers", href: "/customers" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { title: "Product Roadmap", href: "/roadmap" },
+      { title: "About Us", href: "/about" },
+      { title: "Contact Us", href: "/contact" },
+      { title: "Product FAQs", href: "/pricing#faqSection" },
+    ],
+  },
+  {
+    title: "Legal & Compliance",
+    links: [
+      { title: "Privacy Policy", href: "/privacy-policy" },
+      { title: "Terms of Service", href: "/terms" },
+      { title: "Refund & Cancellation", href: "/refund-policy" },
+    ],
+  },
+];

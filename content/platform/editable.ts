@@ -17,7 +17,7 @@ import { sellPlatformData } from "./sell";
 import { brandPlatformData } from "./brand";
 import { aiPlatformData } from "./ai";
 import { securityPlatformData } from "./security";
-import { mobileAppPlatformData } from "./mobile-app";
+import { mobileAppPlatformData, MOBILE_APP_EXTRAS } from "./mobile-app";
 
 export interface PlatformContent {
   title: string;
@@ -35,6 +35,13 @@ export interface PlatformContent {
   faqTitle: string;
   faqSubtitle: string;
   faqs: { question: string; answer: string }[];
+  /** Mobile apps page only: "Also in the app" row and "How you get your branded app" steps */
+  alsoTitle?: string;
+  also?: { title: string; text: string }[];
+  stepsEyebrow?: string;
+  stepsTitle?: string;
+  stepsSubtitle?: string;
+  steps?: { title: string; text: string }[];
 }
 
 export type PlatformKey = keyof typeof PLATFORM_CARDS;
@@ -71,6 +78,7 @@ export function platformDefaults(key: PlatformKey): PlatformContent {
     faqTitle: `Questions about ${pageName}`,
     faqSubtitle: "Short answers to what academies ask us most.",
     faqs: (data.faqs || []).map((f) => ({ question: f.question, answer: f.answer })),
+    ...(key === "mobile-app" ? JSON.parse(JSON.stringify(MOBILE_APP_EXTRAS)) : {}),
   };
 }
 
@@ -90,6 +98,10 @@ export function mergePlatform(key: PlatformKey, admin: unknown): PlatformContent
     base.usedFor
   );
   c.faqs = keep(c.faqs.map((q) => ({ question: str(q?.question), answer: str(q?.answer) })), (q) => !!q.question && !!q.answer, base.faqs);
+  const rows = (list: { title: string; text: string }[] | undefined, fallback: { title: string; text: string }[] | undefined) =>
+    list && fallback ? keep(list.map((x) => ({ title: str(x?.title), text: str(x?.text) })), (x) => !!x.title, fallback) : list;
+  c.also = rows(c.also, base.also);
+  c.steps = rows(c.steps, base.steps);
   // The Domie AI line only exists where the built-in page has one (plan-labelled, Pro)
   if (!base.aiNote) c.aiNote = "";
   return c;

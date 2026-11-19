@@ -12,6 +12,7 @@ import { coachingInstitutesData } from "./coaching-institutes";
 import { languageTestPrepData } from "./language-test-prep";
 import { trainingCompaniesData } from "./training-companies";
 import { soloEducatorsData } from "./solo-educators";
+import { APP_BANDS } from "./app-band";
 
 export interface SolutionContent {
   title: string;
@@ -29,6 +30,12 @@ export interface SolutionContent {
   partsEyebrow: string;
   partsTitle: string;
   parts: { title: string; text: string; link: string }[];
+  /** Mobile app band (before the FAQ) */
+  appTitle: string;
+  appText: string;
+  appPoints: string[];
+  appAlertTitle: string;
+  appAlertBody: string;
   faqTitle: string;
   faqSubtitle: string;
   faqs: { question: string; answer: string }[];
@@ -69,6 +76,11 @@ export function solutionDefaults(key: SolutionKey): SolutionContent {
     partsEyebrow: "Under the hood",
     partsTitle: "Built from these parts of the platform",
     parts: (data.platformLinks || []).map((l) => ({ title: l.title, text: l.description, link: l.href })),
+    appTitle: APP_BANDS[key].title,
+    appText: APP_BANDS[key].text,
+    appPoints: [...APP_BANDS[key].points],
+    appAlertTitle: APP_BANDS[key].alert.title,
+    appAlertBody: APP_BANDS[key].alert.body,
     faqTitle: `Questions from ${pageName.toLowerCase()}`,
     faqSubtitle: "Short answers to what academies like yours ask us most.",
     faqs: (data.faqs || []).map((f) => ({ question: f.question, answer: f.answer })),
@@ -92,5 +104,6 @@ export function mergeSolution(key: SolutionKey, admin: unknown): SolutionContent
     base.parts
   );
   c.faqs = keep(c.faqs.map((q) => ({ question: str(q?.question), answer: str(q?.answer) })), (q) => !!q.question && !!q.answer, base.faqs);
+  c.appPoints = keep(c.appPoints.map(str), (p) => !!p, base.appPoints);
   return c;
 }

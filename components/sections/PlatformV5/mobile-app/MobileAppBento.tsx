@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { BrandMark, LmsDomainMark, type BrandName } from "@/components/brand/PartnerMarks";
 import { BrightpathMark, EmberMark, GreenleafMark, LingoLoftMark, NorthwindMark } from "@/components/brand/DemoAcademyLogo";
 import { PLATFORM_CARDS, type PlatformCard } from "@/content/platform/cards";
-import { MobileAppAlso } from "./MobileAppExtras";
 import { AppleIcon, GooglePlayIcon } from "@/components/sections/mobile/StoreIcons";
 import {
   CommunityScreen,
@@ -426,7 +425,6 @@ export function MobileAppBento({ cards = PLATFORM_CARDS["mobile-app"] }: { cards
         </MCard>
       </div>
     </div>
-    <MobileAppAlso />
     </>
   );
 }

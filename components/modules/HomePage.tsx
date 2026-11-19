@@ -23,7 +23,7 @@ import { ContentSource } from "@/components/content/ContentSource";
 import { PageContentProvider } from "@/components/content/PageContent";
 
 export async function HomePage() {
-  const [hero, clients, pricingPage, testimonials, features, setup, ai, audiences, pricing, faq, contact] = await Promise.all([
+  const [hero, clients, pricingPage, testimonials, features, setup, ai, audiences, pricing, faq, contact, mobile, sell] = await Promise.all([
     getSection("home-hero"),
     getHomeClients().catch(() => null),
     getPricingPage().catch(() => null),
@@ -35,6 +35,8 @@ export async function HomePage() {
     getHomeSection("pricing"),
     getHomeSection("faq"),
     getSiteContact().catch(() => null),
+    getHomeSection("mobile"),
+    getHomeSection("sell"),
   ]);
 
   const content = {
@@ -85,10 +87,10 @@ export async function HomePage() {
         <AudienceCards data={audiences} />
 
         {/* Mobile apps (LMS Domain app on every plan, branded app on Pro), before the reviews */}
-        <MobileAppSection storeLinks={{ playStoreUrl: contact?.playStoreUrl, appStoreUrl: contact?.appStoreUrl }} />
+        <MobileAppSection data={mobile} storeLinks={{ playStoreUrl: contact?.playStoreUrl, appStoreUrl: contact?.appStoreUrl }} />
 
         {/* Sell and grow: coupons, memberships, affiliates, cart recovery (gateways are in the Features grid) */}
-        <SellGrowSection />
+        <SellGrowSection data={sell} />
 
         {/* 6. Testimonials (admin data, or demo outside production) */}
         <Testimonials items={testimonialItems} isDemo={useDemoTestimonials} />

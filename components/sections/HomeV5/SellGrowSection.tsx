@@ -16,7 +16,7 @@ import { HOME_SELL_GROW, type HomeSellGrowContent } from "@/content/home/sell-gr
  * Academy, learners and amounts are sample data.
  */
 
-type NoteKey = keyof HomeSellGrowContent["notes"];
+type NoteKey = "store" | "coupon" | "upsell" | "recovery" | "affiliate" | "subs";
 type Row =
   | { kind: "head" }
   | { kind: "rule" }
@@ -66,8 +66,11 @@ function useInView<T extends HTMLElement>() {
   return { ref, inView };
 }
 
+/** The admin's notes are a list by position (ORDER); missing rows fall back to the built-in text. */
+const noteOf = (data: HomeSellGrowContent, k: NoteKey) => data.notes[ORDER.indexOf(k)] || HOME_SELL_GROW.notes[ORDER.indexOf(k)];
+
 function NoteText({ k, data, align }: { k: NoteKey; data: HomeSellGrowContent; align: "left" | "right" }) {
-  const n = data.notes[k];
+  const n = noteOf(data, k);
   return (
     <span className={cn("block w-full", align === "right" && "text-right")}>
       <span className="block text-[14px] font-semibold leading-snug text-[#0A0A0B]">
@@ -165,7 +168,7 @@ export function SellGrowSection({ data = HOME_SELL_GROW }: { data?: HomeSellGrow
             );
             const mobileNote = (
               <span className="mt-1.5 block text-[12px] text-[#9A9AA6] lg:hidden">
-                <span className="font-mono text-[#6C4BFF]">{String(order + 1).padStart(2, "0")}</span> {data.notes[row.note].title} · {data.notes[row.note].plan}
+                <span className="font-mono text-[#6C4BFF]">{String(order + 1).padStart(2, "0")}</span> {noteOf(data, row.note).title} · {noteOf(data, row.note).plan}
               </span>
             );
 

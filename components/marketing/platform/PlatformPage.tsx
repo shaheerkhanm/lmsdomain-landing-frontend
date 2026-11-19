@@ -58,7 +58,7 @@ const SCENES: Record<string, React.ComponentType> = {
 };
 
 // Pages redesigned one by one get their own hero visual and feature cards.
-const CUSTOM: Record<string, { Hero: React.ComponentType; Bento: React.ComponentType<{ cards?: PlatformCard[] }>; Extra?: React.ComponentType; After?: React.ComponentType }> = {
+const CUSTOM: Record<string, { Hero: React.ComponentType; Bento: React.ComponentType<{ cards?: PlatformCard[] }>; Extra?: React.ComponentType; After?: React.ComponentType<{ content: PlatformContent }> }> = {
   teach: { Hero: TeachHero, Bento: TeachBento },
   assess: { Hero: AssessHero, Bento: AssessBento },
   manage: { Hero: ManageHero, Bento: ManageBento },
@@ -340,7 +340,7 @@ export function PlatformPage({ data, content }: PlatformPageProps) {
         </section>
       )}
 
-      {!isAi && custom?.After && <custom.After />}
+      {!isAi && custom?.After && <custom.After content={c} />}
 
       {/* 2. Features: sticky heading on the left, numbered list on the right */}
       {!custom && (
