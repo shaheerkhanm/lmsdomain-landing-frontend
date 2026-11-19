@@ -4,9 +4,9 @@ export const coachingInstitutesData: SolutionPageData = {
   slug: "coaching-institutes",
   eyebrow: "Coaching institutes",
   title: "The LMS for coaching institutes that teach in batches",
-  subtitle: "LMS Domain helps coaching institutes and tuition centres run morning, evening and weekend batches, teach live on Zoom with attendance logged automatically, run timed mock tests and collect fees online, all on your own website.",
+  subtitle: "LMS Domain helps coaching institutes and tuition centres run morning, evening and weekend batches, teach live with attendance logged automatically, run timed mock tests and collect fees online, all on your own website.",
   metaTitle: "LMS for Coaching Institutes & Tuition Centres | LMS Domain",
-  metaDescription: "Run batches, live Zoom classes with automatic attendance, timed mock tests and online fee collection for your coaching institute, on your own branded website.",
+  metaDescription: "Run batches, live classes with automatic attendance, timed mock tests and online fee collection for your coaching institute, on your own branded website.",
   sectionHeading: "How does LMS Domain support coaching institutes and tuition centers?",
   features: [
     {
@@ -17,10 +17,10 @@ export const coachingInstitutesData: SolutionPageData = {
       icon: "CalendarRange",
     },
     {
-      title: "Live Zoom classes with attendance",
+      title: "Live classes with attendance",
       tagline: "Classroom meetings with automated attendance logging.",
       description:
-        "Launch Zoom live lectures directly from the student dashboard. Attendance is recorded automatically as learners join, and cloud lecture recordings are archived with the course.",
+        "Launch live lectures directly from the student dashboard. Attendance is recorded automatically as learners join, and cloud lecture recordings are archived with the course.",
       icon: "Video",
     },
     {
@@ -56,7 +56,7 @@ export const coachingInstitutesData: SolutionPageData = {
     {
       title: "Teach & Batches",
       href: "/platform/teach",
-      description: "Manage multiple batch shifts with drip content and live Zoom classes.",
+      description: "Manage multiple batch shifts with drip content and live classes.",
     },
     {
       title: "Assess & Question Banks",
@@ -73,12 +73,12 @@ export const coachingInstitutesData: SolutionPageData = {
     {
       question: "Can coaching institutes run multiple batches for the same subject?",
       answer:
-        "Yes, you can create multiple morning, evening, and weekend batches for any course. Each batch has its own independent calendar schedule, student roster, and Zoom live class links.",
+        "Yes, you can create multiple morning, evening, and weekend batches for any course. Each batch has its own independent calendar schedule, student roster, and live class links.",
     },
     {
-      question: "How do live Zoom classes work with attendance tracking?",
+      question: "How do live classes work with attendance tracking?",
       answer:
-        "Live sessions launch directly through our Zoom integration without sharing separate external meeting IDs. Attendance is logged automatically when learners join, and you can export it for any session.",
+        "Live sessions, Google Meet or Teams launch directly from your academy, without sharing separate meeting IDs. Attendance is logged automatically when learners join, and you can export it for any session.",
     },
     {
       question: "Can we create chapter-wise mock tests and question banks?",
@@ -103,13 +103,13 @@ export const coachingInstitutesData: SolutionPageData = {
   ],
   ctaTitle: "See how LMS Domain powers your coaching institute.",
   ctaSubtitle:
-    "Book a 20-minute demo. We'll show you how batch schedules, live Zoom classes, and timed mock tests operate on your custom domain.",
+    "Book a 20-minute demo. We'll show you how batch schedules, live classes, and timed mock tests operate on your custom domain.",
   ctaButtonText: "Book a demo",
   v5: {
     heroAccent: "teach in batches",
     pains: [
       { before: "Class links shared in chat groups, and lost every week", after: "Learners join live classes from your academy with one click" },
-      { before: "Attendance taken by hand at the start of every class", after: "Attendance logged automatically when learners join on Zoom" },
+      { before: "Attendance taken by hand at the start of every class", after: "Attendance logged automatically when learners join the live class" },
       { before: "Mock tests on paper, marked over the weekend", after: "Timed online tests with instant scores and ranks" },
       { before: "Fees chased one learner at a time", after: "Online fee payments and email reminders to whole batches" },
     ],
@@ -132,7 +132,7 @@ export const coachingInstitutesData: SolutionPageData = {
       },
       {
         day: "Wed",
-        title: "Live class on Zoom",
+        title: "Live class",
         body: "Learners join from your academy. Attendance is recorded for you, and the recording is saved to the course.",
         card: {
           title: "Quadratic equations",

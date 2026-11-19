@@ -97,7 +97,7 @@ export const mobileAppPlatformData: PlatformPageData = {
     },
     {
       question: "Can learners join live classes from the app?",
-      answer: "Yes. Live classes on Zoom, Google Meet or Microsoft Teams open from the app, and learners can get a WhatsApp reminder before each class.",
+      answer: "Yes. Live classes, Google Meet or Microsoft Teams open from the app, and learners can get a WhatsApp reminder before each class.",
     },
     {
       question: "Does the app work in other languages?",

@@ -6,9 +6,9 @@ export const teachPlatformData: PlatformPageData = {
   heroAccent: "live classes",
   aiNote: "With Domie AI (Pro), draft course titles, descriptions and learning outcomes in seconds.",
   title: "Teach recorded courses and live classes from one place",
-  subtitle: "LMS Domain lets you build courses from video, PDF and text lessons, release them on a schedule, and run live classes on Zoom, Google Meet or Teams for every batch. Recordings are saved to the course automatically.",
-  metaTitle: "Online Course Builder & Live Zoom Classes | LMS Domain",
-  metaDescription: "Build video and PDF courses with drip release, run live Zoom classes for each batch, and host bootcamps and 1:1 tutor sessions on your own branded academy.",
+  subtitle: "LMS Domain lets you build courses from video, PDF and text lessons, release them on a schedule, and run live classes, Google Meet or Teams for every batch. Recordings are saved to the course automatically.",
+  metaTitle: "Online Course Builder & Live Classes | LMS Domain",
+  metaDescription: "Build video and PDF courses with drip release, run live classes for each batch, and host bootcamps and 1:1 tutor sessions on your own branded academy.",
   sectionHeading: "Everything you need to teach online",
   frameTitle: "Course Builder & Batch Manager",
   frameAlt: "Teach recorded courses and live batches from one place",
@@ -26,7 +26,7 @@ export const teachPlatformData: PlatformPageData = {
       icon: "CalendarClock",
     },
     {
-      title: "Live classes on Zoom, Google Meet or Teams",
+      title: "Live classes, Google Meet or Teams",
       description:
         "Schedule live classroom sessions for each batch, notify students, and store class recordings with the course.",
       icon: "Video",
@@ -72,7 +72,7 @@ export const teachPlatformData: PlatformPageData = {
       title: "Language & test-prep academies",
       href: "/solutions/language-test-prep-academies",
       description:
-        "Schedule morning and evening batches with automated attendance and Zoom live classes.",
+        "Schedule morning and evening batches with automated attendance and live classes.",
     },
     {
       title: "Training companies",
@@ -84,14 +84,14 @@ export const teachPlatformData: PlatformPageData = {
       title: "Coaching institutes",
       href: "/solutions/coaching-institutes",
       description:
-        "Run subject batches, track live Zoom attendance, and distribute daily lecture materials.",
+        "Run subject batches, track live class attendance, and distribute daily lecture materials.",
     },
   ],
   faqs: [
     {
       question: "Does LMS Domain support live classes?",
       answer:
-        "Yes, LMS Domain supports live classes through direct Zoom integration. Meeting links and automated class reminders are sent to enrolled students, and recorded sessions are automatically stored inside the course timeline.",
+        "Yes, LMS Domain supports live classes, Google Meet or Microsoft Teams. Meeting links and automated class reminders are sent to enrolled students, and recorded sessions are automatically stored inside the course timeline.",
     },
     {
       question: "Can I drip release course lessons on a schedule?",

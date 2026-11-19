@@ -9,7 +9,7 @@ import { getWebSiteJsonLd, getSoftwareApplicationJsonLd } from "@/components/seo
 
 const DEFAULT_HOME_TITLE = "LMS for Online Academies & Course Creators | LMS Domain";
 const DEFAULT_HOME_DESCRIPTION =
-  "Run your online academy on your own website: courses, live Zoom classes, tests and payments in any currency, with 0% commission on your sales.";
+  "Run your online academy on your own website: courses, live classes, tests and payments in any currency, with 0% commission on your sales.";
 
 export async function generateMetadata(): Promise<Metadata> {
   // Share image and noindex from Admin > SEO

@@ -32,7 +32,7 @@ export const DEFAULT_AUTH_COPY: AuthCopy = {
       "Courses, live classes, tests and payments on your own branded website, ready for learners anywhere.",
     bullets: [
       "Courses with drip release",
-      "Zoom live classes",
+      "Live classes",
       "Tests and question banks",
       "Payments and invoices",
     ],

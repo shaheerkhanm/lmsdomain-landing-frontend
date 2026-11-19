@@ -8,7 +8,7 @@ export function getPricingFaqs(trialDays: number = 15): FaqItem[] {
       id: "pricing-overview",
       question: "How much does LMS Domain cost?",
       answer:
-        "LMS Domain has four plans: Starter, Growth, Pro and Enterprise. Starter, Growth and Pro have a fixed monthly price shown on this page, and Enterprise is priced to your needs. Every plan includes your own domain, live classes and 0% commission on your sales.",
+        "LMS Domain has four plans: Starter, Growth, Pro and Enterprise. Starter, Growth and Pro have a fixed monthly price shown on this page, and Enterprise is priced to your needs. Every plan includes live classes, your own branding and 0% commission on your sales.",
     },
     {
       id: "free-trial",
@@ -54,7 +54,7 @@ export function getPricingFaqs(trialDays: number = 15): FaqItem[] {
     {
       id: "custom-domain",
       question: "Can I use my own domain name?",
-      answer: "Yes. Every plan, including Starter, lets you run your academy on your own domain with free SSL.",
+      answer: "Yes, on Growth and up, with free SSL. On Starter, your academy runs on a free LMS Domain subdomain.",
     },
     {
       id: "payment-gateways",
@@ -65,7 +65,7 @@ export function getPricingFaqs(trialDays: number = 15): FaqItem[] {
     {
       id: "live-classes",
       question: "Are live classes included?",
-      answer: "Yes. Live classes on Zoom are included from Starter, with schedules and recordings kept with each batch.",
+      answer: "Yes. Live classes are included from Starter, with schedules and recordings kept with each batch.",
     },
     {
       id: "ai-tools",

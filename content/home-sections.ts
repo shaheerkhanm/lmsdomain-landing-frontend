@@ -52,7 +52,7 @@ export const HOME_DEFAULTS: HomeSections = {
     title: "Everything you need to run your academy",
     cards: [
       { title: "Build courses your way", text: "Video, PDF and quiz lessons in modules. Release them weekly or all at once." },
-      { title: "Teach live on Zoom, Meet or Teams", text: "Schedule classes by batch. Reminders go out and recordings are saved to the course." },
+      { title: "Teach live, Meet or Teams", text: "Schedule classes by batch. Reminders go out and recordings are saved to the course." },
       { title: "Connects with your tools", text: "Zoom, Google Meet, Teams, Stripe, Razorpay, Zapier, plus an API and webhooks." },
       { title: "Tests and certificates", text: "Timed mock tests, instant grading, rankings and certificates." },
       { title: "Get paid in any currency", text: "Sell worldwide with Stripe or Razorpay. You keep 100% of every sale." },
@@ -100,7 +100,7 @@ export const HOME_DEFAULTS: HomeSections = {
   pricing: {
     eyebrow: "Pricing",
     title: "Simple plans that grow with your academy",
-    points: ["0% commission on every sale", "Your own domain on every plan", "{trialDays}-day free trial on every plan", "Setup help from our team"],
+    points: ["0% commission on every sale", "Your own branding on every plan", "{trialDays}-day free trial on every plan", "Setup help from our team"],
     fromLabel: "Plans start from",
     perMonth: "/ month",
     primaryButton: "Compare plans",

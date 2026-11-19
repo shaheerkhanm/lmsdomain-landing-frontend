@@ -183,7 +183,7 @@ export function ManageDemo() {
           <div key="attendance" className="mo-swap px-4 sm:px-5">
             <div className="flex flex-wrap items-center justify-between gap-2 py-2.5">
               <p className="text-[12px] text-[#52525B]">
-                <span className="font-semibold text-[#18181B]">Today, 18:00</span> · logged automatically from Zoom
+                <span className="font-semibold text-[#18181B]">Today, 18:00</span> · logged automatically
               </p>
               <span
                 ref={exportRef}

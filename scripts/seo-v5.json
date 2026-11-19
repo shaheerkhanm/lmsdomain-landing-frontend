@@ -2,17 +2,17 @@
  "home": {
   "path": "/",
   "metatitle": "LMS for Online Academies & Course Creators",
-  "metadescription": "Run your online academy on your own website: courses, live Zoom classes, tests and payments in any currency, with 0% commission on your sales."
+  "metadescription": "Run your online academy on your own website: courses, live classes, tests and payments in any currency, with 0% commission on your sales."
  },
  "platform": {
   "path": "/platform",
   "metatitle": "All-in-One LMS Platform for Academies & Course Creators",
-  "metadescription": "One platform to teach courses and live Zoom classes, run tests, manage batches, sell in any currency and brand your academy on your own domain. 0% commission."
+  "metadescription": "One platform to teach courses and live classes, run tests, manage batches, sell in any currency and brand your academy on your own domain. 0% commission."
  },
  "platform-teach": {
   "path": "/platform/teach",
-  "metatitle": "Online Course Builder & Live Zoom Classes",
-  "metadescription": "Build video and PDF courses with drip release, run live Zoom classes for each batch, and host bootcamps and 1:1 tutor sessions on your own branded academy."
+  "metatitle": "Online Course Builder & Live Classes",
+  "metadescription": "Build video and PDF courses with drip release, run live classes for each batch, and host bootcamps and 1:1 tutor sessions on your own branded academy."
  },
  "platform-assess": {
   "path": "/platform/assess",
@@ -47,27 +47,27 @@
  "coaching-institutes": {
   "path": "/solutions/coaching-institutes",
   "metatitle": "LMS for Coaching Institutes & Tuition Centres",
-  "metadescription": "Run batches, live Zoom classes with automatic attendance, timed mock tests and online fee collection for your coaching institute, on your own branded website."
+  "metadescription": "Run batches, live classes with automatic attendance, timed mock tests and online fee collection for your coaching institute, on your own branded website."
  },
  "language-test-prep-academies": {
   "path": "/solutions/language-test-prep-academies",
   "metatitle": "LMS for Language Schools & Test-Prep Academies",
-  "metadescription": "Run language and exam-prep batches with live Zoom classes, timed practice tests, essay reviews with private feedback, certificates and multi-currency fees on your own site."
+  "metadescription": "Run language and exam-prep batches with live classes, timed practice tests, essay reviews with private feedback, certificates and multi-currency fees on your own site."
  },
  "training-companies": {
   "path": "/solutions/training-companies",
   "metatitle": "LMS for Training Companies & Corporate Cohorts",
-  "metadescription": "Run private client batches and bootcamps, teach live on Zoom, review projects, issue branded certificates and export completion reports on your own white-label LMS."
+  "metadescription": "Run private client batches and bootcamps, teach live, review projects, issue branded certificates and export completion reports on your own white-label LMS."
  },
  "solo-educators": {
   "path": "/solutions/solo-educators",
   "metatitle": "LMS for Solo Educators & Course Creators",
-  "metadescription": "Sell courses, live Zoom workshops, paid 1:1 sessions and ebooks on your own branded website. Payments go straight to you, with 0% commission."
+  "metadescription": "Sell courses, live workshops, paid 1:1 sessions and ebooks on your own branded website. Payments go straight to you, with 0% commission."
  },
  "pricing": {
   "path": "/pricing",
   "metatitle": "LMS Pricing Plans: 0% Commission, Free Trial",
-  "metadescription": "Compare LMS Domain plans for academies and course creators. Every plan includes your own domain, live classes and 0% commission. Try free for 15 days."
+  "metadescription": "Compare LMS Domain plans for academies and course creators. Every plan includes live classes, your own branding and 0% commission. Try free for 15 days."
  },
  "custom-lms": {
   "path": "/custom-lms",

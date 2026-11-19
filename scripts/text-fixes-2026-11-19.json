@@ -1,0 +1,313 @@
+{
+  "_about": "Exact-phrase replacements applied to the code and (via the backend script) to the admin database, 2026-11-19. 1) Live classes: no Zoom-only wording (global audience; classes run on Zoom, Google Meet or Teams). 2) Custom domain is Growth and up; Starter runs on a free LMS Domain subdomain. Longer phrases first.",
+  "pairs": [
+    [
+      "Attendance logged automatically when learners join on Zoom",
+      "Attendance logged automatically when learners join the live class"
+    ],
+    [
+      "conduct live classes via Zoom with recordings saved directly to courses",
+      "conduct live classes on Zoom, Google Meet or Teams with recordings saved directly to courses"
+    ],
+    [
+      "Launch Zoom live lectures directly from the student dashboard.",
+      "Launch live lectures directly from the student dashboard."
+    ],
+    [
+      "and Zoom live class links.",
+      "and live class links."
+    ],
+    [
+      "Zoom live class links,",
+      "live class links,"
+    ],
+    [
+      "Live sessions launch directly through our Zoom integration without sharing separate external meeting IDs.",
+      "Live sessions on Zoom, Google Meet or Teams launch directly from your academy, without sharing separate meeting IDs."
+    ],
+    [
+      "Schedule live Zoom lectures directly inside course modules",
+      "Schedule live lectures directly inside course modules"
+    ],
+    [
+      "join batch Zoom classes through their portal",
+      "join batch live classes through their portal"
+    ],
+    [
+      "Connecting your platform directly with Zoom enables",
+      "Connecting your platform with Zoom, Google Meet or Teams enables"
+    ],
+    [
+      "LMS Domain integrates directly with Zoom so students join",
+      "LMS Domain connects with Zoom, Google Meet and Teams so students join"
+    ],
+    [
+      "Live Zoom Integration:",
+      "Live Class Integration:"
+    ],
+    [
+      "Live class on Zoom",
+      "Live class"
+    ],
+    [
+      "Live teaching on Zoom",
+      "Live teaching"
+    ],
+    [
+      "Zoom classes, batch timetables",
+      "Live classes, batch timetables"
+    ],
+    [
+      "Live Classes with Zoom",
+      "Live Classes"
+    ],
+    [
+      "Schedule live classes using Zoom and make",
+      "Schedule live classes on Zoom, Google Meet or Teams and make"
+    ],
+    [
+      "batch rosters, Zoom classes, and timed mock tests work on your custom domain.",
+      "batch rosters, live classes and timed mock tests work in your academy."
+    ],
+    [
+      "The batch joins on Zoom from your academy.",
+      "The batch joins the live class from your academy."
+    ],
+    [
+      "Zoom and your payment gateway connect inside LMS Domain",
+      "Your live class tool and payment gateway connect inside LMS Domain"
+    ],
+    [
+      "Same Zoom link as always.",
+      "Same class link as always."
+    ],
+    [
+      "supports live classes through direct Zoom integration",
+      "supports live classes on Zoom, Google Meet or Microsoft Teams"
+    ],
+    [
+      "Online Course Builder & Live Zoom Classes",
+      "Online Course Builder & Live Classes"
+    ],
+    [
+      "Interactive Zoom sessions with automated cloud recordings.",
+      "Interactive live sessions with automated cloud recordings."
+    ],
+    [
+      "access the Zoom meeting with one click",
+      "join the live class with one click"
+    ],
+    [
+      "schedule live Zoom cohort classes",
+      "schedule live cohort classes"
+    ],
+    [
+      "Can I run live Zoom workshops for student cohorts?",
+      "Can I run live workshops for student cohorts?"
+    ],
+    [
+      "Manually sending Zoom links before every workshop",
+      "Manually sending class links before every workshop"
+    ],
+    [
+      "A small cohort joins your Zoom workshop from your academy",
+      "A small cohort joins your live workshop from your academy"
+    ],
+    [
+      "Deliver cohort bootcamps and 1:1 tutor bookings with Zoom.",
+      "Deliver cohort bootcamps, live sessions and 1:1 tutor bookings."
+    ],
+    [
+      "Join on Zoom from your academy. Attendance is logged for you.",
+      "Learners join from your academy. Attendance is logged for you."
+    ],
+    [
+      "get Zoom attendance logged automatically",
+      "get live class attendance logged automatically"
+    ],
+    [
+      "when learners join scheduled Zoom classes through the platform",
+      "when learners join scheduled live classes through the platform"
+    ],
+    [
+      "track live Zoom attendance",
+      "track live class attendance"
+    ],
+    [
+      "with automated attendance and Zoom live classes",
+      "with automated attendance and live classes"
+    ],
+    [
+      "Attendance logged from Zoom",
+      "Attendance logged automatically"
+    ],
+    [
+      "logged automatically from Zoom",
+      "logged automatically"
+    ],
+    [
+      "taught on Zoom from LMS Domain",
+      "taught live from LMS Domain"
+    ],
+    [
+      "Batches, Zoom and attendance",
+      "Batches, live classes and attendance"
+    ],
+    [
+      "Run live classes for each batch on Zoom",
+      "Run live classes for each batch"
+    ],
+    [
+      "live class schedule on Zoom",
+      "live class schedule"
+    ],
+    [
+      "Zoom links and attendance",
+      "class links and attendance"
+    ],
+    [
+      "batches with Zoom classes",
+      "batches with live classes"
+    ],
+    [
+      "batches, Zoom classes with attendance",
+      "batches, live classes with attendance"
+    ],
+    [
+      "live batches: Zoom classes, attendance",
+      "live batches: live classes, attendance"
+    ],
+    [
+      "lesson release dates, Zoom attendance",
+      "lesson release dates, live class attendance"
+    ],
+    [
+      "Zoom live classes",
+      "Live classes"
+    ],
+    [
+      "Live Sessions on Zoom",
+      "Live sessions"
+    ],
+    [
+      "Live sessions on Zoom",
+      "Live sessions"
+    ],
+    [
+      "live sessions on Zoom",
+      "live sessions"
+    ],
+    [
+      "live Zoom sessions",
+      "live sessions"
+    ],
+    [
+      "Live workshops on Zoom",
+      "Live workshops"
+    ],
+    [
+      "live Zoom workshops",
+      "live workshops"
+    ],
+    [
+      "live Zoom batches",
+      "live batches"
+    ],
+    [
+      "live batches on Zoom",
+      "live batches"
+    ],
+    [
+      "Live classes on Zoom",
+      "Live classes"
+    ],
+    [
+      "live classes on Zoom",
+      "live classes"
+    ],
+    [
+      "Live Zoom classes",
+      "Live classes"
+    ],
+    [
+      "live Zoom classes",
+      "live classes"
+    ],
+    [
+      "teach live on Zoom",
+      "teach live"
+    ],
+    [
+      "Teach live on Zoom",
+      "Teach live"
+    ],
+    [
+      "Yes. Every plan includes your own domain with SSL.",
+      "Yes, on Growth and up, with free SSL. On Starter, your academy runs on a free LMS Domain subdomain."
+    ],
+    [
+      "Yes. Every plan, including Starter, lets you run your academy on your own domain with free SSL.",
+      "Yes, on Growth and up, with free SSL. On Starter, your academy runs on a free LMS Domain subdomain."
+    ],
+    [
+      "Yes. Every plan lets you run your academy on your own domain with free SSL, your logo and your colours.",
+      "Yes, on Growth and up, with free SSL. Every plan has your logo and colours; on Starter, your academy runs on a free LMS Domain subdomain."
+    ],
+    [
+      "Yes. Every plan lets you connect your own domain or subdomain, with free SSL included.",
+      "Yes, on Growth and up, with free SSL included. On Starter, your academy runs on a free LMS Domain subdomain."
+    ],
+    [
+      "Yes, you can connect your own custom domain (e.g., learn.youracademy.in or yourdomain.com) on every plan. Free automated SSL certificates are provisioned and renewed automatically.",
+      "Yes, on Growth and up you can connect your own custom domain (e.g., learn.youracademy.in or yourdomain.com). Free automated SSL certificates are provisioned and renewed automatically. On Starter, your academy runs on a free LMS Domain subdomain."
+    ],
+    [
+      "Yes, LMS Domain allows you to connect your custom domain (e.g., learn.yourbrand.com) on every plan with automated SSL security certificates included.",
+      "Yes, on Growth and up you can connect your custom domain (e.g., learn.yourbrand.com) with automated SSL certificates included. On Starter, your academy runs on a free LMS Domain subdomain."
+    ],
+    [
+      "Connect your domain on any plan. SSL certificates are issued and renewed for you automatically.",
+      "Connect your own domain on Growth and up, with SSL issued and renewed for you. Starter runs on a free LMS Domain subdomain."
+    ],
+    [
+      "Every plan runs on your own web address, with your logo and colours.",
+      "Your own web address on Growth and up (a free subdomain on Starter), with your logo and colours on every plan."
+    ],
+    [
+      "Every plan includes your own domain, live classes and 0% commission on your sales.",
+      "Every plan includes live classes, your own branding and 0% commission on your sales."
+    ],
+    [
+      "Every plan includes your own domain, live classes and 0% commission.",
+      "Every plan includes live classes, your own branding and 0% commission."
+    ],
+    [
+      "Your own domain on every plan · Set up with our team",
+      "Your own branding on every plan · Set up with our team"
+    ],
+    [
+      "Your own domain on every plan",
+      "Your own branding on every plan"
+    ],
+    [
+      "Teams that want their own domain and branding on every plan.",
+      "Teams that want their own branding on every plan, and their own domain from Growth."
+    ],
+    [
+      "Your domain on every plan",
+      "Your brand on every plan"
+    ],
+    [
+      "Connect your own domain with free SSL on every plan, with your logo and colours.",
+      "Your logo and colours on every plan, and your own domain with free SSL from Growth."
+    ],
+    [
+      "with your own domain and 0% commission on every plan.",
+      "with 0% commission on every plan and your own domain from Growth."
+    ],
+    [
+      "Launch your academy on your own domain.",
+      "Launch your academy with your own branding."
+    ]
+  ]
+}

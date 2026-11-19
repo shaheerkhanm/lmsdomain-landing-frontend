@@ -79,7 +79,7 @@ export const brandPlatformData: PlatformPageData = {
     {
       question: "Can I use my own domain on LMS Domain?",
       answer:
-        "Yes, you can connect your own custom domain (e.g., learn.youracademy.in or yourdomain.com) on every plan. Free automated SSL certificates are provisioned and renewed automatically.",
+        "Yes, on Growth and up you can connect your own custom domain (e.g., learn.youracademy.in or yourdomain.com). Free automated SSL certificates are provisioned and renewed automatically. On Starter, your academy runs on a free LMS Domain subdomain.",
     },
     {
       question: "Can I customize the colors, logos, and fonts of my academy?",

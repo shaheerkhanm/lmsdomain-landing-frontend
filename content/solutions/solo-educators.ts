@@ -4,9 +4,9 @@ export const soloEducatorsData: SolutionPageData = {
   slug: "solo-educators",
   eyebrow: "Solo educators",
   title: "Sell courses, live workshops and 1:1 sessions under your own brand",
-  subtitle: "LMS Domain gives independent educators and course creators their own academy website, with recorded courses, live Zoom workshops, paid 1:1 sessions and ebooks. Payments go straight to your account, with 0% commission.",
+  subtitle: "LMS Domain gives independent educators and course creators their own academy website, with recorded courses, live workshops, paid 1:1 sessions and ebooks. Payments go straight to your account, with 0% commission.",
   metaTitle: "LMS for Solo Educators & Course Creators | LMS Domain",
-  metaDescription: "Sell courses, live Zoom workshops, paid 1:1 sessions and ebooks on your own branded website. Payments go straight to you, with 0% commission.",
+  metaDescription: "Sell courses, live workshops, paid 1:1 sessions and ebooks on your own branded website. Payments go straight to you, with 0% commission.",
   sectionHeading: "How does LMS Domain empower solo educators and independent tutors?",
   features: [
     {
@@ -18,9 +18,9 @@ export const soloEducatorsData: SolutionPageData = {
     },
     {
       title: "Live cohort workshops",
-      tagline: "Interactive Zoom sessions with automated cloud recordings.",
+      tagline: "Interactive live sessions with automated cloud recordings.",
       description:
-        "Host live multi-week cohorts or masterclasses. Students receive calendar reminders, access the Zoom meeting with one click, and watch replay recordings directly in the portal.",
+        "Host live multi-week cohorts or masterclasses. Students receive calendar reminders, join the live class with one click, and watch replay recordings directly in the portal.",
       icon: "Video",
     },
     {
@@ -56,7 +56,7 @@ export const soloEducatorsData: SolutionPageData = {
     {
       title: "Teach & Live Classes",
       href: "/platform/teach",
-      description: "Deliver on-demand video courses, live Zoom batches, and 1:1 bookings.",
+      description: "Deliver on-demand video courses, live batches, and 1:1 bookings.",
     },
     {
       title: "Sell & Checkouts",
@@ -91,9 +91,9 @@ export const soloEducatorsData: SolutionPageData = {
         "No, setting up your domain is simple: just point a CNAME DNS record to our platform. Free automated SSL certificates are issued immediately, and our team is available to assist during setup.",
     },
     {
-      question: "Can I run live Zoom workshops for student cohorts?",
+      question: "Can I run live workshops for student cohorts?",
       answer:
-        "Yes, you can schedule live Zoom cohort classes with automated email reminders. Class attendance is recorded automatically, and lecture recordings are archived with the curriculum.",
+        "Yes, you can schedule live cohort classes with automated email reminders. Class attendance is recorded automatically, and lecture recordings are archived with the curriculum.",
     },
     {
       question: "Is there a mobile app for learners?",
@@ -111,7 +111,7 @@ export const soloEducatorsData: SolutionPageData = {
       { before: "A marketplace takes a cut of every sale you make", after: "Payments go straight to your account, with 0% commission" },
       { before: "Courses on one app, bookings on another, ebooks somewhere else", after: "Courses, workshops, 1:1 sessions and ebooks on one website" },
       { before: "Your learners belong to someone else's platform", after: "Your own domain, your brand and your learner list" },
-      { before: "Manually sending Zoom links before every workshop", after: "Learners join live workshops from your academy" },
+      { before: "Manually sending class links before every workshop", after: "Learners join live workshops from your academy" },
     ],
     weekTitle: "A week as a solo educator",
     weekSubtitle: "How one independent tutor teaches and earns on LMS Domain.",
@@ -133,7 +133,7 @@ export const soloEducatorsData: SolutionPageData = {
       {
         day: "Wed",
         title: "Live workshop",
-        body: "A small cohort joins your Zoom workshop from your academy, and the recording is saved for them.",
+        body: "A small cohort joins your live workshop from your academy, and the recording is saved for them.",
         card: {
           title: "Data cleaning masterclass",
           meta: "Live · 90 min",

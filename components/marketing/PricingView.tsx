@@ -44,7 +44,7 @@ const INCLUDED = [
   {
     value: "Live",
     accent: ".",
-    title: "Live classes on Zoom",
+    title: "Live classes",
     body: "Schedule classes by batch, send reminders and keep recordings with the course.",
     chip: "Batch B · Today, 18:00",
     dot: "bg-[#6C4BFF]",
@@ -271,7 +271,7 @@ export function PricingView({
                   Plans start at <strong className="font-semibold text-[#0A0A0B]">{formatPrice(fromPrice, currency)} per month</strong>.{" "}
                 </>
               ) : null}
-              Every plan includes your own domain, live classes and 0% commission on your sales.
+              Every plan includes live classes, your own branding and 0% commission on your sales.
             </p>
             {hasPlans && (
               <div style={{ "--d": "270ms" } as React.CSSProperties} className="v5-rise mt-9 flex justify-center">

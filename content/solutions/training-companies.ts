@@ -6,7 +6,7 @@ export const trainingCompaniesData: SolutionPageData = {
   title: "Run client cohorts and certify the people who finish",
   subtitle: "LMS Domain helps training companies and professional educators run private batches for each client, deliver bootcamps and live sessions, review project work, issue branded certificates and report on completion, on your own website.",
   metaTitle: "LMS for Training Companies & Corporate Cohorts | LMS Domain",
-  metaDescription: "Run private client batches and bootcamps, teach live on Zoom, review projects, issue branded certificates and export completion reports on your own white-label LMS.",
+  metaDescription: "Run private client batches and bootcamps, teach live, review projects, issue branded certificates and export completion reports on your own white-label LMS.",
   sectionHeading: "How does LMS Domain support professional training businesses?",
   features: [
     {
@@ -27,7 +27,7 @@ export const trainingCompaniesData: SolutionPageData = {
       title: "Private batches for a client",
       tagline: "Dedicated cohort rosters and schedules.",
       description:
-        "Run private batches for a client, schedule live Zoom sessions, and monitor attendance and completion across the cohort.",
+        "Run private batches for a client, schedule live sessions, and monitor attendance and completion across the cohort.",
       icon: "Building2",
     },
     {
@@ -49,7 +49,7 @@ export const trainingCompaniesData: SolutionPageData = {
     {
       title: "Bootcamps & Live Classes",
       href: "/platform/teach",
-      description: "Deliver cohort bootcamps and 1:1 tutor bookings with Zoom.",
+      description: "Deliver cohort bootcamps, live sessions and 1:1 tutor bookings.",
     },
     {
       title: "Client Batches & Payments",
@@ -102,7 +102,7 @@ export const trainingCompaniesData: SolutionPageData = {
     heroAccent: "certify the people who finish",
     pains: [
       { before: "A separate spreadsheet for every client's learners", after: "A private batch for each client, with its own roster and schedule" },
-      { before: "Session links and recordings sent around by email", after: "Live sessions on Zoom, recordings saved to the course" },
+      { before: "Session links and recordings sent around by email", after: "Live sessions, recordings saved to the course" },
       { before: "Certificates made one by one in a design tool", after: "Branded PDF certificates issued when learners finish" },
       { before: "Clients asking for progress updates every week", after: "Completion and test reports exported in a click" },
     ],
@@ -126,7 +126,7 @@ export const trainingCompaniesData: SolutionPageData = {
       {
         day: "Wk 3",
         title: "Live sessions and practice",
-        body: "Learners join live sessions on Zoom and work through recorded lessons between them.",
+        body: "Learners join live sessions and work through recorded lessons between them.",
         card: {
           title: "Session 5 · Pivot tables",
           meta: "Live · 1 h 15 min",

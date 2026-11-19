@@ -51,7 +51,7 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
       "A practical, operational guide to launching your own branded online teaching academy in India, from curriculum structuring to GST compliance and live classes.",
     metaTitle: "How to Start an Online Academy in India | LMS Domain",
     metaDescription:
-      "A practical, step-by-step guide to starting an online academy in India. Learn about curriculum structuring, live Zoom classes, GST compliance, and platform setup.",
+      "A practical, step-by-step guide to starting an online academy in India. Learn about curriculum structuring, live classes, GST compliance, and platform setup.",
     date: "2026-11-07",
     readingTime: "9 min read",
     author: "LMS Domain Editorial Team",
@@ -98,7 +98,7 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
 </ul>
 
 <h2 id="running-live-classes">5. Deliver live classes and assessments</h2>
-<p>Live instruction remains the heart of student retention and active participation. Connecting your platform directly with Zoom enables automated class meeting links, calendar notifications, and automatic lecture recording archives stored directly in the lesson timeline.</p>
+<p>Live instruction remains the heart of student retention and active participation. Connecting your platform with Zoom, Google Meet or Teams enables automated class meeting links, calendar notifications, and automatic lecture recording archives stored directly in the lesson timeline.</p>
 <p>Complement live sessions with regular evaluations:</p>
 <ul>
   <li><strong>Timed Mock Tests:</strong> Build chapter question banks and administer timed practice tests with automated scoring and passing requirements.</li>
@@ -118,12 +118,12 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
       {
         question: "Can I use my own domain for my academy website?",
         answer:
-          "Yes, LMS Domain allows you to connect your custom domain (e.g., learn.yourbrand.com) on every plan with automated SSL security certificates included.",
+          "Yes, on Growth and up you can connect your custom domain (e.g., learn.yourbrand.com) with automated SSL certificates included. On Starter, your academy runs on a free LMS Domain subdomain.",
       },
       {
-        question: "How do live Zoom classes integrate with the student portal?",
+        question: "How do live classes integrate with the student portal?",
         answer:
-          "LMS Domain integrates directly with Zoom so students join scheduled batch classes with a single click. Class recordings are archived directly into the course timeline for replay.",
+          "LMS Domain connects with Zoom, Google Meet and Teams so students join scheduled batch classes with a single click. Class recordings are archived directly into the course timeline for replay.",
       },
     ],
   },
@@ -157,7 +157,7 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
 
 <p>For a coaching institute, an LMS operates on three primary levels:</p>
 <ul>
-  <li><strong>The Student Portal:</strong> Where enrolled learners log in on their phones or computers to access course videos, read study PDFs, view batch schedules, join live Zoom classes, and take practice tests.</li>
+  <li><strong>The Student Portal:</strong> Where enrolled learners log in on their phones or computers to access course videos, read study PDFs, view batch schedules, join live classes, and take practice tests.</li>
   <li><strong>The Teacher Portal:</strong> Where faculty members organize lesson drip releases, conduct scheduled live sessions, review student assignments, and evaluate mock test scores.</li>
   <li><strong>The Administrator Dashboard:</strong> Where institute management oversees batch rosters, tracks live class attendance, collects fees via payment gateways with GST invoices, and manages staff role permissions.</li>
 </ul>
@@ -175,7 +175,7 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
 <p>An effective coaching LMS should be built around cohort workflows rather than just selling pre-recorded videos. Key capabilities include:</p>
 <ul>
   <li><strong>Structured Batch Management:</strong> The ability to run separate morning, evening, and weekend batches for the same course, each with its own timetable and roster.</li>
-  <li><strong>Live Zoom Integration:</strong> Single-click class launching with automatic attendance logging and lecture recording storage.</li>
+  <li><strong>Live Class Integration:</strong> Single-click class launching with automatic attendance logging and lecture recording storage.</li>
   <li><strong>Subject Question Banks:</strong> Robust testing tools that support chapter-wise quizzes and timed mock tests with automated grading and rank analysis.</li>
   <li><strong>Integrated Fee Collection:</strong> Direct integration with Indian payment gateways (Razorpay, Paytm) with automated GST invoice generation and offline bank transfer reviews.</li>
 </ul>
@@ -200,7 +200,7 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
       {
         question: "Can students use the LMS on their smartphones?",
         answer:
-          "Yes, LMS Domain is fully responsive across mobile web browsers, allowing students to watch lectures, join live Zoom classes, and complete quizzes from any smartphone or tablet.",
+          "Yes, LMS Domain is fully responsive across mobile web browsers, allowing students to watch lectures, join live classes, and complete quizzes from any smartphone or tablet.",
       },
     ],
   },

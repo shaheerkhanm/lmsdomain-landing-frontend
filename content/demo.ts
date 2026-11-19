@@ -66,7 +66,7 @@ export const DEMO_DEFAULTS: DemoContent = {
     title: "What you'll see, with your own courses",
     subtitle: "We tailor the walkthrough to how you teach. These are some of the things academies ask to see most.",
     items: [
-      { title: "Live classes and attendance", text: "Join on Zoom from your academy. Attendance is logged for you." },
+      { title: "Live classes and attendance", text: "Learners join from your academy. Attendance is logged for you." },
       { title: "Tests and instant results", text: "Timed tests from your question bank, scored the moment they close." },
       { title: "Feedback on written work", text: "Learners upload work, teachers reply with a score and private comments." },
       { title: "Certificates and reports", text: "Branded certificates when learners finish, and reports in a click." },

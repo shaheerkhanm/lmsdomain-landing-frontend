@@ -56,7 +56,7 @@ export const CUSTOMERS_DEFAULTS: CustomersContent = {
       { value: "2,000+", label: "Learners", text: "learning on academies built with LMS Domain" },
       { value: "100+", label: "Courses", text: "published by educators on the platform" },
       { value: "300+", label: "Lessons", text: "of video, PDF and quizzes delivered" },
-      { value: "100+", label: "Live classes", text: "taught on Zoom from LMS Domain" },
+      { value: "100+", label: "Live classes", text: "taught live from LMS Domain" },
     ],
   },
   academies: {
@@ -67,7 +67,7 @@ export const CUSTOMERS_DEFAULTS: CustomersContent = {
       {
         name: "Coaching institutes",
         text: "Run morning, evening and weekend batches with live classes, mock tests and fees in one place.",
-        points: ["Batch timetables and drip release", "Attendance logged from Zoom", "Mock tests with instant ranks", "Online fees and reminders"],
+        points: ["Batch timetables and drip release", "Attendance logged automatically", "Mock tests with instant ranks", "Online fees and reminders"],
         statValue: "23/24",
         statLabel: "joined today",
         personName: "Daniel Reyes",
@@ -97,7 +97,7 @@ export const CUSTOMERS_DEFAULTS: CustomersContent = {
       {
         name: "Solo educators",
         text: "Sell courses, workshops, 1:1 sessions and ebooks on your own website, and keep every sale.",
-        points: ["Your own branded academy", "Paid 1:1 bookings", "Live workshops on Zoom", "0% commission on sales"],
+        points: ["Your own branded academy", "Paid 1:1 bookings", "Live workshops", "0% commission on sales"],
         statValue: "$1,486",
         statLabel: "this week",
         personName: "Priya Sharma",
@@ -111,7 +111,7 @@ export const CUSTOMERS_DEFAULTS: CustomersContent = {
     title: "Why academies choose LMS Domain",
     items: [
       { title: "0% commission", text: "Payments go straight to your account. We never take a cut of your sales." },
-      { title: "Your own domain", text: "Every plan runs on your own web address, with your logo and colours." },
+      { title: "Your own domain", text: "Your own web address on Growth and up (a free subdomain on Starter), with your logo and colours on every plan." },
       { title: "Setup help from our team", text: "We help you get courses, domain and payments ready, so you launch fast." },
       { title: "One platform, not five", text: "Teaching, tests, payments and your website in one place, with one login." },
     ],

@@ -299,6 +299,8 @@ export interface PricingEmptyState {
 
 export interface PricingPageModel {
   pricingV2?: PricingV2Data;
+  /** Where plan prices and limits came from: Admin > Pricing, or the central plans API */
+  plansFrom?: "admin" | "central-api";
   band?: {
     title: string;
     subtitle?: string;

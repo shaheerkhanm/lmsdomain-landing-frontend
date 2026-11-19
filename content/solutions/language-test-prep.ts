@@ -4,9 +4,9 @@ export const languageTestPrepData: SolutionPageData = {
   slug: "language-test-prep-academies",
   eyebrow: "Language & test-prep academies",
   title: "The LMS for language and test‑prep academies",
-  subtitle: "LMS Domain helps language schools and exam-prep academies run batches, teach live on Zoom, give timed practice tests, review written work with private feedback and issue certificates, for any language or exam, on your own website.",
+  subtitle: "LMS Domain helps language schools and exam-prep academies run batches, teach live, give timed practice tests, review written work with private feedback and issue certificates, for any language or exam, on your own website.",
   metaTitle: "LMS for Language Schools & Test-Prep Academies | LMS Domain",
-  metaDescription: "Run language and exam-prep batches with live Zoom classes, timed practice tests, essay reviews with private feedback, certificates and multi-currency fees on your own site.",
+  metaDescription: "Run language and exam-prep batches with live classes, timed practice tests, essay reviews with private feedback, certificates and multi-currency fees on your own site.",
   sectionHeading: "How does LMS Domain support language and test-prep academies?",
   features: [
     {
@@ -17,10 +17,10 @@ export const languageTestPrepData: SolutionPageData = {
       icon: "CalendarRange",
     },
     {
-      title: "Live Zoom classes & attendance",
+      title: "Live classes & attendance",
       tagline: "Classroom meetings with automatic attendance logs.",
       description:
-        "Schedule live Zoom lectures directly inside course modules, automatically log class attendance, and keep class recordings organized in the lesson timeline.",
+        "Schedule live lectures directly inside course modules, automatically log class attendance, and keep class recordings organized in the lesson timeline.",
       icon: "Video",
     },
     {
@@ -60,7 +60,7 @@ export const languageTestPrepData: SolutionPageData = {
     {
       question: "How does LMS Domain handle language and exam-prep batches?",
       answer:
-        "LMS Domain allows language academies to configure morning, evening, and weekend batches. Each batch has its own calendar dates, Zoom live class links, student rosters, and drip lesson schedules.",
+        "LMS Domain allows language academies to configure morning, evening, and weekend batches. Each batch has its own calendar dates, live class links, student rosters, and drip lesson schedules.",
     },
     {
       question: "Can I create timed mock tests for language exams?",
@@ -68,9 +68,9 @@ export const languageTestPrepData: SolutionPageData = {
         "Yes, you can create timed practice tests with multiple-choice sections and essay submission prompts. Scores are calculated automatically for objective questions, while teachers can leave written feedback for descriptive answers.",
     },
     {
-      question: "Does the platform track student attendance in live Zoom classes?",
+      question: "Does the platform track student attendance in live classes?",
       answer:
-        "Yes, attendance is automatically logged whenever students join batch Zoom classes through their portal. Instructors can generate batch attendance summaries with one click.",
+        "Yes, attendance is automatically logged whenever students join batch live classes through their portal. Instructors can generate batch attendance summaries with one click.",
     },
     {
       question: "Can students pay tuition fees in international currencies?",
@@ -90,7 +90,7 @@ export const languageTestPrepData: SolutionPageData = {
   ],
   ctaTitle: "See how LMS Domain powers your language academy.",
   ctaSubtitle:
-    "Book a 20-minute demo. We'll show you how batch rosters, Zoom classes, and timed mock tests work on your custom domain.",
+    "Book a 20-minute demo. We'll show you how batch rosters, live classes and timed mock tests work in your academy.",
   ctaButtonText: "Book a demo",
   v5: {
     heroAccent: "test‑prep academies",
@@ -106,7 +106,7 @@ export const languageTestPrepData: SolutionPageData = {
       {
         day: "Mon",
         title: "Live grammar class",
-        body: "The batch joins on Zoom from your academy. Attendance is logged and the recording is saved for revision.",
+        body: "The batch joins the live class from your academy. Attendance is logged and the recording is saved for revision.",
         card: {
           title: "Advanced grammar · Evening",
           meta: "Live · Mia Collins",
