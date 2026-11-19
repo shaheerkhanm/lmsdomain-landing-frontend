@@ -6,7 +6,7 @@ export const heroContent: HeroContent = {
     "Build courses, sell them and support every learner, with AI that drafts your content, answers learner questions and tells you what needs attention.",
   ctaText: "Book a 20-minute demo",
   secondaryCtaText: "See pricing",
-  microcopy: "Your own domain on every plan · Set up with our team",
+  microcopy: "Your own branding on every plan · Set up with our team",
   cards: [
     {
       type: "course_builder",

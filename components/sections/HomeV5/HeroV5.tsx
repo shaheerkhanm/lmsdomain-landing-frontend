@@ -21,7 +21,7 @@ const STATS = [
   { value: "100+", label: "live classes delivered" },
 ];
 
-const POINTS = ["Your own domain on every plan", "0% commission on sales", "Set up with our team"];
+const POINTS = ["Your own branding on every plan", "0% commission on sales", "Set up with our team"];
 
 export function HeroV5({ title, logos = [] }: { title: string; logos?: HeroLogo[] }) {
   const validLogos = logos.filter((l) => l.logo && l.name && !/^client\s*-?\s*\d+/i.test(l.name));

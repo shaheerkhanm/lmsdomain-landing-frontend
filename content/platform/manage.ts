@@ -69,7 +69,7 @@ export const managePlatformData: PlatformPageData = {
       title: "Coaching institutes",
       href: "/solutions/coaching-institutes",
       description:
-        "Run several batch timings, get Zoom attendance logged automatically, and remind students by email or SMS.",
+        "Run several batch timings, get live class attendance logged automatically, and remind students by email or SMS.",
     },
   ],
   faqs: [
@@ -81,7 +81,7 @@ export const managePlatformData: PlatformPageData = {
     {
       question: "How is student attendance tracked for live classes?",
       answer:
-        "LMS Domain automatically logs attendance when learners join scheduled Zoom classes through the platform. Instructors and administrators can export complete attendance sheets per session.",
+        "LMS Domain automatically logs attendance when learners join scheduled live classes through the platform. Instructors and administrators can export complete attendance sheets per session.",
     },
     {
       question: "What roles are available for academy team members?",

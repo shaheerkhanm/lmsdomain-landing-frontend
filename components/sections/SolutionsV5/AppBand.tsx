@@ -53,7 +53,7 @@ export async function AppBand({ slug, content }: { slug: string; content: Soluti
                 </li>
               ))}
             </ul>
-            <AppOptions className="mt-7 !items-start text-[13.5px]" />
+            <AppOptions className="mt-7" />
             <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3">
               <StoreBadges links={{ playStoreUrl: contact?.playStoreUrl, appStoreUrl: contact?.appStoreUrl }} />
               <Link href="/platform/mobile-app" className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#0A0A0B] hover:text-[#6C4BFF]">

@@ -94,7 +94,7 @@ function LearnerArt() {
   );
 }
 
-/* 3. Attendance logged automatically from Zoom */
+/* 3. Attendance logged automatically */
 function AttendanceArt() {
   const log = [
     { t: "17:58", who: "Priya joined", p: "/assets/img/home/testimonials/author-1.jpg", ok: true },
@@ -205,7 +205,7 @@ function NoticesArt() {
         <div className="mt-3 rounded-[12px] bg-[#F8F8FA] p-3">
           <p className="text-[12.5px] font-semibold text-[#18181B]">Today&apos;s class moves to 19:00</p>
           <p className="mt-1 text-[11.5px] leading-[1.5] text-[#71717A]">
-            Same Zoom link as always. See you there!
+            Same class link as always. See you there!
             <span className="mo-caret ml-0.5 inline-block h-[1em] w-[1.5px] translate-y-[2px] bg-[#18181B]" />
           </p>
         </div>

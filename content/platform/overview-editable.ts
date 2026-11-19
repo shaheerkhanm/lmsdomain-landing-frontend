@@ -66,7 +66,7 @@ export const PLATFORM_OVERVIEW_DEFAULTS: PlatformOverviewContent = {
     "Your branded website",
     "One login for your team and learners",
   ],
-  withNote: "Zoom and your payment gateway connect inside LMS Domain, so learners never leave your academy.",
+  withNote: "Your live class tool and payment gateway connect inside LMS Domain, so learners never leave your academy.",
   faqTitle: "Questions about the platform",
   faqSubtitle: "Quick answers about what LMS Domain does and who it is for.",
   faqs: platformFaqsV5.map((f) => ({ question: f.question, answer: f.answer })),

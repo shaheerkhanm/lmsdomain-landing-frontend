@@ -18,7 +18,7 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
       "text": "Unlock lessons by date or by enrolment day, so a whole batch moves forward together."
     },
     {
-      "title": "Live classes on Zoom, Meet or Teams",
+      "title": "Live classes, Meet or Teams",
       "text": "Schedule classes for each batch. Learners get reminders and join from your academy."
     },
     {
@@ -127,7 +127,7 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
   "brand": [
     {
       "title": "Your own domain, with free SSL",
-      "text": "Connect your domain on any plan. SSL certificates are issued and renewed for you automatically."
+      "text": "Connect your own domain on Growth and up, with SSL issued and renewed for you. Starter runs on a free LMS Domain subdomain."
     },
     {
       "title": "Homepage builder",

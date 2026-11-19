@@ -10,7 +10,7 @@ export const homeFaqItems: FaqItem[] = [
   {
     id: "custom-domain",
     question: "Can I use my own domain?",
-    answer: "Yes. Every plan includes your own domain with SSL.",
+    answer: "Yes, on Growth and up, with free SSL. On Starter, your academy runs on a free LMS Domain subdomain.",
   },
   {
     id: "payment-gateways",

@@ -11,7 +11,7 @@ export interface PlatformOverviewPillar {
 export const platformOverviewSeo = {
   title: "All-in-One LMS Platform for Academies & Course Creators | LMS Domain",
   description:
-    "One platform to teach courses and live classes on Zoom, Google Meet or Teams, run tests, manage batches, sell in any currency and brand your academy on your own domain. 0% commission.",
+    "One platform to teach courses and live classes, Google Meet or Teams, run tests, manage batches, sell in any currency and brand your academy on your own domain. 0% commission.",
   heroAnswer:
     "LMS Domain is an all-in-one learning platform for academies, coaching institutes and course creators. Teach recorded courses and live classes, run tests, manage batches and sell in any currency, all on your own domain.",
 };
@@ -23,7 +23,7 @@ export const platformOverviewPillars: PlatformOverviewPillar[] = [
     title: "Teach",
     tagline: "Teach recorded courses and live batches from one place.",
     description:
-      "Structured video lessons, drip releases, live classes on Zoom, Meet or Teams, cohort bootcamps, and 1:1 tutor bookings.",
+      "Structured video lessons, drip releases, live classes, Meet or Teams, cohort bootcamps, and 1:1 tutor bookings.",
     icon: "BookOpen",
   },
   {
@@ -104,11 +104,11 @@ export const platformSectionsV5: PlatformSectionV5[] = [
     href: "/platform/teach",
     name: "Teach",
     title: "Teach recorded courses and live classes in one place",
-    body: "Build courses from video, PDF and quiz lessons, release them on a schedule, and run live classes on Zoom, Google Meet or Teams for each batch.",
+    body: "Build courses from video, PDF and quiz lessons, release them on a schedule, and run live classes, Google Meet or Teams for each batch.",
     points: [
       "Video, PDF and quiz lessons in modules",
       "Drip release by date or enrolment day",
-      "Live classes on Zoom, Meet or Teams, with saved recordings",
+      "Live classes, Meet or Teams, with saved recordings",
       "Bootcamps and 1:1 tutor booking (Growth and up)",
     ],
   },
@@ -208,7 +208,7 @@ export const platformFaqsV5 = [
   {
     id: "live-classes",
     question: "Can I run live classes?",
-    answer: "Yes. You can schedule live classes on Zoom, Google Meet or Microsoft Teams for each batch. Learners join from your academy, and recordings are saved to the course.",
+    answer: "Yes. You can schedule live classes, Google Meet or Microsoft Teams for each batch. Learners join from your academy, and recordings are saved to the course.",
   },
   {
     id: "sell-currency",
@@ -219,7 +219,7 @@ export const platformFaqsV5 = [
   {
     id: "own-domain",
     question: "Can I use my own domain?",
-    answer: "Yes. Every plan lets you run your academy on your own domain with free SSL, your logo and your colours.",
+    answer: "Yes, on Growth and up, with free SSL. Every plan has your logo and colours; on Starter, your academy runs on a free LMS Domain subdomain.",
   },
   {
     id: "coding",

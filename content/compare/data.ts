@@ -28,10 +28,10 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     competitorName: "Edmingle",
     metaTitle: "Edmingle Alternative for Academies | LMS Domain",
     metaDescription:
-      "Comparing Edmingle? LMS Domain gives academies live classes on Zoom, batches, timed tests, payments in any currency and their own domain, with 0% commission.",
+      "Comparing Edmingle? LMS Domain gives academies live classes, batches, timed tests, payments in any currency and their own domain, with 0% commission.",
     title: "Looking for an Edmingle alternative for your academy?",
     subtitle:
-      "LMS Domain is an all-in-one platform for academies, coaching institutes and training businesses anywhere. Run batches with live classes on Zoom, timed tests and certificates, and sell in any currency on your own domain.",
+      "LMS Domain is an all-in-one platform for academies, coaching institutes and training businesses anywhere. Run batches with live classes, timed tests and certificates, and sell in any currency on your own domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description:
@@ -46,7 +46,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     lmsDomainStrengths: [
       {
         title: "Built for batch teaching",
-        description: "Give each batch its own start date, live class schedule on Zoom, attendance log and lesson release dates.",
+        description: "Give each batch its own start date, live class schedule, attendance log and lesson release dates.",
       },
       {
         title: "Your academy on your own domain",
@@ -73,8 +73,8 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
         answer: "No. You pay a fixed plan price and keep 100% of your sales. Your payment gateway charges its usual processing fees.",
       },
       {
-        question: "Can I run live classes on Zoom?",
-        answer: "Yes. Schedule live classes on Zoom for each batch. Learners join from your academy, and attendance is logged automatically.",
+        question: "Can I run live classes?",
+        answer: "Yes. Schedule live classes for each batch. Learners join from your academy, and attendance is logged automatically.",
       },
     ],
   },
@@ -84,10 +84,10 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     competitorName: "Graphy",
     metaTitle: "Graphy Alternative for Academies | LMS Domain",
     metaDescription:
-      "Comparing Graphy? LMS Domain gives academies live batches on Zoom, timed tests, certificates and payments in any currency on their own domain, with 0% commission.",
+      "Comparing Graphy? LMS Domain gives academies live batches, timed tests, certificates and payments in any currency on their own domain, with 0% commission.",
     title: "Looking for a Graphy alternative for your online academy?",
     subtitle:
-      "LMS Domain is a white-label learning platform for academies and educators anywhere. Teach recorded courses and live batches on Zoom, run timed tests, and sell in any currency under your own brand and domain.",
+      "LMS Domain is a white-label learning platform for academies and educators anywhere. Teach recorded courses and live batches, run timed tests, and sell in any currency under your own brand and domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description: "LMS Domain is built for academies that teach in scheduled batches, test their learners and want payments paid straight to them.",
@@ -101,7 +101,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     lmsDomainStrengths: [
       {
         title: "Batches and timetables",
-        description: "Run several batches of the same course, each with its own learners, Zoom links and attendance.",
+        description: "Run several batches of the same course, each with its own learners, class links and attendance.",
       },
       {
         title: "Your domain, your brand",
@@ -124,7 +124,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       },
       {
         question: "Can I use my own domain?",
-        answer: "Yes. Every plan lets you connect your own domain or subdomain, with free SSL included.",
+        answer: "Yes, on Growth and up, with free SSL included. On Starter, your academy runs on a free LMS Domain subdomain.",
       },
     ],
   },
@@ -134,16 +134,16 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     competitorName: "Learnyst",
     metaTitle: "Learnyst Alternative for Academies | LMS Domain",
     metaDescription:
-      "Comparing Learnyst? LMS Domain gives academies live classes on Zoom, batches, timed tests, video watermarking and payments in any currency on their own domain.",
+      "Comparing Learnyst? LMS Domain gives academies live classes, batches, timed tests, video watermarking and payments in any currency on their own domain.",
     title: "Looking for a Learnyst alternative for your institute?",
     subtitle:
-      "LMS Domain is one simple platform for academies and coaching institutes anywhere. Teach live classes on Zoom, manage batches, run timed tests and take payments in any currency on your own domain.",
+      "LMS Domain is one simple platform for academies and coaching institutes anywhere. Teach live classes, manage batches, run timed tests and take payments in any currency on your own domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description: "LMS Domain suits academies that want a simple experience for learners and staff, with reliable batch tools.",
       points: [
         "Institutes that want a clean, modern experience for learners on phone and desktop browsers.",
-        "Academies that teach live on Zoom, with attendance logged and recordings saved to the course.",
+        "Academies that teach live, with attendance logged and recordings saved to the course.",
         "Training companies that run bootcamps and paid 1:1 sessions.",
         "Educators who want hands-on help moving from their current platform.",
       ],
@@ -154,7 +154,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
         description: "Clear navigation for learners and your team, so they spend time learning and teaching, not looking for things.",
       },
       {
-        title: "Live classes on Zoom",
+        title: "Live classes",
         description: "Schedule classes for each batch, send reminders, log attendance and save recordings to the right module.",
       },
       {
@@ -183,15 +183,15 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     competitorName: "Thinkific",
     metaTitle: "Thinkific Alternative for Live-Batch Academies | LMS Domain",
     metaDescription:
-      "Comparing Thinkific? LMS Domain is built for academies that teach live batches: Zoom classes, attendance, timed tests and payments in any currency, with 0% commission.",
+      "Comparing Thinkific? LMS Domain is built for academies that teach live batches: live classes, attendance, timed tests and payments in any currency, with 0% commission.",
     title: "Looking for a Thinkific alternative built for live batches?",
     subtitle:
-      "LMS Domain is built for academies that teach in batches as well as selling recorded courses. Run live classes on Zoom, track attendance, test your learners and get paid in any currency through your own payment gateway.",
+      "LMS Domain is built for academies that teach in batches as well as selling recorded courses. Run live classes, track attendance, test your learners and get paid in any currency through your own payment gateway.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description: "LMS Domain suits academies whose teaching runs on a timetable, with live classes, batches and tests.",
       points: [
-        "Academies that teach live batches on Zoom, not only self-paced courses.",
+        "Academies that teach live batches, not only self-paced courses.",
         "Institutes that sell to learners in several countries, in their own currencies.",
         "Businesses that want payments to go straight to their own Stripe, Razorpay, Paytm or DOKU account.",
         "Educators who want setup help from a real team, and the same support after launch.",
@@ -208,7 +208,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       },
       {
         title: "Batches with live classes",
-        description: "Run morning and evening batches with lesson release dates, Zoom attendance and roles for your teachers.",
+        description: "Run morning and evening batches with lesson release dates, live class attendance and roles for your teachers.",
       },
       {
         title: "Setup help from our team",
@@ -232,24 +232,24 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     competitorName: "Teachable",
     metaTitle: "Teachable Alternative for Live Teaching | LMS Domain",
     metaDescription:
-      "Comparing Teachable? LMS Domain is built for academies that teach live: batches, Zoom classes with attendance, timed tests and payments in any currency.",
+      "Comparing Teachable? LMS Domain is built for academies that teach live: batches, live classes with attendance, timed tests and payments in any currency.",
     title: "Looking for a Teachable alternative built for live batch teaching?",
     subtitle:
-      "LMS Domain gives academies the tools for live teaching as well as recorded courses: batches with Zoom classes, timed tests, 1:1 bookings and payments in any currency, all on your own domain.",
+      "LMS Domain gives academies the tools for live teaching as well as recorded courses: batches with live classes, timed tests, 1:1 bookings and payments in any currency, all on your own domain.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description: "LMS Domain suits academies and training institutes that teach live, test their learners and run on a timetable.",
       points: [
-        "Institutes that run scheduled live classes on Zoom, with attendance logged automatically.",
+        "Institutes that run scheduled live classes, with attendance logged automatically.",
         "Academies that need question banks and timed tests with automatic scoring.",
         "Businesses that want to sell in several currencies through their own payment gateway.",
-        "Teams that want their own domain and branding on every plan.",
+        "Teams that want their own branding on every plan, and their own domain from Growth.",
       ],
     },
     lmsDomainStrengths: [
       {
-        title: "Batches, Zoom and attendance",
-        description: "Run live classes for each batch on Zoom, log attendance automatically and save recordings to the course.",
+        title: "Batches, live classes and attendance",
+        description: "Run live classes for each batch, log attendance automatically and save recordings to the course.",
       },
       {
         title: "Payments that go straight to you",
@@ -260,8 +260,8 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
         description: "Build tests from your question banks with a time limit and pass mark, and see scores straight away.",
       },
       {
-        title: "Your domain on every plan",
-        description: "Connect your own domain with free SSL on every plan, with your logo and colours.",
+        title: "Your brand on every plan",
+        description: "Your logo and colours on every plan, and your own domain with free SSL from Growth.",
       },
     ],
     faqs: [
@@ -281,16 +281,16 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     competitorName: "Kajabi",
     metaTitle: "Kajabi Alternative for Academies | LMS Domain",
     metaDescription:
-      "Comparing Kajabi? LMS Domain focuses on running an academy: batches, live Zoom classes, timed tests, certificates and payments in any currency on your own domain.",
+      "Comparing Kajabi? LMS Domain focuses on running an academy: batches, live classes, timed tests, certificates and payments in any currency on your own domain.",
     title: "Looking for a Kajabi alternative focused on running an academy?",
     subtitle:
-      "LMS Domain focuses on the day-to-day work of an academy: batches and timetables, live classes on Zoom, tests and certificates, and payments in any currency through your own gateway.",
+      "LMS Domain focuses on the day-to-day work of an academy: batches and timetables, live classes, tests and certificates, and payments in any currency through your own gateway.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description:
         "LMS Domain suits coaching institutes, language schools and training companies that want tools for teaching and running classes at a clear price.",
       points: [
-        "Academies that need batch timetables, live Zoom classes and attendance logs.",
+        "Academies that need batch timetables, live classes and attendance logs.",
         "Institutes that rely on question banks, timed tests and PDF certificates.",
         "Businesses that want payments to settle straight into their own account, in their learners' currencies.",
         "Educators who want a clear plan price with 0% commission on sales.",
@@ -302,7 +302,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
         description: "Teaching, tests, batches and payments in one place, so your team runs classes from one dashboard.",
       },
       {
-        title: "Live teaching on Zoom",
+        title: "Live teaching",
         description: "Start live classes from your academy, with attendance logged and recordings saved to the course.",
       },
       {
@@ -317,7 +317,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     faqs: [
       {
         question: "How does LMS Domain pricing work?",
-        answer: "Each plan has a fixed price, with your own domain and 0% commission on every plan. See the [pricing page](/pricing) for details.",
+        answer: "Each plan has a fixed price, with 0% commission on every plan and your own domain from Growth. See the [pricing page](/pricing) for details.",
       },
       {
         question: "Can several teachers work in my academy?",
@@ -331,10 +331,10 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
     competitorName: "Moodle",
     metaTitle: "Moodle Alternative: Fully Managed LMS | LMS Domain",
     metaDescription:
-      "Comparing Moodle? LMS Domain is a fully managed LMS: no servers or plugins to look after, with live Zoom classes, timed tests and built-in payments.",
+      "Comparing Moodle? LMS Domain is a fully managed LMS: no servers or plugins to look after, with live classes, timed tests and built-in payments.",
     title: "Looking for a fully managed Moodle alternative?",
     subtitle:
-      "Moodle is open source and often self-hosted, which means looking after hosting, upgrades and plugins. LMS Domain is fully managed: live classes on Zoom, tests and payments are built in, and we look after the hosting.",
+      "Moodle is open source and often self-hosted, which means looking after hosting, upgrades and plugins. LMS Domain is fully managed: live classes, tests and payments are built in, and we look after the hosting.",
     whoSuitsBetter: {
       heading: "Who LMS Domain suits best",
       description: "LMS Domain suits academies and training businesses that want a complete LMS without running servers or plugins.",
@@ -342,7 +342,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
         "Institutes that want a modern experience for learners that works well on phones.",
         "Organisations that don't want to manage servers, upgrades or security patches.",
         "Academies that want to sell courses with built-in checkout, coupons and multi-currency pricing.",
-        "Teams that want live Zoom classes with attendance, without extra plugins.",
+        "Teams that want live classes with attendance, without extra plugins.",
       ],
     },
     lmsDomainStrengths: [
@@ -360,7 +360,7 @@ export const COMPARE_PAGES: Record<string, ComparePageData> = {
       },
       {
         title: "Batches and live classes ready to go",
-        description: "Zoom classes, batch timetables and question bank tests work from day one.",
+        description: "Live classes, batch timetables and question bank tests work from day one.",
       },
     ],
     faqs: [

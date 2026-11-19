@@ -4,6 +4,9 @@
 // Filters: isActive === true && isDeleted !== true
 // ============================================================================
 
+import { applyCentralPlans, fetchCentralPlans } from "./central-plans";
+/** Admin > Pricing: which source the plan prices and limits come from ("admin" or "api"). */
+export const PRICING_SOURCE_SLUG = "pricing-source";
 import { mergeNavigation, SITE_NAV_SLUG, type SiteNavContent } from "@/content/navigation-editable";
 import { cache } from "react";
 import { fetchApi } from "./client";
@@ -359,6 +362,19 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     }
   }
 
+  // Admin > Pricing > "Pricing: Plans and prices source": "api" lays the central plans API's prices,
+  // limits, trial and tax labels over the admin's plans. Any API problem keeps the admin's pricing.
+  const pricingSource = await fetchCms(PRICING_SOURCE_SLUG, ["cms", "pricing"]).catch(() => null);
+  const wantsApi = String((pricingSource?.data as { source?: string } | undefined)?.source || "").toLowerCase() === "api" && pricingSource?.isActive !== false;
+  let plansFrom: "admin" | "central-api" = "admin";
+  if (wantsApi) {
+    const central = await fetchCentralPlans();
+    if (central) {
+      pricingV2 = applyCentralPlans(pricingV2, central);
+      plansFrom = "central-api";
+    }
+  }
+
   const activePlans = pricingV2.plans.filter((p) => p.active !== false).sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 
   // Map plans to Plan structure
@@ -459,10 +475,10 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
       ? DEFAULT_PRICING_HERO.title
       : (liveOr(heroCms?.title, DEFAULT_PRICING_HERO.title) || DEFAULT_PRICING_HERO.title),
     subtitle: isPricingHeroStale
-      ? `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
+      ? `Live classes, your own branding and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
       : (liveOr(
           heroCms?.subTitle || heroCms?.description,
-          `Your own domain, Zoom live classes and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
+          `Live classes, your own branding and GST invoices are included from Starter. Try any plan free for ${pricingV2.trialDays} days.`
         ) || DEFAULT_PRICING_HERO.subtitle),
   };
 
@@ -501,6 +517,7 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
 
   return {
     pricingV2,
+    plansFrom,
     isSample: false,
     seo: seo || undefined,
     hero,

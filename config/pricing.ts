@@ -24,6 +24,8 @@ export interface PricingPlanV2 {
   tagline: string;
   audience: string;
   priceMonthly: PlanPriceMonthly;
+  /** Exact yearly price (from the central plans API). When set, it is used as is instead of the discount rule. */
+  priceYearly?: PlanPriceMonthly;
   annualDiscountPercent: number;
   limits: PlanLimits;
   features: string[];
@@ -74,7 +76,7 @@ export const DEFAULT_PRICING_V2: PricingV2Data = {
     {
       slug: "starter",
       name: "Starter",
-      tagline: "Launch your academy on your own domain.",
+      tagline: "Launch your academy with your own branding.",
       audience: "Solo educators and new academies",
       priceMonthly: { INR: 3999, USD: 49 },
       annualDiscountPercent: 15,
@@ -86,6 +88,7 @@ export const DEFAULT_PRICING_V2: PricingV2Data = {
       },
       features: [
         "0% commission on your sales",
+        "Free LMS Domain subdomain with SSL",
         "Courses, batches and drip release",
         "LMS Domain app for Android and iOS",
         "Zoom, Google Meet and Teams live classes",
@@ -117,6 +120,7 @@ export const DEFAULT_PRICING_V2: PricingV2Data = {
         bandwidthGbPerMonth: 1000,
       },
       features: [
+        "Your own domain with free SSL",
         "Subscriptions, bundles and affiliates",
         "Abandoned-cart recovery and upsells",
         "Community, badges and assignment grading",
@@ -194,14 +198,14 @@ export const DEFAULT_PRICING_V2: PricingV2Data = {
     { group: "Limits & quotas", label: "Admin & teacher seats", values: { starter: "3 seats", growth: "10 seats", pro: "25 seats", enterprise: "Custom" } },
     { group: "Limits & quotas", label: "Video & file storage", values: { starter: "100 GB", growth: "300 GB", pro: "1,000 GB (1 TB)", enterprise: "Custom" } },
     { group: "Limits & quotas", label: "Bandwidth per month", values: { starter: "250 GB", growth: "1,000 GB", pro: "3,000 GB", enterprise: "Custom" } },
-    { group: "Website & brand", label: "Custom domain with free SSL", values: { starter: true, growth: true, pro: true, enterprise: true } },
+    { group: "Website & brand", label: "Custom domain with free SSL", values: { starter: "Free subdomain", growth: true, pro: true, enterprise: true } },
     { group: "Website & brand", label: "Learner app for Android & iOS", values: { starter: "LMS Domain app", growth: "LMS Domain app", pro: "Your branded app", enterprise: "Your branded app" } },
     { group: "Website & brand", label: "Your academy in any language", values: { starter: true, growth: true, pro: true, enterprise: true } },
     { group: "Website & brand", label: "Custom fonts & advanced branding", values: { starter: false, growth: true, pro: true, enterprise: true } },
     { group: "Website & brand", label: "Remove 'Powered by LMS Domain'", values: { starter: false, growth: false, pro: true, enterprise: true } },
     { group: "Website & brand", label: "Multiple academies or branches", values: { starter: false, growth: false, pro: false, enterprise: true } },
     { group: "Teaching", label: "Courses, batches & drip schedule", values: { starter: true, growth: true, pro: true, enterprise: true } },
-    { group: "Teaching", label: "Live classes on Zoom, Google Meet & Teams", values: { starter: true, growth: true, pro: true, enterprise: true } },
+    { group: "Teaching", label: "Live classes, Google Meet & Teams", values: { starter: true, growth: true, pro: true, enterprise: true } },
     { group: "Teaching", label: "1:1 Tutor booking", values: { starter: false, growth: true, pro: true, enterprise: true } },
     { group: "Teaching", label: "Bootcamps", values: { starter: false, growth: true, pro: true, enterprise: true } },
     { group: "Teaching", label: "Knowledge Base", values: { starter: false, growth: true, pro: true, enterprise: true } },
@@ -285,8 +289,17 @@ export function computePlanPricing(
 
   let yearly: number;
   let yearlySavingsLabel: string;
+  const exactYearly = plan.priceYearly?.[currency];
 
-  if (annualMode === "percent") {
+  if (typeof exactYearly === "number" && exactYearly > 0) {
+    // Exact yearly price: show "N months free" when it is a whole number of months, else "Save N%"
+    yearly = exactYearly;
+    const free = 12 - yearly / monthly;
+    yearlySavingsLabel =
+      Math.abs(free - Math.round(free)) < 0.001 && Math.round(free) >= 1
+        ? `${Math.round(free)} months free`
+        : `Save ${Math.max(0, Math.round((1 - yearly / (monthly * 12)) * 100))}%`;
+  } else if (annualMode === "percent") {
     const discount = plan.annualDiscountPercent || 0;
     const rawYearly = monthly * 12 * (1 - discount / 100);
     if (currency === "INR") {

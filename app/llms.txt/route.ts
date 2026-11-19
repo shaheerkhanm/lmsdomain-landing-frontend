@@ -1,11 +1,32 @@
 import { NextResponse } from "next/server";
 import { entity } from "@/content/entity";
 import { PRODUCTION_ORIGIN, getSiteUrl } from "@/lib/site";
+import { getPricingPage } from "@/lib/api/content";
+import { DEFAULT_PRICING_V2, computePlanPricing, formatPrice, type PricingV2Data } from "@/config/pricing";
 
-export const dynamic = "force-static";
+// Plans come from the pricing page (Admin > Pricing or the central plans API); refreshed hourly.
+export const revalidate = 3600;
+
+function shortPlans(data: PricingV2Data): string {
+  const plans = [...(data.plans || [])].filter((p) => p.active !== false).sort((x, y) => x.sortOrder - y.sortOrder);
+  const lines = plans.map((plan) => {
+    const learners = plan.limits?.activeLearners;
+    const seats = plan.limits?.teamSeats;
+    if (plan.isCustom) return `- **${plan.name} Plan**: Custom pricing. ${plan.audience ? plan.audience + "." : ""}`.trim();
+    const inr = computePlanPricing(plan, "INR", data.annualMode, data.monthsFree, data.currencies?.INR?.taxLabel || "");
+    const usd = computePlanPricing(plan, "USD", data.annualMode, data.monthsFree, data.currencies?.USD?.taxLabel || "");
+    const price = inr.monthly !== null ? `${formatPrice(inr.monthly, "INR")}/month${usd.monthly !== null ? ` (${formatPrice(usd.monthly, "USD")}/month)` : ""} billed monthly` : "";
+    const yearly = inr.yearly !== null ? `, or ${formatPrice(inr.yearly, "INR")}/year${usd.yearly !== null ? ` (${formatPrice(usd.yearly, "USD")}/year)` : ""} billed yearly (${inr.yearlySavingsLabel.toLowerCase()})` : "";
+    const lim = [typeof learners === "number" ? `${learners.toLocaleString("en-US")} active learners` : "", typeof seats === "number" ? `${seats} team seats` : ""].filter(Boolean).join(", ");
+    return `- **${plan.name} Plan**: ${price}${yearly}.${plan.audience ? ` For ${plan.audience.charAt(0).toLowerCase() + plan.audience.slice(1)}.` : ""}${lim ? ` Includes ${lim}.` : ""}`;
+  });
+  return [`All plans come with a ${data.trialDays}-day free trial and 0% commission on your sales (gateway processing fees apply). Your own domain with SSL is included from Growth; Starter runs on a free LMS Domain subdomain.`, "", ...lines].join("\n");
+}
 
 export async function GET() {
   const origin = getSiteUrl() || PRODUCTION_ORIGIN;
+  const pricing = await getPricingPage().catch(() => null);
+  const plansSummary = shortPlans(pricing?.pricingV2 || DEFAULT_PRICING_V2);
 
   const content = `# LMS Domain
 
@@ -13,7 +34,7 @@ export async function GET() {
 
 ## Product
 
-- [Teach](${origin}/platform/teach): Teach recorded video lessons with drip release, run live classes on Zoom, Google Meet or Teams, and schedule cohort bootcamps.
+- [Teach](${origin}/platform/teach): Teach recorded video lessons with drip release, run live classes, Google Meet or Teams, and schedule cohort bootcamps.
 - [Assess](${origin}/platform/assess): Evaluate learners with timed mock tests from question banks and issue branded PDF completion certificates.
 - [Manage](${origin}/platform/manage): Manage batch rosters, track live class attendance, assign staff roles, and send automated notifications.
 - [Sell](${origin}/platform/sell): Collect tuition fees online via Razorpay, Paytm, Stripe, or DOKU with automated GST invoices and coupon codes.
@@ -24,12 +45,7 @@ export async function GET() {
 
 ## Pricing & Plans
 
-All plans come with a 15-day free trial, 0% commission on your sales (gateway processing fees apply), custom domain with SSL, and automated GST invoices.
-
-- **Starter Plan**: ₹3,999/month ($49/month) billed monthly, or ₹3,333/month ($41/month) billed yearly (2 months free). For solo educators and new academies. Includes 500 active learners, 3 team seats, courses, drip release, and Zoom live classes.
-- **Growth Plan**: ₹7,999/month ($99/month) billed monthly, or ₹6,666/month ($82/month) billed yearly (2 months free). For coaching institutes running several batches. Includes 2,000 active learners, 10 team seats, 1:1 tutor bookings, bootcamps, and video watermarking.
-- **Pro Plan**: ₹14,999/month ($199/month) billed monthly, or ₹12,499/month ($165/month) billed yearly (2 months free). For larger academies and training companies. Includes 5,000 active learners, 25 team seats, Domie AI assistant, device limits, and custom roles.
-- **Enterprise Plan**: Custom pricing. For multi-branch institutes requiring custom active learners, team seats, SLAs, and dedicated migration assistance.
+${plansSummary}
 - [View Full Pricing Table](${origin}/pricing): Detailed comparison of all features and limits.
 
 ## Solutions (Who It Is For)
