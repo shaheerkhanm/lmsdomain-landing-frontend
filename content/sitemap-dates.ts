@@ -13,6 +13,7 @@ export const SITEMAP_LAST_MODIFIED: Record<string, string> = {
   "/platform/brand": "2026-11-06",
   "/platform/ai": "2026-11-06",
   "/platform/security": "2026-11-06",
+  "/platform/mobile-app": "2026-11-19",
   "/solutions/language-test-prep-academies": "2026-11-06",
   "/solutions/training-companies": "2026-11-06",
   "/solutions/coaching-institutes": "2026-11-07",

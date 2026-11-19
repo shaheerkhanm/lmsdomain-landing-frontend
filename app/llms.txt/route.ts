@@ -13,12 +13,13 @@ export async function GET() {
 
 ## Product
 
-- [Teach](${origin}/platform/teach): Teach recorded video lessons with drip release, run live Zoom classes, and schedule cohort bootcamps.
+- [Teach](${origin}/platform/teach): Teach recorded video lessons with drip release, run live classes on Zoom, Google Meet or Teams, and schedule cohort bootcamps.
 - [Assess](${origin}/platform/assess): Evaluate learners with timed mock tests from question banks and issue branded PDF completion certificates.
 - [Manage](${origin}/platform/manage): Manage batch rosters, track live class attendance, assign staff roles, and send automated notifications.
 - [Sell](${origin}/platform/sell): Collect tuition fees online via Razorpay, Paytm, Stripe, or DOKU with automated GST invoices and coupon codes.
 - [Brand](${origin}/platform/brand): White-label learning portal on your custom domain with free SSL, logo, color, and font customization, blogs, and downloadable ebooks.
 - [Security](${origin}/platform/security): Protect courses with dynamic video watermarks, student device sign-in limits, and role-based permissions.
+- [Mobile apps](${origin}/platform/mobile-app): The LMS Domain app for Android and iOS on every plan, and your own branded app in Google Play and the App Store on Pro and Enterprise.
 - [Domie AI](${origin}/platform/ai): Course-grounded AI HelpDesk student tutor, metadata drafting, and daily admin operational brief on the Pro plan.
 
 ## Pricing & Plans

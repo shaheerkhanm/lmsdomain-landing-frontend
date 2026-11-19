@@ -24,6 +24,7 @@ const DEFAULT_FOOTER_COLUMNS = [
       { title: "Brand & Custom Domain", href: "/platform/brand" },
       { title: "Domie AI", href: "/platform/ai" },
       { title: "Security & Hosting", href: "/platform/security" },
+      { title: "Mobile Apps", href: "/platform/mobile-app" },
       { title: "All Features", href: "/platform" },
     ],
   },

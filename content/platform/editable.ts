@@ -1,5 +1,5 @@
 // ============================================================================
-// Platform pages (Teach, Assess, Manage, Sell, Brand, Domie AI, Security): the
+// Platform pages (Teach, Assess, Manage, Sell, Brand, Domie AI, Security, Mobile apps): the
 // text people can edit in Admin > Website > Platform. One CMS entry per page
 // (PLATFORM_PAGES, admin page "platform"), the page's text in `data`. The
 // admin's values win; missing, hidden or empty entries use the built-in text
@@ -17,6 +17,7 @@ import { sellPlatformData } from "./sell";
 import { brandPlatformData } from "./brand";
 import { aiPlatformData } from "./ai";
 import { securityPlatformData } from "./security";
+import { mobileAppPlatformData } from "./mobile-app";
 
 export interface PlatformContent {
   title: string;
@@ -38,7 +39,7 @@ export interface PlatformContent {
 
 export type PlatformKey = keyof typeof PLATFORM_CARDS;
 
-/** The seven pages, their CMS entry, page name and built-in data. */
+/** The eight pages, their CMS entry, page name and built-in data. */
 export const PLATFORM_PAGES: Record<PlatformKey, { slug: string; label: string; pageName: string; data: PlatformPageData }> = {
   teach: { slug: "site-platform-teach", label: "Platform: Teach", pageName: "Teach", data: teachPlatformData },
   assess: { slug: "site-platform-assess", label: "Platform: Assess", pageName: "Assess", data: assessPlatformData },
@@ -47,6 +48,7 @@ export const PLATFORM_PAGES: Record<PlatformKey, { slug: string; label: string; 
   brand: { slug: "site-platform-brand", label: "Platform: Brand", pageName: "Brand", data: brandPlatformData },
   ai: { slug: "site-platform-ai", label: "Platform: Domie AI (Pro)", pageName: "Domie AI", data: aiPlatformData },
   security: { slug: "site-platform-security", label: "Platform: Security", pageName: "Security", data: securityPlatformData },
+  "mobile-app": { slug: "site-platform-mobile-app", label: "Platform: Mobile apps", pageName: "the mobile apps", data: mobileAppPlatformData },
 };
 
 /** Built-in text of a Platform page, in the editable shape. */

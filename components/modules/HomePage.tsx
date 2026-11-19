@@ -2,6 +2,8 @@ import React from "react";
 import { HeroV5 } from "@/components/sections/HomeV5/HeroV5";
 import { FeatureBento } from "@/components/sections/HomeV5/FeatureBento";
 import { SetupSteps } from "@/components/sections/HomeV5/SetupSteps";
+import { MobileAppSection } from "@/components/sections/HomeV5/MobileAppSection";
+import { SellGrowSection } from "@/components/sections/HomeV5/SellGrowSection";
 import { AiSection } from "@/components/sections/HomeV5/AiSection";
 import { AudienceCards } from "@/components/sections/HomeV5/AudienceCards";
 import { Testimonials, DEMO_TESTIMONIALS } from "@/components/sections/HomeV5/Testimonials";
@@ -13,7 +15,7 @@ import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { DomieLauncher } from "@/components/ai/DomieLauncher";
 import { homeFaqItems } from "@/content/faq";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
-import { getSection, getHomeClients, getPricingPage, getHomeTestimonials, getHomeSection } from "@/lib/api/content";
+import { getSection, getHomeClients, getPricingPage, getHomeTestimonials, getHomeSection, getSiteContact } from "@/lib/api/content";
 import { linkedAnswerHtml } from "@/content/merge";
 import { keepLive, liveOr } from "@/lib/claims";
 import { isProductionSite } from "@/lib/site";
@@ -21,7 +23,7 @@ import { ContentSource } from "@/components/content/ContentSource";
 import { PageContentProvider } from "@/components/content/PageContent";
 
 export async function HomePage() {
-  const [hero, clients, pricingPage, testimonials, features, setup, ai, audiences, pricing, faq] = await Promise.all([
+  const [hero, clients, pricingPage, testimonials, features, setup, ai, audiences, pricing, faq, contact] = await Promise.all([
     getSection("home-hero"),
     getHomeClients().catch(() => null),
     getPricingPage().catch(() => null),
@@ -32,6 +34,7 @@ export async function HomePage() {
     getHomeSection("audiences"),
     getHomeSection("pricing"),
     getHomeSection("faq"),
+    getSiteContact().catch(() => null),
   ]);
 
   const content = {
@@ -80,6 +83,12 @@ export async function HomePage() {
 
         {/* 5. Who it's for */}
         <AudienceCards data={audiences} />
+
+        {/* Mobile apps (LMS Domain app on every plan, branded app on Pro), before the reviews */}
+        <MobileAppSection storeLinks={{ playStoreUrl: contact?.playStoreUrl, appStoreUrl: contact?.appStoreUrl }} />
+
+        {/* Sell and grow: coupons, memberships, affiliates, cart recovery (gateways are in the Features grid) */}
+        <SellGrowSection />
 
         {/* 6. Testimonials (admin data, or demo outside production) */}
         <Testimonials items={testimonialItems} isDemo={useDemoTestimonials} />

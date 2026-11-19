@@ -28,6 +28,7 @@ export const OG_PAGES: Record<string, string> = {
   "platform-brand": "Brand",
   "platform-ai": "Domie AI",
   "platform-security": "Security",
+  "platform-mobile-app": "Mobile apps",
   "coaching-institutes": "Coaching institutes",
   "language-test-prep-academies": "Language & test prep academies",
   "training-companies": "Training companies",

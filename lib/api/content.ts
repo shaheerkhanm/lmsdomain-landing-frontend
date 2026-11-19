@@ -1445,6 +1445,8 @@ export async function getSiteContact(): Promise<ContactDetails> {
       mapUrl: isHttpUrl(text(data.mapUrl)) ? text(data.mapUrl) : defaultContactDetails.mapUrl,
       hours: text(data.hours) || defaultContactDetails.hours,
       helpCenterUrl: isHttpUrl(text(data.helpCenterUrl)) ? text(data.helpCenterUrl) : "",
+      playStoreUrl: isHttpUrl(text(data.playStoreUrl)) ? text(data.playStoreUrl) : "",
+      appStoreUrl: isHttpUrl(text(data.appStoreUrl)) ? text(data.appStoreUrl) : "",
     };
   } catch (e) {
     return defaultContactDetails;
