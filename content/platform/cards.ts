@@ -18,7 +18,7 @@ export const PLATFORM_CARDS: Record<"teach" | "assess" | "manage" | "sell" | "br
       "text": "Unlock lessons by date or by enrolment day, so a whole batch moves forward together."
     },
     {
-      "title": "Live classes, Meet or Teams",
+      "title": "Live classes on Zoom, Meet or Teams",
       "text": "Schedule classes for each batch. Learners get reminders and join from your academy."
     },
     {

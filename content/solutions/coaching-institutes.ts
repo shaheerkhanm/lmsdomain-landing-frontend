@@ -78,7 +78,7 @@ export const coachingInstitutesData: SolutionPageData = {
     {
       question: "How do live classes work with attendance tracking?",
       answer:
-        "Live sessions, Google Meet or Teams launch directly from your academy, without sharing separate meeting IDs. Attendance is logged automatically when learners join, and you can export it for any session.",
+        "Live sessions on Zoom, Google Meet or Teams launch directly from your academy, without sharing separate meeting IDs. Attendance is logged automatically when learners join, and you can export it for any session.",
     },
     {
       question: "Can we create chapter-wise mock tests and question banks?",

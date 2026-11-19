@@ -1,5 +1,5 @@
 {
-  "_about": "Exact-phrase replacements applied to the code and (via the backend script) to the admin database, 2026-11-19. 1) Live classes: no Zoom-only wording (global audience; classes run on Zoom, Google Meet or Teams). 2) Custom domain is Growth and up; Starter runs on a free LMS Domain subdomain. Longer phrases first.",
+  "_about": "Exact-phrase replacements applied to the code and (via the backend script) to the admin database, 2026-11-19. 1) Live classes: no Zoom-only wording (global audience; classes run on Zoom, Google Meet or Teams). 2) Custom domain is Growth and up; Starter runs on a free LMS Domain subdomain. Longer phrases first. The last pairs repair phrases that named Zoom together with Google Meet/Teams, which the shorter Zoom pairs cut (they must run last).",
   "pairs": [
     [
       "Attendance logged automatically when learners join on Zoom",
@@ -308,6 +308,38 @@
     [
       "Launch your academy on your own domain.",
       "Launch your academy with your own branding."
+    ],
+    [
+      "live classes, Google Meet or",
+      "live classes on Zoom, Google Meet or"
+    ],
+    [
+      "Live classes, Google Meet or",
+      "Live classes on Zoom, Google Meet or"
+    ],
+    [
+      "Live classes, Google Meet & Teams",
+      "Live classes on Zoom, Google Meet & Teams"
+    ],
+    [
+      "Live classes, Meet or Teams",
+      "Live classes on Zoom, Meet or Teams"
+    ],
+    [
+      "live classes, Meet or Teams",
+      "live classes on Zoom, Meet or Teams"
+    ],
+    [
+      "Live Classes, Google Meet and Teams",
+      "Live Classes with Zoom, Google Meet and Teams"
+    ],
+    [
+      "Teach live, Meet or Teams",
+      "Teach live on Zoom, Meet or Teams"
+    ],
+    [
+      "Live sessions, Google Meet or Teams",
+      "Live sessions on Zoom, Google Meet or Teams"
     ]
   ]
 }

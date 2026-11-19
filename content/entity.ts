@@ -12,7 +12,7 @@ export const entity = {
   short:
     "LMS Domain is a white-label learning management system for academies, coaching institutes and training businesses in India. Run scheduled batches, live classes, recorded lessons with drip release, mock tests, and 1:1 tutor bookings. Collect payments in INR with zero commission, generate regular and B2B GST invoices, and issue branded completion certificates under your own domain.",
   long:
-    "LMS Domain is a white-label learning management system built for academies, coaching institutes, language schools, and training businesses in India. Deliver structured courses with drip release, conduct live classes, Google Meet or Teams with recordings saved directly to courses, organize bootcamps, and let learners book 1:1 tutor sessions with trainers. Evaluate progress using subject question banks and timed mock tests, and award branded PDF completion certificates. Operate under your own custom domain with dedicated branding, custom fonts, colors, blogs, and knowledge base. Export student, attendance, and course data anytime to CSV. Collect course fees seamlessly through Razorpay, Paytm, Stripe, or DOKU in INR and major currencies with zero platform commission, regular and B2B GST invoices, discount coupons, and offline payment approvals. Powered by Domie AI on Premium for course-grounded learner support—without training external models—metadata drafting, analytics, and administrative daily briefs.",
+    "LMS Domain is a white-label learning management system built for academies, coaching institutes, language schools, and training businesses in India. Deliver structured courses with drip release, conduct live classes on Zoom, Google Meet or Teams with recordings saved directly to courses, organize bootcamps, and let learners book 1:1 tutor sessions with trainers. Evaluate progress using subject question banks and timed mock tests, and award branded PDF completion certificates. Operate under your own custom domain with dedicated branding, custom fonts, colors, blogs, and knowledge base. Export student, attendance, and course data anytime to CSV. Collect course fees seamlessly through Razorpay, Paytm, Stripe, or DOKU in INR and major currencies with zero platform commission, regular and B2B GST invoices, discount coupons, and offline payment approvals. Powered by Domie AI on Premium for course-grounded learner support—without training external models—metadata drafting, analytics, and administrative daily briefs.",
   confirmedFeatures: [
     {
       title: "Courses & Curriculum",
@@ -25,7 +25,7 @@ export const entity = {
         "Separate cohorts for morning and evening shifts with distinct rosters and progress tracking.",
     },
     {
-      title: "Live Classes, Google Meet and Teams",
+      title: "Live Classes with Zoom, Google Meet and Teams",
       description:
         "Zoom, Google Meet and Microsoft Teams integration with automated calendar reminders and recorded lectures saved to the course timeline.",
     },
@@ -102,7 +102,7 @@ export const entity = {
     {
       title: "Standards & Integrations",
       description:
-        "SCORM and xAPI course import, a public API and webhooks on Growth and up; single sign-on (SSO) on Pro and up; live classes, Google Meet or Microsoft Teams.",
+        "SCORM and xAPI course import, a public API and webhooks on Growth and up; single sign-on (SSO) on Pro and up; live classes on Zoom, Google Meet or Microsoft Teams.",
     },
     {
       title: "Privacy & Compliance",

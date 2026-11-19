@@ -205,7 +205,7 @@ export const DEFAULT_PRICING_V2: PricingV2Data = {
     { group: "Website & brand", label: "Remove 'Powered by LMS Domain'", values: { starter: false, growth: false, pro: true, enterprise: true } },
     { group: "Website & brand", label: "Multiple academies or branches", values: { starter: false, growth: false, pro: false, enterprise: true } },
     { group: "Teaching", label: "Courses, batches & drip schedule", values: { starter: true, growth: true, pro: true, enterprise: true } },
-    { group: "Teaching", label: "Live classes, Google Meet & Teams", values: { starter: true, growth: true, pro: true, enterprise: true } },
+    { group: "Teaching", label: "Live classes on Zoom, Google Meet & Teams", values: { starter: true, growth: true, pro: true, enterprise: true } },
     { group: "Teaching", label: "1:1 Tutor booking", values: { starter: false, growth: true, pro: true, enterprise: true } },
     { group: "Teaching", label: "Bootcamps", values: { starter: false, growth: true, pro: true, enterprise: true } },
     { group: "Teaching", label: "Knowledge Base", values: { starter: false, growth: true, pro: true, enterprise: true } },
