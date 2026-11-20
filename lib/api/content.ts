@@ -320,6 +320,42 @@ function resolvePlanCurrency(plan?: Pick<PricingPlan, "currency" | "locale">): P
   return { code, locale: localeForCurrency(code, plan?.locale) };
 }
 
+/** The plans and prices typed in Admin > Pricing (the /api/pricing-v2 reply, else the CMS entry, else the built-in defaults). */
+function adminPricingFrom(pricingV2Res: { data?: PricingV2Data } | null, pricingV2Cms: CmsDocument | null): PricingV2Data {
+  // Determine active PricingV2 data:
+  // 1. API endpoint /api/pricing-v2
+  // 2. CMS document "pricing-v2"
+  // 3. DEFAULT_PRICING_V2 fallback from config/pricing.ts (when backend is unreachable)
+  let pricingV2: PricingV2Data = DEFAULT_PRICING_V2;
+
+  if (pricingV2Res?.data && Array.isArray(pricingV2Res.data.plans) && pricingV2Res.data.plans.length > 0) {
+    pricingV2 = pricingV2Res.data;
+  } else if (pricingV2Cms?.data && typeof pricingV2Cms.data === "object") {
+    const cmsData = pricingV2Cms.data as Partial<PricingV2Data>;
+    if (Array.isArray(cmsData.plans) && cmsData.plans.length > 0) {
+      pricingV2 = {
+        annualMode: cmsData.annualMode || DEFAULT_PRICING_V2.annualMode,
+        monthsFree: typeof cmsData.monthsFree === "number" ? cmsData.monthsFree : DEFAULT_PRICING_V2.monthsFree,
+        trialDays: typeof cmsData.trialDays === "number" ? cmsData.trialDays : DEFAULT_PRICING_V2.trialDays,
+        currencies: cmsData.currencies || DEFAULT_PRICING_V2.currencies,
+        plans: cmsData.plans,
+        comparison: cmsData.comparison || DEFAULT_PRICING_V2.comparison,
+      };
+      }
+  }
+
+  return pricingV2;
+}
+
+/** Admin > Pricing on its own, ignoring the price-source switch (for the admin's compare panel). */
+export async function loadAdminPricingV2(): Promise<PricingV2Data> {
+  const [res, cms] = await Promise.all([
+    fetchApi<{ status?: boolean; data?: PricingV2Data }>("/api/pricing-v2", { method: "GET", tags: ["pricing", "pricing-v2"], revalidate: 300 }).catch(() => null),
+    fetchCms("pricing-v2", ["cms", "pricing"]).catch(() => null),
+  ]);
+  return adminPricingFrom(res, cms);
+}
+
 export const getPricingPage = cache(async function getPricingPage(): Promise<PricingPageModel> {
   const [heroCms, empty, band, faqSection, comparisonHeading, pricingV2Res, pricingV2Cms, seo, enterpriseDoc] = await Promise.all([
     fetchCms("pricing-hero", ["cms", "pricing"]),
@@ -337,30 +373,8 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     fetchCms("site-pricing-enterprise", ["cms", "pricing", "custom-plan"]),
   ]);
 
-  // Determine active PricingV2 data:
-  // 1. API endpoint /api/pricing-v2
-  // 2. CMS document "pricing-v2"
-  // 3. DEFAULT_PRICING_V2 fallback from config/pricing.ts (when backend is unreachable)
-  let pricingV2: PricingV2Data = DEFAULT_PRICING_V2;
-  let sourceMode: "api" | "code" = "code";
-
-  if (pricingV2Res?.data && Array.isArray(pricingV2Res.data.plans) && pricingV2Res.data.plans.length > 0) {
-    pricingV2 = pricingV2Res.data;
-    sourceMode = "api";
-  } else if (pricingV2Cms?.data && typeof pricingV2Cms.data === "object") {
-    const cmsData = pricingV2Cms.data as Partial<PricingV2Data>;
-    if (Array.isArray(cmsData.plans) && cmsData.plans.length > 0) {
-      pricingV2 = {
-        annualMode: cmsData.annualMode || DEFAULT_PRICING_V2.annualMode,
-        monthsFree: typeof cmsData.monthsFree === "number" ? cmsData.monthsFree : DEFAULT_PRICING_V2.monthsFree,
-        trialDays: typeof cmsData.trialDays === "number" ? cmsData.trialDays : DEFAULT_PRICING_V2.trialDays,
-        currencies: cmsData.currencies || DEFAULT_PRICING_V2.currencies,
-        plans: cmsData.plans,
-        comparison: cmsData.comparison || DEFAULT_PRICING_V2.comparison,
-      };
-      sourceMode = "api";
-    }
-  }
+  let pricingV2: PricingV2Data = adminPricingFrom(pricingV2Res, pricingV2Cms);
+  const sourceMode: "api" | "code" = pricingV2 === DEFAULT_PRICING_V2 ? "code" : "api";
 
   // Admin > Pricing > "Pricing: Plans and prices source": "api" lays the central plans API's prices,
   // limits, trial and tax labels over the admin's plans. Any API problem keeps the admin's pricing.

@@ -31,22 +31,33 @@ export interface CentralPlansResponse {
 
 const DEFAULT_URL = "https://lmsdomain.site/api/public/plans";
 
-/** The API's response, or null (no key, error, timeout or bad shape). Cached for 5 minutes. */
-export async function fetchCentralPlans(): Promise<CentralPlansResponse | null> {
+export interface CentralPlansResult {
+  data: CentralPlansResponse | null;
+  /** Why data is null: "no-key", "http-401", "timeout", "bad-shape", … */
+  problem?: string;
+}
+
+/** The API's response with the reason when it fails. `fresh` skips the 5-minute cache (admin compare). */
+export async function loadCentralPlans(fresh = false): Promise<CentralPlansResult> {
   const key = (process.env.LMS_PLANS_API_KEY || "").trim();
-  if (!key) return null;
+  if (!key) return { data: null, problem: "no-key" };
   try {
     const res = await fetch(process.env.LMS_PLANS_API_URL || DEFAULT_URL, {
       headers: { Accept: "application/json", Authorization: `Bearer ${key}` },
-      next: { revalidate: 300, tags: ["pricing", "central-plans"] },
+      ...(fresh ? { cache: "no-store" as const } : { next: { revalidate: 300, tags: ["pricing", "central-plans"] } }),
       signal: AbortSignal.timeout(8000),
     });
-    if (!res.ok) return null;
+    if (!res.ok) return { data: null, problem: `http-${res.status}` };
     const json = (await res.json()) as CentralPlansResponse;
-    return Array.isArray(json?.plans) && json.plans.length ? json : null;
-  } catch {
-    return null;
+    return Array.isArray(json?.plans) && json.plans.length ? { data: json } : { data: null, problem: "bad-shape" };
+  } catch (e) {
+    return { data: null, problem: (e as Error)?.name === "TimeoutError" ? "timeout" : "unreachable" };
   }
+}
+
+/** The API's response, or null (no key, error, timeout or bad shape). Cached for 5 minutes. */
+export async function fetchCentralPlans(): Promise<CentralPlansResponse | null> {
+  return (await loadCentralPlans()).data;
 }
 
 const num = (v: unknown): number | null => (typeof v === "number" && isFinite(v) && v >= 0 ? v : null);
