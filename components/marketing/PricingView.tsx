@@ -66,6 +66,8 @@ interface PricingViewProps {
   initialCurrency?: PricingCurrency | null;
   serverCountryCurrency?: PricingCurrency | null;
   logos?: { name?: string; logo?: string }[];
+  /** Published compare pages (Admin > Website > Compare), linked under the comparison table */
+  compareLinks?: { name: string; href: string }[];
 }
 
 export function PricingView({
@@ -73,6 +75,7 @@ export function PricingView({
   initialCurrency,
   serverCountryCurrency,
   logos = [],
+  compareLinks = [],
 }: PricingViewProps) {
   const validLogos = logos.filter((l): l is { name: string; logo: string } => Boolean(l.logo && l.name));
   const searchParams = useSearchParams();
@@ -455,6 +458,32 @@ export function PricingView({
             />
           </div>
         </ContentSource>
+      )}
+
+      {/* 5b. Comparing platforms: links to the published compare pages */}
+      {compareLinks.length > 0 && (
+        <section className="bg-white pt-[clamp(48px,6vw,80px)]">
+          <div className="mx-auto max-w-[1200px] px-4 sm:px-6">
+            <div className="rv-v4 flex flex-col gap-5 rounded-[24px] bg-[#F4F5F8] px-6 py-6 sm:px-8 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <p className="font-urbanist text-[20px] font-semibold tracking-[-0.015em] text-[#0A0A0B]">Comparing platforms?</p>
+                <p className="mt-1 text-[14.5px] text-[#52525B]">See fees, apps and features side by side, with sources.</p>
+              </div>
+              <ul className="flex flex-wrap gap-2">
+                {compareLinks.map((l) => (
+                  <li key={l.href}>
+                    <a
+                      href={l.href}
+                      className="inline-flex items-center rounded-full border border-[#E4E4E7] bg-white px-3.5 py-1.5 text-[13.5px] font-semibold text-[#27272A] transition-colors hover:border-[#0A0A0B] hover:text-[#0A0A0B]"
+                    >
+                      LMS Domain vs {l.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* 6. FAQ */}

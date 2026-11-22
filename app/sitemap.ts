@@ -1,3 +1,4 @@
+import { INTEGRATIONS } from "@/content/integrations";
 import { MetadataRoute } from "next";
 import { getLegalPages, getLegalPage, getBlogPosts, fetchSeo, getComparePages } from "@/lib/api/content";
 import { getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
@@ -193,7 +194,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Excludes /login, /signup and /forgot-password
   const visibility = await getPageVisibility();
-  return [...staticMarketingRoutes, ...legalRoutes, ...blogRoutes, ...compareRoutes].filter((route) =>
+  // Integrations (content/integrations.ts)
+  const integrationRoutes: MetadataRoute.Sitemap = [
+    { url: `${baseUrl}/integrations`, lastModified: new Date("2026-11-22"), changeFrequency: "monthly" as const, priority: 0.6 },
+    ...INTEGRATIONS.map((i) => ({ url: `${baseUrl}/integrations/${i.slug}`, lastModified: new Date("2026-11-22"), changeFrequency: "monthly" as const, priority: 0.6 })),
+  ];
+
+  return [...staticMarketingRoutes, ...legalRoutes, ...blogRoutes, ...compareRoutes, ...integrationRoutes].filter((route) =>
     isPathVisibleWithMap(route.url, visibility)
   );
 }

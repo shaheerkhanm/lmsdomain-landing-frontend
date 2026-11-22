@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { INTEGRATIONS } from "@/content/integrations";
 import { usePathname } from "next/navigation";
 import { ArrowUp } from "lucide-react";
 import SocialMediaIcons from "../SocialMediaIcons";
@@ -20,12 +21,15 @@ export function FooterSection({
   contentData,
   publishedLegalSlugs,
   columns: columnsIn,
+  compareLinks = [],
 }: {
   addressData: any;
   contentData: any;
   publishedLegalSlugs?: string[];
   /** Footer link columns from Admin > Settings > Site navigation (built-in columns when missing) */
   columns?: FooterColumn[];
+  /** Published compare pages, shown as a row of links above the bottom bar */
+  compareLinks?: { name: string; href: string }[];
 }) {
   const pathname = usePathname();
   const { isPathVisible } = usePageVisibility();
@@ -143,8 +147,34 @@ export function FooterSection({
             )}
           </div>
 
+          {/* Integrations, and the published compare pages */}
+          <div className="mt-14 space-y-3 text-[13.5px]">
+            <nav aria-label="Integrations" className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              <Link href="/integrations" className="font-semibold text-white underline-offset-4 hover:underline">
+                Integrations
+              </Link>
+              {INTEGRATIONS.map((i) => (
+                <Link key={i.slug} href={`/integrations/${i.slug}`} className="text-[#A1A1AA] transition-colors hover:text-white">
+                  {i.name}
+                </Link>
+              ))}
+            </nav>
+            {compareLinks.length > 0 && (
+              <nav aria-label="Compare" className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                <Link href="/compare" className="font-semibold text-white underline-offset-4 hover:underline">
+                  Compare LMS Domain
+                </Link>
+                {compareLinks.map((l) => (
+                  <Link key={l.href} href={l.href} className="text-[#A1A1AA] transition-colors hover:text-white">
+                    vs {l.name}
+                  </Link>
+                ))}
+              </nav>
+            )}
+          </div>
+
           {/* Bottom bar */}
-          <div className="mt-16 flex flex-col gap-4 border-t border-white/10 py-7 text-[13px] text-[#71717A] sm:flex-row sm:items-center sm:justify-between">
+          <div className={`mt-8 flex flex-col gap-4 border-t border-white/10 py-7 text-[13px] text-[#71717A] sm:flex-row sm:items-center sm:justify-between`}>
             <p>© {year} LMS Domain. All rights reserved. Built by Techiegram.</p>
             <a
               href="#top"
