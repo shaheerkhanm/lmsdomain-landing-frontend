@@ -28,6 +28,10 @@ export interface ComparePage {
   competitorNote: string;
   competitorNoteSource: string;
   competitorNoteChecked: string;
+  /** Side-by-side facts; "them" values come from the competitor's own pages (the source above). */
+  glance: { label: string; us: string; them: string }[];
+  /** Honest cases where the competitor may suit someone better. */
+  chooseThem: string[];
 }
 
 export interface CompareContent {
@@ -41,6 +45,10 @@ export interface CompareContent {
   faqTitle: string;
   /** "{competitor}" becomes the page's competitor name. */
   faqSubtitle: string;
+  /** "{competitor}" becomes the page's competitor name. */
+  glanceTitle: string;
+  glanceUs: string;
+  chooseThemTitle: string;
   primaryButton: string;
   secondaryButton: string;
   pages: ComparePage[];
@@ -58,6 +66,9 @@ export const COMPARE_DEFAULTS: CompareContent = {
   strengthsSubtitle: "Built for the day-to-day work of academies that teach in batches and sell courses online.",
   faqTitle: "Frequently asked questions",
   faqSubtitle: "Common questions when comparing {competitor} and LMS Domain.",
+  glanceTitle: "LMS Domain and {competitor} at a glance",
+  glanceUs: "LMS Domain",
+  chooseThemTitle: "When {competitor} may suit you better",
   primaryButton: "Book a demo",
   secondaryButton: "See pricing",
   pages: Object.values(COMPARE_PAGES).map((p) => ({
@@ -76,6 +87,8 @@ export const COMPARE_DEFAULTS: CompareContent = {
     competitorNote: p.competitorPublicInfo?.statement || "",
     competitorNoteSource: p.competitorPublicInfo?.sourceUrl || "",
     competitorNoteChecked: p.competitorPublicInfo?.checkedOn || "",
+    glance: (p.glance || []).map((g) => ({ ...g })),
+    chooseThem: [...(p.chooseThem || [])],
   })),
 };
 
@@ -111,11 +124,27 @@ export function mergeCompare(admin: unknown): CompareContent {
         competitorNote: str(p.competitorNote),
         competitorNoteSource: /^https:\/\//i.test(str(p.competitorNoteSource)) ? str(p.competitorNoteSource) : "",
         competitorNoteChecked: str(p.competitorNoteChecked),
+        glance: (Array.isArray(p.glance) ? p.glance : [])
+          .map((g) => ({ label: str(g?.label), us: str(g?.us), them: str(g?.them) }))
+          .filter((g) => g.label && g.us && g.them),
+        chooseThem: strings(p.chooseThem),
       };
     })
     // A page needs an address, a competitor and a heading; addresses must be unique
     .filter((p) => SLUG.test(p.slug) && p.competitorName && p.title && !seen.has(p.slug) && !!seen.add(p.slug));
   if (!c.pages.length) c.pages = base.pages;
+  // An admin entry saved before the table existed: use the built-in table, honest
+  // section and source for that page until the admin fills its own.
+  c.pages = c.pages.map((p) => {
+    const d = base.pages.find((b) => b.slug === p.slug);
+    if (!d || p.glance.length) return p;
+    return {
+      ...p,
+      glance: d.glance,
+      chooseThem: p.chooseThem.length ? p.chooseThem : d.chooseThem,
+      ...(p.competitorNoteSource ? {} : { competitorNote: d.competitorNote, competitorNoteSource: d.competitorNoteSource, competitorNoteChecked: d.competitorNoteChecked }),
+    };
+  });
   return c;
 }
 

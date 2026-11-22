@@ -123,6 +123,51 @@ export default async function ComparePageRoute({ params }: ComparePageProps) {
         </Container>
       </section>
 
+      {/* 1b. At a glance: our facts and the competitor's, from its own public pages */}
+      {page.glance.length > 0 && (
+        <section className="bg-white pb-[clamp(80px,10vw,136px)]">
+          <Container>
+            <SectionHeading eyebrow="At a glance" title={withCompetitor(content.glanceTitle, page.competitorName)} />
+            <div className="rv-v4 mx-auto mt-10 max-w-[960px] overflow-hidden rounded-[24px] border border-[#ECECF1] lg:mt-14">
+              <table className="w-full border-collapse text-left text-[14.5px] leading-[1.5]">
+                <caption className="sr-only">{withCompetitor(content.glanceTitle, page.competitorName)}</caption>
+                <thead className="bg-[#F4F5F8] text-[13px] font-semibold uppercase tracking-[0.04em] text-[#52525B]">
+                  <tr>
+                    <th scope="col" className="hidden w-[24%] px-5 py-3.5 sm:table-cell">&nbsp;</th>
+                    <th scope="col" className="w-1/2 px-4 py-3.5 text-[#0A0A0B] sm:w-[38%] sm:px-5">{content.glanceUs}</th>
+                    <th scope="col" className="w-1/2 px-4 py-3.5 sm:w-[38%] sm:px-5">{page.competitorName}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {page.glance.map((row, i) => (
+                    <tr key={`${row.label}-${i}`} className="border-t border-[#ECECF1] align-top">
+                      <th scope="row" className="hidden px-5 py-4 font-semibold text-[#0A0A0B] sm:table-cell">{row.label}</th>
+                      <td className="px-4 py-4 text-[#27272A] sm:px-5">
+                        <span className="mb-1 block text-[12.5px] font-semibold text-[#71717A] sm:hidden">{row.label}</span>
+                        {row.us}
+                      </td>
+                      <td className="px-4 py-4 text-[#52525B] sm:px-5">
+                        <span className="mb-1 block text-[12.5px] font-semibold text-transparent sm:hidden" aria-hidden="true">{row.label}</span>
+                        {row.them}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {page.competitorNoteSource && (
+              <p className="rv-v4 mx-auto mt-4 max-w-[960px] text-[13px] leading-[1.55] text-[#71717A]">
+                {page.competitorNote || `${page.competitorName} figures are from its public pages.`}{" "}
+                <a href={page.competitorNoteSource} target="_blank" rel="noopener noreferrer" className="font-semibold text-[#0A0A0B] underline-offset-4 hover:underline">
+                  Source
+                </a>
+                {page.competitorNoteChecked && <span> · checked {page.competitorNoteChecked}. Prices and plans change, so check before you decide.</span>}
+              </p>
+            )}
+          </Container>
+        </section>
+      )}
+
       {/* 2. Who LMS Domain suits */}
       {page.suitsPoints.length > 0 && (
         <section className="bg-white pb-[clamp(80px,10vw,136px)]">
@@ -170,8 +215,25 @@ export default async function ComparePageRoute({ params }: ComparePageProps) {
         </section>
       )}
 
+      {/* 3b. Fair to say: when the competitor may suit someone better */}
+      {page.chooseThem.length > 0 && (
+        <section className="bg-white pt-[clamp(80px,10vw,136px)]">
+          <Container>
+            <SectionHeading eyebrow="Fair to say" title={withCompetitor(content.chooseThemTitle, page.competitorName)} />
+            <ul className="mx-auto mt-10 grid max-w-[960px] gap-3 lg:mt-14">
+              {page.chooseThem.map((point, i) => (
+                <li key={`${point}-${i}`} className="rv-v4 flex items-start gap-3 rounded-[20px] border border-[#ECECF1] px-5 py-4 sm:px-6">
+                  <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-[#71717A]" />
+                  <p className="text-[15.5px] leading-[1.5] text-[#27272A]">{point}</p>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </section>
+      )}
+
       {/* 4. A checked fact about the competitor, with its source */}
-      {page.competitorNote && page.competitorNoteSource && (
+      {page.glance.length === 0 && page.competitorNote && page.competitorNoteSource && (
         <section className="bg-white pt-[clamp(48px,6vw,80px)]">
           <Container>
             <div className="rv-v4 mx-auto flex max-w-[820px] items-start gap-3 rounded-[20px] border border-[#ECECF1] px-5 py-4 text-[14.5px] leading-[1.55] text-[#52525B]">
