@@ -31,7 +31,8 @@ const APPLY = false;
   if (!APPLY) { print("Dry run. Set APPLY = true to add it."); return; }
   const now = new Date();
   db.blogposts.insertOne(Object.assign({}, doc, { isActive: true, isDeleted: false, createdAt: now, updatedAt: now, __v: 0 }));
-  print("Added. The website shows it within about 5 minutes.");
+  print("Added. To show it on the website now, run:");
+  print("  docker exec -i lms-landing-backend node - blog < scripts/revalidate-frontend.js");
 })();
 `;
   fs.writeFileSync(out, js);
