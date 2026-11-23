@@ -20,8 +20,6 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export const dynamicParams = false;
-
 export function generateStaticParams() {
   return INTEGRATIONS.map((i) => ({ slug: i.slug }));
 }
