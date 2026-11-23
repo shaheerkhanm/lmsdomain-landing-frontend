@@ -7,22 +7,21 @@ import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
 import { fullTitle, getMetadataBase } from "@/lib/site";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { pageMetadata } from "@/lib/seo";
-import { INTEGRATIONS, INTEGRATION_CATEGORIES, MORE_INTEGRATIONS } from "@/content/integrations";
+import { getIntegrationPages } from "@/lib/api/content";
+import { categoriesOf } from "@/content/integrations-editable";
 
-/* /integrations: the tools LMS Domain connects with (content/integrations.ts). */
-
-const TITLE = "Integrations: Zoom, Google Meet, Teams, Razorpay, Stripe and WhatsApp";
-const DESCRIPTION =
-  "LMS Domain connects with Zoom, Google Meet and Microsoft Teams for live classes, Razorpay, Paytm, Stripe and DOKU for payments, and WhatsApp for reminders. On every plan.";
+/* /integrations: the tools LMS Domain connects with (Admin > Website > Integrations). */
 
 export async function generateMetadata(): Promise<Metadata> {
+  const c = await getIntegrationPages();
   return pageMetadata(
-    { metadataBase: getMetadataBase(), title: fullTitle(TITLE), description: DESCRIPTION, alternates: { canonical: "/integrations" } },
+    { metadataBase: getMetadataBase(), title: fullTitle(c.hubMetaTitle), description: c.hubMetaDescription, alternates: { canonical: "/integrations" } },
     { seo: "integrations", image: "platform" }
   );
 }
 
-export default function IntegrationsIndexRoute() {
+export default async function IntegrationsIndexRoute() {
+  const c = await getIntegrationPages();
   return (
     <div className="v5 relative bg-white font-sans text-[#0A0A0B] selection:bg-[#0A0A0B] selection:text-white">
       <JsonLdScript
@@ -53,20 +52,20 @@ export default function IntegrationsIndexRoute() {
             style={{ "--d": "90ms" } as React.CSSProperties}
             className="v5-rise mx-auto mt-5 max-w-[860px] font-urbanist text-[clamp(36px,5.6vw,68px)] font-semibold leading-[1.03] tracking-[-0.04em] [text-wrap:balance]"
           >
-            Works with the tools your academy already uses
+            {c.hubTitle}
           </h1>
           <p style={{ "--d": "180ms" } as React.CSSProperties} className="v5-rise mx-auto mt-5 max-w-[640px] text-[17px] leading-[1.6] text-[#52525B]">
-            Teach live on Zoom, Google Meet or Teams, get paid through your own Razorpay or Stripe account, and remind learners on WhatsApp. All on every plan.
+            {c.hubSubtitle}
           </p>
         </Container>
       </section>
 
-      {INTEGRATION_CATEGORIES.map((cat) => (
+      {categoriesOf(c.pages).map((cat) => (
         <section key={cat} className="bg-white pb-[clamp(48px,6vw,80px)]">
           <Container>
             <h2 className="font-urbanist text-[24px] font-semibold tracking-[-0.02em]">{cat}</h2>
             <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {INTEGRATIONS.filter((i) => i.category === cat).map((i, n) => (
+              {c.pages.filter((i) => i.category === cat).map((i, n) => (
                 <Link
                   key={i.slug}
                   href={`/integrations/${i.slug}`}
@@ -90,9 +89,9 @@ export default function IntegrationsIndexRoute() {
       <section className="px-2 sm:px-3">
         <div className="rounded-[28px] bg-[#F4F5F8] py-[clamp(56px,7vw,96px)] sm:rounded-[40px]">
           <Container>
-            <SectionHeading eyebrow="Also connects" title="More ways to plug in" />
+            <SectionHeading eyebrow={c.moreEyebrow} title={c.moreTitle} />
             <ul className="mx-auto mt-10 grid max-w-[1000px] gap-3 sm:grid-cols-2 lg:mt-14">
-              {MORE_INTEGRATIONS.map((m) => (
+              {c.more.map((m) => (
                 <li key={m.name} className="rv-v4 rounded-[20px] bg-white px-6 py-5">
                   <p className="font-urbanist text-[18px] font-semibold">{m.name}</p>
                   <p className="mt-1 text-[14.5px] leading-[1.55] text-[#52525B]">{m.text}</p>

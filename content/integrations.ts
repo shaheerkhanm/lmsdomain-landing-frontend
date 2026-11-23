@@ -15,7 +15,8 @@ export type IntegrationCategory = "Live classes" | "Payments" | "Messages";
 export interface IntegrationPage {
   slug: string;
   name: string;
-  category: IntegrationCategory;
+  /** Group on /integrations, e.g. Live classes, Payments or Messages. */
+  category: IntegrationCategory | (string & {});
   /** One line for the cards on /integrations */
   summary: string;
   metaTitle: string;

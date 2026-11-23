@@ -25,6 +25,7 @@ export const SITE_PAGES: readonly PageDefinition[] = [
   { slug: "roadmap", path: "/roadmap" },
   { slug: "blog", path: "/resources/blog" },
   { slug: "compare", path: "/compare" },
+  { slug: "integrations", path: "/integrations" },
   { slug: "about", path: "/about" },
   { slug: "contact", path: "/contact" },
   { slug: "demo", path: "/demo" },

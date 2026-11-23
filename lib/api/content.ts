@@ -24,6 +24,7 @@ import { HOME_SLUGS, mergeHomeSection, type HomeSections, type HomeSection } fro
 import { PLATFORM_PAGES, mergePlatform, type PlatformContent, type PlatformKey } from "@/content/platform/editable";
 import { PLATFORM_OVERVIEW_SLUG, mergePlatformOverview, type PlatformOverviewContent } from "@/content/platform/overview-editable";
 import { COMPARE_SLUG, mergeCompare, type CompareContent } from "@/content/compare/editable";
+import { INTEGRATIONS_SLUG, mergeIntegrations, type IntegrationsContent } from "@/content/integrations-editable";
 import { ROADMAP_DEFAULTS, ROADMAP_SLUGS, mergeRoadmapSection, type RoadmapContent, type RoadmapSection } from "@/content/roadmap";
 import type {
   CmsDocument,
@@ -1675,4 +1676,14 @@ export const getComparePages = cache(async (): Promise<CompareContent> => {
   const { slug } = COMPARE_SLUG;
   const doc = await fetchCms(slug, ["cms", `cms:${slug}`, "compare"]).catch(() => null);
   return mergeCompare(doc?.data);
+});
+
+// ----------------------------------------------------------------------------
+// Integration pages (Admin > Website > Integrations): one CMS entry with the hub
+// text, shared headings, the "Also connects" list and the pages.
+// ----------------------------------------------------------------------------
+export const getIntegrationPages = cache(async (): Promise<IntegrationsContent> => {
+  const { slug } = INTEGRATIONS_SLUG;
+  const doc = await fetchCms(slug, ["cms", `cms:${slug}`, "integrations"]).catch(() => null);
+  return mergeIntegrations(doc?.data);
 });
