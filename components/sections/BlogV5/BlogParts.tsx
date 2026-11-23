@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, BookOpen, Check, CreditCard, Eye, Globe, Lock, PlayCircle, ShieldCheck, Smartphone, Users, Video } from "lucide-react";
+import { ArrowUpRight, Bell, BookOpen, Check, CreditCard, Download, Eye, Globe, Lock, PlayCircle, ShieldCheck, Smartphone, Star, Users, Video } from "lucide-react";
 import { BLOG_META, type BlogPost, type BlogCoverStyle } from "@/content/blog/posts";
 export { BLOG_META };
 import { cn } from "@/lib/utils";
@@ -15,6 +15,7 @@ const COVER_STYLE: Record<BlogCoverStyle, { tone: string; ink: string }> = {
   lms: { tone: "#E6F4F1", ink: "#0D9488" },
   sell: { tone: "#FFF1E8", ink: "#EA580C" },
   protect: { tone: "#FDEEF3", ink: "#DB2777" },
+  app: { tone: "#E8F1FF", ink: "#2563EB" },
 };
 type CoverInput = Pick<BlogPost, "slug"> & Partial<Pick<BlogPost, "category" | "cover" | "coverImage">>;
 /** Cover and label for a post: its own settings (Admin > Blog), else the built-in ones, else defaults. */
@@ -27,10 +28,32 @@ export const metaFor = (post: CoverInput) => {
 const panel = "rounded-[12px] border border-[#EDEDF1] bg-white shadow-[0_1px_2px_rgba(16,16,24,0.05),0_14px_30px_-16px_rgba(16,16,24,0.28)]";
 
 function Art({ kind, ink }: { kind: BlogCoverStyle; ink: string }) {
+  if (kind === "app")
+    return (
+      <div className="relative h-[150px] w-[230px]">
+        <div className={cn("absolute bottom-0 left-4 h-[150px] w-[92px] overflow-hidden rounded-[16px] border-[3px] border-[#18181B] bg-white", "shadow-[0_14px_30px_-16px_rgba(16,16,24,0.4)]")}>
+          <div className="px-2 py-2 text-[8px] font-semibold text-white" style={{ background: ink }}>Apex Academy</div>
+          <div className="space-y-1 p-1.5">
+            {[PlayCircle, Video, BookOpen].map((I, k) => (
+              <p key={k} className="flex items-center gap-1 rounded-[5px] bg-[#F4F5F8] px-1.5 py-1">
+                <I className="h-2.5 w-2.5" style={{ color: ink }} />
+                <span className="h-1 flex-1 rounded-full bg-[#E4E4E7]" />
+              </p>
+            ))}
+          </div>
+        </div>
+        <span className={cn("absolute right-0 top-3 flex w-[150px] items-center gap-2 p-2", panel)}>
+          <span className="grid h-6 w-6 shrink-0 place-items-center rounded-[7px] text-white" style={{ background: ink }}>
+            <Bell className="h-3 w-3" />
+          </span>
+          <span className="text-[9.5px] leading-tight text-[#27272A]"><b className="font-semibold">Live class</b> starts in 15 min</span>
+        </span>
+      </div>
+    );
   if (kind === "protect")
     return (
       <div className="relative w-[230px]">
-        <div className={cn("relative h-[104px] overflow-hidden bg-[#141420]", panel)}>
+        <div className={cn(panel, "relative h-[104px] overflow-hidden border-[#141420] bg-[#141420]")}>
           <span className="absolute inset-0 grid place-items-center">
             <PlayCircle className="h-8 w-8 text-white/80" />
           </span>
@@ -113,6 +136,63 @@ const shade = "shadow-[0_2px_4px_rgba(0,0,0,0.12),0_30px_60px_-24px_rgba(0,0,0,0
 
 /** Large layered scene for the featured card and article covers. Sample data only. */
 function BigScene({ kind, ink }: { kind: BlogCoverStyle; ink: string }) {
+  if (kind === "app")
+    return (
+      <div className="relative h-[300px] w-[440px]">
+        {/* the academy's own app on a phone */}
+        <div className={cn("absolute left-6 top-0 h-[300px] w-[160px] overflow-hidden rounded-[28px] border-[5px] border-[#18181B] bg-white", shade)}>
+          <div className="px-3 pb-3 pt-4" style={{ background: ink }}>
+            <p className="text-[9px] text-white/70">Good evening, Riya</p>
+            <p className="text-[13px] font-semibold text-white">Apex Academy</p>
+          </div>
+          <div className="space-y-1.5 p-2.5">
+            {[
+              [Video, "Physics live · 18:00"],
+              [PlayCircle, "Lesson 12 · Optics"],
+              [BookOpen, "Mock test 4"],
+              [Download, "2 lessons offline"],
+            ].map(([I, t]) => {
+              const Icon = I as React.ElementType;
+              return (
+                <p key={t as string} className="flex items-center gap-1.5 rounded-[8px] bg-[#F4F5F8] px-2 py-1.5 text-[9.5px] text-[#27272A]">
+                  <Icon className="h-3 w-3 shrink-0" style={{ color: ink }} />
+                  {t as string}
+                </p>
+              );
+            })}
+          </div>
+          <div className="absolute inset-x-0 bottom-0 flex justify-around border-t border-[#F1F1F4] bg-white py-2">
+            {[Globe, PlayCircle, Users].map((I, k) => (
+              <I key={k} className="h-3.5 w-3.5" style={{ color: k === 0 ? ink : "#A1A1AA" }} />
+            ))}
+          </div>
+        </div>
+        {/* store listing */}
+        <div className={cn("mo-float absolute right-0 top-6 w-[250px] rounded-[16px] bg-white p-3.5", shade)} style={{ "--fd": "-1s" } as React.CSSProperties}>
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[11px] font-urbanist text-[15px] font-bold text-white" style={{ background: ink }}>A</span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[12px] font-semibold text-[#18181B]">Apex Academy</p>
+              <p className="text-[10px] text-[#71717A]">Education</p>
+            </div>
+            <span className="rounded-full px-3 py-1 text-[10px] font-semibold text-white" style={{ background: ink }}>Install</span>
+          </div>
+          <p className="mt-2 inline-flex items-center gap-1 text-[10px] text-[#71717A]">
+            <Star className="h-3 w-3 fill-[#F59E0B] text-[#F59E0B]" /> Your name in Google Play and the App Store
+          </p>
+        </div>
+        {/* push notification */}
+        <div className={cn("mo-float absolute bottom-6 right-4 flex w-[220px] items-center gap-2.5 rounded-[14px] bg-white p-3", shade)} style={{ "--fd": "-3s" } as React.CSSProperties}>
+          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-[9px] text-white" style={{ background: ink }}>
+            <Bell className="h-4 w-4" />
+          </span>
+          <div>
+            <p className="text-[11px] font-semibold text-[#18181B]">Apex Academy</p>
+            <p className="text-[10px] text-[#71717A]">Physics live class starts in 15 min</p>
+          </div>
+        </div>
+      </div>
+    );
   if (kind === "protect")
     return (
       <div className="relative h-[300px] w-[440px]">

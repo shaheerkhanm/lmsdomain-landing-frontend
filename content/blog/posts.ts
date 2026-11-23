@@ -12,23 +12,24 @@ export interface BlogPost {
   faqs: { question: string; answer: string }[];
   /** Label on the cover and blog list (Admin > Blog). Built-in posts: see BLOG_META. */
   category?: string;
-  /** Cover design: "start" (steps), "lms" (course screen), "sell" (checkout) or "protect" (watermarked player). */
+  /** Cover design: "start" (steps), "lms" (course screen), "sell" (checkout), "protect" (watermarked player) or "app" (phone with your app). */
   cover?: BlogCoverStyle;
   /** Cover photo uploaded in Admin > Blog (/uploads/... or https). Replaces the drawn cover. */
   coverImage?: string;
 }
 
-export type BlogCoverStyle = "start" | "lms" | "sell" | "protect";
+export type BlogCoverStyle = "start" | "lms" | "sell" | "protect" | "app";
 
 /** Cover and label of the built-in posts (posts from the admin carry their own). */
 export const BLOG_META: Record<string, { category: string; tone: string; ink: string; art: BlogCoverStyle }> = {
   "how-to-start-an-online-academy-in-india": { category: "Getting started", tone: "#F1EDFF", ink: "#6C4BFF", art: "start" },
   "what-is-an-lms-guide-for-coaching-institutes": { category: "LMS basics", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
+  "how-to-get-your-own-coaching-app": { category: "Mobile apps", tone: "#E8F1FF", ink: "#2563EB", art: "app" },
   "how-to-stop-screen-recording-of-course-videos": { category: "Content protection", tone: "#FDEEF3", ink: "#DB2777", art: "protect" },
   "best-lms-for-coaching-institutes-in-india": { category: "Choosing an LMS", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
   "how-to-sell-courses-online-in-india-with-gst-invoices": { category: "Selling courses", tone: "#FFF1E8", ink: "#EA580C", art: "sell" },
 };
-export const BLOG_COVER_STYLES: BlogCoverStyle[] = ["start", "lms", "sell", "protect"];
+export const BLOG_COVER_STYLES: BlogCoverStyle[] = ["start", "lms", "sell", "protect", "app"];
 
 const decode = (s: string) =>
   s.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&#0?39;|&apos;/g, "'").replace(/&quot;/g, '"').trim();
@@ -582,6 +583,135 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
         question: "Does LMS Domain block screen recording on every plan?",
         answer:
           "Yes. Every plan includes DRM video, a watermark with the learner's details, and a screen-recording and screenshot block while lessons play in the Android and iOS apps.",
+      },
+    ],
+  },
+  "how-to-get-your-own-coaching-app": {
+    slug: "how-to-get-your-own-coaching-app",
+    title: "How to get your own coaching app: options, store accounts and what to check",
+    subtitle:
+      "A practical guide for coaching institutes and academies: shared app or your own branded app, how publishing in Google Play and the App Store works, and the questions to ask before you choose.",
+    metaTitle: "How to Get Your Own Coaching App (Android and iOS) | LMS Domain",
+    metaDescription:
+      "How to get your own coaching app for Android and iOS: shared vs branded apps, building vs white-label, Google Play and App Store accounts, and what to check before you choose.",
+    date: "2026-11-23",
+    readingTime: "5 min read",
+    author: "LMS Domain Editorial Team",
+    toc: [
+      { id: "do-you-need-one", title: "1. Do you need your own app?" },
+      { id: "three-ways", title: "2. Three ways to get an app" },
+      { id: "what-it-should-do", title: "3. What a coaching app should do" },
+      { id: "store-accounts", title: "4. Publishing in Google Play and the App Store" },
+      { id: "selling-in-app", title: "5. Selling courses inside the app" },
+      { id: "checklist", title: "6. Questions to ask before you choose" },
+      { id: "lms-domain", title: "7. How it works on LMS Domain" },
+      { id: "faqs", title: "Frequently asked questions" },
+    ],
+    content: `
+<p>Most students in a coaching institute study on their phone. Parents ask for "the app", competitors advertise theirs, and an app with your name on it in the Play Store looks established. So sooner or later every institute asks: <em>how do we get our own app?</em></p>
+
+<p>There are three ways to do it, and they differ a lot in cost, effort and who owns what. This guide explains each one, how publishing in Google Play and the App Store works, and what to check before you choose.</p>
+
+<blockquote><strong>Short answer:</strong> start with a shared app from your LMS so students can learn on their phones from day one. When your brand matters enough, move to a branded app built on the same platform, published in your own store accounts. Building an app from scratch only makes sense if you have a development team to keep it running.</blockquote>
+
+<h2 id="do-you-need-one">1. Do you need your own app?</h2>
+<p>Not on day one. What students need is to watch lessons, join live classes and take tests easily on a phone. That can come from three places:</p>
+<ul>
+  <li><strong>Your website in the phone's browser.</strong> Works on any phone with nothing to install, but there are no push alerts, offline downloads or in-app protection.</li>
+  <li><strong>A shared app.</strong> Your LMS provider's app in the stores, where students open your academy. Full app features from the first day, but the store listing carries the provider's name.</li>
+  <li><strong>Your own branded app.</strong> Your academy's name, logo and colours in Google Play and the App Store. It builds trust and keeps your brand in front of students every time they unlock their phone.</li>
+</ul>
+<p>A branded app matters most when you have enough students that brand recognition affects enrolments, or when you advertise and want people to search for your name in the stores.</p>
+
+<h2 id="three-ways">2. Three ways to get an app</h2>
+<table>
+  <thead><tr><th>Option</th><th>What to expect</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Build from scratch</strong> with an agency or your own developers</td><td>Full control, but you pay for the build and for every update. Video protection, live classes, tests and payments all have to be built and maintained, and both stores change their rules every year.</td></tr>
+    <tr><td><strong>Branded (white-label) app</strong> from your LMS</td><td>Your name and look on an app the provider already maintains. Features and fixes arrive with the platform. Check which plan includes it and whose store account it's published in.</td></tr>
+    <tr><td><strong>Shared app</strong> from your LMS</td><td>Nothing to publish. Students download the provider's app and open your academy inside it. The quickest start, with the provider's name on the listing.</td></tr>
+  </tbody>
+</table>
+<p>For most coaching institutes, the white-label route is the sweet spot: it looks like your own app, without you running a software project.</p>
+
+<h2 id="what-it-should-do">3. What a coaching app should do</h2>
+<p>Whichever route you take, test the app against how your students actually study:</p>
+<ul>
+  <li><strong>Protected lessons:</strong> encrypted video, a watermark with the student's details, and screen recording blocked while lessons play.</li>
+  <li><strong>Live classes:</strong> one tap from the timetable into the class, with attendance recorded.</li>
+  <li><strong>Tests:</strong> timed mock tests with results straight after.</li>
+  <li><strong>Offline downloads:</strong> students on weak or expensive data can watch lessons later without internet.</li>
+  <li><strong>Push notifications:</strong> class, test and announcement alerts.</li>
+  <li><strong>Buying courses in the app:</strong> students browse your catalogue and enrol without going to a website.</li>
+  <li><strong>Separate logins for staff:</strong> teachers and admins sign in with their own accounts, not a shared one.</li>
+  <li><strong>Their language:</strong> students learn better in the language they're most comfortable with.</li>
+</ul>
+
+<h2 id="store-accounts">4. Publishing in Google Play and the App Store</h2>
+<p>A branded app has to be published from a developer account in each store. There are two ways to do this:</p>
+<ul>
+  <li><strong>In your own developer accounts.</strong> The listing, its reviews and its download history belong to your institute. If you ever change provider, the listing stays yours. This is the better option for most institutes.</li>
+  <li><strong>In your provider's accounts.</strong> Less paperwork for you, but the listing sits in someone else's account. Ask what happens to it if you leave.</li>
+</ul>
+<p>If you open your own accounts, plan for these:</p>
+<ul>
+  <li><strong>Store fees:</strong> Google Play charges a one-time registration fee (US$25 at the time of writing). Apple's Developer Program costs US$99 a year. These are paid to Google and Apple, not to your LMS provider.</li>
+  <li><strong>Register as an organisation:</strong> open the accounts in your institute's name rather than a personal name. Both stores ask organisations for a D-U-N-S number, a free business identifier that can take some days to get, so apply early.</li>
+  <li><strong>Store review:</strong> both stores review every app before it goes live and review updates too. Google also has extra testing steps for some new accounts. Allow time for this before a launch date you've announced.</li>
+</ul>
+<p>Store rules change, so check Google's and Apple's current requirements when you start.</p>
+
+<h2 id="selling-in-app">5. Selling courses inside the app</h2>
+<p>Google and Apple both have rules about selling digital content, such as recorded courses, inside apps, and the rules differ between the two stores and by country. Before you launch, ask your provider how course purchases work in each store, and whether any store fees apply to sales made inside the app.</p>
+
+<h2 id="checklist">6. Questions to ask before you choose</h2>
+<ol>
+  <li>Is there a shared app on my plan, and which plan includes a branded app?</li>
+  <li>Will the branded app be published in my store accounts or yours, and what happens to it if I leave?</li>
+  <li>Are video protection, live classes and tests the same in the app as on the website?</li>
+  <li>Can students download lessons and watch them offline?</li>
+  <li>Who handles store reviews, updates and new phone versions?</li>
+  <li>How do course purchases inside the app work in each store?</li>
+</ol>
+
+<h2 id="lms-domain">7. How it works on LMS Domain</h2>
+<ul>
+  <li><strong>Every plan:</strong> the LMS Domain app for Android and iOS. Students open your academy inside it, with protected lessons, live classes on Zoom, Google Meet or Microsoft Teams, timed tests, offline downloads and push notifications.</li>
+  <li><strong>Pro and Enterprise:</strong> your own branded Android and iOS app with your academy's name, logo and colours. You send us your app name, logo and colours; we build it and help with the store listing.</li>
+  <li><strong>Store accounts:</strong> we help you publish in your own Google Play and Apple developer accounts, and you pay the store fees. If you prefer, we publish it in our accounts instead.</li>
+</ul>
+<p>Read more about <a href="/platform/mobile-app">the mobile app</a>, compare plans on the <a href="/pricing">pricing page</a>, or <a href="/demo">book a demo</a> and we'll show you the app on a real phone.</p>
+`,
+    faqs: [
+      {
+        question: "How can I get my own app for my coaching institute?",
+        answer:
+          "You can build one from scratch with developers, get a branded (white-label) app from your LMS provider, or start with your provider's shared app. A branded app from your LMS gives you your own name and look without running a software project. On LMS Domain, the branded app is on Pro and Enterprise.",
+      },
+      {
+        question: "What is the difference between a shared app and a branded app?",
+        answer:
+          "In a shared app, students download the provider's app and open your academy inside it. A branded app is your own listing in Google Play and the App Store, with your academy's name, logo and colours.",
+      },
+      {
+        question: "Do I need my own Google Play and Apple developer accounts?",
+        answer:
+          "Not always, but it's usually better. In your own accounts, the listing, reviews and downloads belong to your institute. On LMS Domain we help you publish in your own accounts, and you pay the store fees; or we can publish in ours.",
+      },
+      {
+        question: "How much do Google Play and Apple developer accounts cost?",
+        answer:
+          "At the time of writing, Google Play charges a one-time US$25 registration fee and Apple's Developer Program costs US$99 a year. Check both stores for current prices.",
+      },
+      {
+        question: "Can students download lessons and watch offline in the app?",
+        answer:
+          "On LMS Domain, yes. Students can download lessons in the app and watch them later without internet.",
+      },
+      {
+        question: "Is screen recording blocked in the app?",
+        answer:
+          "Yes. On LMS Domain, screen recording is blocked while lessons play in the Android and iOS apps, on every plan, and videos are DRM-encrypted with a watermark showing the learner's details.",
       },
     ],
   },
