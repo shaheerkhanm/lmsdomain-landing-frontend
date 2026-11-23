@@ -333,3 +333,125 @@ export const MORE_INTEGRATIONS: { name: string; text: string }[] = [
 export const INTEGRATION_CATEGORIES: IntegrationCategory[] = ["Live classes", "Payments", "Messages"];
 
 export const getIntegration = (slug: string) => INTEGRATIONS.find((i) => i.slug === slug);
+
+// ----------------------------------------------------------------------------
+// Integrations directory (/integrations): every tool LMS Domain works with.
+// Marked by the product owner on 2026-11-24. Live ones show; "live: false" ones
+// are planned and stay hidden until switched on in Admin > Website > Integrations.
+// plan "" = no plan label (not confirmed). connect: "own" = the academy connects
+// its own account; "built" = works without connecting anything.
+// ----------------------------------------------------------------------------
+export type DirectoryPlan = "" | "every" | "growth" | "pro" | "enterprise";
+export interface DirectoryItem {
+  name: string;
+  category: string;
+  text: string;
+  plan: DirectoryPlan;
+  connect: "own" | "built";
+  live: boolean;
+  /** Address of its own page under /integrations, if it has one */
+  page: string;
+  /** Logo name from components/brand/PartnerMarks (empty: a name tile) */
+  logo: string;
+}
+
+export const DIRECTORY_CATEGORIES = [
+  "Live classes",
+  "Payments",
+  "WhatsApp and SMS",
+  "Email",
+  "Video",
+  "Sign-in and SSO",
+  "Course content",
+  "Automation and developers",
+  "Marketing and analytics",
+  "CRM",
+  "Apps and notifications",
+  "Certificates",
+  "Accounting",
+  "Calendar and community",
+  "AI",
+];
+
+const d = (name: string, category: string, text: string, plan: DirectoryPlan, connect: "own" | "built", live = true, page = "", logo = ""): DirectoryItem => ({ name, category, text, plan, connect, live, page, logo });
+
+export const DIRECTORY: DirectoryItem[] = [
+  // Live classes
+  d("Zoom", "Live classes", "Meetings created for every class, with attendance and recordings.", "every", "own", true, "zoom", "Zoom"),
+  d("Google Meet", "Live classes", "Meet links for every class, with attendance and recordings.", "every", "own", true, "google-meet", "Google Meet"),
+  d("Microsoft Teams", "Live classes", "Teams meetings for every class, with attendance and recordings.", "every", "own", true, "microsoft-teams", "Microsoft Teams"),
+  d("YouTube Live", "Live classes", "Stream classes from your own YouTube channel.", "", "own", true, "", "YouTube"),
+  d("Vimeo Live", "Live classes", "Stream classes from your own Vimeo account.", "", "own", true, "", "Vimeo"),
+  // Payments
+  d("Razorpay", "Payments", "UPI, cards and netbanking, paid straight into your account.", "every", "own", true, "razorpay", "Razorpay"),
+  d("Paytm", "Payments", "UPI and the Paytm wallet, through your own Paytm account.", "every", "own", true, "", "Paytm"),
+  d("Cashfree", "Payments", "Collect fees through your own Cashfree account.", "", "own"),
+  d("Stripe", "Payments", "Cards and local payment methods, paid to your own Stripe account.", "every", "own", true, "stripe", "Stripe"),
+  d("DOKU", "Payments", "Payments for learners in Indonesia and Southeast Asia.", "every", "own", true, "", "DOKU"),
+  d("Apple Pay and Google Pay", "Payments", "One-tap wallet payments at checkout.", "growth", "own", true, "", "Apple Pay"),
+  d("In-app purchases", "Payments", "Learners buy courses inside the App Store and Google Play apps.", "growth", "own"),
+  d("Offline payments", "Payments", "Record UPI QR and bank transfer payments.", "growth", "built"),
+  d("GST invoices", "Payments", "Automatic GST invoices for academies in India. B2B invoices from Growth.", "every", "built"),
+  // WhatsApp and SMS
+  d("WhatsApp Business", "WhatsApp and SMS", "Class and payment reminders from your own WhatsApp Business number.", "every", "own", true, "whatsapp", "WhatsApp"),
+  d("Twilio WhatsApp", "WhatsApp and SMS", "Send WhatsApp messages through your own Twilio account.", "every", "own", true, "", "Twilio"),
+  d("MSG91", "WhatsApp and SMS", "SMS and OTPs through your own MSG91 account.", "every", "own"),
+  d("Textlocal", "WhatsApp and SMS", "SMS through your own Textlocal account.", "every", "own"),
+  d("Twilio SMS", "WhatsApp and SMS", "SMS worldwide through your own Twilio account.", "", "own", true, "", "Twilio"),
+  d("Fast2SMS", "WhatsApp and SMS", "SMS in India through your own Fast2SMS account.", "", "own"),
+  d("Amazon SNS", "WhatsApp and SMS", "SMS through your own AWS account.", "", "own", true, "", "AWS"),
+  d("Gupshup", "WhatsApp and SMS", "WhatsApp and SMS through Gupshup.", "", "own", false),
+  d("WATI", "WhatsApp and SMS", "WhatsApp through WATI.", "", "own", false),
+  // Email
+  d("Amazon SES", "Email", "Send your academy's emails from your own Amazon SES account.", "", "own", true, "", "Amazon SES"),
+  d("SendGrid", "Email", "Send your academy's emails through your own SendGrid account.", "", "own", true, "", "SendGrid"),
+  d("Mailgun", "Email", "Send your academy's emails through your own Mailgun account.", "", "own", true, "", "Mailgun"),
+  d("Brevo", "Email", "Send your academy's emails through your own Brevo account.", "", "own", true, "", "Brevo"),
+  // Video
+  d("Vimeo", "Video", "Add lessons from your own Vimeo account.", "every", "own", true, "", "Vimeo"),
+  d("YouTube", "Video", "Add lessons from unlisted YouTube videos.", "", "own", true, "", "YouTube"),
+  d("Cloudflare Stream", "Video", "Protected video streaming, built in.", "", "built", true, "", "Cloudflare"),
+  d("AWS video", "Video", "Video storage and delivery on AWS, built in.", "", "built", true, "", "AWS"),
+  d("Bunny Stream", "Video", "Video hosting on Bunny.", "", "own", false),
+  d("Google Drive", "Video", "Add files from Google Drive.", "", "own", false),
+  // Sign-in and SSO
+  d("Google login", "Sign-in and SSO", "Learners sign in with their Google account.", "growth", "built", true, "", "Google"),
+  d("Microsoft login", "Sign-in and SSO", "Learners sign in with their Microsoft account.", "", "built"),
+  d("Mobile OTP login", "Sign-in and SSO", "Learners sign in with a one-time code on their phone.", "", "built"),
+  d("SAML single sign-on", "Sign-in and SSO", "Staff and learners sign in with your company's identity provider.", "pro", "own"),
+  d("OpenID Connect SSO", "Sign-in and SSO", "Single sign-on with any OpenID Connect provider.", "pro", "built"),
+  d("Microsoft Entra ID", "Sign-in and SSO", "Single sign-on with Microsoft Entra ID.", "", "own", false),
+  // Course content
+  d("SCORM", "Course content", "Import SCORM courses.", "growth", "built"),
+  d("xAPI", "Course content", "Import xAPI (Tin Can) content.", "growth", "built"),
+  // Automation and developers
+  d("Public API", "Automation and developers", "Connect your own systems through the LMS Domain API.", "growth", "built"),
+  d("Webhooks", "Automation and developers", "Send events from your academy to your own systems.", "growth", "built"),
+  d("Zapier", "Automation and developers", "Connect LMS Domain to thousands of apps without code.", "", "built", true, "", "Zapier"),
+  d("Google Sheets", "Automation and developers", "Sync learners and sales to Google Sheets.", "", "own", false),
+  // Marketing and analytics
+  d("Custom tracking code", "Marketing and analytics", "Add your own header and footer code, such as analytics or ad pixels.", "every", "built"),
+  d("Google Analytics 4", "Marketing and analytics", "Measure visits and sign-ups.", "", "own", false),
+  d("LinkedIn Insight Tag", "Marketing and analytics", "Track LinkedIn ad conversions.", "", "own", false),
+  d("Mailchimp", "Marketing and analytics", "Sync learners to Mailchimp lists.", "", "own", false),
+  d("Brevo marketing", "Marketing and analytics", "Sync learners to Brevo lists.", "", "own", false),
+  d("Zoho Campaigns", "Marketing and analytics", "Sync learners to Zoho Campaigns.", "", "own", false),
+  // CRM
+  d("HubSpot", "CRM", "Send leads and enrolments to HubSpot.", "", "own", false),
+  d("Zoho CRM", "CRM", "Send leads and enrolments to Zoho CRM.", "", "own", false),
+  // Apps and notifications
+  d("Push notifications", "Apps and notifications", "Class, test and announcement alerts in the mobile apps, through Firebase.", "every", "built", true, "", "Firebase"),
+  // Certificates
+  d("Credly", "Certificates", "Issue digital badges on Credly.", "", "own", false),
+  d("Accredible", "Certificates", "Issue certificates on Accredible.", "", "own", false),
+  d("Add to LinkedIn", "Certificates", "Learners add certificates to their LinkedIn profile.", "", "built", false),
+  // Accounting
+  d("Zoho Books", "Accounting", "Send invoices and payments to Zoho Books.", "", "own", false),
+  // Calendar and community
+  d("Google Calendar", "Calendar and community", "Classes in learners' Google Calendar.", "", "own", false),
+  d("Slack", "Calendar and community", "Course updates in your Slack workspace.", "", "own", false),
+  // AI
+  d("OpenAI", "AI", "Powers Domie AI (Pro).", "pro", "built", true, "", "OpenAI"),
+  d("Anthropic Claude", "AI", "AI models from Anthropic.", "", "built", false),
+  d("Google Gemini", "AI", "AI models from Google.", "", "built", false),
+];

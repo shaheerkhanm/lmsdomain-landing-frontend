@@ -166,6 +166,7 @@ export const DEFAULT_FOOTER_COLUMNS: FooterColumn[] = [
       { title: "Domie AI", href: "/platform/ai" },
       { title: "Security & Hosting", href: "/platform/security" },
       { title: "Mobile Apps", href: "/platform/mobile-app" },
+      { title: "Integrations", href: "/integrations" },
       { title: "All Features", href: "/platform" },
     ],
   },

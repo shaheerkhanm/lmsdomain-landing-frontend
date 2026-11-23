@@ -7,16 +7,25 @@
 // ============================================================================
 
 import { mergeSection } from "./merge";
-import { INTEGRATIONS, MORE_INTEGRATIONS, type IntegrationPage } from "./integrations";
+import { INTEGRATIONS, DIRECTORY, DIRECTORY_CATEGORIES, type DirectoryItem, type DirectoryPlan, type IntegrationPage } from "./integrations";
 
 export interface IntegrationsContent {
   hubMetaTitle: string;
   hubMetaDescription: string;
   hubTitle: string;
   hubSubtitle: string;
-  moreEyebrow: string;
-  moreTitle: string;
-  more: { name: string; text: string }[];
+  /** Big cards for the integrations with their own page */
+  featuredEyebrow: string;
+  featuredTitle: string;
+  /** Every integration, grouped by category; only "live" ones show */
+  directoryEyebrow: string;
+  directoryTitle: string;
+  directorySubtitle: string;
+  directory: DirectoryItem[];
+  /** Homepage logo strip */
+  stripEyebrow: string;
+  stripTitle: string;
+  stripLink: string;
   /** Headings on each page; "{name}" becomes the integration's name. */
   tableEyebrow: string;
   stepsEyebrow: string;
@@ -39,9 +48,15 @@ export const INTEGRATIONS_DEFAULTS: IntegrationsContent = {
   hubTitle: "Works with the tools your academy already uses",
   hubSubtitle:
     "Teach live on Zoom, Google Meet or Teams, get paid through your own Razorpay or Stripe account, and remind learners on WhatsApp. All on every plan.",
-  moreEyebrow: "Also connects",
-  moreTitle: "More ways to plug in",
-  more: MORE_INTEGRATIONS.map((m) => ({ ...m })),
+  featuredEyebrow: "Most used",
+  featuredTitle: "The integrations academies use every day",
+  directoryEyebrow: "All integrations",
+  directoryTitle: "Everything LMS Domain connects with",
+  directorySubtitle: "Your own account: you connect your login or key in the admin. Built in: works without connecting anything.",
+  directory: DIRECTORY.map((x) => ({ ...x })),
+  stripEyebrow: "Integrations",
+  stripTitle: "Works with the tools your academy already uses",
+  stripLink: "See all integrations",
   tableEyebrow: "How it works together",
   stepsEyebrow: "Set up",
   stepsTitle: "Get started with {name}",
@@ -67,8 +82,20 @@ export function mergeIntegrations(admin: unknown): IntegrationsContent {
   for (const k of Object.keys(base) as (keyof IntegrationsContent)[]) {
     if (typeof base[k] === "string" && !str(c[k])) (c as any)[k] = base[k];
   }
-  c.more = list(c.more, pair("name", "text"), both) as IntegrationsContent["more"];
-  if (!c.more.length) c.more = base.more;
+  const PLANS: DirectoryPlan[] = ["", "every", "growth", "pro", "enterprise"];
+  c.directory = (Array.isArray(c.directory) ? c.directory : [])
+    .map((x: any): DirectoryItem => ({
+      name: str(x?.name),
+      category: str(x?.category) || "Other",
+      text: str(x?.text),
+      plan: (PLANS.includes(str(x?.plan) as DirectoryPlan) ? str(x?.plan) : "") as DirectoryPlan,
+      connect: str(x?.connect) === "own" ? "own" : "built",
+      live: x?.live === true || x?.live === "true",
+      page: str(x?.page).toLowerCase(),
+      logo: str(x?.logo),
+    }))
+    .filter((x) => x.name);
+  if (!c.directory.length) c.directory = base.directory;
 
   const seen = new Set<string>();
   c.pages = (Array.isArray(c.pages) ? c.pages : [])
@@ -113,10 +140,24 @@ export function mergeIntegrations(admin: unknown): IntegrationsContent {
   // Related links only to pages that exist
   const slugs = new Set(c.pages.map((p) => p.slug));
   c.pages = c.pages.map((p) => ({ ...p, related: p.related.filter((r) => r !== p.slug && slugs.has(r)) }));
+  // A directory link only to a page that exists
+  c.directory = c.directory.map((x) => (x.page && !slugs.has(x.page) ? { ...x, page: "" } : x));
   return c;
 }
 
 export const withName = (text: string, name: string) => text.replace(/\{\s*name\s*\}/gi, name);
 
 /** Categories in the order they first appear. */
-export const categoriesOf = (pages: IntegrationPage[]) => Array.from(new Set(pages.map((p) => p.category)));
+export const categoriesOf = (pages: { category: string }[]) => Array.from(new Set(pages.map((p) => p.category)));
+
+/** Live directory entries grouped by category, in the usual category order. */
+export function directoryGroups(items: DirectoryItem[]) {
+  const live = items.filter((x) => x.live);
+  const cats = categoriesOf(live).sort((a, b) => {
+    const ia = DIRECTORY_CATEGORIES.indexOf(a), ib = DIRECTORY_CATEGORIES.indexOf(b);
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
+  });
+  return cats.map((category) => ({ category, items: live.filter((x) => x.category === category) }));
+}
+
+export const PLAN_LABEL: Record<string, string> = { every: "Every plan", growth: "Growth and up", pro: "Pro and up", enterprise: "Enterprise" };

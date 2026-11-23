@@ -8,7 +8,10 @@ import BrandLogo from "@/components/brand/BrandLogo";
  * Use these instead of coloured letter badges.
  */
 
-export type BrandName = "Zoom" | "Google Meet" | "Microsoft Teams" | "Stripe" | "Razorpay" | "Paytm" | "DOKU" | "Zapier" | "WhatsApp";
+export type BrandName =
+  | "Zoom" | "Google Meet" | "Microsoft Teams" | "Stripe" | "Razorpay" | "Paytm" | "DOKU" | "Zapier" | "WhatsApp"
+  | "YouTube" | "Vimeo" | "Twilio" | "AWS" | "Amazon SES" | "SendGrid" | "Mailgun" | "Brevo" | "Cloudflare"
+  | "Google" | "Apple Pay" | "Google Pay" | "Firebase" | "OpenAI";
 
 const BRANDS: Record<BrandName, { src: string; tile?: boolean; inset?: number }> = {
   Zoom: { src: "/brands/zoom.svg" },
@@ -21,6 +24,21 @@ const BRANDS: Record<BrandName, { src: string; tile?: boolean; inset?: number }>
   // Marks without their own background sit on a white tile
   Razorpay: { src: "/brands/razorpay.svg", tile: true, inset: 0.22 },
   Paytm: { src: "/brands/paytm.svg", tile: true, inset: 0.1 },
+  // Single-colour marks from Simple Icons (CC0), in each brand's own colour, on a white tile
+  YouTube: { src: "/brands/youtube.svg", tile: true, inset: 0.2 },
+  Vimeo: { src: "/brands/vimeo.svg", tile: true, inset: 0.2 },
+  Twilio: { src: "/brands/twilio.svg", tile: true, inset: 0.2 },
+  AWS: { src: "/brands/aws.svg", tile: true, inset: 0.2 },
+  "Amazon SES": { src: "/brands/amazon-ses.svg", tile: true, inset: 0.2 },
+  SendGrid: { src: "/brands/sendgrid.svg", tile: true, inset: 0.2 },
+  Mailgun: { src: "/brands/mailgun.svg", tile: true, inset: 0.2 },
+  Brevo: { src: "/brands/brevo.svg", tile: true, inset: 0.2 },
+  Cloudflare: { src: "/brands/cloudflare.svg", tile: true, inset: 0.18 },
+  Google: { src: "/brands/google.svg", tile: true, inset: 0.22 },
+  "Apple Pay": { src: "/brands/apple-pay.svg", tile: true, inset: 0.16 },
+  "Google Pay": { src: "/brands/google-pay.svg", tile: true, inset: 0.16 },
+  Firebase: { src: "/brands/firebase.svg", tile: true, inset: 0.2 },
+  OpenAI: { src: "/brands/openai.svg", tile: true, inset: 0.2 },
 };
 
 export const isBrand = (name: string): name is BrandName => name in BRANDS;
