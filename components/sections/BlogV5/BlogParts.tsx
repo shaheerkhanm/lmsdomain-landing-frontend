@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight, BookOpen, Check, CreditCard, Eye, Globe, Lock, PlayCircle, Users, Video } from "lucide-react";
+import { ArrowUpRight, BookOpen, Check, CreditCard, Eye, Globe, Lock, PlayCircle, ShieldCheck, Smartphone, Users, Video } from "lucide-react";
 import { BLOG_META, type BlogPost, type BlogCoverStyle } from "@/content/blog/posts";
 export { BLOG_META };
 import { cn } from "@/lib/utils";
@@ -14,6 +14,7 @@ const COVER_STYLE: Record<BlogCoverStyle, { tone: string; ink: string }> = {
   start: { tone: "#F1EDFF", ink: "#6C4BFF" },
   lms: { tone: "#E6F4F1", ink: "#0D9488" },
   sell: { tone: "#FFF1E8", ink: "#EA580C" },
+  protect: { tone: "#FDEEF3", ink: "#DB2777" },
 };
 type CoverInput = Pick<BlogPost, "slug"> & Partial<Pick<BlogPost, "category" | "cover" | "coverImage">>;
 /** Cover and label for a post: its own settings (Admin > Blog), else the built-in ones, else defaults. */
@@ -25,7 +26,24 @@ export const metaFor = (post: CoverInput) => {
 
 const panel = "rounded-[12px] border border-[#EDEDF1] bg-white shadow-[0_1px_2px_rgba(16,16,24,0.05),0_14px_30px_-16px_rgba(16,16,24,0.28)]";
 
-function Art({ kind, ink }: { kind: "start" | "lms" | "sell"; ink: string }) {
+function Art({ kind, ink }: { kind: BlogCoverStyle; ink: string }) {
+  if (kind === "protect")
+    return (
+      <div className="relative w-[230px]">
+        <div className={cn("relative h-[104px] overflow-hidden bg-[#141420]", panel)}>
+          <span className="absolute inset-0 grid place-items-center">
+            <PlayCircle className="h-8 w-8 text-white/80" />
+          </span>
+          <span className="absolute left-3 top-8 -rotate-[8deg] text-[9px] font-medium text-white/35">riya.s@mail.com · 2481</span>
+          <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-white/10 px-1.5 py-0.5 text-[8.5px] font-semibold text-white">
+            <Lock className="h-2 w-2" /> DRM
+          </span>
+        </div>
+        <span className={cn("absolute -bottom-3 -right-3 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[10.5px] font-semibold text-[#18181B]", panel)}>
+          <ShieldCheck className="h-3 w-3" style={{ color: ink }} /> Recording blocked
+        </span>
+      </div>
+    );
   if (kind === "start")
     return (
       <div className="space-y-2">
@@ -94,7 +112,58 @@ function Art({ kind, ink }: { kind: "start" | "lms" | "sell"; ink: string }) {
 const shade = "shadow-[0_2px_4px_rgba(0,0,0,0.12),0_30px_60px_-24px_rgba(0,0,0,0.55)]";
 
 /** Large layered scene for the featured card and article covers. Sample data only. */
-function BigScene({ kind, ink }: { kind: "start" | "lms" | "sell"; ink: string }) {
+function BigScene({ kind, ink }: { kind: BlogCoverStyle; ink: string }) {
+  if (kind === "protect")
+    return (
+      <div className="relative h-[300px] w-[440px]">
+        {/* lesson player with the learner's watermark */}
+        <div className={cn("absolute left-0 top-6 w-[300px] overflow-hidden rounded-[18px] bg-white", shade)}>
+          <div className="flex items-center gap-1.5 border-b border-[#F1F1F4] px-3.5 py-2.5">
+            <span className="h-2 w-2 rounded-full bg-[#FF5F57]" />
+            <span className="h-2 w-2 rounded-full bg-[#FEBC2E]" />
+            <span className="h-2 w-2 rounded-full bg-[#28C840]" />
+            <span className="ml-2 text-[10px] text-[#71717A]">Physics · Lesson 12</span>
+          </div>
+          <div className="relative h-[160px] overflow-hidden bg-[linear-gradient(135deg,#1B1A2E,#0E0D18)]">
+            <span className="absolute inset-0 grid place-items-center">
+              <span className="grid h-12 w-12 place-items-center rounded-full bg-white/15 backdrop-blur">
+                <PlayCircle className="h-7 w-7 text-white" />
+              </span>
+            </span>
+            <span className="absolute left-5 top-6 -rotate-[10deg] text-[11px] font-medium text-white/35">riya.s@mail.com · ID 2481</span>
+            <span className="absolute bottom-7 right-4 -rotate-[10deg] text-[11px] font-medium text-white/25">riya.s@mail.com · ID 2481</span>
+            <span className="absolute left-2.5 top-2.5 inline-flex items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[9.5px] font-semibold text-white">
+              <Lock className="h-2.5 w-2.5" /> DRM encrypted
+            </span>
+            <span className="absolute bottom-0 left-0 h-1 w-[38%]" style={{ background: ink }} />
+          </div>
+          <p className="px-3.5 py-2.5 text-[10.5px] text-[#71717A]">Watermark on</p>
+        </div>
+        {/* recording blocked on the phone */}
+        <div className={cn("mo-float absolute right-0 top-0 w-[200px] rounded-[16px] bg-white p-3.5", shade)} style={{ "--fd": "-1s" } as React.CSSProperties}>
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-8 w-8 place-items-center rounded-full" style={{ background: "#FDEEF3", color: ink }}>
+              <Smartphone className="h-4 w-4" />
+            </span>
+            <div>
+              <p className="text-[11.5px] font-semibold text-[#18181B]">Screen recording blocked</p>
+              <p className="text-[10px] text-[#71717A]">In the app, while lessons play</p>
+            </div>
+          </div>
+        </div>
+        {/* device limit */}
+        <div className={cn("mo-float absolute bottom-2 right-0 w-[200px] rotate-[2deg] rounded-[14px] bg-white p-3", shade)} style={{ "--fd": "-3s" } as React.CSSProperties}>
+          <p className="text-[11px] font-semibold text-[#18181B]">Device limit</p>
+          <div className="mt-1.5 flex items-center gap-2 text-[10px]">
+            <span className="h-1.5 flex-1 rounded-full" style={{ background: ink }} />
+            <span className="font-semibold">2 of 2</span>
+          </div>
+          <p className="mt-1.5 inline-flex items-center gap-1 text-[10px] text-[#71717A]">
+            <ShieldCheck className="h-3 w-3 text-[#16A34A]" /> New sign-in refused
+          </p>
+        </div>
+      </div>
+    );
   if (kind === "sell")
     return (
       <div className="relative h-[300px] w-[440px]">

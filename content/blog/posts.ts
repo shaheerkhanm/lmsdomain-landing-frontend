@@ -12,22 +12,23 @@ export interface BlogPost {
   faqs: { question: string; answer: string }[];
   /** Label on the cover and blog list (Admin > Blog). Built-in posts: see BLOG_META. */
   category?: string;
-  /** Cover design: "start" (steps), "lms" (course screen) or "sell" (checkout). */
+  /** Cover design: "start" (steps), "lms" (course screen), "sell" (checkout) or "protect" (watermarked player). */
   cover?: BlogCoverStyle;
   /** Cover photo uploaded in Admin > Blog (/uploads/... or https). Replaces the drawn cover. */
   coverImage?: string;
 }
 
-export type BlogCoverStyle = "start" | "lms" | "sell";
+export type BlogCoverStyle = "start" | "lms" | "sell" | "protect";
 
 /** Cover and label of the built-in posts (posts from the admin carry their own). */
 export const BLOG_META: Record<string, { category: string; tone: string; ink: string; art: BlogCoverStyle }> = {
   "how-to-start-an-online-academy-in-india": { category: "Getting started", tone: "#F1EDFF", ink: "#6C4BFF", art: "start" },
   "what-is-an-lms-guide-for-coaching-institutes": { category: "LMS basics", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
+  "how-to-stop-screen-recording-of-course-videos": { category: "Content protection", tone: "#FDEEF3", ink: "#DB2777", art: "protect" },
   "best-lms-for-coaching-institutes-in-india": { category: "Choosing an LMS", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
   "how-to-sell-courses-online-in-india-with-gst-invoices": { category: "Selling courses", tone: "#FFF1E8", ink: "#EA580C", art: "sell" },
 };
-export const BLOG_COVER_STYLES: BlogCoverStyle[] = ["start", "lms", "sell"];
+export const BLOG_COVER_STYLES: BlogCoverStyle[] = ["start", "lms", "sell", "protect"];
 
 const decode = (s: string) =>
   s.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&#0?39;|&apos;/g, "'").replace(/&quot;/g, '"').trim();
@@ -456,6 +457,131 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
         question: "Can I run Zoom, Google Meet or Teams classes from the LMS?",
         answer:
           "Yes. On LMS Domain you connect your own Zoom, Google or Microsoft account, and each class gets its meeting link automatically. Attendance and recordings are added to the course for all three.",
+      },
+    ],
+  },
+  "how-to-stop-screen-recording-of-course-videos": {
+    slug: "how-to-stop-screen-recording-of-course-videos",
+    title: "How to stop screen recording of your course videos (and what no platform can stop)",
+    subtitle:
+      "An honest guide for academies and coaching institutes: what DRM, app-level blocking, watermarks and device limits each prevent, where browsers fall short, and what to do when a lecture leaks.",
+    metaTitle: "How to Stop Screen Recording of Course Videos | LMS Domain",
+    metaDescription:
+      "Can you stop students screen-recording your course videos? What DRM, app blocking, watermarks and device limits each do, where browsers fall short, and what to do when a lecture leaks.",
+    date: "2026-11-23",
+    readingTime: "4 min read",
+    author: "LMS Domain Editorial Team",
+    toc: [
+      { id: "how-videos-leak", title: "1. How course videos actually leak" },
+      { id: "layers", title: "2. The four layers of protection" },
+      { id: "browsers", title: "3. Why a website can't promise a full block" },
+      { id: "when-it-leaks", title: "4. What to do when a lecture leaks" },
+      { id: "checklist", title: "5. What to check when choosing a platform" },
+      { id: "lms-domain", title: "6. How LMS Domain protects your videos" },
+      { id: "faqs", title: "Frequently asked questions" },
+    ],
+    content: `
+<p>Your recorded lectures are what students pay for. When one copy ends up in a Telegram channel, every student who watches it there is a student who didn't enrol. So the question comes up in almost every demo: <em>can you stop students from screen-recording my videos?</em></p>
+
+<p>The honest answer is: you can stop most of it, and you can trace the rest. No platform can stop everything, because anyone can point a second phone at the screen. What works is several layers together, each closing a different gap. This guide explains what each layer does and doesn't do, so you can judge any platform's claims, including ours.</p>
+
+<blockquote><strong>Short answer:</strong> stream videos with DRM so they can't be downloaded, play paid lessons in an app that blocks screen recording, show a watermark with each student's details so any leak can be traced, and limit how many devices one account can use.</blockquote>
+
+<h2 id="how-videos-leak">1. How course videos actually leak</h2>
+<p>It helps to know what you're defending against. Paid lectures usually get out in one of five ways:</p>
+<ol>
+  <li><strong>Downloading the video file</strong> with a browser extension or downloader, when the video is a plain file or an unprotected stream.</li>
+  <li><strong>Screen recording on a phone</strong>, using the recorder built into Android or iOS.</li>
+  <li><strong>Screen recording on a computer</strong>, using a recording app or a browser extension.</li>
+  <li><strong>Sharing one account</strong> with friends, so five people watch on one fee.</li>
+  <li><strong>Filming the screen</strong> with a second phone.</li>
+</ol>
+<p>Each layer below closes one or two of these. None of them closes all five.</p>
+
+<h2 id="layers">2. The four layers of protection</h2>
+<table>
+  <thead><tr><th>Layer</th><th>What it stops</th></tr></thead>
+  <tbody>
+    <tr><td><strong>DRM encryption</strong></td><td>Downloading. The video is streamed encrypted and only plays inside your academy for a signed-in student.</td></tr>
+    <tr><td><strong>App screen-recording block</strong></td><td>Screen recording and screenshots on the phone while a lesson plays in the app.</td></tr>
+    <tr><td><strong>Watermark with the student's details</strong></td><td>Nothing on its own, but it shows who leaked a copy, and students think twice before sharing a video with their own details on it.</td></tr>
+    <tr><td><strong>Device limits</strong></td><td>Account sharing, by capping how many devices can sign in to one account.</td></tr>
+  </tbody>
+</table>
+
+<h3 id="drm">DRM encryption</h3>
+<p>DRM (digital rights management) encrypts the video and only gives the key to a signed-in student's player for a short time. Downloader tools then get an encrypted file they can't play. This is the base layer: without it, the other layers matter less, because the file itself can be copied.</p>
+
+<h3 id="app-block">Blocking screen recording in the app</h3>
+<p>Android and iOS both let an app protect what's on screen. On Android, an app can mark its screen as secure, so screenshots and screen recordings come out blank. On iOS, an app can tell when the screen is being recorded and hide the video. That's why a proper app is the strongest place to watch paid lessons on a phone.</p>
+
+<h3 id="watermark">Watermarks with the student's details</h3>
+<p>A dynamic watermark shows the signed-in student's details over the video while it plays and moves around, so it can't simply be cropped out. It doesn't stop a recording, but it changes behaviour: students know any copy leads back to them. When a copy does leak, you know whose account it came from.</p>
+
+<h3 id="device-limits">Device limits</h3>
+<p>A device limit caps how many phones and computers can use one account. When a student signs in on one device too many, the oldest session is signed out or the new sign-in is refused. That stops one fee being shared around a group of friends.</p>
+
+<h2 id="browsers">3. Why a website can't promise a full block</h2>
+<p>Be careful with any platform that says it blocks screen recording everywhere. In a web browser, the website doesn't control the computer. Recording apps and browser extensions run outside the page, so a website can't switch them off.</p>
+<p>DRM helps here too: on some browser and device combinations, DRM-protected video shows up black in a screen recording. But that depends on the browser, the operating system and the hardware, so it isn't something you can rely on for every student.</p>
+<p>The practical answer is to ask students to watch paid lessons in the app on their phone, where the block works, and to keep the watermark on everywhere so recordings from a computer can still be traced.</p>
+
+<h2 id="when-it-leaks">4. What to do when a lecture leaks</h2>
+<ol>
+  <li><strong>Get a copy</strong> of the leaked video or a screenshot of the post, with the link and date.</li>
+  <li><strong>Read the watermark</strong> to find which account it came from.</li>
+  <li><strong>Suspend that account</strong> and talk to the student. Often it's a friend using their login, which is what device limits are for.</li>
+  <li><strong>Report the copy</strong> through the platform's copyright complaint process. Telegram, YouTube and Google all have one, and you'll need to show you own the content.</li>
+  <li><strong>Tell your students</strong>, briefly, that videos are watermarked and leaks are traced. It deters the next one.</li>
+</ol>
+
+<h2 id="checklist">5. What to check when choosing a platform</h2>
+<ul>
+  <li>Is the video DRM-encrypted, or just a hidden link to a file?</li>
+  <li>Does the mobile app block screen recording and screenshots during lessons, on both Android and iOS?</li>
+  <li>Does the watermark show the student's own details, and does it move?</li>
+  <li>Can you limit devices per student, and on which plan?</li>
+  <li>Is all of this on the plan you'd buy, or only on a higher one?</li>
+</ul>
+<p>Then test it yourself during a free trial: sign in as a student, try to download a lesson, and try to screen-record it on an Android phone and an iPhone.</p>
+
+<h2 id="lms-domain">6. How LMS Domain protects your videos</h2>
+<ul>
+  <li><strong>Every plan:</strong> DRM-encrypted video, a dynamic watermark with the learner's details, and screen recording and screenshots blocked while lessons play in the Android and iOS apps.</li>
+  <li><strong>Pro and up:</strong> device limits per learner. You can also publish your own branded Android and iOS app on Pro and up.</li>
+</ul>
+<p>You can try all of it on the 15-day free trial. See <a href="/platform/security">security</a> for the details, <a href="/platform/mobile-app">the mobile app</a>, or <a href="/demo">book a demo</a> and we'll show you a recording attempt on a real phone.</p>
+`,
+    faqs: [
+      {
+        question: "Can I completely stop students from screen recording my videos?",
+        answer:
+          "No platform can stop everything, because a student can film the screen with a second phone. You can stop downloading with DRM, block screen recording in the mobile app, and use a watermark with each student's details so any copy that does leak can be traced to an account.",
+      },
+      {
+        question: "Can a website block screen recording in the browser?",
+        answer:
+          "Not fully. Recording apps and browser extensions run outside the web page. On some browsers and devices DRM-protected video appears black in a recording, but it depends on the browser, operating system and hardware. A mobile app is the reliable place to block it.",
+      },
+      {
+        question: "Does a watermark stop screen recording?",
+        answer:
+          "No, but it discourages it and makes leaks traceable. A dynamic watermark shows the signed-in student's details over the video and moves around, so a leaked copy shows which account it came from.",
+      },
+      {
+        question: "Can students download my course videos?",
+        answer:
+          "Not if the videos are DRM-encrypted. Downloader tools then get an encrypted file they can't play. On LMS Domain, course videos are DRM-encrypted on every plan.",
+      },
+      {
+        question: "How do I stop students sharing one account?",
+        answer:
+          "Use device limits, which cap how many devices can sign in to one account. On LMS Domain, device limits are on Pro and up.",
+      },
+      {
+        question: "Does LMS Domain block screen recording on every plan?",
+        answer:
+          "Yes. Every plan includes DRM video, a watermark with the learner's details, and a screen-recording and screenshot block while lessons play in the Android and iOS apps.",
       },
     ],
   },
