@@ -1374,7 +1374,9 @@ input[type="number"]::-webkit-inner-spin-button {
 .v5-article ul > li::before { content: ""; position: absolute; left: 0.25em; top: 0.72em; width: 7px; height: 7px; border-radius: 9999px; background: #6C4BFF; }
 .v5-article ol { counter-reset: v5ol; }
 .v5-article ol > li { counter-increment: v5ol; }
-.v5-article ol > li::before { content: counter(v5ol); position: absolute; left: 0; top: 0.2em; display: grid; place-items: center; width: 1.25em; height: 1.25em; border-radius: 9999px; background: #0A0A0B; color: #fff; font-size: 0.72em; font-weight: 600; }
+.v5-article ol > li { padding-left: 2.1em; }
+/* Number badge: fixed size, digit centred, lined up with the first line (17.5px text x 1.75 line height) */
+.v5-article ol > li::before { content: counter(v5ol); position: absolute; left: 0; top: 4px; display: flex; align-items: center; justify-content: center; width: 23px; height: 23px; border-radius: 9999px; background: #0A0A0B; color: #fff; font-size: 12.5px; line-height: 1; font-weight: 600; font-variant-numeric: tabular-nums; }
 .v5-article blockquote { border-left: 3px solid #6C4BFF; background: #F7F5FF; border-radius: 0 16px 16px 0; padding: 1em 1.25em; color: #27272A; }
 .v5-article code { background: #F4F4F5; border-radius: 6px; padding: 0.1em 0.4em; font-size: 0.88em; color: #18181B; }
 .v5-article table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid #ECECF1; border-radius: 16px; font-size: 15px; }
