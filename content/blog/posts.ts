@@ -24,6 +24,7 @@ export type BlogCoverStyle = "start" | "lms" | "sell";
 export const BLOG_META: Record<string, { category: string; tone: string; ink: string; art: BlogCoverStyle }> = {
   "how-to-start-an-online-academy-in-india": { category: "Getting started", tone: "#F1EDFF", ink: "#6C4BFF", art: "start" },
   "what-is-an-lms-guide-for-coaching-institutes": { category: "LMS basics", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
+  "best-lms-for-coaching-institutes-in-india": { category: "Choosing an LMS", tone: "#E6F4F1", ink: "#0D9488", art: "lms" },
   "how-to-sell-courses-online-in-india-with-gst-invoices": { category: "Selling courses", tone: "#FFF1E8", ink: "#EA580C", art: "sell" },
 };
 export const BLOG_COVER_STYLES: BlogCoverStyle[] = ["start", "lms", "sell"];
@@ -286,6 +287,175 @@ export const BLOG_POSTS: Record<string, BlogPost> = {
         question: "Can I sell courses in multiple currencies?",
         answer:
           "Yes, you can charge learners in INR, USD, EUR, GBP, and other major currencies supported by your connected gateway merchant account.",
+      },
+    ],
+  },
+  "best-lms-for-coaching-institutes-in-india": {
+    slug: "best-lms-for-coaching-institutes-in-india",
+    title: "Best LMS for coaching institutes in India (2026): what to check, and five options compared",
+    subtitle:
+      "A buyer's checklist for coaching institutes and tuition centres, plus a side-by-side look at LMS Domain, Edmingle, Graphy, Learnyst and Moodle using each platform's public pricing page.",
+    metaTitle: "Best LMS for Coaching Institutes in India (2026) | LMS Domain",
+    metaDescription:
+      "How to choose an LMS for a coaching institute in India: batches, live classes, tests, video protection, apps and fees. Five platforms compared from their public pricing pages.",
+    date: "2026-11-23",
+    readingTime: "7 min read",
+    author: "LMS Domain Editorial Team",
+    toc: [
+      { id: "what-coaching-institutes-need", title: "1. What a coaching institute needs from an LMS" },
+      { id: "checklist", title: "2. Questions to ask in every demo" },
+      { id: "options-compared", title: "3. Five options compared" },
+      { id: "which-fits", title: "4. Which one fits your institute" },
+      { id: "trial-plan", title: "5. How to test a platform in a 15-day trial" },
+      { id: "moving", title: "6. Moving from WhatsApp groups and Google Drive" },
+      { id: "faqs", title: "Frequently asked questions" },
+    ],
+    content: `
+<p>A coaching institute doesn't need the same thing as a creator selling one recorded course. You run several batches of the same course at different times, you teach live most days, you test students every week, and your notes and recordings are what students pay for. The "best LMS" is the one that handles that routine without extra tools stuck on the side.</p>
+
+<p>This guide gives you a checklist to test any platform against, then compares five options using each one's public pricing page. We make LMS Domain, so read our part with that in mind. For the others, we only state what their own pricing pages say, with links, so you can check them yourself.</p>
+
+<blockquote><strong>Short answer:</strong> if you teach live batches, run regular tests and want your videos protected, shortlist platforms that include all three on the plan you can afford, and that don't take a cut of each fee you collect. Then run one real batch on a free trial before you decide.</blockquote>
+
+<h2 id="what-coaching-institutes-need">1. What a coaching institute needs from an LMS</h2>
+<p>Most coaching institutes in India move online with a mix of a meeting app, a chat group, a cloud drive and a payment link. That works for one batch. It breaks when you have five batches: links get forwarded to people who haven't paid, notes get lost in the chat, attendance is taken by hand, and fees are matched to students in a spreadsheet.</p>
+<p>An LMS should replace that mix. For a coaching institute, that means these seven things:</p>
+<ol>
+  <li><strong>Batches with their own timetable.</strong> The same course runs as a morning, evening and weekend batch, each with its own students, schedule and teacher.</li>
+  <li><strong>Live classes inside the LMS.</strong> Students join from their dashboard instead of a forwarded link, attendance is recorded, and the recording is added to the course.</li>
+  <li><strong>Tests.</strong> Question banks by chapter, timed mock tests and automatic marking.</li>
+  <li><strong>Video and notes protection.</strong> Encrypted (DRM) video, a watermark with the student's details, and limits on screen recording and account sharing.</li>
+  <li><strong>A mobile app.</strong> Most students study on a phone. Check whether the app is shared or in your institute's name, and on which plan.</li>
+  <li><strong>Fees paid to your own account.</strong> Your own Razorpay or Paytm account, GST invoices, coupons, and ideally no commission on each sale.</li>
+  <li><strong>Reminders where students already are.</strong> Class reminders on WhatsApp get read; emails often don't.</li>
+</ol>
+
+<h2 id="checklist">2. Questions to ask in every demo</h2>
+<p>Feature lists all look alike. These questions show the difference quickly. Ask them in the demo and get the answer for the exact plan you would buy.</p>
+<table>
+  <thead><tr><th>Ask this</th><th>Why it matters</th></tr></thead>
+  <tbody>
+    <tr><td>Is there a fee on each sale, on my plan?</td><td>A 5% fee on ₹20 lakh of fees a year is ₹1 lakh, every year, on top of the subscription.</td></tr>
+    <tr><td>Can one course run as several batches, each with its own timetable?</td><td>Without it you copy the course for every batch and update each copy by hand.</td></tr>
+    <tr><td>Which live class tools work, and is attendance recorded automatically?</td><td>Manual attendance costs teaching time and gives parents nothing reliable.</td></tr>
+    <tr><td>Is video protection on my plan, or only on a higher one?</td><td>Recorded lectures shared on Telegram are lost revenue.</td></tr>
+    <tr><td>Is the mobile app in my institute's name, and what does that cost?</td><td>A branded app often needs a higher plan, a yearly contract or an add-on.</td></tr>
+    <tr><td>Can I bill monthly, and how long is the free trial?</td><td>Yearly-only billing means a large payment before you know the platform suits you.</td></tr>
+    <tr><td>Can I export my students and data if I leave?</td><td>Your student list is your business. Make sure it isn't locked in.</td></tr>
+  </tbody>
+</table>
+
+<h2 id="options-compared">3. Five options compared</h2>
+<p>The figures below for Edmingle, Graphy, Learnyst and Moodle are from their public pricing pages, checked on 22 November 2026. Prices and plans change, so check the linked page before you decide.</p>
+
+<h3 id="lms-domain">LMS Domain (our platform)</h3>
+<ul>
+  <li><strong>Batches, live classes and tests on every plan:</strong> batch timetables, Zoom, Google Meet or Microsoft Teams with automatic attendance and recordings, and timed tests from question banks.</li>
+  <li><strong>Video protection on every plan:</strong> DRM video, watermarks, and screen-recording blocking in the app.</li>
+  <li><strong>0% commission:</strong> fees go straight to your own Razorpay, Paytm, Stripe or DOKU account. You pay only your gateway's fee. Academies in India get automatic GST invoices.</li>
+  <li><strong>Apps:</strong> the LMS Domain app for Android and iOS on every plan, and your own branded Android and iOS app on Pro and up. Device limits are on Pro and up too.</li>
+  <li><strong>Billing:</strong> monthly or yearly, with a 15-day free trial. Your own domain is on Growth and up; Starter uses a free subdomain. See <a href="/pricing">pricing</a>.</li>
+</ul>
+
+<h3 id="edmingle">Edmingle</h3>
+<ul>
+  <li>Unlimited live sessions and piracy control are listed, and your own domain is on every plan.</li>
+  <li>A shared app on Core. A branded Android app from Prime and iOS from Power, on yearly plans only.</li>
+  <li>A private payment gateway is listed from the Power plan.</li>
+  <li>Monthly or yearly billing (20% off yearly) and a 7-day trial.</li>
+  <li>Source: <a href="https://www.edmingle.com/in/pricing/">edmingle.com/in/pricing</a>. Our detailed comparison: <a href="/compare/edmingle-alternative">LMS Domain vs Edmingle</a>.</li>
+</ul>
+
+<h3 id="graphy">Graphy</h3>
+<ul>
+  <li>A fee on each sale of 10%, 7.5% or 5% depending on the plan (at least ₹10 a sale).</li>
+  <li>Yearly plans, from ₹24,999 a year. Your own domain on every paid plan.</li>
+  <li>An Android app on every plan; iOS on the Rise plan or as a paid add-on.</li>
+  <li>Live classes are included, and DRM protection is listed from the Launch plan.</li>
+  <li>Source: <a href="https://graphy.com/pricing">graphy.com/pricing</a>. Our detailed comparison: <a href="/compare/graphy-alternative">LMS Domain vs Graphy</a>.</li>
+</ul>
+
+<h3 id="learnyst">Learnyst</h3>
+<ul>
+  <li>Mock tests and test series, with limits by plan, and DRM content protection listed.</li>
+  <li>Live classes with Zoom support.</li>
+  <li>Branded Android and iOS apps, with additional charges and a yearly plan.</li>
+  <li>Monthly or yearly billing (10% off yearly). The page notes that additional charges apply.</li>
+  <li>Source: <a href="https://www.learnyst.com/pricing">learnyst.com/pricing</a>. Our detailed comparison: <a href="/compare/learnyst-alternative">LMS Domain vs Learnyst</a>.</li>
+</ul>
+
+<h3 id="moodle">Moodle</h3>
+<ul>
+  <li>Free, open-source software. You host it yourself, or pay for hosting such as MoodleCloud.</li>
+  <li>MoodleCloud ranges from $160 a year (50 users, 1 GB) to $1,990 a year (750 users, 50 GB).</li>
+  <li>Selling courses uses Stripe (from the $470-a-year Small plan) or PayPal, so Indian gateways need extra work.</li>
+  <li>Live classes are not listed on the MoodleCloud pricing page, so plan for a plugin or a separate tool.</li>
+  <li>Source: <a href="https://www.moodlecloud.com/pricing/">moodlecloud.com/pricing</a>. Our detailed comparison: <a href="/compare/moodle-alternative">LMS Domain vs Moodle</a>.</li>
+</ul>
+
+<p>You may also see Classplus on shortlists for Indian coaching institutes. We couldn't confirm its current plans and prices from a public pricing page, so we haven't listed details here. Ask for them in writing during the demo.</p>
+
+<h2 id="which-fits">4. Which one fits your institute</h2>
+<p>No platform is best for everyone. Here is an honest way to narrow it down:</p>
+<ul>
+  <li><strong>You teach live batches and test every week:</strong> pick a platform with batches, live class attendance and tests on the plan you'll actually pay for, not only on the top plan.</li>
+  <li><strong>Your recorded lectures are your main product:</strong> make video protection and the mobile app your first two checks.</li>
+  <li><strong>Your fees add up to several lakh a year:</strong> a per-sale fee costs more than the subscription. Do the sum for your own numbers.</li>
+  <li><strong>You mainly sell test series as their own products:</strong> a test-focused platform such as Learnyst may suit you.</li>
+  <li><strong>You have an IT team, or a funder requires it:</strong> Moodle gives you full control of the code, at the cost of running it yourself.</li>
+  <li><strong>You already run on a platform and it works:</strong> moving has a cost too. Switch only for a clear gain.</li>
+</ul>
+
+<h2 id="trial-plan">5. How to test a platform in a 15-day trial</h2>
+<p>A demo shows the best case. A trial shows your case. Use the trial to run one real batch:</p>
+<ol>
+  <li><strong>Days 1 to 2:</strong> set up one course with two batches, add a teacher, and connect your payment gateway in test mode.</li>
+  <li><strong>Days 3 to 7:</strong> hold three live classes. Check that attendance and recordings appear without anyone doing it by hand.</li>
+  <li><strong>Days 8 to 10:</strong> run a timed test from a question bank and look at the results a teacher would see.</li>
+  <li><strong>Days 11 to 13:</strong> ask five students to use the app on their own phones, including a low-cost Android phone, and try to screen-record a lecture.</li>
+  <li><strong>Days 14 to 15:</strong> export your student list, and ask support one real question to see how fast and how well they answer.</li>
+</ol>
+
+<h2 id="moving">6. Moving from WhatsApp groups and Google Drive</h2>
+<p>Most institutes don't move everything at once. A safe order is:</p>
+<ul>
+  <li>Start new batches on the LMS and leave running batches where they are until they finish.</li>
+  <li>Upload notes chapter by chapter as you teach them, rather than all at once.</li>
+  <li>Keep the WhatsApp group for announcements for a few weeks, but send class links only through the LMS.</li>
+  <li>Move fee collection last, once students are used to logging in.</li>
+</ul>
+<p>If you'd like a hand, <a href="/demo">book a demo</a> and we'll walk through your batches with you. You can also see how LMS Domain works for <a href="/solutions/coaching-institutes">coaching institutes</a>.</p>
+`,
+    faqs: [
+      {
+        question: "What is the best LMS for coaching institutes in India?",
+        answer:
+          "It depends on how you teach. If you run live batches and weekly tests, choose a platform that includes batches, live class attendance, tests and video protection on the plan you can afford, and that doesn't charge a fee on each sale. Shortlist two or three, then run one real batch on a free trial.",
+      },
+      {
+        question: "Is there a free LMS for coaching institutes?",
+        answer:
+          "Moodle is free, open-source software, but you pay for hosting and need someone to run and update it. Hosted platforms like LMS Domain charge a subscription but handle hosting, updates and security for you. LMS Domain has a 15-day free trial on every plan.",
+      },
+      {
+        question: "Do I need my own app for my coaching institute?",
+        answer:
+          "Not at the start. Students can use a shared app, such as the LMS Domain app for Android and iOS, which is on every plan. An app in your institute's own name helps with brand trust as you grow; on LMS Domain it is on Pro and up.",
+      },
+      {
+        question: "How do I stop students sharing recorded lectures?",
+        answer:
+          "Look for DRM-encrypted video, a watermark showing the student's details, screen-recording blocking in the app, and limits on how many devices can use one account. LMS Domain has DRM, watermarks and screen-recording blocking on every plan, and device limits on Pro and up.",
+      },
+      {
+        question: "Can I collect fees with Razorpay and issue GST invoices?",
+        answer:
+          "Yes. On LMS Domain you connect your own Razorpay, Paytm, Stripe or DOKU account, fees are paid straight to you with 0% commission, and academies in India get automatic GST invoices.",
+      },
+      {
+        question: "Can I run Zoom, Google Meet or Teams classes from the LMS?",
+        answer:
+          "Yes. On LMS Domain you connect your own Zoom, Google or Microsoft account, and each class gets its meeting link automatically. Attendance and recordings are added to the course for all three.",
       },
     ],
   },
