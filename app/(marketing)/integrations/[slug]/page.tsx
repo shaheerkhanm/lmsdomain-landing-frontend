@@ -12,7 +12,9 @@ import { linkedAnswerHtml } from "@/content/merge";
 import { getBreadcrumbListJsonLd, JsonLdScript } from "@/components/seo/JsonLd";
 import { pageMetadata } from "@/lib/seo";
 import { cn } from "@/lib/utils";
-import { INTEGRATIONS, getIntegration } from "@/content/integrations";
+import { INTEGRATIONS } from "@/content/integrations";
+import { getIntegrationPages } from "@/lib/api/content";
+import { withName } from "@/content/integrations-editable";
 
 /* Integration page: what LMS Domain does with one tool (content/integrations.ts). */
 
@@ -20,13 +22,15 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return INTEGRATIONS.map((i) => ({ slug: i.slug }));
+export async function generateStaticParams() {
+  // Built at deploy time; pages added later in the admin render on first visit
+  const pages = (await getIntegrationPages().catch(() => null))?.pages || [];
+  return Array.from(new Set([...pages.map((p) => p.slug), ...INTEGRATIONS.map((i) => i.slug)])).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const page = getIntegration(slug);
+  const page = (await getIntegrationPages()).pages.find((p) => p.slug === slug);
   if (!page) return { title: "Integration Not Found | LMS Domain", robots: { index: false, follow: false } };
   return pageMetadata(
     {
@@ -41,9 +45,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function IntegrationRoute({ params }: Props) {
   const { slug } = await params;
-  const page = getIntegration(slug);
+  const c = await getIntegrationPages();
+  const page = c.pages.find((p) => p.slug === slug);
   if (!page) notFound();
-  const related = page.related.map(getIntegration).filter((r): r is NonNullable<typeof r> => !!r);
+  const related = page.related.map((r) => c.pages.find((p) => p.slug === r)).filter((r): r is NonNullable<typeof r> => !!r);
 
   return (
     <div className="v5 relative bg-white font-sans text-[#0A0A0B] selection:bg-[#0A0A0B] selection:text-white">
@@ -109,7 +114,7 @@ export default async function IntegrationRoute({ params }: Props) {
       {/* 2. What it does */}
       <section className="bg-white pb-[clamp(80px,10vw,136px)]">
         <Container>
-          <SectionHeading eyebrow="How it works together" title={page.tableTitle} />
+          <SectionHeading eyebrow={c.tableEyebrow} title={page.tableTitle} />
           <div className="rv-v4 mx-auto mt-10 max-w-[960px] overflow-hidden rounded-[24px] border border-[#ECECF1] lg:mt-14">
             <table className="w-full border-collapse text-left text-[14.5px] leading-[1.5]">
               <caption className="sr-only">{page.tableTitle}</caption>
@@ -132,7 +137,7 @@ export default async function IntegrationRoute({ params }: Props) {
       <section className="px-2 sm:px-3">
         <div className="rounded-[28px] bg-[#F4F5F8] py-[clamp(64px,8vw,104px)] sm:rounded-[40px]">
           <Container>
-            <SectionHeading eyebrow="Set up" title={`Get started with ${page.name}`} />
+            <SectionHeading eyebrow={c.stepsEyebrow} title={withName(c.stepsTitle, page.name)} />
             <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:mt-16 lg:grid-cols-4">
               {page.steps.map((s, i) => (
                 <li key={s.title} style={{ "--rv-delay": `${i * 90}ms` } as React.CSSProperties} className="rv-v4 flex flex-col rounded-[24px] bg-white p-7">
@@ -149,7 +154,7 @@ export default async function IntegrationRoute({ params }: Props) {
       {/* 4. Who uses it */}
       <section className="bg-white pt-[clamp(80px,10vw,136px)]">
         <Container>
-          <SectionHeading eyebrow="Who uses it" title={`How academies use ${page.name}`} />
+          <SectionHeading eyebrow={c.useCasesEyebrow} title={withName(c.useCasesTitle, page.name)} />
           <div className="mt-12 grid gap-4 md:grid-cols-3 lg:mt-16">
             {page.useCases.map((u, i) => (
               <div key={u.title} style={{ "--rv-delay": `${i * 90}ms` } as React.CSSProperties} className="rv-v4 rounded-[24px] border border-[#ECECF1] p-7">
@@ -166,9 +171,9 @@ export default async function IntegrationRoute({ params }: Props) {
         <FAQ
           id={`${slug}-faq`}
           minimal
-          eyebrow="FAQs"
-          title={`${page.name} and LMS Domain: questions`}
-          subtitle="Common questions before connecting."
+          eyebrow={c.faqEyebrow}
+          title={withName(c.faqTitle, page.name)}
+          subtitle={withName(c.faqSubtitle, page.name)}
           items={page.faqs.map((q) => ({ question: q.question, answer: linkedAnswerHtml(q.answer) }))}
         />
       </div>
@@ -177,7 +182,7 @@ export default async function IntegrationRoute({ params }: Props) {
       {related.length > 0 && (
         <section className="bg-white pt-[clamp(56px,7vw,88px)]">
           <Container className="text-center">
-            <p className="rv-v4 text-[14px] font-medium text-[#71717A]">More integrations</p>
+            <p className="rv-v4 text-[14px] font-medium text-[#71717A]">{c.relatedTitle}</p>
             <div className="rv-v4 mt-5 flex flex-wrap justify-center gap-2">
               {related.map((r) => (
                 <Link

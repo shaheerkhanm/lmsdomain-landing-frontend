@@ -1,6 +1,5 @@
-import { INTEGRATIONS } from "@/content/integrations";
 import { MetadataRoute } from "next";
-import { getLegalPages, getLegalPage, getBlogPosts, fetchSeo, getComparePages } from "@/lib/api/content";
+import { getLegalPages, getLegalPage, getBlogPosts, fetchSeo, getComparePages, getIntegrationPages } from "@/lib/api/content";
 import { getSiteUrl, PRODUCTION_ORIGIN } from "@/lib/site";
 import { getPageVisibility, isPathVisibleWithMap } from "@/lib/pages";
 import { SITEMAP_LAST_MODIFIED } from "@/content/sitemap-dates";
@@ -194,10 +193,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Excludes /login, /signup and /forgot-password
   const visibility = await getPageVisibility();
-  // Integrations (content/integrations.ts)
+  // Integrations (Admin > Website > Integrations); a page set to noindex in Admin > SEO is left out
+  const integrationPages = (await getIntegrationPages()).pages;
+  const integrationNoindex = await Promise.all(integrationPages.map((p) => fetchSeo(`integration-${p.slug}`).then((x) => !!x?.noindex).catch(() => false)));
   const integrationRoutes: MetadataRoute.Sitemap = [
     { url: `${baseUrl}/integrations`, lastModified: new Date("2026-11-22"), changeFrequency: "monthly" as const, priority: 0.6 },
-    ...INTEGRATIONS.map((i) => ({ url: `${baseUrl}/integrations/${i.slug}`, lastModified: new Date("2026-11-22"), changeFrequency: "monthly" as const, priority: 0.6 })),
+    ...integrationPages.filter((_, n) => !integrationNoindex[n]).map((i) => ({ url: `${baseUrl}/integrations/${i.slug}`, lastModified: new Date("2026-11-22"), changeFrequency: "monthly" as const, priority: 0.6 })),
   ];
 
   return [...staticMarketingRoutes, ...legalRoutes, ...blogRoutes, ...compareRoutes, ...integrationRoutes].filter((route) =>
