@@ -2,6 +2,7 @@ import React from "react";
 import { HeroV5 } from "@/components/sections/HomeV5/HeroV5";
 import { FeatureBento } from "@/components/sections/HomeV5/FeatureBento";
 import { SetupSteps } from "@/components/sections/HomeV5/SetupSteps";
+import { IntegrationStrip } from "@/components/sections/HomeV5/IntegrationStrip";
 import { MobileAppSection } from "@/components/sections/HomeV5/MobileAppSection";
 import { SellGrowSection } from "@/components/sections/HomeV5/SellGrowSection";
 import { AiSection } from "@/components/sections/HomeV5/AiSection";
@@ -15,7 +16,8 @@ import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { DomieLauncher } from "@/components/ai/DomieLauncher";
 import { homeFaqItems } from "@/content/faq";
 import { heroContent as defaultHeroContent } from "@/content/home/hero";
-import { getSection, getHomeClients, getPricingPage, getHomeTestimonials, getHomeSection, getSiteContact } from "@/lib/api/content";
+import { getSection, getHomeClients, getPricingPage, getHomeTestimonials, getHomeSection, getSiteContact, getIntegrationPages } from "@/lib/api/content";
+import { isPathVisible } from "@/lib/pages";
 import { linkedAnswerHtml } from "@/content/merge";
 import { keepLive, liveOr } from "@/lib/claims";
 import { isProductionSite } from "@/lib/site";
@@ -23,7 +25,7 @@ import { ContentSource } from "@/components/content/ContentSource";
 import { PageContentProvider } from "@/components/content/PageContent";
 
 export async function HomePage() {
-  const [hero, clients, pricingPage, testimonials, features, setup, ai, audiences, pricing, faq, contact, mobile, sell] = await Promise.all([
+  const [hero, clients, pricingPage, testimonials, features, setup, ai, audiences, pricing, faq, contact, mobile, sell, integrations, integrationsVisible] = await Promise.all([
     getSection("home-hero"),
     getHomeClients().catch(() => null),
     getPricingPage().catch(() => null),
@@ -37,6 +39,8 @@ export async function HomePage() {
     getSiteContact().catch(() => null),
     getHomeSection("mobile"),
     getHomeSection("sell"),
+    getIntegrationPages().catch(() => null),
+    isPathVisible("/integrations").catch(() => true),
   ]);
 
   const content = {
@@ -79,6 +83,11 @@ export async function HomePage() {
 
         {/* 3. Setup in three steps */}
         <SetupSteps data={setup} />
+
+        {/* 3b. Integrations logo strip (Admin > Website > Integrations); hidden with the integrations page */}
+        {integrations && integrationsVisible && (
+          <IntegrationStrip items={integrations.directory} eyebrow={integrations.stripEyebrow} title={integrations.stripTitle} linkLabel={integrations.stripLink} />
+        )}
 
         {/* 4. Domie AI: the only dark section */}
         <AiSection data={ai} />

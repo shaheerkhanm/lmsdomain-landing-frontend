@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { INTEGRATIONS } from "@/content/integrations";
 import { usePathname } from "next/navigation";
 import { ArrowUp } from "lucide-react";
 import SocialMediaIcons from "../SocialMediaIcons";
@@ -22,7 +21,6 @@ export function FooterSection({
   publishedLegalSlugs,
   columns: columnsIn,
   compareLinks = [],
-  integrationLinks = INTEGRATIONS.map((i) => ({ name: i.name, href: `/integrations/${i.slug}` })),
 }: {
   addressData: any;
   contentData: any;
@@ -31,7 +29,6 @@ export function FooterSection({
   columns?: FooterColumn[];
   /** Published compare pages, shown as a row of links above the bottom bar */
   compareLinks?: { name: string; href: string }[];
-  integrationLinks?: { name: string; href: string }[];
 }) {
   const pathname = usePathname();
   const { isPathVisible } = usePageVisibility();
@@ -149,18 +146,8 @@ export function FooterSection({
             )}
           </div>
 
-          {/* Integrations, and the published compare pages */}
+          {/* The published compare pages */}
           <div className="mt-14 space-y-3 text-[13.5px]">
-            <nav aria-label="Integrations" className="flex flex-wrap items-center gap-x-5 gap-y-2">
-              <Link href="/integrations" className="font-semibold text-white underline-offset-4 hover:underline">
-                Integrations
-              </Link>
-              {integrationLinks.map((l) => (
-                <Link key={l.href} href={l.href} className="text-[#A1A1AA] transition-colors hover:text-white">
-                  {l.name}
-                </Link>
-              ))}
-            </nav>
             {compareLinks.length > 0 && (
               <nav aria-label="Compare" className="flex flex-wrap items-center gap-x-5 gap-y-2">
                 <Link href="/compare" className="font-semibold text-white underline-offset-4 hover:underline">
