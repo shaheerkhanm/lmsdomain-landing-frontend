@@ -10,7 +10,7 @@ import { AudienceCards } from "@/components/sections/HomeV5/AudienceCards";
 import { Testimonials, DEMO_TESTIMONIALS } from "@/components/sections/HomeV5/Testimonials";
 import { FinalCta } from "@/components/sections/HomeV5/FinalCta";
 import { PricingBand } from "@/components/sections/HomeV5/PricingBand";
-import { DEFAULT_PRICING_V2 } from "@/config/pricing";
+import { DEFAULT_PRICING_V2, computePlanPricing, defaultBillingOf } from "@/config/pricing";
 import { FAQ } from "@/components/marketing/ui";
 import { ScrollReveal } from "@/components/marketing/ScrollReveal";
 import { DomieLauncher } from "@/components/ai/DomieLauncher";
@@ -57,8 +57,15 @@ export async function HomePage() {
   const paidPlans = (pricingV2.plans || [])
     .filter((p) => p.active !== false && !p.isCustom)
     .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
+  // Pricing opens on yearly unless the admin chose monthly: then "from" is the yearly plan's monthly cost
+  const billedYearly = defaultBillingOf(pricingV2) === "yearly";
   const minOf = (cur: "INR" | "USD") => {
-    const vals = paidPlans.map((p) => p.priceMonthly?.[cur]).filter((v): v is number => typeof v === "number" && v > 0);
+    const vals = paidPlans
+      .map((p) => {
+        const c = computePlanPricing(p, cur, pricingV2.annualMode, pricingV2.monthsFree, "");
+        return billedYearly ? c.perMonthEquivalent : c.monthly;
+      })
+      .filter((v): v is number => typeof v === "number" && v > 0);
     return vals.length ? Math.min(...vals) : null;
   };
   const fromPrice = { INR: minOf("INR"), USD: minOf("USD") };
@@ -105,7 +112,7 @@ export async function HomePage() {
         <Testimonials items={testimonialItems} isDemo={useDemoTestimonials} />
 
         {/* 7. Pricing: compact block, full plans on /pricing */}
-        <PricingBand fromPrice={fromPrice} trialDays={pricingV2.trialDays ?? 15} data={pricing} />
+        <PricingBand fromPrice={fromPrice} billedYearly={billedYearly} trialDays={pricingV2.trialDays ?? 15} data={pricing} />
 
         {/* 8. FAQ */}
         <FAQ

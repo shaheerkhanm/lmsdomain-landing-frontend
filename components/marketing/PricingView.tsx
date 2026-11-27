@@ -17,7 +17,7 @@ import { SectionHeading } from "@/components/sections/HomeV5/primitives";
 import { ArrowUpRight } from "lucide-react";
 import { formatPrice } from "@/config/pricing";
 import type { PricingPageModel, BillingPeriodId } from "@/types/content";
-import { DEFAULT_PRICING_V2 } from "@/config/pricing";
+import { DEFAULT_PRICING_V2, yearlyToggleLabel } from "@/config/pricing";
 import { resolveCurrency, type PricingCurrency } from "@/lib/currency";
 import { ContentSource } from "@/components/content/ContentSource";
 
@@ -195,13 +195,8 @@ export function PricingView({
 
   // Determine dynamic yearly savings label
   // "percent" mode: the best yearly discount across the plans, e.g. "Save up to 20%"
-  const bestYearlyPercent = Math.max(0, ...(pricingV2.plans || []).map((p) => Number(p.annualDiscountPercent) || 0));
-  const yearlySavingsLabel =
-    pricingV2.annualMode === "monthsFree"
-      ? `${pricingV2.monthsFree} months free`
-      : bestYearlyPercent > 0
-        ? `Save up to ${bestYearlyPercent}%`
-        : undefined;
+  // Same label as the server: "N months free", or "Save up to N%" from the real yearly prices
+  const yearlySavingsLabel = yearlyToggleLabel(pricingV2);
 
   // Hero copy: plain eyebrow (no symbols), and no India-only tax wording for other currencies
   const rawEyebrow = (data.hero.eyebrow || "Pricing").replace(/[✦*]/g, "").trim();

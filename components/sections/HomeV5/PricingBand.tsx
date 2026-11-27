@@ -13,10 +13,13 @@ import { HOME_DEFAULTS, type HomeSections } from "@/content/home-sections";
  */
 export function PricingBand({
   fromPrice,
+  billedYearly = false,
   trialDays = 15,
   data = HOME_DEFAULTS.pricing,
 }: {
   fromPrice: { INR: number | null; USD: number | null };
+  /** The price is the yearly plan's monthly cost (Admin > Pricing opens on yearly) */
+  billedYearly?: boolean;
   trialDays?: number;
   /** Text from Admin > Home > Pricing; "{trialDays}" becomes the trial length. */
   data?: HomeSections["pricing"];
@@ -70,6 +73,7 @@ export function PricingBand({
                   </span>
                   <span className="text-[15px] text-[#71717A]">{data.perMonth}</span>
                 </p>
+                {billedYearly && <p className="mt-1.5 text-[13px] text-[#71717A]">Billed yearly</p>}
               </div>
             )}
             <div className="flex flex-col gap-3 sm:flex-row">
