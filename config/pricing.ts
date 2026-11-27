@@ -24,8 +24,10 @@ export interface PricingPlanV2 {
   tagline: string;
   audience: string;
   priceMonthly: PlanPriceMonthly;
-  /** Exact yearly price (from the central plans API). When set, it is used as is instead of the discount rule. */
+  /** Exact yearly price (typed in Admin > Pricing, or from the central plans API). When set, it is used as is instead of the discount rule. */
   priceYearly?: PlanPriceMonthly;
+  /** Admin: USD typed by hand even when USD follows INR (the backend has already worked out USD) */
+  usdManual?: boolean;
   annualDiscountPercent: number;
   limits: PlanLimits;
   features: string[];
@@ -52,6 +54,11 @@ export type PricingCurrency = "INR" | "USD";
 export interface PricingV2Data {
   annualMode: "monthsFree" | "percent";
   monthsFree: number;
+  /** Billing period the pricing page opens on (missing = yearly) */
+  defaultBilling?: "yearly" | "monthly";
+  /** Admin: USD worked out from INR ("auto") or typed per plan. The backend sends the final USD prices. */
+  usdMode?: "auto" | "manual";
+  usdRate?: number;
   trialDays: number;
   currencies: PricingV2Currencies;
   plans: PricingPlanV2[];
@@ -67,6 +74,7 @@ export const PRICING_V2_SLUG = "pricing-v2";
 export const DEFAULT_PRICING_V2: PricingV2Data = {
   annualMode: "monthsFree",
   monthsFree: 2,
+  defaultBilling: "yearly",
   trialDays: 15,
   currencies: {
     INR: { taxLabel: "+ GST" },
@@ -323,4 +331,25 @@ export function computePlanPricing(
     yearlySavingsLabel,
     taxLabel,
   };
+}
+
+/** The billing period the pricing page opens on: yearly unless the admin chose monthly. */
+export const defaultBillingOf = (data: Pick<PricingV2Data, "defaultBilling">): "yearly" | "monthly" =>
+  data.defaultBilling === "monthly" ? "monthly" : "yearly";
+
+/** Real yearly saving of a plan in %, from the prices visitors see (typed yearly prices included). */
+export function yearlySavingPercent(plan: PricingPlanV2, data: Pick<PricingV2Data, "annualMode" | "monthsFree">, currency: PricingCurrency = "INR"): number {
+  const c = computePlanPricing(plan, currency, data.annualMode, data.monthsFree, "");
+  if (!c.monthly || c.yearly === null) return 0;
+  return Math.max(0, Math.round((1 - c.yearly / (c.monthly * 12)) * 100));
+}
+
+/** Label beside the Yearly toggle: "2 months free" when every plan follows the months-free rule, else "Save up to N%". */
+export function yearlyToggleLabel(data: PricingV2Data): string | undefined {
+  const paid = data.plans.filter((p) => p.active !== false && !p.isCustom && p.priceMonthly?.INR != null);
+  if (!paid.length) return undefined;
+  const typed = paid.some((p) => typeof p.priceYearly?.INR === "number" && (p.priceYearly.INR as number) > 0);
+  if (data.annualMode === "monthsFree" && !typed && data.monthsFree > 0) return `${data.monthsFree} months free`;
+  const best = Math.max(0, ...paid.map((p) => yearlySavingPercent(p, data)));
+  return best > 0 ? `Save up to ${best}%` : undefined;
 }

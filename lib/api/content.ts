@@ -12,7 +12,7 @@ import { cache } from "react";
 import { fetchApi } from "./client";
 import { isPlaceholderPhone } from "@/lib/utils";
 import { liveOr, keepLive, mentionsNotLive } from "@/lib/claims";
-import { DEFAULT_PRICING_V2, computePlanPricing, PricingV2Data, formatPrice } from "@/config/pricing";
+import { DEFAULT_PRICING_V2, computePlanPricing, PricingV2Data, formatPrice, defaultBillingOf, yearlySavingPercent, yearlyToggleLabel } from "@/config/pricing";
 import { getPricingFaqs, DEFAULT_PRICING_FAQS } from "@/content/pricing/faq";
 import { defaultAboutContent, AboutContent } from "@/content/about";
 import { defaultContactDetails, ContactDetails } from "@/content/contact";
@@ -337,6 +337,7 @@ function adminPricingFrom(pricingV2Res: { data?: PricingV2Data } | null, pricing
       pricingV2 = {
         annualMode: cmsData.annualMode || DEFAULT_PRICING_V2.annualMode,
         monthsFree: typeof cmsData.monthsFree === "number" ? cmsData.monthsFree : DEFAULT_PRICING_V2.monthsFree,
+        defaultBilling: cmsData.defaultBilling,
         trialDays: typeof cmsData.trialDays === "number" ? cmsData.trialDays : DEFAULT_PRICING_V2.trialDays,
         currencies: cmsData.currencies || DEFAULT_PRICING_V2.currencies,
         plans: cmsData.plans,
@@ -441,7 +442,7 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
         yearly: inrPricing.yearly,
       },
       yearlyFullPrice: inrPricing.monthly !== null ? inrPricing.monthly * 12 : null,
-      discountPercent: pricingV2.annualMode === "percent" ? plan.annualDiscountPercent : Math.round(((pricingV2.monthsFree || 2) / 12) * 100),
+      discountPercent: yearlySavingPercent(plan, pricingV2),
       currency: { code: "INR", locale: "en-IN" },
       priceSuffix: inrPricing.monthly !== null ? "/month" : "",
       priceSuffixes: {
@@ -475,9 +476,7 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
     });
   }
 
-  const yearlySavingsLabel = pricingV2.annualMode === "monthsFree"
-    ? `${pricingV2.monthsFree} months free`
-    : undefined;
+  const yearlySavingsLabel = yearlyToggleLabel(pricingV2);
 
   const isPricingHeroStale =
     !heroCms?.title ||
@@ -541,7 +540,7 @@ export const getPricingPage = cache(async function getPricingPage(): Promise<Pri
         { id: "monthly", label: "Monthly" },
         { id: "yearly", label: "Yearly", note: yearlySavingsLabel },
       ],
-      defaultPeriod: "monthly",
+      defaultPeriod: defaultBillingOf(pricingV2),
       yearlySavingsLabel,
     },
     currency: {
